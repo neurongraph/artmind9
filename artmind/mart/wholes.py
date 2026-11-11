@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import hashlib
+import re
 from datetime import date
 
 
@@ -13,7 +14,7 @@ def _wid(kind, key):
     return hashlib.sha256(f"{kind}|{key}".encode()).hexdigest()[:16]
 
 
-def _people(tables):
+def _people(tables, collectives: dict | None = None):
     """Fact -> person keys, from graph edges and from the fact's `participants` names
     matched against each person's name and aliases (names of 4+ characters)."""
     by_fact: dict[str, set] = {}
@@ -25,11 +26,24 @@ def _people(tables):
             n = str(n or "").strip().lower()
             if len(n) >= 4:
                 names.setdefault(n, set()).add(p["person_key"])
+    groups: dict[str, set] = {}
+    for phrase, members in (collectives or {}).items():
+        keys = set()
+        for m in members:
+            k = names.get(str(m).strip().lower())
+            if k and len(k) == 1:
+                keys |= k
+        if keys:
+            groups[phrase.lower()] = keys
     for f in tables.get("fact_happening") or []:
         for who in f.get("participants") or []:
-            keys = names.get(str(who).strip().lower())
+            w = str(who).strip().lower()
+            keys = names.get(w)
             if keys and len(keys) == 1:  # an ambiguous name links nobody
                 by_fact.setdefault(f["entity_key"], set()).update(keys)
+            for phrase, gkeys in groups.items():
+                if re.search(rf"\b{re.escape(phrase)}\b", w):
+                    by_fact.setdefault(f["entity_key"], set()).update(gkeys)
     return by_fact
 
 
@@ -42,7 +56,7 @@ def _day_states(facts):
     return {d: ("mixed" if len(s) == 2 else next(iter(s))) for d, s in seen.items()}
 
 
-def _trips(w, tables):
+def _trips(w, tables, collectives=None):
     """Trips at day level (spec §7): a run of consecutive days that are away (or a travel day
     at either end), plus days between them with listed-family facts and no home evidence;
     at least one fully away day. Members are the run's listed-family and away facts."""
@@ -57,8 +71,29 @@ def _trips(w, tables):
             runs[-1].append(d)
         else:
             runs.append([d])
+    city_of = {p["place_key"]: p.get("city") for p in tables.get("dim_place") or []}
+    people = _people(tables, collectives)
+    selfish = {p["person_key"] for p in tables.get("dim_person") or [] if p.get("group") == "self"}
+    by_day_people: dict[str, set] = {}
+    by_day_city: dict[str, set] = {}
+    for f in facts:
+        by_day_people.setdefault(f["date"], set()).update(people.get(f["entity_key"], set()) - selfish)
+        if city_of.get(f.get("place_key")):
+            by_day_city.setdefault(f["date"], set()).add(city_of[f["place_key"]])
+    split_runs = []
+    for run in runs:  # consecutive days with different companions and different cities are different trips
+        cur = [run[0]]
+        for prev, d in zip(run, run[1:]):
+            pa, pb = by_day_people.get(prev, set()), by_day_people.get(d, set())
+            ca, cb = by_day_city.get(prev, set()), by_day_city.get(d, set())
+            if pa and pb and not (pa & pb) and ca and cb and not (ca & cb):
+                split_runs.append(cur)
+                cur = [d]
+            else:
+                cur.append(d)
+        split_runs.append(cur)
     groups = []
-    for run in runs:
+    for run in split_runs:
         while run and state.get(run[0]) is None:      # a trip starts and ends on known days
             run = run[1:]
         while run and state.get(run[-1]) is None:
@@ -97,8 +132,9 @@ def _life_events(w, tables):
 def compute(decl, tables) -> dict[str, list[dict]]:
     result: dict[str, list[dict]] = {"fact_whole": []}
     for kind, w in decl.wholes.items():
-        groups = [(None, g) for g in _trips(w, tables)] if w.anchor is None else _life_events(w, tables)
-        people = _people(tables)
+        collectives = getattr(getattr(decl, 'person', None), 'collectives', None)
+        groups = [(None, g) for g in _trips(w, tables, collectives)] if w.anchor is None else _life_events(w, tables)
+        people = _people(tables, collectives)
         selfish = {p["person_key"] for p in tables.get("dim_person") or [] if p.get("group") == "self"}
         rows = []
         for anchor, g in groups:

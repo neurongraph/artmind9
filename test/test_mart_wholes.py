@@ -74,3 +74,21 @@ def test_trip_companions_come_from_participant_names_too():
     t = {"fact_happening": [{**fact("a", "2025-01-01", "trip"), "participants": ["Kiddo"]}],
          "bridge_person": [], "dim_person": [{"person_key": "kid", "name": "Kid Person", "aliases": ["Kiddo"], "group": "family"}]}
     assert wholes.compute(decl(trip=TRIP), t)["whole_trip"][0]["participant_keys"] == ["kid"]
+
+
+def test_collective_names_link_their_members():
+    t = {"fact_happening": [{**fact("a", "2025-01-01", "trip"), "participants": ["Children"]}], "bridge_person": [],
+         "dim_person": [{"person_key": "k1", "name": "Kid One", "group": "family"}, {"person_key": "k2", "name": "Kid Two", "group": "family"}]}
+    d = decl(trip=TRIP)
+    d.person.collectives = {"children": ["Kid One", "Kid Two"]}
+    assert wholes.compute(d, t)["whole_trip"][0]["participant_keys"] == ["k1", "k2"]
+
+
+def test_a_run_splits_where_companions_and_cities_both_change():
+    t = {"fact_happening": [{**fact("a", "2025-01-01", "trip"), "place_key": "p1"},
+                            {**fact("b", "2025-01-02", "work"), "place_key": "p2"}],
+         "bridge_person": [{"entity_key": "a", "person_key": "kid", "role": "x"}, {"entity_key": "b", "person_key": "boss", "role": "x"}],
+         "dim_person": [{"person_key": "kid", "group": "family"}, {"person_key": "boss", "group": "colleague"}],
+         "dim_place": [{"place_key": "p1", "city": "A"}, {"place_key": "p2", "city": "B"}]}
+    trips = wholes.compute(decl(trip=TRIP), t)["whole_trip"]
+    assert sorted((r["start"], r["end"]) for r in trips) == [("2025-01-01", "2025-01-01"), ("2025-01-02", "2025-01-02")]

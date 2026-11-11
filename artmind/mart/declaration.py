@@ -17,6 +17,7 @@ class PersonDim:
     entity_class: str = "PERSON"
     seed_property: str | None = None
     words: str | None = None
+    collectives: dict[str, list[str]] = field(default_factory=dict)  # "children" -> [person names]
 
 
 @dataclass
@@ -113,7 +114,8 @@ def load_declaration(domain: str) -> MartDeclaration | None:
         home_city=(data.get("home") or {}).get("city"),
         happening_classes=list(facts.get("happening") or []), mention_classes=list(facts.get("mention") or []),
         calendar=bool((dims.get("time") or {}).get("calendar")),
-        person=PersonDim(person.get("class", "PERSON"), (person.get("seed") or {}).get("property"), person.get("words")),
+        person=PersonDim(person.get("class", "PERSON"), (person.get("seed") or {}).get("property"), person.get("words"),
+                         {str(k).lower(): list(v or []) for k, v in (person.get("collectives") or {}).items()}),
         place=PlaceDim(place.get("class", "LOCATION"), (place.get("seed") or {}).get("property"),
                        list((place.get("seed") or {}).get("edges") or [])),
         type=TypeDim(list(typ.get("classes") or []), typ.get("property", "type"),
