@@ -458,3 +458,15 @@ the family member 25 rows straight from the trip table; family deaths 0 → 19 r
 Rerun 2 (mart on 5 turns): Q15 missed 7 → 5 (two more trips named), Q02 3 → 2, Q11 2 → 1; Q09 still misses 2 — one
 rite links to another family member, not the deceased, and a rite's place is not in the answer. Q15's remaining misses
 are trips whose days link to no place with a city or do not mention the family member (data, not SQL).
+
+Then the trip builder and its data (`d546eb7a`, `c83735a0`, vault curation): the day just before or after a trip
+joins it when it holds an outing and shares a companion (one day each side, never chained); trip rows carry
+`place_names` and `cities`, and the metadata says never to filter trips by city (an agent's `city <> home` dropped
+every trip whose places have no city). Curation: one nickname mapped to its person, 18 user place records (generic
+place names merged across notes had their cities cleared), two away place types added, two notes re-extracted.
+Letting a city-less day never split a run was tried and reverted: it merged separate trips (recall 9/9, exact 1/9).
+Kept: Q15 trips 9 of 9 found (was 6), 3 exact, 6 a day off; 30 trips link the family member, 9 match a label.
+
+Reruns 3 (`c4017940`) and 4 (`c33485b4`): correct / missed 2 / 22 and 3 / 19. Q15 4 and 5 missed: every trip is
+now in the answer, but trips whose days link to no named place come without a destination — the next gap is
+places mentioned in a day's note but not linked to its happenings (extraction, plan item G). Q09 unchanged at 2.
