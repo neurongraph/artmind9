@@ -54,6 +54,11 @@ def write(domain: str, tables: dict[str, list[dict]]):
     for t, grain in _GRAIN.items():
         if t in tables:
             out_tables.setdefault(v(t), {})["grain"] = grain
+    if "dim_person" in tables:
+        out_tables.setdefault(v("dim_person"), {}).setdefault("columns", {})["aliases"] = {
+            "description": "other names of the same person, merged by curation; when name is a relation "
+                           "(father-in-law) the person's own name is here. Match a person by name or aliases "
+                           "(list_contains / array_to_string ILIKE) and select aliases to name them"}
     kinds = [t[len("whole_"):] for t in tables if t.startswith("whole_")]
     for kind in kinds:
         person, place = f"{v('dim_person')}.person_key", f"{v('dim_place')}.place_key"

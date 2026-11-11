@@ -34,3 +34,10 @@ def test_wholes_columns_and_rule_are_described(tmp_path, monkeypatch):
     assert data["tables"]["j__mart_fact_happening"]["grain"]
     rule = next(r for r in data["rules"] if "j__mart_whole_trip" in r)
     assert "already" in rule and "city" in rule
+
+
+def test_person_aliases_are_described(tmp_path, monkeypatch):
+    monkeypatch.setattr(paths, "DOMAIN_METADATA_DIR", tmp_path)
+    data = yaml.safe_load(metadata.write("j", {"dim_person": [{"person_key": "p", "group": "family"}]}).read_text())
+    cols = data["tables"]["j__mart_dim_person"]["columns"]
+    assert "aliases" in cols["aliases"]["description"] and "group" in cols
