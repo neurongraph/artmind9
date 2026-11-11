@@ -21,13 +21,17 @@ def reads_mart(sql: Any) -> bool:
     return isinstance(sql, str) and "__mart_" in sql
 
 
-def _rows(payload: dict) -> list[dict]:
-    rows = payload.get("rows")
+#: Commands whose main list is not `rows` (mirrors cli_conventions.LIST_KEY; kept here so this module stays stdlib).
+_LIST_KEY = {"query survey": "documents"}
+
+
+def _rows(command: str, payload: dict) -> list[dict]:
+    rows = payload.get(_LIST_KEY.get(command, "rows"))
     return [r for r in rows if isinstance(r, dict)] if isinstance(rows, list) else []
 
 
 def _hubs(command: str, payload: dict) -> bool:
-    return command == "query entity-context" and any(r.get("hub") is True or r.get("cut") for r in _rows(payload))
+    return command == "query entity-context" and any(r.get("hub") is True or r.get("cut") for r in _rows(command, payload))
 
 
 def _resolve(command: str, payload: dict) -> bool:
@@ -43,26 +47,26 @@ def _replaced(row: dict) -> bool:
 
 def _temporal(command: str, payload: dict) -> bool:
     return command in ("query vector-text", "query survey", "query chunks") and any(
-        _replaced(r) for r in _rows(payload))
+        _replaced(r) for r in _rows(command, payload))
 
 
 def _composites(command: str, payload: dict) -> bool:
-    return (command == "query text2sql" and not payload.get("dry_run") and bool(_rows(payload))
+    return (command == "query text2sql" and not payload.get("dry_run") and bool(_rows(command, payload))
             and reads_mart(payload.get("generated_sql")))
 
 
 def _conflicts(command: str, payload: dict) -> bool:
-    return command == "query graph conflicts" and bool(_rows(payload))
+    return command == "query graph conflicts" and bool(_rows(command, payload))
 
 
 def _graph_model(command: str, payload: dict) -> bool:
     if command == "query graph text2cypher":
         return isinstance(payload.get("generated_cypher"), str)
-    return command.startswith("query graph pattern") and bool(_rows(payload))
+    return command.startswith("query graph pattern") and bool(_rows(command, payload))
 
 
 def _survey(command: str, payload: dict) -> bool:
-    return command in ("query survey", "query topics run") and bool(_rows(payload))
+    return command in ("query survey", "query topics run") and bool(_rows(command, payload))
 
 
 _RULES: dict[str, Callable[[str, dict], bool]] = {

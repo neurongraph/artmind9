@@ -23,13 +23,13 @@ FIRES = [
     ("resolve", "query views run", {"status": "needs_disambiguation", "candidates": []}),
     ("resolve", "query entity-resolve", {"status": "no_match", "rows": []}),
     ("temporal", "query vector-text", {"rows": [{"doc": {"id": "d", "replaced": [{"name": "old"}]}}]}),
-    ("temporal", "query survey", {"rows": [{"doc_id": "d", "replaced": [{"name": "old"}]}]}),
+    ("temporal", "query survey", {"documents": [{"doc_id": "d", "replaced": [{"name": "old"}]}]}),
     ("temporal", "query chunks", {"rows": [{"doc": {"id": "d", "replaced": [{"name": "old"}]}}]}),
     ("composites", "query text2sql", {"rows": [{"n": 3}], "generated_sql": "SELECT count(*) FROM j__mart_x"}),
     ("conflicts", "query graph conflicts", {"rows": [{"id": "c1"}]}),
     ("graph-model", "query graph text2cypher", {"rows": [], "generated_cypher": "MATCH (n) RETURN n"}),
     ("graph-model", "query graph pattern8", {"rows": [{"entity": {}}]}),
-    ("survey", "query survey", {"rows": [{"doc_id": "d"}], "coverage": {"matching_documents": 3, "shown": 3}}),
+    ("survey", "query survey", {"documents": [{"doc_id": "d"}], "coverage": {"matching_documents": 3, "shown": 3}}),
     ("survey", "query topics run", {"rows": [{"doc_id": "d"}]}),
 ]
 
@@ -65,16 +65,16 @@ def test_at_most_two_keys_in_precedence_order():
                "twins": [[{"_id": "a"}]]}
     # entity-context fires hubs; twins and replaced are only read for their own commands
     assert guides.guides_for("query entity-context", payload) == ["hubs"]
-    many = {"rows": [{"doc": {"replaced": [{"name": "o"}]}}], "coverage": {"matching_documents": 1, "shown": 1}}
+    many = {"documents": [{"doc": {"replaced": [{"name": "o"}]}}], "coverage": {"matching_documents": 1, "shown": 1}}
     assert guides.guides_for("query survey", many) == ["temporal", "survey"]
 
 
 def test_with_guide_adds_only_when_something_fires_and_keeps_a_set_guide():
-    assert "guide" not in guides.with_guide("query survey", {"rows": []})
-    assert guides.with_guide("query survey", {"rows": [{"doc_id": "d"}]})["guide"] == ["survey"]
-    own = {"rows": [{"doc_id": "d"}], "guide": ["hubs"]}
+    assert "guide" not in guides.with_guide("query survey", {"documents": []})
+    assert guides.with_guide("query survey", {"documents": [{"doc_id": "d"}]})["guide"] == ["survey"]
+    own = {"documents": [{"doc_id": "d"}], "guide": ["hubs"]}
     assert guides.with_guide("query survey", own)["guide"] == ["hubs"]
-    assert guides.with_guide(None, {"rows": [{"doc_id": "d"}]}) == {"rows": [{"doc_id": "d"}]}
+    assert guides.with_guide(None, {"documents": [{"doc_id": "d"}]}) == {"documents": [{"doc_id": "d"}]}
     assert guides.with_guide("query survey", ["not", "a", "dict"]) == ["not", "a", "dict"]
 
 
@@ -105,14 +105,14 @@ def _run_echo(command_name: str, payload: dict) -> dict:
 
 
 def test_echo_json_adds_guide_after_the_envelope():
-    out = _run_echo("survey", {"rows": [{"doc_id": "d"}]})
+    out = _run_echo("survey", {"documents": [{"doc_id": "d"}]})
     assert list(out)[:3] == ["command", "warnings", "next"]
     assert out["guide"] == ["survey"]
     assert set(out["guide"]) <= set(guides.GUIDES)
 
 
 def test_echo_json_adds_no_guide_when_nothing_fires():
-    assert "guide" not in _run_echo("survey", {"rows": []})
+    assert "guide" not in _run_echo("survey", {"documents": []})
 
 
 def test_text2sql_mart_hint_uses_the_shared_mart_test(monkeypatch):
@@ -122,3 +122,9 @@ def test_text2sql_mart_hint_uses_the_shared_mart_test(monkeypatch):
     monkeypatch.setattr(guides, "reads_mart", lambda sql: calls.append(sql) or True)
     assert hints.text2sql_mart({"rows": [{"n": 1}], "generated_sql": "x"}, ["d"], "q")
     assert calls == ["x"]
+
+
+def test_survey_reads_its_documents_list_not_rows():
+    """`query survey` prints its list under `documents` (cli_conventions.LIST_KEY); run P2b banking 1 missed it."""
+    assert guides.guides_for("query survey", {"rows": [{"doc_id": "d"}]}) == []
+    assert guides.guides_for("query survey", {"documents": [{"doc_id": "d"}]}) == ["survey"]
