@@ -616,3 +616,29 @@ but its scores barely move; its runs now also call `document-history` / `entity-
 replaced document. Banking Q01, Q09, Q10 twice (`0c81aa13`, `98be2c6b`): missed 0/0, 3/0, 0/0, mean 1.5 per run
 against baselines 1.0, P2b 5.0 and P2b + four rules 4.5. Q10 is back to orient → survey → pattern10, no history
 detour; Q09 still calls `document-history` once.
+
+### P2b full gate, second time (2026-11-12): four rules, imperative guide, narrow temporal
+
+Same gate, two runs per vault (banking `9b044d4b`, `6bbc833f`; brain01 `cfa7569c`, `be614077`). Must items missed:
+
+| Group (items) | L/M/N band | P2b first | P2b now | Median commands | Partial → `next` | Survey turns |
+|---|---|---|---|---|---|---|
+| banking (214) | 59–65 | 59, 60 | 67, 69 | 5 (M 5, N 4.5) | 3/7 (M 1/6, N 2/5) | 69/72 (M 63/72, N 32/36) |
+| brain01 Q01–Q14 (101) | 23–34 | 34, 36 | 29, 32 | 6 (M, N 5.5) | 2/6 (M 1/5, N 0/0) | 26/28 (M 25/28, N 13/14) |
+| brain01 Q15–Q29 (75) | 12–17 | 11, 15 | 17, 12 | 5 (L 5, M 5.5, N 5) | 4/11 (L 1/5, M 0/8, N 0/2) | 27/30 (L 22/30, M 21/30, N 11/15) |
+
+Floors hold (banking 68.7 %, 67.8 %; brain01 Q01–Q14 71 %, 68 %; Q15–Q29 77 %, 84 %). Survey and partial-followed
+pass everywhere: the four rules restored the survey rate. Two checks fail: banking's score is below the band (8 items
+worse than the first P2b runs), and brain01 Q01–Q14's median commands is still 6.
+
+The agent now reads references: banking read `survey.md` 51 times after 136 `survey` guides; brain01 read 38
+references (survey 27, graph-model 4, resolve 3, hubs 2, composites 2). Time per turn rose with it: banking 48.0 s /
+$0.127 and 56.3 s / $0.130 (first P2b 39 s, N 44.7 s / $0.143); brain01 53.4 s and 53.9 s / $0.126 (N 51.4 s / $0.133).
+
+Banking's largest loss is Q13 (old-policy inconsistency): 0 missed in M and N, 4 in both runs. The baselines read the
+replaced version through `pattern10 --includeHistory`; both P2b runs surveyed twice (survey leaves replaced documents
+out) and looked up only the current version with `document-history`, so the old text never reached the answer. That
+route is in `temporal.md`, which the narrowed `temporal` guide no longer names when a search lists a replaced document.
+Q07, Q22 and Q24 also lost 1–3 items in both runs.
+
+Not promoted.
