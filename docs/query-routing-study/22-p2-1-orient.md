@@ -470,3 +470,31 @@ Kept: Q15 trips 9 of 9 found (was 6), 3 exact, 6 a day off; 30 trips link the fa
 Reruns 3 (`c4017940`) and 4 (`c33485b4`): correct / missed 2 / 22 and 3 / 19. Q15 4 and 5 missed: every trip is
 now in the answer, but trips whose days link to no named place come without a destination — the next gap is
 places mentioned in a day's note but not linked to its happenings (extraction, plan item G). Q09 unchanged at 2.
+
+## Run K (2026-11-11): every enhancement to date, two runs per vault, judged and graded with Sonnet
+
+Code at `e2220f6d` (topic plans, `text2sql` through sql-browser, the brain01 mart with wholes and its metadata;
+brain01 curation from the mart reruns). Consoles restarted with a clean environment; contract `orient`. Banking has
+no mart built, so banking measures only the sql-browser delegation and noise.
+
+| Vault / group | Floor | Baselines | I | J | J2 | **K1** | **K2** |
+|---|---|---|---|---|---|---|---|
+| banking (214) | 67 % | 143–151 | 152 | 144 | 163 | **152 (71 %)** | **145 (68 %)** |
+| brain01 Q01–Q14 (101) | 55 % | 56–62 | 66 | 75 | — | **68 (67 %)** | **77 (76 %)** |
+| brain01 Q15–Q29 (75) | 76 % | 57–59 | 61 | 56 | — | **54 (72 %)** | **50 (67 %)** |
+| brain01 all (176) | — | 116–120 | 127 | 131 | — | **122 (69 %)** | **127 (72 %)** |
+
+Runs: banking `376d9499`, `421dc021`; brain01 `f7f7b46d`, `9d7ad522`. Correct / partial / wrong: banking 10/26/0 and
+9/27/0; brain01 9/20/0 and 10/18/1. Must-not hits: banking 2 and 4; brain01 4 and 3.
+
+Banking: both runs above the floor and inside the I–J2 spread; Q05, Q09, Q13, Q22, Q36 (worse in J and J2) are not
+fixed (Q36 3 missed in both). Brain01 Q01–Q14: K2 is the best run so far. Brain01 Q15–Q29: **below the floor in both
+runs**. Worse than J in both K runs: Q18 (0 → 2, 5), Q24 (1 → 3, 3), Q21 (0 → 1, 2); Q15 stays at 6 (single-question
+reruns 4–5).
+
+Cause (traces): the agent now goes to `text2sql` first on Q15, Q17, Q18, Q24 (J used survey, patterns or
+`text2cypher`) and takes the mart result as the whole answer. Q18 ranked workplaces by the number of mart rows naming
+them; Q24 counted happenings whose name matches an activity (half the sessions); Q15 listed all trips with the
+person (30, the label has 9) and the grader called the extras doubtful. No turn checked a mart count or ranking
+against a document search. The mart's rows are a lower bound on what the notes say, and nothing on the surface says
+so.
