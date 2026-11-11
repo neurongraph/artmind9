@@ -15,9 +15,10 @@ PARTIAL_CLOSERS = ("query page", "query survey", "query topics run")
 
 def _args(text):
     try:
-        return json.loads(text or "{}")
+        value = json.loads(text or "{}")
     except ValueError:
         return {}
+    return value if isinstance(value, dict) else {}  # a span without params stores its argv list
 
 
 def measure(db, run_prefixes, lo, hi, offset=0):
