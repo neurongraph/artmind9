@@ -66,8 +66,9 @@ appends = {
 READ_EVERY_RESULT_END = "safe to skip when the question does not need what it offers."
 GUIDE_LINES = [
     "",
-    "`guide`, when present, names references of this skill for what the result shows: `guide: [\"hubs\"]` means",
-    "read `references/hubs.md` before your next command, once per turn.",
+    "**`guide` is an instruction.** A result with `guide: [\"hubs\"]` (and a `guide:` line in `warnings`) means:",
+    "open `references/hubs.md` in this skill's folder with the Read tool now, before your next command, then",
+    "continue. Once per file per turn; never answer before reading a file a `guide` named this turn.",
 ]
 RUNNING_COMMANDS_END = "A refused command is not a reason to stop: re-run it bare."
 COMMANDS_LINES = [

@@ -12,7 +12,9 @@
   "exit_code": 0,
   "json": {
     "command": "query graph conflicts",
-    "warnings": [],
+    "warnings": [
+      "guide: read references/conflicts.md of your query skill before your next command: these are conflicting claims"
+    ],
     "next": null,
     "domains": [
       "general",

@@ -86,9 +86,30 @@ def guides_for(command: str | None, payload: Any) -> list[str]:
         return []
 
 
+#: Why each reference matters, said on the result itself (run P2b: a bare key was read 5 times in 237).
+WHY: dict[str, str] = {
+    "hubs": "this entity is a hub and the result is cut",
+    "resolve": "the name matched twins or nothing",
+    "temporal": "this result lists replaced documents",
+    "composites": "these rows come from the mart and are a lower bound",
+    "conflicts": "these are conflicting claims",
+    "graph-model": "this result comes from the graph model",
+    "survey": "this is a survey result",
+}
+assert tuple(WHY) == GUIDES
+
+
+def guide_warning(key: str) -> str:
+    return f"guide: read references/{key}.md of your query skill before your next command: {WHY[key]}"
+
+
 def with_guide(command: str | None, payload: Any) -> Any:
-    """`payload` with `guide` added when a key applies; a `guide` the command set itself is kept."""
+    """`payload` with `guide` and one `warnings` line per key added when a key applies; a set `guide` is kept."""
     if not isinstance(payload, dict) or "guide" in payload:
         return payload
     keys = guides_for(command, payload)
-    return {**payload, "guide": keys} if keys else payload
+    if not keys:
+        return payload
+    warnings = payload.get("warnings")
+    warnings = list(warnings) if isinstance(warnings, list) else ([warnings] if warnings else [])
+    return {**payload, "guide": keys, "warnings": [*warnings, *(guide_warning(k) for k in keys)]}

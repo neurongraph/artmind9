@@ -128,3 +128,11 @@ def test_survey_reads_its_documents_list_not_rows():
     """`query survey` prints its list under `documents` (cli_conventions.LIST_KEY); run P2b banking 1 missed it."""
     assert guides.guides_for("query survey", {"rows": [{"doc_id": "d"}]}) == []
     assert guides.guides_for("query survey", {"documents": [{"doc_id": "d"}]}) == ["survey"]
+
+
+def test_each_key_also_says_why_in_warnings():
+    out = guides.with_guide("query survey", {"documents": [{"doc_id": "d"}], "warnings": ["earlier"]})
+    assert out["warnings"][0] == "earlier"
+    assert out["warnings"][1] == guides.guide_warning("survey")
+    assert "references/survey.md" in out["warnings"][1]
+    assert "warnings" not in guides.with_guide("query survey", {"documents": []})
