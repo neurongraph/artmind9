@@ -143,7 +143,9 @@ def compute(decl, tables) -> dict[str, list[dict]]:
             rows.append({"whole_id": wid, "start": start, "end": end, "days": (_d(end) - _d(start)).days + 1,
                          "member_count": len(g), "anchor_key": anchor,
                          "participant_keys": sorted(set().union(*(people.get(f["entity_key"], set()) for f in g)) - selfish),
-                         "place_keys": sorted({f["place_key"] for f in g if f.get("place_key")})})
+                         "place_keys": sorted({f["place_key"] for f in g if f.get("place_key")}),
+                         "part_names": list(dict.fromkeys(f["name"] for f in g if f.get("name"))),
+                         "families": sorted({f["type_family"] for f in g if f.get("type_family")})})
             last_health = max((f["date"] for f in g if f.get("type_family") == "health"), default=None)
             for i, f in enumerate(g):
                 if kind == "life_event" or w.anchor:

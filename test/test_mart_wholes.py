@@ -92,3 +92,13 @@ def test_a_run_splits_where_companions_and_cities_both_change():
          "dim_place": [{"place_key": "p1", "city": "A"}, {"place_key": "p2", "city": "B"}]}
     trips = wholes.compute(decl(trip=TRIP), t)["whole_trip"]
     assert sorted((r["start"], r["end"]) for r in trips) == [("2025-01-01", "2025-01-01"), ("2025-01-02", "2025-01-02")]
+
+
+def test_whole_rows_carry_their_part_names_and_families():
+    t = {"fact_happening": [fact("ill", "2025-02-01", "health", name="fall at home"),
+                            fact("rite", "2025-02-10", "ritual", name="last rites")],
+         "bridge_person": [{"entity_key": "ill", "person_key": "u", "role": "is_affected_by"},
+                           {"entity_key": "rite", "person_key": "u", "role": "is_affected_by"}],
+         "dim_person": [{"person_key": "u", "name": "Uncle", "group": "family"}]}
+    row = wholes.compute(decl(life_event=LIFE), t)["whole_life_event"][0]
+    assert row["part_names"] == ["fall at home", "last rites"] and row["families"] == ["health", "ritual"]
