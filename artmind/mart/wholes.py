@@ -86,7 +86,7 @@ def _trips(w, tables, collectives=None):
         for prev, d in zip(run, run[1:]):
             pa, pb = by_day_people.get(prev, set()), by_day_people.get(d, set())
             ca, cb = by_day_city.get(prev, set()), by_day_city.get(d, set())
-            if pa and pb and not (pa & pb) and ca and cb and not (ca & cb):
+            if pa and pb and not (pa & pb) and not (ca & cb):  # same known city keeps them together
                 split_runs.append(cur)
                 cur = [d]
             else:
