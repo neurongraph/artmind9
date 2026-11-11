@@ -41,3 +41,12 @@ def test_rule_records_are_recomputed_but_llm_records_stay(monkeypatch):
         ("person", "a|PERSON|j"): {"source": "rule"}, ("place", "d|LOCATION|j"): {"source": "llm"}})
     plan = enrich.enrich(DECL, ["j"], dry_run=True, use_llm=False)
     assert plan["decided"]["person"] == {"rule": 1} and plan["undecided"].get("place", 0) == 0
+
+
+def test_llm_step_only_asks_the_chosen_dimension(monkeypatch):
+    written = []
+    _fake(monkeypatch, written)
+    asked = []
+    enrich.enrich(DECL, ["j"], dry_run=False, use_llm=True, llm=lambda d, items: asked.extend(items) or {},
+                  dimensions=("place",))
+    assert [a["dimension"] for a in asked] == ["place"]

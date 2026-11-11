@@ -12,7 +12,8 @@ def _undecided(existing, dimension, key):
     return rec is None or rec.get("source") in ("rule", "seed")
 
 
-def enrich(decl, domains, *, dry_run: bool, use_llm: bool, llm=None, limit: int | None = None) -> dict:
+def enrich(decl, domains, *, dry_run: bool, use_llm: bool, llm=None, limit: int | None = None,
+           dimensions: tuple | list | None = None) -> dict:
     existing = records.load_dimensions(decl.domain, include_proposed=True)
     word_list = words.load(decl.person.words or "kinship")
     decided: dict[str, dict[str, int]] = {}
@@ -61,8 +62,10 @@ def enrich(decl, domains, *, dry_run: bool, use_llm: bool, llm=None, limit: int 
     undecided: dict[str, int] = {}
     for p in pending:
         undecided[p["dimension"]] = undecided.get(p["dimension"], 0) + 1
-    llm_calls = len(pending if limit is None else pending[:limit]) if use_llm else 0
+    asked = [p for p in pending if not dimensions or p["dimension"] in dimensions]
+    asked = asked if limit is None else asked[:limit]
+    llm_calls = len(asked) if use_llm else 0
     result = {"domain": decl.domain, "decided": decided, "undecided": undecided, "llm_calls": llm_calls}
     if use_llm and not dry_run and llm is not None:
-        result["llm"] = llm(decl, pending if limit is None else pending[:limit])
+        result["llm"] = llm(decl, asked)
     return result

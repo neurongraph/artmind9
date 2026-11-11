@@ -40,9 +40,11 @@ def mart_group() -> None:
 @click.option("--domain", "domain", required=True, help="Domain with a mart declaration")
 @click.option("--llm/--noLlm", "use_llm", default=False, help="Ask the LLM for members rules cannot place")
 @click.option("--limit", type=int, default=None, help="At most N LLM calls")
+@click.option("--dimension", "dimensions", multiple=True, type=click.Choice(["person", "place", "type"]),
+              help="Only ask the LLM about these dimensions (repeatable)")
 @dry_run_option("Count what rules, seeds and the LLM would decide; write nothing, call nothing")
 @compact_option
-def mart_enrich(domain, use_llm, limit, dry_run, compact):
+def mart_enrich(domain, use_llm, limit, dimensions, dry_run, compact):
     """Decide dimension members: user records, rules, graph seeds, then (with --llm) the LLM."""
     decl = _declaration(domain)
     llm = None
@@ -50,7 +52,8 @@ def mart_enrich(domain, use_llm, limit, dry_run, compact):
         from artmind.mart import llm as mart_llm
 
         llm = mart_llm.run
-    result = enrich_mod.enrich(decl, _domains((domain,)), dry_run=dry_run, use_llm=use_llm, llm=llm, limit=limit)
+    result = enrich_mod.enrich(decl, _domains((domain,)), dry_run=dry_run, use_llm=use_llm, llm=llm, limit=limit,
+                                dimensions=dimensions or None)
     by_dim = {d: sum(v.values()) for d, v in (result.get("decided") or {}).items()}
     effect = Effect(summary=f"Write {sum(by_dim.values())} dimension record(s); {result['llm_calls']} LLM call(s).",
                     changes=[Change("mart_record", n, [d]) for d, n in sorted(by_dim.items()) if n],
