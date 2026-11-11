@@ -591,3 +591,23 @@ Gate (spec §7): scores hold (banking 72 %, brain01 Q01–Q14 64–66 %, Q15–Q
 brain01 Q01–Q14 run 2 is two items below the band). Two checks fail: banking's survey rate halved (the fix did not
 restore it, so the cause is the skill text: survey went from a section to one routing row), and brain01 Q01–Q14's
 median commands rose from 5.5 to 6. Not promoted.
+
+### P2b follow-ups (2026-11-11): a louder guide, then four rules back
+
+A `warnings` line per guide key plus an imperative skill line (`5d1dfca7`), tested on banking Q09 and brain01
+Q04/Q13 twice: the agent opened a reference once in 8 guides. Reads in the P2b runs were also over-counted (the
+routing table and the warning name the paths); counting only Read tool calls (`2e2c1193`), the four full runs read a
+reference 3 times, all `structured-store.md`. Moving a rule into a reference therefore removes it.
+
+Four decision rules back in SKILL.md (`7c2bc66c`, 213 lines): resolve first; records and mart questions to
+`text2sql`; survey before `vector-text`; read the chunk ids and cut results you have. Tested on the six questions P2b
+made worse, twice each (must items missed, mean per question):
+
+| | baselines (M, N) | P2b | P2b + four rules |
+|---|---|---|---|
+| banking Q01, Q09, Q10 | 1.0 | 5.0 | 4.5 |
+| brain01 Q02, Q04, Q13 | 3.3 | 6.5 | 3.5 |
+
+brain01 is back at the baseline (entity-resolve and entity-context run again). Banking runs survey and chunks again
+but its scores barely move; its runs now also call `document-history` / `entity-history` where the baselines did not
+(Q10: baseline orient → survey → pattern10).
