@@ -33,8 +33,9 @@ def measure(db, run_prefixes, lo, hi, offset=0):
         spans = [s for s in spans if (s[0] or "").startswith(("query", "db"))]
         per_turn.append(len(spans))
         surveyed += any(s[0] in ("query survey", "query topics run") for s in spans)
-        events = " ".join(p or "" for (p,) in db.execute("select payload from trace_events where trace_id = ?",
-                                                         (trace_id,)))
+        # only the agent's Read tool calls: a result's warnings and the loaded skill also name reference paths
+        events = " ".join(p or "" for (p,) in db.execute(
+            "select payload from trace_events where trace_id = ? and name = 'Read'", (trace_id,)))
         for i, (cmd, args, rows, total, trunc, ev) in enumerate(spans):
             if trunc or (isinstance(total, int) and isinstance(rows, int) and total > rows):
                 partial += 1
