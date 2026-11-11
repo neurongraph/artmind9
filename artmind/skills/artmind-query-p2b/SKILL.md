@@ -38,7 +38,7 @@ question against what it says.
    (`from -rel-> to`), structured tables, saved views, topic plans, insights and superseded
    documents.
 4. A saved view whose `summary` or `examples` fit the question → `views show` / `views run`
-   (Views below). Otherwise choose the command from the classes, types, relation shapes and stores,
+   (the routing table below). Otherwise choose the command from the classes, types, relation shapes and stores,
    and spell `--entityClass`, type values and relation names exactly as orient listed them. A
    `chunks-only` card has documents and chunks but no entities: skip views, insights, entity and pattern commands there:
    - a fact → `artmind query vector-text --shape brief --domain <d> --topK 10 --compact "<question>"`;
@@ -70,7 +70,7 @@ Parts:
   `vocabulary` from the orient cards and peel 2. When the user's word is not the corpus's, use
   the corpus's ("online banking" → the platform or system the cards list; "kept informed" →
   notification, escalation, oversight). Keep names the user gave verbatim for `entity-resolve`.
-- **Choose the command per part**, from orient rule 4 and the Query Protocol: a record part goes
+- **Choose the command per part**, from orient rule 4 and the routing table: a record part goes
   to the tables, a fact part to the graph or `vector-text`, a part spread over documents to
   `survey`. Parts of one question often need different commands.
 - **Run each part as its own loop:** a search whose question holds only that part's terms (never
@@ -164,7 +164,7 @@ row's reference before its first command this turn. Every command needs `--domai
 
 ## Fallback Ladder
 
-The ladder starts after the Views check: a view that fits is tried before any rung below.
+The ladder starts after the views check in the routing table: a view that fits is tried before any rung below.
 
 1. Thin results → re-run with sibling domains from orient before concluding data is absent.
 2. Pattern output empty or too thin → vector-text.

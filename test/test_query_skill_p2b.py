@@ -3,6 +3,7 @@
 SOURCE is the text the variant was split from. Until promotion it is the live artmind-query skill; Task 11 points
 it at the archived copy.
 """
+import importlib.util
 import re
 from collections import Counter
 from pathlib import Path
@@ -12,6 +13,22 @@ import click
 from artmind.cli import cli
 
 ROOT = Path(__file__).resolve().parent.parent
+_spec = importlib.util.spec_from_file_location("split_p2b_skill", ROOT / "scripts" / "split_p2b_skill.py")
+_split = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_split)
+REWRITES = _split.REWRITES
+
+
+def _rewritten(text: str, name: str | None = None) -> str:
+    """Source text as the split leaves it: only the named cross-reference rewrites applied.
+
+    name=None: the live SKILL.md, whose text is spread over every variant file, so all rewrites apply."""
+    for file, old, new, _count in REWRITES:
+        if name is None or file == name:
+            text = text.replace(old, new)
+    return text
+
+
 VARIANT = ROOT / "artmind" / "skills" / "artmind-query-p2b"
 SOURCE = ROOT / "artmind" / "skills" / "artmind-query" / "SKILL.md"
 SOURCE_REFS = SOURCE.parent / "references"
@@ -38,7 +55,7 @@ def _significant(text: str) -> list[str]:
 
 
 def test_every_source_line_lands_in_exactly_one_file():
-    source = SOURCE.read_text(encoding="utf-8")
+    source = _rewritten(SOURCE.read_text(encoding="utf-8"))
     once = [s for s, n in Counter(_significant(source)).items() if n == 1]
     lines_by_file = {name: set(_significant(text)) for name, text in FILES.items()}
     lost, doubled = [], []
@@ -56,7 +73,7 @@ def test_every_source_line_lands_in_exactly_one_file():
 
 def test_existing_references_keep_their_text():
     for name in ("structured-store.md", "temporal.md", "conflicts.md", "hierarchy.md"):
-        old = (SOURCE_REFS / name).read_text(encoding="utf-8").rstrip("\n")
+        old = _rewritten((SOURCE_REFS / name).read_text(encoding="utf-8"), name).rstrip("\n")
         assert FILES[name].startswith(old), name
 
 
@@ -65,7 +82,7 @@ def _section(text: str, heading: str) -> str:
 
 
 def test_the_four_opening_sections_are_verbatim():
-    source = SOURCE.read_text(encoding="utf-8")
+    source = _rewritten(SOURCE.read_text(encoding="utf-8"))
     for heading in VERBATIM:
         old, new = _section(source, heading).rstrip(), _section(SKILL, heading).rstrip()
         assert new.startswith(old), heading  # Read every result gains the guide lines at its end
@@ -94,3 +111,10 @@ def test_every_artmind_command_named_exists():
 
 def test_size():
     assert len(SKILL.splitlines()) < 210  # spec §3: about 170, a target not a cap
+
+
+def test_every_rewrite_is_applied_in_its_file():
+    for file, old, new, _count in REWRITES:
+        text = FILES[file]
+        assert new in text, (file, new)
+        assert old not in text, (file, old)

@@ -47,7 +47,7 @@ nodes — the graph only ever holds a catalogue of what tables/columns exist.
 
 There is no monolithic `hybrid` command — the skill itself is the router/fuser,
 composing `resolve-key`, `text2sql`/`db sql`, and graph patterns in its own
-reasoning. See "Store routing" below for how to decide.
+reasoning. See "Store routing" at the end of this file for how to decide.
 
 ## Store routing
 
@@ -82,7 +82,7 @@ narrative-only session in a domain that happens to have tables never pays for a
 schema call it doesn't use:
 
 - **Narrative/relationship** ("tell me about X", "how are X and Y related",
-  "why did…") → graph path — Discover/Resolve/Retrieve as documented below
+  "why did…") → graph path — the routing table in SKILL.md
   (patterns / `text2cypher`). No structured store involved, no `db schema` call.
 - **Analytical/aggregate** ("average/total/count/sum by X") → pull the table
   shape you need with `artmind db schema --domain <d> --compact` (or `db schema

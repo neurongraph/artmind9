@@ -34,7 +34,7 @@ Fixed relationships, identical across domains:
   query for "what relationships does this entity have."
 
 A document that replaces another carries `(:Document)-[:SUPERSEDES]->(:Document)` plus
-`superseded_by` on the superseded side — see Adjudicate below for how to read it at
+`superseded_by` on the superseded side — see Adjudicate in `references/conflicts.md` for how to read it at
 query time.
 
 Key properties: `Document` (id, name, path, `_domain`, valid_from, valid_to, superseded_by),
@@ -47,7 +47,7 @@ verbatim — there is no re-aliasing back to `id`/`domain`.
 `:DocumentHistory` / `:DocChunkHistory` / `:ObservationHistory` are the retired
 counterpart of the base labels (same properties, mutually exclusive with it) — what a
 retired document's contributions move to. Every command below reads the base label only
-and is therefore current by construction; only `pattern10 --includeHistory` (see Retrieve)
+and is therefore current by construction; only `pattern10 --includeHistory` (see the command table below)
 reaches into history at all, and a document row's `supersedes` names the version it replaced.
 
 For document/chunk questions use `PART_OF` (not `EXTRACTED_FROM`); `pattern10` does this
@@ -55,10 +55,10 @@ deterministically.
 
 Add `--compact` to every command — it drops the pretty-printing whitespace. It does not
 shrink what a command returns; bounding that is each command's own options (see
-"Hub entities" below).
+`references/hubs.md`).
 
 A domain can also have tabular data (csv/xlsx ingested via `artmind ingest`) living
-in a separate SQL store, independent of the graph above — see "Store routing" below.
+in a separate SQL store, independent of the graph above — see Store routing in `references/structured-store.md`.
 
 
 ### 2. Discover — only when orient was cut
@@ -79,11 +79,11 @@ Every command below is written in full. The `pattern*` commands, `text2cypher`,
 as written — do not infer it.
 
 This table is for questions the Views check found no view for. A question a saved view
-covers is answered by `artmind query views run <name>` (see Views), not by a row below.
+covers is answered by `artmind query views run <name>` (see `references/views.md`), not by a row below.
 
 | Question shape | Command |
 |---|---|
-| Any question matching a saved view's `summary`/`examples` | `artmind query views run <name> --param <p>=<value> --render markdown` — see Views |
+| Any question matching a saved view's `summary`/`examples` | `artmind query views run <name> --param <p>=<value> --render markdown` — see `references/views.md` |
 | "Tell me about X / X's role / why did X…" / any question anchored on one entity — facts + relationships + source text in ONE call | `artmind query entity-context --shape brief --entityId <id> --query "<the question>" [--includeChunks 5] [--relType <REL>]` |
 | Domain-wide history / sequence of events for a class of things, ordered by date | `artmind query graph timeline --domain <d> [--from <date>] [--to <date>]` — every entity of a `kind: occurrent` class, ordered by `valid_from`. Domain-scoped, NOT entity-scoped — there is no `--entityId` |
 | "What was property P of X before it changed" / X's value at a past date | `artmind query entity-history --entityId <id> [--property P] [--asOf <date>]` — every observation behind X, ordered by fact-level valid time (`_valid_from`), spanning both current and history sources; each row's `status` is `current` or `history` |
@@ -114,7 +114,7 @@ Routing notes:
   in `more_chunks`, fetchable via `chunks --idList`). Always pass the user's question
   (as the last argument, or `--query`): without it, chunks come newest-first and connections by evidence
   weight, which for a busy entity rarely includes the one that answers. Its output is
-  bounded — see "Hub entities" below. Use pattern4 when you only need structure, or
+  bounded — see `references/hubs.md`. Use pattern4 when you only need structure, or
   patterns 2/3 for several entities at once.
 - **pattern6 vs pattern5**: pattern6 answers "is there a direct relationship and what type". For the *nature or quality* of a relationship, use pattern5 — then ground with vector-text for narrative evidence.
 - **pattern4 vs hierarchy**: pattern4 is one hop only. For a transitive walk — everyone under X, X's whole reporting line, chain of command — use `hierarchy` instead; see `references/hierarchy.md`.
@@ -129,7 +129,7 @@ Routing notes:
   per edge) — only `observation_count` and a `doc_count`. Unlike entity-context, these
   three patterns only ever sort alphabetically/deterministically, so raising a `--max*`
   option is a blunt instrument: for a genuine hub entity, route to `entity-context
-  --relType <type> --query "<question>"` instead (see "Hub entities" below) so the edge
+  --relType <type> --query "<question>"` instead (see `references/hubs.md`) so the edge
   that answers the question sorts to the top rather than needing a bigger page.
 - **Counts and lists.** Answer a count only from `complete: true`; otherwise say N of M. For "every year / each time" questions use `survey --by year` (or `month`): it reports every period with a hit. `pattern10` pages with `--offset` when `truncated`. For "which / how many X did Y …", list the set with `pattern8 --entityId <Y> --entityClass X --via mentions --all`: `linked: true` rows have a relation to Y (check it is the relation the question asks about); `linked: false` rows were only named in the same notes — confirm each with `artmind query chunks --idList <its chunk_ids>` before counting it.
 - **text2cypher has no `--offset`.** The generated Cypher is LLM-written per call, so

@@ -121,6 +121,30 @@ JUDGEMENT_LINES = [
     "- Say plainly which part the data does not answer, and why (empty, partial, not read).",
 ]
 
+# Cross-references to sections that moved; the only edits to moved text. (file, old, new, expected count)
+REWRITES: tuple[tuple[str, str, str, int], ...] = (
+    ("SKILL.md", "(Views below)", "(the routing table below)", 1),
+    ("SKILL.md", "from orient rule 4 and the Query Protocol", "from orient rule 4 and the routing table", 1),
+    ("SKILL.md", "The ladder starts after the Views check:", "The ladder starts after the views check in the routing table:", 1),
+    ("graph-model.md", "see Adjudicate below", "see Adjudicate in `references/conflicts.md`", 1),
+    ("graph-model.md", "(see Retrieve)", "(see the command table below)", 1),
+    ("graph-model.md", "\"Hub entities\" below", "`references/hubs.md`", 3),
+    ("graph-model.md", "see \"Store routing\" below", "see Store routing in `references/structured-store.md`", 1),
+    ("graph-model.md", "(see Views)", "(see `references/views.md`)", 1),
+    ("graph-model.md", "\u2014 see Views |", "\u2014 see `references/views.md` |", 1),
+    ("structured-store.md", "See \"Store routing\" below", "See \"Store routing\" at the end of this file", 1),
+    ("structured-store.md", "Discover/Resolve/Retrieve as documented below", "the routing table in SKILL.md", 1),
+    ("temporal.md", "the History labels in SKILL.md", "the History labels in `references/graph-model.md`", 1),
+)
+
+
+def apply_rewrites() -> None:
+    for name, old, new, count in REWRITES:
+        path = DST / name if name == "SKILL.md" else DST / "references" / name
+        text = path.read_text(encoding="utf-8")
+        assert text.count(old) == count, (name, old, text.count(old))
+        path.write_text(text.replace(old, new), encoding="utf-8")
+
 
 def insert_after(chunk: list[str], endswith: str, extra: list[str]) -> list[str]:
     idx = [i for i, ln in enumerate(chunk) if ln.rstrip().endswith(endswith)]
@@ -143,6 +167,7 @@ def main() -> None:
         if name in appends:
             text += "\n" + body(appends[name])
         (DST / "references" / f"{name}.md").write_text(text, encoding="utf-8")
+    apply_rewrites()
     print(f"SKILL.md {len(skill.splitlines())} lines; references: "
           + ", ".join(sorted(p.stem for p in (DST / "references").glob("*.md"))))
 

@@ -13,7 +13,7 @@ before it changed", "what happened in order" — or when an entity carries
   value; call `entity-history --entityId <id> --property <p>` to get every instant.
 - **No `--asOf` on entity commands, and none needed.** The projection (`:Entity`) is
   current by construction — a retired document's contributions are relabelled out of it
-  entirely (see `docs retire` / the History labels in SKILL.md), so there is nothing stale left
+  entirely (see `docs retire` / the History labels in `references/graph-model.md`), so there is nothing stale left
   to filter out. None of the ten `pattern*` commands, `entity-listing`, `entity-resolve`,
   `entity-context`, or `graph metadata` accept it — don't pass it.
 - **`--asOf` still exists, with a narrower meaning, on the commands that keep it**:
