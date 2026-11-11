@@ -22,9 +22,8 @@ FIRES = [
     ("resolve", "query entity-resolve", {"rows": [{"entity": {}}], "twins": [[{"_id": "a"}, {"_id": "b"}]]}),
     ("resolve", "query views run", {"status": "needs_disambiguation", "candidates": []}),
     ("resolve", "query entity-resolve", {"status": "no_match", "rows": []}),
-    ("temporal", "query vector-text", {"rows": [{"doc": {"id": "d", "replaced": [{"name": "old"}]}}]}),
-    ("temporal", "query survey", {"documents": [{"doc_id": "d", "replaced": [{"name": "old"}]}]}),
-    ("temporal", "query chunks", {"rows": [{"doc": {"id": "d", "replaced": [{"name": "old"}]}}]}),
+    ("temporal", "query document-history", {"current": [], "history": []}),
+    ("temporal", "query entity-history", {"rows": [{"status": "history"}]}),
     ("composites", "query text2sql", {"rows": [{"n": 3}], "generated_sql": "SELECT count(*) FROM j__mart_x"}),
     ("conflicts", "query graph conflicts", {"rows": [{"id": "c1"}]}),
     ("graph-model", "query graph text2cypher", {"rows": [], "generated_cypher": "MATCH (n) RETURN n"}),
@@ -66,7 +65,7 @@ def test_at_most_two_keys_in_precedence_order():
     # entity-context fires hubs; twins and replaced are only read for their own commands
     assert guides.guides_for("query entity-context", payload) == ["hubs"]
     many = {"documents": [{"doc": {"replaced": [{"name": "o"}]}}], "coverage": {"matching_documents": 1, "shown": 1}}
-    assert guides.guides_for("query survey", many) == ["temporal", "survey"]
+    assert guides.guides_for("query survey", many) == ["survey"]
 
 
 def test_with_guide_adds_only_when_something_fires_and_keeps_a_set_guide():
@@ -136,3 +135,11 @@ def test_each_key_also_says_why_in_warnings():
     assert out["warnings"][1] == guides.guide_warning("survey")
     assert "references/survey.md" in out["warnings"][1]
     assert "warnings" not in guides.with_guide("query survey", {"documents": []})
+
+
+def test_a_replaced_document_in_a_search_does_not_fire_temporal():
+    """Run P2b: temporal on every search that listed a replaced document sent banking turns into history detours."""
+    replaced = {"rows": [{"doc": {"id": "d", "replaced": [{"name": "old"}]}}]}
+    for command in ("query vector-text", "query chunks"):
+        assert "temporal" not in guides.guides_for(command, replaced)
+    assert "temporal" not in guides.guides_for("query survey", {"documents": [{"doc_id": "d", "replaced": [{"name": "o"}]}]})

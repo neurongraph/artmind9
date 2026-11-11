@@ -40,14 +40,13 @@ def _resolve(command: str, payload: dict) -> bool:
     return bool(payload.get("twins")) or payload.get("status") in _NOT_AN_ANSWER
 
 
-def _replaced(row: dict) -> bool:
-    doc = row.get("doc")
-    return bool(row.get("replaced")) or (isinstance(doc, dict) and bool(doc.get("replaced")))
+#: History is the subject of these results. A search result that merely lists a replaced document does not fire
+#: `temporal`: in run P2b it fired on most banking searches and the agent detoured into document history.
+_HISTORY_COMMANDS = ("query document-history", "query entity-history")
 
 
 def _temporal(command: str, payload: dict) -> bool:
-    return command in ("query vector-text", "query survey", "query chunks") and any(
-        _replaced(r) for r in _rows(command, payload))
+    return command in _HISTORY_COMMANDS
 
 
 def _composites(command: str, payload: dict) -> bool:
@@ -90,7 +89,7 @@ def guides_for(command: str | None, payload: Any) -> list[str]:
 WHY: dict[str, str] = {
     "hubs": "this entity is a hub and the result is cut",
     "resolve": "the name matched twins or nothing",
-    "temporal": "this result lists replaced documents",
+    "temporal": "this result is a version history",
     "composites": "these rows come from the mart and are a lower bound",
     "conflicts": "these are conflicting claims",
     "graph-model": "this result comes from the graph model",
