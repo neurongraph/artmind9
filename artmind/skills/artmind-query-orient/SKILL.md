@@ -15,8 +15,7 @@ Use this skill to answer user questions over an artmind domain through the deter
    its domains and first command. A one-part question gets one line. See "Plan the parts".
 3. **One loop per part** — each part gets its own searches, with only that part's terms in the
    query text. Never put two parts, or a guessed answer, into one `survey` or `vector-text` call.
-4. **Check off, then answer** — write `Parts:` again with a status per line ("Plan the parts");
-   answer part by part only when every line shows ✓ or "none, said so".
+4. **Answer part by part** — every part from its own evidence; say which part has none.
 
 ## Orient — read the corpus first
 
@@ -79,23 +78,8 @@ Parts:
   corpus's terms if the result is thin, and stop when the part has evidence. A result that also
   answers another part counts for that part too: note it and do not search that part again. A
   `survey` row whose `gist` speaks to an open part is the next document to open.
-- **Before answering, check off every part.** Write the list again with a status on each line:
-
-  ```
-  Parts:
-  1. … · survey  ✓ evidence: 3 documents · next run · mart count checked against the notes
-  2. … · text2sql  ✗ none found (searched: …), said so
-  ```
-
-  A line gets ✓ only when all of these hold for that part's results:
-  - it has its own evidence (rows, passages or documents you will cite);
-  - every `next` was run, or skipped because the part does not need what it offers;
-  - no result it relies on is partial (`truncated`, `complete: false`, `cut`, `hub`) if it needs all;
-  - a count, ranking or list from mart tables (`<d>__mart_*`) was checked against the survey
-    its `next` gives, adding what the notes show and dropping rows they don't support;
-  - nothing it relies on is named in `warnings` as not read.
-
-  A line that fails one goes back to its loop. For a part with none, say what you searched.
+- **Before answering,** check that every part has its own evidence. Answer in the parts' order,
+  and for a part with none, say what you searched.
 - **Follow-up turns:** rewrite the new question with what the conversation already settled
   (resolved names, domains, dates) before planning its parts.
 

@@ -140,5 +140,5 @@ def test_every_turn_order_is_first_and_in_the_description():
     assert "Parts:" in head and "one retrieval loop per part" in head
     first = text.split("\n## ", 2)[1]
     assert first.startswith("Every turn, in this order")
-    for phrase in ("**Orient**", "**Write the parts**", "**One loop per part**", "**Check off, then answer**"):
+    for phrase in ("**Orient**", "**Write the parts**", "**One loop per part**", "**Answer part by part**"):
         assert phrase in first, phrase
