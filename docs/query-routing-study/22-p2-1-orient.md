@@ -537,5 +537,25 @@ Behaviour: the status lines reach the final answer in 17 and 19 of 36 banking tu
 (never before). Mean turn time banking 44.9 / 43.8 s (K 40.6 / 37.0), brain01 63.1 / 49.9 s (K 60.7 / 53.5); cost
 about the same.
 
-Reading: the mart lower-bound fix is the measured gain. The check-off list moves no group beyond noise, adds about
-5 s a turn in banking and shows its status lines to the user in about half the answers.
+Reading: the mart lower-bound fix is the measured gain. The check-off list moves no group beyond noise and shows
+its status lines to the user in about half the answers (the slower banking turns were not the list: run N, without
+it, took 44.7 s). Reverted in `81f9f588`; the idea moves to a trace-based check enforced by a Stop hook (spec
+`2026-11-11-turn-check-design.md`, work plan item E2).
+
+## Run N (2026-11-11): the L code again (checklist reverted), one run per vault
+
+Runs: banking `70560495`, brain01 `d6744aa5`. Sonnet, same tiers and baselines.
+
+| Vault / group | Floor | K1 / K2 | L1 / L2 | M1 / M2 | **N** |
+|---|---|---|---|---|---|
+| banking (214) | 67 % | 152 / 145 | — | 155 / 149 | **155 (72 %)** |
+| brain01 Q01–Q14 (101) | 55 % | 68 / 77 | — | 78 / 67 | **68 (67 %)** |
+| brain01 Q15–Q29 (75) | 76 % | 54 / 50 | 59 / 62 | 63 / 61 | **58 (77 %)** |
+| brain01 all (176) | — | 122 / 127 | — | 141 / 128 | **126 (72 %)** |
+
+Correct: banking 9, brain01 8. Mean turn time banking 44.7 s, brain01 51.4 s; cost $5.16 and $3.86.
+
+Reading across K–N: since the mart lower-bound fix, brain01 Q15–Q29 is above its floor in all five runs (58–63, mean
+60.6; K 54 and 50). Brain01 Q01–Q14 (67–78) and banking (145–155) did not change with it and stay above their floors
+in every run. Every group of every run since L passes the floors, which is the condition for work plan item C
+(promote the orient variant).
