@@ -9,7 +9,7 @@ DECL = MartDeclaration("j", 1, "Hometown", ["EVENT"], ["EVENT"], False,
 def _fake(monkeypatch, written):
     people = [{"key": "a|PERSON|j", "props": {"name": "A", "rel": "uncle (mama)"}},
               {"key": "b|PERSON|j", "props": {"name": "B", "rel": "a puzzling description"}}]
-    places = [{"key": "c|LOCATION|j", "props": {"name": "Cafe", "place_type": "restaurant", "location": "Metro"}},
+    places = [{"key": "c|LOCATION|j", "props": {"name": "Cafe", "place_type": "restaurant", "location": "Hometown"}},
               {"key": "d|LOCATION|j", "props": {"name": "Nowhere", "place_type": "park"}}]
     monkeypatch.setattr(enrich.mart_graph, "members", lambda d, c: people if c == "PERSON" else places)
     monkeypatch.setattr(enrich.mart_graph, "happenings", lambda d, c: [{"type": "outing"}, {"type": "meeting"}])

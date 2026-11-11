@@ -28,9 +28,10 @@ def prompt(dimension: str, member: dict, families: list[str] | None = None) -> s
         extra += (" Give `relation` only for family or household, as one of: "
                   f"{', '.join(sorted(RELATIONS))}; otherwise omit it.")
     if dimension == "place":
-        extra = ("Give a level only when the name or the sentences state it or make it plain; never guess a "
-                 "city, region or country from the name alone, and never expand an abbreviation you cannot "
-                 "confirm. Omit what you cannot tell.")
+        extra = ("Give a level only when the name, the place's own location text or the sentences state it or "
+                 "make it plain. Common knowledge of a named city, locality or region is fine (a well-known "
+                 "neighbourhood's city and country). Never guess the city of a business, building or room from its "
+                 "name alone, and never expand an abbreviation you cannot confirm. Omit what you cannot tell.")
     if dimension == "type":
         extra = f"`family` must be one of: {', '.join(families or [])}; omit it if none fits."
     return "\n".join([
@@ -41,6 +42,7 @@ def prompt(dimension: str, member: dict, families: list[str] | None = None) -> s
         "<member>",
         f"name: {props.get('name')}",
         f"description: {props.get('description') or ''}",
+        *([f"location text: {props.get('location')}"] if dimension == "place" and props.get("location") else []),
         *[f"sentence: {c}" for c in context],
         "</member>"])
 

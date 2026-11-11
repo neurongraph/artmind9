@@ -36,7 +36,7 @@ def test_person_relation_outside_kinship_is_dropped():
 
 
 def test_place_prompt_forbids_guessing_and_place_threshold_is_higher(monkeypatch):
-    assert "never guess" in llm.prompt("place", {"key": "x", "props": {"name": "Lounge"}})
+    assert "never guess" in llm.prompt("place", {"key": "x", "props": {"name": "Lounge"}}).lower()
     monkeypatch.setattr(llm, "_call", lambda prompt: '{"levels": {"city": "C"}, "confidence": 0.85}')
     seen = []
     monkeypatch.setattr(llm.records, "put_dimension", lambda *a, **k: seen.append(k["status"]))

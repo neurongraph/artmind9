@@ -35,16 +35,27 @@ def decide_type(value, type_dim) -> dict | None:
     return {"family": family} if family else None
 
 
-def decide_place(props: dict, seed_property: str | None) -> dict | None:
+def decide_place(props: dict, seed_property: str | None, cities: set | None = None) -> dict | None:
+    """Graph seeds for a place. The `location` text sets the city only when it names a known
+    city (`cities`: the home city and city-level places, lower-case); any other text is kept as
+    the locality, and the city is left for the LLM (brain01: 'near Hanuman Mandir', '7th floor,
+    Tech Park One, Pune', a locality name)."""
     name = props.get("name")
     if str(props.get("place_type") or props.get("type") or "").lower() == "city":
         return {"city": name}
     parent = props.get(seed_property) if seed_property else None
     if isinstance(parent, list):
         parent = parent[0] if parent else None
-    if parent:
-        return {"venue": name, "city": str(parent)}
-    return None
+    if not parent:
+        return None
+    text = str(parent).strip()
+    for city in sorted(cities or (), key=len, reverse=True):
+        if re.search(rf"\b{re.escape(city)}\b", text.lower()):
+            levels = {"venue": name, "city": city.title() if city.islower() else city}
+            if text.lower() != city:
+                levels["locality"] = text
+            return levels
+    return {"venue": name, "locality": text}
 
 
 def home_away(place_levels: dict, home_city: str | None) -> str | None:
@@ -57,16 +68,13 @@ def home_away(place_levels: dict, home_city: str | None) -> str | None:
 
 
 def chain_places(seeded: dict, names: dict) -> dict:
-    """Second seed pass: a place whose parent `city` is itself a place with a parent city of
-    its own is in a locality of that city (venue -> locality -> city)."""
+    """Second seed pass: a place whose locality is itself a place with a city is in that city."""
     by_name = {str(n).strip().lower(): k for k, n in names.items() if n}
     out = dict(seeded)
     for key, levels in seeded.items():
-        if not levels or "venue" not in levels:
+        if not levels or levels.get("city") or not levels.get("locality"):
             continue
-        parent_key = by_name.get(str(levels.get("city") or "").strip().lower())
-        parent = seeded.get(parent_key) if parent_key and parent_key != key else None
-        if parent and parent.get("venue") and parent.get("city") and \
-                parent["city"].strip().lower() != str(levels["city"]).strip().lower():
-            out[key] = {"venue": levels["venue"], "locality": levels["city"], "city": parent["city"]}
+        parent = seeded.get(by_name.get(str(levels["locality"]).strip().lower()) or "")
+        if parent and parent.get("city"):
+            out[key] = {**levels, "city": parent["city"]}
     return out

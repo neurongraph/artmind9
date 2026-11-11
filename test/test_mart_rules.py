@@ -26,11 +26,16 @@ def test_type_family():
     assert rules.decide_type("meeting", t) is None
 
 
-def test_place_seed_city_and_parent():
-    assert rules.decide_place({"name": "Metro City", "place_type": "city"}, "location") == {"city": "Metro City"}
-    assert rules.decide_place({"name": "A Cafe", "place_type": "restaurant", "location": "Metro City"},
-                              "location") == {"venue": "A Cafe", "city": "Metro City"}
-    assert rules.decide_place({"name": "Somewhere", "place_type": "park"}, "location") is None
+def test_place_seed_city_only_when_it_names_a_known_city():
+    cities = {"metro city", "hometown"}
+    assert rules.decide_place({"name": "Metro City", "place_type": "city"}, "location", cities) == {"city": "Metro City"}
+    assert rules.decide_place({"name": "A Cafe", "location": "Metro City"}, "location", cities) == \
+        {"venue": "A Cafe", "city": "Metro City"}
+    assert rules.decide_place({"name": "Desk", "location": "7th floor, Tower One, Hometown"}, "location", cities) == \
+        {"venue": "Desk", "city": "Hometown", "locality": "7th floor, Tower One, Hometown"}
+    assert rules.decide_place({"name": "Shop", "location": "near the temple"}, "location", cities) == \
+        {"venue": "Shop", "locality": "near the temple"}
+    assert rules.decide_place({"name": "Somewhere", "place_type": "park"}, "location", cities) is None
 
 
 def test_home_away():
@@ -40,10 +45,7 @@ def test_home_away():
     assert rules.home_away({"city": "X"}, None) == "away"
 
 
-def test_chain_places_turns_a_parent_locality_into_locality_and_city():
-    seeded = {"cafe": {"venue": "Cafe", "city": "Uptown"}, "uptown": {"venue": "Uptown", "city": "Metro"},
-              "metro": {"city": "Metro"}}
-    names = {"cafe": "Cafe", "uptown": "Uptown", "metro": "Metro"}
-    out = rules.chain_places(seeded, names)
+def test_chain_places_takes_the_city_of_a_locality_that_is_a_place():
+    seeded = {"cafe": {"venue": "Cafe", "locality": "Uptown"}, "uptown": {"venue": "Uptown", "city": "Metro"}}
+    out = rules.chain_places(seeded, {"cafe": "Cafe", "uptown": "Uptown"})
     assert out["cafe"] == {"venue": "Cafe", "locality": "Uptown", "city": "Metro"}
-    assert out["uptown"] == {"venue": "Uptown", "city": "Metro"} and out["metro"] == {"city": "Metro"}

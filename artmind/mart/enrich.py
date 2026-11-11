@@ -34,17 +34,21 @@ def enrich(decl, domains, *, dry_run: bool, use_llm: bool, llm=None, limit: int 
         else:
             pending.append({"dimension": "person", **m})
     places = mart_graph.members(domains, decl.place.entity_class)
-    seeded = {m["key"]: rules.decide_place(m["props"] or {}, decl.place.seed_property) for m in places}
+    cities = {str((m["props"] or {}).get("name")).strip().lower() for m in places
+              if str((m["props"] or {}).get("place_type") or "").lower() == "city" and (m["props"] or {}).get("name")}
+    if decl.home_city:
+        cities.add(decl.home_city.strip().lower())
+    seeded = {m["key"]: rules.decide_place(m["props"] or {}, decl.place.seed_property, cities) for m in places}
     seeded = rules.chain_places(seeded, {m["key"]: (m["props"] or {}).get("name") for m in places})
     for m in places:
         if not _undecided(existing, "place", m["key"]):
             continue
         levels = seeded.get(m["key"])
-        if levels:
+        if levels and levels.get("city"):
             note("place", "seed")
             if not dry_run:
                 records.put_dimension(decl.domain, "place", m["key"], levels, source="seed", confidence=1.0)
-        else:
+        else:  # no city from the graph: the LLM decides, seeing the locality text in the member's props
             pending.append({"dimension": "place", **m})
     seen_types = sorted({str(h.get("type")) for h in mart_graph.happenings(domains, decl.type.classes)
                          if h.get("type")})
