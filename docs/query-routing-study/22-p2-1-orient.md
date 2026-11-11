@@ -611,3 +611,8 @@ made worse, twice each (must items missed, mean per question):
 brain01 is back at the baseline (entity-resolve and entity-context run again). Banking runs survey and chunks again
 but its scores barely move; its runs now also call `document-history` / `entity-history` where the baselines did not
 (Q10: baseline orient → survey → pattern10).
+
+`temporal` then fired only on `document-history` / `entity-history` results (`0ebd00f4`), not on searches that list a
+replaced document. Banking Q01, Q09, Q10 twice (`0c81aa13`, `98be2c6b`): missed 0/0, 3/0, 0/0, mean 1.5 per run
+against baselines 1.0, P2b 5.0 and P2b + four rules 4.5. Q10 is back to orient → survey → pattern10, no history
+detour; Q09 still calls `document-history` once.
