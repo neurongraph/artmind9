@@ -498,3 +498,18 @@ them; Q24 counted happenings whose name matches an activity (half the sessions);
 person (30, the label has 9) and the grader called the extras doubtful. No turn checked a mart count or ranking
 against a document search. The mart's rows are a lower bound on what the notes say, and nothing on the surface says
 so.
+
+### Run L (2026-11-11): the mart lower-bound fix, brain01 Q15–Q29 twice
+
+Fix `7f60f730`: a `text2sql` result read from `<d>__mart_*` carries a warning (mart rows hold only what extraction
+found; a count, ranking or list from them is a lower bound) and a `next` that surveys the question; the orient skill
+says to answer from both. Runs `c160f6ed`, `224f7daf` (15 questions each), Sonnet, same tiers.
+
+| Run | I | J | K1 | K2 | **L1** | **L2** |
+|---|---|---|---|---|---|---|
+| Q15–Q29 must found (75; floor 76 %) | 61 | 56 | 54 | 50 | **59 (79 %)** | **62 (83 %)** |
+
+Correct: L1 8, L2 7 of 15 (K 7 and 8 on these questions). Per question, missed (J, K1, K2 → L1, L2): Q15 6, 6, 6 →
+3, 2; Q18 0, 2, 5 → 1, 0; Q21 0, 1, 2 → 0, 0; Q24 1, 3, 3 → 2, 2; Q20 stays at 3–4 in every run. A survey followed
+the mart answer on 4 of 7 `text2sql` turns in L1 and 3 of 5 in L2. Both runs above the floor; L2 is the best run on
+this group so far. Q24's count is still short of J's in both runs.
