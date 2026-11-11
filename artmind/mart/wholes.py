@@ -100,12 +100,27 @@ def _trips(w, tables, collectives=None):
             run = run[:-1]
         if not any(state.get(d) == "away" for d in run):
             continue
-        days = set(run)
-        members = sorted((f for f in facts if f["date"] in days and (
-            f.get("type_family") in w.families or f.get("home_away") == "away")), key=lambda f: f["date"])
+        edge = _edge_days(run, state, by_day_people, w.consecutive_days, fam_days)
+        days = set(run) | edge
+        members = sorted((f for f in facts if f["date"] in edge or (f["date"] in days and (
+            f.get("type_family") in w.families or f.get("home_away") == "away"))), key=lambda f: f["date"])
         if members:
             groups.append(members)
     return groups
+
+
+def _edge_days(run, state, by_day_people, gap, fam_days) -> set:
+    """The day just before and just after a trip, when it has no home/away evidence, holds a
+    happening of the trip's families (an outing) and shares a companion with the trip's first or
+    last day: the drive out or back."""
+    edge: set = set()
+    for step, end in ((-1, run[0]), (1, run[-1])):  # one day each side: they do not chain
+        nxt = next((d for d in sorted(by_day_people, reverse=step < 0)
+                    if 0 < (_d(d) - _d(end)).days * step <= gap), None)
+        if (nxt and state.get(nxt) is None and nxt in fam_days
+                and by_day_people.get(nxt, set()) & by_day_people.get(end, set())):
+            edge.add(nxt)
+    return edge
 
 
 def _life_events(w, tables):

@@ -102,3 +102,40 @@ def test_whole_rows_carry_their_part_names_and_families():
          "dim_person": [{"person_key": "u", "name": "Uncle", "group": "family"}]}
     row = wholes.compute(decl(life_event=LIFE), t)["whole_life_event"][0]
     assert row["part_names"] == ["fall at home", "last rites"] and row["families"] == ["health", "ritual"]
+
+
+def _edge_case(edge_people):
+    unknown = {**fact("e", "2025-01-01", "trip", name="drive"), "home_away": None, "place_key": None}
+    t = {"fact_happening": [unknown, fact("a", "2025-01-02", "trip"), fact("b", "2025-01-03", "trip")],
+         "bridge_person": [{"entity_key": "a", "person_key": "kid", "role": "x"},
+                           *[{"entity_key": "e", "person_key": p, "role": "x"} for p in edge_people]],
+         "dim_person": [{"person_key": "kid", "group": "family"}, {"person_key": "boss", "group": "colleague"}]}
+    return wholes.compute(decl(trip=TRIP), t)
+
+
+def test_an_unknown_edge_day_sharing_a_companion_joins_the_trip():
+    out = _edge_case(["kid"])
+    trip = out["whole_trip"][0]
+    assert (trip["start"], trip["end"]) == ("2025-01-01", "2025-01-03")
+    assert "e" in {r["entity_key"] for r in out["fact_whole"]}
+
+
+def test_an_unknown_edge_day_without_a_shared_companion_stays_out():
+    assert [(r["start"], r["end"]) for r in _edge_case(["boss"])["whole_trip"]] == [("2025-01-02", "2025-01-03")]
+    assert [(r["start"], r["end"]) for r in _edge_case([])["whole_trip"]] == [("2025-01-02", "2025-01-03")]
+
+
+def test_edge_days_do_not_chain():
+    t = {"fact_happening": [{**fact(k, f"2025-01-0{i}", "trip"), "home_away": None, "place_key": None}
+                            for i, k in ((1, "x"), (2, "y"))] + [fact("a", "2025-01-03", "trip")],
+         "bridge_person": [{"entity_key": k, "person_key": "kid", "role": "x"} for k in "xya"],
+         "dim_person": [{"person_key": "kid", "group": "family"}]}
+    assert [(r["start"], r["end"]) for r in wholes.compute(decl(trip=TRIP), t)["whole_trip"]] == [("2025-01-02", "2025-01-03")]
+
+
+def test_an_unknown_edge_day_that_is_not_an_outing_stays_out():
+    t = {"fact_happening": [{**fact("e", "2025-01-01", "social"), "home_away": None, "place_key": None},
+                            fact("a", "2025-01-02", "trip")],
+         "bridge_person": [{"entity_key": k, "person_key": "kid", "role": "x"} for k in "ea"],
+         "dim_person": [{"person_key": "kid", "group": "family"}]}
+    assert [(r["start"], r["end"]) for r in wholes.compute(decl(trip=TRIP), t)["whole_trip"]] == [("2025-01-02", "2025-01-02")]
