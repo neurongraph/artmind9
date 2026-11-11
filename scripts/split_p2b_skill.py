@@ -81,17 +81,31 @@ COMMANDS_LINES = [
 ROUTING = """## Views and routing — question shape → command → reference
 
 Match every question against the saved views `orient --domain` listed first: a view that fits answers in one call.
-Otherwise pick a row for each part. Before an `entity-context`, `entity-history` or `pattern*` call, resolve each
-name with `artmind query entity-resolve --domain <d> --topK 5 --compact "<name>"` and use the chosen `_id`. Read a
-row's reference before its first command this turn. Every command needs `--domain <d>` and `--compact`.
+Otherwise apply the four rules, then pick a row for each part. Every command needs `--domain <d>` and `--compact`.
+
+1. **Resolve first.** For every person, place, organisation or other named thing in a part, run
+   `artmind query entity-resolve --domain <d> --topK 5 --compact "<name>"` before any other command for that part,
+   and use the chosen `_id` from then on (`--entityId`). A question about one entity then goes to `entity-context`
+   with that id and the question.
+2. **Records go to `text2sql` first.** A part that counts, sums, groups, ranks or compares records in a domain whose
+   orient card lists structured tables, or asks how many / which people, places, event types or periods in a domain
+   whose card lists `mart`, starts with `artmind query text2sql "<part>" --domain <d> --compact`. Mart rows are a
+   lower bound: run the survey its `next` gives and answer from both.
+3. **Survey before `vector-text`.** A part whose answer can sit in more than one document (a policy or rule, how
+   something works, every time, each year, what changed, across the notes) starts with
+   `artmind query survey --shape brief --domain <d> --compact "<part>"`. Use `vector-text` for one passage in one known
+   place, or to look closer after a survey.
+4. **Read what you already have.** When a result gives chunk ids (`doc_sources`, `chunk_id`, evidence), read them with
+   `artmind query chunks --shape brief --idList <id>[,<id>…] [--expand 1]` instead of searching again; when a result
+   was cut, read the rest (`artmind query page <handle>`, or the cut's `rest`) before answering.
 
 | Question shape | First command | Reference |
 |---|---|---|
 | A saved view's `summary` or `examples` describe it | `artmind query views show <name>`, then `artmind query views run <name> --param <p>=<value> --render markdown` | `views.md` |
 | One entity: tell me about X, X's role, why X … | `artmind query entity-context --shape brief --entityId <id> --query "<question>"` | `hubs.md` |
 | Text of chunk ids you already have | `artmind query chunks --shape brief --idList <id>` | `hubs.md` |
-| Where, when or how something happened; quotes; no entity anchor | `artmind query vector-text --shape brief --topK 10 "<part>"` | `hubs.md` |
 | Spans documents: every time, each year, a trend, across the notes | `artmind query survey --shape brief [--by year] "<part>"`, or `artmind query topics run <slug>` when orient lists a plan for it | `survey.md` |
+| One passage in one known place: where, when or how something happened; quotes | `artmind query vector-text --shape brief --topK 10 "<part>"` | `hubs.md` |
 | Counts, sums or groups over records, or a card lists `mart` | `artmind query text2sql "<question>"` | `structured-store.md`, `composites.md` |
 | A code, id or key value held in a table | `artmind query resolve-key` | `structured-store.md` |
 | Entities of a class; the main or top ones | `artmind query graph pattern1 --shape brief --entityClass <LABEL>`; `artmind query graph pattern9 --entityClass <LABEL> --topN 5` | `graph-model.md` |

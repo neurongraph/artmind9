@@ -110,7 +110,7 @@ def test_every_artmind_command_named_exists():
 
 
 def test_size():
-    assert len(SKILL.splitlines()) < 210  # spec §3: about 170, a target not a cap
+    assert len(SKILL.splitlines()) < 230  # spec §3: about 170, a target not a cap; +4 decision rules after run P2b
 
 
 def test_every_rewrite_is_applied_in_its_file():
