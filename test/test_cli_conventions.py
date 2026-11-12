@@ -110,7 +110,7 @@ def test_a_command_that_writes_is_declared() -> None:
 # ── callers use the new spellings (spec §3.3) ──────────────────────────────
 
 _CALLER_GLOBS = (
-    "artmind/skills/**/*.md", "justfile", "artmind/query_plan/routes.yaml",
+    "artmind/skills/**/*.md", "justfile",
     "obsidian/artmind-obsidian/src/**/*.ts", "artmind/webui/**/*.py", "artmind/webui/**/*.js",
     "artmind/webui/**/*.html", "CLAUDE.md", "docs/INSTALL.md", "docs/vault.md",
     "docs/USER_GUIDE_TWO_LAPTOPS.md", "docs/CAPABILITIES.md",

@@ -247,59 +247,22 @@ artmind admin-ui       # operator console: agent chat, ingest dashboard, CLI gui
 The chat agent's working directory is the vault, so it can read your documents
 and find artmind's skills at `.claude/skills/`.
 
-### `query plan` settings
+### Catalogue settings
 
-`artmind query plan` routes a question in code. With no settings it uses lexical
-rules. To use a local decision model (Jev API), install Ollama ≥ 0.35, pull a model
-yourself (`ollama pull nimble`; artmind never downloads models), and set in
-`~/.artmind/config.env`:
-
-```bash
-ARTMIND_DECISION_URL=http://localhost:11434/v1/systemone
-ARTMIND_DECISION_MODEL=nimble
-# ARTMIND_DECISION_TIMEOUT=5        # seconds per call (default 5; no retries)
-# ARTMIND_DECISION_API_KEY=...      # hosted endpoints only; never put credentials in the URL
-```
-
-To use the hosted decision model on OpenRouter instead (no local memory; about 1 s a
-call; billed per input token), set:
-
-```bash
-ARTMIND_DECISION_PROVIDER=openrouter
-ARTMIND_DECISION_MODEL=typesafe/jev-1.14
-ARTMIND_OPENROUTER_API_KEY=...      # the same key as ARTMIND_KG_LLM_PROVIDER=openrouter
-```
-
-artmind then calls `https://openrouter.ai/api/alpha/decisions` (OpenRouter's pass-through of
-the Jev decisions API, with the same per-option probabilities) and ignores
-`ARTMIND_DECISION_URL` / `ARTMIND_DECISION_API_KEY`; there is no start-up warm-up. **Privacy:**
-OpenRouter and the model's provider receive every planned question together with the
-candidate domain, class and view descriptions and entity names and descriptions, and with
-shadow mode on (the default) that is every admin-console and benchmark question. artmind
-asks OpenRouter to route only to providers that neither collect nor retain prompts
-(`provider: {data_collection: deny, zdr: true}`); if none qualifies the call fails and the
-plan falls back to lexical rules. Set `ARTMIND_PLAN_SHADOW=0` to keep shadow plans from
-sending questions.
-
-The URL must be http or https with no credentials in it, and redirects are not
-followed. A hosted endpoint (for example Clef on Workers AI) receives the question
-and the candidate entity names, and with a hosted `ARTMIND_DECISION_URL` every
-traced question is sent there; a local one keeps them on the machine. Shadow mode (a plan
-recorded beside every admin-console and benchmark trace) is on by default;
-`ARTMIND_PLAN_SHADOW=0` turns it off; shadow plans allow the decision model 60 s
-(`ARTMIND_PLAN_SHADOW_DECISION_TIMEOUT`), since nobody waits on them. `serve`, `chat-ui` and
-`admin-ui` send the model one tiny request at start so it is loaded (`ARTMIND_DECISION_WARMUP=0`
-turns that off); for Ollama, also set `OLLAMA_KEEP_ALIVE` so it stays loaded. The planner reads a per-domain catalogue
+`orient`, `query catalogue`, `query assets` and the UIs read a per-domain catalogue
 (classes, relation types, document and entity names), cached in memory and under
 `<ARTMIND_HOME>/logs/plan-catalog/` (private files) and rebuilt when the graph
 changes or after an hour (each part is checked on its own; the graph carries a per-domain
-generation, `:DomainState`, that `artmind setup` makes room for); `ARTMIND_PLAN_CATALOG=0` disables the cache.
-The catalogue's `health` part (twins, same-as, isolated entities, missing summaries) is never built during a plan:
-`serve`, `chat-ui` and `admin-ui` refresh it in the background, `artmind catalogue refresh --domain D` builds it
-on demand, and `ARTMIND_CATALOGUE_HEALTH_TTL_S` (default 3600) sets how long a built one stays fresh. `artmind setup`
-also drops the old `:TopicPage` graph copy of topic pages (nodes, constraint, indexes) if a graph still has it. `artmind plan config check` validates
-`domains/plan/<domain>.yaml`, and `artmind plan replay` scores the labelled set
-(needs Neo4j; see the `plan` group in `artmind --help`).
+generation, `:DomainState`, that `artmind setup` makes room for); `ARTMIND_PLAN_CATALOG=0` disables the cache
+(the name predates the planner's removal in 0.13).
+The catalogue's `health` part (twins, same-as, isolated entities, missing summaries) is never built on a query's
+path: `serve`, `chat-ui` and `admin-ui` refresh it in the background, `artmind catalogue refresh --domain D` builds
+it on demand, and `ARTMIND_CATALOGUE_HEALTH_TTL_S` (default 3600) sets how long a built one stays fresh. `artmind
+setup` also drops the old `:TopicPage` graph copy of topic pages (nodes, constraint, indexes) if a graph still has it.
+
+The deterministic planner (`artmind query plan`, the `plan` group, the decision model and shadow plans) was removed
+in 0.13; its code is at the tags `archive/p3-bundle` and `archive/master-pre-0.12`. `ARTMIND_DECISION_*` and
+`ARTMIND_PLAN_SHADOW*` are no longer read.
 
 ### Exposure of the web UIs
 

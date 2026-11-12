@@ -13,7 +13,6 @@ from importlib.metadata import PackageNotFoundError, version
 
 from click.testing import CliRunner
 from fastapi import FastAPI, HTTPException
-from loguru import logger
 from pydantic import BaseModel
 
 from artmind._entry import DEFAULT_PORT  # noqa: F401  (re-exported for callers)
@@ -56,22 +55,11 @@ def run_cli_args(args: list[str], trace_id: str | None = None, output_budget: st
 
 @asynccontextmanager
 async def _lifespan(app: FastAPI):
-    _warm_up_decision_model()
     from artmind.catalogue import refresh
 
     refresh.enable_background()  # catalogue health rebuilds in the background, only in this long-lived process
     refresh.start_topic_checks(auto_refresh=False)  # daily topic plan freshness, no LLM
     yield
-
-
-def _warm_up_decision_model() -> None:
-    """Load the decision model in the background (query plan); never fails start-up."""
-    try:
-        from artmind.query_plan import classify
-
-        classify.warm_up()
-    except Exception:
-        logger.exception("decision model warm-up not started")
 
 
 def create_app() -> FastAPI:

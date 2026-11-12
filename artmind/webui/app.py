@@ -173,13 +173,6 @@ def create_app(
         except Exception:
             logger.exception("conversation sweep failed")
 
-        try:  # load the decision model in the background, for shadow plans (query plan)
-            from artmind.query_plan import classify
-
-            classify.warm_up()
-        except Exception:
-            logger.exception("decision model warm-up not started")
-
         async def sweep_loop():
             while True:
                 await asyncio.sleep(SWEEP_INTERVAL_S)
@@ -298,7 +291,7 @@ def create_app(
                             TraceRecorder.start,
                             source=profile_name, question=payload.prompt, session_id=cid,
                             profile=profile_name, backend=payload.backend, context_path=context_path,
-                            shadow_question=payload.prompt, contract=contract,
+                            contract=contract,
                         ))
                     if recorder.enabled:
                         yield f"data: {json.dumps({'type': 'trace', 'trace_id': recorder.trace_id})}\n\n"

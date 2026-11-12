@@ -1,4 +1,4 @@
-"""The domain catalogue (spec 2026-10-22 §11): reads, cache layers, freshness."""
+"""The domain catalogue (spec 2026-10-22 §11, now artmind/catalogue/): reads, cache layers, freshness."""
 
 import json
 from pathlib import Path
@@ -7,7 +7,15 @@ import pytest
 
 from artmind import graph_query
 from artmind.catalogue import cache, parts
-from artmind.query_plan import catalogue
+from types import SimpleNamespace
+
+from artmind.catalogue import model
+
+# The names this file used through the removed `artmind.query_plan.catalogue` re-export.
+catalogue = SimpleNamespace(build=cache.build, fingerprints=cache.fingerprints, get=cache.get, reset=cache.reset,
+                            set_clock=cache.set_clock, MAX_AGE_S=cache.MAX_AGE_S,
+                            CATALOGUE_FORMAT=model.CATALOGUE_FORMAT, DomainCatalogue=model.DomainCatalogue,
+                            NAME_INDEX_MAX=parts.NAME_INDEX_MAX)
 
 
 class FakeGraph:

@@ -395,8 +395,6 @@ AGENT_DB_COMMANDS = frozenset({
     "artmind db bridge", "artmind db list", "artmind db schema", "artmind db sql", "artmind db timeline",
     "artmind db review",
 })
-#: `query` commands left out: the frozen planner (spec 2026-11-08).
-AGENT_EXCLUDED = frozenset({"artmind query plan"})
 
 COMMANDS_MD_HEADER = (
     "# artmind commands\n\n"
@@ -405,7 +403,7 @@ COMMANDS_MD_HEADER = (
 
 
 def agent_command(path: str) -> bool:
-    return (path.startswith("artmind query ") and path not in AGENT_EXCLUDED) or path in AGENT_DB_COMMANDS
+    return path.startswith("artmind query ") or path in AGENT_DB_COMMANDS
 
 
 def _md_cell(text: str | None) -> str:

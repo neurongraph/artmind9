@@ -171,24 +171,6 @@ def _plan_payload(**over):
     return {**base, **over}
 
 
-def test_a_plan_that_ran_nothing_has_no_evidence_from_its_candidates():
-    out = summarize(_plan_payload())
-    assert out["rows"] == 0
-    assert out["evidence"] == {}
-
-
-def test_an_executed_plan_records_the_view_and_the_row_ids():
-    result = {"view": "org_tree", "version": 2, "status": "ok", "domains": ["b"],
-              "params": {"root": {"input": "Alice", "_id": "e1"}}}
-    out = summarize(_plan_payload(executed={"cmd": "x", "status": "ok", "error": None, "result": result},
-                                  rows=[{"person": {"_id": "e7", "name": "Bo"}}], rows_total=1))
-    assert out["rows"] == 1
-    assert out["evidence"]["view"] == {"name": "org_tree", "version": 2, "status": "ok",
-                                       "params": {"root": {"input": "Alice", "_id": "e1"}}}
-    assert set(out["evidence"]["entities"]) == {"e1", "e7"}  # the resolved param, as in a plain views run
-    assert "dom1" not in out["evidence"]["entities"] and "v1" not in out["evidence"]["entities"]
-
-
 def test_survey_and_topics_payloads_have_evidence():
     from artmind.traces import evidence
 

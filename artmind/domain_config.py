@@ -1,9 +1,9 @@
-"""Per-domain config read outside the frozen planner (spec 2026-11-09 §5.3).
+"""Per-domain config (spec 2026-11-09 §5.3).
 
 `<ARTMIND_HOME>/domains/plan/<domain>.yaml` is user data (never seeded). A parent
 domain's file applies to a child without one (most specific wins, never merged).
-This module reads only what the classic CLI needs: the domain-name rule and the
-narrator. The planner keeps its own full parser in `query_plan/config.py`.
+This module reads what the CLI needs: the domain-name rule and the narrator. Other keys
+(written for the planner removed in 0.13) are ignored.
 """
 from __future__ import annotations
 

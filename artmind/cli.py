@@ -371,7 +371,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Domains", "commands": ["domains"]},
         {"name": "Ingestion", "commands": ["ingest"]},
         {"name": "Structured store", "commands": ["db", "mart"]},
-        {"name": "Query", "commands": ["query", "catalogue", "plan", "retrieval", "views", "insights", "topic", "traces", "review"]},
+        {"name": "Query", "commands": ["query", "catalogue", "retrieval", "views", "insights", "topic", "traces", "review"]},
         {"name": "Documents", "commands": ["docs"]},
         {"name": "Projection", "commands": ["projection"]},
         {"name": "Curation", "commands": ["sameas"]},
@@ -415,9 +415,6 @@ click.rich_click.COMMAND_GROUPS = {
     "artmind db metadata": [
         {"name": "text2sql metadata", "commands": ["init", "validate", "regenerate"]},
     ],
-    "artmind plan": [
-        {"name": "Plan", "commands": ["config", "labels", "replay"]},
-    ],
     "artmind catalogue": [
         {"name": "Cache", "commands": ["refresh"]},
     ],
@@ -436,7 +433,6 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Topic plans", "commands": ["plan", "run"]},
     ],
     "artmind query": [
-        {"name": "Planning", "commands": ["plan"]},
         {"name": "Graph patterns", "commands": ["graph"]},
         {"name": "Saved views & insights", "commands": ["views", "insights", "topics"]},
         {
@@ -4242,46 +4238,6 @@ def query_views_run(domain: tuple, params: tuple, render: str | None, compact: b
     _echo_json(result, compact)
 
 
-@query.command("plan")
-@click.option("--domain", "domain", multiple=True, help="Scope to these domains (repeatable; comma-splittable). Omit and the plan chooses")
-@click.option("--execute", is_flag=True, help="Also run the step when the plan is one high-confidence saved view")
-@click.option("--classifier", type=click.Choice(["auto", "lexical", "decision"]), default="auto", show_default=True,
-              help="auto: the decision model when ARTMIND_DECISION_URL is set, else lexical rules")
-@click.option("--previous", "previous_file", default=None,
-              help="The previous turn as JSON ({intent, route, question, offer, entities, documents, open_job}): a file, or - for stdin. Not proxied to serve")
-@click.option("--exclude", "exclude", multiple=True,
-              help="Leave this document (id or name) out of the scope (repeatable; comma-splittable)")
-@compact_option
-@click.argument("question")
-def query_plan_command(domain: tuple, execute: bool, classifier: str, previous_file: str | None, exclude: tuple,
-                       compact: bool, question: str) -> None:
-    """Plan the retrieval for a question: intent, slots, domains, saved view, route and ready-to-run steps.
-
-    Read-only and deterministic. Run `steps` when `confidence.level` is high; when it
-    is low, `steps` is empty: judge `suggested_steps` and read the routing table. A
-    non-retrieval intent (`intent.id`) plans no steps: see `action` and `answer_from`.
-    """
-    from neo4j.exceptions import DriverError, Neo4jError
-
-    from artmind.query_plan import intents, planner
-
-    domains = _parse_domains(domain) if domain else None
-    previous = None
-    if previous_file is not None:
-        try:
-            previous = intents.load_previous(previous_file)
-        except ValueError as exc:
-            raise click.ClickException(str(exc)) from exc
-    try:
-        result = planner.plan(question, domains, execute=execute, classifier=classifier, previous=previous,
-                              exclude=list(exclude))
-    except ValueError as exc:
-        raise click.ClickException(str(exc)) from exc
-    except (DriverError, Neo4jError) as exc:
-        raise click.ClickException(f"Neo4j is unreachable or failed: {exc}") from exc
-    _echo_json(result, compact)
-
-
 @query.group("insights")
 def query_insights() -> None:
     """Unprompted findings from the latest insights snapshot: what changed, trends, circles, associations.
@@ -5741,173 +5697,6 @@ def review_verify(review_id, run_id, backend, compact) -> None:
     except dz.DossierError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
-
-
-# ── artmind plan (spec 2026-10-22: config checks, labelled set, replay) ─────────
-
-
-@cli.group("plan")
-def plan_group() -> None:
-    """Operate `query plan`: per-domain config checks, the labelled set, offline replay.
-
-    Not proxied. The labels file and replay output hold real questions: they stay in the
-    vault (`<vault>/benchmarking/`, `<vault>/.artmind/logs/`), never in a checkout.
-    """
-
-
-@plan_group.group("config")
-def plan_config_group() -> None:
-    """Per-domain plan config (`domains/plan/<domain>.yaml`): narrator, threshold, classifier, categories,
-    kinship, scope rules, calendar."""
-
-
-@plan_config_group.command("check")
-@click.option("--domain", "domain", multiple=True, help="Only these domains (repeatable; comma-splittable). Default: every file")
-@compact_option
-def plan_config_check(domain: tuple, compact: bool) -> None:
-    """Validate plan config files and, with Neo4j up, that each configured narrator exists.
-
-    A file that is invalid, whose name is not a domain name, or whose configured narrator
-    is not found in the graph fails the check (ok false, exit 1). With Neo4j unreachable
-    the narrator is not checked: that is a warning, not an error.
-    """
-    import paths
-    from neo4j.exceptions import DriverError, Neo4jError
-
-    from artmind.query_plan import candidates as plan_candidates
-    from artmind.query_plan import config as plan_config
-
-    if domain:
-        names = _parse_repeatable(domain)
-    else:
-        names = sorted(p.stem for p in Path(paths.DOMAIN_PLAN_DIR).glob("*.yaml")
-                       if p.is_file() and not p.name.startswith("."))
-    results = []
-    for name in names:
-        if not plan_config.is_domain_name(name):
-            results.append({"domain": name, "file": None, "ok": False, "errors": ["file name is not a valid domain name"],
-                            "warnings": [], "narrator_found": None})
-            continue
-        path = plan_config.config_file(name)
-        entry = {"domain": name, "file": str(path) if path else None, "ok": True, "errors": [], "warnings": [],
-                 "narrator_found": None}
-        try:
-            cfg = plan_config.load_config(name)
-        except plan_config.PlanConfigError as exc:
-            entry.update(ok=False, errors=[str(exc)])
-            results.append(entry)
-            continue
-        # Counts only: the terms are private.
-        entry["counts"] = {"categories": len(cfg.categories), "kinship": len(cfg.kinship),
-                           "scope_rules": len(cfg.scope_rules), "calendar": len(cfg.calendar),
-                           "narrator_aliases": len(cfg.narrator.aliases) if cfg.narrator else 0}
-        if cfg.narrator:
-            try:
-                entry["narrator_found"] = bool(plan_candidates.narrator_candidates(cfg.narrator, [name]))
-            except (DriverError, Neo4jError) as exc:  # Neo4j down: warn, do not fail the file
-                entry["warnings"].append(f"narrator not checked: {exc}")
-            if entry["narrator_found"] is False:
-                entry["ok"] = False
-                entry["errors"].append(f"narrator {cfg.narrator.name!r} ({cfg.narrator.entity_class}) is not in {name}")
-        results.append(entry)
-    _echo_json({"command": "plan config check", "results": results}, compact)
-    if not all(r["ok"] for r in results):
-        raise SystemExit(1)
-
-
-@plan_group.group("labels")
-def plan_labels_group() -> None:
-    """The labelled set (`<vault>/benchmarking/plan_labels.yaml`)."""
-
-
-def _labels_path(file_path: Path | None) -> Path:
-    from artmind.query_plan import labels as plan_labels
-
-    path = file_path or plan_labels.default_path()
-    if path is None:
-        raise click.ClickException("not inside a vault: pass --file")
-    return path
-
-
-@plan_labels_group.command("validate")
-@click.option("--file", "file_path", type=click.Path(path_type=Path), default=None,
-              help="Labels file. Default: <vault>/benchmarking/plan_labels.yaml. A `benchmark_file` in it is "
-                   "read relative to the vault root (the current vault, else the labels file's grandparent)")
-@click.option("--checkEntities", "check_entities", is_flag=True, help="Also check (needs Neo4j) that every entity param name resolves")
-@compact_option
-def plan_labels_validate(file_path: Path | None, check_entities: bool, compact: bool) -> None:
-    """Check every rule of the labels file and report all problems at once."""
-    from artmind.query_plan import labels as plan_labels
-
-    from neo4j.exceptions import DriverError, Neo4jError
-
-    path = _labels_path(file_path)
-    try:
-        loaded = plan_labels.load_labels(path)
-    except plan_labels.LabelError as exc:
-        _echo_json({"command": "plan labels validate", "file": str(path), "ok": False, "labels": 0,
-                    "errors": exc.errors}, compact)
-        raise SystemExit(1)
-    try:
-        errors = plan_labels.check_entities(loaded) if check_entities else []
-    except (DriverError, Neo4jError) as exc:
-        raise click.ClickException(f"entities not checked: {exc}") from exc
-    _echo_json({"command": "plan labels validate", "file": str(path), "ok": not errors, "labels": len(loaded),
-                "errors": errors}, compact)
-    if errors:
-        raise SystemExit(1)
-
-
-@plan_group.command("replay")
-@click.option("--file", "file_path", type=click.Path(path_type=Path), default=None,
-              help="Labels file. Default: <vault>/benchmarking/plan_labels.yaml")
-@click.option("--classifier", type=click.Choice(["lexical", "decision", "both"]), default="lexical", show_default=True)
-@click.option("--repeat", type=click.IntRange(1, 10), default=1, show_default=True,
-              help="Plan each label N times; labels whose plans differ are listed as unstable. The gate needs --repeat 4")
-@click.option("--givenDomains", "given_domains", is_flag=True, help="Pass each label's domains instead of letting the plan choose")
-@click.option("--model", "model", default=None, help="Decision model override (default: ARTMIND_DECISION_MODEL)")
-@compact_option
-def plan_replay(file_path: Path | None, classifier: str, repeat: int, given_domains: bool, model: str | None,
-                compact: bool) -> None:
-    """Replay `query plan` over the labelled set and score it. Needs Neo4j; runs no agent.
-
-    Prints the summary (label ids, outcomes, mismatches; no question text); per-label
-    detail goes to <ARTMIND_HOME>/logs/plan-replay-*.json. Exits 1 when a reported gate
-    has not passed (the gate needs --repeat 4, no errors, and for `decision` no fallback).
-    """
-    from neo4j.exceptions import DriverError, Neo4jError
-
-    from artmind import graph_query
-    from artmind.query_plan import labels as plan_labels
-    from artmind.query_plan import replay as plan_replay_mod
-    from artmind.query_plan.classify import select_classifier
-
-    path = _labels_path(file_path)
-    try:
-        loaded = plan_labels.load_labels(path)
-    except plan_labels.LabelError as exc:
-        raise click.ClickException("invalid labels file; run `artmind plan labels validate`: " + str(exc)) from exc
-    backends = ["lexical", "decision"] if classifier == "both" else [classifier]
-    if "decision" in backends:
-        try:
-            select_classifier("decision", "auto", model)
-        except ValueError as exc:
-            raise click.ClickException(str(exc)) from exc
-    try:  # fail fast: a down graph would otherwise turn every label into an error
-        graph_query.domains_overview()
-    except (DriverError, Neo4jError) as exc:
-        raise click.ClickException(f"Neo4j is unreachable: {exc}") from exc
-    reports = {}
-    for backend in backends:
-        report = plan_replay_mod.replay(loaded, backend, repeat, given_domains=given_domains, model=model)
-        detail = plan_replay_mod.write_detail(report)
-        summary = {k: v for k, v in report.items() if k != "results"}
-        # exception text can quote the question or entity names: the summary keeps the type only
-        summary["errors"] = [{"id": e["id"], "error_type": e.get("error_type")} for e in report["errors"]]
-        reports[backend] = {**summary, "detail_file": str(detail)}
-    _echo_json({"command": "plan replay", "file": str(path), "repeat": repeat, "reports": reports}, compact)
-    if not all(r["gate"]["passed"] for r in reports.values()):
-        raise SystemExit(1)
 
 
 @cli.group("retrieval")

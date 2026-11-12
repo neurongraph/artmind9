@@ -35,7 +35,7 @@ def select_evidence_spans(spans: list[dict]) -> list[dict]:
         if span.get("exit_code") != 0 or not (span.get("rows") or 0):
             continue
         command = str(span.get("command") or "")
-        if not command.startswith("query") or command in {"query domains-overview", "query plan"}:
+        if not command.startswith("query") or command == "query domains-overview":
             continue
         provenance = (span.get("evidence") or {}).get("provenance")
         if isinstance(provenance, dict) and (provenance.get("documents") or provenance.get("tables")):

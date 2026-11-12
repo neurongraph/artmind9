@@ -248,21 +248,6 @@ def _spy_recorder_start(monkeypatch):
     return calls
 
 
-def test_admin_chat_passes_the_users_own_text_as_the_shadow_question(tmp_path, monkeypatch):
-    calls = _spy_recorder_start(monkeypatch)
-    client, _ = _admin_client(tmp_path)
-    client.post("/api/chat", json={"conversation_id": "s1", "prompt": "Who?"})
-    assert calls[0]["shadow_question"] == "Who?"
-
-
-def test_benchmark_passes_the_raw_question_and_domain_hint_as_shadow(tmp_path, monkeypatch):
-    _benchmark_shadow_domains(tmp_path, monkeypatch, "dom", ["dom"])
-
-
-def test_benchmark_splits_a_free_text_domain_hint_for_the_shadow(tmp_path, monkeypatch):
-    _benchmark_shadow_domains(tmp_path, monkeypatch, "a, b", ["a", "b"])
-
-
 def _benchmark_shadow_domains(tmp_path, monkeypatch, hint, expected):
     from artmind import benchmark
     from artmind.webui import backends as backends_mod

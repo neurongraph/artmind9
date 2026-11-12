@@ -13,12 +13,10 @@ import json
 import logging
 import re
 import subprocess
-import threading
 import time
 from pathlib import Path
 from typing import Any
 
-from artmind.query_plan import shadow
 from artmind.traces import path as trace_path
 from artmind.traces import store
 
@@ -50,15 +48,11 @@ class TraceRecorder:
         self._answer: list[str] = []
         self._done: dict = {}
         self._first_error: str | None = None
-        self._shadow = None
-        self._late_shadow: threading.Thread | None = None
 
     @classmethod
     def start(cls, *, source: str, question: str, session_id: str | None = None, profile: str | None = None,
               backend: str | None = None, benchmark_run_id: str | None = None, benchmark_seq: int | None = None,
-              context_path: Path | None = None, shadow_question: str | None = None,
-              shadow_domains: list[str] | None = None, contract: str = "classic") -> "TraceRecorder":
-        """`shadow_question` (the user's own text) starts a shadow plan for the turn (spec 2026-10-22 §6)."""
+              context_path: Path | None = None, contract: str = "classic") -> "TraceRecorder":
         try:
             trace_id = store.new_trace_id()
             store.insert_turn(trace_id, source=source, question=question, session_id=session_id, profile=profile,
@@ -69,12 +63,6 @@ class TraceRecorder:
         except Exception:
             logger.exception("trace capture disabled for this turn")
             return cls(None, None)
-        if shadow_question:
-            try:
-                followup = bool(session_id) and store.count_session_turns(session_id) > 1
-            except Exception:
-                followup = False
-            recorder._shadow = shadow.start(shadow_question, shadow_domains, followup)
         return recorder
 
     # ── per event ────────────────────────────────────────────────────────
@@ -136,23 +124,6 @@ class TraceRecorder:
             if self._first_error is None and event.get("message"):
                 self._first_error = str(event["message"])
 
-    def _record_shadow_late(self, seq: int) -> None:
-        """A shadow plan still running at the end of the turn is written when it finishes (or
-        times out), so the turn does not wait for it. `seq` is reserved now: no event follows."""
-        shadow_plan, trace_id = self._shadow, self.trace_id
-
-        def run() -> None:
-            try:
-                result = shadow_plan.result(timeout=shadow.LATE_WAIT_S)
-                store.insert_events(trace_id, [{"seq": seq, "ts": time.time(), "type": "plan_shadow",
-                                                "tool_id": None, "parent_tool_id": None, "name": "query plan",
-                                                "payload": store.cap(result)}])
-            except Exception:
-                logger.exception("late shadow plan not recorded")
-
-        self._late_shadow = threading.Thread(target=run, name="plan-shadow-late", daemon=True)
-        self._late_shadow.start()
-
     # ── end of turn ──────────────────────────────────────────────────────
     def finish(self, error: str | None = None) -> None:
         if not self.enabled:
@@ -160,15 +131,6 @@ class TraceRecorder:
         try:
             self._flush("thinking")
             self._flush("text")
-            if self._shadow is not None:
-                try:
-                    result = self._shadow.result()
-                    if result.get("status") == "timeout" and getattr(self._shadow, "running", False):
-                        self._record_shadow_late(seq=len(self._events))
-                    else:
-                        self._add("plan_shadow", result, name="query plan")
-                except Exception:
-                    logger.exception("shadow plan not recorded")
             store.insert_events(self.trace_id, self._events)
             spans = store.list_spans(self.trace_id)
             pairs = match_tool_ids(spans, self._tools)

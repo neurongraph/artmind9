@@ -91,7 +91,6 @@ def test_agent_command_scope():
     assert agent_command("artmind query survey")
     assert agent_command("artmind query graph pattern8")
     assert agent_command("artmind db sql")
-    assert not agent_command("artmind query plan")  # frozen planner
     assert not agent_command("artmind db bridge confirm")
     assert not agent_command("artmind ingest sync")
 

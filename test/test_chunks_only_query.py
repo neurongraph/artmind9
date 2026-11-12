@@ -5,7 +5,6 @@ import pytest
 
 import artmind.schema_validate as sv
 from artmind import graph_query
-from artmind.query_plan import planner
 from artmind.staging_audit import empty_extractions
 
 
@@ -46,13 +45,3 @@ def test_overview_reports_the_flag_and_a_chunks_store(monkeypatch, flagged):
     assert by_domain["notes"]["stores"] == ["chunks"]
     assert "graph_extraction" not in by_domain["journal"]
     assert by_domain["journal"]["stores"] == ["graph"]
-
-
-def test_chunks_only_scope_helper():
-    rows = [{"domain": "notes", "graph_extraction": False},
-            {"domain": "notes.sub", "graph_extraction": False},
-            {"domain": "journal"}]
-    assert planner._chunks_only(["notes"], rows) is True
-    assert planner._chunks_only(["notes", "journal"], rows) is False
-    assert planner._chunks_only(["unknown"], rows) is False
-    assert planner._chunks_only([], rows) is False

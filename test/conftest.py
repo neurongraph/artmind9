@@ -393,17 +393,6 @@ def _fake_docling(body_by_call):
 
 
 @pytest.fixture(autouse=True)
-def _no_plan_catalogue(monkeypatch):
-    """`query plan` reads no domain catalogue unless a test supplies one (patch
-    ``planner._get_catalogue``); the catalogue module's own tests call ``catalogue.get`` directly."""
-    try:
-        from artmind.query_plan import planner
-    except ImportError:
-        return
-    monkeypatch.setattr(planner, "_get_catalogue", lambda cover: ({}, {}))
-
-
-@pytest.fixture(autouse=True)
 def _no_background_catalogue_health():
     """A test that starts a server lifespan enables the catalogue's background health
     refresh; it must not stay on for the next test (a stray thread would read its fakes)."""

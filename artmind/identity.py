@@ -1,7 +1,6 @@
 """Identity rules for `query entity-resolve`: first person -> narrator, same-name twins.
 
-Reimplements, in classic code, the rules the planner applies (first-person words, name
-normalisation); nothing here imports `artmind.query_plan`.
+First-person words and name normalisation, first written for the planner (removed in 0.13).
 """
 import re
 

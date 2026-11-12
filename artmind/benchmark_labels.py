@@ -1,7 +1,7 @@
 """Benchmark labels: the expected documents of benchmark questions (spec 2026-11-08 §2.3).
 
 Read from <vault>/benchmarking/plan_labels.yaml. Only `id`, `question` and `expected_documents` are read; every
-other key (written by the frozen planner's tooling) is ignored, so this module never imports artmind.query_plan.
+other key (written by the planner's tooling, removed in 0.13) is ignored.
 Private: the file holds real questions and stays in the vault.
 """
 
