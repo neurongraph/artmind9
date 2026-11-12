@@ -3,6 +3,10 @@
 Status: **future enhancement**, scheduled after item E (P2b skill restructure) in the work plan of
 `2026-11-08-classic-baseline-and-skill-simplification-design.md`. Not built.
 
+**2026-11-12: retrospective dry run says do not build the hook as specified.** `artmind/turn_check.py` (five checks)
+over 744 stored graded turns found no check whose open items predict missed must items (study note 22, "E2
+retrospective dry run"; `scripts/turn_check_retro.py`).
+
 ## 1. Why
 
 Run M (study note 22) put a check-off list in the orient skill: before answering, the agent rewrote its `Parts:`

@@ -667,3 +667,29 @@ Median commands: banking 4 (N 4.5), brain01 6 and 5. Survey turns: banking 31/36
 missed); Q09 and Q22 lost 3 items each in this run. Cost $0.142 per turn in both vaults; time 56.5 s and 62.8 s per
 turn, 41 s once the turns that stalled on a slow network (over 150 s, four or five per run) are left out. The `guide`
 key is inert for the long skill: no reference was read.
+
+### E2 retrospective dry run (2026-11-12): do open items predict missed must items?
+
+`artmind/turn_check.py` (`open_items`, pure, five of the spec's six checks; `part_without_evidence` left out) run over
+every graded benchmark turn by `scripts/turn_check_retro.py`, no LLM: banking 396 turns (11 runs: the three
+baselines, M, N, R, four P2b), brain01 348 turns (14 runs: four baselines, L, M, N, R, four P2b). "Paired" compares,
+within one question, the runs where the item was open with the runs where it was not (mean must items missed, open
+minus clear); a positive number means open turns did worse.
+
+| Check | banking turns open | paired qs, diff (worse/better) | brain01 turns open | paired qs, diff (worse/better) |
+|---|---|---|---|---|
+| any item | 166 / 396 | raw 1.80 vs 1.73 | 137 / 348 | raw 1.61 vs 1.75 |
+| `next_unfollowed` | 152 | 36, −0.12 (14/17) | 63 | 23, −0.10 (9/11) |
+| `partial_relied_on` | 19 | 5, −0.09 (2/3) | 69 | 19, −0.10 (6/9) |
+| `mart_unchecked` | 0 | — | 25 | 9, −0.52 (3/5) |
+| `identity_open` | 0 | — | 8 | 2, +0.15 (1/1) |
+| `unread_part` | 0 | — | 1 | 1, +0.09 |
+
+By the command a `next` named: banking `document-history` (116 turns) −0.06, `orient` (95) +0.05, `survey` (26)
++0.09, `vector-text` (33) −0.26; brain01 `survey` (35) +0.19, `pattern7` (15) +0.34 (5/4), `pattern8` (8) −0.47.
+
+No check separates turns that miss items from turns that do not: every paired difference is within ±0.5 of an item
+and the worse/better splits are even. Unfollowed `next`, cut results and unchecked mart rows are common but not
+where the items are lost; banking's largest P2b loss (the replaced v2.0 policy, Q07–Q13) is not one of the checks.
+The Stop hook as specified would close items without moving scores, which is the failure §5 of the turn-check spec
+names. Not built.
