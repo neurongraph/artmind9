@@ -828,3 +828,29 @@ Brain01 guard run `50b2e802` (restarted console, same code): **41** missed (Q01â
 partial 20, must-not hits 3; `find` in 13 of 29 turns (14 calls), $0.136 per turn ($0.135 for X). R and X were 41
 each (24 / 17 and 27 / 14), and M and N ran 35â€“50. Inside the band: `find` neither helps nor hurts brain01, whose
 losses are breadth. Guard passes.
+
+### Where find's banking gain comes from (2026-11-12, no LLM)
+
+Per must item: miss rate in the four runs without `find` (R, X, A, B) against the two with it (F, F2), and a change
+of at least 0.5 counted. **20 items gained, 16 lost.** The item churn is large, and the net is the ~6 per run. The
+losses sit mostly in Q13 (4) and Q07 (3). Across 20+ earlier runs without `find`, these replaced-policy questions
+already swing from 0 to 5 missed: noise, not `find`.
+
+Each gained item, in each `find` run that got it (34 hits), was checked against the text of the turn's `find` rows
+and of its other spans. Fact items need all their facts; judgement items need 60 % of their content words.
+
+| The item's content was in | hits |
+|---|---|
+| `find` rows only | 4 (Q18, Q24) |
+| `find` rows and other spans | 11 |
+| other spans only | 8 |
+| no returned chunk text (judgement items, table rows) | 11 |
+
+32 of the 34 hits are in turns that called `find`. The gain is concentrated in Q21 and Q24 (4 items each), then Q01,
+Q02, Q05 (2 each).
+
+Reading: `find` alone delivered the text for about 2 hits per run. For about 5 more per run it returned text the turn
+also had elsewhere, with the part's terms marked (`matched`). That is consistent with the gain landing in "read, now
+used" rather than "never read", but it doesn't separate the two causes. The rest is the usual run-to-run churn.
+Two runs leave the size of the effect uncertain. Its direction is clear: both `find` runs are below all four runs
+without it.
