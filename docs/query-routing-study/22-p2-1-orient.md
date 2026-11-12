@@ -730,3 +730,33 @@ row shows one passage of it, so the second row is an upper bound; a common name 
 Reading: the extraction wave (G) would reach at most the last row. The larger losses are retrieval breadth (brain01:
 facts in entries the turn never opened) and depth on broad questions (banking Q16–Q18, Q24, Q25: documents reached,
 the passage with the item not shown or not used); both are item H's gaps.
+
+### Retrieval autopsy (2026-11-12, no answering LLM)
+
+The items of the previous section whose facts are in the corpus but in no chunk the turn returned (banking 81,
+brain01 118). For each: the chunks holding the facts the turn did not see (when those facts sit in different chunks,
+the rarest one is followed: banking 2 items, brain01 49), then the turn's own `survey` and `vector-text` searches
+re-run with the same question and domains but deeper (50 documents with up to 8 passages each; 50 chunks). Only the
+search queries were embedded again. Scratch script, counts and qids only.
+
+| Why the turn did not read it | banking | brain01 |
+|---|---|---|
+| document returned, the fact's passage ranks 2–3 in it | 22 (27 %) | 5 (4 %) |
+| document returned, the passage ranks deeper | 16 (20 %) | 0 |
+| document returned, the passage does not match the query | 25 (31 %) | 11 (9 %) |
+| document in a domain no search covered | 13 (16 %) | 0 |
+| ranked inside the deeper re-run, below the turn's cut | 0 | 32 (27 %) |
+| not in the deeper re-run at all | 2 (2 %) | 51 (43 %) |
+| no text search in the turn (graph or SQL only) | 3 (4 %) | 18 (15 %) |
+| facts in more than 30 chunks | 0 | 1 |
+
+Two different problems:
+
+- **Banking is depth inside a document.** 78 % of these items sit in a document the turn returned, where a brief
+  survey shows one passage per document. Ranking documents is not the problem (2 %); showing more of the right
+  documents is. 16 % are in sibling domains not searched (Q25, Q09).
+- **brain01 is breadth and wording.** 43 % are in no result even 50 deep: the entry holding the fact does not match
+  the words the agent searched with (a journal names a person or place where the question names a role or a kind).
+  27 % rank inside 50 but below the turn's cut, and 15 % come from turns that ran no text search (Q08 is most of
+  them). Caveat: 49 of the 118 follow the rarest fact, often a name, so "not in the re-run" can mean another
+  mention of that name.
