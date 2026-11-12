@@ -649,3 +649,21 @@ policy (Q07, Q08, Q09, Q13, about 8–10 items per run): survey leaves replaced 
 the old version with `pattern10 --includeHistory`. brain01's losses against its best run (35) are one item on many
 questions, inside the 35–50 band. The `guide` key stays on results, but without its `warnings` line, which would have
 named references the long skill does not have; `temporal` now needs a non-empty history result.
+
+### Long skill after the revert (2026-11-12): run R
+
+One run per vault on `artmind-query` (contract `classic`, the orient text N ran as `orient` before its promotion),
+with the `guide` key on results and no guide `warnings` line. Banking `26ce7d08`, brain01 `68e7bd52`. Must items
+missed:
+
+| Group (items) | M | N | R | P2b latest |
+|---|---|---|---|---|
+| banking (214) | 59, 65 | 59 | 59 | 67, 69 |
+| brain01 Q01–Q14 (101) | 23, 34 | 33 | 24 | 29, 32 |
+| brain01 Q15–Q29 (75) | 12, 14 | 17 | 17 | 17, 12 |
+
+Median commands: banking 4 (N 4.5), brain01 6 and 5. Survey turns: banking 31/36 (N 32/36), brain01 13/14 and
+10/15. Partial → `next`: banking 1/3, brain01 0/2 and 4/7. Banking's old-policy questions are back (Q07, Q13 0
+missed); Q09 and Q22 lost 3 items each in this run. Cost $0.142 per turn in both vaults; time 56.5 s and 62.8 s per
+turn, 41 s once the turns that stalled on a slow network (over 150 s, four or five per run) are left out. The `guide`
+key is inert for the long skill: no reference was read.
