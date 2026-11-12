@@ -823,3 +823,8 @@ Banking run F2 `51fd8723` (same code and console): **56** missed (22 / 34), corr
 read 12, in text the turn read 13, no checkable fact 19, in no chunk text 12. As with F, the unread count did not
 fall; the gain is spread over items the grader credits once the turn holds the part's passage. Brain01 guard run
 pending (needs the user's OK).
+
+Brain01 guard run `50b2e802` (restarted console, same code): **41** missed (Q01–14 26, Q15–29 15), correct 9 /
+partial 20, must-not hits 3; `find` in 13 of 29 turns (14 calls), $0.136 per turn ($0.135 for X). R and X were 41
+each (24 / 17 and 27 / 14), and M and N ran 35–50. Inside the band: `find` neither helps nor hurts brain01, whose
+losses are breadth. Guard passes.
