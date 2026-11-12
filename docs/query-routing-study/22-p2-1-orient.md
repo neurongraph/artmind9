@@ -760,3 +760,36 @@ Two different problems:
   27 % rank inside 50 but below the turn's cut, and 15 % come from turns that ran no text search (Q08 is most of
   them). Caveat: 49 of the 118 follow the rarest fact, often a name, so "not in the re-run" can mean another
   mention of that name.
+
+### Survey passage depth (2026-11-12): built, offline gate
+
+Spec `docs/superpowers/specs/2026-11-12-survey-passage-depth-design.md`, branch `dev/survey-passage-depth` (parked, unmerged).
+
+- `survey --expand` shows up to 5 matching passages per document. Before, it took `--passages`, default 1, and none
+  of 150 benchmark expands raised it.
+- Brief passage rows carry `more_passages`, the document's next matching passages (400 characters each,
+  `--morePassages`, default 3), given before the gist floor while the budget allows.
+- Trace provenance and `retrieval eval`'s `evidence_visible` count those chunks.
+
+Offline gate over 46 of the autopsy's banking items: visible 0 → 2 / 5 / 6 at 2 / 3 / 4 extras, median gist rows lost
+0 (max 9 / 12 / 17), largest payload 23,114 of 24,000. Default 3. Benchmark pending.
+
+### Banking runs A and B (2026-11-12): depth and budget
+
+Branch `dev/survey-passage-depth`, one banking classic run each on a freshly started console, graded against the
+usual baselines. A: the branch at the agents' default budget (24,000; Bash 40,000). B: the same code with
+`ARTMIND_OUTPUT_BUDGET=80000`, `BASH_MAX_OUTPUT_LENGTH=100000`.
+
+| Run | must items missed (Q01–14 / rest / all) | correct / partial / wrong | must-not hits | spans | surveys | `--expand` | spans over 24,000 |
+|---|---|---|---|---|---|---|---|
+| R `26ce7d08` (main, before) | 18 / 41 / 59 | 10 / 25 / 1 | 2 | 167 | 49 | 0 | — |
+| X `161007b2` (planner removed) | 23 / 39 / 62 | 8 / 28 / 0 | 2 | 178 | 45 | 0 | — |
+| A `33601895` | 23 / 40 / 63 | 8 / 28 / 0 | 4 | 165 | 50 | 3 | 15 (7 cut) |
+| B `49fab69d` | 20 / 39 / 59 | 11 / 25 / 0 | 1 | 161 | 55 | 2 | 32 (1 cut; 17 surveys) |
+
+All four fall within 59–63, inside the run-to-run band. The autopsy's main questions move both ways (Q18: R 5,
+A 3, B 6; Q14: 2, 0, 3). `more_passages` did not show up in the score, and the agent still rarely expands (3 and 2 of
+50–55 surveys). B shows the budget is not what binds: its surveys ran over 24,000 17 times and showed larger
+lists, the total text it read was about the same (2.41 M against 2.47 M characters shown), and misses did not move.
+Reading: more text in front of the agent does not turn into more must items. The loss is in which passages the agent
+selects and uses, not in how much the pipe carries.

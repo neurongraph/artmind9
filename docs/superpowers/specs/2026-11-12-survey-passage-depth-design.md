@@ -1,6 +1,6 @@
 # Survey passage depth: more than one passage per document
 
-Status: design, 2026-11-12. Work plan item H (retrieval gaps), banking first.
+Status: built and PARKED 2026-11-12 on branch `dev/survey-passage-depth` (8300163a, unmerged). Offline gate passed at `--morePassages 3`; banking run A (63 missed) and B (80k budget, 59) stayed inside the band (study note 22), so it is not merged. Superseded by the find-in-result design. Work plan item H (retrieval gaps), banking first.
 Evidence: study note `docs/query-routing-study/22-p2-1-orient.md`, "Retrieval autopsy".
 
 ## 0. Problem
@@ -37,7 +37,7 @@ An explicit `--passages N` still wins. Without `--expand`, `--passages` keeps it
 ### 1.2 Passage rows carry the document's next passages
 
 A brief survey passage row gains `more_passages`: the document's next matching passages, after `passage`, in fused
-order (`doc_units[doc_id][1:]`, one per chunk), up to `--morePassages` (0–4, default **2**). Each entry is
+order (`doc_units[doc_id][1:]`, one per chunk), up to `--morePassages` (0–4, default **3**, chosen by the §2 gate; designed as 2). Each entry is
 `{passage_id, chunk_id, text, relevance}`, with `text` cut to `brief.SECOND_PASSAGE_CHARS` (400) by
 `cut_keep`. The key is absent when the document has no further matching passage or the row did not get them.
 
@@ -52,7 +52,7 @@ A `Candidate` gains `more_chars`, the size difference between the row with and w
 upgrade is all or nothing per row: if a document's extras don't fit in the budget, it keeps the plain passage row.
 Tier 2 comes before the gist floor on purpose. At the agents' 24,000-character budget, a 50-document brief survey
 already fills about 23,000, so after the gist floor the extras would never fit. The cost is about 2,900 characters
-(3 rows × 2 × ~480), roughly four gist rows that become line rows. §2 measures that trade.
+(3 rows × 2 × ~480 at 2 extras), roughly four gist rows that become line rows. §2 measures that trade.
 
 `--morePassages 0` restores today's rows exactly. Full shape is unchanged: `--passages` already gives it N passages.
 
@@ -101,3 +101,19 @@ which this design does not address.
 - Neighbour chunks (the option set aside on 2026-11-12).
 - Query wording per part, and brain01 breadth (the next design).
 - `vector-text` rows.
+
+## 5. Offline gate result (2026-11-12)
+
+The 46 items of §0's runs whose turn ran a survey were re-run as brief surveys (`top_docs` 50,
+`ARTMIND_OUTPUT_BUDGET=24000`). Counted: items whose target chunk is shown as a passage.
+
+| `--morePassages` | items visible | gist rows lost per survey (median, max) | largest payload |
+|---|---|---|---|
+| 0 (today) | 0 | 0, 0 | 23,040 |
+| 2 | 2 | 0, 9 | 23,078 |
+| 3 | 5 | 0, 12 | 23,114 |
+| 4 | 6 | 0, 17 | 23,118 |
+
+At 2, fewer items became visible than the threshold of 5, so the default is 3. No payload went over the budget.
+The median survey loses no gist row because most surveys do not fill the budget; when one does, its extras push
+gists down to line rows (at most 12).
