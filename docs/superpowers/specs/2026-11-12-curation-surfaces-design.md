@@ -1,6 +1,9 @@
 # Curation surfaces: a Curate tab in the admin console, note commands in the plugin
 
-Status: design, written for review 2026-11-12. Plan and build in a separate session. Tracks issue #15
+Status: design, written for review 2026-11-12. Plan and build in a separate session: write the plan
+with the writing-plans skill to `docs/superpowers/plans/2026-11-12-curation-surfaces.md` in §6's
+order, build on its own branch, and check step 1 live on banking_corpus's admin console (dry-run
+previews only; no real approvals without the user's yes). Tracks issue #15
 (widened); closes #19 (a duplicate of #15's design). Builds on the archived Phase 8 design
 `docs/admin-ui-curation-workflow.md` (removed in 323790cb, its text kept in issue #19), whose
 blocker #12 is fixed and whose rebuild-per-approval cost is gone (`sameas approve` takes a batch: one
