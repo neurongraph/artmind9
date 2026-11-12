@@ -1,6 +1,6 @@
 # Bounded output: results the agent can read
 
-Date: 2026-11-05. Status: **design for review** (step 1 of `docs/query-routing-study/13-pickup-2026-11-05.md`).
+Date: 2026-11-05. Status: **built and merged** (P1b, merge 123de45f): `--shape brief|full`, `ARTMIND_OUTPUT_BUDGET`, result handles and `query page`. Brief survey handles are now also what `query find` reads (find-in-result spec). Step 1 of `docs/query-routing-study/13-pickup-2026-11-05.md`.
 Answers the user's decision R7-10 (`06-open-questions.md`): fix how results reach the agent,
 rather than shrinking survey. Inputs: round-7 lessons 2, 3, 5, 14, 37 and §2.1/§4
 (`docs/query-routing-study/12-round7-lessons.md`), and measurements on this machine

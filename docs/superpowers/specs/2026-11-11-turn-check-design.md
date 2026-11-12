@@ -1,7 +1,8 @@
 # Turn check: verify a turn's work from its trace before the agent answers (2026-11-11)
 
-Status: **future enhancement**, scheduled after item E (P2b skill restructure) in the work plan of
-`2026-11-08-classic-baseline-and-skill-simplification-design.md`. Not built.
+Status: **future enhancement, not built.** Item E (P2b) is finished and not promoted, so this would be measured on
+`artmind-query` (the orient text), not on `artmind-query-p2b`. Carried over from the work plan of
+`2026-11-08-classic-baseline-and-skill-simplification-design.md` §0.1.
 
 **2026-11-12: retrospective dry run says do not build the hook as specified.** `artmind/turn_check.py` (five checks)
 over 744 stored graded turns found no check whose open items predict missed must items (study note 22, "E2

@@ -2,8 +2,10 @@
 
 A standing dossier on how the `artmind-query` skill routes a question to CLI commands,
 why it misroutes, and how to restructure it (shorter skill, routing in one place,
-deterministic routing in the CLI). **Status: evidence gathering.** Nothing here is
-actioned yet; specs come once enough scenarios are covered.
+deterministic routing in the CLI). **Status: closed 2026-11-12.** The query skill (orient text), retrieval
+(`survey`, `find`, topic plans, the mart) and the planner removal are settled; what is still open is the
+carried-over list in `docs/superpowers/specs/2026-11-08-classic-baseline-and-skill-simplification-design.md`
+§0.1. Note 22 holds the last measurements.
 
 Opened 2026-10-19.
 
@@ -26,8 +28,11 @@ Opened 2026-10-19.
 | [13-pickup-2026-11-05.md](13-pickup-2026-11-05.md) | **Pick-up point (2026-11-05)** for a session on another machine: redesign state, next steps (bounded-output design, fixes-now branch, P2 spec, round 8), laptop setup and the gateway trap, where the private material is. |
 | [14-handover-2026-11-05.md](14-handover-2026-11-05.md) | **Handover (2026-11-05, evening).** P1b built and fixed from round 8, round 8 analysed, P2 spec checked against it; next is P2a. Mac setup, private material, how the build was run with sub-agents, and a restart prompt. |
 | [19-retrospective-2026-11-08.md](19-retrospective-2026-11-08.md) | **Retrospective (2026-11-08).** Classic vs bundle, what to keep or revert, why the planner and bundle were frozen (notes 15–18 stay on tag `archive/p3-bundle`). |
-| [20-classic-baseline.md](20-classic-baseline.md) | **Classic baseline (2026-11-09), the current reference.** Runs G (banking) and G1/G2 (brain01) graded against tiered expected answers with the 2026-11-08 classic runs; bands, shared misses, phase-2 targets, P2-0 miss counts. |
-| [21-handover-2026-11-09.md](21-handover-2026-11-09.md) | **Handover (2026-11-09), the current resume point.** P2-0 done; how to run P2-1 to P2-5 (plan, build, variant, benchmark, measure), what a different inference provider changes for the judge, P2-1 `orient` as the pressure point, standing decisions, restart prompt. |
+| [20-classic-baseline.md](20-classic-baseline.md) | **Classic baseline (2026-11-09).** Runs G (banking) and G1/G2 (brain01) graded against tiered expected answers with the 2026-11-08 classic runs; bands, shared misses, phase-2 targets, P2-0 miss counts. |
+| [21-handover-2026-11-09.md](21-handover-2026-11-09.md) | **Handover (2026-11-09).** P2-0 done; how to run P2-1 to P2-5 (plan, build, variant, benchmark, measure), what a different inference provider changes for the judge, P2-1 `orient` as the pressure point, standing decisions, restart prompt. |
+| [22-p2-1-orient.md](22-p2-1-orient.md) | **The measurements from P2-1 on (2026-11-09 → 11-12), the last reference.** Batch run I, the orient promotion (runs L, M, N), P2b, planner removal, the retrieval autopsy, passage depth (parked), `query find` (runs F, F2, brain01 guard, where the gain comes from), and the ACP run. |
+| [23-handover-2026-11-10.md](23-handover-2026-11-10.md) | Handover (2026-11-10): the defect-backlog pass, one question at a time. |
+| [24-topic-plans-summary-2026-11-10.md](24-topic-plans-summary-2026-11-10.md) | Topic plans for breadth: what was built, measured and left. |
 
 ## How a later session uses this
 

@@ -1,6 +1,6 @@
 # Topic plans for breadth: coverage, saved plans, faceted gather, freshness
 
-Date: 2026-11-10 (revised twice the same day after review: plan-only agents; plans shaped like views, no graph copy of pages). Status: **design for review**. Parent spec:
+Date: 2026-11-10 (revised twice the same day after review: plan-only agents; plans shaped like views, no graph copy of pages). Status: **built and measured 2026-11-10** (study note 24; the open items are listed there under "What is left"). Parent spec:
 `2026-11-08-classic-baseline-and-skill-simplification-design.md` (work plan §0.1 item D0). Builds on topic pages
 from `2026-11-01-summaries-survey-topics-design.md` §3. Public checkout: counts, ids and generic examples only;
 brain01 questions are named by id, never by content.

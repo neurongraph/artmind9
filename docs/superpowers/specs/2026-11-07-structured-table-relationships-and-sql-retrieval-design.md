@@ -1,7 +1,7 @@
 # Structured Table Relationships and Advanced SQL Retrieval: Architecture Analysis & Integration Plan
 
 **Date:** 2026-11-07  
-**Status:** Analysis & Planning Specification (No Code Modifications)  
+**Status:** §8 built — `text2sql` delegates to the external `sql-browser` command (`artmind/sql_browser.py`, `ARTMIND_TEXT2SQL_ENGINE`), with metadata from `db metadata init|regenerate|validate`. §3–§5's in-repo features are superseded by §8 and not planned.  
 **Target Systems:** `artmind` (structured store, `table2graph`, `text2sql`, `db` CLI) and `sql-browser` (`~/projects/sql-browser`)  
 **Artifact Path:** `docs/superpowers/specs/2026-11-07-structured-table-relationships-and-sql-retrieval-design.md`
 

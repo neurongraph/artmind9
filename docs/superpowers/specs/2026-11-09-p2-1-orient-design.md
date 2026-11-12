@@ -1,6 +1,6 @@
 # P2-1 `artmind query orient`: design
 
-Date: 2026-11-09. Status: **design agreed in brainstorming, written for review**. Parent spec:
+Date: 2026-11-09. Status: **built; promoted 2026-11-11** — the orient text is `artmind-query` (classic text archived at `docs/archive/artmind-query-classic/`); runs L, M, N passed every floor (study note 22). Parent spec:
 `2026-11-08-classic-baseline-and-skill-simplification-design.md` §4.2 (this document refines it; where they
 differ, this one wins for P2-1). Public checkout: counts and generic examples only.
 

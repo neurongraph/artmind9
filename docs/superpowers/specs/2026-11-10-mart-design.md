@@ -1,6 +1,6 @@
 # The mart: facts, dimensions and wholes over the corpus
 
-Date: 2026-11-10. Status: **approved 2026-11-10** (storage details corrected to the structured store's real layout). Parent spec:
+Date: 2026-11-10. Status: **built 2026-11-10/11**; brain01's mart is built and used by text2sql (lower-bound warning, study note 22), banking's is declared only. Parent spec:
 `2026-11-08-classic-baseline-and-skill-simplification-design.md` (work plan §0.1; this replaces item D's
 "composites (episode)" framing). Related: `2026-11-10-topic-breadth-design.md` (topic plans, breadth over text);
 `2026-11-07-structured-table-relationships-and-sql-retrieval-design.md` (on `master` / `sql-browser-enhancement`:

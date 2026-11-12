@@ -1,6 +1,6 @@
 # Planner v2: intents, slots, plan programs and the `query run` executor
 
-Date: 2026-11-05. Status: **spec for review**, phase P2 of
+Date: 2026-11-05. Status: **frozen 2026-11-08, code removed 2026-11-12** (dd2bdae4; kept at tags `archive/p3-bundle`, `archive/master-pre-0.12`). Superseded by the classic-baseline direction (`2026-11-08-classic-baseline-and-skill-simplification-design.md`). Historical. Was phase P2 of
 `2026-11-02-retrieval-curation-architecture-design.md` (§5.3–5.5, revised from round 7), with
 the executor (P3's `query run`) specified here too so the plan format and its consumer are
 designed together. P2 ships the planner in shadow; P3 switches the executor on. Inputs: round-7

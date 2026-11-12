@@ -1,7 +1,7 @@
 # Classic baseline and skill simplification
 
-Date: 2026-11-08. Status: **design approved in brainstorming, written for review**. Branch
-`baseline/v0.11-classic`, cut from `v0.11.0`.
+Date: 2026-11-08. Status: **closed 2026-11-12** — query skill (orient text), retrieval (`survey`, `find`, topic plans, the mart) and the planner removal are settled; what is still open is listed in §0.1 as carried-over items, not as this spec's work. Built on
+`baseline/v0.11-classic` (cut from `v0.11.0`), since merged to master.
 
 Inputs: study note 19 (`docs/query-routing-study/19-retrospective-2026-11-08.md`, carried onto this branch), the
 original study objective (note 03 §A–§D, note 08), and the frozen P3 work on `claude/p3-design-a9f633` (to be
@@ -39,38 +39,37 @@ Order of work:
 
 Every step is sequential and measured against the classic band (§3) before the next starts.
 
-### 0.1 Work plan as of 2026-11-10 (revised; supersedes the order above where they differ)
+### 0.1 Work plan — closed 2026-11-12
 
-**Done:** phases 0–1; P2-0; P2-1 `orient`; the P2 batch (P2-2 hints, P2-2b superseded history incl. the
-supersession-direction fix, P2-3 identity, P2-4 complete counts, P2-4b `survey --by`, P2-5 hubs), measured as
-batch run I (study note 22: floors met in both vaults; brain01 above every baseline). Since run I, fixes made
-while working the defect backlog (study note 23): alias-aware resolution, `pattern8 --shape brief` and
-`--via mentions`, signposts ordered result-first, one general "read every result" skill rule, `survey --by`
-partial periods + `--from/--to`, grader robustness; data: banking supersession repaired, brain01 curation
-completed (separate session).
+The query skill, extraction and retrieval work this spec started is settled; active work moves to curation
+(`2026-11-12-curation-surfaces-design.md`). Final state of each item:
 
-**How work proceeds now (user decision 2026-11-10):** work the defect backlog one question at a time —
-diagnose to the failing stage, fix at the right layer (tier, data/curation, tool, or skill; prefer tool over
-skill), rerun that question alone, record it in the vault's backlog. When a fix needs an enhancement that is on
-this plan, build it then (in plan order where possible) instead of a one-off. After the backlog, finish the
-remaining planned enhancements, then benchmark.
-
-**Remaining, in order:**
-
-| # | Item | Notes |
+| # | Item | Final state |
 |---|---|---|
-| A | Defect backlog (run I) | banking 28 open, brain01 18 open + Q04 investigating; Q14, Q28 fixed. Vault files `benchmarking/defect_backlog_runI.md` |
-| B | Benchmark run J (both vaults) | after the backlog pass or a natural break; judged with Sonnet against the same baselines and floors (note 22) |
-| C | Promote the orient variant | **done 2026-11-11** after runs L, M, N passed every floor: the orient text is `artmind-query`; classic archived at `docs/archive/artmind-query-classic/`; benchmark prompt and opencode persona say orient. Contract `classic` now means the orient text; another contract needs its own `artmind-query-<name>` skill |
-| D0 | Topic plans for breadth | spec `2026-11-10-topic-breadth-design.md`: the granularity ladder; `survey` `coverage`; saved topic plans (agents run the plan live, never see the page); faceted gather (subject × period/domain from orient's shape); freshness check + incremental refresh on a schedule; benchmark flag at grading time. Evidence: brain01 Q08, banking Q15 |
-| D | The mart (replaces "composites (episode)") | spec `2026-11-10-mart-design.md`: facts (happening and mention grain), conformed dimensions (time, person, place, type) enriched by rules then LLM into curation records, wholes (trip, life event) by rule, built into the structured store and queried by SQL / text2sql with evidence columns; brain01 built, banking declared. Interface with the structured-table text2sql spec (2026-11-07) via generated metadata |
-| E | P2b skill restructure — §4.5 | spec `2026-11-11-skill-progressive-disclosure-design.md`: SKILL.md to ~170 lines, references opened by a routing-table column or a `guide` key on the result, `commands.md` generated from the Click tree via `cli_guide`; measured alone as contract `p2b`. **Not promoted 2026-11-12** (banking score below band, brain01 Q01–Q14 commands 6; note 22); `artmind-query-p2b` kept as a variant |
-| E2 | Turn check | spec `2026-11-11-turn-check-design.md`: `artmind query check` verifies the turn from its trace spans (unfollowed `next`, partial results relied on, unchecked mart counts, unread parts, open identity), enforced by a `Stop` hook on the Claude SDK backend (one block per turn). Replaces the skill check-off list tried and reverted in run M (note 22); after E so it is measured on the restructured skill |
-| F | Phase 3 planner removal — §5 | **done 2026-11-12** on `dev/planner-removal`: `artmind/query_plan/`, `query plan`, the `plan` group, shadow plans and the decision warm-up removed; stored traces still render; code kept at `archive/p3-bundle` and `archive/master-pre-0.12` |
-| G | Phase 4 extraction wave — §6 | now with concrete inputs: relationship-type inference not stated in text (brain01 "colleague"), missing person-to-person treatment links (eye doctor/dentist), entity fragmentation, date property projection; plus the answerability audit |
-| H | Known gaps to schedule | `vector-text --asOf` cannot narrow (passages/chunks carry no date; write document dates at commit); "depth for broad multi-document questions" (§4.3a, banking Q15/Q18/Q25); gate noise allowance for the lost-must / worse-than-all rows (they fail every baseline run) |
-| I | Phase 5 DSL note — §7 | unchanged |
+| — | Phases 0–1, P2-0, P2-1 `orient`, the P2 batch | done; batch run I (study note 22), then the backlog fixes listed in note 23 |
+| A | Defect backlog (run I) | worked per question until 2026-11-11 (brain01 Q14, Q28 fixed and others since); not continued as a pass. Each vault's `benchmarking/defect_backlog_runI.md` stays as a record |
+| B | Benchmark run J | not run as such: superseded by runs L, M, N (orient promotion), the P2b runs, F/F2 (find) and the ACP run (note 22) |
+| C | Promote the orient variant | **done 2026-11-11**: the orient text is `artmind-query`; classic archived at `docs/archive/artmind-query-classic/` |
+| D0 | Topic plans for breadth | **done** (spec `2026-11-10-topic-breadth-design.md`, note 24) |
+| D | The mart | **done**: brain01 built, banking declared (spec `2026-11-10-mart-design.md`) |
+| E | P2b skill restructure | **measured, not promoted 2026-11-12**; `artmind-query-p2b` kept as a variant |
+| F | Planner removal | **done 2026-11-12** (dd2bdae4) |
+| H | Retrieval gaps | `query find` **merged 2026-11-12** (banking F/F2 54/56 against 59–63); survey passage depth **parked** on `dev/survey-passage-depth` |
 
+**Carried over, not scheduled** (pick up from here, each on its own):
+
+- **E2 turn check** (spec `2026-11-11-turn-check-design.md`): not built; would now be measured on `artmind-query`.
+- **G extraction wave** (§6): relationship types the text implies but does not state, missing person-to-person
+  links, entity fragmentation, date property projection, the answerability audit. Not started.
+- **H remainder**: `vector-text --asOf` cannot narrow (passages carry no date); depth for broad multi-document
+  questions; a gate noise allowance for the rows that fail every baseline run.
+- **I DSL note** (§7): not written.
+- **Topic plans** (note 24, "What is left"): the offer rule does not fire; keyword counts undercount cell depth;
+  long split pages; dead code `topics/anchor.py` and the old `gather.gather`; a synthetic test day left in brain01.
+- **Agent search persistence**: the ACP run (deepseek flash) ran ~13 commands per turn against Claude's ~5 and
+  missed 44 against 54–56 (note 22). Unexplored; one run, no ACP baseline without `find`.
+- **Branches kept**: `dev/survey-passage-depth` (parked), `dev/artmind-code-refactor-skill` (on hold; its
+  hotspot report and ratchet baseline need regenerating).
 
 ## 1. Goals and non-goals
 
