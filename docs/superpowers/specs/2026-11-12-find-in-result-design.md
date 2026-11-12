@@ -1,6 +1,6 @@
 # Find in a survey's documents
 
-Status: built 2026-11-12 on branch `dev/query-find`; offline gate 9 items (§7); benchmark pending. Work plan item H (retrieval gaps). Follows the parked passage-depth design
+Status: merged 2026-11-12 (master 7c5fbe14). Offline gate 9 items (§7); banking runs F and F2 missed 54 and 56 (59–63 without find), brain01 guard 41 (same as R and X); study note 22. Work plan item H (retrieval gaps). Follows the parked passage-depth design
 (`2026-11-12-survey-passage-depth-design.md`); evidence in study note 22 ("Retrieval autopsy", "Banking runs A and B").
 
 ## 0. Problem
