@@ -1,6 +1,9 @@
 # P2b: artmind-query with references on demand (2026-11-11)
 
-Status: **designed, not built.** Work plan item E of
+Status: **built, measured, not promoted (2026-11-12).** `artmind-query` keeps the orient text; `artmind-query-p2b`
+stays as an unpromoted variant (contract `p2b`) with its `commands.md`. The `guide` key stays on results with no
+`warnings` line (the live skill lacks most references); `temporal` fires only on non-empty history results. Gate
+results: study note 22, "P2b full gate, second time". Work plan item E of
 `2026-11-08-classic-baseline-and-skill-simplification-design.md` (§4.5). Before E2 (turn check).
 
 ## 1. Why

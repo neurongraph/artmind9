@@ -642,3 +642,10 @@ route is in `temporal.md`, which the narrowed `temporal` guide no longer names w
 Q07, Q22 and Q24 also lost 1–3 items in both runs.
 
 Not promoted.
+
+Decision (2026-11-12): revert to the long skill. `artmind-query` (the orient text) was never edited, so nothing moves;
+`artmind-query-p2b` and its `commands.md` stay as a variant. Most of banking's dip is the replaced v2.0 complaints
+policy (Q07, Q08, Q09, Q13, about 8–10 items per run): survey leaves replaced documents out and the runs did not read
+the old version with `pattern10 --includeHistory`. brain01's losses against its best run (35) are one item on many
+questions, inside the 35–50 band. The `guide` key stays on results, but without its `warnings` line, which would have
+named references the long skill does not have; `temporal` now needs a non-empty history result.

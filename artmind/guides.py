@@ -46,7 +46,7 @@ _HISTORY_COMMANDS = ("query document-history", "query entity-history")
 
 
 def _temporal(command: str, payload: dict) -> bool:
-    return command in _HISTORY_COMMANDS
+    return command in _HISTORY_COMMANDS and bool(_rows(command, payload))
 
 
 def _composites(command: str, payload: dict) -> bool:
@@ -85,30 +85,15 @@ def guides_for(command: str | None, payload: Any) -> list[str]:
         return []
 
 
-#: Why each reference matters, said on the result itself (run P2b: a bare key was read 5 times in 237).
-WHY: dict[str, str] = {
-    "hubs": "this entity is a hub and the result is cut",
-    "resolve": "the name matched twins or nothing",
-    "temporal": "this result is a version history",
-    "composites": "these rows come from the mart and are a lower bound",
-    "conflicts": "these are conflicting claims",
-    "graph-model": "this result comes from the graph model",
-    "survey": "this is a survey result",
-}
-assert tuple(WHY) == GUIDES
-
-
-def guide_warning(key: str) -> str:
-    return f"guide: read references/{key}.md of your query skill before your next command: {WHY[key]}"
-
-
 def with_guide(command: str | None, payload: Any) -> Any:
-    """`payload` with `guide` and one `warnings` line per key added when a key applies; a set `guide` is kept."""
+    """`payload` with `guide` added when a key applies; a set `guide` is kept.
+
+    No `warnings` line: the live artmind-query skill has only some of these references, so a line naming
+    `references/<key>.md` would point its agent at a file that is not there (P2b gate, 2026-11-12).
+    """
     if not isinstance(payload, dict) or "guide" in payload:
         return payload
     keys = guides_for(command, payload)
     if not keys:
         return payload
-    warnings = payload.get("warnings")
-    warnings = list(warnings) if isinstance(warnings, list) else ([warnings] if warnings else [])
-    return {**payload, "guide": keys, "warnings": [*warnings, *(guide_warning(k) for k in keys)]}
+    return {**payload, "guide": keys}

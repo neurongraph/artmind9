@@ -110,7 +110,7 @@ evidence, after every call:
 `next` is a fact about this result, never a guess about your question: it is safe to follow
 and safe to skip when the question does not need what it offers.
 
-**`guide` is an instruction.** A result with `guide: ["hubs"]` (and a `guide:` line in `warnings`) means:
+**`guide` is an instruction.** A result with `guide: ["hubs"]` means:
 open `references/hubs.md` in this skill's folder with the Read tool now, before your next command, then
 continue. Once per file per turn; never answer before reading a file a `guide` named this turn.
 
