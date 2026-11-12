@@ -271,3 +271,11 @@ def test_guide_and_first_next_are_kept():
     assert ev["guide"] == ["survey"]
     assert ev["next"] == "artmind query page h1 --from 10"
     assert "guide" not in evidence.summarize({"rows": []})["evidence"]
+
+
+def test_find_rows_give_provenance():
+    payload = {"query_type": "find", "handle": "abcdefabcdef", "part": "p", "rows": [
+        {"rank": 1, "passage_id": "d1_007_p01", "chunk_id": "d1_007", "text": "t", "relevance": 0.5,
+         "matched": ["x"], "doc": {"id": "d1", "title": "Contract One", "domain": "banking"}}]}
+    (doc,) = summarize(payload)["evidence"]["provenance"]["documents"]
+    assert doc["doc_id"] == "d1" and [c["chunk_id"] for c in doc["chunks"]] == ["d1_007"]

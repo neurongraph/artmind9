@@ -793,3 +793,11 @@ A 3, B 6; Q14: 2, 0, 3). `more_passages` did not show up in the score, and the a
 lists, the total text it read was about the same (2.41 M against 2.47 M characters shown), and misses did not move.
 Reading: more text in front of the agent does not turn into more must items. The loss is in which passages the agent
 selects and uses, not in how much the pipe carries.
+
+### Find in a survey's documents (2026-11-12): built, offline gate
+
+Spec `docs/superpowers/specs/2026-11-12-find-in-result-design.md`, branch `dev/query-find`. `artmind query find
+<handle> "<part>"` ranks every passage of a brief survey's documents for one part (vector 2 : keyword 1, exact facts
+first); every brief survey now carries a `handle`; the skill asks for one `find` per part after a survey.
+Offline over 46 banking items: 32 sit in a survey document; `find` with the turns' own search wording reaches 9
+(today 0, `more_passages` 5), with the item's own text 31. Benchmark pending.

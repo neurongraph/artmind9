@@ -545,6 +545,20 @@ Documents for a question that spans documents: document summaries, chunk summari
 | `--to` | TEXT |  | YYYY-MM-DD: only documents dated on or before this |
 | `--compact` | FLAG |  | Emit compact JSON |
 
+## artmind query find
+
+One part of the question, searched in every passage of a survey's documents.
+
+`artmind query find HANDLE PART [OPTIONS]`
+
+| Flag | Type | Default | Help |
+|---|---|---|---|
+| `HANDLE` (required) | TEXT |  |  |
+| `PART` (required) | TEXT |  |  |
+| `--top` | INTRANGE | `8` | Passages returned |
+| `--perDoc` | INTRANGE | `3` | At most this many passages from one document |
+| `--compact` | FLAG |  | Emit compact JSON |
+
 ## artmind query page
 
 Show more rows of a result that ARTMIND_OUTPUT_BUDGET cut (its `handle` and `next` say how).

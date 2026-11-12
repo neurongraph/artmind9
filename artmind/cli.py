@@ -444,6 +444,7 @@ click.rich_click.COMMAND_GROUPS = {
                 "assets",
                 "vector-text",
                 "survey",
+                "find",
                 "page",
                 "entity-resolve",
                 "chunks",
@@ -3845,6 +3846,35 @@ def query_page(start: int, count: int | None, compact: bool, handle: str) -> Non
     _echo_json(page, compact)
 
 
+@query.command("find")
+@click.option("--top", type=click.IntRange(1, 20), default=8, show_default=True, help="Passages returned")
+@click.option("--perDoc", "per_doc", type=click.IntRange(1, 5), default=3, show_default=True,
+              help="At most this many passages from one document")
+@compact_option
+@click.argument("handle")
+@click.argument("part")
+def query_find(top: int, per_doc: int, compact: bool, handle: str, part: str) -> None:
+    """One part of the question, searched in every passage of a survey's documents.
+
+    HANDLE is the `handle` of a `query survey --shape brief` result (kept 24 hours); PART is
+    one part of the question in the corpus's words (a code, an amount, a role, a deadline).
+    Every passage of the survey's listed documents is ranked for the part (meaning and exact
+    words; a passage holding the part's code or figure first), whether or not it matched the
+    survey's question. Read-only, no LLM. Rows are passages with `matched` terms and `doc`.
+    """
+    from artmind import find, result_store
+
+    try:
+        stored = result_store.load(LOGS_DIR / "results", handle)
+    except result_store.BudgetError as exc:
+        raise click.ClickException(str(exc)) from exc
+    try:
+        result = find.find(stored, handle, part, top=top, per_doc=per_doc)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
 @query.command("survey")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--topDocs", "top_docs", type=click.IntRange(1, 50), default=None, show_default=False,
@@ -3904,7 +3934,24 @@ def query_survey(domain: tuple, top_docs: int | None, passages: int, shape: str,
                                      result.get("next"))
     result["next"] = hints.join_next(result.get("next"), hints.survey_plan_next(result, _plans_in_scope(domains),
                                                                                question))
+    if shape == "brief" and not expand and result.get("documents"):
+        _store_survey_handle(result)
     _echo_json(result, compact)
+
+
+def _store_survey_handle(result: dict) -> None:
+    """A brief survey's whole payload under a handle, for `query find` (spec 2026-11-12 find §2).
+
+    Stored whether or not `_echo_json` later cuts it; a cut stores its own copy too. A store
+    failure leaves the survey as it was, with a warning."""
+    from artmind import result_store
+
+    try:
+        result["handle"] = result_store.store(
+            LOGS_DIR / "results", {**result, "command": "query survey"},
+            lambda p: json.dumps(p, ensure_ascii=False, default=str, separators=(",", ":")))
+    except OSError as exc:
+        result["warnings"] = [*(result.get("warnings") or []), f"no handle for query find: {exc}"]
 
 
 def _plans_in_scope(domains) -> list:

@@ -41,3 +41,34 @@ def test_passages_accepts_up_to_eight():
 
     opt = next(p for p in cli.commands["query"].commands["survey"].params if p.name == "passages")
     assert opt.type.max == 8
+
+
+def _brief_payload():
+    return {"query_type": "survey", "question": "q", "domains": ["notes"], "warnings": [],
+            "documents": [{"doc_id": "A"}, {"doc_id": "B"}]}
+
+
+def test_brief_survey_stores_its_payload_under_a_handle(monkeypatch, tmp_path):
+    """Spec 2026-11-12 find §2: every brief survey carries a handle `query find` can read."""
+    from artmind import cli as cli_mod, result_store
+
+    monkeypatch.setattr(cli_mod, "LOGS_DIR", tmp_path)
+    monkeypatch.delenv("ARTMIND_OUTPUT_BUDGET", raising=False)
+    with patch("artmind.survey.survey_search", return_value=_brief_payload()):
+        result = CliRunner().invoke(cli, ["query", "survey", "--domain", "notes", "--shape", "brief", "--compact", "q"])
+    assert result.exit_code == 0, result.output
+    out = json.loads(result.output)
+    stored = result_store.load(tmp_path / "results", out["handle"])
+    assert stored["command"] == "query survey" and [d["doc_id"] for d in stored["documents"]] == ["A", "B"]
+
+
+def test_full_and_expand_surveys_carry_no_handle(monkeypatch, tmp_path):
+    from artmind import cli as cli_mod
+
+    monkeypatch.setattr(cli_mod, "LOGS_DIR", tmp_path)
+    monkeypatch.delenv("ARTMIND_OUTPUT_BUDGET", raising=False)
+    for extra in (["--shape", "full"], ["--shape", "brief", "--expand", "A"]):
+        with patch("artmind.survey.survey_search", return_value=_brief_payload()):
+            result = CliRunner().invoke(cli, ["query", "survey", "--domain", "notes", *extra, "--compact", "q"])
+        assert result.exit_code == 0, result.output
+        assert "handle" not in json.loads(result.output)

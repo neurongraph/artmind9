@@ -1,6 +1,6 @@
 # Find in a survey's documents
 
-Status: design, 2026-11-12. Work plan item H (retrieval gaps). Follows the parked passage-depth design
+Status: built 2026-11-12 on branch `dev/query-find`; offline gate 9 items (§7); benchmark pending. Work plan item H (retrieval gaps). Follows the parked passage-depth design
 (`2026-11-12-survey-passage-depth-design.md`); evidence in study note 22 ("Retrieval autopsy", "Banking runs A and B").
 
 ## 0. Problem
@@ -117,3 +117,19 @@ times per turn. A low use rate is itself the result.
 - Documents the survey did not return (outside domains, below the top 50), and brain01's breadth losses.
 - Items read but not used (30 % of banking's misses).
 - The parked `more_passages` branch, which is not reused.
+
+## 7. Offline gate result (2026-11-12)
+
+Over the 46 banking items of §0 whose turn ran a survey, each turn's surveys were re-run (brief, 50 documents) and
+`find` was run over each of them with the wording of every `survey` / `vector-text` call the turn made:
+
+| | items |
+|---|---|
+| target document not among the re-run survey's documents | 14 |
+| target document among them | 32 |
+| found by `find` with the turn's own search wording | **9** |
+| found by `find` with the missed item's own text as the part (upper bound) | 31 |
+
+That is 9 against 0 today and 5 for the parked `more_passages`. With part wording that names the fact, nearly every
+item in scope is found, so the ceiling is the agent's part wording, which the skill text now asks for. A live call
+on banking took 1.1 s over 1,377 passages.

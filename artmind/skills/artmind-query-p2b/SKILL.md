@@ -15,6 +15,8 @@ Use this skill to answer user questions over an artmind domain through the deter
    its domains and first command. A one-part question gets one line. See "Plan the parts".
 3. **One loop per part** — each part gets its own searches, with only that part's terms in the
    query text. Never put two parts, or a guessed answer, into one `survey` or `vector-text` call.
+   Once a brief `survey` has found the documents, look for each part inside them first:
+   `artmind query find <handle> "<the part's terms>"` (the survey's `handle`; see "Find").
 4. **Answer part by part** — every part from its own evidence; say which part has none.
 
 ## Orient — read the corpus first

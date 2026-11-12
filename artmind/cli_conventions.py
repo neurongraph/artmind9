@@ -41,6 +41,7 @@ EXIT_STORE = 3
 #: documents / results / rows present in its payload.
 LIST_KEY: dict[str, str] = {
     "query survey": "documents",
+    "query find": "rows",
     "query topics run": "rows",
     "query vector-text": "rows",
     "query entity-resolve": "rows",

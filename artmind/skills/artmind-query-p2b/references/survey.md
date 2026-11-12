@@ -22,7 +22,15 @@ survey lists every document: full passages for the strongest matches, a question
 `gist` for the next ones, and one line for the rest. `gist_source: passage` is evidence;
 a summary gist is only a guide. Open a document with `artmind query survey --domain <d>
 --shape brief --expand <doc_id> "<question>"` or `artmind query chunks --shape brief
---idList <chunk_id>`. A `truncated: true` result's `next` is `artmind query page <handle> --from N` (no `--domain`).
+--idList <chunk_id>`.
+
+**Find.** A brief survey shows one passage for a few documents, but the fact a part needs is
+often in another passage of a document it listed (a gist or line row, or a section the
+question's words did not reach). Its `handle` lets you search every passage of the listed
+documents for one part: `artmind query find <handle> "<part>" --compact`. Use the part's own
+terms (a code, an amount, a role, a deadline), not the whole question. Rows are passages with
+the `matched` terms and their `doc`; a `find` row is evidence, cited like a passage. Run a new
+survey only when `find` warns that nothing contains the part's words. A `truncated: true` result's `next` is `artmind query page <handle> --from N` (no `--domain`).
 
 | The question asks for | Command |
 |---|---|
