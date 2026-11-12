@@ -18,7 +18,8 @@ from paths import ARTMIND_HOME
 # (same_as.yaml) and reversible by removing the group and rebuilding — there
 # is no destructive graph surgery left in that skill's workflow, unlike its
 # predecessor artmind-refine (whose merges deleted alias nodes with no
-# un-merge).
+# un-merge). Its heaviest act, `docs archive`, deletes the vault file but keeps
+# a bundle that `docs restore-from-archive` replays, and the skill confirms it first.
 _DESTRUCTIVE_CONCEPTS = {
     "artmind-update": True,   # retracts prior facts (no CLI un-retract)
     "snapshot": True,         # restore/import wipes Neo4j

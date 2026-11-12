@@ -1,452 +1,70 @@
 ---
 name: artmind-curate
-description: Curation for artmind domains across both stores — same-as identity review (merging duplicate entities, linking cross-domain/cross-class identity), conflict adjudication, description synthesis, and review of the structured store's machine-proposed table classifications (grain, bridge columns, column→entity_class mappings). Use for "curate domain X", "clean up duplicates", "find conflicts between domain A and B", "review the same-as queue", "review/confirm the proposed mappings", or "are these table classifications right".
+description: Curation for artmind domains after ingestion — same-as identity review (merging duplicate entities, linking cross-domain identity), conflict adjudication, document supersession and retirement, graph-health findings from insights, description synthesis, the structured store's table classifications (grain, bridge columns, column→entity_class mappings), and mart dimension review. Use for "curate domain X", "clean up duplicates", "review the same-as queue", "find conflicts between A and B", "this document replaces that one", "retire/archive a document", "what did insights flag for curation", "review the proposed mappings", or "review the mart".
 ---
 
 # artmind Curate
 
-Use this skill for everything that maintains artmind's knowledge after
-ingestion — the graph (Workflows A–C) and the structured store's table
-classifications (Workflow D). Two proposers feed one review queue; you supply
-the judgment at the review gates.
-
-**Same-as groups are declarative and reversible.** A group in `same_as.yaml`
-is a human's bounded assertion that these aggregate keys denote one thing;
-removing it and rebuilding un-merges just as cleanly as adding it merged.
-There is no destructive graph surgery anywhere in this workflow — review
-generously, and don't hesitate to approve a group you're only fairly
-confident about, since walking it back later costs one edit and one rebuild.
-Structured-table classifications (Workflow D) are lighter still: a registry
-row, cleared or overwritten with no graph write involved.
-
-**What travels to other machines.** In a vault, `same_as.yaml` is
-`.artmind/same_as.yaml` (committed), and every detected conflict — with its
-resolution — every supersession, every retirement and every synthesis is its
-own file under `.artmind/data/curation/`. Structured-table classifications
-(Workflow D) travel in the table's `.meta.json`, which each `db grain` /
-`db mappings` / `db bridge` / `db propose` rewrites. Obsidian Git commits all
-of them, and `artmind vault sync` on another machine applies them, so a
-machine with its own Neo4j ends up with the same curation. Syntheses made
-before records existed have no file and do not travel until
-`artmind projection synthesize --domain <d> --force` re-runs them. Same-as
-**proposals** (the review queue) do not travel: they stay on the machine
-that ran `sameas propose` / `detect-conflicts` / `refine-graph`, and only an
-approved group does.
-
-**When two machines wrote the same record before pulling** (both detected
-one conflict, or one resolved it while the other re-detected it), Obsidian
-Git's merge stops on that record file. `artmind vault resolve` settles it
-the same way on every machine (`--dryRun` shows the pick first): a decision
-(resolved/dismissed) beats open, then the later change; a manual supersession
-beats a detected one; the later synthesis wins. It stages its pick and never
-commits — Obsidian Git concludes the merge. It never touches `same_as.yaml` —
-a conflict there is reported, and you merge the groups by hand.
-
-## Preview a write with `--dryRun`
-
-Every command that changes the graph, staging or vault files takes `--dryRun`: it plans from reads,
-writes nothing, calls no LLM, and returns `dry_run: true` plus an `effect` block (what would change
-with counts and samples, which topics and views go stale, how many LLM calls, whether it can be
-undone and with what, whether the change travels to other machines). Read `effect` before the real
-run, which prints the same block. On a command that does not support it yet, `--dryRun` fails with
-"not available ... yet; nothing was changed" and does nothing.
-
-## Required Inputs
-
-- `domain` (one or more): ask if not provided. Pass every sibling domain the
-  user wants compared to one `sameas propose`/`ingest detect-conflicts` call
-  to get the cross-domain pass.
-
-## Workflow A — Review the same-as queue: Propose → Review → Approve → Verify
-
-### 1. Propose
-
-Two independent proposers feed the same queue — run either or both:
-
-```bash
-# cross-domain / cross-class candidates via the embedding adjudicator
-artmind sameas propose --domain <d1> [--domain <d2>] --compact
-
-# intra-domain naming-variant candidates via name-similarity clustering
-artmind ingest refine-graph --domain <d> --dryRun --output merges.json
-artmind ingest refine-graph --domain <d> --fromFile merges.json
-```
-
-`sameas propose` reuses the cross-domain adjudicator's candidate pairing and
-adjudication prompt: one judgment, two outcomes — a "same thing" verdict
-writes a same-as proposal here; a "conflicting claims" verdict writes a
-`:Conflict` instead (`query graph conflicts` / `ingest resolve-conflict`).
-Pass one `--domain` for naming-variant merge candidates within it, 2+ for
-cross-domain identity candidates. `--maxPairs` bounds LLM cost (~20s per
-candidate on a local model; `--maxPairs 20` for a first pass).
-
-In the Obsidian plugin, the Curate row runs the first command as **Find
-duplicates…** (one run per domain you pick) and `ingest detect-conflicts` as
-**Detect conflicts…**. Both ask for a `--maxPairs` cap first, and the row's
-counts are the same queues `sameas list --status open` and `query graph
-conflicts` show here. Running them from the plugin or from this skill gives the
-same result.
-
-`ingest refine-graph` is the other proposer — intra-class name-similarity
-clustering rather than semantic neighbours, cheaper and complementary. Its
-`--fromFile` step writes proposals into the same queue; it does not touch
-the graph.
-
-### 2. Review the queue
-
-```bash
-artmind sameas list --status open --compact
-```
-
-Each proposal names a `canonical` and its `members`, with `source`
-(`adjudicator` or `refine_graph`) and `reason`. Judge:
-
-- **Is this genuinely one real-world thing?** Read the proposal's evidence;
-  for anything non-obvious, pull a source chunk:
-  ```bash
-  artmind query vector-text --domain <d> --topK 3 --compact "<questionable member>"
-  ```
-- **Watch for negations and version numbers** — "Policy v2" and "Policy v3"
-  may be the same document at two points in time (a `Series`, or simple
-  document supersession — see Workflow C), not one identity.
-- **A large cluster (many members) means extraction over-fragmented one
-  concept**, not that the merge is automatically right — spot-check names
-  that could plausibly denote something distinct.
-- **Cross-domain/cross-class candidates need real scrutiny**: a group
-  spanning classes or domains links (`SAME_AS`) rather than merges into one
-  Entity — correct for "this policy entity and this SOP entity are about the
-  same real thing," wrong if the shared name is coincidental.
-
-Reject anything that doesn't hold up:
-
-```bash
-artmind sameas reject <proposal_id> --reason "<why>"
-```
-
-### 3. Approve
-
-```bash
-artmind sameas approve <proposal_id> [--canonical <key>]
-artmind sameas approve <id1> <id2> <id3> ... --compact      # a whole batch
-```
-
-Appends the group to `same_as.yaml` and runs a full rebuild scoped to the
-domains the group touches. **Approve a batch in one call, never in a shell
-loop:** every call rebuilds, so N calls pay N rebuilds (about 5 s each on an
-8.6k-entity domain), while one call with N ids writes the file once and
-rebuilds once over the union of the domains. `--canonical` applies to a single
-id only.
-
-A proposal that can't be approved does not stop the batch. It is listed under
-`skipped` with the reason and stays as it was: unknown or already resolved, or
-its canonical (or every other member) is **already claimed by an earlier
-group** (the file's, or an earlier id in the same call). Always read `skipped`, and any
-group with `status: partial` (some members were already in another group and
-dropped out of this one -- see `dropped_members`). With a single id a refusal
-is an error instead.
-
-`--canonical` overrides which member wins (default: the proposer's own
-suggestion) -- override it when the "obviously right" display name isn't the
-one the proposer picked.
-
-**A skipped proposal is usually a new name for a group that already exists**
--- the proposer found one more variant of an approved cluster. There is no
-`sameas` command to extend a group, so decide per proposal:
-
-- *The existing group is right as it is* -- reject the proposal:
-  `artmind sameas reject <proposal_id> --reason "already grouped under <canonical>"`.
-- *The new name belongs in the group* -- add it to that group's `members` in
-  `same_as.yaml` (same file and rebuild as Workflow B; keep `canonical` listed
-  among the members). A member is an **aggregate key**, `name|CLASS|domain`
-  (`etz|LOCATION|personal_journal`) -- never an entity id: an id is ignored.
-  The name part is folded to lower case on load, so display case still
-  matches. Run `artmind projection rebuild --sweep --compact`, then
-  reject the proposal with the reason "folded into <canonical>" so it leaves
-  the queue.
-- *It is a different thing that only looks similar* (a bare "artmind" next to
-  "artmind development") -- reject it with that reason.
-
-Editing `same_as.yaml` is the user's decision, not the agent's: say which
-group and which name, and wait for a yes.
-
-**This is a two-step workflow, not one command.** `sameas approve` does NOT
-clear `projection status`'s drift flag — its rebuild is scoped to the
-group's own domain families, and `same_as.yaml`'s hash (what drift tracks)
-is a global signal a partial rebuild can't honestly clear. After approving
-everything in a review session, run:
-
-```bash
-artmind projection status --compact            # confirm same_as_drift: true
-artmind projection rebuild --sweep --compact   # clears it, and re-embeds what the rebuild touched
-```
-
-Skipping the second command leaves `projection status` reporting drift
-indefinitely even though every approved group is already live in the graph —
-harmless to queries (the projection is already correct), but confusing to a
-later operator who reads the drift flag as "something is stale."
-
-### 4. Verify
-
-```bash
-artmind query entity-resolve --domain <d> --topK 3 --compact "<a merged alias>"   # resolves to canonical
-artmind query graph conflicts --domain <d1> --domain <d2> --compact               # materialized conflicts
-artmind query entity-context --domain <d> --entityId <id> --compact              # clean description + source docs
-```
-
-When reporting materialized conflicts, **group by root cause, not a flat
-list** — cluster by shared `aspect` wording / shared entity sets, call out
-severity, and cite both documents' provenance per finding.
-
-## Workflow B — Un-merge a bad group
-
-Same-as groups are the reversible mechanism they're described as above — this
-is not a forensic recovery, it's the ordinary undo path:
-
-1. Open `same_as.yaml` (in the run folder — `.artmind/same_as.yaml` in a
-   vault, where other machines pick the edit up with `vault sync`) and remove
-   the offending group, or remove just the wrong member from it.
-2. `artmind projection rebuild --domain <d> --compact` (or
-   `artmind projection rebuild --sweep --compact` to rebuild every domain,
-   clear drift and re-embed).
-3. The un-merged entity returns under its original deterministic id —
-   confirm with `entity-resolve` on its name.
-
-## Workflow C — Investigate a surprising conflict or same-as decision
-
-**Conflict**: pull its evidence and read both sides:
-
-```bash
-artmind query graph conflicts --domain <d1> --domain <d2> --entityName "<name>" --compact
-```
-
-Check `status` and whether either document has since been superseded
-(`valid_to` set) — if so, run `docs retire` on the superseded document rather
-than treating the two as a live disagreement (superseded content drops out of
-every index once retired, so the comparison resolves itself on the next
-query).
-
-**Same-as decision**: pull the entity's properties and check the aliases
-that fed it:
-
-```bash
-artmind query graph pattern2 --domain <d> --entityNameList "<canonical>" --compact
-```
-
-Judge: reasonable (same real-world thing — leave it), over-merged (Workflow B),
-or needs a same-as **link** instead of a merge (same real-world thing referred
-to across domains/classes, but each side's own facts should stay on its own
-entity — reject the merge proposal and hand-propose it via `sameas propose`
-scoped to just those domains, so the adjudicator can pick "link" over
-"merge").
-
-## Workflow D — Review structured-table classifications (grain / bridge / mappings)
-
-The structured store's counterpart to Workflow A. Ingest classifies each
-registered table in three steps — `grain` (do these rows record facts or
-assert rules), `bridge` (whose *values* are worth searching the graph for),
-and `mapping` (which columns denote instances of which `entity_class`) — and
-every result lands **unconfirmed**, awaiting exactly this review.
-
-Use `artmind-ingestion-helper` instead when a step's *status* is `failed` or
-`pending` (that's a re-run problem: `db propose`). Come here when the steps
-ran fine and the question is whether the answers are *right*.
-
-### 1. Read the proposals
-
-```bash
-artmind db mappings <table> --domain <d> --compact   # column → entity_class, confirmed flag
-artmind db grain <table> --domain <d> --compact      # grain + bridge columns
-```
-
-**Start here for a whole domain** — one call lists every table with anything
-still unadjudicated, and a fully-reviewed table drops out entirely, so an
-empty `tables` means the domain is done:
-
-```bash
-artmind db review --domain <d> --compact
-```
-
-Per table it returns the unconfirmed `mappings`, the unconfirmed
-`bridge_columns`, `grain`/`grain_confirmed`, and the three step statuses —
-everything the gates below need, without walking tables one at a time. Use
-`pending_count` to tell the user the size of the job before starting.
-
-### 2. Judge — what to look for
-
-**Judge sampled values against the class description, never the column
-name.** The proposer weighed exactly two things — the column's sampled values
-and the schema's class descriptions — so re-examine both, and read both
-through the CLI rather than hunting for files on disk:
-
-```bash
-artmind db schema <table> --domain <d> --compact   # each column's profile + distinct_sample
-artmind domains entities-prompt <d>                # the class descriptions the proposer read
-```
-
-`domains entities-prompt` prints the assembled entity-type prompt the
-proposer read (the schema's `entity_types` map rendered through
-`meta.yaml`'s templates). Do **not** go looking for `domains/schemas/*.yaml`
-— the schema lives in the run folder, not the working directory, and the CLI
-is the supported way to read it. The same rule holds throughout this skill:
-reach for an `artmind` command before the filesystem.
-
-- **High confidence is not correctness.** A confident proposal can be
-  confidently wrong — an `agents.name` column scoring 0.9 for `CUSTOMER` when
-  agents are staff, alongside `department → ORGANIZATIONAL_UNIT` at 1.0 which
-  is right. Read every proposal above the floor; do not skim by score.
-- **Identifier columns are the ones worth keeping.** `customer_id →
-  CUSTOMER` on opaque keys (`CUST-0019`) is the mechanism working as intended:
-  it is a judgment about what the column *denotes*, which no string match
-  could reach. Don't reject it for "the values don't look like customers".
-- **Multiple classes per column are legitimate**, not a bug to resolve — a
-  `category` column can denote both a `PRODUCT` and an `ISSUE_TYPE`. Only
-  reject the ones that are actually wrong.
-- **Booleans, dates, and measures should map to nothing.** A proposal on
-  `resolved_first_contact` or a `*_gbp` amount is noise; clear it.
-- **Grain**: only `normative` changes behaviour (it quarantines the table from
-  answer synthesis, because a document also asserts that content). If torn
-  between `instance` and `normative`, the proposer is instructed to choose
-  `normative` to force this review — so a surprising `normative` is the
-  system working, not a mistake. Confirming it requires
-  `refresh_mode=temporal`, enforced in the registry, not just the CLI.
-
-### 3. Apply the decisions
-
-```bash
-# accept one pair
-artmind db mappings <table> --domain <d> confirm --column <c> --entityClass <CLASS>
-# accept every proposal on the table (only when you have read them all)
-artmind db mappings <table> --domain <d> --acceptProposed
-# reject
-artmind db mappings <table> --domain <d> clear --column <c>
-# add one the model missed
-artmind db mappings <table> --domain <d> set --column <c> --entityClass <CLASS>
-# confirm grain
-artmind db grain <table> --domain <d> --set instance|lookup|normative
-# bridge columns (see them with `db grain <table>`, which lists them)
-artmind db bridge confirm --table <table> --domain <d> --column <c>
-artmind db bridge clear   --table <table> --domain <d> --column <c>
-```
-
-Three traps worth stating to the user before they act:
-
-- **`clear --column c` drops every class for that column**, not just the bad
-  one. Where a column has two proposals and one is right, `confirm` the good
-  one first — a re-propose can never overwrite a confirmed pair.
-- **`clear` is not a durable rejection.** The next `db propose ... --redo` may
-  propose it again. Confirming the *correct* mapping is what makes a decision
-  stick; clearing alone only defers it.
-- **A renamed or removed schema class cleans itself up — unless confirmed.**
-  A successful mapping step (`db propose TABLE --step mapping --redo`) deletes
-  *unconfirmed* mappings to classes the schema no longer declares and lists
-  them as `pruned_mappings`. Confirmed ones are never deleted: they come back
-  as `stale_confirmed_mappings`, and re-pointing them (`clear` + `set`) is a
-  curation decision for the user. A mapping the model simply didn't
-  re-propose is *not* pruned — `clear` it if it's wrong.
-- **Confirming is a trust signal, not a switch.** Unconfirmed mappings are
-  already projected into the catalogue carrying `confirmed: false` and are
-  already usable for routing — deliberately, so a fresh table isn't invisible
-  until reviewed. Confirming does not "turn a mapping on".
-
-### 4. Verify
-
-```bash
-artmind db bridge --domain <d> --compact   # the routing surface the query side actually reads
-artmind db catalogue --domain <d>          # push confirmations into Neo4j (no re-ingest)
-```
-
-`db catalogue` matters: confirming a mapping updates the registry (and the
-table's `.meta.json`) only. The graph's catalogue subgraph is refreshed by
-ingest hooks, so a later confirmation needs this explicit re-projection to
-reach Neo4j on this machine; on other machines `vault sync` restores the
-confirmation and re-projects the catalogue itself (in a run that includes both
-the graph and the structured store — after `vault sync --store graph` alone,
-run `db catalogue` there).
-
-### What confirming a bridge column currently buys
-
-Nothing reads `column_roles.confirmed` yet — no caller passes
-`confirmed_only=True`, and the fusion path uses every bridge column
-regardless. So confirming one records a human judgment for the next reviewer
-rather than changing retrieval. Worth saying plainly if a user asks why it
-made no difference; it is not a reason to skip the review, since the flag is
-what stops the same column being re-litigated on every pass.
-
-Track it down to zero: re-run `db review --domain <d>` after applying, and
-stop when `pending_count` reaches 0.
-
-## projection {rebuild, status, synthesize}
-
-Three commands underlie everything above, mostly invisible in ordinary use —
-a rebuild runs automatically inside whatever operation dirtied the
-projection (a document commit, `docs retire`, `sameas approve`). Reach for
-them directly only for the cases with no natural host:
-
-```bash
-artmind projection status --compact             # drift + unembedded_entities / unprojected_keys / unembedded_passages, per domain
-artmind projection rebuild [--domain <d>] --compact   # recompute Entities from observations, in batches; no LLM
-artmind projection rebuild --sweep --compact    # the repair: every domain, then both embed sweeps per domain
-artmind projection synthesize --domain <d> [--nameFilter <f>] [--force] --compact
-```
-
-`projection synthesize` rewrites an entity's description as one coherent
-passage drawn from all its observations — the only step in this whole skill
-that spends language-model budget without being explicitly asked to, so it's
-always a deliberate, separate call. Run it after a bulk ingest
-(`ingest sync <dir>` → `projection synthesize`) or after approving a same-as
-group that meaningfully changed an entity's observation set. It skips an
-entity with an open (projection) conflict, one below `--minObservations`, or
-one whose observation set hasn't changed since the last synthesis (unless
-`--force`).
-
-## Fallbacks
-
-- Same-as proposals empty but duplicates visibly exist → lower
-  `sameas propose --simThreshold` (e.g. 0.6) or `ingest refine-graph
-  --threshold`, and re-propose.
-- `sameas propose`/`ingest detect-conflicts` computed BEFORE any merges apply
-  in this session — if you've just approved a batch of merges, re-propose
-  afterward so the next pass compares the post-merge entity set, not the
-  pre-merge one.
-- Consolidation (`projection synthesize`) `failed_embedding` counts high →
-  check the embedding service or pass `--model`; re-running is safe
-  (idempotent — an unchanged observation set is skipped, not re-billed).
-- Interrupted `sameas approve` or `projection rebuild` → re-run the same
-  command; both are safe to re-apply.
-
-## Closing a conflict
-
-Detection never closes conflicts — two authorities disagreeing is a human
-judgment. Once you have adjudicated one:
-
-```bash
-artmind ingest resolve-conflict <conflict_id> --status resolved --reason "<why>"
-```
-
-Use `--status dismissed` for a false positive. `query graph conflicts --status all`
-shows closed ones afterwards. The resolution is written to the conflict's
-record file (`.artmind/data/curation/conflicts/<id>.json`), so it travels to
-every machine with `vault sync`; re-detecting the conflict later never
-reopens it. This applies to adjudicator-produced conflicts
-(`_source: 'adjudicator'`, the ones `query graph conflicts` surfaces);
-projection-produced conflicts (`_source: 'projection'`, a single entity's own
-property disputed within one instant — see artmind-query's Adjudicate step)
-resolve themselves on the next rebuild once the underlying observations stop
-disagreeing, and have no separate close step.
-
-## When NOT to run
-
-Same-as review (Workflows A–C):
-
-- Mid-ingestion (worker jobs still processing the domain) — curate afterwards.
-- Never approve a same-as proposal you haven't actually read the evidence
-  for, even though approving is cheap to undo — an unread approval still
-  costs the next reviewer's time to notice and reverse it.
-
-Structured classification review (Workflow D):
-
-- When any of `grain_status`/`bridge_status`/`mapping_status` is `pending` or
-  `failed` — there is nothing to adjudicate yet. Send the user to
-  `artmind-ingestion-helper` to get the step running, then review.
-- A re-ingest is *not* a reason to defer: `register_table` leaves confirmed
-  grain and mappings alone on update, so review work survives a refresh.
+Curation is the human judgment artmind keeps out of ingestion: which names are one thing, which
+disagreement is real, which document replaces which, what a table's columns denote. Each kind is a
+few granular commands. This file says what is waiting and where to go; each kind's detail is in one
+reference file, opened when the work needs it.
+
+## Rules for every kind
+
+- **Preview first.** A write command takes `--dryRun`: it plans from reads, writes nothing, calls no
+  LLM and returns an `effect` block (what changes, what goes stale, LLM calls, how to undo it,
+  whether it travels). Read `effect`, show the user, then run it for real. A few commands' `--dryRun`
+  is not built yet (`db grain --set`, `docs restore-from-archive`): it fails with "not available ...
+  yet; nothing was changed", so state the change to the user in words instead.
+- **The user decides.** Propose; write only on the user's yes. Hand-editing `same_as.yaml` is always
+  the user's call: name the group and the member, and wait.
+- **Read the evidence before any decision.** A cheap undo does not make an unread approval cheap for
+  the next reviewer.
+- **Batch.** Approve several same-as proposals in one call; every call pays one rebuild.
+- **Not mid-ingestion.** If worker jobs are still processing the domain (`artmind ingest
+  jobs-active`), curate afterwards.
+- **Reach for an `artmind` command before the filesystem.** Schemas, records and queues are read
+  through the CLI.
+- **Domains.** Ask which domain(s) when the user does not say.
+
+## 1. What is waiting
+
+No single command gathers the queues. Run the reads that match the request, or all of them for
+"curate domain X", and tell the user the size of each before starting:
+
+| Queue | Read (all read-only) | Empty means |
+|---|---|---|
+| Same-as proposals | `artmind sameas list --status open --compact` | no proposals waiting |
+| Conflicts | `artmind query graph conflicts --domain <d> --compact` | no open conflict |
+| Table classifications | `artmind db review --domain <d> --compact` | `pending_count` 0 |
+| Projection drift / unembedded | `artmind projection status --compact` | no drift, nothing unembedded |
+| Graph health | `artmind insights list --domain <d> --kind health --compact` | no health finding in the latest snapshot |
+| Mart members | `artmind mart status --domain <d> --compact` | no unreviewed proposal (domains with a mart only) |
+| Cross-machine merges | `artmind vault status --compact` | no unresolved record conflict |
+
+An empty queue can also mean nothing has proposed anything yet: say so, and offer the proposer
+from the matching reference.
+
+## 2. Where to go
+
+| The work | Open |
+|---|---|
+| Duplicate entities: find, review, approve or reject, un-merge, link vs merge; `entity-resolve` twins | [references/same-as.md](references/same-as.md) |
+| Two sources disagree: detect, read, resolve or dismiss | [references/conflicts.md](references/conflicts.md) |
+| A document replaces another, or should leave the indexes: supersede, unsupersede, retire, restore, archive | [references/documents.md](references/documents.md) |
+| Insights health findings: fragments, attribution suspects, open conflicts, same-as candidates, split signals, schema findings | [references/graph-health.md](references/graph-health.md) |
+| Projection rebuild, drift, description synthesis, recovery | [references/projection.md](references/projection.md) |
+| Structured tables: grain, bridge columns, column mappings | [references/tables.md](references/tables.md) |
+| Mart dimensions and named calendar periods | [references/mart.md](references/mart.md) |
+| What travels to other machines; a record conflict after a pull | [references/travel.md](references/travel.md) |
+
+Two kinds often lead into another: a conflict between two versions of one document is a
+supersession (documents.md), and a same-as approval that changed an entity's observation set is a
+reason to re-synthesize its description (projection.md).
+
+## 3. Report
+
+Say what was decided, what was written (with the `effect` summary), what was left open and why, and
+what goes stale (topics, views) according to `effect`. Group conflicts by root cause, never as a flat
+list.

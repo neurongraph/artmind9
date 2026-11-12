@@ -561,7 +561,7 @@ same code this command does. The three dots per table row are grain/bridge/mappi
 
 **Once the steps report `ok`, the proposals still need a human.** Everything lands
 *unconfirmed*. Judging whether a proposed grain or `column → entity_class` mapping is actually
-*right* — and confirming or rejecting it — is `/artmind-curate`'s Workflow D, not this skill.
+*right* — and confirming or rejecting it — is `/artmind-curate`'s table review (`references/tables.md`), not this skill.
 This skill gets a stuck step running again; that one adjudicates what it produced.
 
 ---
