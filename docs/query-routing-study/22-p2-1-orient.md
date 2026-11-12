@@ -816,3 +816,10 @@ are, R / B / F:
 
 One run, and the best of five. The gain is not where the offline gate pointed: items in the corpus but unread did not
 fall, while items in text the turn read did. A second banking run decides whether it holds.
+
+Banking run F2 `51fd8723` (same code and console): **56** missed (22 / 34), correct 10 / partial 26, must-not hits 3;
+`find` in 24 of 36 turns (32 calls), $5.59. Both `find` runs (54, 56) sit below all four runs without it (59, 62, 63,
+59): means 55 against 60.75. The gain is in Q15 onward (33 and 34 against 39–41). Buckets for F2: in the corpus but not
+read 12, in text the turn read 13, no checkable fact 19, in no chunk text 12. As with F, the unread count did not
+fall; the gain is spread over items the grader credits once the turn holds the part's passage. Brain01 guard run
+pending (needs the user's OK).
