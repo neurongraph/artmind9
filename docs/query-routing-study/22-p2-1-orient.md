@@ -693,3 +693,40 @@ and the worse/better splits are even. Unfollowed `next`, cut results and uncheck
 where the items are lost; banking's largest P2b loss (the replaced v2.0 policy, Q07–Q13) is not one of the checks.
 The Stop hook as specified would close items without moving scores, which is the failure §5 of the turn-check spec
 names. Not built.
+
+### Planner removal gate (2026-11-12): run X
+
+Phase 3 (`dd2bdae4`, branch `dev/planner-removal`): one classic run per vault on restarted consoles. Banking
+`161007b2`, brain01 `63728030`. Must items missed:
+
+| Group (items) | M | N | R | X |
+|---|---|---|---|---|
+| banking (214) | 59, 65 | 59 | 59 | 62 |
+| brain01 Q01–Q14 (101) | 23, 34 | 33 | 24 | 27 |
+| brain01 Q15–Q29 (75) | 12, 14 | 17 | 17 | 14 |
+
+Inside the band and above the floors in every group. Median commands 4.5 (banking), 5.5 and 5 (brain01); survey turns
+29/36, 12/14, 11/15. Every turn recorded spans (178 and 164) and no `plan_shadow` event. $0.139 and $0.135 per turn.
+Passes (spec §5.6).
+
+### Where must items are lost (2026-11-12, no LLM)
+
+Every missed must item of M, N and R (banking 242, brain01 174) checked for its distinctive facts (codes, amounts,
+percentages, ISO dates, versions, durations, names inside a sentence) against the text of the chunks the turn's spans
+returned and against all chunk text in the graph (current and history). Scratch scripts, counts only.
+
+| Where the item's facts are | banking | brain01 |
+|---|---|---|
+| in the corpus, not in any chunk the turn returned | 81 (33 %) | 118 (68 %) |
+| in a chunk the turn returned, missing from the answer | 72 (30 %) | 26 (15 %) |
+| no checkable fact in the item (a judgement item) | 48 (20 %) | 22 (13 %) |
+| in no chunk text (structured tables, computed values) | 41 (17 %) | 8 (5 %) |
+
+Banking's labelled expected documents agree: 50 % of missed items fall in turns that returned text from every
+expected document, 45 % in turns that returned some, 5 % in turns that returned none (brain01's labels carry no
+expected documents). Caveats: a chunk counts as returned when its id is in a span's evidence, though a brief survey
+row shows one passage of it, so the second row is an upper bound; a common name in brain01 can match unrelated chunks.
+
+Reading: the extraction wave (G) would reach at most the last row. The larger losses are retrieval breadth (brain01:
+facts in entries the turn never opened) and depth on broad questions (banking Q16–Q18, Q24, Q25: documents reached,
+the passage with the item not shown or not used); both are item H's gaps.
