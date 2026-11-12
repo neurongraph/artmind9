@@ -801,3 +801,18 @@ Spec `docs/superpowers/specs/2026-11-12-find-in-result-design.md`, branch `dev/q
 first); every brief survey now carries a `handle`; the skill asks for one `find` per part after a survey.
 Offline over 46 banking items: 32 sit in a survey document; `find` with the turns' own search wording reaches 9
 (today 0, `more_passages` 5), with the item's own text 31. Benchmark pending.
+
+Banking run F `00b0c218` (branch `dev/query-find`, default budget, restarted console): **54** must items missed
+(21 / 33), correct 9 / partial 27 / wrong 0, must-not hits 2. The previous four runs were 59–63. `find` ran in 22 of
+36 turns (31 calls), and the turns cost about the same ($0.144 against R's $0.142). Missed items by where their facts
+are, R / B / F:
+
+| | R | B | F |
+|---|---|---|---|
+| in the corpus, not read | 12 | 9 | 13 |
+| in text the turn read | 15 | 13 | 9 |
+| no checkable fact | 23 | 28 | 20 |
+| in no chunk text | 9 | 9 | 12 |
+
+One run, and the best of five. The gain is not where the offline gate pointed: items in the corpus but unread did not
+fall, while items in text the turn read did. A second banking run decides whether it holds.
