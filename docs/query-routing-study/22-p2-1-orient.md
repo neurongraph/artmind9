@@ -854,3 +854,19 @@ also had elsewhere, with the part's terms marked (`matched`). That is consistent
 used" rather than "never read", but it doesn't separate the two causes. The rest is the usual run-to-run churn.
 Two runs leave the size of the effect uncertain. Its direction is clear: both `find` runs are below all four runs
 without it.
+
+### Banking on the ACP backend (2026-11-12)
+
+Run `c44555d5`: `opencode acp` with `openrouter/deepseek/deepseek-v4.1-flash`, the same skill (with `find`), budget
+24,000, graded by the usual Claude judge. **44** must items missed (Q01–14 19, rest 25), correct 13 / partial 22 /
+wrong 1, must-not hits 1. That is better than both Claude `find` runs (54, 56), although Q06 failed outright ("ACP
+agent exited (code 1)", no detail in the console log) and lost all 6 of its items. Without Q06, it is 38 against 51
+and 53.
+
+The ACP agent works much harder: 473 commands (13 per turn, against about 5 for Claude), 55 surveys, 82 `find` calls
+in 23 of 36 turns, 122 s per turn (48 s), answers of 4,400 characters on average (3,200). Its misses by where the
+facts are: in the corpus but not read 6 (Claude `find` runs 12–13), in text the turn read 14, no checkable fact 17, in
+no chunk text 7. ACP turns record no cost.
+
+Caveats: one run, and a different model, so this is not a `find` comparison. There's no ACP run without `find`. The
+grader may favour longer answers. Still, the cheap model with many searches reaches more facts than Claude with few.
