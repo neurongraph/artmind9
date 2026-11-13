@@ -110,6 +110,11 @@ const WRITE_NAMES: Record<string, string> = {
   "projection synthesize": "synthesize",
   "sameas propose": "find duplicates",
   "ingest detect-conflicts": "detect conflicts",
+  "ingest supersede": "supersede",
+  "ingest unsupersede": "undo supersession",
+  "docs retire": "retire",
+  "docs restore": "restore",
+  "docs archive": "archive",
 };
 
 export function waitingText(runningKey: string): string {
@@ -138,6 +143,16 @@ export const COMMANDS = {
   stopAdmin: "Stop admin console",
   restartAdmin: "Restart admin console",
   restartServe: "Restart serve",
+} as const;
+
+/** The active note's commands (curation-surfaces spec §3.2). */
+export const NOTE_COMMANDS = {
+  supersedes: "This note supersedes…",
+  undoSupersession: "Undo a supersession of this note",
+  retire: "Retire this note",
+  restore: "Restore this note",
+  archive: "Archive this note",
+  history: "Show this note's history",
 } as const;
 
 export const ROW_TITLES: Record<RowId, string> = {

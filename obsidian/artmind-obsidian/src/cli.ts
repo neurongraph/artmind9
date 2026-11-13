@@ -111,6 +111,11 @@ const WRITE_COMMANDS = new Set([
   "projection synthesize",
   "sameas propose",
   "ingest detect-conflicts",
+  "ingest supersede",
+  "ingest unsupersede",
+  "docs retire",
+  "docs restore",
+  "docs archive",
 ]);
 
 export function commandKey(args: string[]): string {
