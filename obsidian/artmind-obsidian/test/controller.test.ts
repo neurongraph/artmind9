@@ -1113,12 +1113,12 @@ describe("curate (the artmind-curate skill's commands)", () => {
     expect(t.rowOf("curate").summary).toBe("not counted yet");
   });
 
-  it("the review buttons open the admin console with a prepared prompt", async () => {
+  it("the review buttons open the Curate tab at their queue", async () => {
     const t = setup({ script: { sameasList: PROPOSALS } });
     await t.controller.refresh();
     const review = t.rowOf("curate").buttons[0];
     t.controller.run(review.action);
-    expect(t.views.opened.at(-1)).toMatch(/^admin:.*prompt=/);
+    expect(t.views.opened.at(-1)).toBe("admin:/dashboard?tab=curate&queue=sameas");
   });
 
   it("Detect conflicts needs two mapped domains; Find duplicates needs one", async () => {

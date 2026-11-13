@@ -204,6 +204,11 @@ export function stopOutcomeText(outcome: StopOutcome): string {
 
 /** The admin console page that prefills its agent chat with `prompt`
  * (never sends it): the deep link of checklist spec B7. */
+/** The admin console's Curate tab at one review queue (spec 2026-11-12 §3.1). */
+export function curatePath(queue: "sameas" | "conflicts"): string {
+  return `/dashboard?tab=curate&queue=${queue}`;
+}
+
 export function promptPath(prompt: string): string {
   return `/?prompt=${encodeURIComponent(prompt)}`;
 }

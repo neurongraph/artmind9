@@ -59,6 +59,12 @@ describe("ArtmindPlugin", () => {
       "Restart admin console",
       "Stop admin console",
       "Restart serve",
+      "This note supersedes…",
+      "Undo a supersession of this note",
+      "Retire this note",
+      "Restore this note",
+      "Archive this note",
+      "Show this note's history",
     ]);
     expect(a.layoutReady).toHaveLength(1);
     expect(plugin.events).toEqual([]);

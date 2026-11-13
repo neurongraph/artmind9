@@ -5,13 +5,15 @@ import { ObsidianGitBridge, type CommandsLike, autoPullMinutes, obsidianGitDataP
 import { ArtmindCli, defaultDetectDeps, detectArtmind } from "./cli";
 import { Controller, type CurateKind, type Snapshot } from "./controller";
 import { GitReader } from "./git";
-import { type Mapping, VAULT_YAML, promptsOnArrival, readMappings } from "./manifest";
+import { type Mapping, VAULT_YAML, mappingFor, promptsOnArrival, readMappings } from "./manifest";
 import { NOTHING_PERSISTED, type Persisted, readPersisted, withPersisted } from "./persist";
 import { ServeManager, type ServeState, type ServeStop, serveStatusText, serveText } from "./serve";
 import { realServeDeps } from "./serveDeps";
 import { type ArtmindSettings, mergeSettings } from "./settings";
 import type { PanelTarget } from "./state";
-import { COMMANDS } from "./texts";
+import { COMMANDS, LABELS, NOTE_COMMANDS } from "./texts";
+import { NoteCommands } from "./noteCommands";
+import { HistoryModal, OlderPickerModal } from "./views/noteModals";
 import { Watchers } from "./watchers";
 import { type WebViewerApp, openInWebViewer, webViewerAvailable } from "./webviewer";
 import { ConfirmModal } from "./views/confirmModal";
@@ -44,6 +46,7 @@ export default class ArtmindPlugin extends Plugin {
   private notifier = new ObsidianNotifier((target) => void this.openPanel(target));
   private mappings: Mapping[] = [];
   private last: Snapshot | null = null;
+  private notes: NoteCommands | null = null;
 
   override async onload(): Promise<void> {
     const data = await this.loadData();
@@ -92,6 +95,33 @@ export default class ArtmindPlugin extends Plugin {
       },
     });
     this.controller = controller;
+    this.notes = new NoteCommands(
+      {
+        run: (args) => cli.run(args),
+        record: (result) => controller.record(result),
+        ask: (request) =>
+          new Promise<boolean>((resolve) =>
+            new ConfirmModal(this.app, {
+              text: request.text,
+              choices: [
+                { label: request.confirm, run: () => resolve(true) },
+                { label: LABELS.cancel, run: () => resolve(false) },
+              ],
+            }).open(),
+          ),
+        pickOlder: (candidates, withEffective) =>
+          new Promise((resolve) => new OlderPickerModal(this.app, candidates, withEffective, resolve).open()),
+        showHistory: (title, json) => new HistoryModal(this.app, title, json).open(),
+        notify: (kind, text) => this.notifier.show(kind, text),
+        refresh: () => controller.refresh({ heavy: true }),
+        candidates: (domain, exclude) =>
+          this.app.vault
+            .getFiles()
+            .filter((f) => mappingFor(this.mappings, f.path)?.domain === domain && f.name !== exclude)
+            .map((f) => f.name),
+      },
+      () => this.mappings,
+    );
     cli.onWriteQueue((queue) => controller.onWriteQueue(queue));
     const watchers = new Watchers(
       {
@@ -404,6 +434,16 @@ export default class ArtmindPlugin extends Plugin {
       ["stop-admin-console", COMMANDS.stopAdmin, () => void this.stopAdmin()],
       ["restart-serve", COMMANDS.restartServe, () => void this.restartServe()],
     ];
+    const active = () => this.app.workspace.getActiveFile()?.path ?? null;
+    const n = () => this.notes;
+    commands.push(
+      ["note-supersedes", NOTE_COMMANDS.supersedes, () => void n()?.supersedes(active())],
+      ["note-undo-supersession", NOTE_COMMANDS.undoSupersession, () => void n()?.undoSupersession(active())],
+      ["note-retire", NOTE_COMMANDS.retire, () => void n()?.retire(active())],
+      ["note-restore", NOTE_COMMANDS.restore, () => void n()?.restore(active())],
+      ["note-archive", NOTE_COMMANDS.archive, () => void n()?.archive(active())],
+      ["note-history", NOTE_COMMANDS.history, () => void n()?.history(active())],
+    );
     for (const [id, name, callback] of commands) this.addCommand({ id, name, callback });
   }
 }

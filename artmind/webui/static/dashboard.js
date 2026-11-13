@@ -1189,6 +1189,14 @@ document.addEventListener("keydown", (event) => {
 
 // ── polling ──────────────────────────────────────────────────────────
 initTabs();
+
+// Deep link: /dashboard?tab=curate&queue=sameas opens that tab (the plugin's Curate row uses it).
+window.addEventListener("DOMContentLoaded", function openTabFromUrl() {  // after every tab script has bound its click
+  const tab = new URLSearchParams(window.location.search).get("tab");
+  if (!tab) return;
+  const btn = document.querySelector(`.view-tabs .tab[data-tab="${CSS.escape(tab)}"]`);
+  if (btn) btn.click();
+});
 loadDomains();
 loadStructuredDomains();
 refreshActiveJobs();

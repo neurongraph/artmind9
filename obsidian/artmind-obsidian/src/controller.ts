@@ -593,6 +593,9 @@ export class Controller {
       case "adminPrompt":
         this.deps.views.openAdmin(promptPath(action.prompt));
         return;
+      case "adminPage":
+        this.deps.views.openAdmin(action.path);
+        return;
       case "reviewTable":
         this.reviewTables(action.table);
         return;

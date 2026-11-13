@@ -1,5 +1,6 @@
 import { BOOTSTRAP_STEP, type Busy, type BusyKey, type RowId, type StateInputs, type Tone, behindParts, failureTag, plural, problemText } from "./state";
-import { AUTO_PULL_HINT, LABELS, NOTICE, ROW_TITLES, conflictsPrompt, count, countOf, curateSummary, ingestLabel, sameAsPrompt, waitingText } from "./texts";
+import { curatePath } from "./admin";
+import { AUTO_PULL_HINT, LABELS, NOTICE, ROW_TITLES, count, countOf, curateSummary, ingestLabel, waitingText } from "./texts";
 import type { JobStatus, TablePending, TableToReview } from "./types";
 
 export type { RowId } from "./state";
@@ -18,6 +19,7 @@ export type RowAction =
   | { type: "ingest" }
   | { type: "retryJob"; jobId: string }
   | { type: "adminPrompt"; prompt: string }
+  | { type: "adminPage"; path: string }
   | { type: "reviewTable"; table: string }
   | { type: "rebuild" }
   | { type: "synthesize" }
@@ -32,6 +34,7 @@ export function busyKeyOf(action: RowAction): BusyKey | null {
     case "retryJob":
       return "retry";
     case "adminPrompt":
+    case "adminPage":
     case "reviewTable":
       return null;
     default:
@@ -484,8 +487,8 @@ export function checklist(inputs: StateInputs): Checklist {
   const sameAsOpen = curate?.sameAsOpen ?? 0;
   const conflictsOpen = curate?.conflictsOpen ?? 0;
   const curateButtons = [
-    ...(sameAsOpen ? [button({ type: "adminPrompt", prompt: sameAsPrompt(sameAsOpen) }, LABELS.reviewSameAs, blocked.admin)] : []),
-    ...(conflictsOpen ? [button({ type: "adminPrompt", prompt: conflictsPrompt(conflictsOpen) }, LABELS.adjudicate, blocked.admin)] : []),
+    ...(sameAsOpen ? [button({ type: "adminPage", path: curatePath("sameas") }, LABELS.reviewSameAs, blocked.admin)] : []),
+    ...(conflictsOpen ? [button({ type: "adminPage", path: curatePath("conflicts") }, LABELS.adjudicate, blocked.admin)] : []),
     button({ type: "findDuplicates" }, LABELS.findDuplicates, blocked.findDuplicates),
     button({ type: "detectConflicts" }, LABELS.detectConflicts, blocked.detectConflicts),
   ];
