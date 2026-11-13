@@ -506,7 +506,8 @@ def register_curate_routes(app: FastAPI) -> FastAPI:
         if failed:
             raise HTTPException(status_code=400, detail=f"{len(results) - len(failed)} done, {len(failed)} failed: "
                                 + "; ".join(f"{r['op']}: {r['error']}" for r in failed[:3]))
-        return {"dry_run": False, "results": results, "effect": _effect(words, reversible=False)}
+        return {"dry_run": False, "results": results,
+                "effect": _effect(f"{len(results)} change(s) on {table}: {_batch_words(req.ops)}.", reversible=False)}
 
     @app.post("/api/curate/tables/{table}/describe")
     async def table_describe(table: str, req: DescribeRequest):

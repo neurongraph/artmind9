@@ -9,7 +9,17 @@ const cpLoaded = {};
 
 function cpClear() { cpPreviewEl.replaceChildren(); }
 
-// Preview (dry run) → Confirm → real call; one pattern for every pane write.
+// Low-risk write (confirming a proposal, saving text): no preview, a "Done" line afterwards.
+async function cpApply(path, body, label, onDone) {
+  cpClear();
+  try {
+    const res = await curPost(path, { ...body, dry_run: false });
+    await onDone();
+    cpPreviewEl.appendChild(el("p", null, `Done. ${(res.effect && res.effect.summary) || label}`));
+  } catch (err) { cpPreviewEl.appendChild(el("p", "dash-note", `Failed: ${err.message}`)); }
+}
+
+// Preview (dry run) → Apply → real call, for writes that discard something.
 async function cpWrite(path, body, label, onDone) {
   cpClear();
   try {
@@ -18,7 +28,7 @@ async function cpWrite(path, body, label, onDone) {
     const said = `${label}: ${effect.summary || JSON.stringify(dry).slice(0, 200)}`;
     cpPreviewEl.appendChild(el("p", null, said));
     if (effect.undo) cpPreviewEl.appendChild(el("p", "dash-note", `undo: ${effect.undo}`));
-    const go = el("button", null, "Confirm");
+    const go = el("button", null, "Apply");
     go.type = "button";
     go.addEventListener("click", async () => {
       go.disabled = true;
@@ -153,10 +163,10 @@ function cpTableNode(t) {
     }
     return ops;
   };
-  const run = (ops, label) => {
+  const run = (ops, label, preview) => {
     if (!ops.length) { status.textContent = "Nothing to do for the selected rows."; return; }
     status.textContent = "";
-    cpWrite(`${base}/batch`, { ...common, ops }, label, cpLoadTables);
+    (preview ? cpWrite : cpApply)(`${base}/batch`, { ...common, ops }, label, cpLoadTables);
   };
 
   const refresh = () => {
@@ -212,8 +222,8 @@ function cpTableNode(t) {
     sel("Select all shown", () => true),
     sel("Select high confidence (≥ 0.8)", (b) => rows.find((r) => r.column === b.column).maps.some((m) => (m.confidence || 0) >= 0.8)),
     cpBtn("Clear selection", () => { picked.clear(); refresh(); }),
-    cpBtn("Confirm selected…", () => run(bulkOps("confirm"), "confirm selected")),
-    cpBtn("Clear mapping on selected…", () => run(bulkOps("clear"), "clear selected")),
+    cpBtn("Confirm selected", () => run(bulkOps("confirm"), "confirm selected")),
+    cpBtn("Preview clearing selected…", () => run(bulkOps("clear"), "clear selected", true)),
     status,
   );
 
@@ -221,12 +231,12 @@ function cpTableNode(t) {
   const setBar = el("div", "dash-form curate-bar");
   setBar.append(
     el("span", "dash-note", "Set a class on the selected columns:"), classes,
-    cpBtn("Set class on selected…", () => {
+    cpBtn("Set class on selected", () => {
       const c = classes.value.trim();
       if (!c) { status.textContent = "Type an entity class first."; return; }
       run(rows.filter((r) => picked.has(r.column)).map((r) => ({ kind: "mapping", action: "set", column: r.column, entity_class: c })), `set ${c}`);
     }),
-    cpBtn("Save changed descriptions…", () => {
+    cpBtn("Save changed descriptions", () => {
       const ops = [];
       for (const [column, { inp, original }] of descInputs) if (inp.value.trim() !== original) ops.push({ kind: "describe", column, text: inp.value });
       if (!ops.length) { status.textContent = "No description was changed."; return; }
@@ -238,7 +248,7 @@ function cpTableNode(t) {
   tableDesc.placeholder = "what this table is: one row per what";
   const tableRow = el("div", "dash-form curate-bar");
   tableRow.append(el("span", "dash-note", "Table description:"), tableDesc,
-    cpBtn("Save…", () => cpWrite(`${base}/describe`, { ...common, column: null, text: tableDesc.value }, `describe ${t.table}`, cpLoadTables)));
+    cpBtn("Save", () => cpApply(`${base}/describe`, { ...common, column: null, text: tableDesc.value }, `Saved the description of ${t.table}.`, cpLoadTables)));
 
   const scroll = el("div", "curate-scroll");
   scroll.appendChild(table);
@@ -248,7 +258,7 @@ function cpTableNode(t) {
     const grain = el("select");
     for (const g of ["instance", "lookup", "normative"]) grain.appendChild(el("option", null, g));
     if (t.grain) grain.value = t.grain;
-    foot.append(el("span", "dash-note", "Grain:"), grain, cpBtn("Confirm grain…", () => cpWrite(`${base}/grain`, { ...common, grain: grain.value }, "grain", cpLoadTables)));
+    foot.append(el("span", "dash-note", "Grain:"), grain, cpBtn("Confirm grain", () => cpApply(`${base}/grain`, { ...common, grain: grain.value }, `Confirmed the grain of ${t.table} as ${grain.value}.`, cpLoadTables)));
     det.appendChild(foot);
   }
   applyFilter();
