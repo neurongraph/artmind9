@@ -500,3 +500,12 @@
 
 /* Benchmark run id: the handle `traces compare` takes. */
 .bm-run-id { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; user-select: all; cursor: text; }
+
+.curate-strip { display: flex; gap: 12px; flex-wrap: wrap; margin: 10px 0; }
+.curate-count { background: var(--bg-inset); border-radius: 6px; padding: 8px 12px; }
+.curate-count b { font-size: 18px; margin-right: 6px; }
+.curate-group > summary { cursor: pointer; font-weight: 600; padding: 4px 0; }
+.curate-row { border-top: 1px solid var(--border, #8884); padding: 6px 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; }
+.curate-badge { font-size: 11px; padding: 1px 6px; border-radius: 8px; background: var(--bg-inset); margin-left: 6px; }
+.curate-badge.link { outline: 1px solid currentColor; }
+.curate-evidence { grid-column: 2; font-size: 12.5px; color: var(--text-muted); white-space: pre-wrap; }
