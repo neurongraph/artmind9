@@ -28,6 +28,7 @@ from artmind.webui.backends import ADMIN_PROFILE, BACKEND_NAMES, DEFAULT_BACKEND
 from artmind.webui.benchmark_routes import register_benchmark_routes
 from artmind.webui.dashboard_routes import register_dashboard_routes
 from artmind.webui.hosts import guard_app
+from artmind.webui.curate_routes import register_curate_routes
 from artmind.webui.insights_routes import register_insights_routes
 from artmind.webui.topics_routes import register_topics_routes
 from artmind.webui.sessions import SessionRegistry
@@ -482,6 +483,7 @@ def create_app(
         register_benchmark_routes(app, templates)
         register_insights_routes(app)
         register_topics_routes(app)
+        register_curate_routes(app)
 
     return app
 
