@@ -419,14 +419,6 @@ def register_curate_routes(app: FastAPI) -> FastAPI:
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
 
-    # ── graph health ─────────────────────────────────────────────────
-    @app.get("/api/curate/health")
-    async def health(domain: str):
-        try:
-            return await asyncio.to_thread(_cli, ["insights", "list", "--domain", domain, "--kind", "health"])
-        except ValueError as exc:
-            raise HTTPException(status_code=404, detail=str(exc)) from exc
-
     # ── mart ─────────────────────────────────────────────────────────
     @app.get("/api/curate/mart")
     async def mart(domain: str):

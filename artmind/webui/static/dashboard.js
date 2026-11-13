@@ -42,7 +42,11 @@ function initTabs() {
       }
       const selector = `.tab-panel[data-tab-group="${group}"]`;
       for (const panel of document.querySelectorAll(selector)) {
-        panel.classList.toggle("active", panel.dataset.tabPanel === btn.dataset.tab);
+        const on = panel.dataset.tabPanel === btn.dataset.tab;
+        panel.classList.toggle("active", on);
+        // A grouped tab opens on its active sub-tab: fire that sub-tab's lazy loader.
+        const inner = on && panel.querySelector(`:scope > .tabs .tab.active`);
+        if (inner) inner.click();
       }
     });
   }
@@ -1194,15 +1198,18 @@ initTabs();
 window.addEventListener("DOMContentLoaded", function openTabFromUrl() {  // after every tab script has bound its click
   const tab = new URLSearchParams(window.location.search).get("tab");
   if (!tab) return;
-  const btn = document.querySelector(`.view-tabs .tab[data-tab="${CSS.escape(tab)}"]`);
-  if (btn) btn.click();
+  // A sub-tab name (e.g. insights) opens its group first, then itself.
+  const btn = document.querySelector(`.tab[data-tab="${CSS.escape(tab)}"]`);
+  if (!btn) return;
+  const group = btn.closest('.tab-panel[data-tab-group="view"]');
+  if (group) document.querySelector(`.view-tabs .tab[data-tab="${CSS.escape(group.dataset.tabPanel)}"]`).click();
+  btn.click();
 });
 loadDomains();
 loadStructuredDomains();
 refreshActiveJobs();
 refreshCompletedJobs();
 refreshSnapshots();
-refreshStructuredSnapshots();
 refreshGuardrail();
 setInterval(refreshActiveJobs, 10000);
 setInterval(refreshCompletedJobs, 5000);

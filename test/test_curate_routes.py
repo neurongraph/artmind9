@@ -188,15 +188,7 @@ def test_catalogue_runs_cli(client, monkeypatch):
     assert seen == [["db", "catalogue", "--domain", "demo"]]
 
 
-# ── health + mart (step 5) ───────────────────────────────────────────
-def test_health_reads_insights_cli(client, monkeypatch):
-    seen = []
-    monkeypatch.setattr(curate_routes, "_cli", lambda args: seen.append(args) or {"findings": [{"key": "k"}]})
-    body = client.get("/api/curate/health", params={"domain": "demo"}).json()
-    assert seen == [["insights", "list", "--domain", "demo", "--kind", "health"]] and body["findings"][0]["key"] == "k"
-    assert client.get("/api/curate/health").status_code == 422
-
-
+# ── mart (step 5) ───────────────────────────────────────────
 def test_mart_status_and_member_set(client, monkeypatch):
     seen = []
     monkeypatch.setattr(curate_routes, "_cli", lambda args: seen.append(args) or {"effect": {"summary": "e"}, "rows": []})

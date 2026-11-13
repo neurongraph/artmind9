@@ -160,30 +160,60 @@ function cpTableNode(t) {
   return det;
 }
 
-// ── graph health ─────────────────────────────────────────────────────
+// ── graph health: the actions on what Insights found (findings are read in Explore → Insights) ──
+const CP_SAMEAS = ["same_as_candidates", "split_signal"];
+const CP_REEXTRACT = ["fragments", "attribution_suspects"];
+
 async function cpLoadHealth() {
   const body = document.getElementById("curate-health-body");
-  if (!curDomainEl.value) return cpNeedDomain(body, "findings");
+  if (!curDomainEl.value) return cpNeedDomain(body, "actions");
   body.replaceChildren(el("p", "dash-note", "Loading…"));
+  const domain = curDomainEl.value;
   try {
-    const d = await api(`/api/curate/health?domain=${encodeURIComponent(curDomainEl.value)}`);
-    body.replaceChildren(el("p", "dash-note", `snapshot ${d.created_at} · ${d.rows_total} finding(s)`));
-    for (const f of d.findings) {
-      const row = el("div", "curate-row");
-      row.appendChild(el("span", "curate-badge", f.detector));
-      const main = el("div");
-      main.appendChild(el("strong", null, f.title));
-      if (/same_as|split/.test(f.detector)) {
-        main.appendChild(el("div", "dash-note", "Send to the same-as queue from the Insights tab card, which proposes through refine-graph."));
-      } else if (/fragment|attribution/.test(f.detector)) {
-        main.appendChild(el("div", "curate-evidence", `Re-extract the source note: artmind ingest sync "<path>" --reextract`));
-      } else main.appendChild(el("div", "dash-note", "Schema finding: edit in the Schemas tab."));
-      row.appendChild(main);
-      body.appendChild(row);
-    }
-    if (!d.findings.length) body.appendChild(el("p", "dash-empty", "No health findings."));
+    const d = await api(`/api/insights?domain=${encodeURIComponent(domain)}`);
+    const health = d.findings.filter((f) => f.kind === "health");
+    body.replaceChildren(el("p", "dash-note", `snapshot ${d.created_at} · ${health.length} health finding(s). Read them in Explore → Insights; act on them here.`));
+    const byDetector = new Map();
+    for (const f of health) { if (!byDetector.has(f.detector)) byDetector.set(f.detector, []); byDetector.get(f.detector).push(f); }
+    if (!health.length) body.appendChild(el("p", "dash-empty", "No health findings."));
+    for (const [detector, list] of byDetector) body.appendChild(cpHealthGroup(domain, detector, list));
   } catch (err) { body.replaceChildren(el("p", "dash-note", `${err.message}`)); }
 }
+
+function cpHealthGroup(domain, detector, list) {
+  const row = el("div", "curate-row");
+  row.appendChild(el("span", "curate-badge", `${list.length}`));
+  const main = el("div");
+  main.appendChild(el("strong", null, detector));
+  const open = cpBtn("Read in Insights", () => { document.querySelector('.tab[data-tab="insights"]').click(); });
+  if (CP_SAMEAS.includes(detector)) {
+    main.appendChild(el("div", "dash-note", "Proposes same-as groups for the Same-as queue (LLM calls; nothing is merged until you approve there)."));
+    const send = cpBtn(`Send ${list.length} to the same-as queue…`, async () => {
+      if (!window.confirm(`Propose same-as groups from ${list.length} finding(s)? This calls the LLM; nothing is merged yet.`)) return;
+      send.disabled = true;
+      try {
+        const res = await curPost("/api/insights/same-as/propose", { domain, keys: list.map((f) => f.key) });
+        cpPreviewEl.replaceChildren(el("p", null, `Proposed: ${JSON.stringify(res.stats)}; skipped ${(res.skipped || []).length}. Open the Same-as pane to review.`));
+      } catch (err) { cpPreviewEl.replaceChildren(el("p", "dash-note", `Failed: ${err.message}`)); }
+      finally { send.disabled = false; }
+    });
+    main.appendChild(send);
+  } else if (CP_REEXTRACT.includes(detector)) {
+    main.appendChild(el("div", "curate-evidence", `Evidence is in Insights. To redo a source note: artmind ingest sync "<path>" --reextract`));
+  } else {
+    main.appendChild(el("div", "dash-note", "A schema-level finding: edit the schema (Reference → Schemas shows it), then re-extract."));
+  }
+  main.appendChild(open);
+  row.appendChild(main);
+  return row;
+}
+
+// Insights cards call this: open Curate on the health pane for a domain.
+window.cpOpenHealth = function (domain) {
+  curDomainEl.value = domain;
+  document.querySelector('.tab[data-tab="curate"]').click();
+  cpShowQueue("health");
+};
 
 // ── mart ─────────────────────────────────────────────────────────────
 async function cpLoadMart() {

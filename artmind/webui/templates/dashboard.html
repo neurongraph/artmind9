@@ -31,19 +31,16 @@
 
   <main class="dash">
     <div class="tabs view-tabs" data-tab-group="view">
-      <button type="button" class="tab active" data-tab="operate">Ingest &amp; browse</button>
-      <button type="button" class="tab" data-tab="insights">Insights</button>
-      <button type="button" class="tab" data-tab="benchmark">Benchmark</button>
-      <button type="button" class="tab" data-tab="maintenance">Maintenance</button>
-      <button type="button" class="tab" data-tab="structured">Structured data</button>
-      <button type="button" class="tab" data-tab="cli-guide">CLI guide</button>
-      <button type="button" class="tab" data-tab="schemas">Schemas</button>
-      <button type="button" class="tab" data-tab="views">Views</button>
-      <button type="button" class="tab" data-tab="topics">Topics</button>
+      <button type="button" class="tab active" data-tab="ingest">Ingest</button>
       <button type="button" class="tab" data-tab="curate">Curate</button>
+      <button type="button" class="tab" data-tab="explore">Explore</button>
+      <button type="button" class="tab" data-tab="data">Data</button>
+      <button type="button" class="tab" data-tab="evaluate">Evaluate</button>
+      <button type="button" class="tab" data-tab="reference">Reference</button>
+      <button type="button" class="tab" data-tab="system">System</button>
     </div>
 
-    <div class="tab-panel active" data-tab-group="view" data-tab-panel="operate">
+    <div class="tab-panel active" data-tab-group="view" data-tab-panel="ingest">
     <div class="stat-row" id="stat-cards"></div>
 
     <section class="dash-panel dash-zone-wide" id="artifacts-panel">
@@ -83,18 +80,42 @@
           </form>
         </section>
 
-        <section class="dash-panel" id="embed-panel">
-          <h2>Embeddings</h2>
-          <p class="dash-hint">Backfill after a snapshot restore or a consolidate run.</p>
-          <div class="dash-form stacked">
+        <section class="dash-panel" id="structured-ingest-panel">
+          <h2>Ingest structured file</h2>
+          <p class="dash-hint">csv/xlsx/xlsm → parquet + registry. No graph write.</p>
+          <form id="structured-ingest-form" class="dash-form stacked">
             <label>
-              Backfill for domain
-              <select id="embed-domain"></select>
+              Domain
+              <select id="structured-ingest-domain" required></select>
             </label>
-            <button id="embed-btn" type="button" class="btn-secondary">Run backfill</button>
-          </div>
-          <span id="embed-result" class="dash-note"></span>
+            <label class="grow">
+              File
+              <input id="structured-ingest-file" type="file" accept=".csv,.xlsx,.xlsm" required>
+            </label>
+            <details>
+              <summary class="dash-hint">Advanced</summary>
+              <label>
+                Table name (optional)
+                <input id="structured-ingest-table" type="text" placeholder="defaults to the file name">
+              </label>
+              <label>
+                Sheet (optional, xlsx only)
+                <input id="structured-ingest-sheet" type="text" placeholder="defaults to the only/first sheet">
+              </label>
+              <label>
+                Header row (optional)
+                <input id="structured-ingest-header-row" type="number" min="0" value="0">
+              </label>
+            </details>
+            <label class="checkbox">
+              <input id="structured-ingest-force" type="checkbox">
+              Force re-ingest (bumps version even if unchanged)
+            </label>
+            <button type="submit" class="btn-primary">Ingest</button>
+          </form>
+          <span id="structured-ingest-result" class="dash-note"></span>
         </section>
+
 
       </div>
 
@@ -180,7 +201,167 @@
     </div>
     </div>
 
-    <div class="tab-panel" data-tab-group="view" data-tab-panel="benchmark">
+    <div class="tab-panel" data-tab-group="view" data-tab-panel="curate">
+    <section class="dash-panel dash-zone-wide" id="curate-panel">
+      <h2>Curate</h2>
+      <p class="dash-hint">Review what the proposers found. Every action shows its preview first; nothing is written until you confirm.</p>
+      <form class="dash-form" onsubmit="return false">
+        <label>Domain <select id="curate-domain"></select></label>
+        <button id="curate-reload" type="button" class="btn-secondary">Reload</button>
+      </form>
+      <div id="curate-overview" class="curate-strip"></div>
+      <p class="dash-note" id="curate-status"></p>
+      <div class="tabs" id="curate-queues">
+        <button type="button" class="tab active" data-queue="sameas">Same-as</button>
+        <button type="button" class="tab" data-queue="conflicts">Conflicts</button>
+        <button type="button" class="tab" data-queue="tables">Tables</button>
+        <button type="button" class="tab" data-queue="health">Health actions</button>
+        <button type="button" class="tab" data-queue="mart">Mart</button>
+      </div>
+      <div id="curate-sameas" data-queue-pane="sameas">
+        <h3>Same-as proposals</h3>
+        <form class="dash-form" onsubmit="return false">
+          <label>Status <select id="curate-status-filter"><option>open</option><option>approved</option><option>rejected</option><option>all</option></select></label>
+          <label>Source <select id="curate-source-filter"><option value="">any</option><option>adjudicator</option><option>refine_graph</option></select></label>
+          <label class="grow">Search <input id="curate-search" type="text" placeholder="name or reason"></label>
+          <a id="curate-ask" class="btn-secondary" href="#" target="_blank" rel="noopener">Ask the agent about these</a>
+        </form>
+        <div id="curate-actions" class="dash-form">
+          <button id="curate-approve" type="button" disabled>Approve selected…</button>
+          <label class="grow">Reject reason <input id="curate-reject-reason" type="text"></label>
+          <button id="curate-reject" type="button" class="btn-secondary" disabled>Reject selected…</button>
+          <label id="curate-canonical-wrap" hidden>Canonical <select id="curate-canonical"></select></label>
+          <span class="dash-note" id="curate-selected">0 selected</span>
+        </div>
+        <div id="curate-preview" class="dash-note"></div>
+        <div id="curate-sameas-body"><p class="dash-empty">Open this tab to load the queue.</p></div>
+        <div id="curate-sweep"></div>
+      </div>
+      <div id="curate-conflicts" data-queue-pane="conflicts" hidden>
+        <h3>Conflicts</h3>
+        <form class="dash-form" onsubmit="return false">
+          <label>Status <select id="curate-conflict-status"><option>open</option><option>resolved</option><option>dismissed</option><option>all</option></select></label>
+          <a id="curate-conflicts-ask" class="btn-secondary" href="#" target="_blank" rel="noopener">Ask the agent about these</a>
+        </form>
+        <div id="curate-conflicts-body"></div>
+      </div>
+      <div id="curate-tables" data-queue-pane="tables" hidden>
+        <h3>Structured tables awaiting review</h3>
+        <p class="dash-note">Pick a domain above. Re-running proposals stays in the Data tab.</p>
+        <div id="curate-tables-body"></div>
+        <button id="curate-push-catalogue" type="button" class="btn-secondary">Push to graph…</button>
+      </div>
+      <div id="curate-health" data-queue-pane="health" hidden>
+        <h3>Graph health actions</h3>
+        <p class="dash-note">Pick a domain above. What to do about the findings in Explore → Insights.</p>
+        <div id="curate-health-body"></div>
+      </div>
+      <div id="curate-mart" data-queue-pane="mart" hidden>
+        <h3>Mart</h3>
+        <p class="dash-note">Pick a domain with a mart declaration above.</p>
+        <div id="curate-mart-body"></div>
+      </div>
+      <div id="curate-pane-preview" class="dash-note"></div>
+
+    </section>
+    </div>
+
+    <div class="tab-panel" data-tab-group="view" data-tab-panel="explore">
+    <div class="tabs" data-tab-group="explore">
+      <button type="button" class="tab active" data-tab="insights">Insights</button>
+      <button type="button" class="tab" data-tab="views">Views</button>
+      <button type="button" class="tab" data-tab="topics">Topics</button>
+    </div>
+      <div class="tab-panel active" data-tab-group="explore" data-tab-panel="insights">
+    <section class="dash-panel dash-zone-wide" id="insights-panel">
+      <h2>Insights</h2>
+      <p class="dash-hint">Deterministic findings from the latest snapshot of a domain. Cards are leads, not conclusions.</p>
+      <form class="dash-form" id="insights-form" onsubmit="return false">
+        <label>
+          Domain
+          <select id="insights-domain"></select>
+        </label>
+        <button id="insights-refresh-btn" type="button" class="btn-secondary">Refresh</button>
+        <label class="checkbox"><input id="insights-force" type="checkbox"> force</label>
+      </form>
+      <p class="dash-note" id="insights-status"></p>
+      <div id="insights-anchors"></div>
+      <div id="insights-body"><p class="dash-empty">Open this tab to load insights.</p></div>
+    </section>
+    </div>
+    <div class="tab-panel" data-tab-group="explore" data-tab-panel="views">
+    <section class="dash-panel dash-zone-wide" id="views-panel">
+      <h2>Views</h2>
+      <p class="dash-hint">Saved, read-only graph queries. Authoring stays with the artmind-create-view skill.</p>
+      <form class="dash-form" id="views-form" onsubmit="return false">
+        <label>
+          Domain
+          <select id="views-domain"></select>
+        </label>
+      </form>
+      <div id="views-list" class="ins-grid"></div>
+      <div id="views-detail"></div>
+    </section>
+    </div>
+    <div class="tab-panel" data-tab-group="explore" data-tab-panel="topics">
+    <section class="dash-panel dash-zone-wide" id="topics-panel">
+      <h2>Topics</h2>
+      <p class="dash-hint">Topic plans (what agents run) with their freshness, and the topic pages (for people). Build and refresh with the artmind-build-topic skill or <code>artmind topic</code>.</p>
+      <div id="topics-plans" class="ins-grid"></div>
+      <h3>Pages</h3>
+      <div id="topics-pages" class="ins-grid"></div>
+      <div id="topics-detail"></div>
+    </section>
+    </div>
+    </div>
+
+    <div class="tab-panel" data-tab-group="view" data-tab-panel="data">
+    <div class="stat-row" id="structured-stat-cards"></div>
+
+    <section class="dash-panel dash-zone-wide" id="structured-sql-panel">
+      <h2>Run SQL</h2>
+      <p class="dash-hint">Read-only. Works with Neo4j down.</p>
+      <form id="structured-sql-form" class="dash-form">
+        <label class="grow">
+          Query
+          <textarea id="structured-sql-input" rows="4" placeholder="SELECT * FROM my_table" required></textarea>
+        </label>
+        <label style="width: 90px;">
+          Limit
+          <input id="structured-sql-limit" type="number" min="1" placeholder="100">
+        </label>
+        <button type="submit" class="btn-primary">Run</button>
+      </form>
+      <div id="structured-sql-result" style="margin-top: 10px;"></div>
+    </section>
+
+
+        <section class="dash-panel dash-zone-wide" id="structured-tables-panel">
+          <h2>Tables</h2>
+          <div class="dash-form stacked">
+            <label>
+              Domain
+              <select id="structured-tables-domain"></select>
+            </label>
+            <button type="button" class="btn-secondary" id="structured-classify-all-btn">Classify all unclassified</button>
+            <label class="checkbox">
+              <input type="checkbox" id="structured-classify-all-redo">
+              Redo already-classified tables too
+            </label>
+            <span id="structured-classify-all-progress" class="dash-note"></span>
+          </div>
+          <div class="table-scroll">
+            <table class="dash-table" id="structured-tables-table">
+              <thead>
+                <tr><th>Name</th><th>Domain</th><th>Rows</th><th>Version</th><th>Ingested</th><th>Grain</th><th>Classify</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+    </div>
+
+    <div class="tab-panel" data-tab-group="view" data-tab-panel="evaluate">
     <section class="dash-panel dash-zone-wide" id="benchmark-panel">
       <h2>Benchmark</h2>
       <p class="dash-hint">Run a batch of Q&amp;A questions through the artmind query agent, one after another, and record every answer.</p>
@@ -241,7 +422,60 @@
     </section>
     </div>
 
-    <div class="tab-panel" data-tab-group="view" data-tab-panel="maintenance">
+    <div class="tab-panel" data-tab-group="view" data-tab-panel="reference">
+    <div class="tabs" data-tab-group="reference">
+      <button type="button" class="tab active" data-tab="schemas">Schemas</button>
+      <button type="button" class="tab" data-tab="cli-guide">CLI guide</button>
+    </div>
+    <div class="tab-panel active" data-tab-group="reference" data-tab-panel="schemas">
+    <section class="dash-panel dash-zone-wide" id="schema-ref-panel">
+      <h2>Schemas</h2>
+      <p class="dash-hint">Entity classes, property guidance, and relationship model — read from the run folder's live domain schemas.</p>
+
+      <form class="dash-form" id="schema-ref-form" onsubmit="return false">
+        <label>
+          Domain family
+          <select id="schema-ref-family"></select>
+        </label>
+        <label class="grow">
+          Search
+          <input id="schema-ref-search" type="search" autocomplete="off" spellcheck="false"
+                 placeholder="Entity class, property, or relationship type">
+        </label>
+        <button id="schema-ref-refresh-btn" type="button" class="btn-secondary">Refresh</button>
+      </form>
+      <p class="dash-note" id="schema-ref-stats"></p>
+
+      <div id="schema-ref-body" class="sr-root">
+        <p class="dash-empty">Loading…</p>
+      </div>
+      <p class="dash-empty" id="schema-ref-empty" hidden>No entities or relationships match your search.</p>
+    </section>
+    </div>
+    <div class="tab-panel" data-tab-group="reference" data-tab-panel="cli-guide">
+    <section class="dash-panel dash-zone-wide" id="cli-guide-panel">
+      <h2>CLI guide</h2>
+      <p class="dash-hint">Live reference introspected from the running <code>artmind</code> CLI.</p>
+
+      <form class="dash-form" id="cli-guide-form" onsubmit="return false">
+        <label class="grow">
+          Search
+          <input id="cli-guide-search" type="search" autocomplete="off" spellcheck="false"
+                 placeholder="Command, option, or description — press / to focus">
+        </label>
+        <button id="cli-guide-refresh-btn" type="button" class="btn-secondary">Refresh</button>
+      </form>
+      <p class="dash-note" id="cli-guide-stats"></p>
+
+      <div id="cli-guide-body" class="cg-root">
+        <p class="dash-empty">Loading…</p>
+      </div>
+      <p class="dash-empty" id="cli-guide-empty" hidden>No commands match your search.</p>
+    </section>
+    </div>
+    </div>
+
+    <div class="tab-panel" data-tab-group="view" data-tab-panel="system">
     <section class="dash-panel dash-zone-maint" id="snapshots-panel">
       <h2>Maintain — system snapshots</h2>
       <p class="dash-hint">Infrequent and destructive. Unified snapshots include graph, structured data, KG staging, and originals (curation is opt-in). The registry is a rebuildable cache and is not a snapshot component — see "docs reindex".</p>
@@ -294,253 +528,18 @@
         </div>
       </div>
     </section>
-    </div>
-
-    <div class="tab-panel" data-tab-group="view" data-tab-panel="structured">
-    <div class="stat-row" id="structured-stat-cards"></div>
-
-    <section class="dash-panel dash-zone-wide" id="structured-sql-panel">
-      <h2>Run SQL</h2>
-      <p class="dash-hint">Read-only. Works with Neo4j down.</p>
-      <form id="structured-sql-form" class="dash-form">
-        <label class="grow">
-          Query
-          <textarea id="structured-sql-input" rows="4" placeholder="SELECT * FROM my_table" required></textarea>
-        </label>
-        <label style="width: 90px;">
-          Limit
-          <input id="structured-sql-limit" type="number" min="1" placeholder="100">
-        </label>
-        <button type="submit" class="btn-primary">Run</button>
-      </form>
-      <div id="structured-sql-result" style="margin-top: 10px;"></div>
-    </section>
-
-    <div class="dash-grid">
-      <div class="col-side">
-
-        <section class="dash-panel" id="structured-ingest-panel">
-          <h2>Ingest structured file</h2>
-          <p class="dash-hint">csv/xlsx/xlsm → parquet + registry. No graph write.</p>
-          <form id="structured-ingest-form" class="dash-form stacked">
-            <label>
-              Domain
-              <select id="structured-ingest-domain" required></select>
-            </label>
-            <label class="grow">
-              File
-              <input id="structured-ingest-file" type="file" accept=".csv,.xlsx,.xlsm" required>
-            </label>
-            <details>
-              <summary class="dash-hint">Advanced</summary>
-              <label>
-                Table name (optional)
-                <input id="structured-ingest-table" type="text" placeholder="defaults to the file name">
-              </label>
-              <label>
-                Sheet (optional, xlsx only)
-                <input id="structured-ingest-sheet" type="text" placeholder="defaults to the only/first sheet">
-              </label>
-              <label>
-                Header row (optional)
-                <input id="structured-ingest-header-row" type="number" min="0" value="0">
-              </label>
-            </details>
-            <label class="checkbox">
-              <input id="structured-ingest-force" type="checkbox">
-              Force re-ingest (bumps version even if unchanged)
-            </label>
-            <button type="submit" class="btn-primary">Ingest</button>
-          </form>
-          <span id="structured-ingest-result" class="dash-note"></span>
-        </section>
-
-      </div>
-
-      <div class="col-main">
-
-        <section class="dash-panel" id="structured-tables-panel">
-          <h2>Tables</h2>
+        <section class="dash-panel dash-zone-maint" id="embed-panel">
+          <h2>Embeddings</h2>
+          <p class="dash-hint">Backfill after a snapshot restore or a consolidate run.</p>
           <div class="dash-form stacked">
             <label>
-              Domain
-              <select id="structured-tables-domain"></select>
+              Backfill for domain
+              <select id="embed-domain"></select>
             </label>
-            <button type="button" class="btn-secondary" id="structured-classify-all-btn">Classify all unclassified</button>
-            <label class="checkbox">
-              <input type="checkbox" id="structured-classify-all-redo">
-              Redo already-classified tables too
-            </label>
-            <span id="structured-classify-all-progress" class="dash-note"></span>
+            <button id="embed-btn" type="button" class="btn-secondary">Run backfill</button>
           </div>
-          <div class="table-scroll">
-            <table class="dash-table" id="structured-tables-table">
-              <thead>
-                <tr><th>Name</th><th>Domain</th><th>Rows</th><th>Version</th><th>Ingested</th><th>Grain</th><th>Classify</th></tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
+          <span id="embed-result" class="dash-note"></span>
         </section>
-
-      </div>
-    </div>
-    </div>
-
-    <div class="tab-panel" data-tab-group="view" data-tab-panel="cli-guide">
-    <section class="dash-panel dash-zone-wide" id="cli-guide-panel">
-      <h2>CLI guide</h2>
-      <p class="dash-hint">Live reference introspected from the running <code>artmind</code> CLI.</p>
-
-      <form class="dash-form" id="cli-guide-form" onsubmit="return false">
-        <label class="grow">
-          Search
-          <input id="cli-guide-search" type="search" autocomplete="off" spellcheck="false"
-                 placeholder="Command, option, or description — press / to focus">
-        </label>
-        <button id="cli-guide-refresh-btn" type="button" class="btn-secondary">Refresh</button>
-      </form>
-      <p class="dash-note" id="cli-guide-stats"></p>
-
-      <div id="cli-guide-body" class="cg-root">
-        <p class="dash-empty">Loading…</p>
-      </div>
-      <p class="dash-empty" id="cli-guide-empty" hidden>No commands match your search.</p>
-    </section>
-    </div>
-
-    <div class="tab-panel" data-tab-group="view" data-tab-panel="schemas">
-    <section class="dash-panel dash-zone-wide" id="schema-ref-panel">
-      <h2>Schemas</h2>
-      <p class="dash-hint">Entity classes, property guidance, and relationship model — read from the run folder's live domain schemas.</p>
-
-      <form class="dash-form" id="schema-ref-form" onsubmit="return false">
-        <label>
-          Domain family
-          <select id="schema-ref-family"></select>
-        </label>
-        <label class="grow">
-          Search
-          <input id="schema-ref-search" type="search" autocomplete="off" spellcheck="false"
-                 placeholder="Entity class, property, or relationship type">
-        </label>
-        <button id="schema-ref-refresh-btn" type="button" class="btn-secondary">Refresh</button>
-      </form>
-      <p class="dash-note" id="schema-ref-stats"></p>
-
-      <div id="schema-ref-body" class="sr-root">
-        <p class="dash-empty">Loading…</p>
-      </div>
-      <p class="dash-empty" id="schema-ref-empty" hidden>No entities or relationships match your search.</p>
-    </section>
-    </div>
-      <div class="tab-panel" data-tab-group="view" data-tab-panel="insights">
-    <section class="dash-panel dash-zone-wide" id="insights-panel">
-      <h2>Insights</h2>
-      <p class="dash-hint">Deterministic findings from the latest snapshot of a domain. Cards are leads, not conclusions.</p>
-      <form class="dash-form" id="insights-form" onsubmit="return false">
-        <label>
-          Domain
-          <select id="insights-domain"></select>
-        </label>
-        <button id="insights-refresh-btn" type="button" class="btn-secondary">Refresh</button>
-        <label class="checkbox"><input id="insights-force" type="checkbox"> force</label>
-      </form>
-      <p class="dash-note" id="insights-status"></p>
-      <div id="insights-anchors"></div>
-      <div id="insights-body"><p class="dash-empty">Open this tab to load insights.</p></div>
-    </section>
-    </div>
-
-    <div class="tab-panel" data-tab-group="view" data-tab-panel="views">
-    <section class="dash-panel dash-zone-wide" id="views-panel">
-      <h2>Views</h2>
-      <p class="dash-hint">Saved, read-only graph queries. Authoring stays with the artmind-create-view skill.</p>
-      <form class="dash-form" id="views-form" onsubmit="return false">
-        <label>
-          Domain
-          <select id="views-domain"></select>
-        </label>
-      </form>
-      <div id="views-list" class="ins-grid"></div>
-      <div id="views-detail"></div>
-    </section>
-    </div>
-
-    <div class="tab-panel" data-tab-group="view" data-tab-panel="curate">
-    <section class="dash-panel dash-zone-wide" id="curate-panel">
-      <h2>Curate</h2>
-      <p class="dash-hint">Review what the proposers found. Every action shows its preview first; nothing is written until you confirm.</p>
-      <form class="dash-form" onsubmit="return false">
-        <label>Domain <select id="curate-domain"></select></label>
-        <button id="curate-reload" type="button" class="btn-secondary">Reload</button>
-      </form>
-      <div id="curate-overview" class="curate-strip"></div>
-      <p class="dash-note" id="curate-status"></p>
-      <div class="tabs" id="curate-queues">
-        <button type="button" class="tab active" data-queue="sameas">Same-as</button>
-        <button type="button" class="tab" data-queue="conflicts">Conflicts</button>
-        <button type="button" class="tab" data-queue="tables">Tables</button>
-        <button type="button" class="tab" data-queue="health">Graph health</button>
-        <button type="button" class="tab" data-queue="mart">Mart</button>
-      </div>
-      <div id="curate-sameas" data-queue-pane="sameas">
-        <h3>Same-as proposals</h3>
-        <form class="dash-form" onsubmit="return false">
-          <label>Status <select id="curate-status-filter"><option>open</option><option>approved</option><option>rejected</option><option>all</option></select></label>
-          <label>Source <select id="curate-source-filter"><option value="">any</option><option>adjudicator</option><option>refine_graph</option></select></label>
-          <label class="grow">Search <input id="curate-search" type="text" placeholder="name or reason"></label>
-          <a id="curate-ask" class="btn-secondary" href="#" target="_blank" rel="noopener">Ask the agent about these</a>
-        </form>
-        <div id="curate-actions" class="dash-form">
-          <button id="curate-approve" type="button" disabled>Approve selected…</button>
-          <label class="grow">Reject reason <input id="curate-reject-reason" type="text"></label>
-          <button id="curate-reject" type="button" class="btn-secondary" disabled>Reject selected…</button>
-          <label id="curate-canonical-wrap" hidden>Canonical <select id="curate-canonical"></select></label>
-          <span class="dash-note" id="curate-selected">0 selected</span>
-        </div>
-        <div id="curate-preview" class="dash-note"></div>
-        <div id="curate-sameas-body"><p class="dash-empty">Open this tab to load the queue.</p></div>
-        <div id="curate-sweep"></div>
-      </div>
-      <div id="curate-conflicts" data-queue-pane="conflicts" hidden>
-        <h3>Conflicts</h3>
-        <form class="dash-form" onsubmit="return false">
-          <label>Status <select id="curate-conflict-status"><option>open</option><option>resolved</option><option>dismissed</option><option>all</option></select></label>
-          <a id="curate-conflicts-ask" class="btn-secondary" href="#" target="_blank" rel="noopener">Ask the agent about these</a>
-        </form>
-        <div id="curate-conflicts-body"></div>
-      </div>
-      <div id="curate-tables" data-queue-pane="tables" hidden>
-        <h3>Structured tables awaiting review</h3>
-        <p class="dash-note">Pick a domain above. Re-running proposals stays in the Structured data tab.</p>
-        <div id="curate-tables-body"></div>
-        <button id="curate-push-catalogue" type="button" class="btn-secondary">Push to graph…</button>
-      </div>
-      <div id="curate-health" data-queue-pane="health" hidden>
-        <h3>Graph health findings</h3>
-        <p class="dash-note">Pick a domain above. Findings come from the latest insights snapshot.</p>
-        <div id="curate-health-body"></div>
-      </div>
-      <div id="curate-mart" data-queue-pane="mart" hidden>
-        <h3>Mart</h3>
-        <p class="dash-note">Pick a domain with a mart declaration above.</p>
-        <div id="curate-mart-body"></div>
-      </div>
-      <div id="curate-pane-preview" class="dash-note"></div>
-
-    </section>
-    </div>
-
-    <div class="tab-panel" data-tab-group="view" data-tab-panel="topics">
-    <section class="dash-panel dash-zone-wide" id="topics-panel">
-      <h2>Topics</h2>
-      <p class="dash-hint">Topic plans (what agents run) with their freshness, and the topic pages (for people). Build and refresh with the artmind-build-topic skill or <code>artmind topic</code>.</p>
-      <div id="topics-plans" class="ins-grid"></div>
-      <h3>Pages</h3>
-      <div id="topics-pages" class="ins-grid"></div>
-      <div id="topics-detail"></div>
-    </section>
     </div>
 
 </main>

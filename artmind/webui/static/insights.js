@@ -254,27 +254,12 @@ function renderActions(f, ctx) {
     }
   });
   row.append(ask, promote);
-  if (f.detector === "same_as_candidates" || f.detector === "split_signal") {
-    const send = el("button", "btn-secondary", "Send to curation");
-    send.type = "button";
-    send.addEventListener("click", async () => {
-      const keys = curationKeys(f, ctx.findings);
-      if (!keys.length) { note.textContent = "no matching same_as candidate in this snapshot"; return; }
-      if (!window.confirm(`Propose ${keys.length} same-as merge(s) for review in the curation queue? Nothing is merged yet.`)) return;
-      send.disabled = true;
-      try {
-        const res = await api("/api/insights/same-as/propose", {
-          method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ domain: ctx.domain, keys }),
-        });
-        note.textContent = `stats ${JSON.stringify(res.stats)}; skipped ${JSON.stringify(res.skipped)}`;
-      } catch (err) {
-        note.textContent = `failed: ${err.message}`;
-      } finally {
-        send.disabled = false;
-      }
-    });
-    row.appendChild(send);
+  if (f.kind === "health") {
+    // Findings are read here; acting on them (same-as proposals, re-extraction) is the Curate tab's job.
+    const act = el("button", "btn-secondary", "Act in Curate");
+    act.type = "button";
+    act.addEventListener("click", () => window.cpOpenHealth && window.cpOpenHealth(ctx.domain));
+    row.appendChild(act);
   }
   row.appendChild(note);
   return row;
