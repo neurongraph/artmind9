@@ -16,12 +16,14 @@ NEXT_PEEL = "artmind query orient --domain <domain> --compact"
 
 def _known_domains(warnings: list | None = None) -> list:
     """Domains with a schema here, a structured table or graph data. `general` (always in the schema
-    list) only when it holds graph data."""
+    list) only when it holds graph data or a structured table."""
     from artmind import domain_guard
 
     names = set(domain_guard._schema_domains())
+    tables: set = set()
     try:
-        names |= domain_guard._table_domains()
+        tables = domain_guard._table_domains()
+        names |= tables
     except Exception as exc:
         from artmind.cli_conventions import store_failure
 
@@ -42,7 +44,7 @@ def _known_domains(warnings: list | None = None) -> list:
             warnings.append("graph unreachable: domains with only graph data are not listed")
         graph = set()
     names |= graph
-    if "general" not in graph:
+    if "general" not in graph and "general" not in tables:
         names.discard("general")
     return sorted(names)
 
