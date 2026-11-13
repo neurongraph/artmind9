@@ -185,6 +185,57 @@ def _resolve_conflict(cid, status, reason, dry_run):
     return resolve_conflict(cid, status, reason, dry_run=dry_run)
 
 
+def _describe(domain, table, column, text, dry_run):
+    from artmind import table_metadata
+
+    return table_metadata.describe(domain, table, text, column, dry_run=dry_run)
+
+
+def _descriptions(domain, table):
+    from artmind import table_metadata
+
+    return table_metadata.read(domain, table)
+
+
+def _check_op(op) -> None:
+    if op.kind == "mapping":
+        if op.action not in ("confirm", "clear", "set"):
+            raise ValueError("mapping action must be confirm, clear or set")
+        if not op.column:
+            raise ValueError("a mapping needs a column")
+        if op.action != "clear" and not op.entity_class:
+            raise ValueError(f"{op.column}: entity_class is required")
+    elif op.kind == "bridge":
+        if op.action not in ("confirm", "clear") or not op.column:
+            raise ValueError("a bridge op needs a column and the action confirm or clear")
+    elif op.kind != "describe":
+        raise ValueError(f"unknown op kind {op.kind!r}")
+
+
+def _batch_words(ops) -> str:
+    counts: dict[str, int] = {}
+    for op in ops:
+        key = {"describe": "describe"}.get(op.kind) or f"{op.action} {op.kind}"
+        counts[key] = counts.get(key, 0) + 1
+    return ", ".join(f"{k} x{n}" for k, n in counts.items())
+
+
+def _apply_batch(table, domain, ops):
+    """Run each op in turn; one failing op does not stop the rest. Returns per-op outcomes."""
+    results = []
+    for op in ops:
+        label = f"{op.kind} {op.action} {op.column or table}".replace("  ", " ")
+        try:
+            if op.kind == "describe":
+                _describe(domain, table, op.column, op.text, False)
+            else:
+                _table_write(op.kind, table, domain, op.action, op.column, op.entity_class)
+            results.append({"op": label, "ok": True})
+        except ValueError as exc:
+            results.append({"op": label, "ok": False, "error": str(exc)})
+    return results
+
+
 def _effect(summary: str, **more) -> dict:
     return {"summary": summary, **more}
 
@@ -234,6 +285,27 @@ class MappingRequest(BaseModel):
 class GrainRequest(BaseModel):
     domain: str = ""
     grain: str
+    dry_run: bool = True
+
+
+class DescribeRequest(BaseModel):
+    domain: str
+    column: str | None = None
+    text: str = ""
+    dry_run: bool = True
+
+
+class BatchOp(BaseModel):
+    kind: str                      # mapping | bridge | describe
+    action: str = ""               # mapping: confirm|clear|set; bridge: confirm|clear
+    column: str | None = None
+    entity_class: str | None = None
+    text: str = ""
+
+
+class BatchRequest(BaseModel):
+    domain: str = ""
+    ops: list[BatchOp]
     dry_run: bool = True
 
 
@@ -376,6 +448,11 @@ def register_curate_routes(app: FastAPI) -> FastAPI:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
         cols = {t["table_name"]: t.get("columns") or [] for t in schema.get("tables", [])}
         for t in review.get("tables", []):
+            try:
+                t["descriptions"] = await asyncio.to_thread(_descriptions, t.get("domain") or domain, t["table"])
+            except ValueError:
+                t["descriptions"] = {"description": "", "columns": {}}
+            t["column_names"] = [c["name"] for c in cols.get(t["table"], [])]
             t["samples"] = {c["name"]: _sample(c) for c in cols.get(t["table"], []) if _sample(c)}
         return review
 
@@ -411,6 +488,36 @@ def register_curate_routes(app: FastAPI) -> FastAPI:
             raise HTTPException(status_code=400, detail="action must be confirm or clear")
         words = f"{req.action.capitalize()} the bridge role of column {req.column} on {table}."
         return await _table_op("bridge", table, req.domain, req.action, req.column, None, req.dry_run, words)
+
+    @app.post("/api/curate/tables/{table}/batch")
+    async def table_batch(table: str, req: BatchRequest):
+        if not req.ops:
+            raise HTTPException(status_code=400, detail="nothing selected")
+        try:
+            for op in req.ops:
+                _check_op(op)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        words = f"On {table}: {_batch_words(req.ops)}."
+        if req.dry_run:
+            return {"dry_run": True, "effect": _effect(words, reversible=False)}
+        results = await asyncio.to_thread(_apply_batch, table, req.domain, req.ops)
+        failed = [r for r in results if not r["ok"]]
+        if failed:
+            raise HTTPException(status_code=400, detail=f"{len(results) - len(failed)} done, {len(failed)} failed: "
+                                + "; ".join(f"{r['op']}: {r['error']}" for r in failed[:3]))
+        return {"dry_run": False, "results": results, "effect": _effect(words, reversible=False)}
+
+    @app.post("/api/curate/tables/{table}/describe")
+    async def table_describe(table: str, req: DescribeRequest):
+        what = f"{table}.{req.column}" if req.column else table
+        try:
+            result = await asyncio.to_thread(_describe, req.domain, table, req.column, req.text, req.dry_run)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        summary = (f"Set the description of {what}." if result.get("changed") else f"{what} already has that description.")
+        return {**result, "dry_run": req.dry_run,
+                "effect": _effect(summary, reversible=True, undo=f"previous text: {result.get('before') or '(none)'}")}
 
     @app.post("/api/curate/catalogue")
     async def catalogue(req: DomainRequest):

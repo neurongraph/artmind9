@@ -510,3 +510,27 @@
 .curate-badge { font-size: 11px; padding: 1px 6px; border-radius: 8px; background: var(--bg-inset); margin-left: 6px; }
 .curate-badge.link { outline: 1px solid currentColor; }
 .curate-evidence { grid-column: 2; font-size: 12.5px; color: var(--text-muted); white-space: pre-wrap; }
+
+/* Curate: the preview/confirm box stays in view however long the pane above it is. */
+#curate-pane-preview:not(:empty) {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  padding: 0.75rem 1rem;
+  background: var(--bg-elev);
+  border-top: 2px solid var(--accent);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Curate → Tables: one row per column, selectable. */
+.curate-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0; }
+.curate-scroll { max-height: 60vh; overflow: auto; border: 1px solid var(--border, #8884); border-radius: 6px; }
+.curate-table th { position: sticky; top: 0; background: var(--bg-elev); z-index: 1; text-align: left; }
+.curate-table td { vertical-align: top; }
+.curate-table td.curate-col { font-weight: 600; white-space: nowrap; }
+.curate-table td.curate-sample { color: var(--text-muted); font-size: 12px; max-width: 26ch; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.curate-table td input[type="text"] {
+  width: 100%; min-width: 22ch; font: inherit; padding: 5px 8px;
+  border: 1px solid var(--border); border-radius: 6px; background: var(--bg-elev); color: var(--text);
+}
+.curate-table tr.curate-dirty { background: color-mix(in srgb, var(--accent) 10%, transparent); }

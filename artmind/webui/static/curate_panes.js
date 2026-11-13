@@ -15,14 +15,19 @@ async function cpWrite(path, body, label, onDone) {
   try {
     const dry = await curPost(path, { ...body, dry_run: true });
     const effect = dry.effect || {};
-    cpPreviewEl.appendChild(el("p", null, `${label}: ${effect.summary || JSON.stringify(dry).slice(0, 200)}`));
+    const said = `${label}: ${effect.summary || JSON.stringify(dry).slice(0, 200)}`;
+    cpPreviewEl.appendChild(el("p", null, said));
     if (effect.undo) cpPreviewEl.appendChild(el("p", "dash-note", `undo: ${effect.undo}`));
     const go = el("button", null, "Confirm");
     go.type = "button";
     go.addEventListener("click", async () => {
       go.disabled = true;
-      try { await curPost(path, { ...body, dry_run: false }); cpClear(); await onDone(); }
-      catch (err) { cpPreviewEl.appendChild(el("p", "dash-note", `Failed: ${err.message}`)); }
+      try {
+        await curPost(path, { ...body, dry_run: false });
+        cpClear();
+        await onDone();
+        cpPreviewEl.appendChild(el("p", null, `Done. ${said}`));
+      } catch (err) { cpPreviewEl.appendChild(el("p", "dash-note", `Failed: ${err.message}`)); }
     });
     cpPreviewEl.appendChild(go);
   } catch (err) { cpPreviewEl.appendChild(el("p", "dash-note", `Preview failed: ${err.message}`)); }
@@ -104,59 +109,149 @@ async function cpLoadTables() {
   } catch (err) { body.replaceChildren(el("p", "dash-note", `Failed to load: ${err.message}`)); }
 }
 
+// One table per structured table: a row per column with its proposed mapping, bridge role and
+// description. Rows are selectable; one bulk action = one preview, one Confirm, one batch call.
+function cpTd(content, cls) {
+  const td = el("td", cls || null);
+  if (content instanceof Node) td.appendChild(content); else td.textContent = content == null ? "" : String(content);
+  return td;
+}
+
 function cpTableNode(t) {
   const det = el("details", "curate-group");
   det.open = true;
-  det.appendChild(el("summary", null, `${t.table} · grain ${t.grain || "?"}${t.grain_confirmed ? " (confirmed)" : ""}`));
+  det.appendChild(el("summary", null, `${t.table} · ${t.domain} · grain ${t.grain || "?"}${t.grain_confirmed ? " (confirmed)" : ""}`));
   const base = `/api/curate/tables/${encodeURIComponent(t.table)}`;
   const common = { domain: t.domain };
-  const seen = new Set();
-  const acceptBtn = cpBtn("Accept all proposed…", async () => {
-    for (const m of t.mappings) await curPost(`${base}/mapping`, { ...common, action: "confirm", column: m.column, entity_class: m.entity_class, dry_run: false });
-    await cpLoadTables();
+  const d = t.descriptions || { description: "", columns: {} };
+  const maps = new Map();
+  for (const m of t.mappings) { if (!maps.has(m.column)) maps.set(m.column, []); maps.get(m.column).push(m); }
+  const bridges = new Map((t.bridge_columns || []).map((b) => [b.column, b]));
+  const names = [...new Set([...(t.column_names || []), ...maps.keys(), ...bridges.keys()])];
+  const rows = names.map((c) => ({
+    column: c, maps: maps.get(c) || [], bridge: bridges.get(c) || null,
+    sample: (t.samples[c] || []).slice(0, 6).join(", "), described: d.columns[c] || "",
+  }));
+  const picked = new Set();
+  const state = { filter: "pending" };
+  const status = el("span", "dash-note");
+  const tbody = el("tbody");
+  const boxes = [];
+  const descInputs = new Map();
+
+  const bulkOps = (action) => {
+    const ops = [];
+    for (const r of rows) {
+      if (!picked.has(r.column)) continue;
+      if (action === "confirm") {
+        for (const m of r.maps) ops.push({ kind: "mapping", action: "confirm", column: r.column, entity_class: m.entity_class });
+        if (r.bridge) ops.push({ kind: "bridge", action: "confirm", column: r.column });
+      } else if (action === "clear") {
+        if (r.maps.length) ops.push({ kind: "mapping", action: "clear", column: r.column });
+        if (r.bridge) ops.push({ kind: "bridge", action: "clear", column: r.column });
+      }
+    }
+    return ops;
+  };
+  const run = (ops, label) => {
+    if (!ops.length) { status.textContent = "Nothing to do for the selected rows."; return; }
+    status.textContent = "";
+    cpWrite(`${base}/batch`, { ...common, ops }, label, cpLoadTables);
+  };
+
+  const refresh = () => {
+    status.textContent = `${picked.size} selected`;
+    for (const b of boxes) b.box.checked = picked.has(b.column);
+    master.checked = boxes.length > 0 && boxes.every((b) => !b.tr.hidden ? picked.has(b.column) : true) && picked.size > 0;
+  };
+  const master = el("input"); master.type = "checkbox"; master.title = "select every row shown";
+  master.addEventListener("change", () => {
+    for (const b of boxes) if (!b.tr.hidden) { if (master.checked) picked.add(b.column); else picked.delete(b.column); }
+    refresh();
   });
-  acceptBtn.disabled = t.mappings.length > 0;  // only after every row is expanded once
-  const sample = (col) => (t.samples[col] || []).slice(0, 8).join(", ") || "no sample";
-  for (const m of t.mappings) {
-    const row = el("div", "curate-row");
-    row.appendChild(el("span", "curate-badge", "mapping"));
-    const main = el("div");
-    main.appendChild(el("strong", null, `${m.column} → ${m.entity_class}`));
-    main.appendChild(el("div", "curate-evidence", `values: ${sample(m.column)}`));
-    seen.add(m.column);
-    main.appendChild(cpBtn("Confirm…", () => cpWrite(`${base}/mapping`, { ...common, action: "confirm", column: m.column, entity_class: m.entity_class }, "confirm", cpLoadTables)));
-    main.appendChild(cpBtn("Clear…", () => cpWrite(`${base}/mapping`, { ...common, action: "clear", column: m.column }, "clear", cpLoadTables)));
-    row.appendChild(main);
-    det.appendChild(row);
-    if (seen.size === new Set(t.mappings.map((x) => x.column)).size) acceptBtn.disabled = false;
+
+  const table = el("table", "dash-table curate-table");
+  const head = el("thead"); const hr = el("tr");
+  hr.appendChild(cpTd(master));
+  for (const h of ["Column", "Proposed class", "Conf.", "Bridge", "Sample values", "Description for text2sql"]) hr.appendChild(el("th", null, h));
+  head.appendChild(hr);
+  for (const r of rows) {
+    const tr = el("tr");
+    const box = el("input"); box.type = "checkbox";
+    box.addEventListener("change", () => { if (box.checked) picked.add(r.column); else picked.delete(r.column); refresh(); });
+    tr.appendChild(cpTd(box));
+    tr.appendChild(cpTd(r.column, "curate-col"));
+    tr.appendChild(cpTd(r.maps.map((m) => m.entity_class).join(", ") || "—"));
+    tr.appendChild(cpTd(r.maps.map((m) => (m.confidence != null ? Number(m.confidence).toFixed(1) : "")).join(", ")));
+    tr.appendChild(cpTd(r.bridge ? `proposed${r.bridge.confidence != null ? " " + Number(r.bridge.confidence).toFixed(2) : ""}` : "—"));
+    const sampleTd = cpTd(r.sample || "no sample", "curate-sample");
+    sampleTd.title = (t.samples[r.column] || []).join(", ");
+    tr.appendChild(sampleTd);
+    const inp = el("input"); inp.type = "text"; inp.value = r.described; inp.placeholder = "what this column means";
+    inp.addEventListener("input", () => { tr.classList.toggle("curate-dirty", inp.value.trim() !== r.described); });
+    descInputs.set(r.column, { inp, original: r.described });
+    tr.appendChild(cpTd(inp));
+    tr.dataset.pending = r.maps.length || r.bridge ? "1" : "";
+    tbody.appendChild(tr);
+    boxes.push({ column: r.column, box, tr });
   }
-  for (const b of t.bridge_columns) {
-    const row = el("div", "curate-row");
-    row.appendChild(el("span", "curate-badge", "bridge"));
-    const main = el("div");
-    main.appendChild(el("strong", null, b.column));
-    main.appendChild(el("div", "curate-evidence", `values: ${sample(b.column)}`));
-    main.appendChild(cpBtn("Confirm…", () => cpWrite(`${base}/bridge`, { ...common, action: "confirm", column: b.column }, "confirm bridge", cpLoadTables)));
-    main.appendChild(cpBtn("Clear…", () => cpWrite(`${base}/bridge`, { ...common, action: "clear", column: b.column }, "clear bridge", cpLoadTables)));
-    row.appendChild(main);
-    det.appendChild(row);
-  }
-  const foot = el("div", "dash-form");
+  table.append(head, tbody);
+
+  const applyFilter = () => {
+    for (const b of boxes) b.tr.hidden = state.filter === "pending" && !b.tr.dataset.pending;
+    refresh();
+  };
+  const filter = el("select");
+  for (const [v, l] of [["pending", "columns with a proposal"], ["all", "all columns"]]) { const o = el("option", null, l); o.value = v; filter.appendChild(o); }
+  filter.addEventListener("change", () => { state.filter = filter.value; applyFilter(); });
+
+  const bar = el("div", "dash-form curate-bar");
+  const sel = (label, pred) => cpBtn(label, () => { for (const b of boxes) if (!b.tr.hidden && pred(b)) picked.add(b.column); refresh(); });
+  bar.append(
+    el("label", null, "Show "), filter,
+    sel("Select all shown", () => true),
+    sel("Select high confidence (≥ 0.8)", (b) => rows.find((r) => r.column === b.column).maps.some((m) => (m.confidence || 0) >= 0.8)),
+    cpBtn("Clear selection", () => { picked.clear(); refresh(); }),
+    cpBtn("Confirm selected…", () => run(bulkOps("confirm"), "confirm selected")),
+    cpBtn("Clear mapping on selected…", () => run(bulkOps("clear"), "clear selected")),
+    status,
+  );
+
+  const classes = el("input"); classes.type = "text"; classes.placeholder = "entity class"; classes.size = 14;
+  const setBar = el("div", "dash-form curate-bar");
+  setBar.append(
+    el("span", "dash-note", "Set a class on the selected columns:"), classes,
+    cpBtn("Set class on selected…", () => {
+      const c = classes.value.trim();
+      if (!c) { status.textContent = "Type an entity class first."; return; }
+      run(rows.filter((r) => picked.has(r.column)).map((r) => ({ kind: "mapping", action: "set", column: r.column, entity_class: c })), `set ${c}`);
+    }),
+    cpBtn("Save changed descriptions…", () => {
+      const ops = [];
+      for (const [column, { inp, original }] of descInputs) if (inp.value.trim() !== original) ops.push({ kind: "describe", column, text: inp.value });
+      if (!ops.length) { status.textContent = "No description was changed."; return; }
+      run(ops, "save descriptions");
+    }),
+  );
+
+  const tableDesc = el("input"); tableDesc.type = "text"; tableDesc.size = 60; tableDesc.value = d.description || "";
+  tableDesc.placeholder = "what this table is: one row per what";
+  const tableRow = el("div", "dash-form curate-bar");
+  tableRow.append(el("span", "dash-note", "Table description:"), tableDesc,
+    cpBtn("Save…", () => cpWrite(`${base}/describe`, { ...common, column: null, text: tableDesc.value }, `describe ${t.table}`, cpLoadTables)));
+
+  const scroll = el("div", "curate-scroll");
+  scroll.appendChild(table);
+  det.append(bar, scroll, setBar, tableRow);
   if (!t.grain_confirmed) {
+    const foot = el("div", "dash-form curate-bar");
     const grain = el("select");
     for (const g of ["instance", "lookup", "normative"]) grain.appendChild(el("option", null, g));
     if (t.grain) grain.value = t.grain;
-    foot.appendChild(grain);
-    foot.appendChild(cpBtn("Confirm grain…", () => cpWrite(`${base}/grain`, { ...common, grain: grain.value }, "grain", cpLoadTables)));
+    foot.append(el("span", "dash-note", "Grain:"), grain, cpBtn("Confirm grain…", () => cpWrite(`${base}/grain`, { ...common, grain: grain.value }, "grain", cpLoadTables)));
+    det.appendChild(foot);
   }
-  if (t.mappings.length) foot.appendChild(acceptBtn);
-  const missed = el("input"); missed.type = "text"; missed.placeholder = "column";
-  const cls = el("input"); cls.type = "text"; cls.placeholder = "entity class";
-  foot.append(missed, cls, cpBtn("Set a missed class…", () => {
-    if (!missed.value.trim() || !cls.value.trim()) return;
-    cpWrite(`${base}/mapping`, { ...common, action: "set", column: missed.value.trim(), entity_class: cls.value.trim() }, "set class", cpLoadTables);
-  }));
-  det.appendChild(foot);
+  applyFilter();
   return det;
 }
 
