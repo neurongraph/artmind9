@@ -271,6 +271,7 @@
       <button type="button" class="tab active" data-tab="insights">Insights</button>
       <button type="button" class="tab" data-tab="views">Views</button>
       <button type="button" class="tab" data-tab="topics">Topics</button>
+      <button type="button" class="tab" data-tab="graph">Graph</button>
     </div>
       <div class="tab-panel active" data-tab-group="explore" data-tab-panel="insights">
     <section class="dash-panel dash-zone-wide" id="insights-panel">
@@ -311,6 +312,36 @@
       <h3>Pages</h3>
       <div id="topics-pages" class="ins-grid"></div>
       <div id="topics-detail"></div>
+    </section>
+    </div>
+    <div class="tab-panel" data-tab-group="explore" data-tab-panel="graph">
+    <section class="dash-panel dash-zone-wide" id="graph-panel">
+      <h2>Graph</h2>
+      <p class="dash-hint">Ask a question in plain words. It becomes read-only Cypher you can edit, then opens in Neo4j Browser to draw. Nothing runs until you press Run there.</p>
+      <form class="dash-form stacked" id="graph-form" onsubmit="return false">
+        <label>
+          Domain
+          <select id="graph-domain"></select>
+        </label>
+        <label>
+          Question
+          <textarea id="graph-question" rows="2" placeholder="e.g. who can approve a loan over 50,000 and who do they report to?"></textarea>
+        </label>
+        <div class="dash-form">
+          <button id="graph-generate-btn" type="button" class="btn-primary">Generate Cypher</button>
+        </div>
+      </form>
+      <p class="dash-note" id="graph-status"></p>
+      <div id="graph-result" hidden>
+        <label class="grow">
+          Cypher (editable)
+          <textarea id="graph-cypher" rows="8" spellcheck="false"></textarea>
+        </label>
+        <div class="dash-form">
+          <button id="graph-open-btn" type="button" class="btn-primary">Open in Neo4j Browser</button>
+          <button id="graph-copy-btn" type="button" class="btn-secondary">Copy Cypher</button>
+        </div>
+      </div>
     </section>
     </div>
     </div>
@@ -564,6 +595,7 @@
   <script src="{{ static_url('insights.js') }}"></script>
   <script src="{{ static_url('views.js') }}"></script>
   <script src="{{ static_url('topics.js') }}"></script>
+  <script src="{{ static_url('graph.js') }}"></script>
   <script src="{{ static_url('curate.js') }}"></script>
   <script src="{{ static_url('curate_panes.js') }}"></script>
 </body>

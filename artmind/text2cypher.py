@@ -1,5 +1,7 @@
 import json
+import math
 import re
+from urllib.parse import quote, urlsplit, urlunsplit
 
 from loguru import logger
 from neo4j.exceptions import Neo4jError
@@ -111,13 +113,27 @@ def _entities_summary(listing: dict) -> str:
 STRUCTURAL_SCHEMA = render_prompt_block()
 
 
+# Appended to the prompt when the result is to be DRAWN (Neo4j Browser) rather
+# than read as a table: the visualisation only shows what comes back as
+# nodes / relationships / paths, so scalar columns would render as nothing.
+GRAPH_MODE_RULES = """\
+- GRAPH MODE: the result will be drawn as a graph, not read as a table. RETURN whole
+  nodes and relationships (e.g. `RETURN a, r, b`) or whole paths (`RETURN p`) -- never
+  only scalar properties such as `a.name`. Bind every relationship you want drawn to
+  a variable and return it. Do not use CALL.
+- GRAPH MODE: end the query with `LIMIT 100` (or smaller) so the drawing stays legible.
+"""
+
+
 def build_text2cypher_prompt(
     question: str,
     schema_info: str,
     entities_info: str,
     domains: list[str],
+    graph_mode: bool = False,
 ) -> str:
     domains_json = json.dumps(domains)
+    graph_rules = GRAPH_MODE_RULES if graph_mode else ""
     return f"""\
 You are a Neo4j Cypher expert. Given the graph schema and entity listing below,
 write a READ-ONLY Cypher query that answers the user's question.
@@ -166,7 +182,7 @@ RULES:
   clause), add an explicit ORDER BY on a stable field (e.g. a name or id) before
   returning. The caller truncates to a fixed row count — without an ORDER BY,
   which rows survive that cut is arbitrary and can change between runs.
-
+{graph_rules}
 {STRUCTURAL_SCHEMA}
 
 GRAPH SCHEMA (domains: {domains}):
@@ -188,10 +204,13 @@ def generate_cypher(
     question: str,
     domains,
     model: str | None = None,
+    graph_mode: bool = False,
 ) -> dict:
     """Generate a Cypher query from a natural-language question.
 
-    Returns a dict with keys: cypher, parameters.
+    `graph_mode` asks for nodes/relationships/paths (to be drawn) instead of
+    table columns, and refuses `CALL`. Returns a dict with keys: cypher,
+    parameters.
     """
     from artmind.graph_query import normalize_domains
 
@@ -206,7 +225,7 @@ def generate_cypher(
     schema_info = _schema_summary(metadata)
     entities_info = _entities_summary(listing)
 
-    prompt = build_text2cypher_prompt(question, schema_info, entities_info, domains)
+    prompt = build_text2cypher_prompt(question, schema_info, entities_info, domains, graph_mode)
     raw = call_llm(resolved_model, prompt)
     parsed = parse_json_response(raw)
 
@@ -223,6 +242,8 @@ def generate_cypher(
 
     validate_read_only(cypher)
     validate_domain_scoped(cypher)
+    if graph_mode:
+        cypher = _prepare_graph_cypher(cypher)
 
     logger.info("text2cypher generated: {}", cypher)
     return {"cypher": cypher, "parameters": parameters}
@@ -285,3 +306,90 @@ def execute_text2cypher(
             f"Parameters: {parameters}"
         ) from exc
     return output
+
+
+# ── graph mode: drawing the result in Neo4j Browser ─────────────────────────
+
+GRAPH_DEFAULT_LIMIT = 100
+
+_CALL_RE = re.compile(r"\bCALL\b", re.IGNORECASE)
+_LIMIT_RE = re.compile(r"\bLIMIT\b", re.IGNORECASE)
+_UNION_RE = re.compile(r"\bUNION\b", re.IGNORECASE)
+_PARAM_RE = re.compile(r"\$([A-Za-z_][A-Za-z0-9_]*)")
+
+
+def _prepare_graph_cypher(cypher: str) -> str:
+    """Graph-mode guard: no `CALL` (procedures can't be vetted by keyword), and
+    a LIMIT so the drawing stays legible. A LIMIT is appended only to a
+    single-statement query; a UNION without one is left as the model wrote it."""
+    if _CALL_RE.search(cypher):
+        raise ValueError("Generated Cypher uses CALL, which graph view does not allow.")
+    cypher = cypher.strip().rstrip(";").rstrip()
+    if not _LIMIT_RE.search(cypher) and not _UNION_RE.search(cypher):
+        cypher += f"\nLIMIT {GRAPH_DEFAULT_LIMIT}"
+    return cypher
+
+
+def cypher_literal(value) -> str:
+    """Render a JSON-ish Python value as a Cypher literal.
+
+    Strings are single-quoted with backslash and quote escaped; dict keys are
+    backtick-quoted. Anything outside JSON's types (and non-finite floats) is
+    refused rather than guessed at.
+    """
+    if value is None:
+        return "null"
+    if isinstance(value, bool):  # before int: bool is an int subclass
+        return "true" if value else "false"
+    if isinstance(value, int):
+        return str(value)
+    if isinstance(value, float):
+        if not math.isfinite(value):
+            raise ValueError(f"Cannot render {value!r} as a Cypher literal")
+        return repr(value)
+    if isinstance(value, str):
+        escaped = value.replace("\\", "\\\\").replace("'", "\\'")
+        escaped = escaped.replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\\t")
+        return f"'{escaped}'"
+    if isinstance(value, (list, tuple)):
+        return "[" + ", ".join(cypher_literal(v) for v in value) + "]"
+    if isinstance(value, dict):
+        items = []
+        for k, v in value.items():
+            key = str(k).replace("`", "``")
+            items.append(f"`{key}`: {cypher_literal(v)}")
+        return "{" + ", ".join(items) + "}"
+    raise ValueError(f"Cannot render {type(value).__name__} as a Cypher literal")
+
+
+def inline_parameters(cypher: str, parameters: dict) -> str:
+    """Replace every `$name` in `cypher` with its literal value.
+
+    Neo4j Browser has no way to supply parameters with a deep link, so the
+    query must be self-contained to be pasted there. A `$name` with no entry in
+    `parameters` raises: leaving it would make the Browser fail on a name the
+    operator can't see the value of.
+    """
+    def sub(match: re.Match) -> str:
+        name = match.group(1)
+        if name not in parameters:
+            raise ValueError(f"Cypher references ${name} but no value was generated for it")
+        return cypher_literal(parameters[name])
+
+    return _PARAM_RE.sub(sub, cypher)
+
+
+def browser_deep_link(browser_url: str | None, cypher: str) -> str | None:
+    """Neo4j Browser URL that pre-fills its editor with `cypher`.
+
+    Browser does not auto-run from a URL; the operator presses Run. Returns
+    None when no browser URL is configured. Only http(s) URLs are accepted, so
+    a bad config value can't become a `javascript:` link in the UI.
+    """
+    if not browser_url or not browser_url.strip():
+        return None
+    parts = urlsplit(browser_url.strip())
+    if parts.scheme not in ("http", "https") or not parts.netloc:
+        raise ValueError(f"ARTMIND_KG_NEO4J_BROWSER_URL must be an http(s) URL, got {browser_url!r}")
+    base = urlunsplit((parts.scheme, parts.netloc, parts.path or "/", "", ""))
+    return f"{base}?cmd=edit&arg={quote(cypher, safe='')}"

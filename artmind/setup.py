@@ -411,6 +411,9 @@ ARTMIND_KG_NEO4J_URI={neo4j_uri}
 ARTMIND_KG_NEO4J_USERNAME={neo4j_username}
 ARTMIND_KG_NEO4J_PASSWORD={neo4j_password}
 ARTMIND_KG_NEO4J_DATABASE={neo4j_database}
+# Optional: this graph's Neo4j Browser, so admin-ui's Explore -> Graph tab can open
+# a generated query there. Its HTTP port differs from the bolt port above.
+# ARTMIND_KG_NEO4J_BROWSER_URL=http://127.0.0.1:7474/browser/
 
 # ── optional ──────────────────────────────────────────────────────────────────
 # Beyond `artmind vault new`'s one bootstrap commit and first push, artmind
