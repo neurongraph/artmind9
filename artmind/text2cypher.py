@@ -88,6 +88,22 @@ def _schema_summary(metadata: dict) -> str:
     return "\n".join(lines) if lines else "  (no schema information available)"
 
 
+def _empty_domain_warnings(listing: dict, domains: list[str]) -> list[str]:
+    """One warning when the entity listing for `domains` holds no entity at all.
+
+    The query is then written blind (the model has no names or types to ground
+    on) and will match nothing; the usual cause is the wrong domain.
+    """
+    for row in listing.get("rows", []):
+        if any(tg.get("names") for tg in row.get("typeGroups", [])):
+            return []
+    return [
+        f"No entities found in domain(s) {', '.join(domains)}: the generated Cypher "
+        "was written without any entity names or types and will probably return "
+        "nothing. Check the domain."
+    ]
+
+
 def _entities_summary(listing: dict) -> str:
     """Format entity_listing() output into a compact text block for the prompt."""
     lines: list[str] = []
@@ -121,7 +137,11 @@ GRAPH_MODE_RULES = """\
   nodes and relationships (e.g. `RETURN a, r, b`) or whole paths (`RETURN p`) -- never
   only scalar properties such as `a.name`. Bind every relationship you want drawn to
   a variable and return it. Do not use CALL.
-- GRAPH MODE: end the query with `LIMIT 100` (or smaller) so the drawing stays legible.
+- GRAPH MODE: keep the drawing legible, but bound ENTITIES, not paths. When one entity can
+  have many paths (an entity with many observations), pick the entities first
+  (`WITH e, collect(p) AS paths ORDER BY ... LIMIT 10`), then `UNWIND paths AS p RETURN p`
+  and end with a generous `LIMIT 500`. A final `LIMIT 100` on raw paths lets the
+  busiest entity fill every row and hide the others.
 """
 
 
@@ -159,6 +179,11 @@ RULES:
 - In variable-length paths between entities, keep the path in entity space:
   add `all(x IN nodes(p) WHERE x:Entity)` to the WHERE clause. Otherwise paths
   degenerate to co-mention hops through DocChunk nodes.
+- On an Entity node, `entity_class` is its class label (e.g. 'LOCATION', 'PERSON') -- a
+  fixed vocabulary, never a free-text description. The finer kind (e.g. 'workplace') is
+  in its `type` property. Filter a kind with `e.type = '...'`, using the `types=[...]`
+  values in the GRAPH SCHEMA; do not regex-match `entity_class` against a word from the
+  question, and do not guess a value the schema and entity listing do not show.
 - Return meaningful column aliases.
 - Keep the query concise.
 - If the question is present-tense ("who CAN approve…"), add a validity filter to
@@ -225,6 +250,8 @@ def generate_cypher(
     schema_info = _schema_summary(metadata)
     entities_info = _entities_summary(listing)
 
+    warnings = _empty_domain_warnings(listing, domains)
+
     prompt = build_text2cypher_prompt(question, schema_info, entities_info, domains, graph_mode)
     raw = call_llm(resolved_model, prompt)
     parsed = parse_json_response(raw)
@@ -246,7 +273,7 @@ def generate_cypher(
         cypher = _prepare_graph_cypher(cypher)
 
     logger.info("text2cypher generated: {}", cypher)
-    return {"cypher": cypher, "parameters": parameters}
+    return {"cypher": cypher, "parameters": parameters, "warnings": warnings}
 
 
 def execute_text2cypher(
@@ -379,12 +406,21 @@ def inline_parameters(cypher: str, parameters: dict) -> str:
     return _PARAM_RE.sub(sub, cypher)
 
 
-def browser_deep_link(browser_url: str | None, cypher: str) -> str | None:
+_BOLT_SCHEMES = ("bolt", "bolt+s", "bolt+ssc", "neo4j", "neo4j+s", "neo4j+ssc")
+
+
+def browser_deep_link(
+    browser_url: str | None, cypher: str, connect_url: str | None = None
+) -> str | None:
     """Neo4j Browser URL that pre-fills its editor with `cypher`.
 
     Browser does not auto-run from a URL; the operator presses Run. Returns
     None when no browser URL is configured. Only http(s) URLs are accepted, so
     a bad config value can't become a `javascript:` link in the UI.
+
+    `connect_url` (the vault's bolt/neo4j URI) pre-fills Browser's login form
+    through `dbms=`, so only the password is left to type. It carries no
+    credentials; anything that is not a bolt/neo4j URI is left out.
     """
     if not browser_url or not browser_url.strip():
         return None
@@ -392,4 +428,9 @@ def browser_deep_link(browser_url: str | None, cypher: str) -> str | None:
     if parts.scheme not in ("http", "https") or not parts.netloc:
         raise ValueError(f"ARTMIND_KG_NEO4J_BROWSER_URL must be an http(s) URL, got {browser_url!r}")
     base = urlunsplit((parts.scheme, parts.netloc, parts.path or "/", "", ""))
-    return f"{base}?cmd=edit&arg={quote(cypher, safe='')}"
+    dbms = ""
+    if connect_url:
+        target = urlsplit(connect_url.strip())
+        if target.scheme in _BOLT_SCHEMES and target.hostname and not target.username:
+            dbms = f"dbms={quote(connect_url.strip(), safe='')}&"
+    return f"{base}?{dbms}cmd=edit&arg={quote(cypher, safe='')}"
