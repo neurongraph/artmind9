@@ -413,7 +413,7 @@ click.rich_click.COMMAND_GROUPS = {
     "artmind mart review": [{"name": "Review", "commands": ["list", "set"]}],
     "artmind mart calendar": [{"name": "Calendar", "commands": ["set"]}],
     "artmind db metadata": [
-        {"name": "text2sql metadata", "commands": ["init", "validate", "regenerate"]},
+        {"name": "text2sql metadata", "commands": ["init", "describe", "validate", "regenerate"]},
     ],
     "artmind catalogue": [
         {"name": "Cache", "commands": ["refresh"]},
@@ -2407,6 +2407,34 @@ def db_metadata_init(domain, llm_draft, dry_run, compact):
         except sql_browser.SqlBrowserError as exc:
             raise click.ClickException(str(exc)) from exc
     _echo_json(with_effect(result, effect, dry_run=dry_run), compact)
+
+
+@db_metadata.command("describe")
+@click.option("--domain", "domain", required=True)
+@click.option("--table", "table", required=True, help="Registered table name")
+@click.option("--column", "column", default=None, help="Describe this column; omit to describe the table")
+@click.option("--text", "text", required=True, help="The description (empty removes it)")
+@dry_run_option("Show the description that would change; write nothing")
+@compact_option
+def db_metadata_describe(domain, table, column, text, dry_run, compact):
+    """Set one table's or column's description in the domain's metadata file (no LLM, no sql-browser)."""
+    from artmind import table_metadata
+    from artmind.cli_conventions import Change, Effect, with_effect
+
+    _resolve_table_row(table, _parse_domains((domain,)))
+    what = f"{table}.{column}" if column else table
+    result = table_metadata.describe(domain, table, text, column, dry_run=True)
+    effect = Effect(summary=f"Set the description of {what} in {Path(result['path']).name}." if result["changed"]
+                    else f"The description of {what} is already that; nothing to write.",
+                    changes=[Change("table_change", 1 if result["changed"] else 0, [what])],
+                    reversible=True, undo=f"restore the previous text: {result['before']!r}" if result["before"]
+                    else "describe it again with empty --text", travels=True, records=[result["path"]])
+    if not dry_run:
+        try:
+            result = table_metadata.describe(domain, table, text, column)
+        except ValueError as exc:
+            raise click.ClickException(str(exc)) from exc
+    _echo_json(with_effect({"domain": domain, **result}, effect, dry_run=dry_run), compact)
 
 
 @db_metadata.command("validate")
