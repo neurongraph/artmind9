@@ -12,6 +12,7 @@ def client(monkeypatch):
     monkeypatch.setattr(explore_routes, "_generate",
                         lambda question, domains: {"cypher": CYPHER, "parameters": {"domains": domains}})
     monkeypatch.setattr(explore_routes, "_browser_url", lambda: "http://127.0.0.1:7476/browser/")
+    monkeypatch.setattr(explore_routes, "_neo4j_uri", lambda: None)
     app = FastAPI()
     explore_routes.register_explore_routes(app)
     return TestClient(app)
@@ -84,3 +85,38 @@ def test_link_refuses_writes_calls_and_unbound_params(client, cypher):
 
 def test_link_empty_cypher_is_422(client):
     assert client.post("/api/explore/cypher/link", json={"cypher": "  "}).status_code == 422
+
+
+def test_empty_domain_warning_is_passed_through(client, monkeypatch):
+    monkeypatch.setattr(
+        explore_routes, "_generate",
+        lambda question, domains: {"cypher": CYPHER, "parameters": {"domains": domains},
+                                   "warnings": ["No entities found in domain(s) general"]},
+    )
+    body = client.post("/api/explore/cypher", json={"question": "q", "domains": ["general"]}).json()
+    assert body["warnings"] == ["No entities found in domain(s) general"]
+
+
+def test_warnings_default_to_empty_list(client):
+    assert client.post("/api/explore/cypher", json={"question": "q", "domains": ["d"]}).json()["warnings"] == []
+
+
+def test_domains_lists_populated_first_with_family_counts(client, monkeypatch):
+    import artmind.cli as cli_mod
+    import artmind.graph_query as gq
+
+    monkeypatch.setattr(cli_mod, "_get_available_domains", lambda: ["bank", "general", "journal"])
+    monkeypatch.setattr(gq, "_run_read_query", lambda cypher, params: [
+        {"domain": "journal", "n": 40}, {"domain": "bank.ops", "n": 5}, {"domain": "bank", "n": 2}])
+    body = client.get("/api/explore/domains").json()
+    assert body == [{"name": "journal", "entities": 40}, {"name": "bank", "entities": 7},
+                    {"name": "general", "entities": 0}]
+
+
+def test_deep_link_prefills_connection_url(client, monkeypatch):
+    monkeypatch.setattr(explore_routes, "_neo4j_uri", lambda: "bolt://127.0.0.1:7689")
+    body = client.post("/api/explore/cypher", json={"question": "q", "domains": ["d"]}).json()
+    assert body["browser_url"].startswith(
+        "http://127.0.0.1:7476/browser/?dbms=bolt%3A%2F%2F127.0.0.1%3A7689&cmd=edit&arg=")
+    link = client.post("/api/explore/cypher/link", json={"cypher": "RETURN 1"}).json()
+    assert "dbms=bolt%3A%2F%2F127.0.0.1%3A7689&cmd=edit" in link["browser_url"]

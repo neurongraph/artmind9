@@ -74,6 +74,17 @@ def test_deep_link_drops_existing_query_and_encodes_hash_and_ampersand():
     assert "%23%26" in url and "#" not in url and "x=1" not in url
 
 
+def test_deep_link_prefills_dbms_for_bolt_uris():
+    url = t2c.browser_deep_link("http://h:1/browser/", "RETURN 1", "neo4j+s://x.databases.neo4j.io")
+    assert url == "http://h:1/browser/?dbms=neo4j%2Bs%3A%2F%2Fx.databases.neo4j.io&cmd=edit&arg=RETURN%201"
+
+
+@pytest.mark.parametrize("bad", [None, "", "http://h:7474", "javascript:alert(1)", "bolt://neo4j:secret@h:7687"])
+def test_deep_link_omits_dbms_for_non_bolt_or_credentialed_uris(bad):
+    url = t2c.browser_deep_link("http://h:1/browser/", "RETURN 1", bad)
+    assert url == "http://h:1/browser/?cmd=edit&arg=RETURN%201"
+
+
 @pytest.mark.parametrize("unset", [None, "", "   "])
 def test_deep_link_none_when_unconfigured(unset):
     assert t2c.browser_deep_link(unset, "RETURN 1") is None
@@ -128,3 +139,32 @@ def test_generate_cypher_graph_mode_limits_and_refuses_call(monkeypatch):
     reply["v"] = '{"cypher": "CALL db.labels() YIELD label WITH label MATCH (n) WHERE n._domain IN $domains RETURN n", "parameters": {}}'
     with pytest.raises(ValueError, match="CALL"):
         t2c.generate_cypher("q", "d", graph_mode=True)
+
+
+def _stub_generate(monkeypatch, listing):
+    monkeypatch.setattr(t2c, "load_env", lambda: {})
+    monkeypatch.setattr(t2c, "resolve_llm_model", lambda env, model=None: "m")
+    monkeypatch.setattr(t2c, "graph_metadata", lambda d: {"rows": []})
+    monkeypatch.setattr(t2c, "entity_listing", lambda d: listing)
+    monkeypatch.setattr(
+        t2c, "call_llm",
+        lambda model, prompt: '{"cypher": "MATCH (n:Entity) WHERE n._domain IN $domains RETURN n", "parameters": {}}',
+    )
+
+
+def test_generate_cypher_warns_when_domain_has_no_entities(monkeypatch):
+    _stub_generate(monkeypatch, {"rows": []})
+    out = t2c.generate_cypher("q", "general", graph_mode=True)
+    assert len(out["warnings"]) == 1 and "general" in out["warnings"][0]
+
+
+def test_generate_cypher_no_warning_when_entities_exist(monkeypatch):
+    listing = {"rows": [{"label": "LOCATION", "typeGroups": [{"names": ["Tech Park One"]}]}]}
+    _stub_generate(monkeypatch, listing)
+    assert t2c.generate_cypher("q", "personal_journal", graph_mode=True)["warnings"] == []
+
+
+def test_prompt_explains_entity_class_vs_type_and_entity_level_limit():
+    t = t2c.build_text2cypher_prompt("q", "s", "e", ["d"], graph_mode=True)
+    assert "`entity_class` is its class label" in t and "e.type = '...'" in t
+    assert "bound ENTITIES, not paths" in t

@@ -53,11 +53,11 @@ async function graphGenerate() {
     graphResultEl.hidden = false;
     graphOpenEl.dataset.url = data.browser_url || "";
     graphOpenEl.disabled = false;
-    graphSetStatus(
-      data.browser_url
-        ? "Review or edit the Cypher, then open it in Neo4j Browser and press Run."
-        : "No Neo4j Browser configured for this vault: set ARTMIND_KG_NEO4J_BROWSER_URL in its .artmind/config.env. You can still copy the Cypher."
-    );
+    const note = data.browser_url
+      ? "Review or edit the Cypher, then open it in Neo4j Browser and press Run."
+      : "No Neo4j Browser configured for this vault: set ARTMIND_KG_NEO4J_BROWSER_URL in its .artmind/config.env. You can still copy the Cypher.";
+    const warnings = (data.warnings || []).join(" ");
+    graphSetStatus(warnings ? `Warning: ${warnings} ${note}` : note);
   } catch (err) {
     graphSetStatus(`Could not generate Cypher: ${err.message}`);
   } finally {
@@ -113,16 +113,19 @@ document.querySelector('.tab[data-tab="graph"]').addEventListener("click", async
   if (graphLoaded) return;
   graphLoaded = true;
   try {
-    const domains = await api("/api/domains");
+    // Most populated first; an empty domain is labelled so it is not picked by mistake.
+    const domains = await api("/api/explore/domains");
     graphDomainEl.innerHTML = "";
     for (const d of domains) {
-      const name = typeof d === "string" ? d : d.name;
-      const opt = el("option", "", name);
-      opt.value = name;
+      const label = d.entities ? `${d.name} (${d.entities} entities)` : `${d.name} (empty)`;
+      const opt = el("option", "", label);
+      opt.value = d.name;
       graphDomainEl.appendChild(opt);
     }
+    // A remembered choice only wins while it still has data.
     const saved = graphLsGet();
-    if (saved && [...graphDomainEl.options].some((o) => o.value === saved)) graphDomainEl.value = saved;
+    const savedDomain = domains.find((d) => d.name === saved);
+    if (savedDomain && savedDomain.entities) graphDomainEl.value = saved;
   } catch (err) {
     graphLoaded = false;
     graphSetStatus(`Failed to load domains: ${err.message}`);

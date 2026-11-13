@@ -50,10 +50,34 @@ def _generate(question: str, domains: list[str]) -> dict:
     return generate_cypher(question, domains, graph_mode=True)
 
 
+def _domain_entity_counts() -> list[dict]:
+    """Every available domain with its entity count (a domain family counts its
+    children), most populated first so the Graph tab can default to one that
+    has data. Alphabetical order put an empty `general` first."""
+    from artmind.cli import _get_available_domains
+    from artmind.graph_query import _run_read_query
+
+    rows = _run_read_query(
+        "MATCH (e:Entity) RETURN e._domain AS domain, count(e) AS n", {}
+    )
+    by_domain = {r["domain"]: r["n"] for r in rows if r.get("domain")}
+    out = []
+    for name in _get_available_domains():
+        n = sum(c for d, c in by_domain.items() if d == name or d.startswith(name + "."))
+        out.append({"name": name, "entities": n})
+    return sorted(out, key=lambda d: (d["entities"] == 0, -d["entities"], d["name"]))
+
+
 def _browser_url() -> str | None:
     from utils.functions import load_env
 
     return load_env().get("ARTMIND_KG_NEO4J_BROWSER_URL") or None
+
+
+def _neo4j_uri() -> str | None:
+    from utils.functions import load_env
+
+    return load_env().get("ARTMIND_KG_NEO4J_URI") or None
 
 
 def _package(cypher: str, parameters: dict) -> dict:
@@ -64,7 +88,7 @@ def _package(cypher: str, parameters: dict) -> dict:
         "cypher": cypher,
         "parameters": parameters,
         "standalone_cypher": standalone,
-        "browser_url": browser_deep_link(_browser_url(), standalone),
+        "browser_url": browser_deep_link(_browser_url(), standalone, _neo4j_uri()),
     }
 
 
@@ -76,6 +100,13 @@ def _check_read_only(cypher: str) -> None:
 
 
 def register_explore_routes(app: FastAPI) -> FastAPI:
+    @app.get("/api/explore/domains")
+    async def api_explore_domains():
+        try:
+            return await anyio.to_thread.run_sync(_domain_entity_counts)
+        except Exception as exc:
+            raise HTTPException(status_code=502, detail=f"{type(exc).__name__}: {exc}") from exc
+
     @app.post("/api/explore/cypher")
     async def api_explore_cypher(payload: CypherRequest):
         from artmind.graph_query import normalize_domains
@@ -84,6 +115,7 @@ def register_explore_routes(app: FastAPI) -> FastAPI:
             domains = normalize_domains(payload.domains)
             result = await anyio.to_thread.run_sync(_generate, payload.question, domains)
             return {"question": payload.question, "domains": domains,
+                    "warnings": result.get("warnings", []),
                     **_package(result["cypher"], result["parameters"])}
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
@@ -100,7 +132,7 @@ def register_explore_routes(app: FastAPI) -> FastAPI:
             _check_read_only(payload.cypher)
             standalone = inline_parameters(payload.cypher, {})
             return {"standalone_cypher": standalone,
-                    "browser_url": browser_deep_link(_browser_url(), standalone)}
+                    "browser_url": browser_deep_link(_browser_url(), standalone, _neo4j_uri())}
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
 
