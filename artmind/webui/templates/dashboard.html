@@ -477,7 +477,14 @@
       </form>
       <div id="curate-overview" class="curate-strip"></div>
       <p class="dash-note" id="curate-status"></p>
-      <div id="curate-sameas">
+      <div class="tabs" id="curate-queues">
+        <button type="button" class="tab active" data-queue="sameas">Same-as</button>
+        <button type="button" class="tab" data-queue="conflicts">Conflicts</button>
+        <button type="button" class="tab" data-queue="tables">Tables</button>
+        <button type="button" class="tab" data-queue="health">Graph health</button>
+        <button type="button" class="tab" data-queue="mart">Mart</button>
+      </div>
+      <div id="curate-sameas" data-queue-pane="sameas">
         <h3>Same-as proposals</h3>
         <form class="dash-form" onsubmit="return false">
           <label>Status <select id="curate-status-filter"><option>open</option><option>approved</option><option>rejected</option><option>all</option></select></label>
@@ -496,6 +503,32 @@
         <div id="curate-sameas-body"><p class="dash-empty">Open this tab to load the queue.</p></div>
         <div id="curate-sweep"></div>
       </div>
+      <div id="curate-conflicts" data-queue-pane="conflicts" hidden>
+        <h3>Conflicts</h3>
+        <form class="dash-form" onsubmit="return false">
+          <label>Status <select id="curate-conflict-status"><option>open</option><option>resolved</option><option>dismissed</option><option>all</option></select></label>
+          <a id="curate-conflicts-ask" class="btn-secondary" href="#" target="_blank" rel="noopener">Ask the agent about these</a>
+        </form>
+        <div id="curate-conflicts-body"></div>
+      </div>
+      <div id="curate-tables" data-queue-pane="tables" hidden>
+        <h3>Structured tables awaiting review</h3>
+        <p class="dash-note">Pick a domain above. Re-running proposals stays in the Structured data tab.</p>
+        <div id="curate-tables-body"></div>
+        <button id="curate-push-catalogue" type="button" class="btn-secondary">Push to graph…</button>
+      </div>
+      <div id="curate-health" data-queue-pane="health" hidden>
+        <h3>Graph health findings</h3>
+        <p class="dash-note">Pick a domain above. Findings come from the latest insights snapshot.</p>
+        <div id="curate-health-body"></div>
+      </div>
+      <div id="curate-mart" data-queue-pane="mart" hidden>
+        <h3>Mart</h3>
+        <p class="dash-note">Pick a domain with a mart declaration above.</p>
+        <div id="curate-mart-body"></div>
+      </div>
+      <div id="curate-pane-preview" class="dash-note"></div>
+
     </section>
     </div>
 
@@ -533,5 +566,6 @@
   <script src="{{ static_url('views.js') }}"></script>
   <script src="{{ static_url('topics.js') }}"></script>
   <script src="{{ static_url('curate.js') }}"></script>
+  <script src="{{ static_url('curate_panes.js') }}"></script>
 </body>
 </html>

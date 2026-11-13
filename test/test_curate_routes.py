@@ -122,3 +122,88 @@ def test_registered_only_on_admin_app():
     paths = {r.path for r in admin.app.routes}
     assert "/api/curate/overview" in paths
     assert "/api/curate/overview" not in {r.path for r in chat.app.routes}
+
+
+# ── conflicts (step 2) ───────────────────────────────────────────────
+def conflict(cid="c1", docs=("d1", "d2")):
+    return {"conflict": {"id": cid, "aspect": "rate", "status": "open", "severity": "high", "claim_a": "5%", "claim_b": "6%"},
+            "entities": [{"_id": "e1", "name": "Rate", "entity_class": "TERM", "_domain": "demo.one"}],
+            "evidence": [{"side": "a", "doc_id": docs[0], "text": "five"}, {"side": "b", "doc_id": docs[1], "text": "six"}]}
+
+
+def test_conflicts_list_groups_and_flags_older_version(client, monkeypatch):
+    seen = {}
+    monkeypatch.setattr(curate_routes, "_list_conflicts", lambda status, domain: seen.update(s=status, d=domain) or [conflict(), conflict("c2")])
+    monkeypatch.setattr(curate_routes, "_closed_documents", lambda ids: {"d1"})
+    body = client.get("/api/curate/conflicts", params={"status": "open", "domain": "demo.one"}).json()
+    assert seen == {"s": "open", "d": "demo.one"}
+    assert body["groups"][0]["aspect"] == "rate" and len(body["groups"][0]["rows"]) == 2
+    assert body["groups"][0]["rows"][0]["older_side_docs"] == ["d1"]
+
+
+def test_conflict_close_passes_parameters(client, monkeypatch):
+    calls = []
+    monkeypatch.setattr(curate_routes, "_resolve_conflict",
+                        lambda cid, status, reason, dry_run: calls.append((cid, status, reason, dry_run)) or {"effect": {"summary": "s"}})
+    assert client.post("/api/curate/conflicts/c1/close", json={"status": "dismissed", "reason": "same fact", "dry_run": True}).json()["effect"] == {"summary": "s"}
+    client.post("/api/curate/conflicts/c1/close", json={"status": "resolved", "reason": "newer wins", "dry_run": False})
+    assert calls == [("c1", "dismissed", "same fact", True), ("c1", "resolved", "newer wins", False)]
+    assert client.post("/api/curate/conflicts/c1/close", json={"status": "resolved", "reason": "", "dry_run": True}).status_code == 400
+
+
+# ── tables (step 4) ──────────────────────────────────────────────────
+def test_table_mapping_dry_run_states_change_and_writes_nothing(client, monkeypatch):
+    writes = []
+    monkeypatch.setattr(curate_routes, "_table_write", lambda *a: writes.append(a))
+    r = client.post("/api/curate/tables/t1/mapping", json={"domain": "demo", "action": "clear", "column": "c", "dry_run": True}).json()
+    assert "every class" in r["effect"]["summary"] and not writes
+
+
+def test_table_mapping_real_write_parameters(client, monkeypatch):
+    writes = []
+    monkeypatch.setattr(curate_routes, "_table_write", lambda *a: writes.append(a) or {"ok": True})
+    client.post("/api/curate/tables/t1/mapping", json={"domain": "demo", "action": "confirm", "column": "c", "entity_class": "ORG", "dry_run": False})
+    client.post("/api/curate/tables/t1/grain", json={"domain": "demo", "grain": "lookup", "dry_run": False})
+    client.post("/api/curate/tables/t1/bridge", json={"domain": "demo", "action": "clear", "column": "c", "dry_run": False})
+    assert writes == [("mapping", "t1", "demo", "confirm", "c", "ORG"), ("grain", "t1", "demo", "set", None, "lookup"),
+                      ("bridge", "t1", "demo", "clear", "c", None)]
+
+
+def test_table_bad_action_is_400(client):
+    assert client.post("/api/curate/tables/t1/mapping", json={"domain": "d", "action": "nuke", "column": "c", "dry_run": True}).status_code == 400
+    assert client.post("/api/curate/tables/t1/mapping", json={"domain": "d", "action": "confirm", "column": "c", "dry_run": True}).status_code == 400  # needs entity_class
+
+
+def test_tables_list_joins_samples(client, monkeypatch):
+    monkeypatch.setattr(curate_routes, "_cli", lambda args: {"tables": [{"table": "t1", "domain": "demo", "mappings": [{"column": "c"}]}]} if args[:2] == ["db", "review"]
+                        else {"tables": [{"table_name": "t1", "columns": [{"name": "c", "profile_json": "{\"distinct_sample\": [\"x\", \"y\"]}"}]}]})
+    body = client.get("/api/curate/tables", params={"domain": "demo"}).json()
+    assert body["tables"][0]["samples"] == {"c": ["x", "y"]}
+
+
+def test_catalogue_runs_cli(client, monkeypatch):
+    seen = []
+    monkeypatch.setattr(curate_routes, "_cli", lambda args: seen.append(args) or {"ok": 1})
+    client.post("/api/curate/catalogue", json={"domain": "demo"})
+    assert seen == [["db", "catalogue", "--domain", "demo"]]
+
+
+# ── health + mart (step 5) ───────────────────────────────────────────
+def test_health_reads_insights_cli(client, monkeypatch):
+    seen = []
+    monkeypatch.setattr(curate_routes, "_cli", lambda args: seen.append(args) or {"findings": [{"key": "k"}]})
+    body = client.get("/api/curate/health", params={"domain": "demo"}).json()
+    assert seen == [["insights", "list", "--domain", "demo", "--kind", "health"]] and body["findings"][0]["key"] == "k"
+    assert client.get("/api/curate/health").status_code == 422
+
+
+def test_mart_status_and_member_set(client, monkeypatch):
+    seen = []
+    monkeypatch.setattr(curate_routes, "_cli", lambda args: seen.append(args) or {"effect": {"summary": "e"}, "rows": []})
+    client.get("/api/curate/mart", params={"domain": "demo"})
+    client.post("/api/curate/mart/member", json={"domain": "demo", "dimension": "place", "member": "Paris|PLACE|demo", "levels": {"country": "FR"}, "dry_run": True})
+    client.post("/api/curate/mart/build", json={"domain": "demo", "dry_run": False})
+    assert seen[:2] == [["mart", "status", "--domain", "demo"], ["mart", "review", "list", "--domain", "demo"]]
+    assert seen[2] == ["mart", "review", "set", "--domain", "demo", "--dimension", "place", "--member", "Paris|PLACE|demo",
+                       "--level", "country=FR", "--dryRun"]
+    assert seen[3] == ["mart", "build", "--domain", "demo"]
