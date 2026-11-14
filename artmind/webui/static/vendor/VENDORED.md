@@ -8,7 +8,7 @@ copied from the npm tarballs as published. Update by re-running the commands in
 |---|---|---|---|---|
 | `marked.min.js` | marked | 12.0.2 | MIT | every page |
 | `purify.min.js` | dompurify | 3.1.6 | Apache-2.0 / MPL-2.0 | every page |
-| `mermaid.min.js` | mermaid | unknown | MIT | `mermaid-render.js`, first diagram only |
+| `mermaid.min.js` | mermaid | 12.3.0 (per commit 94b1d46f) | MIT | `mermaid-render.js`, first diagram only |
 | `cytoscape.min.js` | cytoscape 3.35.0 | 3.35.0 | MIT | `graph-render.js`, first graph only |
 | `layout-base.js` | layout-base 2.0.1 | 2.0.1 | MIT | `graph-render.js` (fcose dependency) |
 | `cose-base.js` | cose-base 2.2.0 | 2.2.0 | MIT | `graph-render.js` (fcose dependency) |
