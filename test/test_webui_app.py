@@ -360,3 +360,10 @@ def test_graph_renderer_frees_instances_and_caps_exports():
     for needle in ("onClose", "isConnected", "maxWidth: 4096", "maxHeight: 4096"):
         assert needle in source
     assert ".agraph-head" in (WEBUI_DIR / "static" / "style.css").read_text()
+
+
+def test_graph_renderer_expands_neighbours_through_the_endpoint():
+    from artmind.webui.app import WEBUI_DIR
+
+    source = (WEBUI_DIR / "static" / "graph-render.js").read_text()
+    assert '"dbltap"' in source and 'expand: node.data("raw").id' in source and '"Neighbours"' in source

@@ -172,16 +172,40 @@
     }
     if (raw.properties_omitted) dl.append(el("dt", "", "…"), el("dd", "", `${raw.properties_omitted} more properties not shown`));
     panel.appendChild(dl);
-    if (kind === "node" && opts.inspectorActions && opts.inspectorActions.length) {
+    if (kind === "node" && ctx.node) {
       const row = el("div", "agraph-actions");
-      for (const action of opts.inspectorActions) {
+      row.appendChild(window.ArtmindViewer.button("Neighbours", "Add this node's neighbours (or double-click it)", () => expandNode(ctx.cy, ctx, ctx.node)));
+      for (const action of opts.inspectorActions || []) {
         row.appendChild(window.ArtmindViewer.button(action.label, action.title, () => action.onClick(raw, ctx)));
       }
       panel.appendChild(row);
     }
   }
 
+  // Server ids are raw; cytoscape ids carry an "n"/"e" prefix (elementsFrom). raw keeps the server id.
+  async function expandNode(cy, ctx, node) {
+    const cap = window.ArtmindGraph.NODE_CAP;
+    if (cap - cy.nodes().length <= 0) { ctx.status.textContent = `At the ${cap}-node cap; nothing added.`; return; }
+    ctx.status.textContent = `Expanding ${node.data("label")}…`;
+    try {
+      const data = await fetchGraph({ domain: ctx.state.spec.domain }, { expand: node.data("raw").id });
+      if (cy.destroyed()) return;
+      const freshNodes = data.nodes.filter((n) => cy.getElementById("n" + n.id).empty());
+      const keptNodes = freshNodes.slice(0, Math.max(0, cap - cy.nodes().length));
+      const ids = new Set(cy.nodes().map((n) => n.id()).concat(keptNodes.map((n) => "n" + n.id)));
+      const edges = data.edges.filter((e) => ids.has("n" + e.source) && ids.has("n" + e.target) && cy.getElementById("e" + e.id).empty());
+      const added = cy.add(elementsFrom({ nodes: keptNodes, edges }));
+      added.nodes().position({ ...node.position() });
+      cy.layout({ ...layoutOptions(ctx.state.layout), randomize: false }).run();
+      const left = freshNodes.length - keptNodes.length;
+      ctx.status.textContent = `${keptNodes.length} nodes added around ${node.data("label")}` + (left ? `; ${left} left out (cap ${cap} nodes).` : ".");
+    } catch (err) {
+      ctx.status.textContent = err.message;
+    }
+  }
+
   function wire(cy, inspector, opts, ctx) {
+    cy.on("dbltap", "node", (evt) => expandNode(cy, ctx, evt.target));
     cy.on("tap", "node", (evt) => showInspector(inspector, evt.target.data("raw"), "node", opts, { ...ctx, cy, node: evt.target }));
     cy.on("tap", "edge", (evt) => showInspector(inspector, evt.target.data("raw"), "edge", opts, { ...ctx, cy }));
     cy.on("tap", (evt) => { if (evt.target === cy) inspector.hidden = true; });
@@ -210,13 +234,15 @@
     const canvas = el("div", "agraph-full");
     const inspector = el("div", "agraph-inspector");
     inspector.hidden = true;
+    const note = el("div", "agraph-note agraph-full-note");
     view.overlay.insertBefore(canvas, view.bar);
+    view.overlay.insertBefore(note, view.bar);
     view.overlay.insertBefore(inspector, view.bar);
     big = window.cytoscape({ container: canvas, elements: cy.elements().jsons(), style: styleSheet(), layout: { name: "preset" } });
     const entry = { cy: big, canvas };
     copies.add(entry);
     big.fit(undefined, 30);
-    wire(big, inspector, opts, ctx);
+    wire(big, inspector, opts, { ...ctx, status: note });
   }
 
   function toolbar(cy, state, opts, ctx) {
