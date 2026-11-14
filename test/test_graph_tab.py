@@ -47,3 +47,19 @@ def test_graph_run_route_is_on_the_admin_console_only():
     body = {"domain": "d"}  # incomplete: 422 proves the route exists without touching Neo4j
     assert _admin().post("/api/graph/run", json=body).status_code == 422
     assert TestClient(create_app(admin_routes=False)).post("/api/graph/run", json=body).status_code == 404
+
+
+def test_admin_console_has_the_graph_drawer():
+    html = TestClient(create_app(template_name="admin.html", admin_routes=True)).get("/").text
+    for el_id in ("graph-drawer-toggle", "graph-drawer", "gd-domain", "gd-question", "gd-generate",
+                  "gd-cypher", "gd-run", "gd-browser", "gd-status", "gd-canvas"):
+        assert f'id="{el_id}"' in html, el_id
+    assert html.index("/static/graph-render.js?v=") < html.index("/static/graph-drawer.js?v=") < html.index("/static/app.js?v=")
+    assert "graph-drawer.js" not in TestClient(create_app(admin_routes=False)).get("/").text
+
+
+def test_graph_drawer_never_sends_a_chat_turn_and_never_uses_innerhtml():
+    source = _admin().get("/static/graph-drawer.js").text
+    assert "innerHTML" not in source
+    assert "/api/chat" not in source and ".submit(" not in source and "requestSubmit" not in source
+    assert "window.ArtmindGraphDrawer" in source and '"/api/explore/cypher"' in source
