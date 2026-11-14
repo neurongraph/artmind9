@@ -19,6 +19,8 @@ Use this skill to answer user questions over an artmind domain through the deter
    `artmind query find <handle> "<the part's terms>"` (the survey's `handle`; see "Find").
 4. **Answer part by part** — every part from its own evidence; say which part has none.
 
+Asked to show, draw or graph the answer: after retrieval, load `artmind-present`.
+
 ## Orient — read the corpus first
 
 `orient` describes the corpus in two peels. It never sees the question: you match the

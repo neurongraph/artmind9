@@ -101,6 +101,7 @@ QA_PROFILE = AgentProfile(
     skills=(
         "artmind-query",
         "artmind-update",
+        "artmind-present",
     ),
     system_append=QA_SYSTEM_APPEND,
     acp_mode="artmind",
@@ -113,6 +114,7 @@ ADMIN_PROFILE = AgentProfile(
     skills=(
         "artmind-query",
         "artmind-update",
+        "artmind-present",
         "artmind-curate",
         "artmind-create-schema",
         "artmind-create-view",
