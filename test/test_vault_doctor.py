@@ -66,7 +66,7 @@ def test_an_outdated_gitignore_block_fails_and_points_at_init(repo):
     assert result["ok"] is False
     assert check["status"] == "fail"
     assert "outdated" in check["detail"]
-    assert "(v1; this artmind writes v5)" in check["detail"]
+    assert "(v1; this artmind writes v6)" in check["detail"]
     assert "artmind init" in check["fix"]
 
 
@@ -88,7 +88,7 @@ def test_a_v3_block_is_flagged_by_version_and_its_tracked_scratch_file_listed_af
 
     block = _by_name(result)[".gitignore artmind block"]
     assert block["status"] == "fail"
-    assert block["detail"] == "artmind block outdated (v3; this artmind writes v5)"
+    assert block["detail"] == "artmind block outdated (v3; this artmind writes v6)"
     assert "artmind init" in block["fix"]
     assert _by_name(result)["ignored paths still tracked"]["status"] == "ok", "v3 does not ignore a file"
 
@@ -391,3 +391,22 @@ def test_libreoffice_never_fails_the_doctor(repo, monkeypatch):
     monkeypatch.delenv("DOCLING_LIBREOFFICE_CMD", raising=False)
     monkeypatch.setattr(doc, "check_libreoffice", lambda: doc.Check("LibreOffice (optional)", "warn", "x"))
     assert doc.run(repo)["ok"] is True
+
+
+def test_a_tracked_termy_agent_context_is_reported_with_the_untrack_command(repo):
+    """A vault that committed Termy's agent context before the v6 block keeps
+    committing it after `artmind init`, because git ignores only untracked
+    files. Doctor names the folder and prints the command; it never runs it."""
+    ctx = repo / ".obsidian" / "plugins" / "termy" / "agent-context"
+    ctx.mkdir(parents=True)
+    (ctx / "obsidian-context.json").write_text("{}")
+    (repo / ".obsidian" / "plugins" / "termy" / "main.js").write_text("")
+    _git(repo, "add", "-f", "-A")
+    _git(repo, "commit", "-qm", "committed before the rule existed")
+    vault.write_gitignore(repo)
+
+    check = _by_name(doc.run(repo))["ignored paths still tracked"]
+
+    assert check["status"] == "fail"
+    assert check["fix"] == "git rm -r --cached -- .obsidian/plugins/termy/agent-context"
+    assert ".obsidian/plugins/termy/agent-context/obsidian-context.json" in _git(repo, "ls-files")
