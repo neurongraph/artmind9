@@ -94,16 +94,26 @@ def test_pages_load_mermaid_renderer_lazily(template_name):
 
 
 def test_mermaid_diagram_has_expand_and_copy_source_controls():
-    """A rendered diagram carries an expand (zoom/pan viewer) and a copy-source
-    button, and the stylesheet that styles them ships with every page."""
+    """A rendered diagram has expand (the shared zoom/pan viewer) and copy-source
+    buttons, and the stylesheet that styles them ships with every page."""
     from artmind.webui.app import WEBUI_DIR
 
     script = (WEBUI_DIR / "static" / "mermaid-render.js").read_text()
+    viewer = (WEBUI_DIR / "static" / "viewer.js").read_text()
     style = (WEBUI_DIR / "static" / "style.css").read_text()
     assert '"expand"' in script and '"copy source"' in script
     assert "navigator.clipboard.writeText(host._mermaidSource)" in script
-    for selector in (".mermaid-toolbar", ".mermaid-overlay", ".mermaid-viewer-bar"):
+    assert "ArtmindViewer.open(" in script and "window.ArtmindViewer" in viewer
+    for selector in (".mermaid-toolbar", ".viewer-overlay", ".viewer-bar", ".viewer-btn"):
         assert selector in style
+    assert ".mermaid-overlay" not in style and ".mermaid-btn" not in style
+
+
+@pytest.mark.parametrize("template_name", ["index.html", "admin.html", "dashboard.html"])
+def test_viewer_loads_before_the_renderers(template_name):
+    client = TestClient(create_app(registry=SessionRegistry(client_factory=FakeBackend), template_name=template_name))
+    html = client.get("/").text
+    assert html.index("/static/viewer.js?v=") < html.index("/static/mermaid-render.js?v=")
 
 
 @pytest.mark.parametrize("script", ["app.js", "conversations.js", "views.js"])

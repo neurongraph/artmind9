@@ -8,7 +8,8 @@
 // show one pay nothing. Mermaid runs with securityLevel "strict" (it sanitizes the
 // diagram text and its SVG itself), after DOMPurify has already cleaned the markdown.
 // A diagram that fails to parse stays a plain code block with a one-line note.
-// A rendered diagram has a hover toolbar: "expand" opens it full-window with
+// A rendered diagram has a hover toolbar: "expand" opens it full-window (the shared
+// viewer in viewer.js) with
 // wheel zoom and drag pan (a wide timeline is unreadable at column width), and
 // "copy source" puts the mermaid text on the clipboard.
 // Call renderMermaid(scope) after a node's markdown is in the DOM; it is idempotent.
@@ -16,6 +17,7 @@
   const SRC = document.currentScript && document.currentScript.dataset.mermaidSrc;
   let loading = null;
   let counter = 0;
+  const button = (label, title, onClick) => window.ArtmindViewer.button(label, title, onClick);
 
   function theme() {
     return document.documentElement.dataset.theme === "dark" ? "dark" : "default";
@@ -59,16 +61,6 @@
     host.appendChild(toolbar(host));
   }
 
-  function button(label, title, onClick) {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = "mermaid-btn";
-    b.textContent = label;
-    b.title = title;
-    b.addEventListener("click", onClick);
-    return b;
-  }
-
   function toolbar(host) {
     const bar = document.createElement("div");
     bar.className = "mermaid-toolbar";
@@ -94,7 +86,6 @@
   function expand(host) {
     const source = host.querySelector("svg");
     if (!source) return;
-    const opener = document.activeElement;
     const svg = source.cloneNode(true);
     // Mermaid sizes its svg to 100% of the column; give it its natural size and
     // scale the whole stage instead.
@@ -104,25 +95,11 @@
     svg.setAttribute("width", natural.w);
     svg.setAttribute("height", natural.h);
 
-    const overlay = document.createElement("div");
-    overlay.className = "mermaid-overlay";
-    overlay.setAttribute("role", "dialog");
-    overlay.setAttribute("aria-modal", "true");
-    overlay.setAttribute("aria-label", "Diagram");
-    const stage = document.createElement("div");
-    stage.className = "mermaid-stage";
-    stage.appendChild(svg);
-    overlay.appendChild(stage);
-
     let scale = 1, x = 0, y = 0;
+    const stage = document.createElement("div");
+    stage.className = "viewer-stage";
+    stage.appendChild(svg);
     const apply = () => { stage.style.transform = `translate(${x}px, ${y}px) scale(${scale})`; };
-    const fit = () => {
-      const vw = overlay.clientWidth, vh = overlay.clientHeight;
-      scale = Math.min((vw * 0.94) / natural.w, (vh * 0.86) / natural.h, 4);
-      x = (vw - natural.w * scale) / 2;
-      y = (vh - natural.h * scale) / 2;
-      apply();
-    };
     const zoomAt = (factor, cx, cy) => {
       const next = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale * factor));
       const k = next / scale;
@@ -131,34 +108,35 @@
       scale = next;
       apply();
     };
-    const zoomCentre = (factor) => zoomAt(factor, overlay.clientWidth / 2, overlay.clientHeight / 2);
-    const actual = () => {
-      const f = 1 / scale;
-      zoomCentre(f);
+    let view = null;
+    const fit = () => {
+      const vw = view.overlay.clientWidth, vh = view.overlay.clientHeight;
+      scale = Math.min((vw * 0.94) / natural.w, (vh * 0.86) / natural.h, 4);
+      x = (vw - natural.w * scale) / 2;
+      y = (vh - natural.h * scale) / 2;
+      apply();
     };
+    const zoomCentre = (factor) => zoomAt(factor, view.overlay.clientWidth / 2, view.overlay.clientHeight / 2);
 
-    const bar = document.createElement("div");
-    bar.className = "mermaid-viewer-bar";
-    const close = () => {
-      document.removeEventListener("keydown", onKey, true);
-      window.removeEventListener("resize", fit);
-      overlay.remove();
-      if (opener && opener.focus) opener.focus();
-    };
-    const closeBtn = button("close", "Close (Esc)", close);
-    bar.append(
-      button("−", "Zoom out", () => zoomCentre(1 / 1.25)),
-      button("+", "Zoom in", () => zoomCentre(1.25)),
-      button("fit", "Fit to window", fit),
-      button("100%", "Actual size", actual),
-      closeBtn,
-    );
-    overlay.appendChild(bar);
+    view = window.ArtmindViewer.open({
+      label: "Diagram",
+      className: "pan",
+      buttons: [
+        ["\u2212", "Zoom out", () => zoomCentre(1 / 1.25)],
+        ["+", "Zoom in", () => zoomCentre(1.25)],
+        ["fit", "Fit to window", fit],
+        ["100%", "Actual size", () => zoomCentre(1 / scale)],
+      ],
+      keys: { "+": () => zoomCentre(1.25), "=": () => zoomCentre(1.25), "-": () => zoomCentre(1 / 1.25), "0": fit },
+      onResize: fit,
+    });
+    const overlay = view.overlay;
+    overlay.insertBefore(stage, view.bar);
 
     // Pointer drag pans; a press that never moved on the backdrop closes.
     let drag = null;
     overlay.addEventListener("pointerdown", (e) => {
-      if (e.target.closest(".mermaid-viewer-bar")) return;
+      if (e.target.closest(".viewer-bar")) return;
       drag = { px: e.clientX, py: e.clientY, x, y, moved: false, onDiagram: !!e.target.closest("svg") };
       overlay.setPointerCapture(e.pointerId);
       overlay.classList.add("panning");
@@ -171,31 +149,18 @@
       y = drag.y + dy;
       apply();
     });
-    const endDrag = () => {
-      if (drag && !drag.moved && !drag.onDiagram) close();
+    overlay.addEventListener("pointerup", () => {
+      if (drag && !drag.moved && !drag.onDiagram) view.close();
       drag = null;
       overlay.classList.remove("panning");
-    };
-    overlay.addEventListener("pointerup", endDrag);
+    });
     overlay.addEventListener("pointercancel", () => { drag = null; overlay.classList.remove("panning"); });
     overlay.addEventListener("wheel", (e) => {
       e.preventDefault();
       zoomAt(Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0015)), e.clientX, e.clientY);
     }, { passive: false });
-    overlay.addEventListener("dblclick", (e) => { if (!e.target.closest(".mermaid-viewer-bar")) fit(); });
-
-    function onKey(e) {
-      if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); close(); }
-      else if (e.key === "+" || e.key === "=") zoomCentre(1.25);
-      else if (e.key === "-") zoomCentre(1 / 1.25);
-      else if (e.key === "0") fit();
-    }
-    document.addEventListener("keydown", onKey, true);
-    window.addEventListener("resize", fit);
-
-    document.body.appendChild(overlay);
+    overlay.addEventListener("dblclick", (e) => { if (!e.target.closest(".viewer-bar")) fit(); });
     fit();
-    closeBtn.focus();
   }
 
   window.renderMermaid = function (scope) {

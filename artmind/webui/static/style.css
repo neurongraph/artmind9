@@ -196,23 +196,25 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .mermaid-diagram:hover .mermaid-toolbar,
 .mermaid-diagram:focus-within .mermaid-toolbar { opacity: 1; }
 @media (hover: none) { .mermaid-toolbar { opacity: 1; } }
-.mermaid-btn {
+.viewer-btn {
   padding: 3px 9px; border-radius: 6px; border: 1px solid var(--border);
   background: var(--bg-elev); color: var(--text-muted);
   font-size: 11px; cursor: pointer; user-select: none;
 }
-.mermaid-btn:hover { color: var(--text); }
-.mermaid-overlay {
+.viewer-btn:hover { color: var(--text); }
+/* ── full-window viewer (viewer.js) ─────────────────────────────── */
+.viewer-overlay {
   position: fixed; inset: 0; z-index: 1000; overflow: hidden;
-  background: var(--bg); cursor: grab; touch-action: none;
+  background: var(--bg);
 }
-.mermaid-overlay.panning { cursor: grabbing; }
-.mermaid-stage { position: absolute; top: 0; left: 0; transform-origin: 0 0; will-change: transform; }
-.mermaid-stage svg { display: block; max-width: none; }
-.mermaid-viewer-bar {
-  position: absolute; top: 12px; right: 12px; display: flex; gap: 6px; cursor: default;
+.viewer-overlay.pan { cursor: grab; touch-action: none; }
+.viewer-overlay.panning { cursor: grabbing; }
+.viewer-stage { position: absolute; top: 0; left: 0; transform-origin: 0 0; will-change: transform; }
+.viewer-stage svg { display: block; max-width: none; }
+.viewer-bar {
+  position: absolute; top: 12px; right: 12px; z-index: 1; display: flex; gap: 6px; cursor: default;
 }
-.mermaid-viewer-bar .mermaid-btn { font-size: 13px; padding: 5px 12px; }
+.viewer-bar .viewer-btn { font-size: 13px; padding: 5px 12px; }
 .mermaid-diagram svg { max-width: 100%; height: auto; }
 .mermaid-diagram.mermaid-failed { text-align: left; }
 .mermaid-error { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
