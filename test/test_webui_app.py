@@ -94,16 +94,26 @@ def test_pages_load_mermaid_renderer_lazily(template_name):
 
 
 def test_mermaid_diagram_has_expand_and_copy_source_controls():
-    """A rendered diagram carries an expand (zoom/pan viewer) and a copy-source
-    button, and the stylesheet that styles them ships with every page."""
+    """A rendered diagram has expand (the shared zoom/pan viewer) and copy-source
+    buttons, and the stylesheet that styles them ships with every page."""
     from artmind.webui.app import WEBUI_DIR
 
     script = (WEBUI_DIR / "static" / "mermaid-render.js").read_text()
+    viewer = (WEBUI_DIR / "static" / "viewer.js").read_text()
     style = (WEBUI_DIR / "static" / "style.css").read_text()
     assert '"expand"' in script and '"copy source"' in script
     assert "navigator.clipboard.writeText(host._mermaidSource)" in script
-    for selector in (".mermaid-toolbar", ".mermaid-overlay", ".mermaid-viewer-bar"):
+    assert "ArtmindViewer.open(" in script and "window.ArtmindViewer" in viewer
+    for selector in (".mermaid-toolbar", ".viewer-overlay", ".viewer-bar", ".viewer-btn"):
         assert selector in style
+    assert ".mermaid-overlay" not in style and ".mermaid-btn" not in style
+
+
+@pytest.mark.parametrize("template_name", ["index.html", "admin.html", "dashboard.html"])
+def test_viewer_loads_before_the_renderers(template_name):
+    client = TestClient(create_app(registry=SessionRegistry(client_factory=FakeBackend), template_name=template_name))
+    html = client.get("/").text
+    assert html.index("/static/viewer.js?v=") < html.index("/static/mermaid-render.js?v=")
 
 
 @pytest.mark.parametrize("script", ["app.js", "conversations.js", "views.js"])
@@ -285,3 +295,75 @@ def test_a_prefilled_page_starts_no_agent_turn():
     client = TestClient(create_app(registry=registry, template_name="admin.html", admin_routes=True))
     client.get("/", params={"prompt": REVIEW})
     assert registry._sessions == {}, "rendering the page must never reach the agent"
+
+
+GRAPH_LIBS = ("cytoscape.min.js", "layout-base.js", "cose-base.js", "cytoscape-fcose.js")
+
+
+def test_graph_libraries_are_vendored_with_their_licences():
+    from artmind.webui.app import WEBUI_DIR
+
+    vendor = WEBUI_DIR / "static" / "vendor"
+    record = (vendor / "VENDORED.md").read_text()
+    for name in GRAPH_LIBS:
+        assert (vendor / name).stat().st_size > 10_000, name
+        assert name in record
+    for pinned in ("cytoscape 3.35.0", "cytoscape-fcose 2.2.0", "cose-base 2.2.0", "layout-base 2.0.1"):
+        assert pinned in record
+    assert record.count("MIT License") >= 4
+
+@pytest.mark.parametrize("template_name", ["admin.html", "dashboard.html"])
+def test_admin_pages_load_the_graph_renderer_lazily(template_name):
+    client = TestClient(create_app(registry=SessionRegistry(client_factory=FakeBackend),
+                                   template_name=template_name, admin_routes=True))
+    html = client.get("/" if template_name == "admin.html" else "/dashboard").text
+    assert "/static/graph-render.js?v=" in html
+    libs = html.split('data-graph-libs="', 1)[1].split('"', 1)[0].split()
+    assert [lib.split("?")[0] for lib in libs] == [f"/static/vendor/{name}" for name in GRAPH_LIBS]
+    assert '<script src="/static/vendor/cytoscape' not in html
+    assert html.index("/static/viewer.js?v=") < html.index("/static/graph-render.js?v=")
+
+
+@pytest.mark.parametrize("script", ["app.js", "conversations.js", "views.js"])
+def test_markdown_renderers_call_render_artmind_graph(script):
+    """Wherever a mermaid block can appear, an artmind-graph block is drawn too."""
+    from artmind.webui.app import WEBUI_DIR
+
+    source = (WEBUI_DIR / "static" / script).read_text()
+    assert source.count("renderMermaid(") == source.count("renderArtmindGraph(")
+
+
+@pytest.mark.parametrize("script", ["graph-render.js", "viewer.js"])
+def test_graph_scripts_never_use_innerhtml(script):
+    """Conversations hold private corpus content: graph text goes through textContent only."""
+    from artmind.webui.app import WEBUI_DIR
+
+    assert "innerHTML" not in (WEBUI_DIR / "static" / script).read_text()
+
+
+def test_graph_renderer_targets_the_fence_and_the_endpoint():
+    from artmind.webui.app import WEBUI_DIR
+
+    source = (WEBUI_DIR / "static" / "graph-render.js").read_text()
+    assert "pre > code.language-artmind-graph" in source
+    assert '"/api/graph/run"' in source
+    assert "JSON.parse(" in source
+    style = (WEBUI_DIR / "static" / "style.css").read_text()
+    for selector in (".agraph", ".agraph-canvas", ".agraph-toolbar", ".agraph-inspector"):
+        assert selector in style
+
+
+def test_graph_renderer_frees_instances_and_caps_exports():
+    from artmind.webui.app import WEBUI_DIR
+
+    source = (WEBUI_DIR / "static" / "graph-render.js").read_text()
+    for needle in ("onClose", "isConnected", "maxWidth: 4096", "maxHeight: 4096"):
+        assert needle in source
+    assert ".agraph-head" in (WEBUI_DIR / "static" / "style.css").read_text()
+
+
+def test_graph_renderer_expands_neighbours_through_the_endpoint():
+    from artmind.webui.app import WEBUI_DIR
+
+    source = (WEBUI_DIR / "static" / "graph-render.js").read_text()
+    assert '"dbltap"' in source and 'expand: rawId' in source and 'const rawId = node.data("raw").id' in source and '"Neighbours"' in source

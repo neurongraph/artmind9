@@ -1897,6 +1897,8 @@ git commit -m "docs: CLAUDE.md rows for the graph endpoint and renderer"
 
 ### Task 10: chat-ui support (gated on spec §8 Q1)
 
+**Not done: the user decided on 2026-11-14 that chat-ui draws no graphs (mermaid and tables only). The qa mode was removed from `graph_routes.py`. The steps below are kept as a record.**
+
 **Before starting, ask the user:** spec §8 Q1 asks whether chat-ui may run any read-only, `$domains`-scoped, capped, rate-limited Cypher sent from its browser (v1, no fence signing). If the answer is no, or no answer yet, skip this task: phase 1 ships admin-only, and chat-ui shows the fence as a code block.
 
 **Files:**

@@ -309,6 +309,7 @@
     const node = el("div", "md");
     node.innerHTML = DOMPurify.sanitize(marked.parse(block.md));
     renderMermaid(node);
+    if (window.renderArtmindGraph) renderArtmindGraph(node);
     addCopyButtons(node);
     linkVaultSources(node);
     return node;

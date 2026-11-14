@@ -1,12 +1,14 @@
-"""Admin-console route for Explore -> Graph: question -> Cypher -> Neo4j Browser.
+"""Admin-console routes for Explore -> Graph: question -> Cypher -> canvas / Neo4j Browser.
 
 `POST /api/explore/cypher` turns a natural-language question into read-only,
 domain-scoped Cypher (`artmind.text2cypher`, graph mode) and returns it in two
 forms: the parameterised query, and a self-contained one with the parameters
 inlined, because Neo4j Browser cannot take parameters from a link. When
 `ARTMIND_KG_NEO4J_BROWSER_URL` is set it also returns a deep link that opens
-Browser with the query pre-filled. Nothing is executed here: the operator
-reviews the Cypher and presses Run in Browser.
+Browser with the query pre-filled. This module executes nothing: the tab
+draws the Cypher through `/api/graph/run`, and in Browser the operator
+reviews it and presses Run.
+It also returns `run_cypher` (everything but `$domains` inlined) for /api/graph/run.
 """
 
 from __future__ import annotations
@@ -35,6 +37,7 @@ class CypherRequest(BaseModel):
 
 class LinkRequest(BaseModel):
     cypher: str
+    domains: list[str] | None = None
 
     @field_validator("cypher")
     @classmethod
@@ -80,6 +83,22 @@ def _neo4j_uri() -> str | None:
     return load_env().get("ARTMIND_KG_NEO4J_URI") or None
 
 
+def _inline_except_domains(cypher: str, parameters: dict) -> str:
+    """Cypher for /api/graph/run: every parameter inlined except `$domains`,
+    which the graph endpoint binds itself."""
+    from artmind.text2cypher import _PARAM_RE, cypher_literal
+
+    def sub(match):
+        name = match.group(1)
+        if name == "domains":
+            return match.group(0)
+        if name not in parameters:
+            raise ValueError(f"Cypher references ${name} but no value was generated for it")
+        return cypher_literal(parameters[name])
+
+    return _PARAM_RE.sub(sub, cypher)
+
+
 def _package(cypher: str, parameters: dict) -> dict:
     from artmind.text2cypher import browser_deep_link, inline_parameters
 
@@ -88,15 +107,15 @@ def _package(cypher: str, parameters: dict) -> dict:
         "cypher": cypher,
         "parameters": parameters,
         "standalone_cypher": standalone,
+        "run_cypher": _inline_except_domains(cypher, parameters),
         "browser_url": browser_deep_link(_browser_url(), standalone, _neo4j_uri()),
     }
 
 
 def _check_read_only(cypher: str) -> None:
-    from artmind.text2cypher import _prepare_graph_cypher, validate_read_only
+    from artmind.webui import graph_routes
 
-    validate_read_only(cypher)
-    _prepare_graph_cypher(cypher)  # also refuses CALL
+    graph_routes.prepare_cypher(cypher)
 
 
 def register_explore_routes(app: FastAPI) -> FastAPI:
@@ -126,11 +145,13 @@ def register_explore_routes(app: FastAPI) -> FastAPI:
     async def api_explore_cypher_link(payload: LinkRequest):
         """Deep link for Cypher the operator edited by hand. Self-contained
         queries only (no `$params`), and held to the same read-only rule."""
+        from artmind.graph_query import normalize_domains
         from artmind.text2cypher import browser_deep_link, inline_parameters
 
         try:
             _check_read_only(payload.cypher)
-            standalone = inline_parameters(payload.cypher, {})
+            params = {"domains": normalize_domains(payload.domains)} if payload.domains else {}
+            standalone = inline_parameters(payload.cypher, params)
             return {"standalone_cypher": standalone,
                     "browser_url": browser_deep_link(_browser_url(), standalone, _neo4j_uri())}
         except ValueError as exc:

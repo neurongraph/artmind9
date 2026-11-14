@@ -50,6 +50,12 @@
         </svg>
         <span id="trace-badge" class="badge" hidden>0</span>
       </button>
+      <button id="graph-drawer-toggle" class="icon-btn" aria-expanded="false" title="Graph" aria-label="Toggle graph drawer">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="5" cy="6" r="2.5"></circle><circle cx="19" cy="6" r="2.5"></circle><circle cx="12" cy="18" r="2.5"></circle>
+          <path d="M7.2 7.2 10.8 16M16.8 7.2 13.2 16M7.5 6h9"></path>
+        </svg>
+      </button>
       <button id="help-toggle" class="icon-btn" title="What is this?" aria-label="Toggle concept help">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="9"></circle>
@@ -100,6 +106,30 @@
     <div id="help-concepts-list" class="trace-list"></div>
   </aside>
 
+  <aside id="graph-drawer" class="drawer graph-drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <span class="drawer-title">Graph</span>
+      <button id="graph-drawer-close" class="icon-btn" aria-label="Close graph" tabindex="-1">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="graph-drawer-body">
+      <label class="gd-label">Domain <select id="gd-domain"></select></label>
+      <label class="gd-label">Question <textarea id="gd-question" rows="2" placeholder="e.g. who treated whom, and when?"></textarea></label>
+      <div class="gd-row"><button id="gd-generate" type="button" class="viewer-btn">Generate Cypher</button></div>
+      <label class="gd-label">Cypher (read-only; only $domains may be a parameter)
+        <textarea id="gd-cypher" rows="6" spellcheck="false"></textarea></label>
+      <div class="gd-row">
+        <button id="gd-run" type="button" class="viewer-btn gd-primary">Run</button>
+        <button id="gd-browser" type="button" class="viewer-btn">Open in Neo4j Browser</button>
+      </div>
+      <p id="gd-status" class="gd-status"></p>
+      <div id="gd-canvas"></div>
+    </div>
+  </aside>
+
   <div class="composer-wrap">
     <form id="composer" class="composer">
       <textarea id="prompt" rows="1" placeholder="Ask the admin assistant…" aria-label="Message" autofocus>{{ prefill | default("") }}</textarea>
@@ -116,10 +146,12 @@
 
   <script src="{{ static_url('vendor/purify.min.js') }}"></script>
   <script src="{{ static_url('vendor/marked.min.js') }}"></script>
+  <script src="{{ static_url('viewer.js') }}"></script>
   <script src="{{ static_url('mermaid-render.js') }}" data-mermaid-src="{{ static_url('vendor/mermaid.min.js') }}"></script>
+  <script src="{{ static_url('graph-render.js') }}" data-graph-libs="{{ static_url('vendor/cytoscape.min.js') }} {{ static_url('vendor/layout-base.js') }} {{ static_url('vendor/cose-base.js') }} {{ static_url('vendor/cytoscape-fcose.js') }}"></script>
+  <script src="{{ static_url('graph-drawer.js') }}"></script>
   <script src="{{ static_url('app.js') }}"></script>
   <script src="{{ static_url('conversations.js') }}"></script>
   <script src="{{ static_url('admin-help.js') }}"></script>
-  <script src="{{ static_url('admin-graph.js') }}"></script>
 </body>
 </html>
