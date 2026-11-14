@@ -62,5 +62,6 @@ def test_admin_console_has_the_graph_drawer():
 def test_graph_drawer_never_sends_a_chat_turn_and_never_uses_innerhtml():
     source = _admin().get("/static/graph-drawer.js").text
     assert "innerHTML" not in source
+    assert "innerHTML" not in _admin().get("/static/graph.js").text
     assert "/api/chat" not in source and ".submit(" not in source and "requestSubmit" not in source
     assert "window.ArtmindGraphDrawer" in source and '"/api/explore/cypher"' in source

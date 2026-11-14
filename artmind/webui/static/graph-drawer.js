@@ -13,7 +13,9 @@
   const domainEl = $("gd-domain"), questionEl = $("gd-question"), cypherEl = $("gd-cypher");
   const statusEl = $("gd-status"), canvasEl = $("gd-canvas");
   const generateEl = $("gd-generate"), runEl = $("gd-run"), browserEl = $("gd-browser");
+  const toggleEl = $("graph-drawer-toggle"), closeEl = $("graph-drawer-close");
   let domainsLoaded = null;
+  drawer.inert = true;
 
   async function call(path, body) {
     const init = body === undefined ? {} : { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) };
@@ -44,17 +46,33 @@
     return domainsLoaded;
   }
 
-  function pick(domain) {
-    const name = Array.isArray(domain) ? domain[0] : domain;
-    if (name && [...domainEl.options].some((o) => o.value === name)) domainEl.value = name;
+  function closeOthers() {
+    const trace = document.getElementById("drawer-close");
+    if (document.body.classList.contains("drawer-open") && trace) trace.click();
+    const help = document.getElementById("help-drawer");
+    if (help && help.classList.contains("open")) {
+      help.classList.remove("open");
+      help.setAttribute("aria-hidden", "true");
+      help.inert = true;
+      const hc = document.getElementById("help-drawer-close");
+      if (hc) hc.setAttribute("tabindex", "-1");
+    }
   }
 
   function setOpen(open) {
+    if (open) closeOthers();
     drawer.classList.toggle("open", open);
     drawer.setAttribute("aria-hidden", String(!open));
+    drawer.inert = !open;
+    toggleEl.setAttribute("aria-expanded", String(open));
+    if (open) closeEl.removeAttribute("tabindex"); else closeEl.setAttribute("tabindex", "-1");
     document.body.classList.toggle("graph-open", open);
-    if (open) loadDomains().catch((err) => say(`Failed to load domains: ${err.message}`));
+    if (open) {
+      questionEl.focus();
+      loadDomains().catch((err) => say(`Failed to load domains: ${err.message}`));
+    }
   }
+  function closeFromElsewhere() { if (drawer.classList.contains("open")) setOpen(false); }
 
   function fillPrompt(text) {
     const prompt = document.getElementById("prompt");
@@ -115,14 +133,27 @@
   }
 
   async function open(spec = {}) {
+    if (spec.cypher) cypherEl.value = spec.cypher;
     setOpen(true);
     try { await loadDomains(); } catch (_e) { return; }
-    pick(spec.domain);
-    if (spec.cypher) { cypherEl.value = spec.cypher; await run(); }
+    const name = Array.isArray(spec.domain) ? (spec.domain.length === 1 ? spec.domain[0] : null) : spec.domain;
+    if (!spec.cypher) { if (name && [...domainEl.options].some((o) => o.value === name)) domainEl.value = name; return; }
+    if (!name || ![...domainEl.options].some((o) => o.value === name)) {
+      const shown = Array.isArray(spec.domain) ? spec.domain.join(", ") : spec.domain;
+      say(`This block's domain ${shown} is not in the list; pick one and press Run.`);
+      return;
+    }
+    domainEl.value = name;
+    await run();
   }
 
-  $("graph-drawer-toggle").addEventListener("click", () => setOpen(!drawer.classList.contains("open")));
-  $("graph-drawer-close").addEventListener("click", () => setOpen(false));
+  toggleEl.addEventListener("click", () => setOpen(!drawer.classList.contains("open")));
+  closeEl.addEventListener("click", () => { setOpen(false); toggleEl.focus(); });
+  // The trace and help drawers share this edge: opening either closes the graph drawer.
+  for (const id of ["trace-toggle", "help-toggle"]) {
+    const t = document.getElementById(id);
+    if (t) t.addEventListener("click", closeFromElsewhere, true);
+  }
   generateEl.addEventListener("click", generate);
   runEl.addEventListener("click", run);
   browserEl.addEventListener("click", openBrowser);

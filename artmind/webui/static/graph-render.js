@@ -183,24 +183,56 @@
   }
 
   // Server ids are raw; cytoscape ids carry an "n"/"e" prefix (elementsFrom). raw keeps the server id.
+  const pending = new WeakMap(); // cy -> Set of raw node ids being expanded
+
+  // Existing positions stay; only the new nodes move.
+  function placeAround(node, added) {
+    const fresh = added.nodes();
+    const centre = node.position();
+    const r = 60 + 6 * fresh.length;
+    fresh.forEach((n, i) => {
+      const a = (2 * Math.PI * i) / Math.max(1, fresh.length);
+      n.position({ x: centre.x + r * Math.cos(a), y: centre.y + r * Math.sin(a) });
+    });
+  }
+  function layoutAround(cy, node, added, layoutIndex) {
+    placeAround(node, added);
+    const opts = layoutOptions(layoutIndex);
+    if (opts.name !== "fcose" || added.nodes().empty()) return Promise.resolve();
+    const local = node.closedNeighborhood().union(added);
+    const fixed = local.nodes().not(added.nodes()).map((n) => ({ nodeId: n.id(), position: { ...n.position() } }));
+    const layout = local.layout({ ...opts, randomize: false, fixedNodeConstraint: fixed });
+    const done = layout.promiseOn ? layout.promiseOn("layoutstop") : Promise.resolve();
+    layout.run();
+    return done;
+  }
+
   async function expandNode(cy, ctx, node) {
     const cap = window.ArtmindGraph.NODE_CAP;
+    const rawId = node.data("raw").id;
+    const busy = pending.get(cy) || pending.set(cy, new Set()).get(cy);
+    if (busy.has(rawId)) return;
     if (cap - cy.nodes().length <= 0) { ctx.status.textContent = `At the ${cap}-node cap; nothing added.`; return; }
+    busy.add(rawId);
     ctx.status.textContent = `Expanding ${node.data("label")}…`;
     try {
-      const data = await fetchGraph({ domain: ctx.state.spec.domain }, { expand: node.data("raw").id });
+      const data = await fetchGraph({ domain: ctx.state.spec.domain }, { expand: rawId });
       if (cy.destroyed()) return;
       const freshNodes = data.nodes.filter((n) => cy.getElementById("n" + n.id).empty());
       const keptNodes = freshNodes.slice(0, Math.max(0, cap - cy.nodes().length));
       const ids = new Set(cy.nodes().map((n) => n.id()).concat(keptNodes.map((n) => "n" + n.id)));
       const edges = data.edges.filter((e) => ids.has("n" + e.source) && ids.has("n" + e.target) && cy.getElementById("e" + e.id).empty());
       const added = cy.add(elementsFrom({ nodes: keptNodes, edges }));
-      added.nodes().position({ ...node.position() });
-      cy.layout({ ...layoutOptions(ctx.state.layout), randomize: false }).run();
+      await layoutAround(cy, node, added, ctx.state.layout);
+      if (cy.destroyed()) return;
+      const region = node.union(added);
+      try { cy.animate({ fit: { eles: region, padding: 40 }, duration: 250 }); } catch (_e) { cy.fit(region, 40); }
       const left = freshNodes.length - keptNodes.length;
-      ctx.status.textContent = `${keptNodes.length} nodes added around ${node.data("label")}` + (left ? `; ${left} left out (cap ${cap} nodes).` : ".");
+      ctx.status.textContent = `${cy.nodes().length} nodes, ${cy.edges().length} edges; ${keptNodes.length} added around ${node.data("label")}` + (left ? `; ${left} left out (cap ${cap} nodes).` : ".");
     } catch (err) {
       ctx.status.textContent = err.message;
+    } finally {
+      busy.delete(rawId);
     }
   }
 

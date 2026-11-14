@@ -366,4 +366,4 @@ def test_graph_renderer_expands_neighbours_through_the_endpoint():
     from artmind.webui.app import WEBUI_DIR
 
     source = (WEBUI_DIR / "static" / "graph-render.js").read_text()
-    assert '"dbltap"' in source and 'expand: node.data("raw").id' in source and '"Neighbours"' in source
+    assert '"dbltap"' in source and 'expand: rawId' in source and 'const rawId = node.data("raw").id' in source and '"Neighbours"' in source

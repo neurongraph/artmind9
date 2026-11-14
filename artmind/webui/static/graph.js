@@ -56,7 +56,7 @@ async function graphGenerate() {
     graphOpenEl.disabled = false;
     const note = data.browser_url
       ? "Review or edit the Cypher, then Run to draw it here."
-      : "No Neo4j Browser configured for this vault: set ARTMIND_KG_NEO4J_BROWSER_URL in its .artmind/config.env. You can still copy the Cypher.";
+      : "No Neo4j Browser configured for this vault: set ARTMIND_KG_NEO4J_BROWSER_URL in its .artmind/config.env. You can still Run it here or copy the Cypher.";
     const warnings = (data.warnings || []).join(" ");
     graphSetStatus(warnings ? `Warning: ${warnings} ${note}` : note);
   } catch (err) {
@@ -91,7 +91,17 @@ async function graphOpen() {
 
 async function graphCopy() {
   try {
-    await navigator.clipboard.writeText(graphCypherEl.value);
+    let text = graphCypherEl.value;
+    try {
+      // $domains Cypher will not run in Neo4j Browser: copy the self-contained form.
+      const data = await api("/api/explore/cypher/link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cypher: text, domains: [graphDomainEl.value] }),
+      });
+      if (data.standalone_cypher) text = data.standalone_cypher;
+    } catch (_e) { /* fall back to the editor text */ }
+    await navigator.clipboard.writeText(text);
     graphCopyEl.textContent = "Copied";
   } catch (_err) {
     graphCopyEl.textContent = "Copy failed";
@@ -135,7 +145,7 @@ document.querySelector('.tab[data-tab="graph"]').addEventListener("click", async
   try {
     // Most populated first; an empty domain is labelled so it is not picked by mistake.
     const domains = await api("/api/explore/domains");
-    graphDomainEl.innerHTML = "";
+    graphDomainEl.replaceChildren();
     for (const d of domains) {
       const label = d.entities ? `${d.name} (${d.entities} entities)` : `${d.name} (empty)`;
       const opt = el("option", "", label);
