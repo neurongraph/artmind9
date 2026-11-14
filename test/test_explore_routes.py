@@ -120,3 +120,23 @@ def test_deep_link_prefills_connection_url(client, monkeypatch):
         "http://127.0.0.1:7476/browser/?dbms=bolt%3A%2F%2F127.0.0.1%3A7689&cmd=edit&arg=")
     link = client.post("/api/explore/cypher/link", json={"cypher": "RETURN 1"}).json()
     assert "dbms=bolt%3A%2F%2F127.0.0.1%3A7689&cmd=edit" in link["browser_url"]
+
+
+def test_cypher_response_carries_run_cypher_with_only_domains_left(client, monkeypatch):
+    monkeypatch.setattr(explore_routes, "_generate", lambda q, d: {
+        "cypher": "MATCH (a:Entity {name: $name}) WHERE a._domain IN $domains RETURN a",
+        "parameters": {"domains": d, "name": "O'Neil"},
+    })
+    body = client.post("/api/explore/cypher", json={"question": "q", "domains": ["d"]}).json()
+    assert body["run_cypher"] == "MATCH (a:Entity {name: 'O\\'Neil'}) WHERE a._domain IN $domains RETURN a"
+
+
+def test_link_inlines_domains_when_given(client):
+    r = client.post("/api/explore/cypher/link",
+                    json={"cypher": "MATCH (a) WHERE a._domain IN $domains RETURN a", "domains": ["d"]})
+    assert r.status_code == 200 and "['d']" in r.json()["standalone_cypher"]
+
+
+def test_link_without_domains_still_refuses_parameters(client):
+    r = client.post("/api/explore/cypher/link", json={"cypher": "MATCH (a) WHERE a._domain IN $domains RETURN a"})
+    assert r.status_code == 400
