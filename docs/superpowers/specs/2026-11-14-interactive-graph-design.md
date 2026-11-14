@@ -1,6 +1,6 @@
 # Interactive graph in the chat UIs: an `artmind-graph` block, a Cypher endpoint, a presentation skill
 
-Status: design, written for review 2026-11-14. Plan and build in a separate session (writing-plans
+Status: phases 1 and 2 built 2026-11-14 on branch `interactive-graph`, admin console only. **Decided 2026-11-14: chat-ui draws no graphs** (it keeps mermaid and tables), so the qa mode in §2 and chat-ui in §7 are not built; see §8 Q1. Design as first written 2026-11-14: Plan and build in a separate session (writing-plans
 skill, `docs/superpowers/plans/2026-11-14-interactive-graph.md`), on its own branch. Check phase 1
 live on the brain01 admin console (`ARTMIND_NO_PROXY=1`, restart `admin-ui` first: a running UI
 serves stale code).
@@ -176,7 +176,7 @@ into the checkout.
 
 ## 8. Open questions
 
-1. **chat-ui fence provenance.** v1 trusts any read-only, `$domains`-scoped, capped, rate-limited
+1. **chat-ui fence provenance. Decided 2026-11-14: no graphs in chat-ui.** chat-ui keeps mermaid and tables; `/api/graph/run` is registered on the admin console only, the qa mode was removed, and `artmind-present` tells the chat-ui agent not to write artmind-graph blocks. Reopening it needs fence signing or a server-side domain filter on results (the `$domains` presence check alone is passed by `... OR true`). The question as first written: v1 trusts any read-only, `$domains`-scoped, capped, rate-limited
    Cypher from a chat-ui browser. Signing agent-written fences (HMAC at the point the final text
    is recorded, re-signed when a stored conversation is served) would restrict it to
    agent-written Cypher. Worth it only if chat-ui is reachable by people who should not run
