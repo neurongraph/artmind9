@@ -256,11 +256,26 @@
   }
 
   function expandGraph(cy, opts, ctx) {
+    // Same controls as the mermaid viewer: zoom out/in about the centre, fit,
+    // actual size, and the + = - 0 keys. Cytoscape does its own wheel zoom and pan.
     let big = null;
+    const zoomBy = (factor) => {
+      if (!big) return;
+      const level = Math.min(big.maxZoom(), Math.max(big.minZoom(), big.zoom() * factor));
+      big.zoom({ level, renderedPosition: { x: big.width() / 2, y: big.height() / 2 } });
+    };
+    const fit = () => big && big.fit(undefined, 30);
+    const actual = () => big && big.zoom({ level: 1, renderedPosition: { x: big.width() / 2, y: big.height() / 2 } });
     const view = window.ArtmindViewer.open({
       label: "Graph",
-      buttons: [["fit", "Fit to window", () => big.fit(undefined, 30)]],
-      onResize: () => big && big.resize(),
+      buttons: [
+        ["−", "Zoom out (-)", () => zoomBy(1 / 1.25)],
+        ["+", "Zoom in (+)", () => zoomBy(1.25)],
+        ["fit", "Fit to window (0)", fit],
+        ["100%", "Actual size", actual],
+      ],
+      keys: { "+": () => zoomBy(1.25), "=": () => zoomBy(1.25), "-": () => zoomBy(1 / 1.25), "0": fit },
+      onResize: () => { if (big) { big.resize(); fit(); } },
       onClose: () => { copies.delete(entry); big.destroy(); },
     });
     const canvas = el("div", "agraph-full");
@@ -270,11 +285,13 @@
     view.overlay.insertBefore(canvas, view.bar);
     view.overlay.insertBefore(note, view.bar);
     view.overlay.insertBefore(inspector, view.bar);
-    big = window.cytoscape({ container: canvas, elements: cy.elements().jsons(), style: styleSheet(), layout: { name: "preset" } });
+    big = window.cytoscape({ container: canvas, elements: cy.elements().jsons(), style: styleSheet(), layout: { name: "preset" }, minZoom: 0.05, maxZoom: 6 });
     const entry = { cy: big, canvas };
     copies.add(entry);
-    big.fit(undefined, 30);
+    fit();
     wire(big, inspector, opts, { ...ctx, status: note });
+    // Double-click on the background fits, as in the mermaid viewer (a node's double-click expands it).
+    big.on("dbltap", (evt) => { if (evt.target === big) fit(); });
   }
 
   function toolbar(cy, state, opts, ctx) {
