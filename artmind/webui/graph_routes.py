@@ -62,6 +62,37 @@ def resolve_domains(value: str | list[str]) -> list[str]:
 _LOAD_RE = re.compile(r"\bLOAD\b", re.IGNORECASE)
 
 
+_WORD_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
+_CLAUSE_BLOCKLIST = frozenset(
+    ["USE", "CALL", "LOAD", "SHOW", "CREATE", "MERGE", "SET", "DELETE", "DETACH", "REMOVE", "DROP", "FOREACH", "FINISH", "TERMINATE", "GRANT", "DENY", "REVOKE", "ALTER", "RENAME", "START", "STOP", "ENABLE", "DISABLE", "PROFILE", "EXPLAIN", "CYPHER", "INSERT", "YIELD"]
+)
+_QUALIFIED_CALL_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*(?:\s*\.\s*[A-Za-z_][A-Za-z0-9_]*)+\s*\(")
+_QUOTED_NAME_USE_RE = re.compile(r"`[ ]*`\s*[.(]")
+_BARE_DOLLAR_RE = re.compile(r"\$(?![A-Za-z_])")
+
+
+def _check_whitelist(masked: str) -> None:
+    """Only plain read queries (MATCH/WHERE/WITH/RETURN/UNWIND/...) pass.
+
+    Everything runs on the literal-masked text: a qualified function call is
+    code, but `'apoc.x('` inside a string is data. The qualified-call rule is
+    what closes APOC: a function that executes a string (apoc.cypher.run*,
+    apoc.create.*) is only reachable through a namespaced call, so refusing every
+    `ns.fn(` and every backtick-quoted name used as a namespace or function
+    leaves only built-in functions. The keyword list is a second, plain-language
+    layer for clauses and commands."""
+    for word in _WORD_RE.findall(masked):
+        if word.upper() in _CLAUSE_BLOCKLIST:
+            raise ValueError(
+                "only MATCH/OPTIONAL MATCH/WHERE/WITH/RETURN/UNWIND/ORDER BY/SKIP/LIMIT/UNION "
+                f"queries can be drawn (found {word.upper()})"
+            )
+    if _QUALIFIED_CALL_RE.search(masked) or _QUOTED_NAME_USE_RE.search(masked):
+        raise ValueError("namespaced or quoted function calls (apoc.x(), db.x(), `x`.y()) are not allowed in a graph block")
+    if _BARE_DOLLAR_RE.search(masked):
+        raise ValueError("only $domains may be a parameter; `$` must be followed by a name")
+
+
 def _mask_literals(cypher: str) -> str:
     """The text with the contents of every string literal and backtick-quoted
     identifier replaced by spaces; quotes and length are kept. Follows Neo4j's
@@ -118,6 +149,7 @@ def prepare_cypher(cypher: str, *, require_domains: bool) -> str:
     if _LOAD_RE.search(masked):
         raise ValueError("LOAD is not allowed in a graph block")
     validate_read_only(masked)
+    _check_whitelist(masked)
     prepared_masked = _prepare_graph_cypher(masked)
     others = sorted({name for name in _PARAM_RE.findall(prepared_masked) if name != "domains"})
     if others:

@@ -140,3 +140,9 @@ def test_link_inlines_domains_when_given(client):
 def test_link_without_domains_still_refuses_parameters(client):
     r = client.post("/api/explore/cypher/link", json={"cypher": "MATCH (a) WHERE a._domain IN $domains RETURN a"})
     assert r.status_code == 400
+
+
+def test_link_accepts_text_inside_a_literal(client):
+    r = client.post("/api/explore/cypher/link",
+                    json={"cypher": "MATCH (a {name: 'Set up account'}) RETURN a LIMIT 5"})
+    assert r.status_code == 200 and r.json()["browser_url"]

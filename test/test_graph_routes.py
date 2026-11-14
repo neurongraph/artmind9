@@ -486,3 +486,47 @@ def test_qa_scope_check_ignores_domains_inside_a_literal():
 def test_limit_is_judged_outside_literals_and_the_original_is_returned():
     out = graph_routes.prepare_cypher("MATCH (a {n: 'no LIMIT here'}) RETURN 'x' AS v;", require_domains=False)
     assert out == "MATCH (a {n: 'no LIMIT here'}) RETURN 'x' AS v\nLIMIT 100"
+
+
+# -- whitelist -----------------------------------------------------------------
+
+@pytest.mark.parametrize("cypher", [
+    "WITH $domains AS d RETURN apoc.cypher.runFirstColumnMany('LOAD CSV FROM \"http://x\" AS r RETURN r', {})",
+    "WITH $domains AS d RETURN `apoc`.`create`.vNode(['X'], {k: 1})",
+    "USE system MATCH (n) WHERE n._domain IN $domains RETURN n",
+    "SHOW DATABASES",
+    "CALL { MATCH (n) RETURN n } RETURN n",
+    "RETURN db.labels()",
+    "RETURN `db`.labels()",
+    "RETURN `db` (1)",
+    "MATCH (n) WHERE n.x = $0 RETURN n",
+    "MATCH (n) WHERE n.x = $`a b` RETURN n",
+    "PROFILE MATCH (n) RETURN n",
+    "CYPHER 25 MATCH (n) RETURN n",
+    "MATCH (n) FOREACH (x IN [1] | CREATE (:X)) RETURN n",
+    "MATCH (n) RETURN n UNION CALL db.labels() YIELD label RETURN label",
+])
+def test_whitelist_refuses(cypher):
+    with pytest.raises(ValueError):
+        graph_routes.prepare_cypher(cypher, require_domains=True)
+
+
+def test_whitelist_message_names_the_keyword():
+    with pytest.raises(ValueError, match=r"only MATCH.*\(found USE\)"):
+        graph_routes.prepare_cypher("USE system MATCH (n) WHERE n._domain IN $domains RETURN n", require_domains=True)
+
+
+@pytest.mark.parametrize("cypher", [
+    "MATCH (a:Entity) WHERE a._domain IN $domains RETURN count(a) AS c",
+    "MATCH (n:Entity) WHERE n._domain IN $domains RETURN elementId(n), labels(n), size(n.name), toLower(n.name)",
+    "MATCH (a:Entity) WHERE any(dom IN $domains WHERE a._domain STARTS WITH (dom + '.')) RETURN a",
+    "UNWIND [1,2] AS x MATCH (a:Entity) WHERE a._domain IN $domains RETURN a, x",
+    "MATCH (a:Entity) WHERE a._domain IN $domains OPTIONAL MATCH (a)-[r]-(b) RETURN a, r, b",
+    "MATCH (a:Entity) WHERE a._domain IN $domains RETURN a ORDER BY a.name SKIP 1 LIMIT 5",
+    "MATCH (a:Entity) WHERE a._domain IN $domains RETURN a LIMIT 1 UNION MATCH (b:Entity) WHERE b._domain IN $domains RETURN b LIMIT 1",
+    "MATCH (a:Entity) WHERE a._domain IN $domains RETURN a.call_count, coalesce(a.x, 1)",
+    "MATCH (a:`Show`) WHERE a._domain IN $domains RETURN a",
+    "MATCH (a:Entity {name: 'Set up account', url: 'http://x/y', t: 'Load testing'}) WHERE a._domain IN $domains RETURN a",
+])
+def test_whitelist_accepts_plain_read_queries(cypher):
+    graph_routes.prepare_cypher(cypher, require_domains=True)

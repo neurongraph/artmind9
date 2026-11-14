@@ -1,12 +1,13 @@
-"""Admin-console route for Explore -> Graph: question -> Cypher -> Neo4j Browser.
+"""Admin-console routes for Explore -> Graph: question -> Cypher -> canvas / Neo4j Browser.
 
 `POST /api/explore/cypher` turns a natural-language question into read-only,
 domain-scoped Cypher (`artmind.text2cypher`, graph mode) and returns it in two
 forms: the parameterised query, and a self-contained one with the parameters
 inlined, because Neo4j Browser cannot take parameters from a link. When
 `ARTMIND_KG_NEO4J_BROWSER_URL` is set it also returns a deep link that opens
-Browser with the query pre-filled. Nothing is executed here: the operator
-reviews the Cypher and presses Run in Browser.
+Browser with the query pre-filled. This module executes nothing: the tab
+draws the Cypher through `/api/graph/run`, and in Browser the operator
+reviews it and presses Run.
 It also returns `run_cypher` (everything but `$domains` inlined) for /api/graph/run.
 """
 
@@ -112,10 +113,9 @@ def _package(cypher: str, parameters: dict) -> dict:
 
 
 def _check_read_only(cypher: str) -> None:
-    from artmind.text2cypher import _prepare_graph_cypher, validate_read_only
+    from artmind.webui import graph_routes
 
-    validate_read_only(cypher)
-    _prepare_graph_cypher(cypher)  # also refuses CALL
+    graph_routes.prepare_cypher(cypher, require_domains=False)
 
 
 def register_explore_routes(app: FastAPI) -> FastAPI:
