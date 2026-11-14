@@ -124,66 +124,24 @@ Any stderr line starting `artmind: ` about a store being behind, unreachable, no
 
 ## Required Inputs
 
-- `domain`: Ask for it if the user did not provide one.
+- `domain`: take it from the orient cards. Ask the user only when the question names none and orient leaves
+  several domains equally plausible.
 
-## Fixed Structural Schema
+## Graph model
 
-Two populations exist in the graph, and ordinary queries touch only one of them:
-
-- **`:Observation`** — what one chunk of one document version asserted. Immutable,
-  never merged or overwritten. Carries **no `:Entity` label and no class label** — it
-  never appears in an entity query by accident, and it is provenance only, never the
-  answer to "what is true now."
-- **`:Entity`** — the projection: one node per real-world thing, rebuilt from
-  observations, current by construction. This is the layer every pattern/entity command
-  reads. Its id property is `_id` (leading underscore — Entity-only; every other label
-  below uses plain `id`). `_domain`, unlike `_id`, is NOT Entity-specific: every label in
-  this graph carries `_domain`, always underscore-prefixed, since it is artmind-computed
-  (assigned by `--domain`/vault.yaml/frontmatter) rather than extracted from content —
-  never write a query filtering on plain `.domain`, on any label.
-
-Fixed relationships, identical across domains:
-
-- `(:DocChunk)-[:PART_OF]->(:Document)` — chunk belongs to a document
-- `(:Observation)-[:EXTRACTED_FROM]->(:DocChunk)` — an observation's source chunk
-- `(:Entity)-[:AGGREGATES]->(:Observation)` — an entity's current (`latest`) observations.
-  To find which chunks/documents back an entity, go two hops:
-  `(:Entity)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(:DocChunk)` — an Entity
-  never has a direct `EXTRACTED_FROM` edge.
-- `(:Entity)-[:RELATES_TO {rel_type, observation_count, chunk_ids, doc_ids}]->(:Entity)` —
-  **every** entity-to-entity relationship, whatever its real-world meaning (owns,
-  regulates, part_of, ...), uses this one Neo4j relationship type. The meaning is
-  `rel_type`, a **property**, not the type — filter on it, never assume a domain-specific
-  type name. Its raw, chunk-scoped counterpart is
-  `(:Observation)-[:ASSERTS_RELATION]->(:Observation)` — provenance only, not what you
-  query for "what relationships does this entity have."
-
-A document that replaces another carries `(:Document)-[:SUPERSEDES]->(:Document)` plus
-`superseded_by` on the superseded side — see Adjudicate below for how to read it at
-query time.
-
-Key properties: `Document` (id, name, path, `_domain`, valid_from, valid_to, superseded_by),
-`DocChunk` (id, name, doc_id, text, `_domain`), `UserChat` (id, raw_text, `_domain`, session_id,
-created_by, created_at), `Observation` (id, name, canonical_name, entity_class, `_domain`,
-doc_id, chunk_id, `_valid_from`/`_valid_to`, `_kind`), `Entity` (`_id`, name, entity_class,
-`_domain`, description, type). Pattern/entity-command JSON output shows `_id`/`_domain`
-verbatim — there is no re-aliasing back to `id`/`domain`.
-
-`:DocumentHistory` / `:DocChunkHistory` / `:ObservationHistory` are the retired
-counterpart of the base labels (same properties, mutually exclusive with it) — what a
-retired document's contributions move to. Every command below reads the base label only
-and is therefore current by construction; only `pattern10 --includeHistory` (see Retrieve)
-reaches into history at all, and a document row's `supersedes` names the version it replaced.
-
-For document/chunk questions use `PART_OF` (not `EXTRACTED_FROM`); `pattern10` does this
-deterministically.
+The graph has two layers. `:Entity` is the projection: one node per real-world thing, current by
+construction, with id `_id`. `:Observation` is what one chunk of one document version asserted: provenance,
+never the answer to "what is true now". Every entity-to-entity relationship is one `RELATES_TO` edge whose
+meaning is its `rel_type` property. Output shows `_id` and `_domain` as they are (underscore included).
+Before you read, judge or hand-edit any Cypher (`text2cypher`, `--dryRun`), or reason about history labels,
+read `references/graph-model.md`: it names every label, relationship and property.
 
 Add `--compact` to every command — it drops the pretty-printing whitespace. It does not
 shrink what a command returns; bounding that is each command's own options (see
 "Hub entities" below).
 
 A domain can also have tabular data (csv/xlsx ingested via `artmind ingest`) living
-in a separate SQL store, independent of the graph above — see "Store routing" below.
+in a separate SQL store, independent of the graph — see "Store routing" below.
 
 ## Insights — for broad or retrospective questions
 
@@ -193,7 +151,7 @@ Some questions are about patterns rather than facts. Examples:
 - "what tends to go with bad days";
 - "who have I lost touch with".
 
-The domain owner's insights snapshot already answers those. Check it after Orient and Views (a saved view still comes first), before Discover:
+The domain owner's insights snapshot already answers those. Check it after Orient and Views (a saved view still comes first), before Resolve:
 
 ```bash
 artmind query insights list --domain <domain> --compact
@@ -290,13 +248,17 @@ artmind query topics run <slug> --shape brief --compact    # add --subject N or 
   marked `partial` has more matching documents than it shows; say so.
 - `topic build` / `refresh` cost LLM calls: the owner's (admin console, `artmind-build-topic`), never yours.
 
-## The Query Protocol: Orient → Views → Resolve → Retrieve → Ground → Adjudicate
+## The Query Protocol: Views → Resolve → Retrieve → Ground → Adjudicate
+
+This is the loop for a part that the graph answers, after orient and the parts list. A part that goes to
+the tables, to `survey`, to a topic plan or to insights starts with that command (sections above) and
+joins this loop at Ground when it needs source text.
 
 ### 1. Views — check for a saved view first
 
 A **view** is a reviewed, parameterised, read-only graph query that a domain owner saved
 for a question that keeps coming up, together with guidance on how to present it. A
-matching view replaces Discover, Resolve and Retrieve: one call instead of several.
+matching view replaces Resolve and Retrieve: one call instead of several.
 
 The views come from `orient --domain`: match **every** new question against them, not only the first.
 
@@ -328,10 +290,10 @@ If the question matches a view:
      ask the user which one, then rerun with `--param <param>=@<_id>`.
    - `no_match`: tell the user nothing matched `input`. If `suggestions` is non-empty,
      offer them as "did you mean" (name, class); if the user picks one, rerun with
-     `--param <param>=@<_id>`. Otherwise continue with Discover.
+     `--param <param>=@<_id>`. Otherwise continue with Resolve.
 
 If no view fits, or the result is empty or does not answer the question, continue with
-Store routing and then Discover as normal. Never invent a view name; only run names `orient --domain` listed.
+Store routing and then Resolve as normal. Never invent a view name; only run names `orient --domain` listed.
 
 #### Store routing — once no view fits
 
@@ -341,14 +303,7 @@ For a question over records (a count, an average, a comparison between groups, a
 
 A card with `mart` has the domain's facts, dimensions and wholes as tables (`<d>__mart_*`: happenings, dated mentions, people, places, event types, dates, and wholes such as trips). Questions about counts, sets or groups over people, places, event types or periods (how many, which places, trips with someone, every year) go there through `text2sql`; cite the evidence columns (`chunk_ids`, `doc_ids`) of the rows you use. Mart rows hold only what extraction found, so a count, a ranking or a list from them is a starting point: run the survey its `next` gives, then answer from both, adding what the notes show and dropping rows they don't support.
 
-### 2. Discover — only when orient was cut
-
-`orient --domain` already holds what Discover used to fetch. Run `graph metadata`,
-`entity-listing --countAll` or `structural-metadata` only when a `cuts` entry names them
-as the `rest`, or for a document list (`structural-metadata`) — never as an opener.
-Document/chunk rows carry `valid_from`/`valid_to`/`superseded_by`; use them to judge currency.
-
-### 3. Resolve — map question names to exact graph nodes
+### 2. Resolve — map question names to exact graph nodes
 
 Most wrong answers come from name mismatch: the user says "Holmes", the graph has "Sherlock Holmes" AND "Mycroft Holmes", and substring matching silently merges them. Before running retrieval patterns:
 
@@ -362,7 +317,7 @@ This combines Lucene full-text over entity names/descriptions with vector simila
 
 `entity-resolve` maps I/me to the narrator and groups same-class twins (`twins`): treat a twin group as one entity unless the text distinguishes them. Use the chosen entity's exact `_id` in retrieval (`--entityId` / `--entityId1` / `--entityId2` / `--entityIdList`).
 
-### 4. Retrieve — run the right pattern
+### 3. Retrieve — run the right pattern
 
 Every command below is written in full. The `pattern*` commands, `text2cypher`,
 `timeline`, `conflicts`, `metadata`, `structural-metadata` and
@@ -399,6 +354,10 @@ covers is answered by `artmind query views run <name>` (see Views), not by a row
 Every command also needs `--domain <domain>` (repeatable) and `--compact`, omitted above for brevity.
 
 Routing notes:
+- **Orient already holds the metadata.** Run `graph metadata`, `entity-listing --countAll` or
+  `structural-metadata` only when a `cuts` entry names them as the `rest`, or for a document list
+  (`structural-metadata`); never as an opener. Document/chunk rows carry `valid_from`/`valid_to`/
+  `superseded_by`: use them to judge currency.
 - **entity-context vs pattern4**: for a question anchored on ONE resolved entity that
   needs evidence text, `artmind query entity-context --shape brief --domain <d> --entityId <id>
   --query "<question>"` replaces the pattern4 + Ground sequence — it returns
@@ -412,18 +371,6 @@ Routing notes:
 - **pattern6 vs pattern5**: pattern6 answers "is there a direct relationship and what type". For the *nature or quality* of a relationship, use pattern5 — then ground with vector-text for narrative evidence.
 - **pattern4 vs hierarchy**: pattern4 is one hop only. For a transitive walk — everyone under X, X's whole reporting line, chain of command — use `hierarchy` instead; see `references/hierarchy.md`.
 - Patterns 2/3/4 return `doc_sources` (chunk ids) and `source_documents` (the documents those chunks belong to, with `path`/`source_path` for the Sources list) — use the ids to know *where* a fact came from, and pull the actual text deterministically with `artmind query chunks --shape brief --idList <chunk_id> [--expand 1]` (`--domain <d>` optional; never re-search for text you already have ids for). `--expand 1` adds the adjacent chunks of the same document when one chunk is too little context.
-- **Patterns 2/3/4 are bounded like entity-context, without its ranking.** `doc_sources`/
-  `source_documents` are capped (`--maxDocSources` default 20, `--maxSourceDocuments`
-  default 10) with `*_total` counts; patterns 3/4's `connections` are capped
-  (`--maxConnections`, default 25, `connections_total` alongside), and pattern4's
-  `connected_to.data` list properties are additionally capped (`--maxListItems`, default
-  10, `truncated_properties` per connection). Each `rel_properties`/`properties` map on a
-  connection no longer carries the edge's raw `chunk_ids`/`doc_ids` (those are unbounded
-  per edge) — only `observation_count` and a `doc_count`. Unlike entity-context, these
-  three patterns only ever sort alphabetically/deterministically, so raising a `--max*`
-  option is a blunt instrument: for a genuine hub entity, route to `entity-context
-  --relType <type> --query "<question>"` instead (see "Hub entities" below) so the edge
-  that answers the question sorts to the top rather than needing a bigger page.
 - **Counts and lists.** Answer a count only from `complete: true`; otherwise say N of M. For "every year / each time" questions use `survey --by year` (or `month`): it reports every period with a hit. `pattern10` pages with `--offset` when `truncated`. For "which / how many X did Y …", list the set with `pattern8 --entityId <Y> --entityClass X --via mentions --all`: `linked: true` rows have a relation to Y (check it is the relation the question asks about); `linked: false` rows were only named in the same notes — confirm each with `artmind query chunks --idList <its chunk_ids>` before counting it.
 - **text2cypher has no `--offset`.** The generated Cypher is LLM-written per call, so
   there's no generic way to inject a `SKIP`. If `truncated` is true, don't ask it to
@@ -468,7 +415,20 @@ you never saw the part that answers), so `entity-context` returns a bounded one:
 
 Pass the question to `entity-context`; on a hub its `cut` block says what is hidden.
 
-### 5. Ground — pull source text when narrative evidence is needed
+**Patterns 2/3/4 are bounded like entity-context, without its ranking.** `doc_sources`/
+`source_documents` are capped (`--maxDocSources` default 20, `--maxSourceDocuments`
+default 10) with `*_total` counts; patterns 3/4's `connections` are capped
+(`--maxConnections`, default 25, `connections_total` alongside), and pattern4's
+`connected_to.data` list properties are additionally capped (`--maxListItems`, default
+10, `truncated_properties` per connection). Each `rel_properties`/`properties` map on a
+connection no longer carries the edge's raw `chunk_ids`/`doc_ids` (those are unbounded
+per edge) — only `observation_count` and a `doc_count`. Unlike entity-context, these
+three patterns only ever sort alphabetically/deterministically, so raising a `--max*`
+option is a blunt instrument: for a genuine hub entity, route to `entity-context
+--relType <type> --query "<question>"` instead (see "Hub entities" below) so the edge
+that answers the question sorts to the top rather than needing a bigger page.
+
+### 4. Ground — pull source text when narrative evidence is needed
 
 Grounding has a deterministic path and a search path — prefer the deterministic one:
 
@@ -484,7 +444,7 @@ artmind query vector-text --shape brief --domain <d1> --domain <d2> --topK 10 --
 
 vector-text searches passages (~1200-char spans of the source text) by meaning and by keyword, fuses both rankings, groups hits into their parent chunk and returns them in relevance order. Each row is a parent chunk: `chunk.text` (the whole chunk), `passage` (`char_start`/`char_end` of the span that matched, inside `chunk.text` — quote from there), `relevance` (0-1, how close the best passage is to the question; comparable across questions; `null` when only keywords matched), `matched_by` (`vector`, `fulltext` or both) and `score` (rank order only — never compare it across calls). Ask for 10 rows: the right chunk is often just below the top 5. `--context passage` returns only the matching passages (smaller, for scanning many hits). Use it for "where/when/how did X happen", motivations, quotes, or whenever graph output is too thin. In hybrid answers, take entity/relationship facts from the graph and narrative evidence from chunk text. When you picked several domains, Ground should query all of them together in one call so results can be compared side by side.
 
-### 6. Adjudicate — surface disagreements, never blend
+### 5. Adjudicate — surface disagreements, never blend
 
 Never average, reconcile silently, or drop one side when two sources disagree —
 surface both claims with both provenances. `:Conflict` has two shapes sharing one
