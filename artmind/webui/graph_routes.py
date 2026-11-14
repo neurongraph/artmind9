@@ -13,7 +13,14 @@ from __future__ import annotations
 
 import json
 import logging
+import threading
+import time
+from collections import deque
 from typing import Any
+
+import anyio.to_thread
+from fastapi import FastAPI, HTTPException, Request
+from pydantic import BaseModel, field_validator
 
 logger = logging.getLogger(__name__)
 
@@ -219,3 +226,77 @@ def run_graph(cypher: str, domains: list[str], extra_params: dict | None = None)
         "rows_capped": rows_capped,
         "limits": {"nodes": NODE_CAP, "rows": ROW_CAP, "timeout_s": QUERY_TIMEOUT_S},
     }
+
+class GraphRunRequest(BaseModel):
+    domain: str | list[str]
+    cypher: str
+
+    @field_validator("cypher")
+    @classmethod
+    def _cypher(cls, value: str) -> str:
+        if not value.strip():
+            raise ValueError("cypher must not be empty")
+        if len(value) > MAX_CYPHER_CHARS:
+            raise ValueError(f"cypher is longer than {MAX_CYPHER_CHARS} characters")
+        return value
+
+
+class RateLimiter:
+    """At most `limit` calls per `window_s` seconds per key (a sliding window)."""
+
+    def __init__(self, limit: int, window_s: float = 60.0, clock=time.monotonic):
+        self.limit = limit
+        self.window_s = window_s
+        self._clock = clock
+        self._hits: dict[str, deque[float]] = {}
+        self._lock = threading.Lock()
+
+    def allow(self, key: str) -> bool:
+        now = self._clock()
+        with self._lock:
+            hits = self._hits.setdefault(key, deque())
+            while hits and now - hits[0] >= self.window_s:
+                hits.popleft()
+            if len(hits) >= self.limit:
+                return False
+            hits.append(now)
+            return True
+
+
+def _db_error(exc: Exception) -> HTTPException:
+    code = getattr(exc, "code", None) or ""
+    if "TransactionTimedOut" in code:
+        return HTTPException(status_code=504, detail=f"the query ran longer than {QUERY_TIMEOUT_S} s and was stopped")
+    message = getattr(exc, "message", None) or str(exc) or type(exc).__name__
+    return HTTPException(status_code=502, detail=f"Neo4j: {message.splitlines()[0]}")
+
+
+def register_graph_routes(app: FastAPI, *, mode: str) -> FastAPI:
+    if mode not in ("admin", "qa"):
+        raise ValueError(f"mode must be 'admin' or 'qa', not {mode!r}")
+    limiter = RateLimiter(QA_RUNS_PER_MINUTE) if mode == "qa" else None
+
+    @app.post("/api/graph/run")
+    async def api_graph_run(payload: GraphRunRequest, request: Request):
+        from neo4j.exceptions import DriverError, Neo4jError
+
+        if limiter is not None:
+            client = request.client.host if request.client else "unknown"
+            if not limiter.allow(client):
+                raise HTTPException(status_code=429, detail=f"at most {QA_RUNS_PER_MINUTE} graph runs a minute; try again shortly")
+        try:
+            domains = resolve_domains(payload.domain)
+            cypher = prepare_cypher(payload.cypher, require_domains=mode == "qa")
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        try:
+            result = await anyio.to_thread.run_sync(run_graph, cypher, domains)
+        except (Neo4jError, DriverError) as exc:
+            raise _db_error(exc) from exc
+        logger.info(
+            "graph run: mode=%s domains=%s chars=%d nodes=%d edges=%d truncated=%s",
+            mode, ",".join(domains), len(cypher), len(result["nodes"]), len(result["edges"]), result["truncated"],
+        )
+        return {"domains": domains, "cypher": cypher, **result}
+
+    return app

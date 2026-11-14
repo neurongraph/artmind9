@@ -200,3 +200,108 @@ def test_run_graph_stops_at_the_row_cap(monkeypatch):
     out = graph_routes.run_graph("MATCH (n) RETURN n LIMIT 3", ["d"])
     assert out["rows_read"] == 2 and out["rows_capped"] is True and out["truncated"] is True
     assert len(out["nodes"]) == 2
+
+
+import logging
+
+from fastapi import FastAPI
+from fastapi.testclient import TestClient
+from neo4j.exceptions import ClientError
+
+RESULT = {"nodes": [{"id": "n1"}], "edges": [], "truncated": False, "omitted": {"nodes": 0, "edges": 0},
+          "rows_read": 1, "rows_capped": False, "limits": {"nodes": 500, "rows": 2000, "timeout_s": 15}}
+
+
+def _client(mode):
+    app = FastAPI()
+    graph_routes.register_graph_routes(app, mode=mode)
+    return TestClient(app)
+
+
+@pytest.fixture
+def ran(monkeypatch, known):
+    calls = []
+
+    def fake(cypher, domains, extra_params=None):
+        calls.append((cypher, domains, extra_params))
+        return RESULT
+
+    monkeypatch.setattr(graph_routes, "run_graph", fake)
+    return calls
+
+
+def test_admin_run_returns_the_graph_and_the_cypher_it_ran(ran):
+    r = _client("admin").post("/api/graph/run", json={"domain": "personal_journal", "cypher": SCOPED})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["cypher"] == SCOPED + "\nLIMIT 100" and body["domains"] == ["personal_journal"]
+    assert body["nodes"] == [{"id": "n1"}]
+    assert ran == [(SCOPED + "\nLIMIT 100", ["personal_journal"], None)]
+
+
+def test_admin_runs_unscoped_cypher_but_qa_refuses_it(ran):
+    body = {"domain": "personal_journal", "cypher": "MATCH (n:Entity) RETURN n"}
+    assert _client("admin").post("/api/graph/run", json=body).status_code == 200
+    r = _client("qa").post("/api/graph/run", json=body)
+    assert r.status_code == 400 and "$domains" in r.json()["detail"]
+
+
+@pytest.mark.parametrize("body", [
+    {"domain": "personal_journal", "cypher": "MATCH (n) DETACH DELETE n"},
+    {"domain": "personal_journal", "cypher": "CALL db.labels() YIELD label RETURN label"},
+    {"domain": "nowhere", "cypher": SCOPED},
+])
+def test_refusals_are_400_and_nothing_runs(ran, body):
+    assert _client("admin").post("/api/graph/run", json=body).status_code == 400
+    assert ran == []
+
+
+@pytest.mark.parametrize("body", [{"domain": "d"}, {"cypher": SCOPED}, {"domain": "d", "cypher": "  "}])
+def test_malformed_requests_are_422(ran, body):
+    assert _client("admin").post("/api/graph/run", json=body).status_code == 422
+
+
+def test_qa_is_rate_limited_per_client(ran):
+    client = _client("qa")
+    body = {"domain": "personal_journal", "cypher": SCOPED}
+    codes = [client.post("/api/graph/run", json=body).status_code for _ in range(11)]
+    assert codes == [200] * 10 + [429]
+
+
+def test_rate_limiter_window_slides():
+    now = [0.0]
+    limiter = graph_routes.RateLimiter(2, window_s=60, clock=lambda: now[0])
+    assert limiter.allow("a") and limiter.allow("a") and not limiter.allow("a")
+    assert limiter.allow("b")
+    now[0] = 60.0
+    assert limiter.allow("a")
+
+
+def test_timeout_is_504_and_other_neo4j_errors_502_in_one_line(monkeypatch, known):
+    def timed_out(*_a, **_k):
+        raise ClientError._hydrate_neo4j(code="Neo.ClientError.Transaction.TransactionTimedOutClientConfiguration",
+                                          message="terminated")
+
+    monkeypatch.setattr(graph_routes, "run_graph", timed_out)
+    body = {"domain": "personal_journal", "cypher": SCOPED}
+    r = _client("admin").post("/api/graph/run", json=body)
+    assert r.status_code == 504 and "15 s" in r.json()["detail"]
+
+    def syntax(*_a, **_k):
+        raise ClientError._hydrate_neo4j(code="Neo.ClientError.Statement.SyntaxError", message="bad\nat line 2")
+
+    monkeypatch.setattr(graph_routes, "run_graph", syntax)
+    r = _client("admin").post("/api/graph/run", json=body)
+    assert r.status_code == 502 and r.json()["detail"] == "Neo4j: bad"
+
+
+def test_the_log_line_never_holds_the_cypher(ran, caplog):
+    caplog.set_level(logging.INFO, logger="artmind.webui.graph_routes")
+    secret = SCOPED.replace("RETURN a, r, b", "AND a.name = 'Secret Person' RETURN a, r, b")
+    _client("admin").post("/api/graph/run", json={"domain": "personal_journal", "cypher": secret})
+    assert "graph run" in caplog.text and "Secret Person" not in caplog.text
+
+
+def test_unknown_mode_is_refused():
+    with pytest.raises(ValueError):
+        graph_routes.register_graph_routes(FastAPI(), mode="benchmark")

@@ -41,3 +41,9 @@ def test_graph_js_never_assigns_innerhtml_from_data():
     text = _admin().get("/static/graph.js").text
     for match in re.finditer(r"innerHTML\s*[+]?=(?!=)\s*(.*)", text):
         assert match.group(1).startswith('"";'), match.group(0)
+
+
+def test_graph_run_route_is_on_the_admin_console_only():
+    body = {"domain": "d"}  # incomplete: 422 proves the route exists without touching Neo4j
+    assert _admin().post("/api/graph/run", json=body).status_code == 422
+    assert TestClient(create_app(admin_routes=False)).post("/api/graph/run", json=body).status_code == 404
