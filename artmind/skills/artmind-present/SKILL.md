@@ -16,7 +16,7 @@ found. A picture never adds a fact.
 | entities and their relationships, and the user says graph, network, map or connected, or wants to explore | an ` ```artmind-graph ` block, at any size |
 | a short timeline, a process, or 5–15 facts read from note text rather than graph relationships | a ` ```mermaid ` diagram |
 
-Only the admin console draws artmind-graph blocks; there the UI draws the block from the live graph as soon as your answer arrives, so write about the graph as shown. In the chat UI (end-user assistant) use mermaid or a table instead: a block there shows as raw JSON.
+Only the admin console draws artmind-graph blocks. Your instructions say which UI you are running in. In the admin console, write the block when the table above calls for one; the UI draws it from the live graph as soon as your answer arrives, so write about the graph as shown. In the chat UI, use mermaid or a table: a block there shows as raw JSON.
 
 Figures (counts per year, amounts) go in a table: there is no chart library.
 
