@@ -1,4 +1,0 @@
-# The mart: facts, dimensions and wholes
-Read when a result carries `guide: composites` (a `text2sql` answer from `<d>__mart_*`), or when orient's card lists `mart`.
-
-A card with `mart` has the domain's facts, dimensions and wholes as tables (`<d>__mart_*`: happenings, dated mentions, people, places, event types, dates, and wholes such as trips). Questions about counts, sets or groups over people, places, event types or periods (how many, which places, trips with someone, every year) go there through `text2sql`; cite the evidence columns (`chunk_ids`, `doc_ids`) of the rows you use. Mart rows hold only what extraction found, so a count, a ranking or a list from them is a starting point: run the survey its `next` gives, then answer from both, adding what the notes show and dropping rows they don't support.

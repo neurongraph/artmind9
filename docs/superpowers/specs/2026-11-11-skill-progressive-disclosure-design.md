@@ -1,6 +1,6 @@
 # P2b: artmind-query with references on demand (2026-11-11)
 
-Status: **built, measured, not promoted (2026-11-12).** `artmind-query` keeps the orient text; `artmind-query-p2b`
+Status: **sunset 2026-11-14: `artmind-query-p2b`, `artmind/guides.py` (the `guide` key), the `commands.md` generator and the p2b scripts/tests were removed; the text below is history.** Was: built, measured, not promoted (2026-11-12). `artmind-query` keeps the orient text; `artmind-query-p2b`
 stays as an unpromoted variant (contract `p2b`) with its `commands.md`. The `guide` key stays on results with no
 `warnings` line (the live skill lacks most references); `temporal` fires only on non-empty history results. Gate
 results: study note 22, "P2b full gate, second time". Work plan item E of
