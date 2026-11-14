@@ -62,10 +62,49 @@ def resolve_domains(value: str | list[str]) -> list[str]:
 _LOAD_RE = re.compile(r"\bLOAD\b", re.IGNORECASE)
 
 
+def _mask_literals(cypher: str) -> str:
+    """The text with the contents of every string literal and backtick-quoted
+    identifier replaced by spaces; quotes and length are kept. Follows Neo4j's
+    lexer: '...' and "..." where a backslash escapes the next character, and
+    `...` where a doubled backtick is an escaped backtick. Comments are not
+    recognised here (they are refused before, outside literals)."""
+    out: list[str] = []
+    i, n = 0, len(cypher)
+    while i < n:
+        ch = cypher[i]
+        if ch not in "'\"`":
+            out.append(ch)
+            i += 1
+            continue
+        out.append(ch)
+        i += 1
+        while True:
+            if i >= n:
+                raise ValueError("unterminated string in the Cypher")
+            c = cypher[i]
+            if ch != "`" and c == "\\":
+                out.append(" " * min(2, n - i))
+                i += 2
+            elif c == ch:
+                if ch == "`" and cypher[i + 1:i + 2] == "`":
+                    out.append("  ")
+                    i += 2
+                    continue
+                out.append(c)
+                i += 1
+                break
+            else:
+                out.append(" ")
+                i += 1
+    return "".join(out)[:n]
+
+
 def prepare_cypher(cypher: str, *, require_domains: bool) -> str:
     """The Cypher to run, or ValueError. Read-only (the session is READ_ACCESS
-    too; this is the friendly check), no CALL, LIMIT 100 when absent, and no
-    parameter but `$domains`."""
+    too; this is the friendly check), no CALL, no comments or LOAD, LIMIT 100
+    when absent, and no parameter but `$domains`. Every textual check reads the
+    text with string literals masked, so a value like 'Set up account' passes;
+    the Cypher returned is the original."""
     from artmind.text2cypher import (
         _PARAM_RE,
         _prepare_graph_cypher,
@@ -73,19 +112,23 @@ def prepare_cypher(cypher: str, *, require_domains: bool) -> str:
         validate_read_only,
     )
 
-    if "//" in cypher or "/*" in cypher:
+    masked = _mask_literals(cypher)
+    if "//" in masked or "/*" in masked:
         raise ValueError("comments are not allowed in a graph block")
-    if _LOAD_RE.search(cypher):
+    if _LOAD_RE.search(masked):
         raise ValueError("LOAD is not allowed in a graph block")
-    validate_read_only(cypher)
-    prepared = _prepare_graph_cypher(cypher)
-    others = sorted({name for name in _PARAM_RE.findall(prepared) if name != "domains"})
+    validate_read_only(masked)
+    prepared_masked = _prepare_graph_cypher(masked)
+    others = sorted({name for name in _PARAM_RE.findall(prepared_masked) if name != "domains"})
     if others:
         named = ", ".join(f"${name}" for name in others)
         raise ValueError(f"only $domains may be a parameter; write other values as literals (found {named})")
     if require_domains:
-        validate_domain_scoped(prepared)
-    return prepared
+        validate_domain_scoped(prepared_masked)
+    # the same trimming and LIMIT as _prepare_graph_cypher, applied to the original
+    stripped = cypher.strip().rstrip(";").rstrip()
+    suffix = prepared_masked[len(masked.strip().rstrip(";").rstrip()):]
+    return stripped + suffix
 
 
 def cap_value(value: Any) -> Any:
@@ -148,8 +191,8 @@ ENDPOINT_CYPHER = f"MATCH (n) WHERE elementId(n) IN $ids AND {domain_predicate('
 
 
 EXPAND_CYPHER = (
-    "MATCH (n) WHERE elementId(n) = $id\n"
-    "MATCH (n)-[r]-(m)\n"
+    f"MATCH (n) WHERE elementId(n) = $id AND {domain_predicate('n')}\n"
+    "OPTIONAL MATCH (n)-[r]-(m)\n"
     f"WHERE {domain_predicate('m')}\n"
     "RETURN n, r, m\n"
     "LIMIT 100"

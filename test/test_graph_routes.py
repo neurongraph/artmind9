@@ -350,7 +350,6 @@ def test_run_graph_counts_an_endpoint_the_fetch_did_not_return(monkeypatch):
     "MATCH (n) // $domains\nRETURN n",
     "MATCH (n) /* hi */ RETURN n",
     "MATCH (n) /* x */ SET n.a = 1 RETURN n",
-    "MATCH (n) WHERE n.u = 'http://x' RETURN n",
     "LOAD CSV FROM 'http://x' AS r RETURN r",
     "load csv from 'http://x' AS r RETURN r",
 ])
@@ -425,3 +424,65 @@ def test_run_graph_expand_sends_exactly_domains_and_id_and_needs_no_endpoint_fet
     assert session.calls[0][1] == {"domains": ["personal_journal"], "id": "n1"}
     assert {x["id"] for x in out["nodes"]} == {"n1", "n2"} and len(out["edges"]) == 1
     assert out["truncated"] is False
+
+
+# -- expand scoping and literal-aware checks --------------------------------
+
+def test_expand_cypher_scopes_both_ends():
+    from artmind.graph_query import domain_predicate
+
+    assert domain_predicate("n") in graph_routes.EXPAND_CYPHER
+    assert domain_predicate("m") in graph_routes.EXPAND_CYPHER
+    assert "OPTIONAL MATCH" in graph_routes.EXPAND_CYPHER
+
+
+def test_expand_of_a_node_without_neighbours_yields_the_node_only(monkeypatch):
+    node, _ = _factory()
+    session = FakeSession([Record({"n": node("n1", ["Entity"], name="Solo"), "r": None, "m": None})])
+    _patch_session(monkeypatch, session)
+    out = graph_routes.run_graph(graph_routes.EXPAND_CYPHER, ["d"], {"id": "n1"})
+    assert [n["id"] for n in out["nodes"]] == ["n1"] and out["edges"] == []
+
+
+@pytest.mark.parametrize("cypher", [
+    "MATCH (a {name: 'Set up account'}) RETURN a",
+    "MATCH (a {name: 'Load testing'}) RETURN a",
+    "MATCH (a {url: 'http://x/y'}) RETURN a",
+    "MATCH (a {name: 'price $USD'}) RETURN a",
+    "MATCH (a {name: \"it's\"}) RETURN a",
+    "MATCH (a {name: 'a\\'b'}) RETURN a",
+    "MATCH (a {name: 'a\\' LOAD CSV FROM 'x' AS r RETURN r'}) RETURN a",
+    "MATCH (a) RETURN a.`SET me`",
+])
+def test_prepare_cypher_accepts_text_inside_literals(cypher):
+    assert graph_routes.prepare_cypher(cypher, require_domains=False).startswith(cypher)
+
+
+@pytest.mark.parametrize("cypher", [
+    "LOAD CSV FROM 'x' AS r RETURN r",
+    "MATCH (a) SET a.x = 'y' RETURN a",
+    "MATCH (a) WITH 'a' AS s LOAD CSV FROM 'x' AS r RETURN r",
+    "MATCH (a) WITH 'a' + ' ' AS s LOAD CSV FROM 'x' AS r RETURN r",
+    "MATCH (a) // note\nRETURN a",
+    "MATCH (a {name: 'x'}) /* c */ RETURN a",
+    "MATCH (a {name: 'abc}) RETURN a",
+    "MATCH (a) RETURN a.`abc",
+])
+def test_prepare_cypher_still_refuses_outside_literals(cypher):
+    with pytest.raises(ValueError):
+        graph_routes.prepare_cypher(cypher, require_domains=False)
+
+
+def test_unterminated_literal_message():
+    with pytest.raises(ValueError, match="unterminated string in the Cypher"):
+        graph_routes.prepare_cypher("MATCH (a {n: 'abc}) RETURN a", require_domains=False)
+
+
+def test_qa_scope_check_ignores_domains_inside_a_literal():
+    with pytest.raises(ValueError, match=r"\$domains"):
+        graph_routes.prepare_cypher("MATCH (a {n: '$domains'}) RETURN a", require_domains=True)
+
+
+def test_limit_is_judged_outside_literals_and_the_original_is_returned():
+    out = graph_routes.prepare_cypher("MATCH (a {n: 'no LIMIT here'}) RETURN 'x' AS v;", require_domains=False)
+    assert out == "MATCH (a {n: 'no LIMIT here'}) RETURN 'x' AS v\nLIMIT 100"
