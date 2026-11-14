@@ -116,8 +116,30 @@ def test_trim_edge_names_its_meaning():
                    "rel_type": "treated_by", "properties": {"observation_count": 2, "rel_type": "treated_by"}}
 
 
-from neo4j import Record
+from neo4j import READ_ACCESS, Record
 from neo4j.graph import Path
+
+
+def _patch_session(monkeypatch, session):
+    seen = []
+
+    def fake(*a, **k):
+        seen.append((a, k))
+        return session
+
+    monkeypatch.setattr("artmind.graph_query.neo4j_session", fake)
+    return seen
+
+
+class FakeResult:
+    def __init__(self, rows, events):
+        self._rows, self._events = rows, events
+
+    def __iter__(self):
+        return iter(self._rows)
+
+    def consume(self):
+        self._events.append("consume")
 
 
 class FakeSession:
@@ -125,11 +147,13 @@ class FakeSession:
 
     def __init__(self, *batches):
         self.calls = []
+        self.events = []
         self._batches = list(batches)
 
     def run(self, query, parameters=None):
         self.calls.append((query, parameters))
-        return iter(self._batches.pop(0) if self._batches else [])
+        self.events.append("run")
+        return FakeResult(self._batches.pop(0) if self._batches else [], self.events)
 
     def __enter__(self):
         return self
@@ -167,9 +191,12 @@ def test_run_graph_sends_only_domains_with_the_timeout(monkeypatch):
     node, rel = _factory()
     a, b = node("n1", ["Entity", "Person"], name="Mummy"), node("n2", ["Entity", "Doctor"], name="Dr Rao")
     session = FakeSession([Record({"a": a, "r": rel("r1", a, b, rel_type="treated_by"), "b": b, "n": 3})])
-    monkeypatch.setattr("artmind.graph_query.read_session", lambda: session)
+    _patch_session(monkeypatch, session)
+    seen = _patch_session(monkeypatch, session)
     out = graph_routes.run_graph(SCOPED + "\nLIMIT 100", ["personal_journal"])
+    assert seen == [((READ_ACCESS,), {"timeout": 5})]
     assert len(session.calls) == 1
+    assert session.events == ["run", "consume"]
     query, params = session.calls[0]
     assert query.text == SCOPED + "\nLIMIT 100" and query.timeout == 15
     assert params == {"domains": ["personal_journal"]}
@@ -185,8 +212,9 @@ def test_run_graph_fetches_a_relationship_endpoint_that_was_not_returned(monkeyp
     shell = node("n9")  # the driver gives a bare node for an endpoint the query did not return
     full = _factory()[0]("n9", ["Entity", "Doctor"], name="Dr X")
     session = FakeSession([Record({"a": a, "r": rel("r1", a, shell)})], [Record({"n": full})])
-    monkeypatch.setattr("artmind.graph_query.read_session", lambda: session)
+    _patch_session(monkeypatch, session)
     out = graph_routes.run_graph("MATCH (a)-[r]->() RETURN a, r LIMIT 5", ["d"])
+    assert session.events == ["run", "consume", "run", "consume"]
     query, params = session.calls[1]
     assert "elementId(n) IN $ids" in query.text and "$domains" in query.text
     assert params == {"ids": ["n9"], "domains": ["d"]}
@@ -196,9 +224,10 @@ def test_run_graph_fetches_a_relationship_endpoint_that_was_not_returned(monkeyp
 def test_run_graph_stops_at_the_row_cap(monkeypatch):
     node, _ = _factory()
     session = FakeSession([Record({"n": node(f"n{i}", ["Entity"])}) for i in range(3)])
-    monkeypatch.setattr("artmind.graph_query.read_session", lambda: session)
+    _patch_session(monkeypatch, session)
     monkeypatch.setattr(graph_routes, "ROW_CAP", 2)
     out = graph_routes.run_graph("MATCH (n) RETURN n LIMIT 3", ["d"])
+    assert session.events == ["run", "consume"]
     assert out["rows_read"] == 2 and out["rows_capped"] is True and out["truncated"] is True
     assert len(out["nodes"]) == 2
 
@@ -278,7 +307,7 @@ def test_rate_limiter_window_slides():
     assert limiter.allow("a")
 
 
-def test_timeout_is_504_and_other_neo4j_errors_502_in_one_line(monkeypatch, known):
+def test_timeout_is_504_and_statement_errors_400_in_one_line(monkeypatch, known):
     def timed_out(*_a, **_k):
         raise ClientError._hydrate_neo4j(code="Neo.ClientError.Transaction.TransactionTimedOutClientConfiguration",
                                           message="terminated")
@@ -293,7 +322,7 @@ def test_timeout_is_504_and_other_neo4j_errors_502_in_one_line(monkeypatch, know
 
     monkeypatch.setattr(graph_routes, "run_graph", syntax)
     r = _client("admin").post("/api/graph/run", json=body)
-    assert r.status_code == 502 and r.json()["detail"] == "Neo4j: bad"
+    assert r.status_code == 400 and r.json()["detail"] == "Neo4j: bad"
 
 
 def test_the_log_line_never_holds_the_cypher(ran, caplog):
@@ -312,6 +341,58 @@ def test_run_graph_counts_an_endpoint_the_fetch_did_not_return(monkeypatch):
     node, rel = _factory()
     a = node("n1", ["Entity"], name="Mummy")
     session = FakeSession([Record({"a": a, "r": rel("r1", a, node("n9"))})], [])
-    monkeypatch.setattr("artmind.graph_query.read_session", lambda: session)
+    _patch_session(monkeypatch, session)
     out = graph_routes.run_graph("MATCH (a)-[r]->() RETURN a, r LIMIT 5", ["d"])
     assert out["edges"] == [] and out["omitted"] == {"nodes": 1, "edges": 1} and out["truncated"] is True
+
+
+@pytest.mark.parametrize("cypher", [
+    "MATCH (n) // $domains\nRETURN n",
+    "MATCH (n) /* hi */ RETURN n",
+    "MATCH (n) /* x */ SET n.a = 1 RETURN n",
+    "MATCH (n) WHERE n.u = 'http://x' RETURN n",
+    "LOAD CSV FROM 'http://x' AS r RETURN r",
+    "load csv from 'http://x' AS r RETURN r",
+])
+def test_prepare_cypher_refuses_comments_and_load(cypher):
+    with pytest.raises(ValueError, match="comments are not allowed|LOAD"):
+        graph_routes.prepare_cypher(cypher, require_domains=False)
+
+
+def test_cap_value_drops_non_finite_floats():
+    for bad in (float("nan"), float("inf"), float("-inf")):
+        assert graph_routes.cap_value(bad) is None
+    assert graph_routes.cap_value(1.5) == 1.5
+
+
+def test_rate_limiter_forgets_idle_keys():
+    now = [0.0]
+    limiter = graph_routes.RateLimiter(1, window_s=10, clock=lambda: now[0])
+    limiter.allow("a")
+    now[0] = 20.0
+    limiter.allow("b")
+    limiter.allow("a")
+    assert set(limiter._hits) == {"a", "b"}
+    now[0] = 40.0
+    limiter.allow("c")
+    assert set(limiter._hits) == {"c"}
+
+
+def test_unreachable_neo4j_is_502_without_host(monkeypatch, known):
+    from neo4j.exceptions import ServiceUnavailable
+
+    def down(*_a, **_k):
+        raise ServiceUnavailable("Couldn't connect to localhost:7689")
+
+    monkeypatch.setattr(graph_routes, "run_graph", down)
+    r = _client("admin").post("/api/graph/run", json={"domain": "personal_journal", "cypher": SCOPED})
+    assert r.status_code == 502 and r.json()["detail"] == "Neo4j is not reachable" and "7689" not in r.text
+
+
+def test_statement_errors_are_400(monkeypatch, known):
+    def bad(*_a, **_k):
+        raise ClientError._hydrate_neo4j(code="Neo.ClientError.Statement.SyntaxError", message="bad\nat line 2")
+
+    monkeypatch.setattr(graph_routes, "run_graph", bad)
+    r = _client("admin").post("/api/graph/run", json={"domain": "personal_journal", "cypher": SCOPED})
+    assert r.status_code == 400 and r.json()["detail"] == "Neo4j: bad"

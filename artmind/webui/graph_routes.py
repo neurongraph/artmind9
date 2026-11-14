@@ -13,6 +13,8 @@ from __future__ import annotations
 
 import json
 import logging
+import math
+import re
 import threading
 import time
 from collections import deque
@@ -20,10 +22,15 @@ from typing import Any
 
 import anyio.to_thread
 from fastapi import FastAPI, HTTPException, Request
+from neo4j import READ_ACCESS
+from neo4j.exceptions import DriverError, Neo4jError
 from pydantic import BaseModel, field_validator
+
+from artmind.graph_query import domain_predicate
 
 logger = logging.getLogger(__name__)
 
+CONNECT_TIMEOUT_S = 5  # a down Neo4j must not hold a request for the driver's 60 s
 QUERY_TIMEOUT_S = 15  # the views runner allows 60 s; a drawing should be quicker
 ROW_CAP = 2000
 NODE_CAP = 500
@@ -39,7 +46,7 @@ def _available_domains() -> list[str]:
     return _get_available_domains()
 
 
-def resolve_domains(value: "str | list[str]") -> list[str]:
+def resolve_domains(value: str | list[str]) -> list[str]:
     """Normalised domain list; each one must be a schema's domain, a dotted
     child of one, or the family root of one."""
     from artmind.graph_query import normalize_domains
@@ -52,12 +59,24 @@ def resolve_domains(value: "str | list[str]") -> list[str]:
     return domains
 
 
+_LOAD_RE = re.compile(r"\bLOAD\b", re.IGNORECASE)
+
+
 def prepare_cypher(cypher: str, *, require_domains: bool) -> str:
     """The Cypher to run, or ValueError. Read-only (the session is READ_ACCESS
     too; this is the friendly check), no CALL, LIMIT 100 when absent, and no
     parameter but `$domains`."""
-    from artmind.text2cypher import _PARAM_RE, _prepare_graph_cypher, validate_domain_scoped, validate_read_only
+    from artmind.text2cypher import (
+        _PARAM_RE,
+        _prepare_graph_cypher,
+        validate_domain_scoped,
+        validate_read_only,
+    )
 
+    if "//" in cypher or "/*" in cypher:
+        raise ValueError("comments are not allowed in a graph block")
+    if _LOAD_RE.search(cypher):
+        raise ValueError("LOAD is not allowed in a graph block")
     validate_read_only(cypher)
     prepared = _prepare_graph_cypher(cypher)
     others = sorted({name for name in _PARAM_RE.findall(prepared) if name != "domains"})
@@ -72,6 +91,8 @@ def prepare_cypher(cypher: str, *, require_domains: bool) -> str:
 def cap_value(value: Any) -> Any:
     """A value small enough for the wire: long text is cut at PROPERTY_CHARS_CAP
     characters, and a long list or map becomes its cut JSON text."""
+    if isinstance(value, float) and not math.isfinite(value):
+        return None
     if isinstance(value, str):
         return value if len(value) <= PROPERTY_CHARS_CAP else value[:PROPERTY_CHARS_CAP] + "…"
     if isinstance(value, (list, dict)):
@@ -122,8 +143,6 @@ def trim_edge(serialized: dict) -> dict:
         "properties": cap_properties(props),
     }
 
-
-from artmind.graph_query import domain_predicate  # noqa: E402
 
 ENDPOINT_CYPHER = f"MATCH (n) WHERE elementId(n) IN $ids AND {domain_predicate('n')} RETURN n"
 
@@ -177,12 +196,12 @@ class GraphCollector:
             self.edges[rel.element_id] = trim_edge(serialize_value(rel))
 
     def missing_endpoint_ids(self) -> list[str]:
-        missing: list[str] = []
+        missing: dict[str, None] = {}
         for edge in self.edges.values():
             for nid in (edge["source"], edge["target"]):
-                if nid not in self.nodes and nid not in self.omitted_node_ids and nid not in missing:
-                    missing.append(nid)
-        return missing
+                if nid not in self.nodes and nid not in self.omitted_node_ids:
+                    missing[nid] = None
+        return list(missing)
 
     def result(self) -> dict:
         edges = [e for e in self.edges.values() if e["source"] in self.nodes and e["target"] in self.nodes]
@@ -199,25 +218,29 @@ def run_graph(cypher: str, domains: list[str], extra_params: dict | None = None)
     return are fetched by element id, up to the node cap."""
     from neo4j import Query
 
-    from artmind.graph_query import read_session
+    from artmind.graph_query import neo4j_session
 
     collector = GraphCollector()
     rows_read = 0
     rows_capped = False
-    with read_session() as session:
-        for record in session.run(Query(cypher, timeout=QUERY_TIMEOUT_S), {"domains": domains, **(extra_params or {})}):
+    with neo4j_session(READ_ACCESS, timeout=CONNECT_TIMEOUT_S) as session:
+        result = session.run(Query(cypher, timeout=QUERY_TIMEOUT_S), {"domains": domains, **(extra_params or {})})
+        for record in result:
             if rows_read >= ROW_CAP:
                 rows_capped = True
                 break
             rows_read += 1
             for value in record.values():
                 collector.add_value(value)
+        result.consume()  # stop the read here; the next run would otherwise buffer the rest
         missing = collector.missing_endpoint_ids()
         room = max(0, NODE_CAP - len(collector.nodes))
         collector.omitted_node_ids.update(missing[room:])
         if missing[:room]:
-            for record in session.run(Query(ENDPOINT_CYPHER, timeout=QUERY_TIMEOUT_S), {"ids": missing[:room], "domains": domains}):
+            fetched = session.run(Query(ENDPOINT_CYPHER, timeout=QUERY_TIMEOUT_S), {"ids": missing[:room], "domains": domains})
+            for record in fetched:
                 collector.add_value(record["n"])
+            fetched.consume()
         collector.omitted_node_ids.update(nid for nid in missing[:room] if nid not in collector.nodes)
     out = collector.result()
     omitted = out.pop("omitted")
@@ -245,7 +268,9 @@ class GraphRunRequest(BaseModel):
 
 
 class RateLimiter:
-    """At most `limit` calls per `window_s` seconds per key (a sliding window)."""
+    """At most `limit` calls per `window_s` seconds per key (a sliding window).
+    The route keys on the socket's peer address, so behind a reverse proxy all
+    clients share one bucket."""
 
     def __init__(self, limit: int, window_s: float = 60.0, clock=time.monotonic):
         self.limit = limit
@@ -257,9 +282,13 @@ class RateLimiter:
     def allow(self, key: str) -> bool:
         now = self._clock()
         with self._lock:
+            for k in list(self._hits):
+                old = self._hits[k]
+                while old and now - old[0] >= self.window_s:
+                    old.popleft()
+                if not old:
+                    del self._hits[k]
             hits = self._hits.setdefault(key, deque())
-            while hits and now - hits[0] >= self.window_s:
-                hits.popleft()
             if len(hits) >= self.limit:
                 return False
             hits.append(now)
@@ -267,11 +296,14 @@ class RateLimiter:
 
 
 def _db_error(exc: Exception) -> HTTPException:
+    if not isinstance(exc, Neo4jError):
+        return HTTPException(status_code=502, detail="Neo4j is not reachable")
     code = getattr(exc, "code", None) or ""
     if "TransactionTimedOut" in code:
         return HTTPException(status_code=504, detail=f"the query ran longer than {QUERY_TIMEOUT_S} s and was stopped")
     message = getattr(exc, "message", None) or str(exc) or type(exc).__name__
-    return HTTPException(status_code=502, detail=f"Neo4j: {message.splitlines()[0]}")
+    status = 400 if code.startswith("Neo.ClientError.Statement.") else 502
+    return HTTPException(status_code=status, detail=f"Neo4j: {message.splitlines()[0]}")
 
 
 def register_graph_routes(app: FastAPI, *, mode: str) -> FastAPI:
@@ -281,8 +313,6 @@ def register_graph_routes(app: FastAPI, *, mode: str) -> FastAPI:
 
     @app.post("/api/graph/run")
     async def api_graph_run(payload: GraphRunRequest, request: Request):
-        from neo4j.exceptions import DriverError, Neo4jError
-
         if limiter is not None:
             client = request.client.host if request.client else "unknown"
             if not limiter.allow(client):
