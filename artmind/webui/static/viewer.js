@@ -31,7 +31,10 @@
       if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); close(); }
       else if (Object.prototype.hasOwnProperty.call(keys, e.key)) keys[e.key]();
     }
+    let closed = false;
     function close() {
+      if (closed) return;
+      closed = true;
       document.removeEventListener("keydown", onKey, true);
       if (onResize) window.removeEventListener("resize", onResize);
       overlay.remove();

@@ -351,3 +351,12 @@ def test_graph_renderer_targets_the_fence_and_the_endpoint():
     style = (WEBUI_DIR / "static" / "style.css").read_text()
     for selector in (".agraph", ".agraph-canvas", ".agraph-toolbar", ".agraph-inspector"):
         assert selector in style
+
+
+def test_graph_renderer_frees_instances_and_caps_exports():
+    from artmind.webui.app import WEBUI_DIR
+
+    source = (WEBUI_DIR / "static" / "graph-render.js").read_text()
+    for needle in ("onClose", "isConnected", "maxWidth: 4096", "maxHeight: 4096"):
+        assert needle in source
+    assert ".agraph-head" in (WEBUI_DIR / "static" / "style.css").read_text()

@@ -15,7 +15,7 @@
 (function () {
   const LIBS = ((document.currentScript && document.currentScript.dataset.graphLibs) || "").split(/\s+/).filter(Boolean);
   const STRUCTURAL = new Set(["Document", "DocChunk", "Passage", "DocSummary", "Observation"]);
-  // 4.5:1 or better against --bg in each theme (checked 2026-11-14).
+  // 4.5:1 or better against --bg-elev in each theme (checked 2026-11-14).
   const PALETTE = {
     light: ["#2f6db5", "#b8562a", "#2e7d4f", "#8a4fb0", "#b0386a", "#6b6b18", "#1a7479", "#a3461f", "#5a5fc4", "#7a5a2e"],
     dark: ["#6ea8ec", "#f0915e", "#62c48a", "#c08ce6", "#ec7fae", "#c9c45a", "#5cc9d1", "#e8a06a", "#9ba0f2", "#d4ad74"],
@@ -25,6 +25,9 @@
     { label: "concentric", options: { name: "concentric", animate: false, minNodeSpacing: 18 } },
     { label: "tree", options: { name: "breadthfirst", animate: false, directed: true, spacingFactor: 1.1 } },
   ];
+  const MAX_CYPHER = 20000;
+  const hosts = new Set();   // hosts with a live cy
+  const copies = new Set();  // {cy, canvas} of open full-window copies
   let loading = null;
 
   function el(tag, cls, text) {
@@ -44,17 +47,19 @@
       const s = document.createElement("script");
       s.src = src;
       s.onload = resolve;
-      s.onerror = () => reject(new Error("the graph library failed to load"));
+      s.onerror = () => { s.remove(); reject(new Error("The graph library failed to load.")); };
       document.head.appendChild(s);
     });
   }
+  // Only cytoscape is required; a missing layout library falls back to cose.
   function load() {
+    if (loading) return loading;
     if (window.cytoscape) return Promise.resolve(window.cytoscape);
-    if (!loading) {
-      loading = LIBS.reduce((p, src) => p.then(() => loadScript(src)), Promise.resolve())
-        .then(() => window.cytoscape)
-        .catch((err) => { loading = null; throw err; });
-    }
+    loading = LIBS.reduce(
+      (p, src, i) => p.then(() => loadScript(src)).catch((err) => { if (i === 0) throw err; }),
+      Promise.resolve(),
+    ).then(() => window.cytoscape)
+      .catch((err) => { loading = null; throw err; });
     return loading;
   }
 
@@ -77,7 +82,7 @@
     const els = [];
     for (const n of data.nodes || []) {
       els.push({ group: "nodes", data: {
-        id: n.id,
+        id: "n" + n.id,
         label: n.name || n._id || (n.labels || [])[0] || "node",
         colour: classColour(n.class),
         size: nodeSize(n.observation_count),
@@ -86,14 +91,14 @@
       } });
     }
     for (const e of data.edges || []) {
-      els.push({ group: "edges", data: { id: e.id, source: e.source, target: e.target, label: e.rel_type || e.type || "", raw: e } });
+      els.push({ group: "edges", data: { id: "e" + e.id, source: "n" + e.source, target: "n" + e.target, label: e.rel_type || e.type || "", raw: e } });
     }
     return els;
   }
 
   function styleSheet() {
     const text = cssVar("--text", "#2d2a26"), muted = cssVar("--text-muted", "#6f6a60");
-    const bg = cssVar("--bg", "#faf9f5"), accent = cssVar("--accent", "#6b6fa8");
+    const bg = cssVar("--bg-elev", "#ffffff"), accent = cssVar("--accent", "#6b6fa8");
     return [
       { selector: "node", style: {
         "background-color": "data(colour)", width: "data(size)", height: "data(size)",
@@ -103,7 +108,7 @@
       { selector: "node[structural = 1]", style: { shape: "round-rectangle" } },
       { selector: "edge", style: {
         width: 1.4, "line-color": muted, "target-arrow-color": muted, "target-arrow-shape": "triangle",
-        "curve-style": "bezier", label: "data(label)", "font-size": 9, color: muted,
+        "curve-style": "bezier", label: "data(label)", "font-size": 10, color: muted,
         "text-rotation": "autorotate", "text-outline-color": bg, "text-outline-width": 2,
       } },
       { selector: ":selected", style: { "border-width": 3, "border-color": accent, "line-color": accent, "target-arrow-color": accent } },
@@ -111,25 +116,33 @@
     ];
   }
 
+  const sentence = (t) => `${String(t).replace(/[.\s]+$/, "")}.`;
   function failureText(status, body) {
     const detail = body && typeof body.detail === "string" ? body.detail.split("\n")[0] : "";
-    if (status === 400) return `Refused: ${detail || "the query is not allowed"}.`;
+    if (status === 400) return `Refused: ${sentence(detail || "the query is not allowed")}`;
     if (status === 404) return "This page cannot draw graphs.";
-    if (status === 422) return "The graph block is missing its domain or cypher.";
+    if (status === 422) {
+      const d = body && Array.isArray(body.detail) && body.detail[0] && body.detail[0].msg;
+      return d ? `The graph block was rejected: ${sentence(d)}` : "The graph block is missing its domain or cypher.";
+    }
     if (status === 429) return detail || "Too many graph runs; try again in a minute.";
-    if (status === 504) return `Timed out: ${detail || "the query took too long"}.`;
-    return `Graph could not be drawn${detail ? `: ${detail}` : "."}`;
+    if (status === 504) return `Timed out: ${sentence(detail || "the query took too long")}`;
+    return detail ? `Graph could not be drawn: ${sentence(detail)}` : "Graph could not be drawn.";
   }
 
   async function fetchGraph(spec, extra = {}) {
-    const res = await fetch("/api/graph/run", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ domain: spec.domain, cypher: spec.cypher, ...extra }),
-    });
+    let res;
+    try {
+      res = await fetch("/api/graph/run", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ domain: spec.domain, cypher: spec.cypher, ...extra }),
+      });
+    } catch (_e) { throw new Error("The server could not be reached."); }
     let body = null;
     try { body = await res.json(); } catch (_e) { /* not JSON: an error page */ }
     if (!res.ok) throw new Error(failureText(res.status, body));
+    if (!body || !Array.isArray(body.nodes) || !Array.isArray(body.edges)) throw new Error("The server sent no graph.");
     return body;
   }
 
@@ -179,7 +192,7 @@
   const slug = (t) => String(t || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60);
   function downloadPng(cy, title) {
     const a = document.createElement("a");
-    a.href = cy.png({ full: true, scale: 2, bg: cssVar("--bg", "#ffffff") });
+    a.href = cy.png({ full: true, scale: 2, maxWidth: 4096, maxHeight: 4096, bg: cssVar("--bg", "#ffffff") });
     a.download = `${slug(title) || "graph"}.png`;
     document.body.appendChild(a);
     a.click();
@@ -192,6 +205,7 @@
       label: "Graph",
       buttons: [["fit", "Fit to window", () => big.fit(undefined, 30)]],
       onResize: () => big && big.resize(),
+      onClose: () => { copies.delete(entry); big.destroy(); },
     });
     const canvas = el("div", "agraph-full");
     const inspector = el("div", "agraph-inspector");
@@ -199,6 +213,8 @@
     view.overlay.insertBefore(canvas, view.bar);
     view.overlay.insertBefore(inspector, view.bar);
     big = window.cytoscape({ container: canvas, elements: cy.elements().jsons(), style: styleSheet(), layout: { name: "preset" } });
+    const entry = { cy: big, canvas };
+    copies.add(entry);
     big.fit(undefined, 30);
     wire(big, inspector, opts, ctx);
   }
@@ -225,15 +241,24 @@
   }
 
   async function mount(host, spec, opts = {}) {
-    if (host._agraph) host._agraph.cy.destroy();
-    host._agraph = null;
+    destroyHost(host);
+    const token = (host._agraphToken = {});
     host.classList.add("agraph");
     host.classList.remove("agraph-failed");
     host.replaceChildren();
-    if (spec.title) host.appendChild(el("div", "agraph-title", spec.title));
+    const head = el("div", "agraph-head");
+    if (spec.title) head.appendChild(el("div", "agraph-title", spec.title));
     const status = el("div", "agraph-note", "Drawing graph…");
-    host.appendChild(status);
-    const [cytoscape, data] = await Promise.all([load(), fetchGraph(spec)]);
+    head.appendChild(status);
+    host.appendChild(head);
+    let cytoscape, data;
+    try {
+      [cytoscape, data] = await Promise.all([load(), fetchGraph(spec)]);
+    } catch (err) {
+      if (host._agraphToken !== token) return null; // a newer draw owns the host
+      throw err;
+    }
+    if (host._agraphToken !== token || !host.isConnected) return null;
     if (!data.nodes.length) {
       const err = new Error("The query returned no nodes.");
       err.cypher = data.cypher;
@@ -241,16 +266,45 @@
     }
     status.textContent = summaryText(data);
     const canvas = el("div", "agraph-canvas");
+    canvas.title = "Click the graph, then scroll to zoom";
     const inspector = el("div", "agraph-inspector");
     inspector.hidden = true;
     host.append(canvas, inspector);
     const state = { spec, cypher: data.cypher, layout: 0 };
-    const cy = cytoscape({ container: canvas, elements: elementsFrom(data), style: styleSheet(), layout: layoutOptions(0), minZoom: 0.05, maxZoom: 6 });
+    const cy = cytoscape({ container: canvas, elements: elementsFrom(data), style: styleSheet(), layout: layoutOptions(0), minZoom: 0.05, maxZoom: 6, userZoomingEnabled: false });
+    cy.one("tapstart", () => { cy.userZoomingEnabled(true); canvas.removeAttribute("title"); });
     const ctx = { state, status };
     wire(cy, inspector, opts, ctx);
-    host.appendChild(toolbar(cy, state, opts, ctx));
+    head.appendChild(toolbar(cy, state, opts, ctx));
     host._agraph = { cy, state, status, opts };
+    hosts.add(host);
+    if (canvas.clientWidth === 0 && typeof ResizeObserver === "function") {
+      const ro = new ResizeObserver(() => {
+        if (cy.destroyed()) { ro.disconnect(); return; }
+        if (canvas.clientWidth === 0) return;
+        ro.disconnect();
+        cy.resize();
+        cy.layout(layoutOptions(state.layout)).run();
+        cy.fit(undefined, 30);
+      });
+      ro.observe(canvas);
+    }
     return host._agraph;
+  }
+
+  function destroyHost(host) {
+    const g = host._agraph;
+    host._agraph = null;
+    hosts.delete(host);
+    if (g && !g.cy.destroyed()) g.cy.destroy();
+  }
+
+  // Free the instances of hosts an ancestor removed (conversation switch, Views re-run).
+  function sweep() {
+    for (const host of [...hosts]) if (!host.isConnected) destroyHost(host);
+    for (const entry of [...copies]) {
+      if (!entry.canvas.isConnected) { copies.delete(entry); if (!entry.cy.destroyed()) entry.cy.destroy(); }
+    }
   }
 
   function parseSpec(text) {
@@ -259,12 +313,12 @@
     if (!spec || typeof spec !== "object" || Array.isArray(spec)) return { error: "A graph block must be a JSON object." };
     const domainOk = (typeof spec.domain === "string" && spec.domain.trim()) || (Array.isArray(spec.domain) && spec.domain.length);
     if (!domainOk || typeof spec.cypher !== "string" || !spec.cypher.trim()) return { error: 'A graph block needs "domain" and "cypher".' };
+    if (spec.cypher.length > MAX_CYPHER) return { error: `The graph block's Cypher is longer than ${MAX_CYPHER} characters, so it was not run.` };
     return { spec: { domain: spec.domain, cypher: spec.cypher, title: typeof spec.title === "string" ? spec.title : "" } };
   }
 
   function fallback(host, message, code) {
-    if (host._agraph) host._agraph.cy.destroy();
-    host._agraph = null;
+    destroyHost(host);
     host.classList.add("agraph-failed");
     host.replaceChildren();
     host.appendChild(el("div", "agraph-note", message));
@@ -280,6 +334,7 @@
   }
 
   window.renderArtmindGraph = function (scope) {
+    sweep();
     for (const code of scope.querySelectorAll("pre > code.language-artmind-graph")) {
       const source = code.textContent;
       const host = el("div", "agraph");
@@ -287,6 +342,7 @@
       const parsed = parseSpec(source);
       if (parsed.error) { fallback(host, parsed.error, source); continue; }
       mount(host, parsed.spec, blockOptions()).catch((err) => {
+        if (!host.isConnected) return;
         fallback(host, err.message || "Graph could not be drawn.", err.cypher || source);
       });
     }
@@ -294,13 +350,24 @@
 
   window.ArtmindGraph = { mount, parseSpec, fetchGraph, elementsFrom, layoutOptions, NODE_CAP: 500 };
 
-  // Re-colour drawn graphs when the page theme is toggled.
+  function retheme(cy) {
+    cy.nodes().forEach((n) => n.data("colour", classColour(n.data("raw").class)));
+    cy.style(styleSheet());
+  }
+  // Re-colour drawn graphs (and open full-window copies) when the page theme is toggled.
   new MutationObserver(() => {
-    for (const host of document.querySelectorAll(".agraph")) {
-      const g = host._agraph;
-      if (!g) continue;
-      g.cy.nodes().forEach((n) => n.data("colour", classColour(n.data("raw").class)));
-      g.cy.style(styleSheet());
+    const all = [...[...hosts].map((h) => h._agraph && h._agraph.cy), ...[...copies].map((c) => c.cy)];
+    for (const cy of all) {
+      if (!cy || cy.destroyed()) continue;
+      try { retheme(cy); } catch (err) { console.error("graph re-theme failed", err); }
     }
   }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+  // Conversation switches and Views re-runs remove hosts without telling us.
+  let sweepQueued = false;
+  new MutationObserver(() => {
+    if (sweepQueued || (!hosts.size && !copies.size)) return;
+    sweepQueued = true;
+    requestAnimationFrame(() => { sweepQueued = false; sweep(); });
+  }).observe(document.body, { childList: true, subtree: true });
 })();
