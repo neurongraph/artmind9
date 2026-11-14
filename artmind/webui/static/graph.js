@@ -3,8 +3,7 @@
 // Explore -> Graph tab: question -> read-only Cypher -> Neo4j Browser.
 // Uses el() and api() from dashboard.js. Nothing runs here: the operator edits
 // the Cypher, then opens Neo4j Browser (which pre-fills its editor) and runs it.
-// `/dashboard?tab=graph&q=<question>` (the admin chat's "View as graph" button)
-// pre-fills the question.
+// `/dashboard?tab=graph&q=<question>` pre-fills the question (old links keep working).
 
 const GRAPH_LS_KEY = "artmind-graph-domain";
 const graphDomainEl = document.getElementById("graph-domain");
@@ -103,7 +102,7 @@ graphOpenEl.addEventListener("click", graphOpen);
 graphCopyEl.addEventListener("click", graphCopy);
 graphDomainEl.addEventListener("change", () => graphLsSet(graphDomainEl.value));
 
-// Prefill from the admin chat's "View as graph" link.
+// Prefill from a /dashboard?tab=graph&q= link.
 {
   const q = new URLSearchParams(window.location.search).get("q");
   if (q) graphQuestionEl.value = q;
