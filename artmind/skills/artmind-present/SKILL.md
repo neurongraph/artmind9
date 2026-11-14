@@ -13,8 +13,10 @@ found. A picture never adds a fact.
 | The answer is | Use |
 |---|---|
 | a list, or attributes compared across a few things | a markdown table |
-| 5–15 facts already in hand: a short timeline, a process, one relationship chain | a ` ```mermaid ` diagram |
-| "how are these connected", "show the network", more than ~15 nodes, or the user wants to explore | an ` ```artmind-graph ` block |
+| entities and their relationships, and the user says graph, network, map or connected, or wants to explore | an ` ```artmind-graph ` block, at any size |
+| a short timeline, a process, or 5–15 facts read from note text rather than graph relationships | a ` ```mermaid ` diagram |
+
+The UI draws the block from the live graph as soon as your answer arrives: write about the graph as shown.
 
 Figures (counts per year, amounts) go in a table: there is no chart library.
 
