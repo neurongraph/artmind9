@@ -285,3 +285,19 @@ def test_a_prefilled_page_starts_no_agent_turn():
     client = TestClient(create_app(registry=registry, template_name="admin.html", admin_routes=True))
     client.get("/", params={"prompt": REVIEW})
     assert registry._sessions == {}, "rendering the page must never reach the agent"
+
+
+GRAPH_LIBS = ("cytoscape.min.js", "layout-base.js", "cose-base.js", "cytoscape-fcose.js")
+
+
+def test_graph_libraries_are_vendored_with_their_licences():
+    from artmind.webui.app import WEBUI_DIR
+
+    vendor = WEBUI_DIR / "static" / "vendor"
+    record = (vendor / "VENDORED.md").read_text()
+    for name in GRAPH_LIBS:
+        assert (vendor / name).stat().st_size > 10_000, name
+        assert name in record
+    for pinned in ("cytoscape 3.35.0", "cytoscape-fcose 2.2.0", "cose-base 2.2.0", "layout-base 2.0.1"):
+        assert pinned in record
+    assert record.count("MIT License") >= 4
