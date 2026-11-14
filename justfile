@@ -108,11 +108,6 @@ dev-catalogue domain:
 dev-cli-help:
     uv run python scripts/click_cli_hierarchy.py artmind.cli:cli
 
-# regenerate a query skill's references/commands.md from the CLI (P2b; test/test_skill_commands_md.py checks it)
-dev-skill-commands skill="artmind-query-p2b":
-    mkdir -p artmind/skills/{{skill}}/references
-    uv run python -c "from artmind.cli_guide import render_markdown; import sys; sys.stdout.write(render_markdown())" > artmind/skills/{{skill}}/references/commands.md
-
 # B1 before/after on a DISPOSABLE Neo4j (own name + port; never touches another container):
 # the old single-transaction full rebuild must hit the memory limit, the batched one must pass  (usage: just dev-rebuild-memcheck)
 dev-rebuild-memcheck:
