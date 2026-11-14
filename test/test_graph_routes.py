@@ -50,11 +50,11 @@ def test_resolve_domains_refuses_unknown_and_empty(known):
 # ── Cypher checks ────────────────────────────────────────────────────
 
 def test_prepare_cypher_appends_the_graph_limit():
-    assert graph_routes.prepare_cypher(SCOPED, require_domains=True) == SCOPED + "\nLIMIT 100"
+    assert graph_routes.prepare_cypher(SCOPED) == SCOPED + "\nLIMIT 100"
 
 
 def test_prepare_cypher_keeps_an_explicit_limit():
-    assert graph_routes.prepare_cypher(SCOPED + " LIMIT 5000;", require_domains=False) == SCOPED + " LIMIT 5000"
+    assert graph_routes.prepare_cypher(SCOPED + " LIMIT 5000;") == SCOPED + " LIMIT 5000"
 
 
 @pytest.mark.parametrize("cypher, message", [
@@ -65,13 +65,7 @@ def test_prepare_cypher_keeps_an_explicit_limit():
 ])
 def test_prepare_cypher_refuses(cypher, message):
     with pytest.raises(ValueError, match=message):
-        graph_routes.prepare_cypher(cypher, require_domains=False)
-
-
-def test_prepare_cypher_requires_domains_only_when_asked():
-    graph_routes.prepare_cypher("MATCH (n:Entity) RETURN n", require_domains=False)
-    with pytest.raises(ValueError, match=r"\$domains"):
-        graph_routes.prepare_cypher("MATCH (n:Entity) RETURN n", require_domains=True)
+        graph_routes.prepare_cypher(cypher)
 
 
 # ── trimming ─────────────────────────────────────────────────────────
@@ -242,9 +236,9 @@ RESULT = {"nodes": [{"id": "n1"}], "edges": [], "truncated": False, "omitted": {
           "rows_read": 1, "rows_capped": False, "limits": {"nodes": 500, "rows": 2000, "timeout_s": 15}}
 
 
-def _client(mode):
+def _client():
     app = FastAPI()
-    graph_routes.register_graph_routes(app, mode=mode)
+    graph_routes.register_graph_routes(app)
     return TestClient(app)
 
 
@@ -260,20 +254,18 @@ def ran(monkeypatch, known):
     return calls
 
 
+def test_admin_runs_unscoped_cypher(ran):
+    body = {"domain": "personal_journal", "cypher": "MATCH (n:Entity) RETURN n"}
+    assert _client().post("/api/graph/run", json=body).status_code == 200
+
+
 def test_admin_run_returns_the_graph_and_the_cypher_it_ran(ran):
-    r = _client("admin").post("/api/graph/run", json={"domain": "personal_journal", "cypher": SCOPED})
+    r = _client().post("/api/graph/run", json={"domain": "personal_journal", "cypher": SCOPED})
     assert r.status_code == 200
     body = r.json()
     assert body["cypher"] == SCOPED + "\nLIMIT 100" and body["domains"] == ["personal_journal"]
     assert body["nodes"] == [{"id": "n1"}]
     assert ran == [(SCOPED + "\nLIMIT 100", ["personal_journal"], None)]
-
-
-def test_admin_runs_unscoped_cypher_but_qa_refuses_it(ran):
-    body = {"domain": "personal_journal", "cypher": "MATCH (n:Entity) RETURN n"}
-    assert _client("admin").post("/api/graph/run", json=body).status_code == 200
-    r = _client("qa").post("/api/graph/run", json=body)
-    assert r.status_code == 400 and "$domains" in r.json()["detail"]
 
 
 @pytest.mark.parametrize("body", [
@@ -282,29 +274,13 @@ def test_admin_runs_unscoped_cypher_but_qa_refuses_it(ran):
     {"domain": "nowhere", "cypher": SCOPED},
 ])
 def test_refusals_are_400_and_nothing_runs(ran, body):
-    assert _client("admin").post("/api/graph/run", json=body).status_code == 400
+    assert _client().post("/api/graph/run", json=body).status_code == 400
     assert ran == []
 
 
 @pytest.mark.parametrize("body", [{"cypher": SCOPED}, {"domain": "d", "cypher": "  "}])
 def test_malformed_requests_are_422(ran, body):
-    assert _client("admin").post("/api/graph/run", json=body).status_code == 422
-
-
-def test_qa_is_rate_limited_per_client(ran):
-    client = _client("qa")
-    body = {"domain": "personal_journal", "cypher": SCOPED}
-    codes = [client.post("/api/graph/run", json=body).status_code for _ in range(11)]
-    assert codes == [200] * 10 + [429]
-
-
-def test_rate_limiter_window_slides():
-    now = [0.0]
-    limiter = graph_routes.RateLimiter(2, window_s=60, clock=lambda: now[0])
-    assert limiter.allow("a") and limiter.allow("a") and not limiter.allow("a")
-    assert limiter.allow("b")
-    now[0] = 60.0
-    assert limiter.allow("a")
+    assert _client().post("/api/graph/run", json=body).status_code == 422
 
 
 def test_timeout_is_504_and_statement_errors_400_in_one_line(monkeypatch, known):
@@ -314,27 +290,22 @@ def test_timeout_is_504_and_statement_errors_400_in_one_line(monkeypatch, known)
 
     monkeypatch.setattr(graph_routes, "run_graph", timed_out)
     body = {"domain": "personal_journal", "cypher": SCOPED}
-    r = _client("admin").post("/api/graph/run", json=body)
+    r = _client().post("/api/graph/run", json=body)
     assert r.status_code == 504 and "15 s" in r.json()["detail"]
 
     def syntax(*_a, **_k):
         raise ClientError._hydrate_neo4j(code="Neo.ClientError.Statement.SyntaxError", message="bad\nat line 2")
 
     monkeypatch.setattr(graph_routes, "run_graph", syntax)
-    r = _client("admin").post("/api/graph/run", json=body)
+    r = _client().post("/api/graph/run", json=body)
     assert r.status_code == 400 and r.json()["detail"] == "Neo4j: bad"
 
 
 def test_the_log_line_never_holds_the_cypher(ran, caplog):
     caplog.set_level(logging.INFO, logger="artmind.webui.graph_routes")
     secret = SCOPED.replace("RETURN a, r, b", "AND a.name = 'Secret Person' RETURN a, r, b")
-    _client("admin").post("/api/graph/run", json={"domain": "personal_journal", "cypher": secret})
+    _client().post("/api/graph/run", json={"domain": "personal_journal", "cypher": secret})
     assert "graph run" in caplog.text and "Secret Person" not in caplog.text
-
-
-def test_unknown_mode_is_refused():
-    with pytest.raises(ValueError):
-        graph_routes.register_graph_routes(FastAPI(), mode="benchmark")
 
 
 def test_run_graph_counts_an_endpoint_the_fetch_did_not_return(monkeypatch):
@@ -355,26 +326,13 @@ def test_run_graph_counts_an_endpoint_the_fetch_did_not_return(monkeypatch):
 ])
 def test_prepare_cypher_refuses_comments_and_load(cypher):
     with pytest.raises(ValueError, match="comments are not allowed|LOAD"):
-        graph_routes.prepare_cypher(cypher, require_domains=False)
+        graph_routes.prepare_cypher(cypher)
 
 
 def test_cap_value_drops_non_finite_floats():
     for bad in (float("nan"), float("inf"), float("-inf")):
         assert graph_routes.cap_value(bad) is None
     assert graph_routes.cap_value(1.5) == 1.5
-
-
-def test_rate_limiter_forgets_idle_keys():
-    now = [0.0]
-    limiter = graph_routes.RateLimiter(1, window_s=10, clock=lambda: now[0])
-    limiter.allow("a")
-    now[0] = 20.0
-    limiter.allow("b")
-    limiter.allow("a")
-    assert set(limiter._hits) == {"a", "b"}
-    now[0] = 40.0
-    limiter.allow("c")
-    assert set(limiter._hits) == {"c"}
 
 
 def test_unreachable_neo4j_is_502_without_host(monkeypatch, known):
@@ -384,7 +342,7 @@ def test_unreachable_neo4j_is_502_without_host(monkeypatch, known):
         raise ServiceUnavailable("Couldn't connect to localhost:7689")
 
     monkeypatch.setattr(graph_routes, "run_graph", down)
-    r = _client("admin").post("/api/graph/run", json={"domain": "personal_journal", "cypher": SCOPED})
+    r = _client().post("/api/graph/run", json={"domain": "personal_journal", "cypher": SCOPED})
     assert r.status_code == 502 and r.json()["detail"] == "Neo4j is not reachable" and "7689" not in r.text
 
 
@@ -393,12 +351,12 @@ def test_statement_errors_are_400(monkeypatch, known):
         raise ClientError._hydrate_neo4j(code="Neo.ClientError.Statement.SyntaxError", message="bad\nat line 2")
 
     monkeypatch.setattr(graph_routes, "run_graph", bad)
-    r = _client("admin").post("/api/graph/run", json={"domain": "personal_journal", "cypher": SCOPED})
+    r = _client().post("/api/graph/run", json={"domain": "personal_journal", "cypher": SCOPED})
     assert r.status_code == 400 and r.json()["detail"] == "Neo4j: bad"
 
 
 def test_expand_runs_the_fixed_one_hop_query_with_the_node_id(ran):
-    r = _client("qa").post("/api/graph/run", json={"domain": "personal_journal", "expand": "4:abc:12"})
+    r = _client().post("/api/graph/run", json={"domain": "personal_journal", "expand": "4:abc:12"})
     assert r.status_code == 200
     cypher, domains, extra = ran[0]
     assert cypher == graph_routes.EXPAND_CYPHER and extra == {"id": "4:abc:12"}
@@ -411,7 +369,7 @@ def test_expand_runs_the_fixed_one_hop_query_with_the_node_id(ran):
     {"domain": "personal_journal", "expand": "  "},
 ])
 def test_exactly_one_of_cypher_and_expand(ran, body):
-    assert _client("admin").post("/api/graph/run", json=body).status_code == 422
+    assert _client().post("/api/graph/run", json=body).status_code == 422
 
 
 def test_run_graph_expand_sends_exactly_domains_and_id_and_needs_no_endpoint_fetch(monkeypatch):
@@ -455,7 +413,7 @@ def test_expand_of_a_node_without_neighbours_yields_the_node_only(monkeypatch):
     "MATCH (a) RETURN a.`SET me`",
 ])
 def test_prepare_cypher_accepts_text_inside_literals(cypher):
-    assert graph_routes.prepare_cypher(cypher, require_domains=False).startswith(cypher)
+    assert graph_routes.prepare_cypher(cypher).startswith(cypher)
 
 
 @pytest.mark.parametrize("cypher", [
@@ -470,21 +428,20 @@ def test_prepare_cypher_accepts_text_inside_literals(cypher):
 ])
 def test_prepare_cypher_still_refuses_outside_literals(cypher):
     with pytest.raises(ValueError):
-        graph_routes.prepare_cypher(cypher, require_domains=False)
+        graph_routes.prepare_cypher(cypher)
 
 
 def test_unterminated_literal_message():
     with pytest.raises(ValueError, match="unterminated string in the Cypher"):
-        graph_routes.prepare_cypher("MATCH (a {n: 'abc}) RETURN a", require_domains=False)
+        graph_routes.prepare_cypher("MATCH (a {n: 'abc}) RETURN a")
 
 
-def test_qa_scope_check_ignores_domains_inside_a_literal():
-    with pytest.raises(ValueError, match=r"\$domains"):
-        graph_routes.prepare_cypher("MATCH (a {n: '$domains'}) RETURN a", require_domains=True)
+def test_domains_inside_a_literal_is_masked_away():
+    assert "$domains" not in graph_routes._mask_literals("MATCH (a {n: '$domains'}) RETURN a")
 
 
 def test_limit_is_judged_outside_literals_and_the_original_is_returned():
-    out = graph_routes.prepare_cypher("MATCH (a {n: 'no LIMIT here'}) RETURN 'x' AS v;", require_domains=False)
+    out = graph_routes.prepare_cypher("MATCH (a {n: 'no LIMIT here'}) RETURN 'x' AS v;")
     assert out == "MATCH (a {n: 'no LIMIT here'}) RETURN 'x' AS v\nLIMIT 100"
 
 
@@ -508,12 +465,12 @@ def test_limit_is_judged_outside_literals_and_the_original_is_returned():
 ])
 def test_whitelist_refuses(cypher):
     with pytest.raises(ValueError):
-        graph_routes.prepare_cypher(cypher, require_domains=True)
+        graph_routes.prepare_cypher(cypher)
 
 
 def test_whitelist_message_names_the_keyword():
     with pytest.raises(ValueError, match=r"only MATCH.*\(found USE\)"):
-        graph_routes.prepare_cypher("USE system MATCH (n) WHERE n._domain IN $domains RETURN n", require_domains=True)
+        graph_routes.prepare_cypher("USE system MATCH (n) WHERE n._domain IN $domains RETURN n")
 
 
 @pytest.mark.parametrize("cypher", [
@@ -529,4 +486,4 @@ def test_whitelist_message_names_the_keyword():
     "MATCH (a:Entity {name: 'Set up account', url: 'http://x/y', t: 'Load testing'}) WHERE a._domain IN $domains RETURN a",
 ])
 def test_whitelist_accepts_plain_read_queries(cypher):
-    graph_routes.prepare_cypher(cypher, require_domains=True)
+    graph_routes.prepare_cypher(cypher)

@@ -4,6 +4,7 @@ import json
 import re
 from pathlib import Path
 
+from artmind.text2cypher import validate_domain_scoped
 from artmind.webui.graph_routes import prepare_cypher
 from artmind.webui.profiles import ADMIN_PROFILE, BENCHMARK_PROFILE, QA_PROFILE
 
@@ -36,7 +37,8 @@ def test_the_example_block_is_one_the_endpoint_accepts():
     block = text.split("```artmind-graph\n", 1)[1].split("\n```", 1)[0]
     spec = json.loads(block)
     assert set(spec) == {"domain", "title", "cypher"}
-    prepare_cypher(spec["cypher"], require_domains=True)
+    prepare_cypher(spec["cypher"])
+    validate_domain_scoped(spec["cypher"])
 
 
 def test_every_cli_command_it_names_exists():

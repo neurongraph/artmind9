@@ -2,11 +2,11 @@
 return the nodes and edges to draw (spec
 docs/superpowers/specs/2026-11-14-interactive-graph-design.md §2).
 
-Both UIs register it. `mode="admin"` takes any Cypher that passes the read-only
-checks. `mode="qa"` (chat-ui) also needs `$domains` in the Cypher and is rate
-limited per client address. This is presentation, not retrieval, so nothing is
-traced. The log line names the domains and the statement length, never the
-Cypher text, because chat-ui Cypher can carry user text.
+Admin console only: it takes any read-only Cypher that passes the checks below,
+scoped to `$domains` or not. chat-ui does not register it (decided 2026-11-14;
+chat-ui uses mermaid and tables). This is presentation, not retrieval, so
+nothing is traced. The log line names the domains and the statement length,
+never the Cypher text.
 """
 
 from __future__ import annotations
@@ -15,13 +15,10 @@ import json
 import logging
 import math
 import re
-import threading
-import time
-from collections import deque
 from typing import Any
 
 import anyio.to_thread
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException
 from neo4j import READ_ACCESS
 from neo4j.exceptions import DriverError, Neo4jError
 from pydantic import BaseModel, field_validator, model_validator
@@ -37,7 +34,6 @@ NODE_CAP = 500
 PROPERTY_KEYS_CAP = 40
 PROPERTY_CHARS_CAP = 500
 MAX_CYPHER_CHARS = 20_000
-QA_RUNS_PER_MINUTE = 10
 
 
 def _available_domains() -> list[str]:
@@ -130,7 +126,7 @@ def _mask_literals(cypher: str) -> str:
     return "".join(out)[:n]
 
 
-def prepare_cypher(cypher: str, *, require_domains: bool) -> str:
+def prepare_cypher(cypher: str) -> str:
     """The Cypher to run, or ValueError. Read-only (the session is READ_ACCESS
     too; this is the friendly check), no CALL, no comments or LOAD, LIMIT 100
     when absent, and no parameter but `$domains`. Every textual check reads the
@@ -139,7 +135,6 @@ def prepare_cypher(cypher: str, *, require_domains: bool) -> str:
     from artmind.text2cypher import (
         _PARAM_RE,
         _prepare_graph_cypher,
-        validate_domain_scoped,
         validate_read_only,
     )
 
@@ -155,8 +150,6 @@ def prepare_cypher(cypher: str, *, require_domains: bool) -> str:
     if others:
         named = ", ".join(f"${name}" for name in others)
         raise ValueError(f"only $domains may be a parameter; write other values as literals (found {named})")
-    if require_domains:
-        validate_domain_scoped(prepared_masked)
     # the same trimming and LIMIT as _prepare_graph_cypher, applied to the original
     stripped = cypher.strip().rstrip(";").rstrip()
     suffix = prepared_masked[len(masked.strip().rstrip(";").rstrip()):]
@@ -368,34 +361,6 @@ class GraphRunRequest(BaseModel):
         return self
 
 
-class RateLimiter:
-    """At most `limit` calls per `window_s` seconds per key (a sliding window).
-    The route keys on the socket's peer address, so behind a reverse proxy all
-    clients share one bucket."""
-
-    def __init__(self, limit: int, window_s: float = 60.0, clock=time.monotonic):
-        self.limit = limit
-        self.window_s = window_s
-        self._clock = clock
-        self._hits: dict[str, deque[float]] = {}
-        self._lock = threading.Lock()
-
-    def allow(self, key: str) -> bool:
-        now = self._clock()
-        with self._lock:
-            for k in list(self._hits):
-                old = self._hits[k]
-                while old and now - old[0] >= self.window_s:
-                    old.popleft()
-                if not old:
-                    del self._hits[k]
-            hits = self._hits.setdefault(key, deque())
-            if len(hits) >= self.limit:
-                return False
-            hits.append(now)
-            return True
-
-
 def _db_error(exc: Exception) -> HTTPException:
     if not isinstance(exc, Neo4jError):
         return HTTPException(status_code=502, detail="Neo4j is not reachable")
@@ -407,23 +372,15 @@ def _db_error(exc: Exception) -> HTTPException:
     return HTTPException(status_code=status, detail=f"Neo4j: {message.splitlines()[0]}")
 
 
-def register_graph_routes(app: FastAPI, *, mode: str) -> FastAPI:
-    if mode not in ("admin", "qa"):
-        raise ValueError(f"mode must be 'admin' or 'qa', not {mode!r}")
-    limiter = RateLimiter(QA_RUNS_PER_MINUTE) if mode == "qa" else None
-
+def register_graph_routes(app: FastAPI) -> FastAPI:
     @app.post("/api/graph/run")
-    async def api_graph_run(payload: GraphRunRequest, request: Request):
-        if limiter is not None:
-            client = request.client.host if request.client else "unknown"
-            if not limiter.allow(client):
-                raise HTTPException(status_code=429, detail=f"at most {QA_RUNS_PER_MINUTE} graph runs a minute; try again shortly")
+    async def api_graph_run(payload: GraphRunRequest):
         try:
             domains = resolve_domains(payload.domain)
             if payload.expand is not None:
                 cypher, extra = EXPAND_CYPHER, {"id": payload.expand}
             else:
-                cypher, extra = prepare_cypher(payload.cypher, require_domains=mode == "qa"), None
+                cypher, extra = prepare_cypher(payload.cypher), None
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
         try:
@@ -431,8 +388,8 @@ def register_graph_routes(app: FastAPI, *, mode: str) -> FastAPI:
         except (Neo4jError, DriverError) as exc:
             raise _db_error(exc) from exc
         logger.info(
-            "graph run: mode=%s domains=%s chars=%d nodes=%d edges=%d truncated=%s",
-            mode, ",".join(domains), len(cypher), len(result["nodes"]), len(result["edges"]), result["truncated"],
+            "graph run: domains=%s chars=%d nodes=%d edges=%d truncated=%s",
+            ",".join(domains), len(cypher), len(result["nodes"]), len(result["edges"]), result["truncated"],
         )
         return {"domains": domains, "cypher": cypher, **result}
 

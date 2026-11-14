@@ -115,7 +115,7 @@ def _package(cypher: str, parameters: dict) -> dict:
 def _check_read_only(cypher: str) -> None:
     from artmind.webui import graph_routes
 
-    graph_routes.prepare_cypher(cypher, require_domains=False)
+    graph_routes.prepare_cypher(cypher)
 
 
 def register_explore_routes(app: FastAPI) -> FastAPI:

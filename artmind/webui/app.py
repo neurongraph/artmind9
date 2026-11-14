@@ -487,7 +487,7 @@ def create_app(
         register_topics_routes(app)
         register_curate_routes(app)
         register_explore_routes(app)
-        register_graph_routes(app, mode="admin")
+        register_graph_routes(app)
 
     return app
 
