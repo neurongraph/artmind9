@@ -188,7 +188,8 @@ def test_run_graph_fetches_a_relationship_endpoint_that_was_not_returned(monkeyp
     monkeypatch.setattr("artmind.graph_query.read_session", lambda: session)
     out = graph_routes.run_graph("MATCH (a)-[r]->() RETURN a, r LIMIT 5", ["d"])
     query, params = session.calls[1]
-    assert query.text == graph_routes.ENDPOINT_CYPHER and params == {"ids": ["n9"]}
+    assert "elementId(n) IN $ids" in query.text and "$domains" in query.text
+    assert params == {"ids": ["n9"], "domains": ["d"]}
     assert {n["name"] for n in out["nodes"]} == {"Mummy", "Dr X"} and len(out["edges"]) == 1
 
 
@@ -305,3 +306,12 @@ def test_the_log_line_never_holds_the_cypher(ran, caplog):
 def test_unknown_mode_is_refused():
     with pytest.raises(ValueError):
         graph_routes.register_graph_routes(FastAPI(), mode="benchmark")
+
+
+def test_run_graph_counts_an_endpoint_the_fetch_did_not_return(monkeypatch):
+    node, rel = _factory()
+    a = node("n1", ["Entity"], name="Mummy")
+    session = FakeSession([Record({"a": a, "r": rel("r1", a, node("n9"))})], [])
+    monkeypatch.setattr("artmind.graph_query.read_session", lambda: session)
+    out = graph_routes.run_graph("MATCH (a)-[r]->() RETURN a, r LIMIT 5", ["d"])
+    assert out["edges"] == [] and out["omitted"] == {"nodes": 1, "edges": 1} and out["truncated"] is True

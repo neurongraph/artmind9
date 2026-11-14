@@ -123,7 +123,9 @@ def trim_edge(serialized: dict) -> dict:
     }
 
 
-ENDPOINT_CYPHER = "MATCH (n) WHERE elementId(n) IN $ids RETURN n"
+from artmind.graph_query import domain_predicate  # noqa: E402
+
+ENDPOINT_CYPHER = f"MATCH (n) WHERE elementId(n) IN $ids AND {domain_predicate('n')} RETURN n"
 
 
 class GraphCollector:
@@ -214,8 +216,9 @@ def run_graph(cypher: str, domains: list[str], extra_params: dict | None = None)
         room = max(0, NODE_CAP - len(collector.nodes))
         collector.omitted_node_ids.update(missing[room:])
         if missing[:room]:
-            for record in session.run(Query(ENDPOINT_CYPHER, timeout=QUERY_TIMEOUT_S), {"ids": missing[:room]}):
+            for record in session.run(Query(ENDPOINT_CYPHER, timeout=QUERY_TIMEOUT_S), {"ids": missing[:room], "domains": domains}):
                 collector.add_value(record["n"])
+        collector.omitted_node_ids.update(nid for nid in missing[:room] if nid not in collector.nodes)
     out = collector.result()
     omitted = out.pop("omitted")
     return {
