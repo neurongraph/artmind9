@@ -114,3 +114,89 @@ def test_trim_edge_names_its_meaning():
     out = graph_routes.trim_edge(serialize_value(rel("r1", a, b, rel_type="treated_by", observation_count=2)))
     assert out == {"id": "r1", "source": "n1", "target": "n2", "type": "RELATES_TO",
                    "rel_type": "treated_by", "properties": {"observation_count": 2, "rel_type": "treated_by"}}
+
+
+from neo4j import Record
+from neo4j.graph import Path
+
+
+class FakeSession:
+    """Stands in for read_session(): records (Query, parameters), returns one batch per run."""
+
+    def __init__(self, *batches):
+        self.calls = []
+        self._batches = list(batches)
+
+    def run(self, query, parameters=None):
+        self.calls.append((query, parameters))
+        return iter(self._batches.pop(0) if self._batches else [])
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+
+def test_collector_splits_paths_dedupes_and_ignores_scalars():
+    node, rel = _factory()
+    a, b = node("n1", ["Entity"], name="A"), node("n2", ["Entity"], name="B")
+    r = rel("r1", a, b)
+    c = graph_routes.GraphCollector()
+    for value in (Path(a, r), [a, b], {"x": r}, 42, "text", None):
+        c.add_value(value)
+    out = c.result()
+    assert [n["id"] for n in out["nodes"]] == ["n1", "n2"]
+    assert [e["id"] for e in out["edges"]] == ["r1"]
+    assert out["omitted"] == {"nodes": 0, "edges": 0}
+
+
+def test_collector_caps_nodes_and_drops_their_edges():
+    node, rel = _factory()
+    a, b, c3 = node("n1", ["Entity"]), node("n2", ["Entity"]), node("n3", ["Entity"])
+    c = graph_routes.GraphCollector(node_cap=2)
+    for value in (a, b, c3, rel("r1", a, b), rel("r2", b, c3)):
+        c.add_value(value)
+    out = c.result()
+    assert len(out["nodes"]) == 2 and [e["id"] for e in out["edges"]] == ["r1"]
+    assert out["omitted"] == {"nodes": 1, "edges": 1}
+    assert c.missing_endpoint_ids() == []  # n3 is omitted, not missing
+
+
+def test_run_graph_sends_only_domains_with_the_timeout(monkeypatch):
+    node, rel = _factory()
+    a, b = node("n1", ["Entity", "Person"], name="Mummy"), node("n2", ["Entity", "Doctor"], name="Dr Rao")
+    session = FakeSession([Record({"a": a, "r": rel("r1", a, b, rel_type="treated_by"), "b": b, "n": 3})])
+    monkeypatch.setattr("artmind.graph_query.read_session", lambda: session)
+    out = graph_routes.run_graph(SCOPED + "\nLIMIT 100", ["personal_journal"])
+    assert len(session.calls) == 1
+    query, params = session.calls[0]
+    assert query.text == SCOPED + "\nLIMIT 100" and query.timeout == 15
+    assert params == {"domains": ["personal_journal"]}
+    assert {n["name"] for n in out["nodes"]} == {"Mummy", "Dr Rao"}
+    assert out["edges"][0]["rel_type"] == "treated_by"
+    assert out["truncated"] is False and out["rows_read"] == 1 and out["rows_capped"] is False
+    assert out["limits"] == {"nodes": 500, "rows": 2000, "timeout_s": 15}
+
+
+def test_run_graph_fetches_a_relationship_endpoint_that_was_not_returned(monkeypatch):
+    node, rel = _factory()
+    a = node("n1", ["Entity"], name="Mummy")
+    shell = node("n9")  # the driver gives a bare node for an endpoint the query did not return
+    full = _factory()[0]("n9", ["Entity", "Doctor"], name="Dr X")
+    session = FakeSession([Record({"a": a, "r": rel("r1", a, shell)})], [Record({"n": full})])
+    monkeypatch.setattr("artmind.graph_query.read_session", lambda: session)
+    out = graph_routes.run_graph("MATCH (a)-[r]->() RETURN a, r LIMIT 5", ["d"])
+    query, params = session.calls[1]
+    assert query.text == graph_routes.ENDPOINT_CYPHER and params == {"ids": ["n9"]}
+    assert {n["name"] for n in out["nodes"]} == {"Mummy", "Dr X"} and len(out["edges"]) == 1
+
+
+def test_run_graph_stops_at_the_row_cap(monkeypatch):
+    node, _ = _factory()
+    session = FakeSession([Record({"n": node(f"n{i}", ["Entity"])}) for i in range(3)])
+    monkeypatch.setattr("artmind.graph_query.read_session", lambda: session)
+    monkeypatch.setattr(graph_routes, "ROW_CAP", 2)
+    out = graph_routes.run_graph("MATCH (n) RETURN n LIMIT 3", ["d"])
+    assert out["rows_read"] == 2 and out["rows_capped"] is True and out["truncated"] is True
+    assert len(out["nodes"]) == 2

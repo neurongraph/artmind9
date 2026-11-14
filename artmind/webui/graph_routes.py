@@ -114,3 +114,108 @@ def trim_edge(serialized: dict) -> dict:
         "rel_type": props.get("rel_type"),
         "properties": cap_properties(props),
     }
+
+
+ENDPOINT_CYPHER = "MATCH (n) WHERE elementId(n) IN $ids RETURN n"
+
+
+class GraphCollector:
+    """Distinct nodes and relationships from raw driver values, capped at
+    `node_cap` nodes. Paths split into both; maps and lists are walked; scalar
+    columns are ignored. A relationship's endpoints are not added from the
+    relationship (the driver gives a bare node there); they are fetched."""
+
+    def __init__(self, node_cap: int = NODE_CAP):
+        self.node_cap = node_cap
+        self.nodes: dict[str, dict] = {}
+        self.edges: dict[str, dict] = {}
+        self.omitted_node_ids: set[str] = set()
+
+    def add_value(self, value: Any) -> None:
+        from neo4j.graph import Node, Path, Relationship
+
+        if isinstance(value, Node):
+            self.add_node(value)
+        elif isinstance(value, Relationship):
+            self.add_edge(value)
+        elif isinstance(value, Path):
+            for node in value.nodes:
+                self.add_node(node)
+            for rel in value.relationships:
+                self.add_edge(rel)
+        elif isinstance(value, dict):
+            for item in value.values():
+                self.add_value(item)
+        elif isinstance(value, (list, tuple)):
+            for item in value:
+                self.add_value(item)
+
+    def add_node(self, node: Any) -> None:
+        from artmind.graph_query import serialize_value
+
+        nid = node.element_id
+        if nid in self.nodes or nid in self.omitted_node_ids:
+            return
+        if len(self.nodes) >= self.node_cap:
+            self.omitted_node_ids.add(nid)
+            return
+        self.nodes[nid] = trim_node(serialize_value(node))
+
+    def add_edge(self, rel: Any) -> None:
+        from artmind.graph_query import serialize_value
+
+        if rel.element_id not in self.edges:
+            self.edges[rel.element_id] = trim_edge(serialize_value(rel))
+
+    def missing_endpoint_ids(self) -> list[str]:
+        missing: list[str] = []
+        for edge in self.edges.values():
+            for nid in (edge["source"], edge["target"]):
+                if nid not in self.nodes and nid not in self.omitted_node_ids and nid not in missing:
+                    missing.append(nid)
+        return missing
+
+    def result(self) -> dict:
+        edges = [e for e in self.edges.values() if e["source"] in self.nodes and e["target"] in self.nodes]
+        return {
+            "nodes": list(self.nodes.values()),
+            "edges": edges,
+            "omitted": {"nodes": len(self.omitted_node_ids), "edges": len(self.edges) - len(edges)},
+        }
+
+
+def run_graph(cypher: str, domains: list[str], extra_params: dict | None = None) -> dict:
+    """Run prepared Cypher in a READ_ACCESS session; at most ROW_CAP records
+    are read. Endpoints of returned relationships that the query did not
+    return are fetched by element id, up to the node cap."""
+    from neo4j import Query
+
+    from artmind.graph_query import read_session
+
+    collector = GraphCollector()
+    rows_read = 0
+    rows_capped = False
+    with read_session() as session:
+        for record in session.run(Query(cypher, timeout=QUERY_TIMEOUT_S), {"domains": domains, **(extra_params or {})}):
+            if rows_read >= ROW_CAP:
+                rows_capped = True
+                break
+            rows_read += 1
+            for value in record.values():
+                collector.add_value(value)
+        missing = collector.missing_endpoint_ids()
+        room = max(0, NODE_CAP - len(collector.nodes))
+        collector.omitted_node_ids.update(missing[room:])
+        if missing[:room]:
+            for record in session.run(Query(ENDPOINT_CYPHER, timeout=QUERY_TIMEOUT_S), {"ids": missing[:room]}):
+                collector.add_value(record["n"])
+    out = collector.result()
+    omitted = out.pop("omitted")
+    return {
+        **out,
+        "truncated": bool(omitted["nodes"] or omitted["edges"] or rows_capped),
+        "omitted": omitted,
+        "rows_read": rows_read,
+        "rows_capped": rows_capped,
+        "limits": {"nodes": NODE_CAP, "rows": ROW_CAP, "timeout_s": QUERY_TIMEOUT_S},
+    }
