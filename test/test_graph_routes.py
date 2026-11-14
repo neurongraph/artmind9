@@ -286,7 +286,7 @@ def test_refusals_are_400_and_nothing_runs(ran, body):
     assert ran == []
 
 
-@pytest.mark.parametrize("body", [{"domain": "d"}, {"cypher": SCOPED}, {"domain": "d", "cypher": "  "}])
+@pytest.mark.parametrize("body", [{"cypher": SCOPED}, {"domain": "d", "cypher": "  "}])
 def test_malformed_requests_are_422(ran, body):
     assert _client("admin").post("/api/graph/run", json=body).status_code == 422
 
@@ -396,3 +396,32 @@ def test_statement_errors_are_400(monkeypatch, known):
     monkeypatch.setattr(graph_routes, "run_graph", bad)
     r = _client("admin").post("/api/graph/run", json={"domain": "personal_journal", "cypher": SCOPED})
     assert r.status_code == 400 and r.json()["detail"] == "Neo4j: bad"
+
+
+def test_expand_runs_the_fixed_one_hop_query_with_the_node_id(ran):
+    r = _client("qa").post("/api/graph/run", json={"domain": "personal_journal", "expand": "4:abc:12"})
+    assert r.status_code == 200
+    cypher, domains, extra = ran[0]
+    assert cypher == graph_routes.EXPAND_CYPHER and extra == {"id": "4:abc:12"}
+    assert "$domains" in cypher and "elementId(n) = $id" in cypher
+
+
+@pytest.mark.parametrize("body", [
+    {"domain": "personal_journal"},
+    {"domain": "personal_journal", "cypher": SCOPED, "expand": "4:abc:12"},
+    {"domain": "personal_journal", "expand": "  "},
+])
+def test_exactly_one_of_cypher_and_expand(ran, body):
+    assert _client("admin").post("/api/graph/run", json=body).status_code == 422
+
+
+def test_run_graph_expand_sends_exactly_domains_and_id_and_needs_no_endpoint_fetch(monkeypatch):
+    node, rel = _factory()
+    n, m = node("n1", ["Entity"], name="A"), node("n2", ["Entity"], name="B")
+    session = FakeSession([Record({"n": n, "r": rel("r1", n, m), "m": m})])
+    _patch_session(monkeypatch, session)
+    out = graph_routes.run_graph(graph_routes.EXPAND_CYPHER, ["personal_journal"], {"id": "n1"})
+    assert len(session.calls) == 1
+    assert session.calls[0][1] == {"domains": ["personal_journal"], "id": "n1"}
+    assert {x["id"] for x in out["nodes"]} == {"n1", "n2"} and len(out["edges"]) == 1
+    assert out["truncated"] is False

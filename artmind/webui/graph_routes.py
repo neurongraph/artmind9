@@ -24,7 +24,7 @@ import anyio.to_thread
 from fastapi import FastAPI, HTTPException, Request
 from neo4j import READ_ACCESS
 from neo4j.exceptions import DriverError, Neo4jError
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, field_validator, model_validator
 
 from artmind.graph_query import domain_predicate
 
@@ -147,6 +147,15 @@ def trim_edge(serialized: dict) -> dict:
 ENDPOINT_CYPHER = f"MATCH (n) WHERE elementId(n) IN $ids AND {domain_predicate('n')} RETURN n"
 
 
+EXPAND_CYPHER = (
+    "MATCH (n) WHERE elementId(n) = $id\n"
+    "MATCH (n)-[r]-(m)\n"
+    f"WHERE {domain_predicate('m')}\n"
+    "RETURN n, r, m\n"
+    "LIMIT 100"
+)
+
+
 class GraphCollector:
     """Distinct nodes and relationships from raw driver values, capped at
     `node_cap` nodes. Paths split into both; maps and lists are walked; scalar
@@ -253,18 +262,35 @@ def run_graph(cypher: str, domains: list[str], extra_params: dict | None = None)
         "limits": {"nodes": NODE_CAP, "rows": ROW_CAP, "timeout_s": QUERY_TIMEOUT_S},
     }
 
+
 class GraphRunRequest(BaseModel):
     domain: str | list[str]
-    cypher: str
+    cypher: str | None = None
+    expand: str | None = None  # a node's element id: draw its one-hop neighbours
 
     @field_validator("cypher")
     @classmethod
-    def _cypher(cls, value: str) -> str:
+    def _cypher(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
         if not value.strip():
             raise ValueError("cypher must not be empty")
         if len(value) > MAX_CYPHER_CHARS:
             raise ValueError(f"cypher is longer than {MAX_CYPHER_CHARS} characters")
         return value
+
+    @field_validator("expand")
+    @classmethod
+    def _expand(cls, value: str | None) -> str | None:
+        if value is not None and (not value.strip() or len(value) > 200):
+            raise ValueError("expand must be a node id")
+        return value
+
+    @model_validator(mode="after")
+    def _one_of(self):
+        if (self.cypher is None) == (self.expand is None):
+            raise ValueError("send exactly one of cypher and expand")
+        return self
 
 
 class RateLimiter:
@@ -319,11 +345,14 @@ def register_graph_routes(app: FastAPI, *, mode: str) -> FastAPI:
                 raise HTTPException(status_code=429, detail=f"at most {QA_RUNS_PER_MINUTE} graph runs a minute; try again shortly")
         try:
             domains = resolve_domains(payload.domain)
-            cypher = prepare_cypher(payload.cypher, require_domains=mode == "qa")
+            if payload.expand is not None:
+                cypher, extra = EXPAND_CYPHER, {"id": payload.expand}
+            else:
+                cypher, extra = prepare_cypher(payload.cypher, require_domains=mode == "qa"), None
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
         try:
-            result = await anyio.to_thread.run_sync(run_graph, cypher, domains)
+            result = await anyio.to_thread.run_sync(run_graph, cypher, domains, extra)
         except (Neo4jError, DriverError) as exc:
             raise _db_error(exc) from exc
         logger.info(
