@@ -317,7 +317,7 @@
     <div class="tab-panel" data-tab-group="explore" data-tab-panel="graph">
     <section class="dash-panel dash-zone-wide" id="graph-panel">
       <h2>Graph</h2>
-      <p class="dash-hint">Ask a question in plain words. It becomes read-only Cypher you can edit, then opens in Neo4j Browser to draw. Nothing runs until you press Run there.</p>
+      <p class="dash-hint">Ask a question in plain words. It becomes read-only Cypher you can edit; Run draws it here. Neo4j Browser stays available.</p>
       <form class="dash-form stacked" id="graph-form" onsubmit="return false">
         <label>
           Domain
@@ -338,10 +338,12 @@
           <textarea id="graph-cypher" rows="12" spellcheck="false"></textarea>
         </label>
         <div class="dash-form">
-          <button id="graph-open-btn" type="button" class="btn-primary">Open in Neo4j Browser</button>
+          <button id="graph-run-btn" type="button" class="btn-primary">Run</button>
+          <button id="graph-open-btn" type="button" class="btn-secondary">Open in Neo4j Browser</button>
           <button id="graph-copy-btn" type="button" class="btn-secondary">Copy Cypher</button>
         </div>
       </div>
+      <div id="graph-canvas"></div>
     </section>
     </div>
     </div>

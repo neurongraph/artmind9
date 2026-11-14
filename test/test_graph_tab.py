@@ -16,8 +16,9 @@ def test_dashboard_has_graph_subtab_and_script():
     html = _admin().get("/dashboard").text
     assert 'data-tab="graph"' in html and 'data-tab-panel="graph"' in html
     assert "graph.js" in html
-    for el_id in ("graph-domain", "graph-question", "graph-generate-btn", "graph-cypher", "graph-open-btn"):
+    for el_id in ("graph-domain", "graph-question", "graph-generate-btn", "graph-cypher", "graph-open-btn", "graph-run-btn", "graph-canvas"):
         assert f'id="{el_id}"' in html
+    assert html.index("/static/graph-render.js?v=") < html.index("/static/graph.js?v=")
 
 
 def test_no_page_loads_the_removed_chat_link_script():

@@ -1,8 +1,8 @@
 "use strict";
 
-// Explore -> Graph tab: question -> read-only Cypher -> Neo4j Browser.
-// Uses el() and api() from dashboard.js. Nothing runs here: the operator edits
-// the Cypher, then opens Neo4j Browser (which pre-fills its editor) and runs it.
+// Explore -> Graph tab: question -> read-only Cypher -> drawn graph.
+// Uses el() and api() from dashboard.js. Run draws the Cypher here (graph-render.js,
+// /api/graph/run); Neo4j Browser stays a secondary action.
 // `/dashboard?tab=graph&q=<question>` pre-fills the question (old links keep working).
 
 const GRAPH_LS_KEY = "artmind-graph-domain";
@@ -12,6 +12,8 @@ const graphGenerateEl = document.getElementById("graph-generate-btn");
 const graphStatusEl = document.getElementById("graph-status");
 const graphResultEl = document.getElementById("graph-result");
 const graphCypherEl = document.getElementById("graph-cypher");
+const graphRunEl = document.getElementById("graph-run-btn");
+const graphCanvasEl = document.getElementById("graph-canvas");
 const graphOpenEl = document.getElementById("graph-open-btn");
 const graphCopyEl = document.getElementById("graph-copy-btn");
 let graphLoaded = false;
@@ -48,12 +50,12 @@ async function graphGenerate() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ question, domains: [domain] }),
     });
-    graphCypherEl.value = data.standalone_cypher;
+    graphCypherEl.value = data.run_cypher;
     graphResultEl.hidden = false;
     graphOpenEl.dataset.url = data.browser_url || "";
     graphOpenEl.disabled = false;
     const note = data.browser_url
-      ? "Review or edit the Cypher, then open it in Neo4j Browser and press Run."
+      ? "Review or edit the Cypher, then Run to draw it here."
       : "No Neo4j Browser configured for this vault: set ARTMIND_KG_NEO4J_BROWSER_URL in its .artmind/config.env. You can still copy the Cypher.";
     const warnings = (data.warnings || []).join(" ");
     graphSetStatus(warnings ? `Warning: ${warnings} ${note}` : note);
@@ -72,7 +74,7 @@ async function graphOpen() {
     const data = await api("/api/explore/cypher/link", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cypher: graphCypherEl.value }),
+      body: JSON.stringify({ cypher: graphCypherEl.value, domains: [graphDomainEl.value] }),
     });
     if (!data.browser_url) {
       graphSetStatus("No Neo4j Browser configured for this vault (ARTMIND_KG_NEO4J_BROWSER_URL).");
@@ -97,6 +99,25 @@ async function graphCopy() {
   setTimeout(() => { graphCopyEl.textContent = "Copy Cypher"; }, 1200);
 }
 
+async function graphRun() {
+  const domain = graphDomainEl.value;
+  if (!domain || !graphCypherEl.value.trim()) {
+    graphSetStatus("Pick a domain and generate or write Cypher.");
+    return;
+  }
+  graphRunEl.disabled = true;
+  graphSetStatus("");
+  try {
+    await window.ArtmindGraph.mount(graphCanvasEl, { domain, cypher: graphCypherEl.value });
+  } catch (err) {
+    graphCanvasEl.replaceChildren();
+    graphSetStatus(err.message || "Graph could not be drawn.");
+  } finally {
+    graphRunEl.disabled = false;
+  }
+}
+
+graphRunEl.addEventListener("click", graphRun);
 graphGenerateEl.addEventListener("click", graphGenerate);
 graphOpenEl.addEventListener("click", graphOpen);
 graphCopyEl.addEventListener("click", graphCopy);
