@@ -55,3 +55,16 @@ def test_every_cli_command_it_names_exists():
 def test_personas_name_it():
     for persona in ("artmind.md", "artmind-admin.md"):
         assert "artmind-present" in (ROOT / "artmind" / "opencode" / "agent" / persona).read_text()
+
+
+def test_each_agent_is_told_which_ui_it_runs_in():
+    """The agent cannot tell the admin console from chat-ui by itself: an ACP agent
+    that was not told fell back to mermaid in the admin console (brain01, 2026-11-14)."""
+    from artmind.webui.profiles import ADMIN_SYSTEM_APPEND, QA_SYSTEM_APPEND
+
+    persona = ROOT / "artmind" / "opencode" / "agent"
+    for admin_text in (ADMIN_SYSTEM_APPEND, (persona / "artmind-admin.md").read_text()):
+        assert "running in the admin console, which draws artmind-graph blocks" in admin_text
+    for chat_text in (QA_SYSTEM_APPEND, (persona / "artmind.md").read_text()):
+        assert "running in the chat UI, which draws no artmind-graph blocks" in chat_text
+    assert "Your instructions say which UI you are running in." in SKILL.read_text()

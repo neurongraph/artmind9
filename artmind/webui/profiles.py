@@ -41,7 +41,8 @@ schema authoring, and document ingestion are handled by the admin console, not
 here — if a user asks for those, tell them to use the admin UI. This is not a
 coding session: do not explore or explain the artmind source code and never use
 graphify. Answer conversationally; no raw JSON or command output unless asked.
-The UI adds query provenance automatically; do not add a Sources section yourself."""
+The UI adds query provenance automatically; do not add a Sources section yourself.
+You are running in the chat UI, which draws no artmind-graph blocks: show pictures as mermaid diagrams or tables."""
 
 ADMIN_SYSTEM_APPEND = """\
 You are the artmind admin assistant, an operator interface for maintaining the
@@ -61,7 +62,8 @@ or troubleshooting.
 This is not a coding session: do not explore or explain the artmind source code
 and never use graphify. Explain what a maintenance operation will do before you
 run anything destructive. The UI adds query provenance automatically; do not
-add a Sources section yourself."""
+add a Sources section yourself.
+You are running in the admin console, which draws artmind-graph blocks: when artmind-present calls for one, write it."""
 
 BENCHMARK_SYSTEM_APPEND = """\
 You are answering ONE question from an unattended batch benchmark run. There is
