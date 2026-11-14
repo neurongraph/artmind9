@@ -367,3 +367,17 @@ def test_graph_renderer_expands_neighbours_through_the_endpoint():
 
     source = (WEBUI_DIR / "static" / "graph-render.js").read_text()
     assert '"dbltap"' in source and 'expand: rawId' in source and 'const rawId = node.data("raw").id' in source and '"Neighbours"' in source
+
+
+def test_graph_expand_has_the_mermaid_viewer_controls():
+    """The full-window graph has the same zoom out / in / fit / 100% buttons and
+    + = - 0 keys as the mermaid viewer, and frees its Cytoscape copy on close."""
+    from artmind.webui.app import WEBUI_DIR
+
+    source = (WEBUI_DIR / "static" / "graph-render.js").read_text()
+    body = source.split("function expandGraph", 1)[1].split("\n  function ", 1)[0]
+    for label in ('"−"', '"+"', '"fit"', '"100%"'):
+        assert f"[{label}," in body, label
+    for key in ('"+":', '"=":', '"-":', '"0":'):
+        assert key in body, key
+    assert "onClose" in body and "big.destroy()" in body
