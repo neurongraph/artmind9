@@ -1091,6 +1091,27 @@ def _plan_groups(
     return unit_of, members_of, links
 
 
+def endpoint_units(
+    groups: list[list[tuple[str, str, str]]],
+) -> dict[tuple[str, str, str], tuple[str, str, str]]:
+    """Pure. Where a `RELATES_TO` endpoint lands: every merge member of every
+    group mapped to its canonical (same rule as `_plan_groups`).
+
+    Unlike `_plan_groups`'s `unit_of`, this is never scoped to the keys
+    being rebuilt. An entity in the batch can hold an edge to an alias whose
+    group is outside the batch; that alias has no Entity of its own (it was
+    folded), so resolving it to itself makes the write's `MATCH` drop the
+    edge silently.
+    """
+    out: dict[tuple[str, str, str], tuple[str, str, str]] = {}
+    for group in groups:
+        canonical = group[0]
+        for member in group:
+            if member[1] == canonical[1] and member[2] == canonical[2]:
+                out[member] = canonical
+    return out
+
+
 def merge_unit(
     key: tuple[str, str, str], groups: list[list[tuple[str, str, str]]]
 ) -> tuple[list[tuple[str, str, str]], dict[tuple[str, str, str], tuple[str, str, str]]]:
@@ -1101,8 +1122,8 @@ def merge_unit(
     -- the same observation set the rebuild aggregates."""
     touching = [group for group in groups if key in group]
     in_scope = {member for group in touching for member in group} | {key}
-    unit_of, members_of, _ = _plan_groups(in_scope, touching)
-    return members_of.get(key, [key]), unit_of
+    _unit_of, members_of, _ = _plan_groups(in_scope, touching)
+    return members_of.get(key, [key]), endpoint_units(groups)
 
 
 def _sync_same_as_links_batch(tx, links: list[tuple[tuple[str, str, str], tuple[str, str, str]]]) -> None:
@@ -1214,6 +1235,7 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
         same_as_groups = same_as.load_groups()
 
     unit_of, members_of, links = _plan_groups(keys, same_as_groups)
+    endpoint_of = endpoint_units(same_as_groups)
 
     sorted_keys = sorted(keys)
     effective_keys = [k for k in sorted_keys if unit_of.get(k) in (None, k)]
@@ -1324,7 +1346,7 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
             parsed = _parse_key(other_key)
             if not parsed:
                 continue
-            tgt = entity_id(unit_of.get(parsed, parsed))
+            tgt = entity_id(endpoint_of.get(parsed, parsed))
             if tgt == eid:
                 continue
             relates_to_rows[(eid, tgt, rel_type)] = {"src": eid, "tgt": tgt, "rel_type": rel_type, **agg}
@@ -1332,7 +1354,7 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
             parsed = _parse_key(other_key)
             if not parsed:
                 continue
-            src = entity_id(unit_of.get(parsed, parsed))
+            src = entity_id(endpoint_of.get(parsed, parsed))
             if src == eid:
                 continue
             relates_to_rows[(src, eid, rel_type)] = {"src": src, "tgt": eid, "rel_type": rel_type, **agg}
