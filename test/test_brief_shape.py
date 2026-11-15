@@ -389,3 +389,17 @@ def test_budget_follows_the_per_request_override_under_serve(monkeypatch):
     assert brief.output_budget() == 9000
     with result_store.budget_override(None):  # a caller with no budget: off, whatever serve's env says
         assert brief.output_budget() is None
+
+
+def test_a_title_abbreviation_does_not_end_a_sentence():
+    """`Dr. Mira ...` stays one sentence: brief descriptions of doctors read
+    "Dr." when the split broke after the title."""
+    from artmind.brief import one_line, sentences
+
+    assert one_line("Dr. Mira Okafor is the family doctor. She visits often.") == (
+        "Dr. Mira Okafor is the family doctor."
+    )
+    assert sentences("Mrs. Lind met Mr. Novak at St. Agnes. Then they left.") == [
+        "Mrs. Lind met Mr. Novak at St. Agnes.", "Then they left.",
+    ]
+    assert sentences("He saw the doctor. Dr. Lind was kind.") == ["He saw the doctor.", "Dr. Lind was kind."]

@@ -147,9 +147,23 @@ def special_tokens(question: str) -> set[str]:
     return out
 
 
+# A fragment ending in one of these is a title, not a sentence: "Dr. Lind" stays whole.
+_TITLE_END = re.compile(r"(?:^|\s)(?:Dr|Mr|Mrs|Ms|Mx|Prof|St|Sr|Jr|Capt|Col|Gen|Lt|Rev|Hon)\.$")
+
+
 def sentences(text) -> list[str]:
     flat = " ".join(str(text or "").split())
-    return [s for s in _SENTENCE_SPLIT.split(flat) if s] if flat else []
+    if not flat:
+        return []
+    out: list[str] = []
+    for part in _SENTENCE_SPLIT.split(flat):
+        if not part:
+            continue
+        if out and _TITLE_END.search(out[-1]):
+            out[-1] = f"{out[-1]} {part}"
+        else:
+            out.append(part)
+    return out
 
 
 def _tokens(text: str) -> set[str]:

@@ -319,6 +319,8 @@ This combines Lucene full-text over entity names/descriptions with vector simila
 
 `entity-resolve` maps I/me to the narrator and groups same-class twins (`twins`): treat a twin group as one entity unless the text distinguishes them. Use the chosen entity's exact `_id` in retrieval (`--entityId` / `--entityId1` / `--entityId2` / `--entityIdList`).
 
+**No match, so you read the name another way.** Sometimes no row is the person or thing the question means, and you decide the name is a typo or a nickname ("grnadma" or "gran" for "grandma"). Then run `entity-resolve` again on your reading, and use that entity. Do not go to `pattern7` or `vector-text` with the name the user typed. In the answer, say which reading you used.
+
 ### 3. Retrieve — run the right pattern
 
 Every command below is written in full. The `pattern*` commands, `text2cypher`,
@@ -417,6 +419,8 @@ you never saw the part that answers), so `entity-context` returns a bounded one:
 
 Pass the question to `entity-context`; on a hub its `cut` block says what is hidden.
 
+**A set question on a hub.** The question asks for every X linked to Y ("which suppliers did Acme use", "how many people did I meet there"), and `entity-context` on Y returns `hub: true` with `cut.connections`. Then the 25 connections you got are a sample, not the set. Next, run `artmind query graph pattern8 --shape brief --domain <d> --entityId <Y> --entityClass <X> --via mentions --all --compact`. It lists every X named in Y's notes, with `complete`. Build the answer from those rows. Do not use `survey` or `vector-text` to fill gaps that `pattern8` covers.
+
 **Patterns 2/3/4 are bounded like entity-context, without its ranking.** `doc_sources`/
 `source_documents` are capped (`--maxDocSources` default 20, `--maxSourceDocuments`
 default 10) with `*_total` counts; patterns 3/4's `connections` are capped
@@ -461,7 +465,7 @@ history, not a live disagreement).
 The ladder starts after the Views check: a view that fits is tried before any rung below.
 
 1. Thin results → re-run with sibling domains from orient before concluding data is absent.
-2. Pattern output empty or too thin → vector-text.
+2. Pattern output empty or too thin → vector-text. Two cases come first: an `entity-resolve` miss on a name you then read another way (see Resolve), and a set question on a hub (see "Hub entities"). Neither is a reason to go to vector-text.
 3. A question that spans documents, whose `vector-text` rows come from one or two documents → `query survey`.
 4. vector-text sparse or weak → state that the available artmind data does not answer the question.
 

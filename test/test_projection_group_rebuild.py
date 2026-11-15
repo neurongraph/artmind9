@@ -400,28 +400,27 @@ def test_apply_retractions_ignores_observations_with_no_retracts_field():
 
 
 def test_an_edge_to_a_folded_alias_outside_the_batch_lands_on_its_canonical():
-    """A partial rebuild of `dad` must aim `dr. j -> dad` at the canonical
-    `dr. satish j`, even when that group is not in the batch. Resolving
-    the alias to itself writes nothing: its Entity was folded away, and the
-    write's `MATCH` on both ends drops the row (brain01, 2026-11-14: 733
-    edges lost this way)."""
-    p = "personal_journal"
-    dad = ("dad", "PERSON", p)
-    alias = ("dr. j", "PERSON", p)
-    canonical = ("dr. satish j", "PERSON", p)
+    """A partial rebuild of `parent` must aim `dr. lee -> parent` at the
+    canonical `dr. mira lee`, even when that group is not in the batch.
+    Resolving the alias to itself writes nothing: its Entity was folded
+    away, and the write's `MATCH` on both ends drops the row."""
+    p = "journal"
+    parent = ("parent", "PERSON", p)
+    alias = ("dr. lee", "PERSON", p)
+    canonical = ("dr. mira lee", "PERSON", p)
     tx = FakeTx(
-        observations_by_key={key_string(dad): [_o(id="od", canonical_name="Dad", entity_class="PERSON", _domain=p)]},
+        observations_by_key={key_string(parent): [_o(id="od", canonical_name="Parent", entity_class="PERSON", _domain=p)]},
         relates_to_incoming=[
-            {"tgt_key": key_string(dad), "rel_type": "CARES_FOR", "other_key": key_string(alias),
+            {"tgt_key": key_string(parent), "rel_type": "CARES_FOR", "other_key": key_string(alias),
              "doc_id": "d1", "chunk_id": "c1"},
         ],
     )
 
-    rebuild(tx, {dad}, same_as_groups=[[canonical, alias]])
+    rebuild(tx, {parent}, same_as_groups=[[canonical, alias]])
 
     (_, params), = tx.calls_matching("MERGE (e)-[r:RELATES_TO")
     assert [(r["src"], r["tgt"], r["rel_type"]) for r in params["rows"]] == [
-        (entity_id(canonical), entity_id(dad), "CARES_FOR")
+        (entity_id(canonical), entity_id(parent), "CARES_FOR")
     ]
 
 
@@ -430,12 +429,12 @@ def test_merge_unit_resolves_endpoints_through_every_group():
     from that key to an alias of another group must still resolve."""
     from artmind.projection import merge_unit
 
-    p = "personal_journal"
-    dad = ("dad", "PERSON", p)
-    alias = ("dr. j", "PERSON", p)
-    canonical = ("dr. satish j", "PERSON", p)
+    p = "journal"
+    parent = ("parent", "PERSON", p)
+    alias = ("dr. lee", "PERSON", p)
+    canonical = ("dr. mira lee", "PERSON", p)
 
-    member_keys, unit_of = merge_unit(dad, [[canonical, alias]])
+    member_keys, unit_of = merge_unit(parent, [[canonical, alias]])
 
-    assert member_keys == [dad]
+    assert member_keys == [parent]
     assert unit_of.get(alias) == canonical

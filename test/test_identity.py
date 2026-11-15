@@ -62,12 +62,12 @@ def arow(i, name, aliases, cls="Person"):
 
 
 def test_twin_groups_name_vs_alias():
-    groups = identity.twin_groups([row("a", "Satish"), arow("b", "Satish Pillai", ["Satish"])])
+    groups = identity.twin_groups([row("a", "Tomas"), arow("b", "Tomas Varga", ["Tomas"])])
     assert [g["ids"] for g in groups] == [["a", "b"]]
     assert identity.twin_warning(groups[0]) == (
-        '"Satish" and "Satish Pillai" (Person) share the name "Satish": '
+        '"Tomas" and "Tomas Varga" (Person) share the name "Tomas": '
         "treat them as one unless the text distinguishes them")
 
 
 def test_twin_groups_alias_across_classes_is_not_a_twin():
-    assert identity.twin_groups([row("a", "Satish", "Org"), arow("b", "Satish Pillai", ["Satish"])]) == []
+    assert identity.twin_groups([row("a", "Tomas", "Org"), arow("b", "Tomas Varga", ["Tomas"])]) == []
