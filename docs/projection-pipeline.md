@@ -29,6 +29,7 @@ flowchart TD
     CHUNK["split into DocChunks<br/>block_hash per chunk"]
     VOCAB["name vocabulary<br/>ANN over entity_embedding<br/>~25 nearby names · recurrent classes only"]
     EX["chunk extraction — parallel<br/>entities · properties · relationships"]
+    LOOKUP["per-name lookup<br/>alias match + ANN over entity_name_embedding<br/>top 3 per recurrent-class name · no LLM"]
     CANON["per-document canonicalization<br/>ONE LLM call over this document's own names"]
     OBS[("Observation<br/>_status=latest<br/>name = exactly what the chunk said<br/>canonical_name = key input")]
 
@@ -36,6 +37,7 @@ flowchart TD
     HASH -- no --> FM
     HASH -- yes --> VER --> CHUNK --> EX --> CANON --> OBS
     VOCAB -.->|prevents cross-document drift| EX
+    LOOKUP -.->|closest existing names, per name| CANON
     CANON -.->|fixes intra-document drift| CANON
 ```
 
@@ -44,6 +46,14 @@ new document inventing a fresh name for something already in the graph. The
 per-document canonicalization pass stops one document producing nine names for one
 thing — chunks extract in parallel and cannot see each other, so this runs once,
 after all of them, over the document's own output.
+
+The vocabulary is chosen from the document's opening text, so a name that first
+appears later gets no existing name to fold onto. Between extraction and
+canonicalization, each recurrent-class name is therefore looked up on its own: an
+existing entity of the same class and domain whose alias equals it, then its nearest
+entities on `entity_name_embedding` (name + short aliases, cosine ≥
+`ARTMIND_NAME_LOOKUP_MIN_SIM`, default 0.80). The canonicalization prompt shows them
+per name; the LLM still decides. `ARTMIND_NAME_LOOKUP=off` turns it off.
 
 ### What an Observation carries
 

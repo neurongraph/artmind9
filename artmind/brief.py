@@ -414,6 +414,8 @@ def entity_context_row(row: dict) -> dict:
     (test_graph_brief.py measures it)."""
     more = row.get("more_chunks") or []
     out = {"entity": entity_line(row.get("entityData") or {})}
+    if row.get("same_as"):
+        out["same_as"] = row["same_as"]
     if row.get("truncated_properties"):
         out["truncated_properties"] = row["truncated_properties"]
     out["connection_summary"] = [summary_line(s) for s in row.get("connection_summary") or []]

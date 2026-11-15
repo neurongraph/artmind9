@@ -175,6 +175,36 @@ def _hashable(value):
     return tuple(value) if _is_list(value) else str(value)
 
 
+# Aliases that go into the name vector: short ones only. A long raw variant
+# ("SmartSaver Account Tier 2 Rate - 4.70% AER (...)") would pull the vector
+# off the name, so it stays in `aliases` and the fulltext index only.
+NAME_EMBED_MAX_ALIASES = 8
+NAME_EMBED_MAX_ALIAS_CHARS = 60
+
+
+def name_embedding_text(name: str, aliases=None) -> str:
+    """Text embedded as an entity's `name_embedding`: its name, then up to
+    `NAME_EMBED_MAX_ALIASES` aliases of at most `NAME_EMBED_MAX_ALIAS_CHARS`
+    characters, in stored order, `; `-joined. Pure."""
+    name = str(name or "").strip()
+    seen = {name.casefold()}
+    short: list[str] = []
+    for alias in aliases or ():
+        text = str(alias or "").strip()
+        if not text or len(text) > NAME_EMBED_MAX_ALIAS_CHARS or text.casefold() in seen:
+            continue
+        seen.add(text.casefold())
+        short.append(text)
+        if len(short) == NAME_EMBED_MAX_ALIASES:
+            break
+    return "; ".join([name, *short]) if short else name
+
+
+def name_source(name: str, aliases=None) -> str:
+    """`_name_src`: a short hash of `name_embedding_text(name, aliases)`."""
+    return hashlib.sha256(name_embedding_text(name, aliases).encode("utf-8")).hexdigest()[:16]
+
+
 def merge_observations(
     observations: list[dict],
     *,
@@ -274,6 +304,9 @@ def merge_observations(
     aliases = [a for a in aliases if a != name]
     if aliases:
         props["aliases"] = aliases
+    # Which name text the name vector should hold; the embed sweep re-embeds
+    # `name_embedding` when this differs from the one it embedded.
+    props["_name_src"] = name_source(name, aliases)
 
     # ── domain properties, by shape ──
     domain_keys: list[str] = []
@@ -465,7 +498,7 @@ import re  # noqa: E402  (kept beside the I/O half it serves)
 # `:Entity` is projection-owned and is recomputed from observations on every
 # rebuild, so a property no longer asserted by any observation disappears
 # rather than lingering.
-_PRESERVED_ENTITY_KEYS = ("embedding", "embedding_stale", "_embed_key")
+_PRESERVED_ENTITY_KEYS = ("embedding", "embedding_stale", "_embed_key", "name_embedding", "_name_embed_key")
 
 
 def _sanitize_label(value: str) -> str:
@@ -1127,10 +1160,15 @@ def merge_unit(
 
 
 def _sync_same_as_links_batch(tx, links: list[tuple[tuple[str, str, str], tuple[str, str, str]]]) -> None:
-    """`MERGE` a `SAME_AS` edge, both directions, for every link pair in
+    """`MERGE` one `SAME_AS` edge, member -> canonical, for every link pair in
     `rebuild`'s plan in one batched UNWIND instead of one MERGE per pair. A
     no-op, safely, for any row whose endpoint Entity does not (yet) exist --
     the `MATCH` simply finds nothing for that row.
+
+    One edge, not one each way: a pattern matches it in either direction, and
+    its direction says which side is the group's canonical. The clear before it
+    (`_clear_same_as_batch`) deletes edges in both directions, so a graph built
+    with the old two-edge form loses the reverse edge on its next rebuild.
     """
     if not links:
         return
@@ -1140,7 +1178,6 @@ def _sync_same_as_links_batch(tx, links: list[tuple[tuple[str, str, str], tuple[
         UNWIND $rows AS row
         MATCH (m:Entity {_id: row.member}), (c:Entity {_id: row.canonical})
         MERGE (m)-[:SAME_AS]->(c)
-        MERGE (c)-[:SAME_AS]->(m)
         """,
         rows=rows,
     )

@@ -136,6 +136,13 @@ RELATIONSHIPS: tuple[Relationship, ...] = (
         ),
     ),
     Relationship(
+        "SAME_AS", "Entity", "Entity",
+        note_lines=(
+            "curated identity across classes or domains: both entities denote one thing.",
+            "One edge, member -> canonical; match it undirected: (a:Entity)-[:SAME_AS]-(b:Entity).",
+        ),
+    ),
+    Relationship(
         "CONFLICT_OF", "Conflict", "Entity",
         inline_note="one entity (projection shape) or both sides (adjudicator shape)",
     ),

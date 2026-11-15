@@ -215,6 +215,18 @@ def entity_name_candidates(domains, reference: str, topK: int = 10) -> dict:
     }
 
 
+def _attach_same_as(session, rows: list) -> None:
+    """Add `same_as` (the entities a curated link joins it to) to each row's
+    entity that has one, in place."""
+    from artmind.graph_query import same_as_links
+
+    links = same_as_links(session, [(r.get("entity") or {}).get("_id") for r in rows])
+    for r in rows:
+        entity = r.get("entity") or {}
+        if entity.get("_id") in links:
+            entity["same_as"] = links[entity["_id"]]
+
+
 def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
     """Resolve a free-text entity reference to canonical graph entities.
 
@@ -307,8 +319,9 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
             logger.warning("entity-resolve vector leg unavailable: {}", e)
             vec_rows = []
 
-    combined_rows = _rrf_combine(vec_rows, ft_rows, int(topK), annotate=True)
-    combined_rows = _put_exact_first(exact_rows, combined_rows, int(topK), reference=reference.strip())
+        combined_rows = _rrf_combine(vec_rows, ft_rows, int(topK), annotate=True)
+        combined_rows = _put_exact_first(exact_rows, combined_rows, int(topK), reference=reference.strip())
+        _attach_same_as(session, combined_rows)
 
     return {
         **_domain_output(domains),

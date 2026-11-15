@@ -51,7 +51,7 @@ def test_vocabulary_query_is_restricted_to_recurrent_classes():
     finally:
         extraction.embed_text = original
 
-    assert result == [{"name": "SmartSaver Account Tier 2 Rate", "entity_class": "RATE_ENTRY"}]
+    assert result == [{"name": "SmartSaver Account Tier 2 Rate", "entity_class": "RATE_ENTRY", "aliases": []}]
     _cypher, kwargs = session.run.call_args[0][0], session.run.call_args[1]
     assert kwargs["classes"] == ["PRODUCT", "RATE_ENTRY"], "occurrent classes must not be offered"
     assert kwargs["domain"] == "banking.reference"
