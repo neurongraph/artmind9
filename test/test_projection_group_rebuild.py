@@ -291,6 +291,8 @@ def test_link_keeps_both_entities_and_syncs_same_as_both_directions():
     assert len(params["rows"]) == 1
     assert params["rows"][0]["member"] == entity_id(member)
     assert params["rows"][0]["canonical"] == entity_id(canonical)
+    cypher, _ = same_as_calls[0]
+    assert "MERGE (c)-[:SAME_AS]->(m)" not in cypher, "one edge per pair, member -> canonical"
 
 
 def test_link_clears_stale_same_as_edges_before_resyncing():

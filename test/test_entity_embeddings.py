@@ -38,8 +38,15 @@ def test_embed_missing_entity_embeddings_writes_vectors(monkeypatch):
     count = ingest.embed_missing_entity_embeddings(session, "fiction", "test-model")
 
     assert count == 2
-    assert [w["id"] for w in session.writes] == ["ent-1", "ent-2"]
-    assert all(w["embedding"] == [0.1, 0.2] for w in session.writes)
+    main = [w for w in session.writes if "embedding" in w]
+    names = [w for w in session.writes if "name_key" in w]
+    assert [w["id"] for w in main] == ["ent-1", "ent-2"]
+    assert all(w["embedding"] == [0.1, 0.2] for w in main)
+    # every swept entity also gets its name vector, keyed by model + name text
+    assert [w["id"] for w in names] == ["ent-1", "ent-2"]
+    assert all(w["vector"] == [0.1, 0.2] for w in names)
+    from artmind import extraction, projection
+    assert names[0]["name_key"] == f"{extraction.embed_key('test-model')}:{projection.name_source('Holmes')}"
 
 
 def test_embed_missing_entity_embeddings_skips_failures(monkeypatch):
@@ -60,7 +67,7 @@ def test_embed_missing_entity_embeddings_skips_failures(monkeypatch):
     count = ingest.embed_missing_entity_embeddings(session, "fiction", "test-model")
 
     assert count == 1
-    assert session.writes[0]["id"] == "ent-2"
+    assert [w["id"] for w in session.writes if "embedding" in w] == ["ent-2"]
 
 
 # ── progress logging: a full-vault backfill must not go silent ─────────────
@@ -100,3 +107,17 @@ def test_embed_missing_entity_embeddings_stays_quiet_under_the_threshold(monkeyp
 
     progress_lines = [a for a in logged if "%)" in str(a)]
     assert progress_lines == []
+
+
+def test_name_vector_only_when_main_vector_is_fresh(monkeypatch):
+    """A row whose main vector is current (`needs_main` false) gets only its
+    name vector: no second `name: description` embedding call."""
+    sent = []
+    monkeypatch.setattr(ingest._extraction, "embed_text", lambda model, text: sent.append(text) or [0.5])
+    session = FakeSession([{"id": "ent-1", "name": "Holmes", "description": "a detective",
+                            "aliases": ["Sherlock", "S. Holmes"], "needs_main": False}])
+    count = ingest.embed_missing_entity_embeddings(session, "fiction", "test-model")
+    assert count == 0
+    assert sent == ["Holmes; Sherlock; S. Holmes"]
+    (write,) = session.writes
+    assert write["vector"] == [0.5] and write["id"] == "ent-1"

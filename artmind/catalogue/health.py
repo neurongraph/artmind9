@@ -20,7 +20,7 @@ from artmind.graph_query import domain_predicate
 SAMPLES_MAX = 10
 HEALTH_TTL_DEFAULT_S = 3600.0
 
-FIELDS = ("twins", "same_as_open", "conflicts_open", "summaries_missing", "unembedded",
+FIELDS = ("twins", "same_as_open", "same_as_dangling", "conflicts_open", "summaries_missing", "unembedded",
           "empty_extractions", "behind_vault", "drift")
 
 _TWINS_CYPHER = f"""
@@ -37,6 +37,12 @@ MATCH (p:SameAsProposal)
 WHERE p.status = 'open'
 RETURN p.id AS id, p.canonical AS canonical, p.members AS members
 ORDER BY p.id
+"""
+
+# Keys of curated same-as members that still have a current observation.
+_SAME_AS_KEYS_CYPHER = """
+UNWIND $keys AS key
+RETURN key, COUNT { (o:Observation {key: key}) } AS observations
 """
 
 _CONFLICTS_CYPHER = f"""
@@ -94,6 +100,24 @@ def _same_as_open(domain: str) -> dict:
             mine.append({"id": r.get("id"), "canonical": r.get("canonical"),
                          "members": len(keys), "domain": domains[0]})
     return _field(mine)
+
+
+def _same_as_dangling(domain: str) -> dict:
+    """Members of `same_as.yaml` groups in this domain family whose key has no
+    current observation: a renamed or re-extracted entity left the group
+    pointing at nothing, so it merges or links nothing. Samples name the key and
+    its group's canonical."""
+    from artmind import same_as
+    from artmind.observations import key_string
+
+    members = [(key_string(m), key_string(g[0])) for g in same_as.load_groups() for m in g
+               if _in_family(m[2], domain)]
+    if not members:
+        return _field([])
+    rows = graph_query._run_read_query(_SAME_AS_KEYS_CYPHER, {"keys": sorted({k for k, _ in members})})
+    present = {r.get("key") for r in rows if int(r.get("observations") or 0) > 0}
+    return _field([{"key": k, "canonical": c, "domain": k.rsplit("|", 1)[-1]}
+                   for k, c in members if k not in present])
 
 
 def _conflicts_open(domain: str) -> dict:
@@ -164,7 +188,8 @@ def _drift(domain: str) -> dict:
 
 
 _READERS = {
-    "twins": _twins, "same_as_open": _same_as_open, "conflicts_open": _conflicts_open,
+    "twins": _twins, "same_as_open": _same_as_open, "same_as_dangling": _same_as_dangling,
+    "conflicts_open": _conflicts_open,
     "summaries_missing": _summaries_missing, "unembedded": _unembedded,
     "empty_extractions": _empty_extractions, "behind_vault": _behind_vault, "drift": _drift,
 }

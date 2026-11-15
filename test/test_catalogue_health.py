@@ -194,3 +194,37 @@ def test_serve_enables_the_background_refresh():
     from artmind import server
 
     assert "enable_background" in inspect.getsource(server._lifespan)
+
+
+def test_same_as_dangling_names_members_with_no_observation(graph, monkeypatch, tmp_path):
+    from artmind import same_as
+
+    path = tmp_path / "same_as.yaml"
+    path.write_text(
+        "groups:\n"
+        "  - canonical: 'Ada Lane|PERSON|journal'\n"
+        "    members: ['Ada Lane|PERSON|journal', 'A. Lane|PERSON|journal.work']\n"
+        "  - canonical: 'Bo|PERSON|other'\n"
+        "    members: ['Bo|PERSON|other', 'Bob|PERSON|other']\n", encoding="utf-8")
+    monkeypatch.setattr(same_as, "SAME_AS_PATH", path)
+    original = graph.__call__
+
+    def answer(cypher, params):
+        if "UNWIND $keys AS key" in cypher:
+            graph.calls.append((cypher, params))
+            return [{"key": "ada lane|PERSON|journal", "observations": 3},
+                    {"key": "a. lane|PERSON|journal.work", "observations": 0}]
+        return original(cypher, params)
+
+    monkeypatch.setattr(graph_query, "_run_read_query", answer)
+    out = health.build_health("journal")["health"]["same_as_dangling"]
+    assert out == {"count": 1, "samples": [
+        {"key": "a. lane|PERSON|journal.work", "canonical": "ada lane|PERSON|journal", "domain": "journal.work"}]}
+    sent = next(p for c, p in graph.calls if "UNWIND $keys AS key" in c)
+    assert sent == {"keys": ["a. lane|PERSON|journal.work", "ada lane|PERSON|journal"]}  # the other family is not asked
+
+
+def test_same_as_dangling_without_groups_runs_no_query(graph):
+    out = health.build_health("journal")["health"]["same_as_dangling"]
+    assert out == {"count": 0, "samples": []}
+    assert graph.count("UNWIND $keys AS key") == 0

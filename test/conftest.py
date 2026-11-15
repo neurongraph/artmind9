@@ -430,6 +430,13 @@ def real_summary_llm():
 
 
 @pytest.fixture(autouse=True)
+def _no_name_lookup(monkeypatch):
+    """Hermetic extraction: no per-name lookup against a graph (canonicalize.lookup_name_candidates).
+    Tests of the lookup call it directly with a recorded session."""
+    monkeypatch.setenv("ARTMIND_NAME_LOOKUP", "off")
+
+
+@pytest.fixture(autouse=True)
 def _builtin_text2sql(monkeypatch):
     """Hermetic text2sql: never delegate to an installed sql-browser (artmind/sql_browser.py).
     Tests that exercise the delegation set ARTMIND_TEXT2SQL_ENGINE themselves."""

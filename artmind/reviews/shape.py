@@ -17,7 +17,7 @@ MAX_DEFAULT_CHUNKS = 8
 PER_ENTITY_EDGES = 50
 _CHUNK_SUFFIX = re.compile(r"_\d{3}$")
 _SENTENCE_SPLIT = re.compile(r"\n+|(?<=[.!?])\s+")
-_ENTITY_META = frozenset({"_id", "name", "entity_class", "label", "key", "_domain", "embedding", "_prop_sources"})
+_ENTITY_META = frozenset({"_id", "name", "entity_class", "label", "key", "_domain", "embedding", "name_embedding", "_prop_sources"})
 
 GRAPH_CYPHER = """
 MATCH (c:DocChunk) WHERE c.id IN $chunk_ids AND c._domain IN $domains

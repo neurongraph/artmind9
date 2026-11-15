@@ -2914,7 +2914,7 @@ def write_staging(doc_kg_dir: Path, documents: dict[str, object], *, default=Non
 # (description, type, aliases, context, and domain properties) is accretive and
 # therefore attributable to the document(s) that contributed it.
 _UNTRACKED_PROP_KEYS = frozenset(
-    {"name", "entity_class", "domain", "id", "embedding", "_prop_sources"}
+    {"name", "entity_class", "domain", "id", "embedding", "name_embedding", "_prop_sources"}
 )
 # Ledger key for a value that predates the ledger (or has no known source): its
 # contribution can never be attributed to a document, so purge must never drop
@@ -2966,18 +2966,27 @@ def embed_missing_entity_embeddings(
         scope = " AND e.key IN $keys"
         params["keys"] = [k if isinstance(k, str) else "|".join(k) for k in keys]
 
+    # Two vectors per entity: `embedding` (name + description) and
+    # `name_embedding` (name + short aliases, for the per-name lookup). Each is
+    # selected on its own staleness; `_name_embed_key` = embed key + ':' +
+    # `_name_src`, so a changed alias list or model re-embeds the name.
     rows = session.run(
         f"""
         MATCH (e:Entity)
         WHERE (e._domain = $domain OR e._domain STARTS WITH ($domain + '.'))
           AND e.name IS NOT NULL
-          AND (e.embedding IS NULL OR e.embedding_stale OR e._embed_key IS NULL OR e._embed_key <> $embed_key){scope}
-        RETURN e._id AS id, e.name AS name, e.description AS description
+          AND (e.embedding IS NULL OR e.embedding_stale OR e._embed_key IS NULL OR e._embed_key <> $embed_key
+               OR e.name_embedding IS NULL OR e._name_embed_key IS NULL
+               OR e._name_embed_key <> ($embed_key + ':' + coalesce(e._name_src, ''))){scope}
+        RETURN e._id AS id, e.name AS name, e.description AS description, e.aliases AS aliases,
+               e._name_src AS name_src,
+               (e.embedding IS NULL OR e.embedding_stale OR e._embed_key IS NULL
+                OR e._embed_key <> $embed_key) AS needs_main
         """,
         **params,
     ).data()
 
-    # One embedding call per row, sequentially -- for a full-vault ingest's
+    # One embedding call per vector, sequentially -- for a full-vault ingest's
     # sweep (hundreds of entities after a full_rebuild) that's the other half
     # of the "went silent for minutes" symptom the projection rebuild's own
     # progress log now covers (projection.rebuild): this loop had exactly the
@@ -2987,27 +2996,29 @@ def embed_missing_entity_embeddings(
     total = len(rows)
     log_every = 50
     t0 = time.monotonic()
+    cache = _entity_embedding_cache()
+    embed = lambda text: _extraction.embed_document(embed_model, text)  # noqa: E731
 
     count, failed = 0, 0
     for i, row in enumerate(rows, start=1):
-        try:
-            embedding = _extraction.embed_document(
-                embed_model, entity_embedding_text(row["name"], row.get("description"))
+        if row.get("needs_main", True):
+            try:
+                embedding = embed(entity_embedding_text(row["name"], row.get("description")))
+            except Exception as e:
+                failed += 1
+                logger.warning("Entity embedding failed for {!r}: {}", row["name"], e)
+                continue
+            # Written together with clearing the flag, so an entity is never left
+            # claiming to be fresh while holding an old vector.
+            session.run(
+                "MATCH (e:Entity {_id: $id}) SET e.embedding = $embedding, "
+                "e.embedding_stale = false, e._embed_key = $embed_key",
+                id=row["id"],
+                embedding=embedding,
+                embed_key=params["embed_key"],
             )
-        except Exception as e:
-            failed += 1
-            logger.warning("Entity embedding failed for {!r}: {}", row["name"], e)
-            continue
-        # Written together with clearing the flag, so an entity is never left
-        # claiming to be fresh while holding an old vector.
-        session.run(
-            "MATCH (e:Entity {_id: $id}) SET e.embedding = $embedding, "
-            "e.embedding_stale = false, e._embed_key = $embed_key",
-            id=row["id"],
-            embedding=embedding,
-            embed_key=params["embed_key"],
-        )
-        count += 1
+            count += 1
+        _embed_entity_name(session, row, params["embed_key"], cache, embed)
 
         if total >= log_every and i % log_every == 0 and i < total:
             elapsed = time.monotonic() - t0
@@ -3018,12 +3029,70 @@ def embed_missing_entity_embeddings(
                 "Embed sweep: {}/{} entity node(s) ({:.0f}%) in {:.0f}s{}",
                 i, total, 100 * i / total, elapsed, eta,
             )
+    if cache is not None:
+        cache.close()
     if count or failed:
         logger.info(
             "Embed sweep: {} entity node(s) embedded, {} skipped (still marked stale)",
             count, failed,
         )
     return count
+
+
+def _name_candidates(entities: list[dict], *, domain: str, schema: dict, embed_model: str) -> dict:
+    """`canonicalize.lookup_name_candidates` in its own read session; `{}` when
+    turned off (`ARTMIND_NAME_LOOKUP=off`) or on any failure -- the lookup only
+    improves names, it never fails an extraction."""
+    from artmind import canonicalize
+
+    if not canonicalize.name_lookup_enabled():
+        return {}
+    cache = _entity_embedding_cache()
+    try:
+        from artmind.graph_query import read_session
+
+        with read_session() as session:
+            return canonicalize.lookup_name_candidates(
+                session, entities, domain=domain, schema=schema, embed_model=embed_model, cache=cache,
+            )
+    except Exception as e:
+        logger.warning("Name lookup unavailable, canonicalizing without it ({})", e)
+        return {}
+    finally:
+        if cache is not None:
+            cache.close()
+
+
+def _entity_embedding_cache():
+    """The machine's embedding cache, or None when it cannot be opened."""
+    try:
+        from artmind.embedding_cache import EmbeddingCache
+
+        return EmbeddingCache()
+    except Exception:
+        return None
+
+
+def _embed_entity_name(session, row: dict, embed_key: str, cache, embed) -> bool:
+    """Write `name_embedding` for one sweep row. A failure is logged and skipped:
+    the entity keeps its old name vector (or none) and the next sweep retries."""
+    from artmind.embedding_cache import cached_embed
+    from artmind.projection import name_embedding_text, name_source
+
+    name_src = row.get("name_src") or name_source(row["name"], row.get("aliases"))
+    text = name_embedding_text(row["name"], row.get("aliases"))
+    try:
+        vector = cached_embed(cache, embed_key, text, embed)
+    except Exception as e:
+        logger.warning("Entity name embedding failed for {!r}: {}", row["name"], e)
+        return False
+    if not vector:
+        return False
+    session.run(
+        "MATCH (e:Entity {_id: $id}) SET e.name_embedding = $vector, e._name_embed_key = $name_key",
+        id=row["id"], vector=vector, name_key=f"{embed_key}:{name_src}",
+    )
+    return True
 
 
 def embed_entities_backfill(domain: str) -> dict:
@@ -4355,6 +4424,7 @@ def extract_kg(
         canonical_names = canonicalize_document(
             all_entities, schema=schema, vocabulary=vocabulary,
             model=text_model, debug_dir=llm_debug_dir,
+            candidates=_name_candidates(all_entities, domain=domain, schema=schema, embed_model=embed_model),
         )
         # The document's own entity, folded in code where the schema opts in
         # (`document_entity:`): every chunk names the document it sits in its
