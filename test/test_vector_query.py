@@ -403,16 +403,16 @@ def test_exact_leg_cypher_matches_aliases_and_projects_them():
 
 
 def test_entity_resolve_alias_only_match_is_first_and_tagged_alias(monkeypatch):
-    merged = {"score": 1.0, "entity": {"_id": "sp", "name": "Satish Pillai", "entity_class": "PERSON",
-                                       "aliases": ["Satish"]}}
+    merged = {"score": 1.0, "entity": {"_id": "tv", "name": "Tomas Varga", "entity_class": "PERSON",
+                                       "aliases": ["Tomas"]}}
     noise = [_hit(f"n{i}", f"Noise {i}", 1.0 - i / 10) for i in range(5)]
-    result, _ = _resolve_with(monkeypatch, exact=[merged], ft=noise, vec=noise, reference="Satish")
-    assert result["rows"][0]["entity"]["_id"] == "sp"
+    result, _ = _resolve_with(monkeypatch, exact=[merged], ft=noise, vec=noise, reference="Tomas")
+    assert result["rows"][0]["entity"]["_id"] == "tv"
     assert result["rows"][0]["matched_by"] == ["alias"]
     assert len(result["rows"]) == 5
 
 
 def test_entity_resolve_name_hit_stays_tagged_exact(monkeypatch):
-    named = {"score": 1.0, "entity": {"_id": "s", "name": "satish", "entity_class": "PERSON"}}
-    result, _ = _resolve_with(monkeypatch, exact=[named], ft=[], vec=[], reference="Satish")
+    named = {"score": 1.0, "entity": {"_id": "s", "name": "tomas", "entity_class": "PERSON"}}
+    result, _ = _resolve_with(monkeypatch, exact=[named], ft=[], vec=[], reference="Tomas")
     assert result["rows"][0]["matched_by"] == ["exact"]
