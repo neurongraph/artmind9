@@ -14,6 +14,8 @@
 
 ## Questions for review
 
+**Status:** answered by the user, except 2 and 13 (open, awaiting explanation); 11 was checked (`plan.yaml` uses `domains`, a list of strings).
+
 Each item is something in the spec that is wrong against the code, unclear, or that I would change. The plan follows my proposal; if you decide otherwise, change the task named.
 
 1. **`_strip_exclusive` becomes a no-op (spec §2.2 is wrong about it).** `_exclusive_properties` maps an exclusive key to *every* class that declares it, and `_strip_exclusive` keeps the key for any class in that set. Under the class filter a class keeps a key only if it declares it, so `_strip_exclusive` removes nothing more. **Proposal (Task 4):** delete both functions. Keep `exclusive:` as a valid flag; the temporal spec may give it meaning. The existing exclusive tests still pass, because the filter does the stripping.
@@ -1637,8 +1639,8 @@ def _skill_refs(text: str, declared: dict, out: dict) -> None:
 
 
 def _topic_plan_skills(domain: str) -> list[str]:
-    """SKILL.md texts of topic plans whose `domains` (plan.yaml) cover `domain`. Check the field
-    name against `artmind/topics/plan.py` before relying on it."""
+    """SKILL.md texts of topic plans whose `domains` (plan.yaml, a list of strings; see
+    `artmind/topics/plan.py`) cover `domain`."""
     import paths
     root = Path(paths.DOMAIN_TOPIC_PLANS_DIR)
     texts = []
