@@ -14,7 +14,7 @@
 
 ## Questions for review
 
-**Status:** answered by the user, except 2 and 13 (open, awaiting explanation); 11 was checked (`plan.yaml` uses `domains`, a list of strings).
+**Status:** all 16 answered by the user. Decisions: 2 render only the chunk's classes; 13 accept the backfill-based `--redoProperties` (no chunk cache, one call per chunk across all dated classes, omitted keys kept). 11 was checked: `plan.yaml` uses `domains`, a list of strings.
 
 Each item is something in the spec that is wrong against the code, unclear, or that I would change. The plan follows my proposal; if you decide otherwise, change the task named.
 
