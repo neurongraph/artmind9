@@ -749,7 +749,8 @@ def domains_validate(domain: str | None, compact: bool):
     is never written, so the schema should use another name.
     """
     from artmind.schema_validate import (
-        graph_extraction_warnings, load_meta, reserved_relationship_warnings, validate_all,
+        graph_extraction_warnings, guidance_property_warnings, load_meta, meta_template_warnings,
+        property_alias_warnings, property_reference_report, reserved_relationship_warnings, validate_all,
         validate_schema, warn_all,
     )
 
@@ -766,7 +767,8 @@ def domains_validate(domain: str | None, compact: bool):
             data = _load_domain_schema(domain)
             errors = validate_schema(data, load_meta(), schema_name=domain)
             violations = {domain: errors} if errors else {}
-            warnings = {domain: reserved_relationship_warnings(data, domain) + graph_extraction_warnings(data, domain)}
+            warnings = {domain: reserved_relationship_warnings(data, domain) + graph_extraction_warnings(data, domain)
+                        + property_alias_warnings(data, domain) + guidance_property_warnings(data, domain)}
     else:
         violations = validate_all()
         warnings = warn_all()
@@ -788,13 +790,40 @@ def domains_validate(domain: str | None, compact: bool):
         for w in rep["warnings"]:
             click.echo(f"WARN   mart/{name}: {w}", err=True)
     mart_failed = {name: rep for name, rep in mart_report.items() if rep["errors"]}
+
+    # Keys a mart declaration, insights config or saved view reads that the schema
+    # does not declare (spec 2026-11-15 §2.6). Here only, never in `setup`.
+    from artmind.temporal import load_schema
+
+    if domain:
+        names = [] if domain in violations else [domain]
+    else:
+        names = [p.name.removesuffix("_schema.yaml") for p in sorted(DOMAIN_SCHEMAS_DIR.glob("*_schema.yaml"))
+                 if p.name.removesuffix("_schema.yaml") not in violations]
+    refs = {}
+    for name in names:
+        try:
+            schema = load_schema(name, schemas_dir=DOMAIN_SCHEMAS_DIR)
+        except Exception:
+            continue  # reported by validate_all
+        rep = property_reference_report(name, schema)
+        if rep["errors"] or rep["warnings"]:
+            refs[name] = rep
+    for w in meta_template_warnings():
+        click.echo(f"WARN   {w}", err=True)
+    for rep in refs.values():
+        for w in rep["warnings"]:
+            click.echo(f"WARN   {w}", err=True)
+    refs_failed = {name: rep for name, rep in refs.items() if rep["errors"]}
+
     result = {
-        "ok": not violations and not mart_failed,
+        "ok": not violations and not mart_failed and not refs_failed,
         "violations": {name: list(errors) for name, errors in violations.items()},
         "schema_warnings": {name: list(found) for name, found in warnings.items() if found},
         "mart": mart_report,
+        "property_references": refs,
     }
-    if not violations and not mart_failed:
+    if not violations and not mart_failed and not refs_failed:
         click.echo("All schemas valid.", err=True)
         _echo_json(result, compact)
         return
@@ -804,8 +833,12 @@ def domains_validate(domain: str | None, compact: bool):
     for name, rep in mart_failed.items():
         for e in rep["errors"]:
             click.echo(f"ERROR  mart/{name}: {e}", err=True)
+    for name, rep in refs_failed.items():
+        for e in rep["errors"]:
+            click.echo(f"ERROR  {e}", err=True)
     _echo_json(result, compact)
-    raise click.ClickException(f"{len(violations) + len(mart_failed)} schema(s) or mart declaration(s) failed validation")
+    raise click.ClickException(
+        f"{len(violations) + len(mart_failed) + len(refs_failed)} schema(s) or mart declaration(s) failed validation")
 
 
 @domains.command("harmonize")

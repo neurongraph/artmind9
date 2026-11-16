@@ -180,6 +180,7 @@ def validate_schema(schema: dict, meta: dict, schema_name: str = "") -> list[str
 
     errors.extend(_property_alias_errors(schema, entity_types, prefix, label))
     errors.extend(_document_entity_errors(schema, entity_types, label))
+    errors.extend(_property_decl_errors(entity_types, label))
     return errors
 
 
@@ -282,7 +283,8 @@ def warn_all(schemas_dir: Path = DOMAIN_SCHEMAS_DIR) -> dict[str, list[str]]:
             continue  # reported as an error by validate_all
         schema = yaml.safe_load(schema_file.read_text(encoding="utf-8")) or {}
         name = schema.get("name", schema_file.stem)
-        warnings = reserved_relationship_warnings(schema, name) + graph_extraction_warnings(schema, name)
+        warnings = (reserved_relationship_warnings(schema, name) + graph_extraction_warnings(schema, name)
+                    + property_alias_warnings(schema, name) + guidance_property_warnings(schema, name))
         if warnings:
             found[name] = warnings
     return found
@@ -341,3 +343,163 @@ def validate_all_or_raise(schemas_dir: Path = DOMAIN_SCHEMAS_DIR, meta_path: Pat
         for e in errors:
             lines.append(f"  - {e}")
     raise SchemaValidationError("\n".join(lines))
+
+
+# ── Property checks (spec 2026-11-15 §2.5, §2.6) ─────────────────────────────
+
+#: Keys every entity carries whatever its class declares (meta.yaml `entity_common_properties`).
+COMMON_KEYS = frozenset({"name", "aliases", "entity_class", "type", "description", "context"})
+#: Graph-side keys a view may read on any entity.
+_NODE_KEYS = frozenset({"key", "id", "entity_class", "embedding", "label"})
+_DOTTED_KEY = re.compile(r"\bproperties\.([a-z][a-z0-9_]*)")
+_EXAMPLE_KEY = re.compile(r'"([a-z][a-z0-9_]*)"\s*:')
+_FIELD_REF = re.compile(r"\b([a-z][A-Za-z0-9_]*)\.([a-z][a-z0-9_]*)\b")
+_LABEL_BIND = re.compile(r"\(\s*([a-z][A-Za-z0-9_]*)\s*:\s*([A-Z][A-Z0-9_]*)\b")
+_CLASS_EQ = re.compile(r"\b([a-z][A-Za-z0-9_]*)\.entity_class\s*(?:=\s*'([A-Z0-9_]+)'|IN\s*\[([^\]]*)\])")
+
+
+def _declared(entity_types: dict) -> dict[str, set[str]]:
+    return {c: set((d or {}).get("properties") or {}) for c, d in entity_types.items() if isinstance(d, dict)}
+
+
+def _property_decl_errors(entity_types: dict, label: str) -> list[str]:
+    errors = []
+    for cls, decl in entity_types.items():
+        if not isinstance(decl, dict):
+            continue
+        for prop, pd in (decl.get("properties") or {}).items():
+            if not isinstance(pd, dict):
+                continue
+            where = f"{label}.entity_types.{cls}.properties.{prop}"
+            if "required" in pd and not isinstance(pd["required"], bool):
+                errors.append(f"{where}.required: must be true or false, not {pd['required']!r}")
+            if "keep_reason" in pd and not (isinstance(pd["keep_reason"], str) and pd["keep_reason"].strip()):
+                errors.append(f"{where}.keep_reason: must be a non-empty string")
+    return errors
+
+
+def property_alias_warnings(schema: dict, schema_name: str = "") -> list[str]:
+    """An alias whose target no class declares: under schema-only keys its values are dropped."""
+    label = schema_name or schema.get("name", "<unnamed>")
+    declared = _declared(schema.get("entity_types") or {})
+    every = set().union(*declared.values()) if declared else set()
+    aliases = schema.get("property_aliases")
+    if not isinstance(aliases, dict):
+        return []  # a malformed map is an error from _property_alias_errors
+    return [
+        f"{label}.property_aliases: {a!r} -> {t!r}, but no class declares {t!r}, so every value it renames is dropped"
+        for a, t in aliases.items() if str(t) not in every
+    ]
+
+
+def guidance_property_warnings(schema: dict, schema_name: str = "") -> list[str]:
+    """Guidance or a `RIGHT:` example naming a key its class does not declare (spec §2.5).
+    Domain `guidance.entities`/`.properties` is checked against every class; a class's own
+    description/guidance against that class. Relationship guidance is not scanned."""
+    label = schema_name or schema.get("name", "<unnamed>")
+    types = schema.get("entity_types") or {}
+    if not isinstance(types, dict):
+        return []
+    declared = _declared(types)
+    every = set().union(*declared.values()) if declared else set()
+    guidance = schema.get("guidance") if isinstance(schema.get("guidance"), dict) else {}
+    out = []
+    for part in ("entities", "properties"):
+        for key in sorted(set(_DOTTED_KEY.findall(str(guidance.get(part) or "")))):
+            if key not in every and key not in COMMON_KEYS:
+                out.append(f"{label}.guidance.{part}: names properties.{key}, which no class declares")
+    for cls, decl in types.items():
+        if not isinstance(decl, dict):
+            continue
+        text = f"{decl.get('description') or ''}\n{decl.get('guidance') or ''}"
+        keys = set(_DOTTED_KEY.findall(text))
+        keys |= {k for line in text.splitlines() if "RIGHT:" in line for k in _EXAMPLE_KEY.findall(line)}
+        for key in sorted(keys - declared.get(cls, set()) - COMMON_KEYS):
+            out.append(f"{label}.entity_types.{cls}: guidance names {key!r}, which {cls} does not declare")
+    return out
+
+
+def meta_template_warnings(meta_path: Path = DOMAIN_META_PATH) -> list[str]:
+    """The vault's meta.yaml still carries the old open-ended properties prompt (plan question 3)."""
+    try:
+        text = str((load_meta(meta_path).get("prompt_templates") or {}).get("properties") or "")
+    except Exception:
+        return []
+    if "NO fixed schema" in text:
+        return [f"{meta_path}: the properties prompt still invites keys the schema does not declare; "
+                "run `artmind init --force` inside the vault to take the packaged meta.yaml"]
+    return []
+
+
+def view_property_refs(cypher: str, declared: dict[str, set[str]]) -> list[tuple[frozenset, str]]:
+    """(classes a variable is bound to, key) for every `var.key` a view reads on a class-bound variable."""
+    from artmind.kg_views.model import _mask
+
+    text = _mask(cypher)  # literals and comments blanked: 'a.b' inside a string is not a reference
+    bound: dict[str, set[str]] = {}
+    for var, cls in _LABEL_BIND.findall(text):
+        if cls in declared:
+            bound.setdefault(var, set()).add(cls)
+    for var, one, many in _CLASS_EQ.findall(cypher):
+        names = {one} if one else set(re.findall(r"'([A-Z0-9_]+)'", many))
+        bound.setdefault(var, set()).update(n for n in names if n in declared)
+    refs = []
+    for var, key in sorted(set(_FIELD_REF.findall(text))):
+        classes = bound.get(var)
+        if classes and key not in COMMON_KEYS and key not in _NODE_KEYS and not key.startswith("_"):
+            refs.append((frozenset(classes), key))
+    return refs
+
+
+def property_reference_report(domain: str, schema: dict) -> dict:
+    """Keys the mart declaration, insights config or a saved view reads that the schema does not
+    declare (spec §2.6). Only `domains validate` calls this, never `setup`. {"errors", "warnings"}."""
+    types = schema.get("entity_types") or {}
+    declared = _declared(types if isinstance(types, dict) else {})
+    errors, warnings = [], []
+
+    def has(cls, key):
+        return key in COMMON_KEYS or key.startswith("_") or key in declared.get(cls, set())
+
+    from artmind.mart import declaration as mart_declaration
+    try:
+        decl = mart_declaration.load_declaration(domain)
+    except Exception:
+        decl = None  # mart_validate already reports a broken declaration
+    if decl is not None:
+        for label, cls, key in (("dimensions.person.seed", decl.person.entity_class, decl.person.seed_property),
+                                ("dimensions.place.seed", decl.place.entity_class, decl.place.seed_property)):
+            if key and not has(cls, key):
+                errors.append(f"mart/{domain} {label}: {cls}.{key} is not declared")
+        for cls in decl.type.classes:
+            if not has(cls, decl.type.property):
+                errors.append(f"mart/{domain} dimensions.type.property: {cls}.{decl.type.property} is not declared")
+        for kind, w in (decl.wholes or {}).items():
+            for key in [m for m in (getattr(w, "match", None) or []) if m not in ("edge", "name")]:
+                if not any(has(c, key) for c in decl.happening_classes):
+                    errors.append(f"mart/{domain} wholes.{kind}.match: {key!r} is declared on none of "
+                                  f"{', '.join(decl.happening_classes)}")
+
+    from artmind.insights import config as insights_config
+    from artmind.insights.model import InsightsError
+    try:
+        cfg = insights_config.load_config(domain)
+    except InsightsError:
+        cfg = None  # `insights config check` reports it
+    if cfg is not None:
+        outcome, loops = cfg.block("outcome"), cfg.block("open_loops")
+        if outcome and not has(outcome["class"], outcome["property"]):
+            errors.append(f"insights/{domain} outcome.property: {outcome['class']}.{outcome['property']} is not declared")
+        if loops:
+            for field in ("property", "urgency_property"):
+                if not has(loops["class"], loops[field]):
+                    errors.append(f"insights/{domain} open_loops.{field}: {loops['class']}.{loops[field]} is not declared")
+
+    from artmind.kg_views import store as views_store
+    views, _invalid = views_store.list_views([domain])
+    for view in views:
+        for classes, key in view_property_refs(view.spec.cypher, declared):
+            if not any(key in declared[c] for c in classes):
+                warnings.append(f"view:{view.spec.name} reads {'/'.join(sorted(classes))}.{key}, "
+                                "which no class it scopes to declares")
+    return {"errors": errors, "warnings": warnings}
