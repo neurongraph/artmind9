@@ -70,13 +70,13 @@ def retime_observations(observations: list[dict], document: dict, schema: dict) 
     The same decision `ingest._build_observations` + `build_observation` make:
     a fact's own date (its class's `temporal:` property) wins, else the
     document's; `_doc_valid_from` is always the document's. Property keys are
-    normalized (`observations.normalize_property_keys`) and an `exclusive:`
-    property the observation's class doesn't declare is dropped, as
-    extraction now does both."""
+    normalized (`observations.normalize_property_keys`) and a key the
+    observation's class doesn't declare is dropped, as extraction now does both."""
+    from artmind.observations import declared_property_keys, filter_declared
     from artmind.temporal import _entity_temporal_mapping
 
     entity_dates = _entity_temporal_mapping(schema)
-    exclusive = ingest._exclusive_properties(schema)
+    declared = declared_property_keys(schema)
     key_rules = property_key_rules(schema)
     doc_from, doc_to = document.get("_valid_from"), document.get("_valid_to")
     out = []
@@ -85,7 +85,7 @@ def retime_observations(observations: list[dict], document: dict, schema: dict) 
         obs = normalize_property_keys(obs, *key_rules)
         fact_from, fact_to = ingest._fact_valid_time(entity_dates, cls, obs)
         new = {
-            k: v for k, v in ingest._strip_exclusive(obs, cls, exclusive).items()
+            k: v for k, v in filter_declared(obs, cls, declared)[0].items()
             if k not in _OBSERVATION_TIME_KEYS
         }
         times = {

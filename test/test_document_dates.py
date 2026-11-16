@@ -433,9 +433,9 @@ def test_an_exclusive_property_is_stripped_from_classes_that_do_not_declare_it(t
     assert by_class["PERSON"]["role"] == "chair", "only the exclusive property goes"
 
 
-def test_a_non_exclusive_property_is_left_alone(tmp_path, monkeypatch):
-    # Without the flag a class may carry another class's date property --
-    # e.g. contracts' effective_date on an OBLIGATION is real data.
+def test_a_key_another_class_declares_is_dropped_from_one_that_does_not(tmp_path, monkeypatch):
+    """Spec 2026-11-15 §2.2: an observation keeps only its own class's declared keys, so
+    another class's date property goes whatever `exclusive` says."""
     doc = _vault(tmp_path, monkeypatch, "2026-01-07.md", "Call with Srinath.\n")
     (ing.DOMAIN_SCHEMAS_DIR / "journal_schema.yaml").write_text(
         EXCLUSIVE_SCHEMA.replace("        exclusive: true\n", ""), encoding="utf-8")
@@ -443,7 +443,7 @@ def test_a_non_exclusive_property_is_left_alone(tmp_path, monkeypatch):
 
     _, observations = _extract(doc)
 
-    assert {o["entity_class"]: o for o in observations}["PERSON"]["date_or_time"] == "2026-01-07"
+    assert "date_or_time" not in {o["entity_class"]: o for o in observations}["PERSON"]
 
 
 def test_retime_strips_an_exclusive_property_from_staged_observations(tmp_path, monkeypatch):
@@ -456,6 +456,10 @@ def test_retime_strips_an_exclusive_property_from_staged_observations(tmp_path, 
     schema_file.write_text(EXCLUSIVE_SCHEMA.replace("        exclusive: true\n", ""), encoding="utf-8")
     _two_class_llm(monkeypatch)
     _extract(doc)
+    # Staging from before the schema-only filter still carries the PERSON date.
+    staged = _folder("2026-01-07") / "observations.json"
+    staged.write_text(json.dumps([{**o, "date_or_time": "2026-01-07"} if o["entity_class"] == "PERSON" else o
+                                  for o in json.loads(staged.read_text())]))
     schema_file.write_text(EXCLUSIVE_SCHEMA, encoding="utf-8")  # the flag lands later
 
     assert retime_folder(_folder("2026-01-07"), yaml.safe_load(EXCLUSIVE_SCHEMA))["changed"]
@@ -513,7 +517,9 @@ def test_extraction_and_retime_normalize_property_keys(tmp_path, monkeypatch):
 
     doc = _vault(tmp_path, monkeypatch, "2026-01-07.md", "Call with Srinath.\n")
     schema_file = ing.DOMAIN_SCHEMAS_DIR / "journal_schema.yaml"
-    schema_file.write_text(EXCLUSIVE_SCHEMA, encoding="utf-8")   # PERSON declares `role`
+    # PERSON declares `role` and, for now, `narrative_function`.
+    declared_now = EXCLUSIVE_SCHEMA.replace("      role: {}\n", "      role: {}\n      narrative_function: {}\n")
+    schema_file.write_text(declared_now, encoding="utf-8")
     _two_class_llm(monkeypatch)
 
     def llm(step_name, model, prompt, debug_dir):
@@ -526,9 +532,11 @@ def test_extraction_and_retime_normalize_property_keys(tmp_path, monkeypatch):
     monkeypatch.setattr(ing, "_llm_extract", llm)
     _, (obs,) = _extract(doc)
     assert obs["role"] == "chair" and "roles" not in obs, "number variant folded at extraction"
-    assert obs["narrative_function"] == "host", "no alias declared yet"
+    assert obs["narrative_function"] == "host", "declared, no alias yet"
 
-    with_alias = EXCLUSIVE_SCHEMA + "property_aliases:\n  narrative_function: narrative_role\n"
+    # The key is renamed in the schema: `narrative_role` declared, the old name an alias.
+    with_alias = (EXCLUSIVE_SCHEMA.replace("      role: {}\n", "      role: {}\n      narrative_role: {}\n")
+                  + "property_aliases:\n  narrative_function: narrative_role\n")
     schema_file.write_text(with_alias, encoding="utf-8")
     assert retime_folder(_folder("2026-01-07"), yaml.safe_load(with_alias))["changed"]
     (obs,) = json.loads((_folder("2026-01-07") / "observations.json").read_text())

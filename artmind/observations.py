@@ -252,6 +252,45 @@ def property_key_rules(schema: dict) -> tuple[dict[str, str], frozenset[str]]:
     return aliases, declared
 
 
+#: Observation keys that are never domain properties: build_observation's own fields (a superset
+#: of `schema_validate.COMMON_KEYS`) plus the provenance keys table2graph and `artmind update` add.
+#: `_`-prefixed keys are always kept too.
+OBSERVATION_OWN_KEYS = _STRUCTURAL_KEYS | {"source_kind", "created_by"}
+
+
+def declared_property_keys(schema: dict) -> dict[str, set[str]]:
+    """{class: the property keys it declares} -- the one reading of "declared" (spec 2026-11-15 §2.2)."""
+    return {
+        str(cls): {str(p) for p in ((decl or {}).get("properties") or {})}
+        for cls, decl in (schema.get("entity_types") or {}).items() if isinstance(decl, dict)
+    }
+
+
+def declared_property_order(schema: dict, *, include_temporal: bool = True) -> dict[str, list[str]]:
+    """{class: declared keys in schema order, `required: true` keys first}."""
+    out: dict[str, list[str]] = {}
+    for cls, decl in (schema.get("entity_types") or {}).items():
+        if not isinstance(decl, dict):
+            continue
+        items = [(str(p), pd if isinstance(pd, dict) else {}) for p, pd in (decl.get("properties") or {}).items()]
+        items = [(p, pd) for p, pd in items if include_temporal or not pd.get("temporal")]
+        out[str(cls)] = ([p for p, pd in items if pd.get("required") is True]
+                         + [p for p, pd in items if pd.get("required") is not True])
+    return out
+
+
+def filter_declared(obs: dict, entity_class: str, declared: dict[str, set[str]]) -> tuple[dict, dict]:
+    """(`obs` with only the class's declared domain keys, {dropped key: value}). Own and `_` keys stay."""
+    allowed = declared.get(entity_class, set())
+    kept, dropped = {}, {}
+    for k, v in obs.items():
+        if k in allowed or k in OBSERVATION_OWN_KEYS or str(k).startswith(RESERVED_PREFIX):
+            kept[k] = v
+        else:
+            dropped[k] = v
+    return kept, dropped
+
+
 def canonical_property_key(key: str, aliases: dict[str, str], declared: frozenset[str]) -> str:
     """The key `key` is recorded under: its declared alias target; itself
     when declared; else a declared number variant of it; else itself."""

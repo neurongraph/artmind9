@@ -360,7 +360,9 @@ def write_user_chat(
     then returns the same summary and `effect` without the embedding call, the
     schema setup, the staging folder or the commit.
     """
-    from artmind.observations import aggregate_key, build_observation, key_string
+    from artmind.observations import (
+        aggregate_key, build_observation, declared_property_keys, filter_declared, key_string,
+    )
     from artmind.temporal import load_schema
 
     env = load_env()
@@ -373,6 +375,7 @@ def write_user_chat(
     embedding = None if dry_run else embed_document(embed_model, raw_text)
     input_hint = _classify_input(raw_text)
     schema = load_schema(domain)
+    declared = declared_property_keys(schema)
 
     observations: list[dict] = []
     resolved: dict[str, dict] = {}
@@ -430,6 +433,8 @@ def write_user_chat(
                 continue
 
             key = aggregate_key(canonical_name, entity_class, target_domain, identity=identity)
+            # Spec 2026-11-15 §2.2: only the class's declared keys, as extraction keeps.
+            domain_props, _ = filter_declared(dict(entity_data.get("properties") or {}), entity_class, declared)
             observation = build_observation(
                 {
                     "name": entity_data["name"],
@@ -441,7 +446,7 @@ def write_user_chat(
                     "aliases": entity_data.get("aliases"),
                 },
                 canonical_name=canonical_name,
-                domain_props=entity_data.get("properties", {}),
+                domain_props=domain_props,
                 doc_id=chat_id,
                 doc_version=1,
                 chunk_id=chat_id,

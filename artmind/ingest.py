@@ -3617,31 +3617,6 @@ def _fact_valid_time(entity_dates: dict, entity_class: str, props: dict) -> tupl
     return fact_valid_from, fact_valid_to
 
 
-def _exclusive_properties(schema: dict) -> dict[str, set[str]]:
-    """{property name: classes declaring it}, for each property some class
-    declares with `exclusive: true`.
-
-    Opt-in per property, never inferred: a name one class tags as a date can
-    be real data on a class that doesn't declare it (contracts'
-    `effective_date` on an OBLIGATION), but a journal's `date_or_time` on a
-    PERSON only ever means "mentioned in this entry" -- noise the extractor
-    adds whether or not it is told not to.
-    """
-    declared: dict[str, set[str]] = {}
-    exclusive: set[str] = set()
-    for cls, decl in (schema.get("entity_types") or {}).items():
-        for prop, prop_decl in (decl.get("properties") or {}).items():
-            declared.setdefault(prop, set()).add(cls)
-            if isinstance(prop_decl, dict) and prop_decl.get("exclusive"):
-                exclusive.add(prop)
-    return {prop: declared[prop] for prop in exclusive}
-
-
-def _strip_exclusive(props: dict, entity_class: str, exclusive: dict[str, set[str]]) -> dict:
-    """`props` without any exclusive property `entity_class` doesn't declare."""
-    return {k: v for k, v in props.items() if k not in exclusive or entity_class in exclusive[k]}
-
-
 def _build_observations(
     entities: list[dict],
     properties: list[dict],
@@ -3650,8 +3625,11 @@ def _build_observations(
     document: dict,
     *,
     only_mapped: bool = False,
-) -> list[dict]:
+) -> tuple[list[dict], dict[str, dict[str, int]]]:
     """Turn this document version's extraction output into Observation props.
+
+    Returns (observations, dropped): a property key the entity's class does not declare is
+    dropped (spec 2026-11-15 §2.2), counted in `dropped` as {class: {key: count}} (never values).
 
     `only_mapped` drops an entity whose raw name `canonical_names` lacks,
     instead of keeping it under its raw name: with a mapping recovered from
@@ -3666,13 +3644,15 @@ def _build_observations(
     rebuild needs to tell a conflict from ordinary history.
     """
     from artmind.observations import (
-        build_observation, class_kind, normalize_property_keys, property_key_rules,
+        build_observation, class_kind, declared_property_keys, filter_declared,
+        normalize_property_keys, property_key_rules,
     )
     from artmind.temporal import _entity_temporal_mapping
 
     props_by_id = {p["id"]: p.get("properties", {}) for p in properties}
     entity_dates = _entity_temporal_mapping(schema)
-    exclusive = _exclusive_properties(schema)
+    declared = declared_property_keys(schema)
+    dropped: dict[str, dict[str, int]] = {}
     key_rules = property_key_rules(schema)
     doc_valid_from = document.get("_valid_from")
     doc_valid_to = document.get("_valid_to")
@@ -3690,10 +3670,13 @@ def _build_observations(
         if not canonical or not chunk_id:
             continue
 
-        domain_props = _strip_exclusive(
-            normalize_property_keys(dict(props_by_id.get(entity.get("id"), {})), *key_rules),
-            entity.get("entity_class") or "", exclusive,
+        cls = entity.get("entity_class") or ""
+        domain_props, gone = filter_declared(
+            normalize_property_keys(dict(props_by_id.get(entity.get("id"), {})), *key_rules), cls, declared,
         )
+        for key in gone:
+            dropped.setdefault(cls, {}).setdefault(key, 0)
+            dropped[cls][key] += 1
 
         # A fact carrying its own dates overrides the document's.
         fact_valid_from, fact_valid_to = _fact_valid_time(
@@ -3720,7 +3703,7 @@ def _build_observations(
             continue
         seen.add(observation["id"])
         observations.append(observation)
-    return observations
+    return observations, dropped
 
 
 class _ChunksOnly(Exception):
@@ -4443,10 +4426,12 @@ def extract_kg(
             for cls, name, prop in stamped:
                 logger.info("Document entity: {} {!r} {} = {} (from the document)", cls, name, prop, own_date)
 
-    all_observations = _build_observations(
+    all_observations, dropped_props = _build_observations(
         all_entities, all_properties, canonical_names, schema, document,
         only_mapped=names_supplied,
     )
+    if dropped_props:
+        file_result["dropped_property_values"] = dropped_props
 
     # ── an unchanged note may not shrink to nothing (spec 2026-10-18 §3.2) ────
     # A model answering `[]` reports success, so the failed-step guard above
@@ -4511,7 +4496,7 @@ def extract_kg(
     )
     logger.info(
         "KG extraction done in {:.1f}s | chunks={} entities={} observations={} "
-        "properties={} relationships={} | chunks_with_failures={}",
+        "properties={} relationships={} | chunks_with_failures={} dropped_property_values={}",
         elapsed,
         chunk_count,
         len(all_entities),
@@ -4519,6 +4504,7 @@ def extract_kg(
         len(all_properties),
         len(all_relationships),
         failed_count,
+        sum(n for keys in dropped_props.values() for n in keys.values()),
     )
     return doc_kg_dir
 
