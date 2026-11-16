@@ -750,8 +750,8 @@ def domains_validate(domain: str | None, compact: bool):
     """
     from artmind.schema_validate import (
         graph_extraction_warnings, guidance_property_warnings, load_meta, meta_template_warnings,
-        property_alias_warnings, property_reference_report, reserved_relationship_warnings, validate_all,
-        validate_schema, warn_all,
+        own_key_property_warnings, property_alias_warnings, property_reference_report,
+        reserved_relationship_warnings, validate_all, validate_schema, warn_all,
     )
 
     if domain:
@@ -768,7 +768,8 @@ def domains_validate(domain: str | None, compact: bool):
             errors = validate_schema(data, load_meta(), schema_name=domain)
             violations = {domain: errors} if errors else {}
             warnings = {domain: reserved_relationship_warnings(data, domain) + graph_extraction_warnings(data, domain)
-                        + property_alias_warnings(data, domain) + guidance_property_warnings(data, domain)}
+                        + property_alias_warnings(data, domain) + guidance_property_warnings(data, domain)
+                        + own_key_property_warnings(data, domain)}
     else:
         violations = validate_all()
         warnings = warn_all()
@@ -854,19 +855,22 @@ def domains_validate(domain: str | None, compact: bool):
 def domains_property_audit(domain: str, with_graph: bool, compact: bool) -> None:
     """Propose keep, drop or required for each property key of a domain's classes.
 
-    Read-only, no LLM: reads the domain's staging (observations and chunk text), its schema,
-    mart declaration, insights config, saved views and topic plans. Lists key names, counts
-    and shares, never values. After editing the schema, `artmind ingest retime --domain D
+    Read-only, no LLM: reads the staging (observations and chunk text) of the domain and its
+    children, their schemas, the mart declaration, insights config, saved views and topic
+    plans. Lists key names, counts and shares, never values. After editing the schema, `artmind ingest retime --domain D
     --dryRun` shows what a trim would drop.
     """
     from artmind import ingest as _ingest
     from artmind import property_audit
-    from artmind.temporal import load_schema
+    from artmind.schema_validate import family_schema, schema_parse_error
 
     schema_file = DOMAIN_SCHEMAS_DIR / f"{domain}_schema.yaml"
     if not schema_file.exists():
         raise click.ClickException(f"Domain schema not found: {schema_file}")
-    schema = load_schema(domain, schemas_dir=DOMAIN_SCHEMAS_DIR)
+    for f in [schema_file, *sorted(DOMAIN_SCHEMAS_DIR.glob(f"{domain}.*_schema.yaml"))]:
+        if (parse_error := schema_parse_error(f)):
+            raise click.ClickException(parse_error)
+    schema = family_schema(domain, schemas_dir=DOMAIN_SCHEMAS_DIR)
     report = property_audit.audit(
         domain, schema, kg_dir=_ingest.KG_DIR,
         depended_on=property_audit.depended_on_keys(domain, schema),

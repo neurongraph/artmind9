@@ -192,3 +192,25 @@ def test_a_family_view_is_checked_only_under_its_own_domain(monkeypatch):
     schema = _schema(outcome={})
     assert sv.property_reference_report("fam.a", schema)["warnings"] == []
     assert len(sv.property_reference_report("fam", schema)["warnings"]) == 1
+
+
+def test_a_declared_property_named_like_an_observation_field_warns():
+    schema = _schema(context={}, outcome={})
+    (w,) = sv.own_key_property_warnings(schema, "d")
+    assert "EVENT.properties.context" in w and "observation field" in w
+    assert sv.validate_schema(schema, META) == []  # a WARN, never an error
+
+
+def test_own_key_warnings_tolerate_a_non_map_entity_types():
+    assert sv.own_key_property_warnings({"entity_types": ["EVENT"]}, "d") == []
+
+
+def test_warn_all_carries_own_key_warnings(tmp_path):
+    (tmp_path / "d_schema.yaml").write_text(yaml.safe_dump(_schema(domain={})), encoding="utf-8")
+    assert any("properties.domain" in w for w in sv.warn_all(tmp_path)["d"])
+
+
+def test_view_bound_classes():
+    assert sv.view_bound_classes("MATCH (t:TASK), (e) WHERE e.entity_class = 'EVENT' RETURN t",
+                                 {"TASK": set(), "EVENT": set(), "PLACE": set()}) == {"TASK", "EVENT"}
+    assert sv.view_bound_classes("", {"TASK": set()}) == set()

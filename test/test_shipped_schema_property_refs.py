@@ -24,3 +24,14 @@ def test_every_alias_targets_a_declared_key(path):
 def test_charge_guidance_does_not_invite_column_named_keys():
     schema = yaml.safe_load((SCHEMAS / "contracts_schema.yaml").read_text(encoding="utf-8"))
     assert "table's own column names" not in str(schema["entity_types"]["CHARGE"]["guidance"])
+
+
+def test_shipped_own_key_declarations_are_warnings_not_errors():
+    """Eight shipped schemas declare `context`/`domain`/`description` as properties: `domains validate`
+    warns about them but `setup` (validate_all_or_raise) must not fail."""
+    found = [w for path in sorted(SCHEMAS.glob("*_schema.yaml"))
+             for w in sv.own_key_property_warnings(yaml.safe_load(path.read_text(encoding="utf-8")), path.stem)]
+    assert found
+    for path in sorted(SCHEMAS.glob("*_schema.yaml")):
+        schema = yaml.safe_load(path.read_text(encoding="utf-8"))
+        assert not any("observation field" in e for e in sv.validate_schema(schema, sv.load_meta(), path.stem))

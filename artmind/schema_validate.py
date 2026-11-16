@@ -284,7 +284,8 @@ def warn_all(schemas_dir: Path = DOMAIN_SCHEMAS_DIR) -> dict[str, list[str]]:
         schema = yaml.safe_load(schema_file.read_text(encoding="utf-8")) or {}
         name = schema.get("name", schema_file.stem)
         warnings = (reserved_relationship_warnings(schema, name) + graph_extraction_warnings(schema, name)
-                    + property_alias_warnings(schema, name) + guidance_property_warnings(schema, name))
+                    + property_alias_warnings(schema, name) + guidance_property_warnings(schema, name)
+                    + own_key_property_warnings(schema, name))
         if warnings:
             found[name] = warnings
     return found
@@ -473,6 +474,21 @@ def guidance_property_warnings(schema: dict, schema_name: str = "") -> list[str]
     return out
 
 
+def own_key_property_warnings(schema: dict, schema_name: str = "") -> list[str]:
+    """A declared property named like an observation's own field (`context`, `domain`,
+    `description`, ...): extraction writes that field itself, so the declaration never becomes a
+    domain property. A WARN, not an error (several shipped schemas do it)."""
+    from artmind.observations import OBSERVATION_OWN_KEYS
+
+    label = schema_name or schema.get("name", "<unnamed>")
+    types = schema.get("entity_types") or {}
+    if not isinstance(types, dict):
+        return []
+    return [f"{label}.entity_types.{cls}.properties.{key}: collides with an observation field, "
+            "so it is never stored as a property; rename it"
+            for cls, keys in sorted(_declared(types).items()) for key in sorted(keys & OBSERVATION_OWN_KEYS)]
+
+
 def meta_template_warnings(meta_path: Path = DOMAIN_META_PATH) -> list[str]:
     """The vault's meta.yaml still carries the old open-ended properties prompt (plan question 3)."""
     try:
@@ -491,13 +507,11 @@ def _node_keys() -> frozenset:
     return _BASE_NODE_KEYS | {k for k in _PRESERVED_ENTITY_KEYS if not k.startswith("_")}
 
 
-def view_property_refs(cypher: str, declared: dict[str, set[str]]) -> list[tuple[frozenset, str]]:
-    """(classes a variable is bound to, key) for every `var.key` a view reads on a class-bound
-    variable. A variable is bound by a label in its pattern (`(e:Entity:EVENT)`) or by
-    `e.entity_class = 'X'` / `IN [...]`. Map projections (`e {.key}`) are not scanned."""
+def _bound_variables(cypher: str, declared: dict[str, set[str]]) -> dict[str, set[str]]:
+    """{variable: declared classes it is bound to} -- see `view_property_refs`."""
     from artmind.kg_views.model import _mask
 
-    text = _mask(cypher)  # literals and comments blanked: 'a.b' inside a string is not a reference
+    text = _mask(cypher)
     no_comments = _COMMENT.sub(lambda m: m.group() if m.group()[0] in "'\"" else " " * len(m.group()), cypher)
     bound: dict[str, set[str]] = {}
     for var, chain in _LABEL_BIND.findall(text):
@@ -507,6 +521,22 @@ def view_property_refs(cypher: str, declared: dict[str, set[str]]) -> list[tuple
     for var, one, many in _CLASS_EQ.findall(no_comments):
         names = {one} if one else set(re.findall(r"'([A-Z0-9_]+)'", many))
         bound.setdefault(var, set()).update(n for n in names if n in declared)
+    return bound
+
+
+def view_bound_classes(cypher: str, declared: dict[str, set[str]]) -> set[str]:
+    """Every declared class some variable of a view's Cypher is bound to."""
+    return set().union(*_bound_variables(cypher, declared).values()) if cypher else set()
+
+
+def view_property_refs(cypher: str, declared: dict[str, set[str]]) -> list[tuple[frozenset, str]]:
+    """(classes a variable is bound to, key) for every `var.key` a view reads on a class-bound
+    variable. A variable is bound by a label in its pattern (`(e:Entity:EVENT)`) or by
+    `e.entity_class = 'X'` / `IN [...]`. Map projections (`e {.key}`) are not scanned."""
+    from artmind.kg_views.model import _mask
+
+    text = _mask(cypher)  # literals and comments blanked: 'a.b' inside a string is not a reference
+    bound = _bound_variables(cypher, declared)
     node_keys = _node_keys()
     refs = []
     for var, key in sorted(set(_FIELD_REF.findall(text))):

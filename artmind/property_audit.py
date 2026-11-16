@@ -1,6 +1,8 @@
 """`artmind domains property-audit`: per (class, key) evidence for keeping a property (spec
 2026-11-15 §3). Read-only: staging files, schema, mart declaration, insights config, saved views
-and topic plans; Neo4j only with --graph. Lists key names, counts and shares -- never a value."""
+and topic plans; Neo4j only with --graph. Lists key names, counts and shares -- never a value.
+A family root (`banking`) is audited with its children: staging under `kg/banking/` and
+`kg/banking.*/`, declarations from `schema_validate.family_schema`."""
 from __future__ import annotations
 
 import json
@@ -22,8 +24,19 @@ _BACKTICKED = re.compile(r"`(?:([A-Z][A-Z0-9_]*)\.)?([a-z][a-z0-9_]*)`")
 
 
 def _words(value) -> list[str]:
+    """Lower-case word tokens of longer than two characters; digit-only tokens of any length
+    (a `3` or `12` is evidence too)."""
     items = value if isinstance(value, list) else [value]
-    return [w for item in items for w in _WORD.findall(str(item).lower()) if len(w) > 2]
+    return [w for item in items for w in _WORD.findall(_text(item).lower()) if len(w) > 2 or w.isdigit()]
+
+
+def _text(value) -> str:
+    return json.dumps(value, ensure_ascii=False, sort_keys=True) if isinstance(value, (dict, list)) else str(value)
+
+
+def _normalised(value) -> str:
+    """The whole value, for `distinct_values`: stripped and lower-cased; a list or dict as JSON."""
+    return _text(value).strip().lower()
 
 
 def _overlap(value, described: set[str], chunk: set[str]) -> tuple[int, int, int]:
@@ -48,11 +61,12 @@ def _load(path: Path, default):
 
 
 def _folders(kg_dir: Path, domain: str) -> list[Path]:
-    root = Path(kg_dir) / domain
-    if not root.is_dir():
-        return []
-    return sorted(d for d in root.iterdir() if d.is_dir() and not is_scratch(d)
-                  and not d.name.startswith("table__") and (d / "observations.json").exists())
+    """Document staging folders of `domain` and its dotted children."""
+    kg = Path(kg_dir)
+    roots = [kg / domain, *sorted(kg.glob(f"{domain}.*"))] if kg.is_dir() else []
+    return [d for root in roots if root.is_dir()
+            for d in sorted(root.iterdir()) if d.is_dir() and not is_scratch(d)
+            and not d.name.startswith("table__") and (d / "observations.json").exists()]
 
 
 @dataclass
@@ -69,8 +83,10 @@ def _is_domain_key(key, value) -> bool:
     return not (key in OBSERVATION_OWN_KEYS or str(key).startswith(RESERVED_PREFIX) or value in (None, "", []))
 
 
-def _scan_observation(obs: dict, chunk: set[str], tally: _Tally) -> None:
-    cls = obs.get("entity_class") or ""
+def _scan_observation(obs: dict, chunk: set[str] | None, tally: _Tally) -> None:
+    """`chunk` None (no `chunk_id`): the observation counts for fill and distinct values but not
+    for the overlap shares, which need its chunk text."""
+    cls = str(obs["entity_class"])
     tally.per_class[cls] += 1
     context = obs.get("context") or []
     described = set(_words([obs.get("description") or "", *(context if isinstance(context, list) else [context])]))
@@ -78,13 +94,14 @@ def _scan_observation(obs: dict, chunk: set[str], tally: _Tally) -> None:
         if not _is_domain_key(key, value):
             continue
         tally.filled[(cls, key)] += 1
-        a, b, c = _overlap(value, described, chunk)
-        acc = tally.chars[(cls, key)]
-        acc[0] += a
-        acc[1] += b
-        acc[2] += c
+        if chunk is not None:
+            a, b, c = _overlap(value, described, chunk)
+            acc = tally.chars[(cls, key)]
+            acc[0] += a
+            acc[1] += b
+            acc[2] += c
         if len(tally.distinct[(cls, key)]) < DISTINCT_CAP:
-            tally.distinct[(cls, key)].add(" ".join(_words(value)))
+            tally.distinct[(cls, key)].add(_normalised(value))
 
 
 def _scan(kg_dir: Path, domain: str) -> _Tally:
@@ -95,9 +112,10 @@ def _scan(kg_dir: Path, domain: str) -> _Tally:
             if isinstance(chunk_rows, list) else {}
         observations = _load(folder / "observations.json", [])
         for obs in observations if isinstance(observations, list) else []:
-            if not isinstance(obs, dict) or obs.get("source_kind") == "table":
+            if not isinstance(obs, dict) or obs.get("source_kind") == "table" or not obs.get("entity_class"):
                 continue
-            _scan_observation(obs, chunks.get(obs.get("chunk_id"), set()), tally)
+            chunk_id = obs.get("chunk_id")
+            _scan_observation(obs, chunks.get(chunk_id, set()) if chunk_id else None, tally)
     return tally
 
 
@@ -122,6 +140,8 @@ def _row(cls: str, key: str, decl: dict | None, tally: _Tally, depended_on: dict
                 flags[flag] = decl[flag]
         if decl.get("required") is True:
             flags["required"] = True
+        if key in OBSERVATION_OWN_KEYS:
+            flags["reserved"] = True
     if depended_on.get((cls, key)):
         flags["depended_on"] = sorted(depended_on[(cls, key)])
     n = tally.per_class[cls]
@@ -129,29 +149,49 @@ def _row(cls: str, key: str, decl: dict | None, tally: _Tally, depended_on: dict
            "fill": round(tally.filled[(cls, key)] / n, 3) if n else 0.0,
            "in_description": round(a / total, 3), "text_only": round(b / total, 3),
            "inferred": round(c / total, 3), "distinct_values": len(tally.distinct[(cls, key)]), "flags": flags}
+    if len(tally.distinct[(cls, key)]) >= DISTINCT_CAP:
+        row["distinct_capped"] = True
     if conflicts is not None:
         row["conflicts"] = conflicts.get((cls, key), 0)
-    row["proposal"], row["reason"] = _propose(row, decl)
+    row["proposal"], row["reason"] = _propose(row, decl, observed=n)
     return row
 
 
 def audit(domain: str, schema: dict, *, kg_dir: Path, depended_on: dict, conflicts: dict | None = None) -> dict:
-    """One row per (class, key) declared by the schema or found in the domain's staged document
-    observations (table observations are skipped). `conflicts` None leaves the column out."""
+    """One row per (class, key) declared by `schema` (the domain's `family_schema`) or found in
+    the staged document observations of the domain and its children (table observations and
+    observations without a class are skipped). `conflicts` None leaves the column out."""
     decls = _declarations(schema)
     tally = _scan(kg_dir, domain)
     keys = {(c, k) for c, ks in decls.items() for k in ks} | set(tally.filled)
     rows = [_row(cls, key, (decls.get(cls) or {}).get(key), tally, depended_on, conflicts)
             for cls, key in sorted(keys)]
-    return {"domain": domain, "rows": rows, "observations": dict(tally.per_class),
+    return {"domain": domain, "warnings": _warnings(domain, tally), "rows": rows,
+            "observations": dict(tally.per_class),
             "rules": {"required_fill": REQUIRED_FILL, "inferred_drop": INFERRED_DROP,
                       "text_only_max": TEXT_ONLY_MAX, "rare_fill": RARE_FILL}}
 
 
-def _propose(row: dict, decl: dict | None) -> tuple[str, str]:
-    """First match wins (spec §3, with the plan's question 10 ordering)."""
+def _warnings(domain: str, tally: _Tally) -> list[str]:
+    from artmind.schema_validate import domain_graph_extraction
+
+    out = []
+    if not domain_graph_extraction(domain):
+        out.append(f"{domain} is chunks-only (graph_extraction: false): it has no entity properties to audit")
+    if not tally.per_class:
+        out.append(f"no staged document observations under {domain}: every proposal is `review`")
+    return out
+
+
+def _propose(row: dict, decl: dict | None, *, observed: int) -> tuple[str, str]:
+    """First match wins (spec §3, with the plan's question 10 ordering). A declared key that
+    collides with an observation field, or whose class has no observations, is not judged."""
     if decl is None:
         return "drop", "undeclared"
+    if row["flags"].get("reserved"):
+        return "review", "collides with an observation field"
+    if not observed:
+        return "review", "no document observations of this class"
     if decl.get("required") is True:
         return "required", "declared required"
     if decl.get("keep_reason"):
@@ -170,13 +210,16 @@ def _propose(row: dict, decl: dict | None) -> tuple[str, str]:
 
 
 def depended_on_keys(domain: str, schema: dict) -> dict[tuple[str, str], list[str]]:
-    """{(class, key): [mart | insights | view:<name> | skill]} -- what names each key (plan question 11).
-    The mart and insights readers are `schema_validate`'s, shared with `domains validate`."""
+    """{(class, key): [mart | insights | view:<name> | skill:view:<name> | skill:plan:<slug>]} --
+    what names each key (plan question 11). `schema` is the domain's `family_schema`. The mart
+    and insights readers are `schema_validate`'s, shared with `domains validate`."""
     from artmind.insights import config as insights_config
     from artmind.insights.model import InsightsError
     from artmind.kg_views import store as views_store
     from artmind.mart import declaration as mart_declaration
-    from artmind.schema_validate import insights_property_refs, mart_property_refs, view_property_refs
+    from artmind.schema_validate import (
+        insights_property_refs, mart_property_refs, view_bound_classes, view_property_refs,
+    )
 
     declared = declared_property_keys(schema)
     out: dict = defaultdict(set)
@@ -198,23 +241,31 @@ def depended_on_keys(domain: str, schema: dict) -> dict[tuple[str, str], list[st
         for classes, key in view_property_refs(view.spec.cypher, declared):
             for cls in classes:
                 out[(cls, key)].add(f"view:{view.spec.name}")
-        _skill_refs(view.skill_md, declared, out)
-    for text in _topic_plan_skills(domain):
-        _skill_refs(text, declared, out)
+        _skill_refs(view.skill_md, declared, out, f"skill:view:{view.spec.name}",
+                    bound=view_bound_classes(view.spec.cypher, declared))
+    for slug, text in _topic_plan_skills(domain):
+        _skill_refs(text, declared, out, f"skill:plan:{slug}")
     return {k: sorted(v) for k, v in out.items()}
 
 
-def _skill_refs(text: str, declared: dict, out: dict) -> None:
-    """`key` or `CLASS.key` in backticks, for keys a class declares (plan question 11)."""
+def _skill_refs(text: str, declared: dict, out: dict, source: str, *, bound: set[str] = frozenset()) -> None:
+    """Backticked references in a SKILL.md (plan question 11). `CLASS.key` counts for that class
+    when it declares the key. A bare `key` counts for the one class that declares it, or, when
+    several do, for those of them the same view's Cypher binds (`bound`); otherwise it is
+    ambiguous and not counted."""
     for cls, key in _BACKTICKED.findall(text or ""):
-        for c in ([cls] if cls else [c for c, keys in declared.items() if key in keys]):
-            if key in declared.get(c, set()):
-                out[(c, key)].add("skill")
+        if cls:
+            targets = [cls] if key in declared.get(cls, set()) else []
+        else:
+            owners = [c for c, keys in declared.items() if key in keys]
+            targets = owners if len(owners) == 1 else [c for c in owners if c in bound]
+        for c in targets:
+            out[(c, key)].add(source)
 
 
-def _topic_plan_skills(domain: str) -> list[str]:
+def _topic_plan_skills(domain: str) -> list[tuple[str, str]]:
     """SKILL.md texts of topic plans whose `domains` (plan.yaml, a list of strings; see
-    `artmind/topics/plan.py`) cover `domain`: the same domain, a child or a parent."""
+    `artmind/topics/plan.py`) cover `domain`: the same domain, a child or a parent. [(slug, text)]."""
     from artmind.topics import plan_store
 
     root = plan_store.plans_dir()
@@ -225,7 +276,7 @@ def _topic_plan_skills(domain: str) -> list[str]:
         domains = [str(d) for d in domains] if isinstance(domains, list) else []
         if any(d == domain or d.startswith(domain + ".") or domain.startswith(d + ".") for d in domains):
             try:
-                texts.append(skill.read_text(encoding="utf-8"))
+                texts.append((skill.parent.name, skill.read_text(encoding="utf-8")))
             except OSError:
                 continue
     return texts
