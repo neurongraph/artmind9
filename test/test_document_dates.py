@@ -283,19 +283,29 @@ def test_retime_domain_commits_changed_folders_then_rebuilds_once(tmp_path, monk
     assert commits == [] and rebuilds == []
 
 
+def _redo_answers(monkeypatch, answer):
+    """`backfill._ask` stubbed: records every prompt, answers `answer`."""
+    from artmind import backfill
+
+    prompts: list = []
+    monkeypatch.setattr(backfill, "_ask", lambda step, model, prompt, debug_dir=None: prompts.append(prompt) or (answer, True))
+    return prompts
+
+
+def _asked_classes(prompt):
+    import re
+
+    return sorted(re.findall(r"^For (\w+), extract:", prompt, re.M))
+
+
 def test_redo_properties_reextracts_only_properties_with_the_anchor(tmp_path, monkeypatch):
     from artmind.retime import retime_domain
 
     folder, anchors = _ingested_under_the_old_schema(tmp_path, monkeypatch)
     assert anchors == [None]
-    steps = []
-    real_llm = ing._llm_extract
-    # the document summary (one call per document) is not a chunk step
-    monkeypatch.setattr(
-        ing, "_llm_extract",
-        lambda step, *a: (steps.append(step) if step != "document_summary" else None) or real_llm(step, *a),
-    )
-    monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: True)
+    monkeypatch.setattr(ing, "_llm_extract", lambda *a, **k: (_ for _ in ()).throw(AssertionError("no extract_kg step")))
+    commits = []
+    monkeypatch.setattr(ing, "commit_to_graph", lambda d, dom, defer_rebuild=False: commits.append(d) or True)
     monkeypatch.setattr(ing, "rebuild_projection", lambda domain: {})
 
     # The first extraction canonicalized "Governance Call" to "Governance Sync".
@@ -304,33 +314,38 @@ def test_redo_properties_reextracts_only_properties_with_the_anchor(tmp_path, mo
     obs_file.write_text(json.dumps([{**o, "canonical_name": "Governance Sync"} for o in staged]))
     monkeypatch.setattr(ing, "canonicalize_document",
                         lambda *a, **k: (_ for _ in ()).throw(AssertionError("identity must not be re-decided")))
+    prompts = _redo_answers(monkeypatch, [{"id": "o1", "properties": {"date_or_time": "2026-01-07 (afternoon)"}}])
 
     report = retime_domain("journal", redo_properties=True, text_model="m", embed_model="e")
 
-    assert report["committed"] == 1, report
-    assert steps == ["chunk_001_properties"], "entities and relationships are not re-run"
+    assert report["committed"] == 1 and commits == [folder], report
+    assert len(prompts) == 1 and _asked_classes(prompts[0]) == ["EVENT"]
+    assert "document dated 2026-01-07" in prompts[0], "the anchor is the re-dated document's date"
+    assert "o1 (EVENT): Governance Sync" in prompts[0], "asked under its canonical name"
     (obs,) = json.loads(obs_file.read_text())
     assert obs["canonical_name"] == "Governance Sync", "a properties redo keeps every entity's identity"
-    assert anchors == [None, "2026-01-07"]
+    assert (obs["date_or_time"], obs["_valid_from"], obs["_valid_time_source"]) == (
+        "2026-01-07 (afternoon)", "2026-01-07", "property")
     document = json.loads((folder / "document.json").read_text())
     assert document["_valid_from"] == "2026-01-07"
 
 
-def test_redo_properties_skips_a_document_without_its_chunk_cache(tmp_path, monkeypatch):
+def test_redo_properties_needs_no_chunk_cache(tmp_path, monkeypatch):
     import shutil
 
     from artmind.retime import retime_domain
 
     folder, _ = _ingested_under_the_old_schema(tmp_path, monkeypatch)
     shutil.rmtree(folder / "chunks")
-    monkeypatch.setattr(ing, "_llm_extract", lambda *a: (_ for _ in ()).throw(AssertionError("no LLM")))
     monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: True)
     monkeypatch.setattr(ing, "rebuild_projection", lambda domain: {})
+    prompts = _redo_answers(monkeypatch, [{"id": "o1", "properties": {"date_or_time": "2026-01-06"}}])
 
     report = retime_domain("journal", redo_properties=True, text_model="m", embed_model="e")
 
-    assert report["committed"] == 0
-    assert "chunk extraction cache" in report["skipped"][0]["skipped"]
+    assert report["committed"] == 1 and report["skipped"] == [] and len(prompts) == 1
+    (obs,) = json.loads((folder / "observations.json").read_text())
+    assert obs["date_or_time"] == "2026-01-06"
 
 
 def test_a_child_domain_inherits_its_parents_temporal_block(tmp_path, monkeypatch):
@@ -387,10 +402,13 @@ def test_redo_properties_drops_a_mention_that_was_folded_away(tmp_path, monkeypa
     monkeypatch.setattr(ing, "rebuild_projection", lambda domain: {})
     monkeypatch.setattr(ing, "canonicalize_document",
                         lambda *a, **k: (_ for _ in ()).throw(AssertionError("identity must not be re-decided")))
+    prompts = _redo_answers(monkeypatch, [{"id": "o1", "properties": {"date_or_time": "2026-01-21"}},
+                                          {"id": "o2", "properties": {"date_or_time": "2026-01-21"}}])
     retime_domain("journal", redo_properties=True, text_model="m", embed_model="e")
 
     redone = json.loads((_folder("2026-01-21") / "observations.json").read_text())
     assert [o["id"] for o in redone] == [o["id"] for o in first]
+    assert prompts and "Ami)" not in prompts[0] and ": Ami\n" not in prompts[0], "the folded mention is not asked"
 
 
 # ── `exclusive: true`: a property only its declaring classes may carry ─────
@@ -484,31 +502,43 @@ def test_redo_properties_reextracts_only_date_tagged_classes(tmp_path, monkeypat
     _, first = _extract(doc)
     person_before = {k: v for k, v in next(o for o in first if o["entity_class"] == "PERSON").items()}
 
-    shown: list = []
-
-    def properties_prompt(text, ents, schema, vocabulary=None, anchor_date=None):
-        shown.append(sorted(e["entity_class"] for e in ents))
-        return "properties"
-
-    def llm(step_name, model, prompt, debug_dir):
-        assert step_name.endswith("_properties"), step_name
-        # Even if the model answers for an entity it wasn't asked about, that
-        # answer is ignored.
-        return [{"id": "e1", "properties": {"date_or_time": "2026-01-07 (afternoon)"}},
-                {"id": "e2", "properties": {"date_or_time_qualifier": "2026-01-07", "role": "guest"}}], True
-
-    monkeypatch.setattr(ing, "build_properties_prompt", properties_prompt)
-    monkeypatch.setattr(ing, "_llm_extract", llm)
+    # Even if the model answers for an entity it wasn't asked about, that answer is ignored.
+    prompts = _redo_answers(monkeypatch, [
+        {"id": "o1", "properties": {"date_or_time": "2026-01-07 (afternoon)"}},
+        {"id": "o2", "properties": {"date_or_time_qualifier": "2026-01-07", "role": "guest"}}])
     monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: True)
     monkeypatch.setattr(ing, "rebuild_projection", lambda domain: {})
 
     retime_domain("journal", redo_properties=True, text_model="m", embed_model="e")
 
-    assert shown == [["EVENT"]], "PERSON is never sent back to the model"
+    assert [_asked_classes(p) for p in prompts] == [["EVENT"]], "PERSON is never sent back to the model"
+    assert "Srinath" not in prompts[0].split("__list_of_entities__")[-1].split("__text__")[0]
     redone = json.loads((_folder("2026-01-07") / "observations.json").read_text())
     by_class = {o["entity_class"]: o for o in redone}
     assert by_class["EVENT"]["date_or_time"] == "2026-01-07 (afternoon)"
     assert by_class["PERSON"] == person_before, "an undated class's observation is untouched"
+
+
+def test_redo_properties_asks_one_call_per_chunk_for_two_dated_classes(tmp_path, monkeypatch):
+    from artmind.retime import retime_domain
+
+    doc = _vault(tmp_path, monkeypatch, "2026-01-07.md", "Call with Srinath today.\n")
+    two_dated = EXCLUSIVE_SCHEMA.replace("        exclusive: true\n", "").replace(
+        "      role: {}\n", "      role: {}\n      met_on:\n        temporal: valid_from\n")
+    (ing.DOMAIN_SCHEMAS_DIR / "journal_schema.yaml").write_text(two_dated, encoding="utf-8")
+    _two_class_llm(monkeypatch)
+    _extract(doc)
+    prompts = _redo_answers(monkeypatch, [{"id": "o2", "properties": {"met_on": "2026-01-06", "role": "guest"}}])
+    monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: True)
+    monkeypatch.setattr(ing, "rebuild_projection", lambda domain: {})
+
+    retime_domain("journal", redo_properties=True, text_model="m", embed_model="e")
+
+    assert [_asked_classes(p) for p in prompts] == [["EVENT", "PERSON"]]
+    person = next(o for o in json.loads((_folder("2026-01-07") / "observations.json").read_text())
+                  if o["entity_class"] == "PERSON")
+    assert person["met_on"] == "2026-01-06" and person["_valid_from"] == "2026-01-06"
+    assert person["role"] == "chair", "only the date keys are asked for; role keeps its value"
 
 
 def test_extraction_and_retime_normalize_property_keys(tmp_path, monkeypatch):

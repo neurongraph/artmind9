@@ -2557,12 +2557,10 @@ def _summarise_document(
     focus: str,
     model: str,
     debug_dir: Path,
-    reuse_any: bool = False,
     persist: bool = True,
 ) -> dict | None:
     """The document's summary, from the sidecar when its key matches, else one
-    call. With `reuse_any` (a properties-only redo) a well-shaped sidecar is used
-    whatever its key and no call is ever made. Returns {"key", "summary",
+    call. Returns {"key", "summary",
     "identifiers"} or None when the call fails or answers something unusable; a
     failure is logged and never fails the file (spec §4): the chunks then extract
     with metadata and outline only. With `persist=False` a new summary is not
@@ -2571,8 +2569,6 @@ def _summarise_document(
     cached = _read_document_context(doc_kg_dir)
     if _valid_context(cached, key):
         return cached
-    if reuse_any:
-        return cached if _has_context_shape(cached) else None
     prompt = dc.summary_prompt(schema, sample(), focus=focus)
     parsed = None
     for _attempt in range(2):
@@ -3623,19 +3619,11 @@ def _build_observations(
     canonical_names: dict[str, str],
     schema: dict,
     document: dict,
-    *,
-    only_mapped: bool = False,
 ) -> tuple[list[dict], dict[str, dict[str, int]]]:
     """Turn this document version's extraction output into Observation props.
 
     Returns (observations, dropped): a property key the entity's class does not declare is
     dropped (spec 2026-11-15 §2.2), counted in `dropped` as {class: {key: count}} (never values).
-
-    `only_mapped` drops an entity whose raw name `canonical_names` lacks,
-    instead of keeping it under its raw name: with a mapping recovered from
-    staged observations, an absent name is a mention canonicalization folded
-    into another entity of the same chunk, which made no observation then
-    and must not mint one now.
 
     One observation per (chunk, extracted-entity-identity). The entity's own
     schema-declared date property (a property tagged `temporal: valid_from`)
@@ -3664,8 +3652,6 @@ def _build_observations(
     for entity in entities:
         chunk_id = entity.get("chunk_id") or ""
         raw_name = entity.get("name") or ""
-        if only_mapped and raw_name not in canonical_names:
-            continue
         canonical = canonical_names.get(raw_name) or raw_name
         if not canonical or not chunk_id:
             continue
@@ -3717,21 +3703,8 @@ def extract_kg(
     embed_model: str = "nomic-embed-text:latest",
     max_workers: int | None = None,
     chunk_size: int | None = None,
-    canonical_names: dict[str, str] | None = None,
-    redo_property_classes: set[str] | None = None,
 ) -> Path | None:
     """Extract KG from persisted chunks and merge into document-level JSON files.
-
-    `canonical_names` (raw extracted name -> canonical name) skips the
-    per-document canonicalization LLM call and uses this mapping instead --
-    for a re-run that must not re-decide identity (`ingest retime
-    --redoProperties`); a name it lacks is dropped (see `_build_observations`).
-
-    `redo_property_classes` scopes a re-run properties step to entities of
-    those classes: only they are sent to the model and only their properties
-    are replaced; every other entity keeps the properties already cached.
-    Re-asking about everything re-rolls answers that were never in question
-    (see `artmind.retime`).
 
     Resumable: already-ok steps are skipped. Failed steps get a second attempt
     in the pre-merge retry pass before the merge proceeds.
@@ -3970,7 +3943,6 @@ def extract_kg(
                 focus=context_settings.focus,
                 model=text_model,
                 debug_dir=llm_debug_dir,
-                reuse_any=redo_property_classes is not None,
                 persist=False,
             )
 
@@ -4095,16 +4067,12 @@ def extract_kg(
         # ── properties ────────────────────────────────────────────────────────
         properties_status = status.get("properties_status", "pending")
         if has_entities and entities_status == "ok" and properties_status != "ok":
-            prompt_entities = data.get("raw_entities", [])
-            if redo_property_classes is not None:
-                prompt_entities = [
-                    e for e in prompt_entities if e.get("entity_class") in redo_property_classes
-                ]
-            prompt_entities = [e for e in prompt_entities if e.get("entity_class") in classes_with_props]
+            prompt_entities = [
+                e for e in data.get("raw_entities", []) if e.get("entity_class") in classes_with_props
+            ]
             if not prompt_entities:
-                # Spec 2026-11-15 §2.3: no entity here belongs to a class that declares a property
-                # (or, in a scoped redo, none is in scope and the cached properties stand).
-                marks["properties"] = "ok" if redo_property_classes is not None else "skipped"
+                # Spec 2026-11-15 §2.3: no entity here belongs to a class that declares a property.
+                marks["properties"] = "skipped"
                 data.setdefault("properties", [])
             else:
                 logger.info("  Chunk {} — properties", seq)
@@ -4123,11 +4091,6 @@ def extract_kg(
                         {**p, "chunk_id": chunk_id, "doc_id": doc_id}
                         for p in _rewrite_ref_ids(raw_props, id_map, "id")
                     ]
-                    if redo_property_classes is not None:
-                        redone = {id_map.get(e["id"], e["id"]) for e in prompt_entities}
-                        props = [
-                            p for p in data.get("properties", []) if p.get("id") not in redone
-                        ] + [p for p in props if p.get("id") in redone]
                     data["properties"] = props
                 else:
                     data.setdefault("properties", [])
@@ -4380,10 +4343,9 @@ def extract_kg(
     # Intra-document drift control. Chunks extracted in parallel and could not
     # see each other, so the same thing may carry several names; this is the
     # first point at which anything can see the whole document's output.
-    names_supplied = canonical_names is not None
     if chunks_only:
         canonical_names = {}
-    elif not names_supplied:
+    else:
         canonical_names = canonicalize_document(
             all_entities, schema=schema, vocabulary=vocabulary,
             model=text_model, debug_dir=llm_debug_dir,
@@ -4433,7 +4395,6 @@ def extract_kg(
 
     all_observations, dropped_props = _build_observations(
         all_entities, all_properties, canonical_names, schema, document,
-        only_mapped=names_supplied,
     )
     if dropped_props:
         file_result["dropped_property_values"] = dropped_props

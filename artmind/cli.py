@@ -1767,8 +1767,9 @@ def _run_passage_sweep() -> None:
 @click.option("--domain", required=True, help="Domain whose staged documents to re-date")
 @dry_run_option("Report what would change; write nothing")
 @click.option("--redoProperties", "redo_properties", is_flag=True,
-              help="Also re-extract each chunk's properties with the document's date in the prompt "
-                   "(LLM: one call per chunk; entity names are kept). Needs this machine's chunk cache.")
+              help="Also re-ask the date properties of every class with a temporal: property, with the "
+                   "document's date in the prompt (LLM: one call per staged chunk holding such a class; "
+                   "entity names are kept, other keys and classes untouched). Runs on backfill-properties.")
 @click.option("--limit", type=int, default=None, help="Only the first N documents (try a few first)")
 @click.option("--document", "documents", multiple=True,
               help="Only this document (e.g. 2026-01-07.md); repeatable, comma-separated")
@@ -1789,9 +1790,12 @@ def ingest_retime(
     their values are kept under logs/retime-dropped/.
 
     \b
-    --redoProperties additionally re-runs the properties step (only) so date
-    properties such as date_or_time resolve against the document's date
-    (temporal.relative_anchor). Try it with --limit first.
+    --redoProperties additionally re-asks, from the staged chunk text, the
+    temporal: properties (such as date_or_time) of every class that declares
+    one, so they resolve against the document's date (temporal.relative_anchor).
+    It is `ingest backfill-properties` over those classes in one pass: each
+    changed observations.json is kept under logs/backfill-stash/, and a key the
+    model does not answer keeps its value. Try it with --limit first.
     """
     _setup_logger()
     from artmind.retime import retime_domain
@@ -1809,7 +1813,7 @@ def ingest_retime(
             text_model=resolve_llm_model(env),
             embed_model=env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest"),
         )
-    except FileNotFoundError as e:
+    except (FileNotFoundError, ValueError) as e:
         raise click.ClickException(str(e))
     _echo_json(report, compact)
     if report["commit_failed"]:

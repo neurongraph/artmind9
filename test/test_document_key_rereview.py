@@ -101,22 +101,6 @@ def test_a_vault_relative_path_picks_one_of_two_namesakes(ingest_env):
     assert a["artmind_id"] == "note-0" and b["artmind_id"] == "note-1"
 
 
-def test_retime_looks_the_document_up_by_its_id(ingest_env, monkeypatch):
-    from artmind import retime
-
-    vault, _ = ingest_env
-    _register_notes(vault, "A/README.md", "B/README.md")
-    seen = []
-    monkeypatch.setattr(ing, "_build_file_result_from_db", lambda name, domain: seen.append(name))
-    doc_dir = ing.KG_DIR / "general" / "README~x"
-    doc_dir.mkdir(parents=True)
-    (doc_dir / "document.json").write_text(json.dumps({"id": "note-1", "name": "README.md"}))
-
-    out = retime._redo_properties(doc_dir, "general", {}, "m", "e")
-
-    assert seen == ["B/README.md"] and "skipped" in out
-
-
 # ── 4: globs skip scratch folders and namesakes ─────────────────────────────
 
 
