@@ -87,7 +87,9 @@ def retime_observations(observations: list[dict], document: dict, schema: dict) 
         if obs.get("source_kind") != "table":
             obs, gone = filter_declared(obs, cls, declared)
             if gone:
-                dropped[obs.get("id") or ""] = gone
+                # An id-less observation is keyed by its key, else its position: never "" (two
+                # such observations would collide in the sidecar).
+                dropped[str(obs.get("id") or obs.get("key") or f"#{len(out)}")] = gone
         fact_from, fact_to = ingest._fact_valid_time(entity_dates, cls, obs)
         new = {k: v for k, v in obs.items() if k not in _OBSERVATION_TIME_KEYS}
         times = {
@@ -102,14 +104,26 @@ def retime_observations(observations: list[dict], document: dict, schema: dict) 
 
 
 def _keep_dropped(doc_kg_dir: Path, name: str, dropped: dict) -> None:
-    """Move dropped values beside the run (private, gitignored), merged with earlier runs."""
+    """Move dropped values beside the run (private, gitignored), merged per observation with
+    earlier runs, so a later run dropping another key keeps the first run's values."""
+    import os
+    import tempfile
+
     sidecar = ingest.LOGS_DIR / "retime-dropped" / doc_kg_dir.parent.name / f"{doc_kg_dir.name}.json"
     sidecar.parent.mkdir(parents=True, exist_ok=True)
     prior = _load_json(sidecar, {}) or {}
-    payload = {"document": name, "values": {**(prior.get("values") or {}), **dropped}}
-    tmp = sidecar.with_suffix(".tmp")
-    tmp.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    tmp.replace(sidecar)
+    merged = dict(prior.get("values") or {})
+    for oid, vals in dropped.items():
+        merged[oid] = {**(merged.get(oid) or {}), **vals}
+    text = json.dumps({"document": name, "values": merged}, ensure_ascii=False, indent=2)
+    fd, tmp = tempfile.mkstemp(prefix=".retime-dropped-", suffix=".tmp", dir=sidecar.parent)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            fh.write(text)
+        os.replace(tmp, sidecar)
+    except BaseException:
+        Path(tmp).unlink(missing_ok=True)
+        raise
 
 
 def retime_folder(doc_kg_dir: Path, schema: dict, *, write: bool = True) -> dict:
@@ -125,6 +139,9 @@ def retime_folder(doc_kg_dir: Path, schema: dict, *, write: bool = True) -> dict
         return {"document": name, "skipped": "no readable document.json"}
     if document.get("source_kind") == ingest.USER_CHAT_SOURCE_KIND:
         return {"document": name, "skipped": "update-session folder (dated by the chat)"}
+    if document.get("source_kind") == "table":
+        # table2graph staging: no markdown, each row dated by its own data.
+        return {"document": name, "skipped": "table folder (dated by its rows)"}
     try:
         md_file = staged_markdown_path(document)
     except ValueError as e:

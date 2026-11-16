@@ -63,3 +63,44 @@ def test_missing_markdown_still_prunes_and_keeps_the_dates(tmp_path, monkeypatch
     result = retime_folder(folder, yaml.safe_load(EXCLUSIVE_SCHEMA))
     assert result["dates"] == "kept (markdown not found)" and result["dropped"] == {"mood": 2}
     assert json.loads((folder / "document.json").read_text()) == before
+
+
+def test_a_second_run_dropping_another_key_keeps_the_first_runs_values(tmp_path, monkeypatch):
+    folder = _staged_with_mood(tmp_path, monkeypatch)
+    retime_folder(folder, yaml.safe_load(EXCLUSIVE_SCHEMA))          # drops mood
+    obs = json.loads((folder / "observations.json").read_text())
+    (folder / "observations.json").write_text(json.dumps([{**o, "tone": "warm"} for o in obs]))
+    retime_folder(folder, yaml.safe_load(EXCLUSIVE_SCHEMA))          # drops tone
+    (sidecar,) = (tmp_path / "logs" / "retime-dropped" / "journal").glob("*.json")
+    values = json.loads(sidecar.read_text())["values"]
+    assert len(values) == 2
+    assert all(v == {"mood": "calm", "tone": "warm"} for v in values.values())
+    assert not list(sidecar.parent.glob("*.tmp")), "no temp file left behind"
+
+
+def test_id_less_observations_do_not_collide_in_the_report():
+    schema = {"entity_types": {"EVENT": {"kind": "occurrent", "properties": {}}}}
+    obs = [{"entity_class": "EVENT", "mood": "calm"}, {"entity_class": "EVENT", "mood": "tense"}]
+    _, dropped = retime_observations(obs, {}, schema)
+    assert sorted(v["mood"] for v in dropped.values()) == ["calm", "tense"] and "" not in dropped
+
+
+def test_a_table_folder_is_skipped_and_left_alone(tmp_path, monkeypatch):
+    monkeypatch.setattr(ing, "LOGS_DIR", tmp_path / "logs")
+    folder = tmp_path / "kg" / "journal" / "table__x"
+    folder.mkdir(parents=True)
+    document = {"id": "t1", "artmind_id": "t1", "name": "x", "path": "x.csv", "source_kind": "table",
+                "_valid_from": "2024-12-01", "_valid_time_source": "table_rows"}
+    observations = [{"id": "o1", "entity_class": "ROW", "source_kind": "table", "amount": 3,
+                     "_valid_from": "2024-01-05", "_doc_valid_from": "2024-12-01",
+                     "_valid_time_source": "table_row"}]
+    (folder / "document.json").write_text(json.dumps(document))
+    (folder / "observations.json").write_text(json.dumps(observations))
+    writes = []
+    monkeypatch.setattr(ing, "write_staging", lambda *a, **k: writes.append(a))
+
+    result = retime_folder(folder, yaml.safe_load(EXCLUSIVE_SCHEMA))
+
+    assert result["skipped"] == "table folder (dated by its rows)"
+    assert writes == []
+    assert json.loads((folder / "observations.json").read_text()) == observations

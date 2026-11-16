@@ -48,9 +48,14 @@ def extract_chunk(text: str, schema: dict, *, model: str, meta: dict | None = No
     relationships: list[dict] = []
     props: dict[str, dict] = {}
     if entities:
-        raw_props, ok = extraction.extract_with_retry(
+        from artmind.observations import declared_property_keys
+
+        # Only classes that declare a property are asked, as `extract_kg` does (spec 2026-11-15 §2.3).
+        with_props = {c for c, keys in declared_property_keys(schema).items() if keys}
+        prop_entities = [e for e in entities if e.get("entity_class") in with_props]
+        raw_props, ok = ([], True) if not prop_entities else extraction.extract_with_retry(
             f"{STEP_PREFIX}_properties", model,
-            extraction.build_properties_prompt(text, entities, schema, anchor_date=anchor_date, meta=meta))
+            extraction.build_properties_prompt(text, prop_entities, schema, anchor_date=anchor_date, meta=meta))
         if not ok:
             failed.append("properties")
         for item in raw_props or []:
