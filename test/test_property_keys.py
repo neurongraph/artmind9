@@ -43,23 +43,6 @@ def test_undeclared_unrelated_and_structural_keys_are_untouched():
     assert _norm(props) == props
 
 
-def test_retrieved_vocabulary_drops_keys_that_would_be_renamed(monkeypatch):
-    from unittest.mock import MagicMock
-
-    from artmind.canonicalize import retrieve_property_vocabulary
-
-    session = MagicMock()
-    session.run.return_value.data.return_value = [
-        {"entity_class": "PERSON", "key": "notable_characteristics", "uses": 9},
-        {"entity_class": "PERSON", "key": "notable_characteristic", "uses": 5},
-        {"entity_class": "OBJECT", "key": "narrative_function", "uses": 4},
-        {"entity_class": "OBJECT", "key": "narrative_role", "uses": 3},
-    ]
-    vocabulary = retrieve_property_vocabulary(session, domain="journal", schema=SCHEMA)
-    # A drifted key ranked high by use is exactly what entrenched the drift.
-    assert vocabulary == {"PERSON": ["notable_characteristic"], "OBJECT": ["narrative_role"]}
-
-
 def test_validate_rejects_bad_property_aliases():
     from artmind.schema_validate import validate_schema
     from artmind.prompt_builder import load_meta

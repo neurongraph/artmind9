@@ -35,6 +35,8 @@ def test_extract_facts_returns_entities_with_temp_ids():
         "entities_prompt": "Extract: {text}",
         "properties_prompt": "Props {entities_list} {text}",
         "relationships_prompt": "Rels {entities_list} {text}",
+        # PERSON declares a property, so the properties step runs (spec 2026-11-15 §2.3).
+        "entity_types": {"PERSON": {"kind": "recurrent", "properties": {"role": {}}}},
     }
     mock_entities = [{"id": "e0", "entity_class": "PERSON", "name": "Alice"}]
     mock_props = [{"name": "Alice", "properties": {"role": "CEO"}}]
@@ -74,6 +76,8 @@ def test_extract_facts_maps_relationship_source_target_to_temp_ids():
         "entities_prompt": "Extract: {text}",
         "properties_prompt": "Props {entities_list} {text}",
         "relationships_prompt": "Rels {entities_list} {text}",
+        # PERSON declares a property, so the properties step runs (spec 2026-11-15 §2.3).
+        "entity_types": {"PERSON": {"kind": "recurrent", "properties": {"role": {}}}},
     }
     mock_entities = [
         {"id": "e0", "entity_class": "PERSON", "name": "Alice"},
@@ -890,3 +894,157 @@ def test_retraction_writes_a_thin_observation_carrying__retracts():
     # Same identity as the resolution's own entity -- no synthetic entity.
     assert retracting[0]["entity_class"] == "PERSON"
     assert retracting[0]["canonical_name"] == "Alice"
+
+
+def test_write_user_chat_keeps_only_declared_property_keys(tmp_path, monkeypatch):
+    """Spec 2026-11-15 §2.2: a chat update keeps the class's declared keys (an alias folded
+    first, as extraction does), drops the rest, and keeps its own provenance keys."""
+    import yaml
+
+    import artmind.temporal as temporal
+    import artmind.update as upd
+
+    schemas = tmp_path / "schemas"
+    schemas.mkdir()
+    (schemas / "testchat_schema.yaml").write_text(yaml.safe_dump({
+        "name": "testchat",
+        "property_aliases": {"job_title": "role"},
+        "entity_types": {"PERSON": {"kind": "recurrent", "properties": {"role": {}, "team": {}}}},
+    }))
+    monkeypatch.setattr(temporal, "DOMAIN_SCHEMAS_DIR", schemas)
+    monkeypatch.setattr(upd, "DOMAIN_SCHEMAS_DIR", schemas)
+    resolutions = [{"entity_temp_id": "e0", "action": "create", "node_id": None}]
+    extracted_entities = [{"temp_id": "e0", "name": "Alice", "entity_class": "PERSON",
+                           "properties": {"job_title": "lead", "team": "blue", "mood": "calm"}}]
+    calls = []
+
+    def run_side_effect(cypher, **kwargs):
+        calls.append((cypher, kwargs))
+        result = MagicMock()
+        result.data.return_value = []
+        return result
+
+    session = MagicMock()
+    session.run.side_effect = run_side_effect
+    session.execute_write.side_effect = lambda fn, *a, **k: fn(session, *a, **k)
+
+    with patch("artmind.update.embed_document", return_value=[0.1] * 768), \
+         patch("artmind.update._find_existing_entity", return_value=None), \
+         patch("artmind.update.neo4j_session") as mock_ctx, \
+         patch("artmind.projection.rebuild", return_value={}):
+        mock_ctx.return_value.__enter__.return_value = session
+        result = write_user_chat(
+            session_id="s", raw_text="Alice leads the blue team.", domain="testchat",
+            user_id="u", resolutions=resolutions,
+            extracted_entities=extracted_entities, extracted_relationships=[],
+        )
+
+    (props,) = [kw["props"] for c, kw in calls if "CREATE (n:Observation {id: $id})" in c and "props" in kw]
+    assert props["role"] == "lead" and "job_title" not in props, "an alias reaches its declared key"
+    assert props["team"] == "blue"
+    assert "mood" not in props
+    assert props["source_kind"] == "user_chat" and props["created_by"] == "u"
+    assert result["dropped_property_values"] == 1
+
+
+def test_write_user_chat_drops_model_emitted_provenance_keys(tmp_path, monkeypatch):
+    """`source_kind` / `created_by` in the LLM's property bag are undeclared keys, not the
+    observation's own provenance: they are dropped (and counted) before the real ones are set."""
+    import yaml
+
+    import artmind.temporal as temporal
+    import artmind.update as upd
+
+    schemas = tmp_path / "schemas"
+    schemas.mkdir()
+    (schemas / "testchat_schema.yaml").write_text(yaml.safe_dump({
+        "name": "testchat", "entity_types": {"PERSON": {"kind": "recurrent", "properties": {"role": {}}}}}))
+    monkeypatch.setattr(temporal, "DOMAIN_SCHEMAS_DIR", schemas)
+    monkeypatch.setattr(upd, "DOMAIN_SCHEMAS_DIR", schemas)
+    resolutions = [{"entity_temp_id": "e0", "action": "create", "node_id": None}]
+    extracted_entities = [{"temp_id": "e0", "name": "Alice", "entity_class": "PERSON",
+                           "properties": {"role": "lead", "source_kind": "table", "created_by": "X"}}]
+    calls = []
+
+    def run_side_effect(cypher, **kwargs):
+        calls.append((cypher, kwargs))
+        result = MagicMock()
+        result.data.return_value = []
+        return result
+
+    session = MagicMock()
+    session.run.side_effect = run_side_effect
+    session.execute_write.side_effect = lambda fn, *a, **k: fn(session, *a, **k)
+
+    with patch("artmind.update.embed_document", return_value=[0.1] * 768), \
+         patch("artmind.update._find_existing_entity", return_value=None), \
+         patch("artmind.update.neo4j_session") as mock_ctx, \
+         patch("artmind.projection.rebuild", return_value={}):
+        mock_ctx.return_value.__enter__.return_value = session
+        result = write_user_chat(
+            session_id="s", raw_text="Alice is the lead.", domain="testchat",
+            user_id="u", resolutions=resolutions,
+            extracted_entities=extracted_entities, extracted_relationships=[],
+        )
+
+    (props,) = [kw["props"] for c, kw in calls if "CREATE (n:Observation {id: $id})" in c and "props" in kw]
+    assert props["role"] == "lead"
+    assert props["source_kind"] == "user_chat" and props["created_by"] == "u"
+    assert result["dropped_property_values"] == 2
+
+
+def test_write_user_chat_without_a_schema_file_uses_the_general_schema(tmp_path, monkeypatch):
+    import yaml
+
+    import artmind.temporal as temporal
+    import artmind.update as upd
+
+    schemas = tmp_path / "schemas"
+    schemas.mkdir()
+    (schemas / "general_schema.yaml").write_text(yaml.safe_dump({
+        "name": "general", "entity_types": {"PERSON": {"kind": "recurrent", "properties": {"role": {}}}}}))
+    monkeypatch.setattr(temporal, "DOMAIN_SCHEMAS_DIR", schemas)
+    monkeypatch.setattr(upd, "DOMAIN_SCHEMAS_DIR", schemas)
+    calls = []
+
+    def run_side_effect(cypher, **kwargs):
+        calls.append((cypher, kwargs))
+        result = MagicMock()
+        result.data.return_value = []
+        return result
+
+    session = MagicMock()
+    session.run.side_effect = run_side_effect
+    session.execute_write.side_effect = lambda fn, *a, **k: fn(session, *a, **k)
+    with patch("artmind.update.embed_document", return_value=[0.1] * 768), \
+         patch("artmind.update._find_existing_entity", return_value=None), \
+         patch("artmind.update.neo4j_session") as mock_ctx, \
+         patch("artmind.projection.rebuild", return_value={}):
+        mock_ctx.return_value.__enter__.return_value = session
+        write_user_chat(
+            session_id="s", raw_text="Alice is lead.", domain="nofile",
+            user_id="u", resolutions=[{"entity_temp_id": "e0", "action": "create", "node_id": None}],
+            extracted_entities=[{"temp_id": "e0", "name": "Alice", "entity_class": "PERSON",
+                                 "properties": {"role": "lead"}}],
+            extracted_relationships=[],
+        )
+
+    (props,) = [kw["props"] for c, kw in calls if "CREATE (n:Observation {id: $id})" in c and "props" in kw]
+    assert props["role"] == "lead"
+
+
+def test_extract_facts_asks_properties_only_for_classes_that_declare_some():
+    schema = {"entity_types": {"PERSON": {"kind": "recurrent", "properties": {"role": {}}},
+                               "PLACE": {"kind": "recurrent"}}}
+    steps = []
+
+    def fake(step, model, prompt):
+        steps.append((step, prompt))
+        if step == "update_entities":
+            return [{"id": "e0", "name": "Park", "entity_class": "PLACE"}], True
+        return [], True
+
+    with patch("artmind.update.extract_with_retry", side_effect=fake), \
+         patch("artmind.update.resolve_llm_model", return_value="m"):
+        extract_facts("At the park.", "d", schema)
+    assert [s for s, _ in steps] == ["update_entities", "update_relationships"]

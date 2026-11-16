@@ -343,7 +343,7 @@ covers is answered by `artmind query views run <name>` (see Views), not by a row
 | "What changed when document D was edited / re-ingested" / earlier version of a note | `artmind query document-history --documentName "<name or path>"` — current vs history observations with the `doc_version` that last asserted each; `dropped_keys` = entities an earlier version stated and the current one no longer does. A name missing its extension is matched when exactly one document fits (`matched_name` + a warning); a miss returns `closest` names and a `next` command. See `references/temporal.md` |
 | List entities of a class | `artmind query graph pattern1 --shape brief --entityClass <LABEL> [--limit N]` |
 | "Main / key / most important / top" entities | `artmind query graph pattern9 --entityClass <LABEL> --topN 5` (default ranks by entity-entity links; `--degreeMode mentions` ranks by how often sources mention it) |
-| Facts/properties of named entities (no text needed, e.g. comparing many) | `artmind query graph pattern2 --shape brief --entityIdList <id>` (or `--entityNameList`) |
+| Facts/properties of named entities (no text needed, e.g. comparing many) | `artmind query graph pattern2 --shape brief --entityIdList <id>` (or `--entityNameList`); each brief row's `properties` holds the declared values, required first, with `truncated_properties`/`cut_properties` naming what the row cut |
 | Properties + relationship summary | `artmind query graph pattern3 --entityIdList <id>` |
 | Full one-hop neighborhood / contextual role | `artmind query graph pattern4 --entityClass <LABEL> --entityId <id>` |
 | Everyone under X / X's whole reporting line / full org subtree / chain of command | `artmind query graph hierarchy --entityId <id> --childOf <REL> [--parentOf <REL>] [--direction up] [--maxDepth N]` — omit `--childOf`/`--parentOf` for discovery mode first; see `references/hierarchy.md` |
@@ -416,6 +416,12 @@ you never saw the part that answers), so `entity-context` returns a bounded one:
   documents first) are the cut.
 - List properties keep their newest `--maxListItems` (default 10) entries;
   `truncated_properties` gives each cut list's full length.
+- With `--shape brief` the entity line carries `properties`: its class's declared
+  values (required keys first, temporal keys left out), up to 600 characters a row
+  (200 on a pattern1/7/8 listing row). `truncated_properties` names each list shown in
+  part with its full length, `cut_properties` each value cut or left out with its full
+  length in characters. Read them before reaching for `--shape full`; a key named
+  there is the one to fetch whole.
 
 Pass the question to `entity-context`; on a hub its `cut` block says what is hidden.
 

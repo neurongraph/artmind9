@@ -236,16 +236,30 @@ add more.
 
 ### Step 5 — Declare properties per class
 
-Properties are an open schema — no fixed fields beyond `entity_common_properties`
-(`name`, `aliases`, `entity_class`, `type`, `description`, `context`, always
-present regardless of what you declare). For each class:
+Properties are a closed schema: a class carries only the keys it declares,
+plus `entity_common_properties` (`name`, `aliases`, `entity_class`, `type`,
+`description`, `context`, always present). The properties prompt lists only
+the declared keys of the classes in the chunk, a class that declares none gets
+no properties call, and any other key the model returns is dropped when the
+observation is built (also in `artmind update`). So a property must be
+declared **on the class that carries it**. For each class:
 
 ```yaml
     properties:
       property_name:
         hint: what this should contain, and its expected FORMAT
       another_property: {}   # no hint needed — the name is self-explanatory
+      defining_key:
+        hint: the value every entity of this class has
+        required: true          # a defining key: brief rows show it first
+      rare_key:
+        hint: ...
+        keep_reason: "asked by the quarterly report"   # evidence the audit can't measure
 ```
+
+`required:` must be `true` or `false`; `keep_reason:` a non-empty string.
+`properties:` must be a map, and a key named like an observation field
+(`name`, `source_kind`, ...) is a `domains validate` warning.
 
 6–10 properties per class is typical. Frame each one by asking: *"If a
 domain expert asked a question about this entity, what structured fact
@@ -271,6 +285,9 @@ percentages, dates, ranges), name the exact format with a worked example.
    an atomic property (e.g. "the example from the document verbatim, but
    only if it's for THIS tier"), write that qualifier into the property's
    own `hint` rather than folding it into the property name.
+6. Guidance (a class's own and the top-level `guidance:`) and `RIGHT:`
+   examples name only keys the class declares: `domains validate` warns on
+   any other, since the model would be told to write a key that is dropped.
 
 ### Step 6 — Declare relates_to per class
 
@@ -319,23 +336,32 @@ separate `event_at` axis. A property tagged anything else (including the
 retired `event_at`) is silently ignored by the observation builder, not an
 error — so a typo here fails silently. Double-check the two spellings.
 
-Add `exclusive: true` beside `temporal:` when only the classes that declare
-the property may carry it:
+A date property stays on the classes that declare it: a journal's
+`date_or_time` on a PERSON would only mean "mentioned in this entry", and the
+declared-key filter drops it there (extraction, and `ingest retime` for
+staged data). The older `exclusive: true` flag is therefore no longer needed;
+it is accepted and has no effect. To let another class carry the same date
+(`effective_date` on a contract OBLIGATION is a fact), declare it there too.
 
-```yaml
-      date_or_time:
-        temporal: valid_from
-        exclusive: true
-```
+To decide which keys a class should keep once a domain has data, run
+`artmind domains property-audit --domain <domain>` (read-only, no LLM; add
+`--graph` for open conflicts per key). Each (class, key) row gives its fill,
+how much of its values the description, only the chunk text, or neither
+holds, what depends on it (mart, insights, a view or a skill's backticked
+`key`), and a proposal: `required`, `keep`, `drop` or `review`. A declared
+`required: true` reports `required`; `keep_reason: "<why>"`, a `temporal:`
+tag or a dependency keep the key whatever its fill. The audit lists names and
+shares, never values. `drop` covers an undeclared key, a key that is mostly
+the model's interpretation, and a rarely stated one. After trimming the
+schema, `artmind ingest retime --domain <domain> --dryRun` shows what it would
+drop from staging.
 
-The extractor sometimes adds a date property to every entity a passage
-mentions. A journal's `date_or_time` on a PERSON only means "mentioned in
-this entry", and on a recurrent entity it reads like a fact about that
-person. With `exclusive: true`, extraction drops the property from every
-class that doesn't declare it, and `ingest retime` drops it from
-observations that are already staged. Leave it off when the name can be
-real data on other classes: `effective_date` on a contract OBLIGATION is a
-fact, so don't make it exclusive.
+To fill a key you just declared on data that is already ingested, run
+`artmind ingest backfill-properties --domain <domain> --entityClass <CLASS>
+--property <key>[,<key>] --dryRun` first (no LLM; counts documents, chunks and
+calls). The real run sends each selected chunk's text to the configured
+provider once (cached), changes only those keys, commits and rebuilds once;
+`--undo <run_id>` restores it. Entities and names are not re-extracted.
 
 **2. A `temporal:` block at the schema's top level**, for the *document's*
 own date (not an entity's):
@@ -385,8 +411,10 @@ default anchors nothing.
 
 To re-date documents that are already ingested after you change any of this,
 run `artmind ingest retime --domain <domain>` (no LLM; add `--dryRun` to
-preview). `--redoProperties` also re-extracts the date properties against
-the anchor; that costs one LLM call per chunk.
+preview). It also drops keys a class no longer declares (their values are
+kept under `logs/retime-dropped/`). `--redoProperties` also re-asks the date
+properties against the anchor from the staged chunk text (no chunk cache
+needed); that costs one LLM call per chunk with a dated entity.
 
 **Inheritance, if this is a child schema** (e.g. `banking.risk_governance`
 under `banking`): the child's `temporal:` block is deep-merged underneath
@@ -402,11 +430,9 @@ near-synonyms. Each spelling becomes a separate property to anything that
 reads the graph, so a fact stored under one key is invisible to a query for
 the other. Two rules keep keys stable:
 
-- **Declare property names in the singular.** The properties prompt tells
-  the model to use singular keys (`notable_characteristic`, not
-  `notable_characteristics`), so a plural declaration splits the data.
-  Singular and plural variants of a declared key are folded onto it
-  automatically, so a stray plural needs no alias.
+- **Declare property names in the singular** (`notable_characteristic`,
+  not `notable_characteristics`). Singular and plural variants of a declared
+  key are folded onto it automatically, so a stray plural needs no alias.
 - **Use the same name across classes for the same idea.** If LOCATION
   declares `narrative_function` and OBJECT declares `narrative_role`, the
   model will put both on every class. For names that are already in use,
@@ -422,7 +448,9 @@ Aliases are applied deterministically at extraction, and `artmind ingest
 retime --domain <domain>` applies them to data that is already ingested,
 with no LLM. When two keys land on one name, their values are merged.
 `artmind domains validate` rejects an alias whose variant is a declared
-property, a chain (`a: b`, `b: c`), and a structural key such as `name`.
+property, a chain (`a: b`, `b: c`), and a structural key such as `name`; an
+alias whose target no class declares is reported too, since every value it
+renames would be dropped.
 Merge only real synonyms: `frequency` on an ACTIVITY and `frequency_of_visit`
 on a LOCATION are different questions.
 
@@ -473,7 +501,13 @@ Then verify, in order:
 artmind domains validate --domain {domain_name}
 ```
 Fails loudly on a missing `kind`, a list-form `entity_types`, or a reserved
-`_`-prefixed name — fix everything it reports before moving on.
+`_`-prefixed name — fix everything it reports before moving on. It also checks
+properties: `properties` a map, `required`/`keep_reason` types, alias targets,
+guidance and `RIGHT:` examples naming undeclared keys, keys colliding with an
+observation field. A mart declaration or insights config reading an
+undeclared `CLASS.key` is an error, a saved view reading one a warning (JSON
+`property_references`); `meta_warnings` flags a run folder still on the old
+open-schema properties template.
 
 ```bash
 artmind domains entities-prompt {domain_name}

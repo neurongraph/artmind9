@@ -49,14 +49,6 @@ def test_build_properties_prompt_substitutes_entities_and_text():
     assert "role" in result
 
 
-def test_build_properties_prompt_threads_the_property_vocabulary_through():
-    entities = [{"id": "e0", "entity_class": "PERSON", "name": "Alice"}]
-    vocabulary = {"PERSON": ["affiliation"]}
-    result = build_properties_prompt("my text", entities, SCHEMA, vocabulary=vocabulary)
-    assert "affiliation" in result
-    assert "PROPERTY KEYS ALREADY IN USE" in result
-
-
 def test_build_relationships_prompt_substitutes_entities_and_text():
     entities = [{"id": "e0", "entity_class": "PERSON", "name": "Alice"}]
     result = build_relationships_prompt("my text", entities, SCHEMA)
@@ -100,3 +92,10 @@ def test_extract_with_retry_returns_empty_list_on_failure():
         result, ok = extract_with_retry("test_step", "test-model", "some prompt")
     assert ok is False
     assert result == []
+
+
+def test_build_properties_prompt_renders_only_the_entities_classes():
+    schema = {"entity_types": {"PERSON": {"kind": "recurrent", "properties": {"role": {}}},
+                               "ORG": {"kind": "recurrent", "properties": {"sector": {}}}}}
+    prompt = build_properties_prompt("t", [{"id": "e1", "entity_class": "ORG", "name": "Acme"}], schema)
+    assert "For ORG, extract:" in prompt and "For PERSON" not in prompt

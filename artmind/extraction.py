@@ -384,24 +384,19 @@ def build_properties_prompt(
     text: str,
     entities: list[dict],
     schema: dict,
-    vocabulary: dict | None = None,
     anchor_date: str | None = None,
     *,
     meta: dict | None = None,
 ) -> str:
-    """`vocabulary` is the retrieved property-key vocabulary (see
-    `artmind.canonicalize.retrieve_property_vocabulary`); `anchor_date` the
-    document's own date, for resolving relative phrases (see
-    `prompt_builder._render_anchor_date_section`) — either omitted, the
-    prompt renders exactly as before. `meta`: an alternative meta.yaml dict (a
-    proposed prompt template, for `artmind review reextract`); None = the run
-    folder's."""
+    """Only the classes of `entities` are rendered (spec 2026-11-15 §2.1). `anchor_date`: the
+    document's own date for relative phrases (`prompt_builder._render_anchor_date_section`).
+    `meta`: an alternative meta.yaml dict (`artmind review reextract`); None = the run folder's."""
     from artmind.prompt_builder import assemble_properties_prompt
 
-    ent_list = entities_list_text(entities)
+    classes = {e.get("entity_class") for e in entities if e.get("entity_class")}
     return (
-        assemble_properties_prompt(schema, meta=meta, vocabulary=vocabulary, anchor_date=anchor_date)
-        .replace("{entities_list}", ent_list)
+        assemble_properties_prompt(schema, meta=meta, anchor_date=anchor_date, classes=classes)
+        .replace("{entities_list}", entities_list_text(entities))
         .replace("{text}", text)
     )
 

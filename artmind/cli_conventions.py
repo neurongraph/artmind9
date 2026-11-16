@@ -63,7 +63,7 @@ WRITE_COMMANDS: dict[str, int] = {
     **{p: 1 for p in (
         "sameas approve", "sameas reject",
         "ingest resolve-conflict", "ingest supersede", "ingest unsupersede", "ingest sync", "ingest table2graph",
-        "ingest retime", "ingest summarise",
+        "ingest retime", "ingest summarise", "ingest backfill-properties",
         "docs retire", "docs restore", "docs archive",
         "projection rebuild", "projection synthesize",
         "update confirm", "update retract",
@@ -334,7 +334,7 @@ EFFECT_KINDS = frozenset({
     "summary_write", "description_write", "view_save", "view_delete", "topic_write",
     "topic_delete", "table_change", "trace_delete", "fact_write", "fact_retract",
     "proposal_reject", "projection_rebuild", "document_archive", "catalogue_refresh",
-    "mart_record", "mart_build",
+    "mart_record", "mart_build", "property_values_dropped", "property_backfill",
 })
 
 SAMPLE_CAP = 10

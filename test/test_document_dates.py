@@ -50,6 +50,7 @@ def _vault(tmp_path, monkeypatch, filename, body):
     monkeypatch.setattr(db, "DB_PATH", tmp_path / "registry.db")
     monkeypatch.setattr("artmind.delta.apply_metadata_only", lambda **k: None)
     monkeypatch.setattr(ing, "KG_DIR", tmp_path / "kg")
+    monkeypatch.setattr(ing, "LOGS_DIR", tmp_path / "logs")  # the backfill's answer cache and stash
     schemas = tmp_path / "schemas"
     schemas.mkdir()
     (schemas / "journal_schema.yaml").write_text(JOURNAL_SCHEMA, encoding="utf-8")
@@ -283,19 +284,29 @@ def test_retime_domain_commits_changed_folders_then_rebuilds_once(tmp_path, monk
     assert commits == [] and rebuilds == []
 
 
+def _redo_answers(monkeypatch, answer):
+    """`backfill._ask` stubbed: records every prompt, answers `answer`."""
+    from artmind import backfill
+
+    prompts: list = []
+    monkeypatch.setattr(backfill, "_ask", lambda step, model, prompt, debug_dir=None: prompts.append(prompt) or (answer, True))
+    return prompts
+
+
+def _asked_classes(prompt):
+    import re
+
+    return sorted(re.findall(r"^For (\w+), extract:", prompt, re.M))
+
+
 def test_redo_properties_reextracts_only_properties_with_the_anchor(tmp_path, monkeypatch):
     from artmind.retime import retime_domain
 
     folder, anchors = _ingested_under_the_old_schema(tmp_path, monkeypatch)
     assert anchors == [None]
-    steps = []
-    real_llm = ing._llm_extract
-    # the document summary (one call per document) is not a chunk step
-    monkeypatch.setattr(
-        ing, "_llm_extract",
-        lambda step, *a: (steps.append(step) if step != "document_summary" else None) or real_llm(step, *a),
-    )
-    monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: True)
+    monkeypatch.setattr(ing, "_llm_extract", lambda *a, **k: (_ for _ in ()).throw(AssertionError("no extract_kg step")))
+    commits = []
+    monkeypatch.setattr(ing, "commit_to_graph", lambda d, dom, defer_rebuild=False: commits.append(d) or True)
     monkeypatch.setattr(ing, "rebuild_projection", lambda domain: {})
 
     # The first extraction canonicalized "Governance Call" to "Governance Sync".
@@ -304,33 +315,38 @@ def test_redo_properties_reextracts_only_properties_with_the_anchor(tmp_path, mo
     obs_file.write_text(json.dumps([{**o, "canonical_name": "Governance Sync"} for o in staged]))
     monkeypatch.setattr(ing, "canonicalize_document",
                         lambda *a, **k: (_ for _ in ()).throw(AssertionError("identity must not be re-decided")))
+    prompts = _redo_answers(monkeypatch, [{"id": "o1", "properties": {"date_or_time": "2026-01-07 (afternoon)"}}])
 
     report = retime_domain("journal", redo_properties=True, text_model="m", embed_model="e")
 
-    assert report["committed"] == 1, report
-    assert steps == ["chunk_001_properties"], "entities and relationships are not re-run"
+    assert report["committed"] == 1 and commits == [folder], report
+    assert len(prompts) == 1 and _asked_classes(prompts[0]) == ["EVENT"]
+    assert "document dated 2026-01-07" in prompts[0], "the anchor is the re-dated document's date"
+    assert "o1 (EVENT): Governance Sync" in prompts[0], "asked under its canonical name"
     (obs,) = json.loads(obs_file.read_text())
     assert obs["canonical_name"] == "Governance Sync", "a properties redo keeps every entity's identity"
-    assert anchors == [None, "2026-01-07"]
+    assert (obs["date_or_time"], obs["_valid_from"], obs["_valid_time_source"]) == (
+        "2026-01-07 (afternoon)", "2026-01-07", "property")
     document = json.loads((folder / "document.json").read_text())
     assert document["_valid_from"] == "2026-01-07"
 
 
-def test_redo_properties_skips_a_document_without_its_chunk_cache(tmp_path, monkeypatch):
+def test_redo_properties_needs_no_chunk_cache(tmp_path, monkeypatch):
     import shutil
 
     from artmind.retime import retime_domain
 
     folder, _ = _ingested_under_the_old_schema(tmp_path, monkeypatch)
     shutil.rmtree(folder / "chunks")
-    monkeypatch.setattr(ing, "_llm_extract", lambda *a: (_ for _ in ()).throw(AssertionError("no LLM")))
     monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: True)
     monkeypatch.setattr(ing, "rebuild_projection", lambda domain: {})
+    prompts = _redo_answers(monkeypatch, [{"id": "o1", "properties": {"date_or_time": "2026-01-06"}}])
 
     report = retime_domain("journal", redo_properties=True, text_model="m", embed_model="e")
 
-    assert report["committed"] == 0
-    assert "chunk extraction cache" in report["skipped"][0]["skipped"]
+    assert report["committed"] == 1 and report["skipped"] == [] and len(prompts) == 1
+    (obs,) = json.loads((folder / "observations.json").read_text())
+    assert obs["date_or_time"] == "2026-01-06"
 
 
 def test_a_child_domain_inherits_its_parents_temporal_block(tmp_path, monkeypatch):
@@ -387,10 +403,13 @@ def test_redo_properties_drops_a_mention_that_was_folded_away(tmp_path, monkeypa
     monkeypatch.setattr(ing, "rebuild_projection", lambda domain: {})
     monkeypatch.setattr(ing, "canonicalize_document",
                         lambda *a, **k: (_ for _ in ()).throw(AssertionError("identity must not be re-decided")))
+    prompts = _redo_answers(monkeypatch, [{"id": "o1", "properties": {"date_or_time": "2026-01-21"}},
+                                          {"id": "o2", "properties": {"date_or_time": "2026-01-21"}}])
     retime_domain("journal", redo_properties=True, text_model="m", embed_model="e")
 
     redone = json.loads((_folder("2026-01-21") / "observations.json").read_text())
     assert [o["id"] for o in redone] == [o["id"] for o in first]
+    assert prompts and "Ami)" not in prompts[0] and ": Ami\n" not in prompts[0], "the folded mention is not asked"
 
 
 # ── `exclusive: true`: a property only its declaring classes may carry ─────
@@ -433,9 +452,9 @@ def test_an_exclusive_property_is_stripped_from_classes_that_do_not_declare_it(t
     assert by_class["PERSON"]["role"] == "chair", "only the exclusive property goes"
 
 
-def test_a_non_exclusive_property_is_left_alone(tmp_path, monkeypatch):
-    # Without the flag a class may carry another class's date property --
-    # e.g. contracts' effective_date on an OBLIGATION is real data.
+def test_a_key_another_class_declares_is_dropped_from_one_that_does_not(tmp_path, monkeypatch):
+    """Spec 2026-11-15 §2.2: an observation keeps only its own class's declared keys, so
+    another class's date property goes whatever `exclusive` says."""
     doc = _vault(tmp_path, monkeypatch, "2026-01-07.md", "Call with Srinath.\n")
     (ing.DOMAIN_SCHEMAS_DIR / "journal_schema.yaml").write_text(
         EXCLUSIVE_SCHEMA.replace("        exclusive: true\n", ""), encoding="utf-8")
@@ -443,7 +462,7 @@ def test_a_non_exclusive_property_is_left_alone(tmp_path, monkeypatch):
 
     _, observations = _extract(doc)
 
-    assert {o["entity_class"]: o for o in observations}["PERSON"]["date_or_time"] == "2026-01-07"
+    assert "date_or_time" not in {o["entity_class"]: o for o in observations}["PERSON"]
 
 
 def test_retime_strips_an_exclusive_property_from_staged_observations(tmp_path, monkeypatch):
@@ -456,6 +475,10 @@ def test_retime_strips_an_exclusive_property_from_staged_observations(tmp_path, 
     schema_file.write_text(EXCLUSIVE_SCHEMA.replace("        exclusive: true\n", ""), encoding="utf-8")
     _two_class_llm(monkeypatch)
     _extract(doc)
+    # Staging from before the schema-only filter still carries the PERSON date.
+    staged = _folder("2026-01-07") / "observations.json"
+    staged.write_text(json.dumps([{**o, "date_or_time": "2026-01-07"} if o["entity_class"] == "PERSON" else o
+                                  for o in json.loads(staged.read_text())]))
     schema_file.write_text(EXCLUSIVE_SCHEMA, encoding="utf-8")  # the flag lands later
 
     assert retime_folder(_folder("2026-01-07"), yaml.safe_load(EXCLUSIVE_SCHEMA))["changed"]
@@ -480,31 +503,43 @@ def test_redo_properties_reextracts_only_date_tagged_classes(tmp_path, monkeypat
     _, first = _extract(doc)
     person_before = {k: v for k, v in next(o for o in first if o["entity_class"] == "PERSON").items()}
 
-    shown: list = []
-
-    def properties_prompt(text, ents, schema, vocabulary=None, anchor_date=None):
-        shown.append(sorted(e["entity_class"] for e in ents))
-        return "properties"
-
-    def llm(step_name, model, prompt, debug_dir):
-        assert step_name.endswith("_properties"), step_name
-        # Even if the model answers for an entity it wasn't asked about, that
-        # answer is ignored.
-        return [{"id": "e1", "properties": {"date_or_time": "2026-01-07 (afternoon)"}},
-                {"id": "e2", "properties": {"date_or_time_qualifier": "2026-01-07", "role": "guest"}}], True
-
-    monkeypatch.setattr(ing, "build_properties_prompt", properties_prompt)
-    monkeypatch.setattr(ing, "_llm_extract", llm)
+    # Even if the model answers for an entity it wasn't asked about, that answer is ignored.
+    prompts = _redo_answers(monkeypatch, [
+        {"id": "o1", "properties": {"date_or_time": "2026-01-07 (afternoon)"}},
+        {"id": "o2", "properties": {"date_or_time_qualifier": "2026-01-07", "role": "guest"}}])
     monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: True)
     monkeypatch.setattr(ing, "rebuild_projection", lambda domain: {})
 
     retime_domain("journal", redo_properties=True, text_model="m", embed_model="e")
 
-    assert shown == [["EVENT"]], "PERSON is never sent back to the model"
+    assert [_asked_classes(p) for p in prompts] == [["EVENT"]], "PERSON is never sent back to the model"
+    assert "Srinath" not in prompts[0].split("__list_of_entities__")[-1].split("__text__")[0]
     redone = json.loads((_folder("2026-01-07") / "observations.json").read_text())
     by_class = {o["entity_class"]: o for o in redone}
     assert by_class["EVENT"]["date_or_time"] == "2026-01-07 (afternoon)"
     assert by_class["PERSON"] == person_before, "an undated class's observation is untouched"
+
+
+def test_redo_properties_asks_one_call_per_chunk_for_two_dated_classes(tmp_path, monkeypatch):
+    from artmind.retime import retime_domain
+
+    doc = _vault(tmp_path, monkeypatch, "2026-01-07.md", "Call with Srinath today.\n")
+    two_dated = EXCLUSIVE_SCHEMA.replace("        exclusive: true\n", "").replace(
+        "      role: {}\n", "      role: {}\n      met_on:\n        temporal: valid_from\n")
+    (ing.DOMAIN_SCHEMAS_DIR / "journal_schema.yaml").write_text(two_dated, encoding="utf-8")
+    _two_class_llm(monkeypatch)
+    _extract(doc)
+    prompts = _redo_answers(monkeypatch, [{"id": "o2", "properties": {"met_on": "2026-01-06", "role": "guest"}}])
+    monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: True)
+    monkeypatch.setattr(ing, "rebuild_projection", lambda domain: {})
+
+    retime_domain("journal", redo_properties=True, text_model="m", embed_model="e")
+
+    assert [_asked_classes(p) for p in prompts] == [["EVENT", "PERSON"]]
+    person = next(o for o in json.loads((_folder("2026-01-07") / "observations.json").read_text())
+                  if o["entity_class"] == "PERSON")
+    assert person["met_on"] == "2026-01-06" and person["_valid_from"] == "2026-01-06"
+    assert person["role"] == "chair", "only the date keys are asked for; role keeps its value"
 
 
 def test_extraction_and_retime_normalize_property_keys(tmp_path, monkeypatch):
@@ -513,7 +548,9 @@ def test_extraction_and_retime_normalize_property_keys(tmp_path, monkeypatch):
 
     doc = _vault(tmp_path, monkeypatch, "2026-01-07.md", "Call with Srinath.\n")
     schema_file = ing.DOMAIN_SCHEMAS_DIR / "journal_schema.yaml"
-    schema_file.write_text(EXCLUSIVE_SCHEMA, encoding="utf-8")   # PERSON declares `role`
+    # PERSON declares `role` and, for now, `narrative_function`.
+    declared_now = EXCLUSIVE_SCHEMA.replace("      role: {}\n", "      role: {}\n      narrative_function: {}\n")
+    schema_file.write_text(declared_now, encoding="utf-8")
     _two_class_llm(monkeypatch)
 
     def llm(step_name, model, prompt, debug_dir):
@@ -526,10 +563,59 @@ def test_extraction_and_retime_normalize_property_keys(tmp_path, monkeypatch):
     monkeypatch.setattr(ing, "_llm_extract", llm)
     _, (obs,) = _extract(doc)
     assert obs["role"] == "chair" and "roles" not in obs, "number variant folded at extraction"
-    assert obs["narrative_function"] == "host", "no alias declared yet"
+    assert obs["narrative_function"] == "host", "declared, no alias yet"
 
-    with_alias = EXCLUSIVE_SCHEMA + "property_aliases:\n  narrative_function: narrative_role\n"
+    # The key is renamed in the schema: `narrative_role` declared, the old name an alias.
+    with_alias = (EXCLUSIVE_SCHEMA.replace("      role: {}\n", "      role: {}\n      narrative_role: {}\n")
+                  + "property_aliases:\n  narrative_function: narrative_role\n")
     schema_file.write_text(with_alias, encoding="utf-8")
     assert retime_folder(_folder("2026-01-07"), yaml.safe_load(with_alias))["changed"]
     (obs,) = json.loads((_folder("2026-01-07") / "observations.json").read_text())
     assert obs["narrative_role"] == "host" and "narrative_function" not in obs, "retime applies a new alias"
+
+
+def test_a_failing_redo_still_commits_the_redated_documents(tmp_path, monkeypatch):
+    from artmind import backfill
+    from artmind.retime import retime_domain
+
+    folder, _ = _ingested_under_the_old_schema(tmp_path, monkeypatch)
+    commits, rebuilds = [], []
+    monkeypatch.setattr(ing, "commit_to_graph", lambda d, dom, defer_rebuild=False: commits.append(d) or True)
+    monkeypatch.setattr(ing, "rebuild_projection", lambda domain: rebuilds.append(domain) or {})
+    monkeypatch.setattr(backfill, "backfill_domain", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("synthetic")))
+
+    report = retime_domain("journal", redo_properties=True, text_model="m", embed_model="e")
+
+    assert commits == [folder] and rebuilds == ["journal"] and report["committed"] == 1
+    assert any("properties redo failed" in w for w in report["warnings"])
+
+
+def test_redo_preconditions_refuse_before_retime_writes(tmp_path, monkeypatch):
+    import pytest
+
+    from artmind import backfill
+    from artmind.retime import retime_domain
+
+    folder, _ = _ingested_under_the_old_schema(tmp_path, monkeypatch)
+    before = (folder / "document.json").read_bytes()
+    with pytest.raises(ValueError, match="needs a model"):
+        retime_domain("journal", redo_properties=True, text_model=None)
+    monkeypatch.setattr(backfill, "_worker_running", lambda: True)
+    with pytest.raises(ValueError, match="worker is running"):
+        retime_domain("journal", redo_properties=True, text_model="m")
+    assert (folder / "document.json").read_bytes() == before, "nothing re-dated before the refusal"
+
+
+def test_redo_report_names_failed_chunks(tmp_path, monkeypatch):
+    from artmind import backfill
+    from artmind.retime import retime_domain
+
+    _ingested_under_the_old_schema(tmp_path, monkeypatch)
+    monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: True)
+    monkeypatch.setattr(ing, "rebuild_projection", lambda domain: {})
+    monkeypatch.setattr(backfill, "_ask", lambda *a, **k: ([], False))
+
+    report = retime_domain("journal", redo_properties=True, text_model="m", embed_model="e")
+
+    assert len(report["failed_chunks"]) == 1 and any("re-run to retry" in w for w in report["warnings"])
+    assert report["committed"] == 1, "the re-dating still commits"

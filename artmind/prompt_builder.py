@@ -147,41 +147,16 @@ def _render_property_block(cls: str, decl: dict) -> str:
     properties = decl.get("properties") or {}
     if not properties:
         return ""
-    lines = [f"For {cls}, consider:"]
+    lines = [f"For {cls}, extract:"]
     for name, prop_decl in properties.items():
-        hint = (prop_decl or {}).get("hint", "") if isinstance(prop_decl, dict) else ""
-        lines.append(f"  - {name}" + (f" ({hint})" if hint else ""))
+        pd = prop_decl if isinstance(prop_decl, dict) else {}
+        hint = pd.get("hint", "")
+        lines.append(f"  - {name}" + (f" ({hint})" if hint else "")
+                     + (" (required when stated)" if pd.get("required") is True else ""))
     guidance = (decl.get("guidance") or "").strip()
     if guidance:
         lines.append(f"  {guidance}")
     return "\n".join(lines)
-
-
-def _render_property_vocabulary_section(vocabulary: dict | None) -> str:
-    """The retrieved property-key vocabulary, or '' when there is none.
-
-    The properties-side counterpart to `_render_vocabulary_section`: showing
-    the extractor keys already committed to the graph for a class is what
-    stops a new document coining `balance_range_minimum` when
-    `balance_minimum` is already the class's established key — the
-    cross-document half of the property-key drift problem (Finding B,
-    docs/redesign-phase8-implementation-notes.md).
-    """
-    from artmind.canonicalize import render_property_vocabulary
-
-    rendered = render_property_vocabulary(vocabulary or {})
-    if not rendered:
-        return ""
-    return (
-        "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-        "PROPERTY KEYS ALREADY IN USE — REUSE THESE WHEN THEY FIT:\n"
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-        "If a property you are about to add matches the same concept as one of\n"
-        "these keys for the same class, use the existing key VERBATIM rather\n"
-        "than inventing a new name for it. Only introduce a new key when the\n"
-        "concept genuinely is not covered by any key below.\n\n"
-        f"{rendered}\n"
-    )
 
 
 def _render_anchor_date_section(entity_types: dict, anchor_date: str | None) -> str:
@@ -226,26 +201,26 @@ def _render_anchor_date_section(entity_types: dict, anchor_date: str | None) -> 
 def assemble_properties_prompt(
     schema: dict,
     meta: dict | None = None,
-    vocabulary: dict | None = None,
     anchor_date: str | None = None,
+    classes: "set[str] | None" = None,
 ) -> str:
-    """`anchor_date` is the document's own date (`temporal.relative_anchor`,
-    see `artmind.temporal.relative_anchor_date`) -- omitted, the prompt
-    renders exactly as before."""
+    """`anchor_date` is the document's own date (`temporal.relative_anchor`, see
+    `artmind.temporal.relative_anchor_date`) -- omitted, no DATES section. `classes` limits the
+    class blocks and the DATES section to these classes -- the classes of the chunk's entities
+    (`extraction.build_properties_prompt`, spec 2026-11-15 §2.1); None renders every class (the
+    `domains properties-prompt` command)."""
     meta = meta if meta is not None else load_meta()
-    entity_types = schema.get("entity_types") or {}
-    blocks = [
-        _render_property_block(cls, decl)
-        for cls, decl in entity_types.items()
-        if decl.get("properties")
-    ]
+    entity_types = {c: d for c, d in (schema.get("entity_types") or {}).items()
+                    if classes is None or c in classes}
+    blocks = [_render_property_block(cls, decl) for cls, decl in entity_types.items() if decl.get("properties")]
     dates = _render_anchor_date_section(entity_types, anchor_date)
     if dates:
         blocks.append(dates)
     tokens = {
         "SUBJECT": schema.get("subject") or schema.get("description", "")[:120],
         "PROPERTY_BLOCKS": "\n\n".join(blocks),
-        "PROPERTY_VOCABULARY": _render_property_vocabulary_section(vocabulary),
+        # A vault's meta.yaml older than this change still carries the token: blank it.
+        "PROPERTY_VOCABULARY": "",
         "GUIDANCE": _render_guidance_section(
             (schema.get("guidance") or {}).get("properties"), "DOMAIN-SPECIFIC GUIDANCE:"
         ),

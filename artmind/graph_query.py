@@ -1,3 +1,4 @@
+import functools
 import re
 import shlex
 from contextlib import contextmanager
@@ -787,6 +788,67 @@ RETURN did AS doc_id, s.text AS summary
 """
 
 
+def _schema_file_stamp(path) -> tuple | None:
+    try:
+        st = path.stat()
+    except OSError:
+        return None
+    return (st.st_mtime_ns, st.st_size)
+
+
+@functools.lru_cache(maxsize=256)
+def _declared_order_cached(name: str, schemas_dir: str, stamps: tuple) -> dict[str, tuple[str, ...]]:
+    """The parsed declared order of one schema; `stamps` (the schema file's and its parent's
+    mtime and size) is in the key only so that an edit to either reloads it."""
+    from pathlib import Path
+
+    from artmind.observations import declared_property_order
+    from artmind.temporal import load_schema
+
+    order = declared_property_order(load_schema(name, schemas_dir=Path(schemas_dir)), include_temporal=False,
+                                    include_own=False)
+    return {c: tuple(keys) for c, keys in order.items()}
+
+
+def _declared_orders(names, schemas_dir=None) -> tuple[dict[str, dict[str, list[str]]], list[str]]:
+    """({domain: {class: declared non-temporal keys, required first}}, warnings) for brief rows,
+    read from this machine's schemas (spec 2026-11-15 §5). `names` are the `_domain`s the rows
+    carry, so only those schemas are read. A child domain's classes come from its own (leaf)
+    schema only: a row's `_domain` is the leaf it was extracted under, and the root's classes are
+    not merged in. A schema that cannot be read or parsed gives no orders for its domain (its rows
+    carry no `properties`) and one warning; the query itself never fails on it."""
+    from pathlib import Path
+
+    import paths
+
+    directory = Path(schemas_dir) if schemas_dir is not None else Path(paths.DOMAIN_SCHEMAS_DIR)
+    out: dict = {}
+    warnings: list[str] = []
+    for name in sorted({str(n) for n in names if n}):
+        files = [directory / f"{name}_schema.yaml"]
+        if "." in name:
+            files.append(directory / f"{name.rsplit('.', 1)[0]}_schema.yaml")
+        try:
+            order = _declared_order_cached(name, str(directory), tuple(_schema_file_stamp(f) for f in files))
+        except Exception as exc:  # a YAML error, an unreadable file, a malformed schema
+            logger.warning(f"brief rows: {name}: schema unreadable: {exc}")
+            warnings.append(f"{name}: schema unreadable; brief rows carry no declared properties")
+            continue
+        out[name] = {c: list(keys) for c, keys in order.items()}
+    return out, warnings
+
+
+def _declared_for(orders: dict, entity: dict | None) -> list[str] | None:
+    """The declared key order for a brief row's entity (`_domain`, `entity_class`), or None
+    (no `_domain`, an unknown domain or class)."""
+    entity = entity or {}
+    return (orders.get(entity.get("_domain") or "") or {}).get(entity.get("entity_class") or "")
+
+
+def _row_domains(rows) -> set[str]:
+    return {(r.get("entityData") or {}).get("_domain") for r in rows if isinstance(r, dict)} - {None, ""}
+
+
 def _bound_pattern_rows(pattern: str, rows: list[dict], params: dict) -> list[dict]:
     """Apply the per-pattern output caps described atop PATTERN_MAX_DOC_SOURCES."""
     if pattern in ("pattern2", "pattern3", "pattern4"):
@@ -1278,8 +1340,11 @@ def execute_pattern(
     if shape == "brief":
         from artmind import brief
 
-        rows = [brief.pattern_row(pattern, r) for r in rows]
+        orders, schema_warnings = _declared_orders(_row_domains(rows))
+        rows = [brief.pattern_row(pattern, r, _declared_for(orders, r.get("entityData"))) for r in rows]
         output_parameters["shape"] = "brief"
+    else:
+        schema_warnings = []
     result = {
         **_domain_output(domains),
         "query_type": "graph",
@@ -1289,6 +1354,8 @@ def execute_pattern(
         "parameters": output_parameters,
         "rows": rows,
     }
+    if schema_warnings:
+        result["warnings"] = [*(result.get("warnings") or []), *schema_warnings]
     if summaries is not None:
         result["summaries"] = summaries
     if rows_total is not None:
@@ -1989,7 +2056,10 @@ def entity_context(
     if shape == "brief":
         from artmind import brief
 
-        rows = [brief.entity_context_row(r) for r in rows]
+        orders, schema_warnings = _declared_orders(_row_domains(rows))
+        rows = [brief.entity_context_row(r, _declared_for(orders, r.get("entityData"))) for r in rows]
+        if schema_warnings:
+            extra["warnings"] = schema_warnings
         extra["next"] = ("every key of this row (full properties, connection properties, chunk text "
                          "and source document paths): rerun with --shape full")
     return {

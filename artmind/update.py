@@ -74,14 +74,20 @@ def extract_facts(
         for i, e in enumerate(raw_entities)
     ]
 
+    from artmind.observations import declared_property_keys
+
     raw_props: list = []
     raw_rels: list = []
     if raw_entities:
-        raw_props, _ = extract_with_retry(
-            "update_properties",
-            model,
-            build_properties_prompt(text, raw_entities, schema),
-        )
+        # Only classes that declare a property are asked (spec 2026-11-15 §2.3).
+        with_props = {c for c, keys in declared_property_keys(schema).items() if keys}
+        prop_entities = [e for e in raw_entities if e.get("entity_class") in with_props]
+        if prop_entities:
+            raw_props, _ = extract_with_retry(
+                "update_properties",
+                model,
+                build_properties_prompt(text, prop_entities, schema),
+            )
         raw_rels, _ = extract_with_retry(
             "update_relationships",
             model,
@@ -360,8 +366,11 @@ def write_user_chat(
     then returns the same summary and `effect` without the embedding call, the
     schema setup, the staging folder or the commit.
     """
-    from artmind.observations import aggregate_key, build_observation, key_string
-    from artmind.temporal import load_schema
+    from artmind.observations import (
+        LLM_BAG_OWN_KEYS, aggregate_key, build_observation, declared_property_keys, filter_declared,
+        key_string,
+        normalize_property_keys, property_key_rules,
+    )
 
     env = load_env()
     embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
@@ -372,7 +381,15 @@ def write_user_chat(
     chat_id = user_chat_id(session_id, draft_part)
     embedding = None if dry_run else embed_document(embed_model, raw_text)
     input_hint = _classify_input(raw_text)
-    schema = load_schema(domain)
+    # A domain with no schema file of its own falls back to general_schema.yaml, as the draft
+    # step (`_load_schema`) does, so it does not lose every property to the declared-key filter;
+    # `load_schema` first, for a dotted child's inherited `property_aliases`.
+    from artmind.temporal import load_schema
+
+    schema = load_schema(domain) or _load_schema(domain) or {}
+    declared = declared_property_keys(schema)
+    key_rules = property_key_rules(schema)
+    dropped_property_values = 0
 
     observations: list[dict] = []
     resolved: dict[str, dict] = {}
@@ -430,6 +447,12 @@ def write_user_chat(
                 continue
 
             key = aggregate_key(canonical_name, entity_class, target_domain, identity=identity)
+            # Spec 2026-11-15 §2.2: only the class's declared keys, as extraction keeps.
+            domain_props, gone = filter_declared(
+                normalize_property_keys(dict(entity_data.get("properties") or {}), *key_rules),
+                entity_class, declared, own=LLM_BAG_OWN_KEYS,  # a raw LLM bag: only declared keys
+            )
+            dropped_property_values += len(gone)
             observation = build_observation(
                 {
                     "name": entity_data["name"],
@@ -441,7 +464,7 @@ def write_user_chat(
                     "aliases": entity_data.get("aliases"),
                 },
                 canonical_name=canonical_name,
-                domain_props=entity_data.get("properties", {}),
+                domain_props=domain_props,
                 doc_id=chat_id,
                 doc_version=1,
                 chunk_id=chat_id,
@@ -500,6 +523,9 @@ def write_user_chat(
             "relationships_written": len(relationships),
             "staging_dir": str(folder),
         }
+        if dropped_property_values:
+            summary["dropped_property_values"] = dropped_property_values
+            logger.info("update: dropped {} undeclared property value(s)", dropped_property_values)
         effect = _update_effect(summary, observations, session_id, draft_part, domain)
         if dry_run:
             return {**summary, "effect": effect, "dry_run": True}

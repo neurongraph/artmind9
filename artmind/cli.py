@@ -389,7 +389,7 @@ click.rich_click.COMMAND_GROUPS = {
         },
         {
             "name": "Graph building",
-            "commands": ["extract-kg", "classify-reingest", "empty-extractions", "write-to-graph", "retime", "table2graph", "pull-kg", "embed-entities", "embed-passages", "summarise"],
+            "commands": ["extract-kg", "classify-reingest", "empty-extractions", "write-to-graph", "retime", "backfill-properties", "table2graph", "pull-kg", "embed-entities", "embed-passages", "summarise"],
         },
         {
             "name": "Refinement",
@@ -749,8 +749,9 @@ def domains_validate(domain: str | None, compact: bool):
     is never written, so the schema should use another name.
     """
     from artmind.schema_validate import (
-        graph_extraction_warnings, load_meta, reserved_relationship_warnings, validate_all,
-        validate_schema, warn_all,
+        exclusive_property_warnings, graph_extraction_warnings, guidance_property_warnings, load_meta,
+        meta_template_warnings, own_key_property_warnings, property_alias_warnings, property_reference_report,
+        reserved_relationship_warnings, validate_all, validate_schema, warn_all,
     )
 
     if domain:
@@ -766,7 +767,9 @@ def domains_validate(domain: str | None, compact: bool):
             data = _load_domain_schema(domain)
             errors = validate_schema(data, load_meta(), schema_name=domain)
             violations = {domain: errors} if errors else {}
-            warnings = {domain: reserved_relationship_warnings(data, domain) + graph_extraction_warnings(data, domain)}
+            warnings = {domain: reserved_relationship_warnings(data, domain) + graph_extraction_warnings(data, domain)
+                        + property_alias_warnings(data, domain) + guidance_property_warnings(data, domain)
+                        + own_key_property_warnings(data, domain) + exclusive_property_warnings(data, domain)}
     else:
         violations = validate_all()
         warnings = warn_all()
@@ -788,13 +791,44 @@ def domains_validate(domain: str | None, compact: bool):
         for w in rep["warnings"]:
             click.echo(f"WARN   mart/{name}: {w}", err=True)
     mart_failed = {name: rep for name, rep in mart_report.items() if rep["errors"]}
+
+    # Keys a mart declaration, insights config or saved view reads that the schema
+    # does not declare (spec 2026-11-15 §2.6). Here only, never in `setup`.
+    # A schema already in `violations` is skipped; both sides use `schema_key`, the
+    # name `validate_all` keys a file by. The domain checked is the file's own name.
+    from artmind.schema_validate import family_schema, schema_key
+
+    if domain:
+        names = [] if domain in violations else [domain]
+    else:
+        names = [p.name.removesuffix("_schema.yaml") for p in sorted(DOMAIN_SCHEMAS_DIR.glob("*_schema.yaml"))
+                 if schema_key(p) not in violations]
+    refs = {}
+    for name in names:
+        try:
+            schema = family_schema(name, schemas_dir=DOMAIN_SCHEMAS_DIR)
+        except Exception:
+            continue  # reported by validate_all
+        rep = property_reference_report(name, schema)
+        if rep["errors"] or rep["warnings"]:
+            refs[name] = rep
+    meta_warnings = meta_template_warnings()
+    for w in meta_warnings:
+        click.echo(f"WARN   {w}", err=True)
+    for rep in refs.values():
+        for w in rep["warnings"]:
+            click.echo(f"WARN   {w}", err=True)
+    refs_failed = {name: rep for name, rep in refs.items() if rep["errors"]}
+
     result = {
-        "ok": not violations and not mart_failed,
+        "ok": not violations and not mart_failed and not refs_failed,
         "violations": {name: list(errors) for name, errors in violations.items()},
         "schema_warnings": {name: list(found) for name, found in warnings.items() if found},
         "mart": mart_report,
+        "property_references": refs,
+        "meta_warnings": meta_warnings,
     }
-    if not violations and not mart_failed:
+    if not violations and not mart_failed and not refs_failed:
         click.echo("All schemas valid.", err=True)
         _echo_json(result, compact)
         return
@@ -804,8 +838,51 @@ def domains_validate(domain: str | None, compact: bool):
     for name, rep in mart_failed.items():
         for e in rep["errors"]:
             click.echo(f"ERROR  mart/{name}: {e}", err=True)
+    for name, rep in refs_failed.items():
+        for e in rep["errors"]:
+            click.echo(f"ERROR  {e}", err=True)
     _echo_json(result, compact)
-    raise click.ClickException(f"{len(violations) + len(mart_failed)} schema(s) or mart declaration(s) failed validation")
+    parts = [f"{n} {what}" for n, what in (
+        (len(violations), "schema(s)"), (len(mart_failed), "mart declaration(s)"),
+        (len(refs_failed), "domain(s) with undeclared property references")) if n]
+    raise click.ClickException(f"{', '.join(parts)} failed validation")
+
+
+@domains.command("property-audit")
+@click.option("--domain", required=True, help="Domain whose staged observations to audit")
+@click.option("--graph", "with_graph", is_flag=True, help="Also count open projection conflicts per key (reads Neo4j)")
+@compact_option
+def domains_property_audit(domain: str, with_graph: bool, compact: bool) -> None:
+    """Propose keep, drop or required for each property key of a domain's classes.
+
+    Read-only, no LLM: reads the staging (observations and chunk text) of the domain and its
+    children, their schemas, the mart declaration, insights config, saved views and topic
+    plans. Lists key names, counts and shares, never values. A key is `declared` when the schema
+    of the domain each observation was extracted under declares it (a child's own schema, not the
+    root's), as retime judges it. After editing the schema, `artmind ingest retime --domain D
+    --dryRun` shows what a trim would drop; for a family root, run it once per child domain
+    (`--domain root.child`) and once for the root's own folder.
+    """
+    from artmind import ingest as _ingest
+    from artmind import property_audit
+    from artmind.schema_validate import family_schema, schema_parse_error
+    from artmind.temporal import load_schema
+
+    schema_file = DOMAIN_SCHEMAS_DIR / f"{domain}_schema.yaml"
+    if not schema_file.exists():
+        raise click.ClickException(f"Domain schema not found: {schema_file}")
+    for f in [schema_file, *sorted(DOMAIN_SCHEMAS_DIR.glob(f"{domain}.*_schema.yaml"))]:
+        if (parse_error := schema_parse_error(f)):
+            raise click.ClickException(parse_error)
+    schema = family_schema(domain, schemas_dir=DOMAIN_SCHEMAS_DIR)
+    report = property_audit.audit(
+        domain, schema, kg_dir=_ingest.KG_DIR,
+        depended_on=property_audit.depended_on_keys(domain, schema),
+        conflicts=property_audit.graph_conflicts(domain) if with_graph else None,
+        leaf_schema=lambda name: load_schema(name, schemas_dir=DOMAIN_SCHEMAS_DIR),
+    )
+    report["next"] = "artmind domains validate"
+    _echo_json(report, compact)
 
 
 @domains.command("harmonize")
@@ -849,7 +926,7 @@ def domains_harmonize(domain: str | None, dry_run: bool, compact: bool):
 
 @cli.group()
 def ingest():
-    """Manage document ingestion (sync, async, pending, status, results,...), table -> graph projection (table2graph; table2graph --pending lists the tables waiting), and summary backfill (summarise [--domain] [--match] [--dryRun]). Writes take --dryRun: `sync --dryRun` lists files by tier with an LLM-call estimate; every dry run returns an `effect` block."""
+    """Manage document ingestion (sync, async, pending, status, results,...), table -> graph projection (table2graph; table2graph --pending lists the tables waiting), summary backfill (summarise [--domain] [--match] [--dryRun]), and property backfill (backfill-properties --domain D --entityClass C --property P [--undo RUN_ID | --retryCommit RUN_ID] [--dryRun]). Writes take --dryRun: `sync --dryRun` lists files by tier with an LLM-call estimate; every dry run returns an `effect` block."""
     pass
 
 
@@ -1695,8 +1772,9 @@ def _run_passage_sweep() -> None:
 @click.option("--domain", required=True, help="Domain whose staged documents to re-date")
 @dry_run_option("Report what would change; write nothing")
 @click.option("--redoProperties", "redo_properties", is_flag=True,
-              help="Also re-extract each chunk's properties with the document's date in the prompt "
-                   "(LLM: one call per chunk; entity names are kept). Needs this machine's chunk cache.")
+              help="Also re-ask the date properties of every class with a temporal: property, with the "
+                   "document's date in the prompt (LLM: one call per staged chunk holding such a class; "
+                   "entity names are kept, other keys and classes untouched). Runs on backfill-properties.")
 @click.option("--limit", type=int, default=None, help="Only the first N documents (try a few first)")
 @click.option("--document", "documents", multiple=True,
               help="Only this document (e.g. 2026-01-07.md); repeatable, comma-separated")
@@ -1713,11 +1791,16 @@ def ingest_retime(
     This recomputes document.json's _valid_from/_valid_time_source and every
     observation's _valid_from/_doc_valid_from from the current schema, with no
     LLM call, commits the changed folders and rebuilds the projection once.
+    It also drops property keys the observation's class does not declare;
+    their values are kept under logs/retime-dropped/.
 
     \b
-    --redoProperties additionally re-runs the properties step (only) so date
-    properties such as date_or_time resolve against the document's date
-    (temporal.relative_anchor). Try it with --limit first.
+    --redoProperties additionally re-asks, from the staged chunk text, the
+    temporal: properties (such as date_or_time) of every class that declares
+    one, so they resolve against the document's date (temporal.relative_anchor).
+    It is `ingest backfill-properties` over those classes in one pass: each
+    changed observations.json is kept under logs/backfill-stash/, and a key the
+    model does not answer keeps its value. Try it with --limit first.
     """
     _setup_logger()
     from artmind.retime import retime_domain
@@ -1735,11 +1818,77 @@ def ingest_retime(
             text_model=resolve_llm_model(env),
             embed_model=env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest"),
         )
-    except FileNotFoundError as e:
+    except (FileNotFoundError, ValueError) as e:
         raise click.ClickException(str(e))
+    hint = ""
+    if report.get("redo_commit_failed") and report.get("redo_run_id"):
+        # The redo's documents are recoverable through its backfill run; a re-run of retime is not
+        # (staging already holds the new values, so retime sees nothing to change).
+        report["next"] = f"artmind ingest backfill-properties --retryCommit {report['redo_run_id']}"
+        hint = f"; run `{report['next']}`"
     _echo_json(report, compact)
     if report["commit_failed"]:
-        raise click.ClickException(f"{len(report['commit_failed'])} document(s) failed to commit -- see the log")
+        raise click.ClickException(
+            f"{len(report['commit_failed'])} document(s) failed to commit -- see the log{hint}")
+
+
+@ingest.command("backfill-properties")
+@click.option("--domain", default=None, help="Domain whose staged documents to fill")
+@click.option("--entityClass", "entity_class", default=None, help="Class whose observations get the properties")
+@click.option("--property", "properties", multiple=True,
+              help="Declared property to fill; repeatable, comma-separated")
+@click.option("--match", default=None, help="Only staging folders whose name matches this glob, e.g. `2026-01-*`")
+@click.option("--undo", "undo", default=None, metavar="RUN_ID",
+              help="Restore what run RUN_ID wrote (observations.json and chunk-cache files), commit, rebuild")
+@click.option("--retryCommit", "retry_commit", default=None, metavar="RUN_ID",
+              help="Commit the documents run RUN_ID wrote but failed to commit, then rebuild")
+@dry_run_option("Report documents, chunks and LLM calls; ask nothing, write nothing", legacy=False)
+@compact_option
+def ingest_backfill_properties(domain, entity_class, properties, match, undo, retry_commit, dry_run, compact) -> None:
+    """Fill a class's newly declared properties from the stored chunks.
+
+    \b
+    LLM: one call per chunk with an observation of the class; each such chunk's text is sent to the
+    configured provider once (cached; a re-run resumes). Entities, names, relationships and summaries
+    are not re-run. Only the named keys of observations that get a value change (their valid time is
+    re-derived); a document where nothing is filled is not written. Changed documents are committed
+    and the projection is rebuilt once. Each run keeps its pre-run files under
+    logs/backfill-stash/RUN_ID/: --undo RUN_ID puts them back, --retryCommit RUN_ID commits what a
+    failed commit left staged. Refuses while the ingest worker is running.
+    """
+    _setup_logger()
+    from artmind import backfill
+
+    if undo and retry_commit:
+        raise click.UsageError("--undo and --retryCommit are separate runs; give one")
+    try:
+        if undo or retry_commit:
+            if domain or entity_class or properties or match:
+                raise click.UsageError("--undo/--retryCommit take only a RUN_ID (and --dryRun)")
+            report = (backfill.undo_run(undo, dry_run=dry_run) if undo
+                      else backfill.retry_commits(retry_commit, dry_run=dry_run))
+        else:
+            if not (domain and entity_class):
+                raise click.UsageError("--domain and --entityClass are required (or --undo / --retryCommit RUN_ID)")
+            props = [p.strip() for v in properties for p in v.split(",") if p.strip()]
+            if not props:
+                raise click.UsageError("name at least one --property")
+            env = load_env()
+            report = backfill.backfill_domain(domain, targets={entity_class: props},
+                                              model=resolve_llm_model(env), match=match, dry_run=dry_run)
+            if report["failed_chunks"]:
+                report["next"] = shlex.join(["artmind", "ingest", "backfill-properties", "--domain", domain,
+                                             "--entityClass", entity_class, "--property", ",".join(props),
+                                             *(["--match", match] if match else [])])
+    except (FileNotFoundError, ValueError) as e:
+        raise click.ClickException(str(e))
+    run_id = report.get("run_id")
+    if report["commit_failed"] and run_id:
+        report["next"] = f"artmind ingest backfill-properties --retryCommit {run_id}"
+    _echo_json(report, compact)
+    if report["commit_failed"]:
+        hint = f"; run `artmind ingest backfill-properties --retryCommit {run_id}`" if run_id else ""
+        raise click.ClickException(f"{len(report['commit_failed'])} document(s) failed to commit -- see the log{hint}")
 
 
 @ingest.command("write-to-graph")

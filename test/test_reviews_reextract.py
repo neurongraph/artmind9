@@ -66,11 +66,23 @@ def _snapshot(root):
     return {p: (p.stat().st_mtime_ns, p.read_bytes()) for p in root.rglob("*") if p.is_file()}
 
 
+_PERSON_ROLE = {"name": "d", "entity_types": {"PERSON": {"kind": "recurrent", "properties": {"role": {}}},
+                                               "LOCATION": {"kind": "recurrent"}}}
+
+
 def test_extract_chunk_merges_properties(fake_llm):
-    out = reextract.extract_chunk("text", {"name": "d", "entity_types": {}}, model="m")
+    out = reextract.extract_chunk("text", _PERSON_ROLE, model="m")
     assert out["failed_steps"] == []
     assert next(e for e in out["entities"] if e["id"] == "p2")["properties"] == {"role": "friend"}
     assert [p[0] for p in fake_llm] == ["reextract_entities", "reextract_properties", "reextract_relationships"]
+    props_prompt = next(p for s, _, p in fake_llm if s.endswith("properties"))
+    assert "Lakeport" not in props_prompt, "a class with no declared property is not sent"
+
+
+def test_extract_chunk_makes_no_properties_call_when_no_class_declares_one(fake_llm):
+    out = reextract.extract_chunk("text", {"name": "d", "entity_types": {}}, model="m")
+    assert out["failed_steps"] == []
+    assert [p[0] for p in fake_llm] == ["reextract_entities", "reextract_relationships"]
 
 
 def test_diff():

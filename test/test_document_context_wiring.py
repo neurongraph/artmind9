@@ -25,7 +25,9 @@ def _harness(monkeypatch, tmp_path, *, schema_extra=None, n_chunks=3):
         "001": {"header_path": ""}, "002": {"header_path": "Schedule 2 > Rates"}, "003": {"header_path": ""},
     }))
     schema = {
-        "subject": "contracts", "entity_types": {"AGREEMENT": {"kind": "recurrent", "description": "A contract."}},
+        "subject": "contracts", "entity_types": {"AGREEMENT": {
+            # A declared property, so the properties step runs (spec 2026-11-15 §2.3).
+            "kind": "recurrent", "description": "A contract.", "properties": {"reference": {}}}},
         **(schema_extra or {}),
     }
     (ing.DOMAIN_SCHEMAS_DIR / "testdom_schema.yaml").write_text(yaml.safe_dump(schema))
@@ -199,35 +201,6 @@ def test_a_single_chunk_document_makes_no_summary_call_but_still_gets_metadata_a
     ing.extract_kg(file_result, "testdom", max_workers=1)
     assert "document_summary" not in calls
     assert "You are in:" in seen["chunk_001_entities"] and "Summary:" not in seen["chunk_001_entities"]
-
-
-def test_a_properties_redo_makes_no_summary_call_and_reuses_the_sidecar(monkeypatch, tmp_path):
-    file_result, seen, calls = _harness(monkeypatch, tmp_path)
-    ing.extract_kg(file_result, "testdom", max_workers=1)
-    schema_file = ing.DOMAIN_SCHEMAS_DIR / "testdom_schema.yaml"
-    schema_file.write_text(schema_file.read_text() + "\n# edited\n")   # changes the key
-    calls.clear(); seen.clear()
-    from artmind.retime import _reset_properties_step
-    _reset_properties_step(file_result["sha256"])   # what retime does before the redo
-    ing.extract_kg(file_result, "testdom", max_workers=1, redo_property_classes={"AGREEMENT"})
-    assert "document_summary" not in calls
-    props = [s for s in seen if s.endswith("_properties")]
-    assert props, "the properties step re-ran"
-    assert all("Summary: A change notice for Alpha." in seen[s] for s in props), "with the cached summary"
-
-
-def test_a_properties_redo_with_no_sidecar_runs_without_a_summary(monkeypatch, tmp_path):
-    file_result, seen, calls = _harness(monkeypatch, tmp_path)
-    from artmind.retime import _reset_properties_step
-    ing.extract_kg(file_result, "testdom", max_workers=1)
-    sidecars = list(ing.KG_DIR.rglob("document_context.json"))  # keep the chunk cache, drop the sidecar
-    assert sidecars
-    for f in sidecars:
-        f.unlink()
-    calls.clear()
-    _reset_properties_step(file_result["sha256"])
-    ing.extract_kg(file_result, "testdom", max_workers=1, redo_property_classes={"AGREEMENT"})
-    assert "document_summary" not in calls
 
 
 def test_the_source_line_never_shows_an_absolute_path(monkeypatch, tmp_path):

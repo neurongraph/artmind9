@@ -196,24 +196,6 @@ def test_two_unusable_answers_give_none(tmp_path, monkeypatch):
     assert len(attempts) == 2
 
 
-def test_reuse_any_returns_a_valid_sidecar_whatever_its_key_and_never_calls(tmp_path, calls):
-    summarise(tmp_path, key="old")
-    calls.clear()
-    result = ing._summarise_document(
-        doc_kg_dir=tmp_path, key="new", schema=SCHEMA, sample=lambda: "S", focus="", model="m",
-        debug_dir=tmp_path, reuse_any=True,
-    )
-    assert result["key"] == "old" and calls == []
-
-
-def test_reuse_any_with_no_sidecar_returns_none_without_a_call(tmp_path, calls):
-    result = ing._summarise_document(
-        doc_kg_dir=tmp_path, key="new", schema=SCHEMA, sample=lambda: "S", focus="", model="m",
-        debug_dir=tmp_path, reuse_any=True,
-    )
-    assert result is None and calls == []
-
-
 def test_a_cached_sidecar_is_normalised_before_any_prompt_sees_it(tmp_path, calls):
     """The sidecar is committed: a hand edit (or another machine) can put a
     newline in it, which would add a line that reads like the passage marker."""

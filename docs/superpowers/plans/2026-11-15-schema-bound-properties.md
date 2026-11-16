@@ -2381,3 +2381,7 @@ Record results in the PR body; for brain01, aggregates only.
 4. `artmind ingest retime --domain d --dryRun`, then `artmind ingest retime --domain d`.
 5. For each newly declared key: `artmind ingest backfill-properties --domain d --entityClass C --property p --dryRun`, then the same without `--dryRun`.
 6. Restart `serve`, `chat-ui` and `admin-ui` from inside the vault.
+
+## Open follow-ups after merge
+
+- **`exclusive: true` in shipped schemas** (`contracts_schema.yaml` 6×, `personal_journal_schema.yaml` 3×): a no-op since Task 4, and `domains validate` WARNs on it. Kept for now because editing packaged schema bytes moves the `document_context` cache keys and `schema_set_hash`. Owned by the temporal plan, Task 10 ("Carried over from SBP"), which edits those schemas anyway: remove it there, or give it a temporal meaning and turn the WARN off. In a vault, the `exclusive: true` WARN from step 2 above can be ignored until then.

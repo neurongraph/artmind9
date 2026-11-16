@@ -25,13 +25,13 @@ temporal:
 # One concept, one key. Applied to every class at extraction and by
 # `artmind ingest retime` (no LLM); singular/plural variants of a declared key
 # fold onto it automatically and need no entry here.
+# Time of day belongs in date_or_time text (e.g. "2026-01-07 (evening)"), not in a key of its own.
 property_aliases:
   narrative_function: narrative_role
   relationship_to_writer: relationship_to_diarist
   emotional_significance_to_diarist: emotional_significance
   location_on_date: location
   outcome_or_result: outcome
-  time_of_visit: time_of_day
 entity_types:
   PERSON:
     kind: recurrent
@@ -184,7 +184,6 @@ entity_types:
       date_or_time:
         hint: ISO date (YYYY-MM-DD) resolved against the entry date, then any time of day
         temporal: valid_from
-        exclusive: true
       participants:
         hint: list with roles
       outcome:
@@ -244,7 +243,6 @@ entity_types:
       date_or_time:
         hint: ISO date (YYYY-MM-DD) resolved against the entry date, then any time of day
         temporal: valid_from
-        exclusive: true
     relates_to:
       LOCATION:
       - takes_place_at
@@ -367,7 +365,6 @@ entity_types:
       date_or_time:
         hint: when the change occurred — anchored to the entry date if relative
         temporal: valid_from
-        exclusive: true
     relates_to:
       PERSON:
       - state_of
