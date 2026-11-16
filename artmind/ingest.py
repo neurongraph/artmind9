@@ -3811,6 +3811,10 @@ def extract_kg(
     from artmind.temporal import load_schema
 
     schema = load_schema(domain, schemas_dir=DOMAIN_SCHEMAS_DIR)
+    from artmind.observations import declared_property_keys
+
+    # Only these classes are sent to the properties step (spec 2026-11-15 §2.3).
+    classes_with_props = {c for c, keys in declared_property_keys(schema).items() if keys}
     for warning in reserved_relationship_warnings(schema, domain):
         logger.warning("Schema {}", warning)
     # `graph_extraction: false` (spec 2026-10-30-chunks-only-domains-design.md):
@@ -4096,10 +4100,11 @@ def extract_kg(
                 prompt_entities = [
                     e for e in prompt_entities if e.get("entity_class") in redo_property_classes
                 ]
+            prompt_entities = [e for e in prompt_entities if e.get("entity_class") in classes_with_props]
             if not prompt_entities:
-                # A scoped redo with nothing in scope in this chunk: the
-                # cached properties already are the answer.
-                marks["properties"] = "ok"
+                # Spec 2026-11-15 §2.3: no entity here belongs to a class that declares a property
+                # (or, in a scoped redo, none is in scope and the cached properties stand).
+                marks["properties"] = "ok" if redo_property_classes is not None else "skipped"
                 data.setdefault("properties", [])
             else:
                 logger.info("  Chunk {} — properties", seq)

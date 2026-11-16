@@ -25,7 +25,9 @@ def _harness(monkeypatch, tmp_path, *, schema_extra=None, n_chunks=3):
         "001": {"header_path": ""}, "002": {"header_path": "Schedule 2 > Rates"}, "003": {"header_path": ""},
     }))
     schema = {
-        "subject": "contracts", "entity_types": {"AGREEMENT": {"kind": "recurrent", "description": "A contract."}},
+        "subject": "contracts", "entity_types": {"AGREEMENT": {
+            # A declared property, so the properties step runs (spec 2026-11-15 §2.3).
+            "kind": "recurrent", "description": "A contract.", "properties": {"reference": {}}}},
         **(schema_extra or {}),
     }
     (ing.DOMAIN_SCHEMAS_DIR / "testdom_schema.yaml").write_text(yaml.safe_dump(schema))
