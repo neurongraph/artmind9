@@ -847,6 +847,35 @@ def domains_validate(domain: str | None, compact: bool):
     raise click.ClickException(f"{', '.join(parts)} failed validation")
 
 
+@domains.command("property-audit")
+@click.option("--domain", required=True, help="Domain whose staged observations to audit")
+@click.option("--graph", "with_graph", is_flag=True, help="Also count open projection conflicts per key (reads Neo4j)")
+@compact_option
+def domains_property_audit(domain: str, with_graph: bool, compact: bool) -> None:
+    """Propose keep, drop or required for each property key of a domain's classes.
+
+    Read-only, no LLM: reads the domain's staging (observations and chunk text), its schema,
+    mart declaration, insights config, saved views and topic plans. Lists key names, counts
+    and shares, never values. After editing the schema, `artmind ingest retime --domain D
+    --dryRun` shows what a trim would drop.
+    """
+    from artmind import ingest as _ingest
+    from artmind import property_audit
+    from artmind.temporal import load_schema
+
+    schema_file = DOMAIN_SCHEMAS_DIR / f"{domain}_schema.yaml"
+    if not schema_file.exists():
+        raise click.ClickException(f"Domain schema not found: {schema_file}")
+    schema = load_schema(domain, schemas_dir=DOMAIN_SCHEMAS_DIR)
+    report = property_audit.audit(
+        domain, schema, kg_dir=_ingest.KG_DIR,
+        depended_on=property_audit.depended_on_keys(domain, schema),
+        conflicts=property_audit.graph_conflicts(domain) if with_graph else None,
+    )
+    report["next"] = "artmind domains validate"
+    _echo_json(report, compact)
+
+
 @domains.command("harmonize")
 @click.option("--domain", default=None, help="Child domain to harmonize (e.g. fiction.thriller). Default: all children.")
 @dry_run_option("Show what would change without writing.")

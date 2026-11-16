@@ -130,3 +130,27 @@ def test_view_cypher_reference_names_the_view(monkeypatch):
                            skill_md="")
     monkeypatch.setattr("artmind.kg_views.store.list_views", lambda domains=None: ([view], []))
     assert pa.depended_on_keys("d", SCHEMA)[("EVENT", "outcome")] == ["view:v2"]
+
+
+def test_cli_prints_the_envelope_and_next(tmp_path, monkeypatch):
+    import yaml
+    from click.testing import CliRunner
+
+    import artmind.ingest as ing
+    from artmind.cli import cli
+
+    monkeypatch.setattr(ing, "KG_DIR", _stage(tmp_path, [_obs(1, outcome="x")], "text"))
+    schemas = tmp_path / "schemas"
+    schemas.mkdir()
+    (schemas / "d_schema.yaml").write_text(yaml.safe_dump({"name": "d", **SCHEMA}))
+    monkeypatch.setattr(ing, "DOMAIN_SCHEMAS_DIR", schemas)
+    monkeypatch.setattr("artmind.cli.DOMAIN_SCHEMAS_DIR", schemas)
+    monkeypatch.setattr(pa, "depended_on_keys", lambda d, s: {})
+    monkeypatch.setattr(pa, "graph_conflicts", lambda d: (_ for _ in ()).throw(AssertionError("no Neo4j")))
+
+    r = CliRunner().invoke(cli, ["domains", "property-audit", "--domain", "d", "--compact"])
+
+    assert r.exit_code == 0, r.output
+    out = json.loads(r.stdout)
+    assert out["command"] == "domains property-audit" and out["next"] == "artmind domains validate"
+    assert "conflicts" not in out["rows"][0]

@@ -251,6 +251,10 @@ domains-properties-prompt domain:
 domains-relationships-prompt domain:
     uv run artmind domains relationships-prompt {{ domain }}
 
+# propose keep/drop/required per property key from a domain's staging, read-only  (usage: just domains-property-audit <domain>)
+domains-property-audit domain:
+    uv run artmind domains property-audit --domain {{ domain }} --compact
+
 # sync child domain schemas against their parent  (usage: just domains-harmonize [domain] [--dryRun])
 domains-harmonize domain="" dry_run="":
     uv run artmind domains harmonize {{ if domain != "" { "--domain " + domain } else { "" } }} {{ if dry_run == "true" { "--dryRun" } else { "" } }}

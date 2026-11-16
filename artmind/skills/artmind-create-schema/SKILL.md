@@ -337,6 +337,16 @@ observations that are already staged. Leave it off when the name can be
 real data on other classes: `effective_date` on a contract OBLIGATION is a
 fact, so don't make it exclusive.
 
+To decide which keys a class should keep once a domain has data, run
+`artmind domains property-audit --domain <domain>` (read-only, no LLM; add
+`--graph` for open conflicts per key). Each (class, key) row gives its fill,
+how much of its values the description, only the chunk text, or neither
+holds, what depends on it (mart, insights, a view or a skill's backticked
+`key`), and a proposal: `required`, `keep`, `drop` or `review`. A declared
+`required: true` reports `required`; `keep_reason: "<why>"`, a `temporal:`
+tag or a dependency keep the key whatever its fill. The audit lists names and
+shares, never values.
+
 **2. A `temporal:` block at the schema's top level**, for the *document's*
 own date (not an entity's):
 
