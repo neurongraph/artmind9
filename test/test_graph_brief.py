@@ -19,6 +19,10 @@ from test_query_layer import _RecordingSession, _hub_responses, _install_session
 
 _REAL_DECLARED_ORDERS = gq._declared_orders
 
+
+def _orders(mapping):
+    return lambda names, schemas_dir=None: (mapping, [])
+
 LONG = ("Alpha Corp is a synthetic supplier of widgets. It also sells gadgets and a long tail of other "
         "things that no brief row should carry in full because they only inflate the answer.")
 RUN_ONE_SENTENCE = "word " * 80  # no sentence end: cut at a word boundary
@@ -39,7 +43,7 @@ def _invoke(args, monkeypatch=None):
 def _env(monkeypatch):
     monkeypatch.delenv("ARTMIND_OUTPUT_BUDGET", raising=False)
     monkeypatch.setenv("ARTMIND_NO_PROXY", "1")
-    monkeypatch.setattr(gq, "_declared_orders", lambda domains: {})
+    monkeypatch.setattr(gq, "_declared_orders", _orders({}))
 
 
 # --- the one-line cut ------------------------------------------------------------------
@@ -239,7 +243,7 @@ def test_no_declared_order_means_no_properties_key():
 
 def test_pattern1_brief_shows_declared_values_within_the_listing_budget(monkeypatch):
     rows = [{"entityData": {**_entity(1), "_domain": "d", "sector": "widgets"}, "_rowsTotal": 1}]
-    monkeypatch.setattr(gq, "_declared_orders", lambda domains: {"d": ORDER})
+    monkeypatch.setattr(gq, "_declared_orders", _orders({"d": ORDER}))
     out = _run_pattern(monkeypatch, ["pattern1", "--entityClass", "ORG", "--shape", "brief"], rows)
     props = out["rows"][0]["properties"]
     assert props["sector"] == "widgets"
@@ -252,7 +256,7 @@ def test_entity_context_brief_hub_with_a_full_property_bag_fits_the_agent_budget
     entity = {**responses["entity"][0]["entityData"], "_domain": "d", **bag,
               "recent_activity": [f"item {n}" for n in range(300)]}
     responses["entity"] = [{"entityData": entity}]
-    monkeypatch.setattr(gq, "_declared_orders", lambda domains: {"d": {"ORG": [*bag, "recent_activity"]}})
+    monkeypatch.setattr(gq, "_declared_orders", _orders({"d": {"ORG": [*bag, "recent_activity"]}}))
     _install_session(monkeypatch, _RecordingSession(responses))
     out = gq.entity_context(["d"], "e1", include_chunks=include, max_connections=max_conns, shape="brief")
     row = out["rows"][0]
@@ -264,19 +268,121 @@ def test_entity_context_brief_hub_with_a_full_property_bag_fits_the_agent_budget
     assert size < 24000
 
 
-def test_declared_orders_reads_root_and_children_without_temporal_keys(tmp_path, monkeypatch):
-    import paths
-    import artmind.observations  # noqa: F401 -- imported before the patch: temporal binds the dir on import
-    import artmind.temporal  # noqa: F401
-
+def _schemas(tmp_path):
     (tmp_path / "fam_schema.yaml").write_text(
         "entity_types:\n  ORG:\n    properties:\n      sector: {}\n      founded: {temporal: true}\n"
         "      status: {required: true}\n", encoding="utf-8")
     (tmp_path / "fam.kid_schema.yaml").write_text(
         "entity_types:\n  TEAM:\n    properties:\n      size: {}\n", encoding="utf-8")
-    monkeypatch.setattr(paths, "DOMAIN_SCHEMAS_DIR", tmp_path)
-    monkeypatch.setattr(gq, "_declared_orders", _REAL_DECLARED_ORDERS)
-    orders = gq._declared_orders(["fam"])
-    assert orders == {"fam": {"ORG": ["status", "sector"]}, "fam.kid": {"TEAM": ["size"]}}
+    return tmp_path
+
+
+def test_declared_orders_reads_only_the_named_domains_without_temporal_keys(tmp_path):
+    d = _schemas(tmp_path)
+    orders, warnings = _REAL_DECLARED_ORDERS({"fam", "fam.kid"}, schemas_dir=d)
+    assert orders == {"fam": {"ORG": ["status", "sector"]}, "fam.kid": {"TEAM": ["size"]}} and warnings == []
+    assert _REAL_DECLARED_ORDERS(set(), schemas_dir=d) == ({}, [])
+    # a child uses only its own (leaf) schema
+    assert _REAL_DECLARED_ORDERS({"fam.kid"}, schemas_dir=d)[0] == {"fam.kid": {"TEAM": ["size"]}}
     assert gq._declared_for(orders, {"_domain": "fam.kid", "entity_class": "TEAM"}) == ["size"]
     assert gq._declared_for(orders, {"_domain": "other", "entity_class": "TEAM"}) is None
+    assert gq._declared_for(orders, {"entity_class": "TEAM"}) is None  # no _domain
+
+
+def test_declared_orders_reloads_an_edited_schema(tmp_path):
+    d = _schemas(tmp_path)
+    assert _REAL_DECLARED_ORDERS({"fam.kid"}, schemas_dir=d)[0]["fam.kid"]["TEAM"] == ["size"]
+    (d / "fam.kid_schema.yaml").write_text(
+        "entity_types:\n  TEAM:\n    properties:\n      size: {}\n      remit: {}\n", encoding="utf-8")
+    assert _REAL_DECLARED_ORDERS({"fam.kid"}, schemas_dir=d)[0]["fam.kid"]["TEAM"] == ["size", "remit"]
+
+
+def test_a_broken_schema_degrades_to_a_warning(tmp_path):
+    d = _schemas(tmp_path)
+    (d / "bad_schema.yaml").write_text("entity_types: [unclosed\n", encoding="utf-8")
+    (d / "odd_schema.yaml").write_text("entity_types:\n  ORG:\n    properties: [a, b]\n", encoding="utf-8")
+    orders, warnings = _REAL_DECLARED_ORDERS({"bad", "odd", "fam"}, schemas_dir=d)
+    assert "bad" not in orders and orders["odd"] == {"ORG": []} and orders["fam"]
+    assert warnings == ["bad: schema unreadable; brief rows carry no declared properties"]
+
+
+def test_pattern1_brief_with_a_broken_schema_still_answers(tmp_path, monkeypatch):
+    (tmp_path / "d_schema.yaml").write_text("entity_types: [unclosed\n", encoding="utf-8")
+    monkeypatch.setattr(gq, "_declared_orders",
+                        lambda names, schemas_dir=None: _REAL_DECLARED_ORDERS(names, schemas_dir=tmp_path))
+    rows = [{"entityData": {**_entity(1), "_domain": "d", "sector": "widgets"}, "_rowsTotal": 1}]
+    out = _run_pattern(monkeypatch, ["pattern1", "--entityClass", "ORG", "--shape", "brief"], rows)
+    assert "properties" not in out["rows"][0]
+    assert "d: schema unreadable; brief rows carry no declared properties" in out["warnings"]
+
+
+def test_a_long_string_is_cut_to_the_space_left():
+    text = " ".join(f"Sentence {i} about the sector." for i in range(40))
+    line = brief.entity_line({**_entity(), "sector": text}, declared=["sector"], budget=200)
+    shown = line["properties"]["sector"]
+    assert text.startswith(shown) and shown.endswith(".") and len(shown) < len(text)
+    assert brief.size(line["properties"]) <= 200
+    assert line["cut_properties"] == {"sector": len(text)} and "truncated_properties" not in line
+
+
+def test_values_that_do_not_fit_and_empty_values():
+    big = {f"k{i}": "v" * 20 for i in range(20)}
+    e = {**_entity(), "meta": big, "tags": [{"n": i, "label": f"tag {i}"} for i in range(30)],
+         "empty_map": {}, "empty_list": [], "blank": ""}
+    line = brief.entity_line(e, declared=["empty_map", "empty_list", "blank", "meta", "tags"], budget=200)
+    props = line["properties"]
+    assert "meta" not in props and line["cut_properties"]["meta"] == brief.size(big)
+    assert props["tags"][-1] == {"n": 29, "label": "tag 29"} and line["truncated_properties"]["tags"] == 30
+    assert not {"empty_map", "empty_list", "blank"} & (set(props) | set(line["cut_properties"]))
+    assert brief.size(props) <= 200
+
+
+def test_a_small_mapping_is_shown_whole():
+    line = brief.entity_line({**_entity(), "meta": {"a": 1}}, declared=["meta"])
+    assert line["properties"] == {"meta": {"a": 1}}
+
+
+def test_entity_context_row_merges_the_full_rows_list_cuts():
+    row = {"entityData": {**_entity(), "recent_activity": ["a1", "a2"]},
+           "truncated_properties": {"recent_activity": 90, "aliases": 40}}
+    out = brief.entity_context_row(row, declared=["recent_activity"])
+    assert out["entity"]["truncated_properties"] == {"recent_activity": 90}
+    assert out["truncated_properties"] == {"recent_activity": 90, "aliases": 40}
+    row = {"entityData": {**_entity(), "recent_activity": [f"x{i}" for i in range(200)]},
+           "truncated_properties": {"recent_activity": 150}}
+    out = brief.entity_context_row(row, declared=["recent_activity"])
+    assert out["entity"]["truncated_properties"]["recent_activity"] == 200 > 150
+    assert "truncated_properties" not in brief.entity_context_row(
+        {"entityData": _entity(), "truncated_properties": {"aliases": 40}})["entity"]
+
+
+@pytest.mark.parametrize("pattern,args,row", [
+    ("pattern7", ["--searchTerm", "alpha"],
+     {"entityData": None, "documents": [], "document_count": 0}),
+    ("pattern8", ["--entityClass", "ORG", "--entityName", "A"],
+     {"entityData": None, "relType": "SUPPLIES", "relProps": {"observation_count": 2, "doc_count": 1}}),
+])
+def test_listing_patterns_carry_declared_values_within_the_listing_budget(monkeypatch, pattern, args, row):
+    entity = {**_entity(1), "_domain": "d", "sector": "widget making " * 40}
+    rows = [{**row, "entityData": entity, "_rowsTotal": 1}]
+    monkeypatch.setattr(gq, "_declared_orders", _orders({"d": ORDER}))
+    out = _run_pattern(monkeypatch, [pattern, *args, "--shape", "brief"], rows)
+    props = out["rows"][0]["properties"]
+    assert props["sector"].startswith("widget making") and brief.size(props) <= brief.LISTING_PROPERTY_CHARS
+    assert out["rows"][0]["cut_properties"]["sector"] == len(entity["sector"])
+
+
+def test_entity_context_brief_with_a_packaged_schema(monkeypatch):
+    """No `_declared_orders` stub: the run folder's seeded `general` schema is read (conftest)."""
+    monkeypatch.setattr(gq, "_declared_orders", _REAL_DECLARED_ORDERS)
+    responses = _hub(n_summaries=2, n_connections=2, n_chunks=2, include=1)[0]
+    entity = {**_entity(), "_domain": "general", "entity_class": "EVENT", "outcome": "The merger closed.",
+              "status": "done", "mood": "calm"}
+    responses["entity"] = [{"entityData": entity}]
+    _install_session(monkeypatch, _RecordingSession(responses))
+    r = CliRunner().invoke(cli, ["query", "entity-context", "--domain", "general", "--entityId", "e1",
+                                 "--shape", "brief", "--compact"])
+    assert r.exit_code == 0, r.output
+    out = json.loads(r.stdout)
+    assert out["rows"][0]["entity"]["properties"] == {"outcome": "The merger closed.", "status": "done"}
+    assert out["warnings"] == []

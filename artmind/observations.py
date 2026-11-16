@@ -258,21 +258,33 @@ def property_key_rules(schema: dict) -> tuple[dict[str, str], frozenset[str]]:
 OBSERVATION_OWN_KEYS = _STRUCTURAL_KEYS | {"source_kind", "created_by"}
 
 
+def _entity_types(schema) -> dict:
+    types = schema.get("entity_types") if isinstance(schema, dict) else None
+    return types if isinstance(types, dict) else {}
+
+
+def _class_properties(decl) -> dict:
+    props = decl.get("properties") if isinstance(decl, dict) else None
+    return props if isinstance(props, dict) else {}
+
+
 def declared_property_keys(schema: dict) -> dict[str, set[str]]:
-    """{class: the property keys it declares} -- the one reading of "declared" (spec 2026-11-15 §2.2)."""
+    """{class: the property keys it declares} -- the one reading of "declared" (spec 2026-11-15 §2.2).
+    A malformed schema (non-mapping `entity_types` or `properties`) declares nothing there."""
     return {
-        str(cls): {str(p) for p in ((decl or {}).get("properties") or {})}
-        for cls, decl in (schema.get("entity_types") or {}).items() if isinstance(decl, dict)
+        str(cls): {str(p) for p in _class_properties(decl)}
+        for cls, decl in _entity_types(schema).items() if isinstance(decl, dict)
     }
 
 
 def declared_property_order(schema: dict, *, include_temporal: bool = True) -> dict[str, list[str]]:
-    """{class: declared keys in schema order, `required: true` keys first}."""
+    """{class: declared keys in schema order, `required: true` keys first}. A malformed schema
+    (non-mapping `entity_types` or `properties`) gives {} / [] there instead of raising."""
     out: dict[str, list[str]] = {}
-    for cls, decl in (schema.get("entity_types") or {}).items():
+    for cls, decl in _entity_types(schema).items():
         if not isinstance(decl, dict):
             continue
-        items = [(str(p), pd if isinstance(pd, dict) else {}) for p, pd in (decl.get("properties") or {}).items()]
+        items = [(str(p), pd if isinstance(pd, dict) else {}) for p, pd in _class_properties(decl).items()]
         items = [(p, pd) for p, pd in items if include_temporal or not pd.get("temporal")]
         out[str(cls)] = ([p for p, pd in items if pd.get("required") is True]
                          + [p for p, pd in items if pd.get("required") is not True])

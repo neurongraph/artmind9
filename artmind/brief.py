@@ -344,15 +344,27 @@ LISTING_PROPERTY_CHARS = 200
 _LISTING_PATTERNS = frozenset({"pattern1", "pattern7", "pattern8"})
 
 
-def _bounded_properties(entity: dict, declared: list[str], budget: int) -> tuple[dict, dict]:
-    """Declared values in `declared` order within `budget` characters (compact JSON). A list keeps
-    its newest (last) items; a scalar that does not fit is left out. Returns (properties,
-    {key: full length, 1 for a scalar left out})."""
+#: A string value is cut to the space left only when at least this many characters remain.
+_MIN_CUT_CHARS = 24
+
+
+def _bounded_properties(entity: dict, declared: list[str], budget: int) -> tuple[dict, dict, dict]:
+    """Declared values in `declared` order within `budget` characters (compact JSON).
+
+    Empty values (None, "", [], {}) are skipped. A list keeps its newest (last) items that fit; a
+    string that does not fit is cut to the space left at a sentence or word boundary (`cut`); any
+    other value (number, bool, mapping) that does not fit is left out.
+
+    Returns (properties, truncated_properties, cut_properties):
+    - truncated_properties: {list key: the list's full length} for every list not shown whole;
+    - cut_properties: {key: full length in characters} for every string cut and every other value
+      left out (a non-string's length is its compact JSON's)."""
     shown: dict = {}
+    truncated: dict = {}
     cut_off: dict = {}
     for key in declared:
         value = entity.get(key)
-        if value in (None, "", []):
+        if value is None or value == "" or value == [] or value == {}:
             continue
         if isinstance(value, list):
             kept: list = []
@@ -361,29 +373,41 @@ def _bounded_properties(entity: dict, declared: list[str], budget: int) -> tuple
                     break
                 kept.insert(0, item)
             if len(kept) < len(value):
-                cut_off[key] = len(value)
+                truncated[key] = len(value)
             if kept:
                 shown[key] = kept
         elif size({**shown, key: value}) <= budget:
             shown[key] = value
+        elif isinstance(value, str):
+            room = budget - size({**shown, key: ""})
+            text = cut(value, room) if room >= _MIN_CUT_CHARS else ""
+            while text and size({**shown, key: text}) > budget:  # JSON escapes made it longer
+                room -= size({**shown, key: text}) - budget
+                text = cut(value, room) if room >= _MIN_CUT_CHARS else ""
+            if text:
+                shown[key] = text
+            cut_off[key] = len(value)
         else:
-            cut_off[key] = 1
-    return shown, cut_off
+            cut_off[key] = len(json.dumps(value, ensure_ascii=False, separators=(",", ":")))
+    return shown, truncated, cut_off
 
 
 def entity_line(entity: dict, declared: list[str] | None = None, budget: int = ENTITY_PROPERTY_CHARS) -> dict:
     """id, name, class and a one-line description of an entity's data (`entityData`), plus its
-    declared non-temporal property values when `declared` (the class's key order) is given."""
+    declared non-temporal property values when `declared` (the class's key order) is given, with
+    `truncated_properties` / `cut_properties` naming what the budget hid (`_bounded_properties`)."""
     entity = entity or {}
     out = {"id": entity.get("_id") or entity.get("id"), "name": entity.get("name"),
            "class": entity.get("entity_class"),
            "description": one_line(entity.get("description") or entity.get("summary"))}
     if declared:
-        props, cut_off = _bounded_properties(entity, declared, budget)
+        props, truncated, cut_off = _bounded_properties(entity, declared, budget)
         if props:
             out["properties"] = props
+        if truncated:
+            out["truncated_properties"] = truncated
         if cut_off:
-            out["truncated_properties"] = cut_off
+            out["cut_properties"] = cut_off
     return out
 
 
@@ -460,7 +484,10 @@ def entity_context_row(row: dict, declared: list[str] | None = None) -> dict:
 
     With `declared` (the class's declared keys) the entity line also carries those values within
     ENTITY_PROPERTY_CHARS; its `truncated_properties` then also counts the lists the full row had
-    already cut (the larger length per key). The row's own `truncated_properties` stays as it was."""
+    already cut (the larger length per key). The row's own `truncated_properties` stays as it was,
+    and the row's `cut` (`graph_query.entity_context_cut`) still lists only those: what the brief
+    budget hid is on the entity line (`truncated_properties`, `cut_properties`), so a long value
+    does not make an ordinary entity a `hub`."""
     more = row.get("more_chunks") or []
     out = {"entity": entity_line(row.get("entityData") or {}, declared)}
     if row.get("same_as"):
