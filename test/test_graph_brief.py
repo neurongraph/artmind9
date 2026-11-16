@@ -17,6 +17,8 @@ from artmind.cli import cli
 from artmind.insights.model import Finding
 from test_query_layer import _RecordingSession, _hub_responses, _install_session
 
+_REAL_DECLARED_ORDERS = gq._declared_orders
+
 LONG = ("Alpha Corp is a synthetic supplier of widgets. It also sells gadgets and a long tail of other "
         "things that no brief row should carry in full because they only inflate the answer.")
 RUN_ONE_SENTENCE = "word " * 80  # no sentence end: cut at a word boundary
@@ -37,6 +39,7 @@ def _invoke(args, monkeypatch=None):
 def _env(monkeypatch):
     monkeypatch.delenv("ARTMIND_OUTPUT_BUDGET", raising=False)
     monkeypatch.setenv("ARTMIND_NO_PROXY", "1")
+    monkeypatch.setattr(gq, "_declared_orders", lambda domains: {})
 
 
 # --- the one-line cut ------------------------------------------------------------------
@@ -207,3 +210,73 @@ def test_insights_show_brief_and_full(monkeypatch):
     assert "narration" not in f and "--shape full" in out["next"]
     assert len(json.dumps(out)) < len(json.dumps(full))
     assert full["finding"]["narration"] and len(full["finding"]["subjects"]) == 14  # full unchanged
+
+
+# --- declared property values on brief rows (spec 2026-11-15 §5) ---------------------------
+
+ORDER = {"ORG": ["sector", "status", "recent_activity"]}
+
+
+def test_entity_line_carries_declared_values_in_order():
+    e = {**_entity(), "sector": "widgets", "status": "active", "mood": "calm", "_valid_from": "2024-01-01"}
+    line = brief.entity_line(e, declared=ORDER["ORG"])
+    assert list(line["properties"]) == ["sector", "status", "recent_activity"]
+    assert "mood" not in line["properties"] and "_valid_from" not in line["properties"]
+
+
+def test_a_long_list_keeps_its_newest_items_within_the_budget():
+    e = {**_entity(), "recent_activity": [f"activity number {n} of a long list" for n in range(60)]}
+    line = brief.entity_line(e, declared=ORDER["ORG"], budget=300)
+    shown = line["properties"]["recent_activity"]
+    assert shown[-1] == "activity number 59 of a long list"
+    assert len(json.dumps(line["properties"], ensure_ascii=False, separators=(",", ":"))) <= 300
+    assert line["truncated_properties"]["recent_activity"] == 60
+
+
+def test_no_declared_order_means_no_properties_key():
+    assert "properties" not in brief.entity_line(_entity())
+
+
+def test_pattern1_brief_shows_declared_values_within_the_listing_budget(monkeypatch):
+    rows = [{"entityData": {**_entity(1), "_domain": "d", "sector": "widgets"}, "_rowsTotal": 1}]
+    monkeypatch.setattr(gq, "_declared_orders", lambda domains: {"d": ORDER})
+    out = _run_pattern(monkeypatch, ["pattern1", "--entityClass", "ORG", "--shape", "brief"], rows)
+    props = out["rows"][0]["properties"]
+    assert props["sector"] == "widgets"
+    assert len(json.dumps(props, ensure_ascii=False, separators=(",", ":"))) <= brief.LISTING_PROPERTY_CHARS
+
+
+def test_entity_context_brief_hub_with_a_full_property_bag_fits_the_agent_budget(monkeypatch):
+    responses, max_conns, include = _hub()
+    bag = {f"prop_{i}": "a long declared value " * 8 for i in range(40)}
+    entity = {**responses["entity"][0]["entityData"], "_domain": "d", **bag,
+              "recent_activity": [f"item {n}" for n in range(300)]}
+    responses["entity"] = [{"entityData": entity}]
+    monkeypatch.setattr(gq, "_declared_orders", lambda domains: {"d": {"ORG": [*bag, "recent_activity"]}})
+    _install_session(monkeypatch, _RecordingSession(responses))
+    out = gq.entity_context(["d"], "e1", include_chunks=include, max_connections=max_conns, shape="brief")
+    row = out["rows"][0]
+    assert len(json.dumps(row["entity"]["properties"], ensure_ascii=False, separators=(",", ":"))) \
+        <= brief.ENTITY_PROPERTY_CHARS
+    assert row["entity"]["truncated_properties"]
+    size = len(json.dumps(out, ensure_ascii=False))
+    print(f"hub entity-context with a full property bag: brief={size}")
+    assert size < 24000
+
+
+def test_declared_orders_reads_root_and_children_without_temporal_keys(tmp_path, monkeypatch):
+    import paths
+    import artmind.observations  # noqa: F401 -- imported before the patch: temporal binds the dir on import
+    import artmind.temporal  # noqa: F401
+
+    (tmp_path / "fam_schema.yaml").write_text(
+        "entity_types:\n  ORG:\n    properties:\n      sector: {}\n      founded: {temporal: true}\n"
+        "      status: {required: true}\n", encoding="utf-8")
+    (tmp_path / "fam.kid_schema.yaml").write_text(
+        "entity_types:\n  TEAM:\n    properties:\n      size: {}\n", encoding="utf-8")
+    monkeypatch.setattr(paths, "DOMAIN_SCHEMAS_DIR", tmp_path)
+    monkeypatch.setattr(gq, "_declared_orders", _REAL_DECLARED_ORDERS)
+    orders = gq._declared_orders(["fam"])
+    assert orders == {"fam": {"ORG": ["status", "sector"]}, "fam.kid": {"TEAM": ["size"]}}
+    assert gq._declared_for(orders, {"_domain": "fam.kid", "entity_class": "TEAM"}) == ["size"]
+    assert gq._declared_for(orders, {"_domain": "other", "entity_class": "TEAM"}) is None

@@ -787,6 +787,31 @@ RETURN did AS doc_id, s.text AS summary
 """
 
 
+def _declared_orders(domains) -> dict[str, dict[str, list[str]]]:
+    """{domain: {class: declared non-temporal keys, required first}} for brief rows, read from this
+    machine's schemas (spec 2026-11-15 §5). A family root also loads its children, each under its
+    own name (an entity's `_domain` is the leaf it was extracted under)."""
+    from paths import DOMAIN_SCHEMAS_DIR
+    from artmind.observations import declared_property_order
+    from artmind.temporal import load_schema
+
+    out: dict = {}
+    for d in normalize_domains(domains):
+        names = [d] + [p.name.removesuffix("_schema.yaml")
+                       for p in sorted(DOMAIN_SCHEMAS_DIR.glob(f"{d}.*_schema.yaml"))]
+        for name in names:
+            if name not in out:
+                out[name] = declared_property_order(load_schema(name, schemas_dir=DOMAIN_SCHEMAS_DIR),
+                                                    include_temporal=False)
+    return out
+
+
+def _declared_for(orders: dict, entity: dict | None) -> list[str] | None:
+    """The declared key order for a brief row's entity (`_domain`, `entity_class`), or None."""
+    entity = entity or {}
+    return (orders.get(entity.get("_domain") or "") or {}).get(entity.get("entity_class") or "")
+
+
 def _bound_pattern_rows(pattern: str, rows: list[dict], params: dict) -> list[dict]:
     """Apply the per-pattern output caps described atop PATTERN_MAX_DOC_SOURCES."""
     if pattern in ("pattern2", "pattern3", "pattern4"):
@@ -1278,7 +1303,8 @@ def execute_pattern(
     if shape == "brief":
         from artmind import brief
 
-        rows = [brief.pattern_row(pattern, r) for r in rows]
+        orders = _declared_orders(domains)
+        rows = [brief.pattern_row(pattern, r, _declared_for(orders, r.get("entityData"))) for r in rows]
         output_parameters["shape"] = "brief"
     result = {
         **_domain_output(domains),
@@ -1989,7 +2015,8 @@ def entity_context(
     if shape == "brief":
         from artmind import brief
 
-        rows = [brief.entity_context_row(r) for r in rows]
+        orders = _declared_orders(domains)
+        rows = [brief.entity_context_row(r, _declared_for(orders, r.get("entityData"))) for r in rows]
         extra["next"] = ("every key of this row (full properties, connection properties, chunk text "
                          "and source document paths): rerun with --shape full")
     return {
