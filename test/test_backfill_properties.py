@@ -435,3 +435,25 @@ def test_retry_commit_warns_when_staging_moved_but_commits_it(staged, monkeypatc
 
 def test_undo_with_fill_options_is_a_usage_error(staged):
     assert _cli("--undo", "0123456789ab", "--domain", "journal").exit_code == 2
+
+
+def test_undo_restores_a_chunk_file_a_failed_patch_wrote_but_never_listed(staged, monkeypatch):
+    commits, _ = _record_commits(monkeypatch)
+    (chunk_file,) = (staged / "chunks").rglob("chunk_001.json")
+    chunk_before = chunk_file.read_bytes()
+    real_patch = backfill._patch_chunk_cache
+
+    def patch_then_raise(folder, changed, values, stash):
+        real_patch(folder, changed, values, stash)  # writes chunk_001.json
+        raise OSError("synthetic, after the first file")
+    monkeypatch.setattr(backfill, "_patch_chunk_cache", patch_then_raise)
+    _answer(monkeypatch, [{"id": "o1", "properties": {"trigger": "the review"}}])
+
+    run = backfill.backfill_domain("journal", targets={"EMOTION": ["trigger"]}, model="m")
+
+    manifest = json.loads((ing.LOGS_DIR / "backfill-stash" / run["run_id"] / "manifest.json").read_text())
+    assert manifest["folders"][staged.name]["chunk_files"] == [] and chunk_file.read_bytes() != chunk_before
+    commits.clear()
+    out = backfill.undo_run(run["run_id"])
+    assert out["restored"] == [staged.name] and commits == [(staged.name, True)]
+    assert chunk_file.read_bytes() == chunk_before

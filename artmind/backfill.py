@@ -360,6 +360,8 @@ def _fill_folder(w: dict, *, domain: str, schema: dict, scoped: dict, targets: d
     if dropped:
         _keep_dropped(folder, name, dropped)
     ingest.write_staging(folder, {"observations.json": new})
+    # A crash between this write and the manifest save leaves the folder staged but unrecorded:
+    # recover by hand with `artmind ingest write-to-graph` on the folder (staging is the record).
     # The entry exists only once the write succeeded: undo and retry act on written folders alone.
     entry = manifest["folders"][folder.name] = {
         "document": name, "chunk_files": [], "committed": False,
@@ -536,7 +538,13 @@ def undo_run(run_id: str, *, dry_run: bool = False) -> dict:
             try:
                 # Chunk-cache files first, observations.json last: until the last write lands the folder
                 # still reads as the run's output, so a second undo picks it up again.
-                for rel in entry.get("chunk_files") or []:
+                # Every stashed chunk file, listed or not: a patch that raised part-way wrote some
+                # files the entry never recorded, but each was stashed before it was written.
+                stash_chunks = base / name / "chunks"
+                rels = sorted({*(entry.get("chunk_files") or []),
+                               *(str(p.relative_to(base / name)) for p in stash_chunks.rglob("*.json"))}
+                              if stash_chunks.is_dir() else set(entry.get("chunk_files") or []))
+                for rel in rels:
                     if (base / name / rel).exists():
                         _restore_file(base / name / rel, folder / rel)
                 if _sha(folder / "observations.json") != _sha(stashed):
