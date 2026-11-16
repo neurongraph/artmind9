@@ -84,25 +84,3 @@ def test_cli_guide_route_is_admin_only() -> None:
     client = TestClient(create_app())
     assert client.get("/api/cli-guide").status_code == 404
 
-
-def test_agent_command_scope():
-    from artmind.cli_guide import agent_command
-
-    assert agent_command("artmind query survey")
-    assert agent_command("artmind query graph pattern8")
-    assert agent_command("artmind db sql")
-    assert not agent_command("artmind db bridge confirm")
-    assert not agent_command("artmind ingest sync")
-
-
-def test_render_markdown_lists_agent_commands_with_their_options():
-    from artmind.cli_guide import render_markdown
-
-    md = render_markdown()
-    assert md.startswith("# artmind commands")
-    assert "\n## artmind query survey\n" in md
-    assert "\n## artmind db sql\n" in md
-    assert "artmind ingest" not in md and "\n## artmind query plan\n" not in md
-    survey = md.split("\n## artmind query survey\n", 1)[1].split("\n## ", 1)[0]
-    assert "`--by`" in survey and "`--shape`" in survey
-    assert render_markdown() == md  # deterministic

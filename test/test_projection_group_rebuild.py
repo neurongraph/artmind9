@@ -291,6 +291,8 @@ def test_link_keeps_both_entities_and_syncs_same_as_both_directions():
     assert len(params["rows"]) == 1
     assert params["rows"][0]["member"] == entity_id(member)
     assert params["rows"][0]["canonical"] == entity_id(canonical)
+    cypher, _ = same_as_calls[0]
+    assert "MERGE (c)-[:SAME_AS]->(m)" not in cypher, "one edge per pair, member -> canonical"
 
 
 def test_link_clears_stale_same_as_edges_before_resyncing():
@@ -394,3 +396,47 @@ def test_apply_retractions_ignores_observations_with_no_retracts_field():
     retracted = apply_retractions(tx, [_o(id="new-obs-1")])
     assert retracted == set()
     assert tx.calls == []
+
+
+# ── RELATES_TO endpoints folded by a same-as group outside the rebuild ───────
+
+
+def test_an_edge_to_a_folded_alias_outside_the_batch_lands_on_its_canonical():
+    """A partial rebuild of `parent` must aim `dr. lee -> parent` at the
+    canonical `dr. mira lee`, even when that group is not in the batch.
+    Resolving the alias to itself writes nothing: its Entity was folded
+    away, and the write's `MATCH` on both ends drops the row."""
+    p = "journal"
+    parent = ("parent", "PERSON", p)
+    alias = ("dr. lee", "PERSON", p)
+    canonical = ("dr. mira lee", "PERSON", p)
+    tx = FakeTx(
+        observations_by_key={key_string(parent): [_o(id="od", canonical_name="Parent", entity_class="PERSON", _domain=p)]},
+        relates_to_incoming=[
+            {"tgt_key": key_string(parent), "rel_type": "CARES_FOR", "other_key": key_string(alias),
+             "doc_id": "d1", "chunk_id": "c1"},
+        ],
+    )
+
+    rebuild(tx, {parent}, same_as_groups=[[canonical, alias]])
+
+    (_, params), = tx.calls_matching("MERGE (e)-[r:RELATES_TO")
+    assert [(r["src"], r["tgt"], r["rel_type"]) for r in params["rows"]] == [
+        (entity_id(canonical), entity_id(parent), "CARES_FOR")
+    ]
+
+
+def test_merge_unit_resolves_endpoints_through_every_group():
+    """`synthesize` rebuilds one key with `merge_unit`'s `unit_of`; an edge
+    from that key to an alias of another group must still resolve."""
+    from artmind.projection import merge_unit
+
+    p = "journal"
+    parent = ("parent", "PERSON", p)
+    alias = ("dr. lee", "PERSON", p)
+    canonical = ("dr. mira lee", "PERSON", p)
+
+    member_keys, unit_of = merge_unit(parent, [[canonical, alias]])
+
+    assert member_keys == [parent]
+    assert unit_of.get(alias) == canonical

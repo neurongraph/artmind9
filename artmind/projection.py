@@ -175,6 +175,36 @@ def _hashable(value):
     return tuple(value) if _is_list(value) else str(value)
 
 
+# Aliases that go into the name vector: short ones only. A long raw variant
+# ("SmartSaver Account Tier 2 Rate - 4.70% AER (...)") would pull the vector
+# off the name, so it stays in `aliases` and the fulltext index only.
+NAME_EMBED_MAX_ALIASES = 8
+NAME_EMBED_MAX_ALIAS_CHARS = 60
+
+
+def name_embedding_text(name: str, aliases=None) -> str:
+    """Text embedded as an entity's `name_embedding`: its name, then up to
+    `NAME_EMBED_MAX_ALIASES` aliases of at most `NAME_EMBED_MAX_ALIAS_CHARS`
+    characters, in stored order, `; `-joined. Pure."""
+    name = str(name or "").strip()
+    seen = {name.casefold()}
+    short: list[str] = []
+    for alias in aliases or ():
+        text = str(alias or "").strip()
+        if not text or len(text) > NAME_EMBED_MAX_ALIAS_CHARS or text.casefold() in seen:
+            continue
+        seen.add(text.casefold())
+        short.append(text)
+        if len(short) == NAME_EMBED_MAX_ALIASES:
+            break
+    return "; ".join([name, *short]) if short else name
+
+
+def name_source(name: str, aliases=None) -> str:
+    """`_name_src`: a short hash of `name_embedding_text(name, aliases)`."""
+    return hashlib.sha256(name_embedding_text(name, aliases).encode("utf-8")).hexdigest()[:16]
+
+
 def merge_observations(
     observations: list[dict],
     *,
@@ -274,6 +304,9 @@ def merge_observations(
     aliases = [a for a in aliases if a != name]
     if aliases:
         props["aliases"] = aliases
+    # Which name text the name vector should hold; the embed sweep re-embeds
+    # `name_embedding` when this differs from the one it embedded.
+    props["_name_src"] = name_source(name, aliases)
 
     # ── domain properties, by shape ──
     domain_keys: list[str] = []
@@ -465,7 +498,7 @@ import re  # noqa: E402  (kept beside the I/O half it serves)
 # `:Entity` is projection-owned and is recomputed from observations on every
 # rebuild, so a property no longer asserted by any observation disappears
 # rather than lingering.
-_PRESERVED_ENTITY_KEYS = ("embedding", "embedding_stale", "_embed_key")
+_PRESERVED_ENTITY_KEYS = ("embedding", "embedding_stale", "_embed_key", "name_embedding", "_name_embed_key")
 
 
 def _sanitize_label(value: str) -> str:
@@ -1091,6 +1124,27 @@ def _plan_groups(
     return unit_of, members_of, links
 
 
+def endpoint_units(
+    groups: list[list[tuple[str, str, str]]],
+) -> dict[tuple[str, str, str], tuple[str, str, str]]:
+    """Pure. Where a `RELATES_TO` endpoint lands: every merge member of every
+    group mapped to its canonical (same rule as `_plan_groups`).
+
+    Unlike `_plan_groups`'s `unit_of`, this is never scoped to the keys
+    being rebuilt. An entity in the batch can hold an edge to an alias whose
+    group is outside the batch; that alias has no Entity of its own (it was
+    folded), so resolving it to itself makes the write's `MATCH` drop the
+    edge silently.
+    """
+    out: dict[tuple[str, str, str], tuple[str, str, str]] = {}
+    for group in groups:
+        canonical = group[0]
+        for member in group:
+            if member[1] == canonical[1] and member[2] == canonical[2]:
+                out[member] = canonical
+    return out
+
+
 def merge_unit(
     key: tuple[str, str, str], groups: list[list[tuple[str, str, str]]]
 ) -> tuple[list[tuple[str, str, str]], dict[tuple[str, str, str], tuple[str, str, str]]]:
@@ -1101,15 +1155,20 @@ def merge_unit(
     -- the same observation set the rebuild aggregates."""
     touching = [group for group in groups if key in group]
     in_scope = {member for group in touching for member in group} | {key}
-    unit_of, members_of, _ = _plan_groups(in_scope, touching)
-    return members_of.get(key, [key]), unit_of
+    _unit_of, members_of, _ = _plan_groups(in_scope, touching)
+    return members_of.get(key, [key]), endpoint_units(groups)
 
 
 def _sync_same_as_links_batch(tx, links: list[tuple[tuple[str, str, str], tuple[str, str, str]]]) -> None:
-    """`MERGE` a `SAME_AS` edge, both directions, for every link pair in
+    """`MERGE` one `SAME_AS` edge, member -> canonical, for every link pair in
     `rebuild`'s plan in one batched UNWIND instead of one MERGE per pair. A
     no-op, safely, for any row whose endpoint Entity does not (yet) exist --
     the `MATCH` simply finds nothing for that row.
+
+    One edge, not one each way: a pattern matches it in either direction, and
+    its direction says which side is the group's canonical. The clear before it
+    (`_clear_same_as_batch`) deletes edges in both directions, so a graph built
+    with the old two-edge form loses the reverse edge on its next rebuild.
     """
     if not links:
         return
@@ -1119,7 +1178,6 @@ def _sync_same_as_links_batch(tx, links: list[tuple[tuple[str, str, str], tuple[
         UNWIND $rows AS row
         MATCH (m:Entity {_id: row.member}), (c:Entity {_id: row.canonical})
         MERGE (m)-[:SAME_AS]->(c)
-        MERGE (c)-[:SAME_AS]->(m)
         """,
         rows=rows,
     )
@@ -1214,6 +1272,7 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
         same_as_groups = same_as.load_groups()
 
     unit_of, members_of, links = _plan_groups(keys, same_as_groups)
+    endpoint_of = endpoint_units(same_as_groups)
 
     sorted_keys = sorted(keys)
     effective_keys = [k for k in sorted_keys if unit_of.get(k) in (None, k)]
@@ -1324,7 +1383,7 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
             parsed = _parse_key(other_key)
             if not parsed:
                 continue
-            tgt = entity_id(unit_of.get(parsed, parsed))
+            tgt = entity_id(endpoint_of.get(parsed, parsed))
             if tgt == eid:
                 continue
             relates_to_rows[(eid, tgt, rel_type)] = {"src": eid, "tgt": tgt, "rel_type": rel_type, **agg}
@@ -1332,7 +1391,7 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
             parsed = _parse_key(other_key)
             if not parsed:
                 continue
-            src = entity_id(unit_of.get(parsed, parsed))
+            src = entity_id(endpoint_of.get(parsed, parsed))
             if src == eid:
                 continue
             relates_to_rows[(src, eid, rel_type)] = {"src": src, "tgt": eid, "rel_type": rel_type, **agg}

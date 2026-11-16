@@ -702,6 +702,28 @@ def _symlink_opencode_agents(dest: Path) -> list[str]:
     return linked
 
 
+ENTITY_NAME_FT_PROPERTIES = ("name", "description", "aliases")
+_ENTITY_NAME_FT_CREATE = (
+    "CREATE FULLTEXT INDEX entity_name_ft IF NOT EXISTS FOR (e:Entity) "
+    "ON EACH [e.name, e.description, e.aliases]"
+)
+
+
+def _ensure_entity_name_ft(session) -> None:
+    """`entity_name_ft` over name, description and aliases (a LIST<STRING>).
+
+    Neo4j cannot change an index's properties, and `IF NOT EXISTS` keeps an older
+    `[name, description]` index as it is, so an index without `aliases` is dropped
+    and created again. Neo4j fills the new index in the background.
+    """
+    rows = session.run(
+        "SHOW FULLTEXT INDEXES YIELD name, properties WHERE name = 'entity_name_ft' RETURN properties"
+    ).data()
+    if rows and set(ENTITY_NAME_FT_PROPERTIES) - set(rows[0].get("properties") or ()):
+        session.run("DROP INDEX entity_name_ft IF EXISTS")
+    session.run(_ENTITY_NAME_FT_CREATE)
+
+
 def _setup_neo4j(session, embedding_dim: int) -> None:
     # ── Uniqueness constraints ────────────────────────────────────────────────
     session.run(
@@ -971,6 +993,15 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         f"OPTIONS {{indexConfig: {{`vector.dimensions`: {embedding_dim}, "
         f"`vector.similarity_function`: 'cosine'}}}}"
     )
+    # Name-only vector (name + short aliases, `ingest.name_embedding_text`): the
+    # per-name lookup before canonicalization compares a bare extracted name with
+    # it. `entity_embedding` holds `name: description` and matches a bare name poorly.
+    session.run(
+        f"CREATE VECTOR INDEX entity_name_embedding IF NOT EXISTS "
+        f"FOR (e:Entity) ON (e.name_embedding) "
+        f"OPTIONS {{indexConfig: {{`vector.dimensions`: {embedding_dim}, "
+        f"`vector.similarity_function`: 'cosine'}}}}"
+    )
 
     # ── Fulltext indexes ──────────────────────────────────────────────────────
     try:
@@ -983,9 +1014,7 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         session.run(
             "CREATE FULLTEXT INDEX user_chat_text_ft IF NOT EXISTS FOR (c:UserChat) ON EACH [c.raw_text]"
         )
-        session.run(
-            "CREATE FULLTEXT INDEX entity_name_ft IF NOT EXISTS FOR (e:Entity) ON EACH [e.name, e.description]"
-        )
+        _ensure_entity_name_ft(session)
         # A3: Document.name + .title fulltext — pattern10's CONTAINS query and any
         # canvas graph-view / provenance Card that resolves a document by name benefit
         # from a fulltext index over a filter scan on a growing document set.
@@ -1176,6 +1205,7 @@ def setup_all() -> dict:
             f"summary_embedding (dim={embedding_dim}, filter: _domain, level)",
             f"user_chat_embedding (dim={embedding_dim})",
             f"entity_embedding (dim={embedding_dim})",
+            f"entity_name_embedding (dim={embedding_dim})",
         ],
         "neo4j_fulltext_indexes": ["passage_text_ft", "summary_text_ft", "user_chat_text_ft", "entity_name_ft", "document_name_ft"],
     }

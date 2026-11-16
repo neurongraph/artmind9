@@ -30,7 +30,9 @@ def test_entity_resolve_falls_back_to_fulltext_when_embedding_fails():
 
     assert [r["entity"]["_id"] for r in result["rows"]] == ["e1"]
     assert result["rows"][0]["matched_by"] == ["fulltext"]
-    assert session.run.call_count == 2  # the exact-name query and the fulltext query; no vector query
-    args, kwargs = session.run.call_args
+    cyphers = [c.args[0] for c in session.run.call_args_list]
+    assert not any("VECTOR INDEX" in c for c in cyphers), "no vector query"
+    assert len(cyphers) == 3  # the exact-name query, the fulltext query, the same-as link read
+    args, kwargs = next(c for c in session.run.call_args_list if "entity_name_ft" in c.args[0])
     assert kwargs["topK"] == 5
     assert kwargs["domains"] == ["finance"]

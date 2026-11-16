@@ -5,6 +5,7 @@ from datetime import date
 from typing import Any, Sequence
 
 import click
+from loguru import logger
 from neo4j import READ_ACCESS, GraphDatabase, NotificationMinimumSeverity
 from neo4j.exceptions import ClientError, TransientError
 from neo4j.graph import Node, Path, Relationship
@@ -311,7 +312,7 @@ def read_session():
 # query result: the embedding vector and the A1e property-provenance ledger
 # (``_prop_sources``). All read paths funnel through strip_internal_props, so
 # stripping here means no per-query projection ever leaks them.
-_INTERNAL_PROP_KEYS = frozenset({"embedding", "_prop_sources"})
+_INTERNAL_PROP_KEYS = frozenset({"embedding", "name_embedding", "_prop_sources"})
 
 
 def strip_internal_props(value: Any) -> Any:
@@ -1500,7 +1501,7 @@ ENTITY_CONTEXT_MAX_MORE_CHUNKS = 20
 ENTITY_CONTEXT_MAX_SOURCE_DOCUMENTS = 10
 
 # Projection bookkeeping that means nothing to a reader of the dossier.
-_ENTITY_CONTEXT_DROPPED_PROPS = frozenset({"_observation_set_hash", "embedding_stale"})
+_ENTITY_CONTEXT_DROPPED_PROPS = frozenset({"_observation_set_hash", "embedding_stale", "_name_src", "_name_embed_key"})
 
 
 def _query_score(var: str) -> str:
@@ -1511,6 +1512,37 @@ def _query_score(var: str) -> str:
         f"CASE WHEN $queryVector IS NULL OR {var}.embedding IS NULL THEN null "
         f"ELSE vector.similarity.cosine({var}.embedding, $queryVector) END"
     )
+
+
+# Entities a curated same-as group links to this one (`same_as.yaml`, a group
+# across classes or domains; within one class and domain the group is merged
+# into one entity instead). Not domain-scoped on the far side: the link's point
+# is that the same thing also lives elsewhere.
+SAME_AS_CYPHER = """
+UNWIND $ids AS id
+MATCH (e:Entity {_id: id})-[:SAME_AS]-(t:Entity)
+RETURN id, collect(DISTINCT t {._id, .name, .entity_class, ._domain}) AS same_as
+"""
+
+
+def same_as_links(session, ids) -> dict[str, list[dict]]:
+    """`{entity _id: [{_id, name, entity_class, _domain}, ...]}` for the ids that
+    have a SAME_AS link, sorted by domain then name. Empty for none; a failed
+    read is logged and empty (the link is extra context, never the answer)."""
+    ids = sorted({i for i in ids if i})
+    if not ids:
+        return {}
+    try:
+        rows = session.run(SAME_AS_CYPHER, ids=ids).data()
+    except Exception as exc:
+        logger.warning("same-as links unavailable: {}", exc)
+        return {}
+    out: dict[str, list[dict]] = {}
+    for r in rows:
+        links = [t for t in (r.get("same_as") or []) if t and t.get("_id") != r.get("id")]
+        if links:
+            out[r["id"]] = sorted(links, key=lambda t: (t.get("_domain") or "", t.get("name") or ""))
+    return out
 
 
 def _entity_context_queries() -> dict[str, str]:
@@ -1924,6 +1956,9 @@ def entity_context(
 
             entity, truncated = _cap_entity_lists(raw_entity, max_list_items)
             row = {"entityData": entity}
+            links = same_as_links(session, [raw_entity.get("_id")]).get(raw_entity.get("_id"))
+            if links:
+                row["same_as"] = links
             if truncated:
                 row["truncated_properties"] = truncated
             row.update(

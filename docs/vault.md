@@ -128,6 +128,7 @@ machine-local state:
 | `*.artmind-tmp`, `*.artmind-old` (folders and files) under `.artmind/data/` | scratch from an atomic write — a staging folder's swap, a curation record's temp file, a note rewrite's temp file; a crash can leave one, the next write removes it. This is `.gitignore` block **v4**: v3 ignored scratch folders only. A vault on v3 shows `artmind block outdated (v3; this artmind writes v4)` in `vault doctor`, which prints the fix (`artmind init`, which rewrites only artmind's block); `vault doctor` also prints the `git rm --cached` for a scratch file that already got committed |
 | `.artmind/.claude-sdk-auth/` | the chat/admin UI agent's config dir: auth and full conversation transcripts. Private, and per machine |
 | `.DS_Store`, `Thumbs.db`, `.obsidian/workspace.json`, `.obsidian/workspace-mobile.json` | not artmind's, but a synced vault needs them out: OS litter, and Obsidian's per-device pane layout, which changes on every click and would conflict between machines. The rest of `.obsidian/` stays committed |
+| `.obsidian/plugins/termy/agent-context/` | the Termy plugin's live agent context (active file, open files, selection), rewritten on every editor interaction with this machine's paths; the rest of the plugin stays committed |
 
 The artmind sections of `.gitignore` and `.gitattributes` are versioned
 blocks. `artmind init` replaces an older block in place and never touches

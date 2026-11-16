@@ -147,9 +147,23 @@ def special_tokens(question: str) -> set[str]:
     return out
 
 
+# A fragment ending in one of these is a title, not a sentence: "Dr. Lind" stays whole.
+_TITLE_END = re.compile(r"(?:^|\s)(?:Dr|Mr|Mrs|Ms|Mx|Prof|St|Sr|Jr|Capt|Col|Gen|Lt|Rev|Hon)\.$")
+
+
 def sentences(text) -> list[str]:
     flat = " ".join(str(text or "").split())
-    return [s for s in _SENTENCE_SPLIT.split(flat) if s] if flat else []
+    if not flat:
+        return []
+    out: list[str] = []
+    for part in _SENTENCE_SPLIT.split(flat):
+        if not part:
+            continue
+        if out and _TITLE_END.search(out[-1]):
+            out[-1] = f"{out[-1]} {part}"
+        else:
+            out.append(part)
+    return out
 
 
 def _tokens(text: str) -> set[str]:
@@ -400,6 +414,8 @@ def entity_context_row(row: dict) -> dict:
     (test_graph_brief.py measures it)."""
     more = row.get("more_chunks") or []
     out = {"entity": entity_line(row.get("entityData") or {})}
+    if row.get("same_as"):
+        out["same_as"] = row["same_as"]
     if row.get("truncated_properties"):
         out["truncated_properties"] = row["truncated_properties"]
     out["connection_summary"] = [summary_line(s) for s in row.get("connection_summary") or []]

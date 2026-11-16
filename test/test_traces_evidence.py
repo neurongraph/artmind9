@@ -263,14 +263,12 @@ def test_no_warnings_key_when_the_list_is_empty():
     assert "warnings" not in summarize({"rows": [], "warnings": []})["evidence"]
 
 
-def test_guide_and_first_next_are_kept():
+def test_first_next_is_kept():
     from artmind.traces import evidence
 
-    ev = evidence.summarize({"rows": [{"doc_id": "d"}], "guide": ["survey"],
+    ev = evidence.summarize({"rows": [{"doc_id": "d"}],
                              "next": "artmind query page h1 --from 10; artmind query survey 'x'"})["evidence"]
-    assert ev["guide"] == ["survey"]
     assert ev["next"] == "artmind query page h1 --from 10"
-    assert "guide" not in evidence.summarize({"rows": []})["evidence"]
 
 
 def test_find_rows_give_provenance():

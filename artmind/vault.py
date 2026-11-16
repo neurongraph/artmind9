@@ -271,7 +271,7 @@ def note_scratch_dir(vault_dir: Path | str | None) -> Path | None:
 # the vault; everything below is the short list of exceptions, and each is a
 # secret, a churning binary, or machine-local state.
 GITIGNORE_BLOCK = """\
-# ── artmind (v5) ──────────────────────────────────────────────────────────────
+# ── artmind (v6) ──────────────────────────────────────────────────────────────
 # .artmind/ belongs to artmind and is versioned with your vault, so a clone
 # reproduces the graph without paying for extraction again. These are the
 # exceptions, and each is a secret, a churning binary, or machine-local state.
@@ -352,6 +352,10 @@ Thumbs.db
 # machine's artmind, and its settings name this machine's paths and processes,
 # so each machine keeps its own.
 /.obsidian/plugins/artmind/
+# The Termy plugin's live agent context (active file, open files, selection):
+# rewritten on every editor interaction and naming this machine's paths, so it
+# conflicts whenever two machines commit it. The rest of the plugin stays.
+/.obsidian/plugins/termy/agent-context/
 # ── end artmind ───────────────────────────────────────────────────────────────
 """
 

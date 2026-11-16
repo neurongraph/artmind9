@@ -89,11 +89,14 @@ MART_LOWER_BOUND = (
     "bound and can miss or misplace what the notes say; check it against the notes (next) before answering")
 
 
+def reads_mart(sql) -> bool:
+    """True when generated SQL reads a mart table (`<domain>__mart_*`)."""
+    return isinstance(sql, str) and "__mart_" in sql
+
+
 def text2sql_mart(payload: dict, domains, question) -> str | None:
     """A survey on the question after text2sql answered from the mart (study 22, run K)."""
-    from artmind import guides
-
-    if payload.get("dry_run") or not payload.get("rows") or not guides.reads_mart(payload.get("generated_sql")):
+    if payload.get("dry_run") or not payload.get("rows") or not reads_mart(payload.get("generated_sql")):
         return None
     return f"artmind query survey {domain_flags(domains)} --shape brief --compact {quote(question)}"
 

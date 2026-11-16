@@ -17,7 +17,7 @@ from artmind.insights.model import InsightsError
 
 QUERY_TIMEOUT_S = 60
 # Free text or identity by construction: never a vocabulary worth profiling.
-SKIP_PROPERTY_KEYS = ("embedding", "embedding_stale", "name", "aliases", "description", "context", "key", "entity_class")
+SKIP_PROPERTY_KEYS = ("embedding", "embedding_stale", "name_embedding", "name", "aliases", "description", "context", "key", "entity_class")
 
 PROJECTIONS: dict[str, str] = {
     # One row per entity: the distinct document valid dates it was observed on.

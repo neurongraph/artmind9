@@ -61,6 +61,7 @@ function renderRendered(target, markdown) {
   // Sanitized markdown is the only HTML this tab ever injects.
   target.innerHTML = DOMPurify.sanitize(marked.parse(markdown || ""));
   renderMermaid(target);
+  if (window.renderArtmindGraph) renderArtmindGraph(target);
 }
 
 async function runView(name, params, resultEl) {

@@ -187,7 +187,7 @@ with guidance rather than guessing.
 | `.artmind/.claude-sdk-auth/` | the chat/admin agent's auth config and conversation transcripts | no |
 | `.artmind/logs/`, `state.json`, `serve.json`, `worker.pid` | machine-local runtime state | no |
 | `.claude/skills/`, `.opencode/agent/` | artmind's skills and agent modes (symlinked) + your own | only yours |
-| `.obsidian/` | Obsidian settings and community plugins | yes, except `workspace*.json` and `plugins/artmind/` |
+| `.obsidian/` | Obsidian settings and community plugins | yes, except `workspace*.json`, `plugins/artmind/` and `plugins/termy/agent-context/` |
 | `_external_docs/` | copies of sources ingested from outside the vault | yes |
 | `_Inbox/` | drafts; never ingested (an ordinary directory, no gitignore treatment) | yes |
 

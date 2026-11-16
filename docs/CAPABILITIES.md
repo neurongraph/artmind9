@@ -83,6 +83,8 @@ mindmap
       Graph bridge & catalogue
       Backup / restore
       Diffable Git text export
+      External SQL delegation
+      Table metadata lifecycle
     6 Knowledge Retrieval
       Graph introspection
       Progressive corpus orientation
@@ -91,6 +93,7 @@ mindmap
       Templated patterns
       Hybrid semantic search
       Corpus survey
+      Targeted survey passage search
       NL query generation
       Evidence & provenance
       Temporal & conflict views
@@ -98,6 +101,9 @@ mindmap
       Cross-store resolution
       Cross-cutting behaviours
       Budgeted result pagination
+      Out-of-scope sibling detection
+      Query result signposting
+      Bounded brief presentation
     7 Document Management
       Registry & lifecycle
     8 Knowledge Updates
@@ -118,6 +124,10 @@ mindmap
       Conversation persistence
       CLI convention enforcement
       Vault-aware daemon proxy
+      Curation workbench & editor commands
+      Interactive Cytoscape visualization
+      Cypher exploration & deep-linking
+      Generational catalogue caching
     11 Agent Integration
       Skills contract
       Dual agent backends
@@ -161,6 +171,14 @@ mindmap
       Corpus staleness tracking
       Non-recursive graph projection
       Cross-topic web navigation
+    17 Dimensional Marts (Unstructured-to-Structured Bridge)
+      Declarative schema contracts
+      Observation-to-fact assembly
+      Deterministic dimension normalization
+      Model-assisted taxonomy classification
+      Narrative episode synthesis (Wholes)
+      Columnar analytics & DuckDB store
+      Automated sync & text2sql bridge
 ```
 
 ---
@@ -870,6 +888,8 @@ the column that tells the router this table is about `CUSTOMER`.
 | 5.11 | ✓ | Bulk classification | Every table in a domain can be (re-)classified in one call, skipping tables whose classification already succeeded unless a full redo is requested, with progress reported as the run proceeds. | admin console structured tab (`POST /api/structured/propose-all`) |
 | 5.12 | ✓ | Table → graph projection | A table's rows become graph entities and relationships under the domain schema, with no LLM: a declarative table mapping (`domains/table_mappings/*.yaml`) names each row's classes, a name template that is also the entity's identity, column→property transforms and value maps, cross-row lookups (e.g. a manager column resolved to the manager's own row, stubbed or skipped when unmatched), and relationships. It commits through the same document transaction — the table as a Document, each contributing row a DocChunk — so provenance, re-run replacement and projection behave as for a document (the rebuild alone runs afterwards in batched transactions, since a table's key count overruns Neo4j's per-transaction memory); SCD-2 tables project every row version, each entity keeping its latest by default. A dry run validates the mapping against the table and schema and reports every skip. | `artmind ingest table2graph` (`table2graph.py`) |
 | 5.13 | ✓ | Diffable Git text export & cache rebuild | Structured tables export to canonical, row-ordered CSV files with `.meta.json` schema sidecars in the vault (`.artmind/structured_text/`), allowing DuckDB catalogs and Parquet caches to be reconstituted after repository clones without committing binary database files. | `artmind db export-text` / `restore-text`, `export_structured_text` |
+| 5.14 | ✓ | External SQL engine delegation | Natural-language SQL compilation can delegate to external specialized engines (`sql-browser`) with isolated DuckDB workspaces and metadata merging, automatically falling back to built-in generation on failure. | `artmind.sql_browser`, `ARTMIND_TEXT2SQL_ENGINE` |
+| 5.15 | ✓ | Table metadata sidecar lifecycle | Structured store tables maintain companion YAML metadata definitions that can be initialized, validated, and regenerated via dedicated CLI actions. | `artmind db metadata (init / validate / regenerate)` |
 
 > **Scoring note:** the reference implementation's cross-store fusion runs on raw value
 > strings only — there is no persisted `RESOLVES_AGAINST` anchor linking a table's rows to
@@ -1066,6 +1086,14 @@ year's occurrent entity survives a refresh that no longer carries it on the curr
 *Why it matters* — Parquet files and DuckDB catalogs are binary artifacts ill-suited to Git tracking, yet teams collaborating over shared vaults need structured table data to version cleanly alongside notes. `artmind db export-text` exports tables as canonical, row-ordered CSV files with `.meta.json` schema sidecars into `.artmind/structured_text/`. When cloned to a new machine or branch, `artmind db restore-text` reconstitutes the local Parquet files, DuckDB catalog, and registry tables deterministically without requiring binary database commits.
 *Test hint* — run `artmind db export-text`, modify a row in a table, re-run, and verify that `git diff` produces a clean single-line diff in the CSV; wipe the local structured store and run `artmind db restore-text --confirm` to verify that all tables and schema mappings are recovered.
 
+**5.14 External SQL engine delegation**
+*Why it matters* — writing robust SQL queries across complex schemas benefits from purpose-built text-to-SQL tooling. `sql_browser.py` enables delegating natural-language queries to the external `sql-browser` CLI (`ARTMIND_TEXT2SQL_ENGINE=auto/sql-browser/builtin`). Each invocation builds a temporary, scoped DuckDB instance under `logs/sql/` containing only the relevant `<domain>__<table>` views, merges schema metadata files, and sets up OpenAI-compatible LLM credentials securely via environment variables. When configured in `auto` mode, any engine error automatically falls back to artmind's built-in generator with an explicit warning, ensuring high reliability.
+*Test hint* — configure `ARTMIND_TEXT2SQL_ENGINE=sql-browser` (with `sql-browser` installed), run `artmind query text2sql "<question>" --domain <domain>`, and verify that the response payload indicates delegation to the external engine; simulate a failure and confirm the built-in generator executes as a fallback.
+
+**5.15 Table metadata sidecar lifecycle**
+*Why it matters* — effective text-to-SQL generation requires rich column descriptions, value ranges, and relationship context that standard database schemas omit. `artmind db metadata` manages YAML metadata sidecars (`domains/metadata/<domain>.meta.yaml` and `<domain>.mart.meta.yaml`). Subcommands `init`, `validate`, and `regenerate` ensure that tables keep documented, syntactically valid descriptions that feed directly into prompt synthesis and external SQL browsers.
+*Test hint* — run `artmind db metadata validate --domain <domain>` to check existing table sidecars for structural errors; run `init` or `regenerate` and confirm that updated table schemas and column profiles are captured.
+
 ## 6. Knowledge Retrieval
 
 Answering questions over the accumulated knowledge — the consuming face of the system.
@@ -1104,6 +1132,7 @@ Answering questions over the accumulated knowledge — the consuming face of the
 | 6.3.1 | ✓ | Fused text search | Source text searched by vector embeddings and keyword match, fused via Reciprocal Rank Fusion. | `artmind query vector-text` |
 | 6.3.2 | ✓ | Entity resolution | A name fragment or description resolves to canonical graph entities (fulltext + vector, RRF). | `artmind query entity-resolve` |
 | 6.3.3 | ✓ | Multi-document corpus survey | Broad thematic questions can be answered across large document collections through a synthesized survey that fuses MaxP passage ranking with concise document gists, optional chronological grouping (by year or month), and explicit temporal date bounds. | `artmind query survey`, `retrieval_rank.py`, `survey_leg_weights` |
+| 6.3.4 | ✓ | Targeted survey passage search | A follow-up query can search for specific sub-phrases or parts across every passage of documents returned by a previous survey via its result handle without re-querying the graph or vector index. | `artmind query find <handle> <part>` |
 
 ### 6.4 Natural-language query generation
 
@@ -1143,6 +1172,9 @@ Answering questions over the accumulated knowledge — the consuming face of the
 | 6.8.3 | ✓ | Warm serving | Queries are served by a long-lived daemon; the CLI transparently proxies to it for low latency. | `artmind serve`, `_entry.py` |
 | 6.8.4 | ✓ | Hierarchical domain rollup | A parent-domain filter transparently includes every descendant domain at any depth. Templated graph queries, hybrid search, and the structured store enforce this server-side — the caller cannot influence the predicate or the set of tables/views exposed. LLM-generated Cypher is instead guarded at generation time: a query that never references the domain parameter is rejected before execution, though nothing verifies the predicate was actually applied to every matched node. | `domain_predicate` (`graph_query.py`), `structured/registry.py::list_tables`, `text2sql.py::execute_text2sql`, `text2cypher.py::validate_domain_scoped` |
 | 6.8.5 | ✓ | Budgeted result store pagination | Large query results exceeding agent output token budgets (`ARTMIND_OUTPUT_BUDGET`) are truncated gracefully and preserved in an ephemeral result store under a temporary handle, allowing callers to paginate through subsequent slices without re-executing expensive graph or vector searches. | `artmind query page`, `result_store.py`, `LOGS_DIR/results/` |
+| 6.8.6 | ✓ | Cross-domain out-of-scope sibling detection | When scoped to a narrow child domain, searches evaluate sibling domains under the same root, surfacing higher-scoring passages in an out-of-scope block with suggested widening commands. | `artmind.scope_check`, `outside_scope` |
+| 6.8.7 | ✓ | Deterministic query result signposting | Query responses returning empty, thin, or truncated results include runnable, shell-quoted follow-up commands in a structured signpost attribute to guide next retrieval steps. | `artmind.hints:join_next` |
+| 6.8.8 | ✓ | Bounded brief retrieval presentation | Search commands support an extractive brief format returning query-matched gist sentences and passage allocations within strict token budgets. | `artmind.brief`, `--shape brief / full` |
 
 > **Scoring note:** `domains-overview` (6.1.4) is the one query command with no `--domain`
 > option at all — it is the cross-domain discovery entry point that domain filtering would
@@ -1306,6 +1338,10 @@ command still returns fulltext-only results rather than erroring.
 **6.3.3 Multi-document corpus survey**
 *Why it matters* — when users or agents ask broad thematic questions across tens or hundreds of documents (e.g. "how have capital adequacy policies changed over time?"), single-chunk vector retrieval returns fragmented details from a few top documents. `artmind query survey` performs fused multi-document discovery: it samples top-scoring documents via MaxP passage ranking and provides a structured gist for each document. It supports chronological bucketing (`--by year` or `--by month`), returning representative documents per period alongside keyword hit counts and explicit temporal date bounds (`--from`, `--to`).
 *Test hint* — query a multi-document domain with `artmind query survey "<topic>" --by year`, and verify that the result contains documents grouped into chronological period buckets with gist summaries and passage references.
+
+**6.3.4 Targeted survey passage search**
+*Why it matters* — when a broad survey identifies a set of relevant documents, an agent frequently needs to zero in on specific provisions, keywords, or sub-topics within those exact documents. Rather than formulating a new global vector or keyword query that might pull in unrelated documents, `artmind query find` searches passages of the documents pinned by a previous survey handle, allowing targeted drill-down with zero index overhead.
+*Test hint* — run a survey query to obtain a result handle, execute `artmind query find <handle> "<part>"`, and verify that passages returned are strictly constrained to documents present in the survey handle.
 
 **6.4.1 NL → graph query**
 *Why it matters* — domain enforcement here is **not** structural the way the templated
@@ -1490,6 +1526,18 @@ non-restrictive way (e.g. in an unrelated `RETURN` expression) is *not* caught.
 **6.8.5 Budgeted result store pagination**
 *Why it matters* — queries returning hundreds or thousands of rows or passages can quickly blow past LLM agent context and token limits (`ARTMIND_OUTPUT_BUDGET`), truncating outputs mid-JSON and wasting context. Instead of forcing agents to devise complex pagination queries or failing the call, artmind slices the result within budget, attaches a continuation handle (`handle`), and caches the full payload in `<run folder>/logs/results/` for 24 hours. The agent or user can then call `artmind query page <handle> --from <N> --rows <count>` to inspect subsequent slices cleanly without re-executing the query against Neo4j or DuckDB.
 *Test hint* — run a query on a large corpus with `ARTMIND_OUTPUT_BUDGET` set low, verify that the result is truncated with `truncated: true` and includes a `handle` and suggested `next` command, then call `artmind query page <handle>` and verify the next slice of rows is returned.
+
+**6.8.6 Cross-domain out-of-scope sibling detection**
+*Why it matters* — users or agent planners often over-constrain queries to a specific leaf domain (e.g. `hr.benefits`) when the relevant evidence sits in a sibling domain (e.g. `hr.payroll`). `scope_check` runs a light probe across sibling domains under the same root domain during vector retrieval; if significantly higher-scoring passages exist outside the requested scope, they are reported under `outside_scope` alongside runnable widening commands (e.g. scoping to the common root).
+*Test hint* — execute a vector search constrained to a sub-domain on a topic present only in a sibling sub-domain; verify that `outside_scope` contains passages from the sibling domain and provides a suggested wider query.
+
+**6.8.7 Deterministic query result signposting**
+*Why it matters* — autonomous agents and interactive users need immediate, deterministic guidance when a query returns zero results, ambiguous entities, or truncated pages. artmind's `hints.py` inspects retrieval outcomes and generates shell-quoted next-step commands in a structured `hints` payload attribute (such as recommending entity resolution commands or pagination handles), eliminating LLM hallucination of query flags.
+*Test hint* — run a query with an ambiguous entity name or a query that matches no rows; verify that the output envelope includes a `hints` attribute containing valid, copy-pasteable follow-up CLI invocations.
+
+**6.8.8 Bounded brief retrieval presentation**
+*Why it matters* — consuming full passages across multiple documents quickly exhausts agent context windows. The `--shape brief` option activates an extractive summarization pipeline (`brief.py`) that extracts salient sentence-level evidence and allocates compact gist tokens according to relevance scores, returning high-density answers within tight character budgets.
+*Test hint* — execute `artmind query vector-text "<query>" --shape brief` and confirm the returned passages contain sentence-budgeted gists rather than unbounded full text blocks.
 
 ## 7. Document & Corpus Management
 
@@ -1747,6 +1795,10 @@ confirm the resulting archive contains `same_as.yaml` and the domain schemas but
 | 10.7 | ✓ | Multi-turn conversation persistence & replay | Conversational exchanges in chat and admin web interfaces are persisted in a local relational database and selectively replayed into fresh agent sessions within token budgets, with conversations addressable via URL state and sidebar navigation. | `artmind.conversations`, `ConversationRecorder`, `conversations/replay.py`, `static/conversations.js` |
 | 10.8 | ✓ | CLI convention enforcement & structured effect envelopes | CLI commands conform to uniform stdlib and Click conventions, surfacing structured effect envelopes for write operations and enforced by automated tests walking the Click command tree. | `artmind.cli_conventions`, `test_cli_conventions.py`, `WRITE_COMMANDS`, `Effect` |
 | 10.9 | ✓ | Vault-aware daemon proxying | The CLI entrypoint inspects daemon health and active vault paths, routing query invocations to the background daemon only when running against an identical vault and falling back to in-process execution automatically when vaults differ. | `artmind._entry`, `artmind.serve`, `vault.py` |
+| 10.10 | ✓ | Dedicated curation workspace & editor note commands | The administrative console provides a unified Curate workbench for same-as identity, conflicts, and mart review, complemented by native editor commands operating directly on active notes. | `admin-ui Curate tab`, `curate_routes.py`, `src/noteCommands.ts` |
+| 10.11 | ✓ | Interactive Cytoscape graph visualization | Graph query results and subgraphs render as interactive visual network diagrams inside chat and console views via client-side graph rendering libraries. | `webui artmind-graph`, `cytoscape`, `POST /api/graph/run` |
+| 10.12 | ✓ | Natural-language Cypher exploration & browser deep-linking | Natural language questions can compile to parameterized Cypher with self-contained deep links that open editable queries directly in external graph browser interfaces. | `POST /api/explore/cypher`, `explore_routes.py` |
+| 10.13 | ✓ | Generational catalogue caching & background health | Knowledge catalogues maintain fingerprint-validated disk caches with background sweeps ensuring health metrics remain current without blocking query execution. | `artmind.catalogue.cache`, `artmind catalogue refresh` |
 
 ### Grounding notes
 
@@ -1820,6 +1872,22 @@ their correct status rather than reverting.
 **10.9 Vault-aware daemon proxying**
 *Why it matters* — when multiple vaults or testing environments exist on the same host, proxying CLI commands blindly to a background daemon (`artmind serve`) risks executing queries against the wrong database or vault. The `_entry.py` entrypoint queries the running daemon's `/health` endpoint to verify that its active vault path matches the caller's vault. If the vaults match, low-latency in-process proxying is used; if they differ, the CLI falls back to direct in-process execution with a note on stderr, eliminating cross-vault contamination.
 *Test hint* — start a daemon against vault A, invoke a query pointing at vault B, and verify on stderr that `_entry.py` notes the vault mismatch and executes in-process against vault B rather than proxying to vault A.
+
+**10.10 Dedicated curation workspace & editor note commands**
+*Why it matters* — curation operations (resolving entity identity via `same_as`, adjudicating observation conflicts, and reviewing mart classifications) require a focused workflow rather than dispersed CLI flags. The admin console unifies these into a dedicated Curate tab (`curate_routes.py`). Furthermore, for vault editors, native command palette actions (`noteCommands.ts`) enable operators to mark notes for superseding, retirement, or restoration directly from their writing environment.
+*Test hint* — navigate to the Curate tab in `admin-ui`, verify that pending entity pairs, conflicts, and mart items can be inspected and approved; trigger a note supersede action from the editor and confirm the underlying markdown frontmatter is updated.
+
+**10.11 Interactive Cytoscape graph visualization**
+*Why it matters* — tabular or textual entity-relationship outputs make high-order network connectivity difficult to understand. artmind embeds Cytoscape and the fcose layout engine (`webui/src/components/CytoscapeGraph.vue`, `POST /api/graph/run`) to render graph subgraphs interactively inside chat and operator views, allowing users to expand nodes, inspect relationship properties, and pan/zoom the topology directly in their browser.
+*Test hint* — run a graph query in chat or admin console that returns node subgraphs; verify that an interactive Cytoscape canvas renders with draggable nodes, edge labels, and layout physics.
+
+**10.12 Natural-language Cypher exploration & browser deep-linking**
+*Why it matters* — operators and data analysts investigating graph patterns need an easy bridge between natural language asking and direct Cypher query tuning. The explore endpoint (`POST /api/explore/cypher`) compiles questions to Cypher and generates pre-filled deep links to the Neo4j Browser interface, permitting immediate manual inspection, profiling, and query refinement.
+*Test hint* — call `POST /api/explore/cypher` with a graph exploration question; verify that the response returns the compiled Cypher query alongside a pre-encoded URL that opens the query directly in the Neo4j Browser.
+
+**10.13 Generational catalogue caching & background health**
+*Why it matters* — building full graph and domain catalogues across large enterprise knowledge graphs is expensive and can introduce multi-second latencies if calculated on every request. `artmind.catalogue.cache` maintains generational disk caches keyed by graph fingerprints, paired with non-blocking background refresh sweeps (`artmind catalogue refresh`) that keep health and connectivity metrics warm without degrading query response times.
+*Test hint* — request a domain catalogue twice in succession; verify that the second request returns instantaneously from the disk cache, and modifying a graph node triggers a cache invalidation and background rebuild.
 
 ## 11. Agent Integration
 
@@ -2394,6 +2462,58 @@ an interconnected knowledge web.
 *Test hint* — build two topic pages with overlapping source scopes, run `artmind topic refresh`,
 and verify that both pages include cross-references to each other under their related topics
 section.
+
+---
+
+## 17. Dimensional Marts — Bridging Unstructured Data to Structured Analytics
+
+Unstructured documents and narrative knowledge graphs capture fragmented real-world events, mentions,
+and relationships across hundreds of free-form text chunks, but lack the rigid dimensional hierarchy required
+for quantitative roll-ups, statistical aggregations, and star-schema querying. The Dimensional Mart
+is the formal bridge from unstructured narrative text into the structured relational world: it projects
+unstructured graph observations into conformed analytical dimensions (time, person/role, place/org,
+type/category), normalized fact tables, and synthesized composite "wholes" (such as multi-day journeys
+or lifecycle milestones) stored as columnar Parquet tables and queryable via SQL.
+
+| # | ✓ | Feature | Statement | Reference anchor |
+|---|---|---|---|---|
+| 17.1 | ✓ | Declarative unstructured-to-structured schema contracts | Domains declare formal star-schema mappings over unstructured graph entities and observations via versioned manifests, defining how narrative mentions, participant links, and free-text classifications project into typed analytical fact tables, conformed dimensions, and composite wholes. | `domains/mart/<domain>.yaml`, `artmind.mart.declaration`, `domains validate` |
+| 17.2 | ✓ | Unstructured observation-to-fact table assembly | Unstructured, dated event mentions and entity interactions scattered across diverse source documents are automatically extracted and compiled into normalized relational fact tables (`fact_happening`, `fact_mention`) and bridge tables without language model drift, preserving granular chunk and observation provenance for every row. | `artmind.mart.tables:assemble`, `fact_happening`, `fact_mention`, `artmind.mart.graph` |
+| 17.3 | ✓ | Deterministic dimension normalization from narrative text | Free-text entity attributes and informal descriptors extracted from unstructured prose (such as informal person descriptions, localized place references, and episodic keywords) are deterministically resolved into conformed dimension hierarchies using rule cascades, kinship vocabularies, locality seed chains, and calendar structures. | `artmind.mart.rules`, `artmind.mart.words`, `CURATION_DIR/mart_dimension/`, `CURATION_DIR/mart_calendar/` |
+| 17.4 | ✓ | Model-guided dimension categorization of unstructured phrasing | Ambiguous, colloquial, or unmapped dimension members extracted from unstructured text undergo targeted, schema-constrained model classification to bind idiosyncratic narrative phrasing onto standardized domain taxonomy families, persisting reviewed decisions in durable curation records. | `artmind mart enrich --llm`, `artmind.mart.llm`, `artmind mart review` |
+| 17.5 | ✓ | Narrative macro-entity and episode synthesis ("Wholes") | Fragmented occurrences described across separate unstructured text documents and dates are synthesized into higher-order composite entities that no individual document explicitly states (such as multi-day trips clustered by away-states, or biographical milestones grouped by temporal proximity), bridging episodic narrative fragments into unified analytical records. | `artmind.mart.wholes:compute`, `whole_<kind>`, `fact_whole` |
+| 17.6 | ✓ | Columnar analytical storage & SQL querying over unstructured data | Mart fact and dimension tables derived from unstructured documents are written as high-performance, immutable Parquet tables and registered into the relational query catalog, enabling standard SQL aggregations, joins, and business intelligence queries directly over the underlying narrative corpus. | `artmind.mart.storage`, `STRUCTURED_DIR/<domain>/mart_*.parquet`, DuckDB views `<domain>__mart_*` |
+| 17.7 | ✓ | Automated graph synchronization & text-to-SQL bridge | Analytical mart tables regenerate automatically after graph projection rebuilds or vault synchronization, generating companion metadata schemas that allow natural-language questions to execute precise SQL aggregations and roll-ups over previously unstructured content. | `artmind.mart.hooks:build_after`, `<domain>.mart.meta.yaml`, `text2sql` mart guidance |
+
+### Grounding notes
+
+**17.1 Declarative unstructured-to-structured schema contracts**
+*Why it matters* — raw text documents contain implicit relational and dimensional semantics, but extracting them reliably requires an explicit contract. Manifests in `domains/mart/<domain>.yaml` establish the formal bridge from unstructured narrative entities and free-form observations to standard Kimball-style dimensional models (`fact_happening`, `dim_person`, `dim_place`, etc.), specifying source observation types, grain definitions, and hierarchy mappings.
+*Test hint* — author a mart schema manifest in `domains/mart/`, run `artmind domains validate`, and verify that schema errors (such as missing dimension types or invalid joins) are reported with clear line references.
+
+**17.2 Unstructured observation-to-fact table assembly**
+*Why it matters* — extracting relational tables from unstructured narratives usually suffers from hallucination or aggregation errors when done directly by LLMs. artmind's mart compilation (`artmind.mart.tables`) bridges this gap deterministically: it queries the validated graph observations already extracted from source text chunks and compiles them directly into normalized fact tables (`fact_happening`, `fact_mention`) and bridge tables, retaining chunk-level and observation-level provenance pointers (`chunk_id`, `observation_id`) for every single fact row.
+*Test hint* — run `artmind mart build <domain>`, inspect the generated `fact_happening` table, and confirm that every row includes source document and chunk pointers back to the original unstructured text.
+
+**17.3 Deterministic dimension normalization from narrative text**
+*Why it matters* — unstructured writing refers to the same concepts, people, and places using highly variable phrasing, informal nicknames, and context-dependent descriptors. Rather than relying on non-deterministic LLM queries during analytical aggregation, `artmind.mart.rules` and `words.py` normalize unstructured entity attributes into conformed analytical dimensions (`dim_person`, `dim_place`, `dim_time`, `dim_type`) using declarative rule cascades, relationship vocabularies, and calendar lookups.
+*Test hint* — ingest unstructured documents containing informal names or colloquial place descriptions, execute dimension compilation, and verify that the resulting dimension records resolve to canonical dimension keys without LLM calls.
+
+**17.4 Model-guided dimension categorization of unstructured phrasing**
+*Why it matters* — narrative documents often contain novel, localized, or ambiguous terms that rule cascades cannot fully resolve. `artmind mart enrich --llm` provides a controlled, model-assisted classification step that categorizes unresolved narrative terms into domain taxonomies. These decisions are recorded as human-inspectable curation artifacts in `CURATION_DIR/mart_dimension/`, guaranteeing that model decisions become permanent, deterministic assets rather than volatile prompt outputs.
+*Test hint* — run `artmind mart review <domain>` and `artmind mart enrich --llm <domain>`, confirm that newly categorized entities appear in the curation files, and subsequent builds reuse these curated decisions deterministically.
+
+**17.5 Narrative macro-entity and episode synthesis ("Wholes")**
+*Why it matters* — real-world narratives document episodic moments (e.g., an individual dinner, a hotel stay, a meeting note) that belong to larger macro-events (e.g., an entire overseas trip, a multi-year project phase, or a major life event) which are never stated in a single sentence or document. The wholes synthesizer (`artmind.mart.wholes`) bridges these scattered narrative fragments into composite analytical entities using temporal proximity clustering and spatial continuity algorithms, creating synthetic "whole" records with their own aggregated facts.
+*Test hint* — compile a mart from documents spanning a series of dated away-events, and verify that `whole_trip` records are synthesized with calculated durations, start/end dates, and associated fact links.
+
+**17.6 Columnar analytical storage & SQL querying over unstructured data**
+*Why it matters* — unstructured narrative archives cannot natively answer structured quantitative questions like "how many times did X interact with Y in 2024 by location?". By persisting assembled facts and conformed dimensions as columnar Parquet files (`STRUCTURED_DIR/<domain>/mart_*.parquet`) and exposing them as DuckDB views (`<domain>__mart_*`), artmind enables standard SQL BI tools, aggregations, and window functions directly over unstructured document corpora.
+*Test hint* — query the DuckDB structured store using `artmind db sql "SELECT count(*) FROM <domain>__mart_fact_happening"` and confirm that standard SQL aggregations execute with sub-millisecond columnar performance.
+
+**17.7 Automated graph synchronization & text-to-SQL bridge**
+*Why it matters* — analytical marts become stale as new unstructured documents are ingested or edited. artmind registers build hooks that automatically trigger mart re-assembly following graph syncs. Furthermore, the pipeline generates structured metadata schemas (`<domain>.mart.meta.yaml`) that guide `text2sql` engines, allowing users to ask natural-language questions that compile into accurate SQL aggregations over the structured mart.
+*Test hint* — sync a modified document in the vault, verify via logs that the mart rebuild hook triggers, and execute a natural language question via `artmind query text2sql` targeting mart aggregations.
 
 ---
 

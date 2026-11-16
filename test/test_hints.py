@@ -69,6 +69,15 @@ def test_text2sql_empty():
     assert hints.text2sql_empty({"rows": [{"a": 1}]}, ["bank"], "q") is None
 
 
+@pytest.mark.parametrize("sql,expected", [
+    ("SELECT * FROM j__mart_fact_happening", True),
+    ("SELECT * FROM j__visits", False),
+    (None, False),
+])
+def test_reads_mart(sql, expected):
+    assert hints.reads_mart(sql) is expected
+
+
 def test_text2sql_mart_points_at_a_survey():
     mart = {"rows": [{"n": 2}], "generated_sql": "SELECT count(*) FROM j__mart_fact_happening"}
     assert hints.text2sql_mart(mart, ["j"], "how often?") == (

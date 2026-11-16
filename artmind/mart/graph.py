@@ -12,6 +12,7 @@ def members(domains, entity_class) -> list[dict]:
     rows = graph_query._run_read_query(cypher, {"domains": list(domains), "cls": entity_class})
     for r in rows:
         (r.get("props") or {}).pop("embedding", None)
+        (r.get("props") or {}).pop("name_embedding", None)
     return rows
 
 

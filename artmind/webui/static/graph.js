@@ -1,10 +1,9 @@
 "use strict";
 
-// Explore -> Graph tab: question -> read-only Cypher -> Neo4j Browser.
-// Uses el() and api() from dashboard.js. Nothing runs here: the operator edits
-// the Cypher, then opens Neo4j Browser (which pre-fills its editor) and runs it.
-// `/dashboard?tab=graph&q=<question>` (the admin chat's "View as graph" button)
-// pre-fills the question.
+// Explore -> Graph tab: question -> read-only Cypher -> drawn graph.
+// Uses el() and api() from dashboard.js. Run draws the Cypher here (graph-render.js,
+// /api/graph/run); Neo4j Browser stays a secondary action.
+// `/dashboard?tab=graph&q=<question>` pre-fills the question (old links keep working).
 
 const GRAPH_LS_KEY = "artmind-graph-domain";
 const graphDomainEl = document.getElementById("graph-domain");
@@ -13,6 +12,8 @@ const graphGenerateEl = document.getElementById("graph-generate-btn");
 const graphStatusEl = document.getElementById("graph-status");
 const graphResultEl = document.getElementById("graph-result");
 const graphCypherEl = document.getElementById("graph-cypher");
+const graphRunEl = document.getElementById("graph-run-btn");
+const graphCanvasEl = document.getElementById("graph-canvas");
 const graphOpenEl = document.getElementById("graph-open-btn");
 const graphCopyEl = document.getElementById("graph-copy-btn");
 let graphLoaded = false;
@@ -49,13 +50,13 @@ async function graphGenerate() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ question, domains: [domain] }),
     });
-    graphCypherEl.value = data.standalone_cypher;
+    graphCypherEl.value = data.run_cypher;
     graphResultEl.hidden = false;
     graphOpenEl.dataset.url = data.browser_url || "";
     graphOpenEl.disabled = false;
     const note = data.browser_url
-      ? "Review or edit the Cypher, then open it in Neo4j Browser and press Run."
-      : "No Neo4j Browser configured for this vault: set ARTMIND_KG_NEO4J_BROWSER_URL in its .artmind/config.env. You can still copy the Cypher.";
+      ? "Review or edit the Cypher, then Run to draw it here."
+      : "No Neo4j Browser configured for this vault: set ARTMIND_KG_NEO4J_BROWSER_URL in its .artmind/config.env. You can still Run it here or copy the Cypher.";
     const warnings = (data.warnings || []).join(" ");
     graphSetStatus(warnings ? `Warning: ${warnings} ${note}` : note);
   } catch (err) {
@@ -73,7 +74,7 @@ async function graphOpen() {
     const data = await api("/api/explore/cypher/link", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cypher: graphCypherEl.value }),
+      body: JSON.stringify({ cypher: graphCypherEl.value, domains: [graphDomainEl.value] }),
     });
     if (!data.browser_url) {
       graphSetStatus("No Neo4j Browser configured for this vault (ARTMIND_KG_NEO4J_BROWSER_URL).");
@@ -90,7 +91,17 @@ async function graphOpen() {
 
 async function graphCopy() {
   try {
-    await navigator.clipboard.writeText(graphCypherEl.value);
+    let text = graphCypherEl.value;
+    try {
+      // $domains Cypher will not run in Neo4j Browser: copy the self-contained form.
+      const data = await api("/api/explore/cypher/link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cypher: text, domains: [graphDomainEl.value] }),
+      });
+      if (data.standalone_cypher) text = data.standalone_cypher;
+    } catch (_e) { /* fall back to the editor text */ }
+    await navigator.clipboard.writeText(text);
     graphCopyEl.textContent = "Copied";
   } catch (_err) {
     graphCopyEl.textContent = "Copy failed";
@@ -98,12 +109,31 @@ async function graphCopy() {
   setTimeout(() => { graphCopyEl.textContent = "Copy Cypher"; }, 1200);
 }
 
+async function graphRun() {
+  const domain = graphDomainEl.value;
+  if (!domain || !graphCypherEl.value.trim()) {
+    graphSetStatus("Pick a domain and generate or write Cypher.");
+    return;
+  }
+  graphRunEl.disabled = true;
+  graphSetStatus("");
+  try {
+    await window.ArtmindGraph.mount(graphCanvasEl, { domain, cypher: graphCypherEl.value });
+  } catch (err) {
+    graphCanvasEl.replaceChildren();
+    graphSetStatus(err.message || "Graph could not be drawn.");
+  } finally {
+    graphRunEl.disabled = false;
+  }
+}
+
+graphRunEl.addEventListener("click", graphRun);
 graphGenerateEl.addEventListener("click", graphGenerate);
 graphOpenEl.addEventListener("click", graphOpen);
 graphCopyEl.addEventListener("click", graphCopy);
 graphDomainEl.addEventListener("change", () => graphLsSet(graphDomainEl.value));
 
-// Prefill from the admin chat's "View as graph" link.
+// Prefill from a /dashboard?tab=graph&q= link.
 {
   const q = new URLSearchParams(window.location.search).get("q");
   if (q) graphQuestionEl.value = q;
@@ -115,7 +145,7 @@ document.querySelector('.tab[data-tab="graph"]').addEventListener("click", async
   try {
     // Most populated first; an empty domain is labelled so it is not picked by mistake.
     const domains = await api("/api/explore/domains");
-    graphDomainEl.innerHTML = "";
+    graphDomainEl.replaceChildren();
     for (const d of domains) {
       const label = d.entities ? `${d.name} (${d.entities} entities)` : `${d.name} (empty)`;
       const opt = el("option", "", label);

@@ -170,7 +170,7 @@ def match(pattern, subgraph: dict, *, limit: int = MAX_MATCHES, max_explored: in
 _OBS_META = frozenset({
     "id", "name", "canonical_name", "key", "entity_class", "_domain", "doc_id", "doc_version", "chunk_id",
     "_kind", "type", "description", "context", "aliases", "_valid_from", "_valid_to", "_valid_time_source",
-    "_doc_valid_from", "_retracts", "embedding",
+    "_doc_valid_from", "_retracts", "embedding", "name_embedding",
 })
 
 

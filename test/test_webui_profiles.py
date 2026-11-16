@@ -50,7 +50,7 @@ def test_benchmark_is_query_only():
 def test_qa_is_read_and_contribute_only():
     # End users may ask (query) and contribute/correct facts (update) — nothing
     # that maintains the graph, authors schemas, or ingests documents.
-    assert set(QA_PROFILE.skills) == {"artmind-query", "artmind-update"}
+    assert set(QA_PROFILE.skills) == {"artmind-query", "artmind-update", "artmind-present"}
     for operator_skill in (
         "artmind-curate",
         "artmind-create-schema",

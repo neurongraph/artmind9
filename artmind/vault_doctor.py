@@ -80,11 +80,16 @@ def check_block(vault_dir: Path, filename: str, block: str) -> Check:
     )
 
 
+_TERMY_CONTEXT = ".obsidian/plugins/termy/agent-context"
+
+
 def _collapse(paths: list[str]) -> list[str]:
     """Each tracked file -> its `table__*` / `*.artmind-tmp` / `*.artmind-old` folder when it
     sits inside one, so the printed command untracks folders, not files."""
     out: list[str] = []
     for path in paths:
+        if path.startswith(_TERMY_CONTEXT + "/"):
+            path = _TERMY_CONTEXT
         parts = path.split("/")
         for i, part in enumerate(parts[:-1]):
             if part.startswith("table__") or part.endswith((".artmind-tmp", ".artmind-old")):
@@ -98,7 +103,9 @@ def _collapse(paths: list[str]) -> list[str]:
 def check_tracked_ignored(vault_dir: Path) -> Check:
     name = "ignored paths still tracked"
     # -z: paths verbatim, never C-quoted (spec 2026-09-26 §14 A5).
-    rc, out, err = _git(vault_dir, ["ls-files", "-z", "-c", "-i", "--exclude-standard", "--", ".artmind"])
+    # `.artmind` plus the one non-artmind folder the block ignores that vaults
+    # committed before it existed (block v6): Termy's per-machine agent context.
+    rc, out, err = _git(vault_dir, ["ls-files", "-z", "-c", "-i", "--exclude-standard", "--", ".artmind", _TERMY_CONTEXT])
     if rc != 0:
         return Check(name, UNKNOWN, f"git ls-files failed: {(err or out).strip()}")
     paths = _collapse([p for p in out.split("\0") if p])

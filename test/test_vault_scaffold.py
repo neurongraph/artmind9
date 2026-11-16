@@ -14,6 +14,7 @@ from _historical_blocks import (
     V2_GITIGNORE_BLOCK_B,
     V3_GITIGNORE_BLOCK,
     V4_GITIGNORE_BLOCK,
+    V5_GITIGNORE_BLOCK,
 )
 
 
@@ -600,6 +601,7 @@ _HISTORICAL_GITIGNORE_BLOCKS = {
     "v2-b": V2_GITIGNORE_BLOCK_B,
     "v3": V3_GITIGNORE_BLOCK,
     "v4": V4_GITIGNORE_BLOCK,
+    "v5": V5_GITIGNORE_BLOCK,
 }
 
 
@@ -784,3 +786,16 @@ def test_insights_files_are_committed_not_ignored(tmp_path):
 
     for rel in (".artmind/domains/insights/demo.yaml", ".artmind/insights/demo/runs/2026-10-17T09-30-12Z.json"):
         assert not _ignored(tmp_path, rel)
+
+
+def test_termy_agent_context_is_ignored_but_the_plugin_stays_committed(tmp_path):
+    """Termy rewrites agent-context/ on every editor interaction, with this
+    machine's paths in it: committed, it conflicts between machines. The rest of
+    the plugin (code, settings, its server binary) is what makes a second machine
+    work, so it stays committed like every other community plugin."""
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    vault.write_gitignore(tmp_path)
+    termy = ".obsidian/plugins/termy"
+    assert _ignored(tmp_path, f"{termy}/agent-context/obsidian-context.json")
+    for kept in ("main.js", "manifest.json", "data.json", "styles.css", "binaries/termy-server-darwin-arm64"):
+        assert not _ignored(tmp_path, f"{termy}/{kept}"), kept

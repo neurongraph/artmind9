@@ -184,6 +184,7 @@ function finalizeText() {
   textBlock.el.classList.remove("streaming");
   textBlock.el.innerHTML = DOMPurify.sanitize(marked.parse(textBlock.raw));
   renderMermaid(textBlock.el);
+  if (window.renderArtmindGraph) renderArtmindGraph(textBlock.el);
   addCopyButtons(textBlock.el);
   linkVaultSources(textBlock.el);
   textBlock = null;
@@ -399,6 +400,7 @@ function handleEvent(ev) {
       const node = el("div", "md provenance");
       node.innerHTML = DOMPurify.sanitize(marked.parse(ev.markdown));
       renderMermaid(node);
+      if (window.renderArtmindGraph) renderArtmindGraph(node);
       addCopyButtons(node);
       linkVaultSources(node);
       ensureTurn().appendChild(node);
