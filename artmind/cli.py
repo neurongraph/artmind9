@@ -1752,6 +1752,8 @@ def ingest_retime(
     This recomputes document.json's _valid_from/_valid_time_source and every
     observation's _valid_from/_doc_valid_from from the current schema, with no
     LLM call, commits the changed folders and rebuilds the projection once.
+    It also drops property keys the observation's class does not declare;
+    their values are kept under logs/retime-dropped/.
 
     \b
     --redoProperties additionally re-runs the properties step (only) so date

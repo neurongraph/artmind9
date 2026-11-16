@@ -64,14 +64,15 @@ def staged_markdown_path(document: dict) -> Path:
     return ingest._markdown_path(Path(str(document.get("name") or "")).stem)
 
 
-def retime_observations(observations: list[dict], document: dict, schema: dict) -> list[dict]:
-    """`observations` with their valid time re-derived against `document`.
+def retime_observations(observations: list[dict], document: dict, schema: dict) -> tuple[list[dict], dict]:
+    """(`observations` with valid time re-derived and undeclared keys dropped, {observation id:
+    {dropped key: value}}): the decisions `ingest._build_observations` + `build_observation` make.
 
-    The same decision `ingest._build_observations` + `build_observation` make:
-    a fact's own date (its class's `temporal:` property) wins, else the
-    document's; `_doc_valid_from` is always the document's. Property keys are
-    normalized (`observations.normalize_property_keys`) and a key the
-    observation's class doesn't declare is dropped, as extraction now does both."""
+    A fact's own date (its class's `temporal:` property) wins, else the document's;
+    `_doc_valid_from` is always the document's. Property keys are normalized
+    (`observations.normalize_property_keys`) and a key the observation's class does not declare
+    is dropped (spec 2026-11-15 §2.4). A table row's observation (`source_kind: table`) keeps its
+    mapping's keys (table2graph is out of scope, spec 2026-11-15)."""
     from artmind.observations import declared_property_keys, filter_declared
     from artmind.temporal import _entity_temporal_mapping
 
@@ -79,15 +80,16 @@ def retime_observations(observations: list[dict], document: dict, schema: dict) 
     declared = declared_property_keys(schema)
     key_rules = property_key_rules(schema)
     doc_from, doc_to = document.get("_valid_from"), document.get("_valid_to")
-    out = []
+    out, dropped = [], {}
     for obs in observations:
         cls = obs.get("entity_class") or ""
         obs = normalize_property_keys(obs, *key_rules)
+        if obs.get("source_kind") != "table":
+            obs, gone = filter_declared(obs, cls, declared)
+            if gone:
+                dropped[obs.get("id") or ""] = gone
         fact_from, fact_to = ingest._fact_valid_time(entity_dates, cls, obs)
-        new = {
-            k: v for k, v in filter_declared(obs, cls, declared)[0].items()
-            if k not in _OBSERVATION_TIME_KEYS
-        }
+        new = {k: v for k, v in obs.items() if k not in _OBSERVATION_TIME_KEYS}
         times = {
             "_valid_from": fact_from or doc_from,
             "_valid_to": fact_to or doc_to,
@@ -96,14 +98,27 @@ def retime_observations(observations: list[dict], document: dict, schema: dict) 
         }
         new.update({k: v for k, v in times.items() if v})
         out.append(new)
-    return out
+    return out, dropped
+
+
+def _keep_dropped(doc_kg_dir: Path, name: str, dropped: dict) -> None:
+    """Move dropped values beside the run (private, gitignored), merged with earlier runs."""
+    sidecar = ingest.LOGS_DIR / "retime-dropped" / doc_kg_dir.parent.name / f"{doc_kg_dir.name}.json"
+    sidecar.parent.mkdir(parents=True, exist_ok=True)
+    prior = _load_json(sidecar, {}) or {}
+    payload = {"document": name, "values": {**(prior.get("values") or {}), **dropped}}
+    tmp = sidecar.with_suffix(".tmp")
+    tmp.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    tmp.replace(sidecar)
 
 
 def retime_folder(doc_kg_dir: Path, schema: dict, *, write: bool = True) -> dict:
-    """Re-derive one staging folder's valid time; write it back if it changed.
+    """Re-derive one staging folder's valid time and drop undeclared property keys; write it
+    back if it changed (dropped values go to `logs/retime-dropped/` first).
 
-    Returns `{"document", "before", "after", "source", "changed"}`, or
-    `{"document", "skipped": reason}` for a folder it cannot retime."""
+    Returns `{"document", "before", "after", "source", "changed", "dropped"}` (plus `"dates"`
+    when the markdown is missing and the staged dates are kept), or `{"document", "skipped":
+    reason}` for a folder it cannot retime."""
     document = _load_json(doc_kg_dir / "document.json")
     name = (document or {}).get("name") or doc_kg_dir.name
     if not isinstance(document, dict) or not document.get("id"):
@@ -114,30 +129,40 @@ def retime_folder(doc_kg_dir: Path, schema: dict, *, write: bool = True) -> dict
         md_file = staged_markdown_path(document)
     except ValueError as e:
         return {"document": name, "skipped": str(e)}
+    dates_note = None
     if not md_file.exists():
-        return {"document": name, "skipped": f"markdown not found at {md_file}"}
-
-    meta, _ = ingest._parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
-    dates = ingest._document_valid_time(md_file, meta, schema, filename=name, prior=document)
-    new_document = {k: v for k, v in document.items() if k not in _DOCUMENT_TIME_KEYS}
-    new_document.update(dates)
+        # Plan question 16: the key filter still applies; the staged dates stand.
+        new_document = document
+        dates_note = "kept (markdown not found)"
+    else:
+        meta, _ = ingest._parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
+        dates = ingest._document_valid_time(md_file, meta, schema, filename=name, prior=document)
+        new_document = {k: v for k, v in document.items() if k not in _DOCUMENT_TIME_KEYS}
+        new_document.update(dates)
 
     observations = _load_json(doc_kg_dir / "observations.json", [])
-    new_observations = retime_observations(observations, new_document, schema)
+    new_observations, dropped = retime_observations(observations, new_document, schema)
+    counts = Counter(k for d in dropped.values() for k in d)
 
     changed = new_document != document or new_observations != observations
     if changed and write:
+        if dropped:
+            _keep_dropped(doc_kg_dir, name, dropped)
         ingest.write_staging(doc_kg_dir, {
             "document.json": new_document,
             "observations.json": new_observations,
         })
-    return {
+    result = {
         "document": name,
         "before": document.get("_valid_from"),
         "after": new_document.get("_valid_from"),
         "source": new_document.get("_valid_time_source"),
         "changed": changed,
+        "dropped": dict(counts),
     }
+    if dates_note:
+        result["dates"] = dates_note
+    return result
 
 
 def _reset_properties_step(doc_sha256: str) -> int:
@@ -244,7 +269,10 @@ def staging_folders(domain: str) -> list[Path]:
     )
 
 
-def _effect(domain: str, folders: list[Path], redo_properties: bool, chunks: int, model: str | None) -> dict:
+def _effect(
+    domain: str, folders: list[Path], redo_properties: bool, chunks: int, model: str | None,
+    dropped_keys: Counter | None = None,
+) -> dict:
     """The `effect` of retiming `folders` (the documents whose staging changes).
 
     Without `--redoProperties` there is no LLM call. With it, `chunks` is an
@@ -256,11 +284,19 @@ def _effect(domain: str, folders: list[Path], redo_properties: bool, chunks: int
     documents = [_load_json(f / "document.json", {}) or {} for f in folders]
     names = [d.get("name") or f.name for d, f in zip(documents, folders)]
     calls = chunks if redo_properties else 0
+    dropped_keys = dropped_keys or Counter()
+    changes = [Change("document_reextract", len(folders), names)] if folders else []
+    drop_note = ""
+    if dropped_keys:
+        total = sum(dropped_keys.values())
+        changes.append(Change("property_values_dropped", total, [k for k, _ in dropped_keys.most_common()]))
+        drop_note = f"; drop {total} undeclared property value(s), kept under logs/retime-dropped/"
     return Effect(
         summary=(f"Re-date {len(folders)} staged document(s) of {domain}"
                  + (f"; re-extract properties, at most {calls} LLM call(s)" if redo_properties else "; no LLM call")
+                 + drop_note
                  + ", then rebuild the projection once."),
-        changes=[Change("document_reextract", len(folders), names)] if folders else [],
+        changes=changes,
         stale_topics=topics_touching(doc_ids=[d["id"] for d in documents if d.get("id")], doc_names=names),
         llm_calls=calls,
         llm_model=model if calls else None,
@@ -300,6 +336,7 @@ def retime_domain(
     results, committed, failed = [], 0, []
     changed_folders: list[Path] = []
     redo_chunks = 0
+    dropped_keys: Counter = Counter()
     for folder in folders:
         try:
             if redo_properties and dry_run:
@@ -318,6 +355,7 @@ def retime_domain(
             logger.error("retime: {} failed: {}", folder.name, e)
             result = {"document": folder.name, "skipped": f"error: {e}"}
         results.append(result)
+        dropped_keys.update(result.get("dropped") or {})
         if result.get("changed"):
             changed_folders.append(folder)
             if redo_properties:
@@ -342,5 +380,6 @@ def retime_domain(
         "skipped": [r for r in results if "skipped" in r],
         "sample": changed[:10],
         "rebuild": rebuild,
-        "effect": _effect(domain, changed_folders, redo_properties, redo_chunks, text_model),
+        "dropped": dict(dropped_keys),
+        "effect": _effect(domain, changed_folders, redo_properties, redo_chunks, text_model, dropped_keys),
     }

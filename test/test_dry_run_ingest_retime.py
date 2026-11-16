@@ -76,3 +76,15 @@ def test_redo_properties_dry_run_names_the_documents_it_would_skip(tmp_path, mon
 
     assert "chunk extraction cache" in dry["skipped"][0]["skipped"]
     assert dry["effect"]["changes"] == [] and dry["effect"]["llm"]["calls"] == 0
+
+
+def test_dry_run_names_the_property_values_it_would_drop(tmp_path, monkeypatch):
+    folder, _ = _ingested_under_the_old_schema(tmp_path, monkeypatch)
+    _stub_commit(monkeypatch)
+    _run()  # dates settled
+    obs = json.loads((folder / "observations.json").read_text())
+    (folder / "observations.json").write_text(json.dumps([{**o, "mood": "calm"} for o in obs]))
+    dry = _run("--dryRun")
+    real = _run()
+    assert {"kind": "property_values_dropped", "count": 1, "sample": ["mood"]} in dry["effect"]["changes"]
+    assert real["effect"] == dry["effect"]
