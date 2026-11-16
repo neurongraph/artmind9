@@ -63,7 +63,7 @@ WRITE_COMMANDS: dict[str, int] = {
     **{p: 1 for p in (
         "sameas approve", "sameas reject",
         "ingest resolve-conflict", "ingest supersede", "ingest unsupersede", "ingest sync", "ingest table2graph",
-        "ingest retime", "ingest summarise",
+        "ingest retime", "ingest summarise", "ingest backfill-properties",
         "docs retire", "docs restore", "docs archive",
         "projection rebuild", "projection synthesize",
         "update confirm", "update retract",

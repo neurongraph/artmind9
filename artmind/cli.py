@@ -389,7 +389,7 @@ click.rich_click.COMMAND_GROUPS = {
         },
         {
             "name": "Graph building",
-            "commands": ["extract-kg", "classify-reingest", "empty-extractions", "write-to-graph", "retime", "table2graph", "pull-kg", "embed-entities", "embed-passages", "summarise"],
+            "commands": ["extract-kg", "classify-reingest", "empty-extractions", "write-to-graph", "retime", "backfill-properties", "table2graph", "pull-kg", "embed-entities", "embed-passages", "summarise"],
         },
         {
             "name": "Refinement",
@@ -1810,6 +1810,38 @@ def ingest_retime(
             embed_model=env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest"),
         )
     except FileNotFoundError as e:
+        raise click.ClickException(str(e))
+    _echo_json(report, compact)
+    if report["commit_failed"]:
+        raise click.ClickException(f"{len(report['commit_failed'])} document(s) failed to commit -- see the log")
+
+
+@ingest.command("backfill-properties")
+@click.option("--domain", required=True, help="Domain whose staged documents to fill")
+@click.option("--entityClass", "entity_class", required=True, help="Class whose observations get the properties")
+@click.option("--property", "properties", multiple=True, required=True,
+              help="Declared property to fill; repeatable, comma-separated")
+@click.option("--match", default=None, help="Only staging folders whose name matches this glob")
+@dry_run_option("Report documents, chunks and LLM calls; ask nothing, write nothing", legacy=False)
+@compact_option
+def ingest_backfill_properties(domain, entity_class, properties, match, dry_run, compact) -> None:
+    """Fill a class's newly declared properties from the stored chunks.
+
+    \b
+    LLM: one call per chunk with an observation of the class; each such chunk's text is sent to the
+    configured provider once (cached; a re-run resumes). Entities, names, relationships and summaries
+    are not re-run, and only the named keys change. Changed documents are committed and the
+    projection is rebuilt once; each changed observations.json is kept under logs/backfill-stash/.
+    """
+    _setup_logger()
+    from artmind import backfill
+
+    env = load_env()
+    props = [p.strip() for v in properties for p in v.split(",") if p.strip()]
+    try:
+        report = backfill.backfill_domain(domain, targets={entity_class: props}, model=resolve_llm_model(env),
+                                          match=match, dry_run=dry_run)
+    except (FileNotFoundError, ValueError) as e:
         raise click.ClickException(str(e))
     _echo_json(report, compact)
     if report["commit_failed"]:
