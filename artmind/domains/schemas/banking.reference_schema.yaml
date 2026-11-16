@@ -224,7 +224,7 @@ entity_types:
       Naming: identify the LEVEL, never its current thresholds. The severity number and its
       label are identity and belong in the name; the impact and outage thresholds are values
       that get revised, and belong in properties.
-        RIGHT:   { "name": "Severity 1 (Critical)", "impact_threshold": ">£100,000", "response_time_target": "4 hours" }
+        RIGHT:   { "name": "Severity 1 (Critical)", "financial_impact_threshold": ">£100,000", "response_time_target": "4 hours" }
         WRONG:   { "name": "Severity 1 (Critical) -- >£100,000 impact or >4-hour system outage" }
   RESPONSE_ACTION:
     kind: recurrent

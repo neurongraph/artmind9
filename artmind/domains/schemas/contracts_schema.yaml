@@ -49,7 +49,7 @@ guidance:
     when the document gives no reference at all, name them exactly "This Amendment" or "This Transaction Contract"
     so that the same thing named in different passages is recognised as one entity. Put every other reference,
     date or label into the properties and aliases. In tables such as rate cards or payment profiles, give each
-    row a one-sentence description and at most one context quote, and put the row's figures in properties.
+    row a one-sentence description and at most one context quote, and put the row's figures in the CHARGE's declared properties.
     A change note's own figures and provisions ("the additional Charges under this change") belong to this
     document: name the charges, terms and milestones it introduces with the document's own reference (the
     document context gives it). Where the text attributes them to a different change-note number -- a number
@@ -261,6 +261,8 @@ entity_types:
     - extension
     - scope_change
     properties:
+      reference_as_written:
+        hint: a change-note number the text attributes this to when it differs from the document's own reference, exactly as written
       amendment_number:
         hint: CCN reference as written, e.g., "CCN012" or "CCN12"
       amendment_ordinal:
@@ -345,6 +347,8 @@ entity_types:
     - change_control
     - force_majeure
     properties:
+      reference_as_written:
+        hint: a change-note number the text attributes this to when it differs from the document's own reference, exactly as written
       clause_reference:
         hint: clause or paragraph number as written, e.g., "5.8" or "Appendix 5, 9.14"
       category:
@@ -390,9 +394,9 @@ entity_types:
       RATE/CHARGES TABLES: if the text contains a markdown table listing individual roles or line items with a
       rate, charge or price column, extract EVERY data row as its own CHARGE of type rate_card — none collapsed
       into one summary entity and none skipped because the table is long. Name each entity after the role (and
-      location) the row describes, never after the numeric value. Put the row's figures in properties, and
-      capture its other columns using the table's own column names in snake_case (e.g. workstream,
-      estimated_days) — column names vary by document, but role and rate are present in nearly every table.
+      location) the row describes, never after the numeric value. Put the row's figures in its declared
+      properties: amount, unit, role, location, forecast_volume_days, forecast_spend. A column with no
+      declared property goes in the description, never under a new key.
     type_examples:
     - estimated_charges
     - fixed_price
@@ -404,6 +408,8 @@ entity_types:
     - termination_charge
     - liquidated_damages
     properties:
+      reference_as_written:
+        hint: a change-note number the text attributes this to when it differs from the document's own reference, exactly as written
       charge_type:
         hint: estimated | fixed | day_rate | discount | expenses | investment | termination | liquidated_damages | other
       amount:
