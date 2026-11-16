@@ -326,7 +326,7 @@ def validate_all(schemas_dir: Path = DOMAIN_SCHEMAS_DIR, meta_path: Path = DOMAI
             violations[schema_file.name.removesuffix("_schema.yaml")] = [parse_error]
             continue
         schema = yaml.safe_load(schema_file.read_text(encoding="utf-8")) or {}
-        name = schema.get("name", schema_file.stem)
+        name = schema_key(schema_file, schema)
         errors = validate_schema(schema, meta, schema_name=name)
         if errors:
             violations[name] = errors
@@ -349,17 +349,61 @@ def validate_all_or_raise(schemas_dir: Path = DOMAIN_SCHEMAS_DIR, meta_path: Pat
 
 #: Keys every entity carries whatever its class declares (meta.yaml `entity_common_properties`).
 COMMON_KEYS = frozenset({"name", "aliases", "entity_class", "type", "description", "context"})
-#: Graph-side keys a view may read on any entity.
-_NODE_KEYS = frozenset({"key", "id", "entity_class", "embedding", "label"})
+#: Graph-side keys a view may read on any entity (plus `projection._PRESERVED_ENTITY_KEYS`).
+_BASE_NODE_KEYS = frozenset({"key", "id", "entity_class", "embedding", "label"})
 _DOTTED_KEY = re.compile(r"\bproperties\.([a-z][a-z0-9_]*)")
 _EXAMPLE_KEY = re.compile(r'"([a-z][a-z0-9_]*)"\s*:')
 _FIELD_REF = re.compile(r"\b([a-z][A-Za-z0-9_]*)\.([a-z][a-z0-9_]*)\b")
-_LABEL_BIND = re.compile(r"\(\s*([a-z][A-Za-z0-9_]*)\s*:\s*([A-Z][A-Z0-9_]*)\b")
-_CLASS_EQ = re.compile(r"\b([a-z][A-Za-z0-9_]*)\.entity_class\s*(?:=\s*'([A-Z0-9_]+)'|IN\s*\[([^\]]*)\])")
+_LABEL_BIND = re.compile(r"\(\s*([a-z][A-Za-z0-9_]*)\s*((?::\s*[A-Za-z_][A-Za-z0-9_]*\s*)+)")
+_LABEL = re.compile(r":\s*([A-Za-z_][A-Za-z0-9_]*)")
+_CLASS_EQ = re.compile(
+    r"\b([a-z][A-Za-z0-9_]*)\.entity_class\s*(?:=\s*'([A-Z0-9_]+)'|(?i:IN)\s*\[([^\]]*)\])")
+_COMMENT = re.compile(r"'(?:[^'\\]|\\.)*'|\"(?:[^\"\\]|\\.)*\"|//[^\n]*|/\*.*?\*/", re.S)
+
+
+def schema_key(schema_file: Path, schema: dict | None = None) -> str:
+    """The name `validate_all` keys a schema file by: its `name:`, else the file stem; a file
+    that does not parse is keyed by its domain name (stem without `_schema`)."""
+    if schema is None:
+        if schema_parse_error(schema_file):
+            return schema_file.name.removesuffix("_schema.yaml")
+        schema = yaml.safe_load(schema_file.read_text(encoding="utf-8")) or {}
+    return schema.get("name", schema_file.stem)
+
+
+def family_schema(domain: str, schemas_dir: Path | None = None) -> dict:
+    """The domain's schema with a family root's children merged in: a mart declaration or
+    insights config on `banking` may name classes and properties `banking.policy` declares.
+    A class several schemas declare gets the union of their properties (the first
+    declaration of a key wins its definition)."""
+    import paths
+    from artmind import temporal
+
+    directory = Path(schemas_dir) if schemas_dir is not None else Path(paths.DOMAIN_SCHEMAS_DIR)
+    merged = dict(temporal.load_schema(domain, schemas_dir=directory) or {})
+    types = {c: (dict(d) if isinstance(d, dict) else d) for c, d in (merged.get("entity_types") or {}).items()}
+    if directory.is_dir():
+        for f in sorted(directory.glob(f"{domain}.*_schema.yaml")):
+            child = f.name[: -len("_schema.yaml")]
+            for name, spec in ((temporal.load_schema(child, schemas_dir=directory) or {}).get("entity_types") or {}).items():
+                have = types.get(name)
+                if have is None:
+                    types[name] = dict(spec) if isinstance(spec, dict) else spec
+                elif isinstance(have, dict) and isinstance(spec, dict):
+                    mine, theirs = have.get("properties"), spec.get("properties")
+                    if isinstance(theirs, dict) and (mine is None or isinstance(mine, dict)):
+                        have["properties"] = {**theirs, **(mine or {})}
+    merged["entity_types"] = types
+    return merged
 
 
 def _declared(entity_types: dict) -> dict[str, set[str]]:
-    return {c: set((d or {}).get("properties") or {}) for c, d in entity_types.items() if isinstance(d, dict)}
+    out = {}
+    for c, d in entity_types.items():
+        if isinstance(d, dict):
+            props = d.get("properties")
+            out[c] = set(props) if isinstance(props, dict) else set()
+    return out
 
 
 def _property_decl_errors(entity_types: dict, label: str) -> list[str]:
@@ -367,7 +411,13 @@ def _property_decl_errors(entity_types: dict, label: str) -> list[str]:
     for cls, decl in entity_types.items():
         if not isinstance(decl, dict):
             continue
-        for prop, pd in (decl.get("properties") or {}).items():
+        props = decl.get("properties")
+        if props is None:
+            continue
+        if not isinstance(props, dict):
+            errors.append(f"{label}.entity_types.{cls}.properties: must be a map")
+            continue
+        for prop, pd in props.items():
             if not isinstance(pd, dict):
                 continue
             where = f"{label}.entity_types.{cls}.properties.{prop}"
@@ -379,23 +429,26 @@ def _property_decl_errors(entity_types: dict, label: str) -> list[str]:
 
 
 def property_alias_warnings(schema: dict, schema_name: str = "") -> list[str]:
-    """An alias whose target no class declares: under schema-only keys its values are dropped."""
+    """An alias whose target no class declares (and is not a common key): under
+    schema-only keys its values are dropped."""
     label = schema_name or schema.get("name", "<unnamed>")
-    declared = _declared(schema.get("entity_types") or {})
+    types = schema.get("entity_types") or {}
+    declared = _declared(types if isinstance(types, dict) else {})
     every = set().union(*declared.values()) if declared else set()
     aliases = schema.get("property_aliases")
     if not isinstance(aliases, dict):
         return []  # a malformed map is an error from _property_alias_errors
     return [
         f"{label}.property_aliases: {a!r} -> {t!r}, but no class declares {t!r}, so every value it renames is dropped"
-        for a, t in aliases.items() if str(t) not in every
+        for a, t in aliases.items() if str(t) not in every and str(t) not in COMMON_KEYS
     ]
 
 
 def guidance_property_warnings(schema: dict, schema_name: str = "") -> list[str]:
     """Guidance or a `RIGHT:` example naming a key its class does not declare (spec §2.5).
     Domain `guidance.entities`/`.properties` is checked against every class; a class's own
-    description/guidance against that class. Relationship guidance is not scanned."""
+    description/guidance against that class. Relationship guidance is not scanned. A
+    `RIGHT:` example is read from its own line only (a multi-line example is not scanned)."""
     label = schema_name or schema.get("name", "<unnamed>")
     types = schema.get("entity_types") or {}
     if not isinstance(types, dict):
@@ -414,6 +467,7 @@ def guidance_property_warnings(schema: dict, schema_name: str = "") -> list[str]
         text = f"{decl.get('description') or ''}\n{decl.get('guidance') or ''}"
         keys = set(_DOTTED_KEY.findall(text))
         keys |= {k for line in text.splitlines() if "RIGHT:" in line for k in _EXAMPLE_KEY.findall(line)}
+        keys.discard("properties")  # `"properties": {...}` is the example's wrapper, not a key
         for key in sorted(keys - declared.get(cls, set()) - COMMON_KEYS):
             out.append(f"{label}.entity_types.{cls}: guidance names {key!r}, which {cls} does not declare")
     return out
@@ -431,29 +485,47 @@ def meta_template_warnings(meta_path: Path = DOMAIN_META_PATH) -> list[str]:
     return []
 
 
+def _node_keys() -> frozenset:
+    from artmind.projection import _PRESERVED_ENTITY_KEYS
+
+    return _BASE_NODE_KEYS | {k for k in _PRESERVED_ENTITY_KEYS if not k.startswith("_")}
+
+
 def view_property_refs(cypher: str, declared: dict[str, set[str]]) -> list[tuple[frozenset, str]]:
-    """(classes a variable is bound to, key) for every `var.key` a view reads on a class-bound variable."""
+    """(classes a variable is bound to, key) for every `var.key` a view reads on a class-bound
+    variable. A variable is bound by a label in its pattern (`(e:Entity:EVENT)`) or by
+    `e.entity_class = 'X'` / `IN [...]`. Map projections (`e {.key}`) are not scanned."""
     from artmind.kg_views.model import _mask
 
     text = _mask(cypher)  # literals and comments blanked: 'a.b' inside a string is not a reference
+    no_comments = _COMMENT.sub(lambda m: m.group() if m.group()[0] in "'\"" else " " * len(m.group()), cypher)
     bound: dict[str, set[str]] = {}
-    for var, cls in _LABEL_BIND.findall(text):
-        if cls in declared:
-            bound.setdefault(var, set()).add(cls)
-    for var, one, many in _CLASS_EQ.findall(cypher):
+    for var, chain in _LABEL_BIND.findall(text):
+        for cls in _LABEL.findall(chain):
+            if cls in declared:
+                bound.setdefault(var, set()).add(cls)
+    for var, one, many in _CLASS_EQ.findall(no_comments):
         names = {one} if one else set(re.findall(r"'([A-Z0-9_]+)'", many))
         bound.setdefault(var, set()).update(n for n in names if n in declared)
+    node_keys = _node_keys()
     refs = []
     for var, key in sorted(set(_FIELD_REF.findall(text))):
         classes = bound.get(var)
-        if classes and key not in COMMON_KEYS and key not in _NODE_KEYS and not key.startswith("_"):
+        if classes and key not in COMMON_KEYS and key not in node_keys and not key.startswith("_"):
             refs.append((frozenset(classes), key))
     return refs
 
 
 def property_reference_report(domain: str, schema: dict) -> dict:
     """Keys the mart declaration, insights config or a saved view reads that the schema does not
-    declare (spec §2.6). Only `domains validate` calls this, never `setup`. {"errors", "warnings"}."""
+    declare (spec §2.6). `schema` is the domain's `family_schema`. Only `domains validate` calls
+    this, never `setup`. A view is checked only for the domains its own spec names, so a
+    family view is reported once. {"errors", "warnings"}."""
+    from artmind.insights import config as insights_config
+    from artmind.insights.model import InsightsError
+    from artmind.kg_views import store as views_store
+    from artmind.mart import declaration as mart_declaration
+
     types = schema.get("entity_types") or {}
     declared = _declared(types if isinstance(types, dict) else {})
     errors, warnings = [], []
@@ -461,7 +533,6 @@ def property_reference_report(domain: str, schema: dict) -> dict:
     def has(cls, key):
         return key in COMMON_KEYS or key.startswith("_") or key in declared.get(cls, set())
 
-    from artmind.mart import declaration as mart_declaration
     try:
         decl = mart_declaration.load_declaration(domain)
     except Exception:
@@ -480,8 +551,6 @@ def property_reference_report(domain: str, schema: dict) -> dict:
                     errors.append(f"mart/{domain} wholes.{kind}.match: {key!r} is declared on none of "
                                   f"{', '.join(decl.happening_classes)}")
 
-    from artmind.insights import config as insights_config
-    from artmind.insights.model import InsightsError
     try:
         cfg = insights_config.load_config(domain)
     except InsightsError:
@@ -495,9 +564,10 @@ def property_reference_report(domain: str, schema: dict) -> dict:
                 if not has(loops["class"], loops[field]):
                     errors.append(f"insights/{domain} open_loops.{field}: {loops['class']}.{loops[field]} is not declared")
 
-    from artmind.kg_views import store as views_store
     views, _invalid = views_store.list_views([domain])
     for view in views:
+        if domain not in view.spec.domains:
+            continue  # checked under its own domain
         for classes, key in view_property_refs(view.spec.cypher, declared):
             if not any(key in declared[c] for c in classes):
                 warnings.append(f"view:{view.spec.name} reads {'/'.join(sorted(classes))}.{key}, "

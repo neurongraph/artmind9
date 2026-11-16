@@ -793,23 +793,26 @@ def domains_validate(domain: str | None, compact: bool):
 
     # Keys a mart declaration, insights config or saved view reads that the schema
     # does not declare (spec 2026-11-15 §2.6). Here only, never in `setup`.
-    from artmind.temporal import load_schema
+    # A schema already in `violations` is skipped; both sides use `schema_key`, the
+    # name `validate_all` keys a file by. The domain checked is the file's own name.
+    from artmind.schema_validate import family_schema, schema_key
 
     if domain:
         names = [] if domain in violations else [domain]
     else:
         names = [p.name.removesuffix("_schema.yaml") for p in sorted(DOMAIN_SCHEMAS_DIR.glob("*_schema.yaml"))
-                 if p.name.removesuffix("_schema.yaml") not in violations]
+                 if schema_key(p) not in violations]
     refs = {}
     for name in names:
         try:
-            schema = load_schema(name, schemas_dir=DOMAIN_SCHEMAS_DIR)
+            schema = family_schema(name, schemas_dir=DOMAIN_SCHEMAS_DIR)
         except Exception:
             continue  # reported by validate_all
         rep = property_reference_report(name, schema)
         if rep["errors"] or rep["warnings"]:
             refs[name] = rep
-    for w in meta_template_warnings():
+    meta_warnings = meta_template_warnings()
+    for w in meta_warnings:
         click.echo(f"WARN   {w}", err=True)
     for rep in refs.values():
         for w in rep["warnings"]:
@@ -822,6 +825,7 @@ def domains_validate(domain: str | None, compact: bool):
         "schema_warnings": {name: list(found) for name, found in warnings.items() if found},
         "mart": mart_report,
         "property_references": refs,
+        "meta_warnings": meta_warnings,
     }
     if not violations and not mart_failed and not refs_failed:
         click.echo("All schemas valid.", err=True)
@@ -837,8 +841,10 @@ def domains_validate(domain: str | None, compact: bool):
         for e in rep["errors"]:
             click.echo(f"ERROR  {e}", err=True)
     _echo_json(result, compact)
-    raise click.ClickException(
-        f"{len(violations) + len(mart_failed) + len(refs_failed)} schema(s) or mart declaration(s) failed validation")
+    parts = [f"{n} {what}" for n, what in (
+        (len(violations), "schema(s)"), (len(mart_failed), "mart declaration(s)"),
+        (len(refs_failed), "domain(s) with undeclared property references")) if n]
+    raise click.ClickException(f"{', '.join(parts)} failed validation")
 
 
 @domains.command("harmonize")

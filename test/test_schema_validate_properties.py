@@ -99,3 +99,96 @@ def test_a_view_reading_an_undeclared_key_on_a_bound_class_warns(monkeypatch):
     report = sv.property_reference_report("d", schema)
     assert report["errors"] == []
     assert any("view:v1" in w and "EVENT.location" in w for w in report["warnings"])
+
+
+# ── review fixes ─────────────────────────────────────────────────────────────
+
+def test_properties_as_a_list_is_an_error_not_a_crash():
+    schema = {"name": "d", "entity_types": {"EVENT": {"kind": "occurrent", "properties": ["a", "b"]}}}
+    errors = sv.validate_schema(schema, META)
+    assert "d.entity_types.EVENT.properties: must be a map" in errors
+    assert sv._declared(schema["entity_types"]) == {"EVENT": set()}
+    assert sv.guidance_property_warnings(schema, "d") == []
+
+
+def test_an_alias_to_a_common_key_does_not_warn():
+    schema = {**_schema(outcome={}), "property_aliases": {"summary": "description"}}
+    assert sv.property_alias_warnings(schema, "d") == []
+
+
+def test_alias_warnings_tolerate_a_non_map_entity_types():
+    assert sv.property_alias_warnings({"entity_types": ["EVENT"], "property_aliases": {"a": "b"}}, "d") != []
+
+
+def test_right_example_wrapper_key_is_not_a_property():
+    schema = _schema(outcome={})
+    schema["entity_types"]["EVENT"]["guidance"] = 'RIGHT: { "name": "X", "properties": { "outcome": "won" } }'
+    assert sv.guidance_property_warnings(schema, "d") == []
+
+
+def _write(directory, name, data):
+    (directory / f"{name}_schema.yaml").write_text(yaml.safe_dump(data), encoding="utf-8")
+
+
+def test_family_schema_unions_children_properties_per_class(tmp_path):
+    _write(tmp_path, "fam", {"entity_types": {"PERSON": {"kind": "recurrent", "properties": {"role": {}}}}})
+    _write(tmp_path, "fam.a", {"entity_types": {"PERSON": {"kind": "recurrent", "properties": {"relation": {}}}}})
+    _write(tmp_path, "fam.b", {"entity_types": {"PERSON": {"kind": "recurrent", "properties": {"nickname": {}}},
+                                                "EVENT": {"kind": "occurrent", "properties": {"outcome": {}}}}})
+    merged = sv.family_schema("fam", schemas_dir=tmp_path)
+    assert set(merged["entity_types"]["PERSON"]["properties"]) == {"role", "relation", "nickname"}
+    assert set(merged["entity_types"]["EVENT"]["properties"]) == {"outcome"}
+
+
+def test_a_root_mart_seed_declared_only_on_a_child_passes(tmp_path, monkeypatch):
+    _write(tmp_path, "fam", {"entity_types": {"PERSON": {"kind": "recurrent"}}})
+    _write(tmp_path, "fam.a", {"entity_types": {"PERSON": {"kind": "recurrent", "properties": {"relation": {}}},
+                                                "LOCATION": {"kind": "recurrent"}, "EVENT": {"kind": "occurrent"}}})
+    monkeypatch.setattr("artmind.mart.declaration.load_declaration", lambda d: _mart(person_seed="relation"))
+    root_only = {"entity_types": {"PERSON": {"kind": "recurrent"}}}
+    assert sv.property_reference_report("fam", root_only)["errors"] != []
+    assert sv.property_reference_report("fam", sv.family_schema("fam", schemas_dir=tmp_path))["errors"] == []
+
+
+def test_insights_outcome_on_an_undeclared_key_is_an_error(monkeypatch):
+    _no_mart(monkeypatch)
+    cfg = SimpleNamespace(block=lambda n: {"class": "EVENT", "property": "result"} if n == "outcome" else None)
+    monkeypatch.setattr("artmind.insights.config.load_config", lambda d: cfg)
+    report = sv.property_reference_report("d", _schema(outcome={}))
+    assert any("insights/d outcome.property: EVENT.result" in e for e in report["errors"])
+
+
+DECL = {"EVENT": {"outcome"}, "PERSON": {"role"}}
+
+
+def test_view_refs_skip_a_key_inside_a_string_literal():
+    refs = sv.view_property_refs("MATCH (e:EVENT) WHERE e.name = 'e.foo' RETURN e.outcome", DECL)
+    assert refs == [(frozenset({"EVENT"}), "outcome")]  # `foo` sits inside the literal
+
+
+def test_view_refs_bind_a_label_pattern_and_a_label_chain():
+    assert sv.view_property_refs("MATCH (e:EVENT) RETURN e.mood", DECL) == [(frozenset({"EVENT"}), "mood")]
+    assert sv.view_property_refs("MATCH (e:Entity:EVENT) RETURN e.mood", DECL) == [(frozenset({"EVENT"}), "mood")]
+
+
+def test_view_refs_skip_underscore_common_and_node_keys():
+    cypher = "MATCH (e:EVENT) RETURN e._valid_from, e.description, e.name_embedding, e.embedding_stale, e.key"
+    assert sv.view_property_refs(cypher, DECL) == []
+
+
+def test_view_refs_match_in_case_insensitively():
+    assert sv.view_property_refs("MATCH (e) WHERE e.entity_class in ['PERSON'] RETURN e.age", DECL) == [
+        (frozenset({"PERSON"}), "age")]
+
+
+def test_view_refs_ignore_unbound_variables():
+    assert sv.view_property_refs("MATCH (e:Entity) RETURN e.mood", DECL) == []
+
+
+def test_a_family_view_is_checked_only_under_its_own_domain(monkeypatch):
+    _no_mart(monkeypatch)
+    view = SimpleNamespace(spec=SimpleNamespace(name="v1", domains=("fam",), cypher="MATCH (e:EVENT) RETURN e.mood"))
+    monkeypatch.setattr("artmind.kg_views.store.list_views", lambda domains=None: ([view], []))
+    schema = _schema(outcome={})
+    assert sv.property_reference_report("fam.a", schema)["warnings"] == []
+    assert len(sv.property_reference_report("fam", schema)["warnings"]) == 1
