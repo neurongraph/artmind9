@@ -1150,6 +1150,7 @@ git commit -m "feat(ingest): date-audit reports how each class is dated"
   - `general`: a `temporal:` block (`defaults: {valid_from: ingestion_date, time_source: default_ingestion}`), `EVENT.date_or_period: {temporal: valid_from}`, `CLAIM`: new `stated_on: {temporal: valid_from}`;
   - `technical_paper` `FINDING`: new `reported_on: {temporal: valid_from}`;
   - banking schemas with `Last Updated` under `temporal.document.valid_from` (communications, organization, sop_guides, risk_governance, products): move `Last Updated` to `temporal.document.revised`.
+  - **Carried over from SBP (do not drop):** `exclusive: true` is a no-op since SBP (the declared-key filter does its job) and `domains validate` WARNs on it (`schema_validate.exclusive_property_warnings`). Decide here whether `exclusive:` gains a temporal meaning. If not, remove it from `contracts_schema.yaml` (6×) and `personal_journal_schema.yaml` (3×) in this same edit — these files change in this task anyway, so the `document_context` cache keys and `schema_set_hash` move only once — and delete `exclusive_property_warnings`, the audit's `exclusive` flag and the `exclusive` acceptance in `schema_validate`. If it does gain one, document it and turn the WARN off. Either way, `domains validate` on the packaged schemas ends with no `exclusive:` WARN.
 - Test: `test/test_temporal_flags.py` (new), `test/test_shipped_schema_temporal.py` (new).
 
 - [ ] **Step 1: Write the failing tests.** `test/test_temporal_flags.py`:
