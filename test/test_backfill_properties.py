@@ -134,3 +134,223 @@ def test_a_table_folder_is_never_planned(staged, monkeypatch):
     _answer(monkeypatch, [], calls)
     report = backfill.backfill_domain("journal", targets={"EMOTION": ["trigger"]}, model="m")
     assert calls == [] and report["planned"] == [] and report["effect"]["changes"] == []
+
+
+# ── review fixes: undo, failure handling, scope, concurrency ──────────────
+
+def _record_commits(monkeypatch, fail=()):
+    commits, rebuilds = [], []
+
+    def commit(d, dom, defer_rebuild=False):
+        commits.append((d.name, defer_rebuild))
+        return d.name not in fail
+    monkeypatch.setattr(ing, "commit_to_graph", commit)
+    monkeypatch.setattr(ing, "rebuild_projection", lambda domain: rebuilds.append(domain) or {})
+    return commits, rebuilds
+
+
+def _cli(*args):
+    from click.testing import CliRunner
+
+    from artmind.cli import cli
+
+    return CliRunner().invoke(cli, ["ingest", "backfill-properties", *args, "--compact"])
+
+
+FILL = ["--domain", "journal", "--entityClass", "EMOTION", "--property", "trigger"]
+
+
+def test_a_run_commits_the_folder_and_rebuilds_once(staged, monkeypatch):
+    commits, rebuilds = _record_commits(monkeypatch)
+    _answer(monkeypatch, [{"id": "o1", "properties": {"trigger": "the review"}}])
+    backfill.backfill_domain("journal", targets={"EMOTION": ["trigger"]}, model="m")
+    assert commits == [(staged.name, True)] and rebuilds == ["journal"]
+
+
+def test_undo_restores_staging_and_the_chunk_cache_and_commits(staged, monkeypatch):
+    commits, rebuilds = _record_commits(monkeypatch)
+    (chunk_file,) = (staged / "chunks").rglob("chunk_001.json")
+    obs_before, chunk_before = (staged / "observations.json").read_bytes(), chunk_file.read_bytes()
+    _answer(monkeypatch, [{"id": "o1", "properties": {"trigger": "the review"}}])
+    run = backfill.backfill_domain("journal", targets={"EMOTION": ["trigger"]}, model="m")
+    assert (staged / "observations.json").read_bytes() != obs_before and chunk_file.read_bytes() != chunk_before
+    assert "--undo RUN_ID" in run["effect"]["undo"]
+    commits.clear(), rebuilds.clear()
+
+    r = _cli("--undo", run["run_id"])
+
+    assert r.exit_code == 0, r.output
+    out = json.loads(r.stdout)
+    assert out["restored"] == [staged.name] and out["committed"] == 1
+    assert commits == [(staged.name, True)] and rebuilds == ["journal"]
+    assert (staged / "observations.json").read_bytes() == obs_before
+    assert chunk_file.read_bytes() == chunk_before
+
+
+def test_undo_leaves_a_folder_written_again_since_the_run(staged, monkeypatch):
+    commits, _ = _record_commits(monkeypatch)
+    _answer(monkeypatch, [{"id": "o1", "properties": {"trigger": "the review"}}])
+    run = backfill.backfill_domain("journal", targets={"EMOTION": ["trigger"]}, model="m")
+    (staged / "observations.json").write_text("[]")
+    commits.clear()
+    out = backfill.undo_run(run["run_id"])
+    assert out["restored"] == [] and commits == [] and "written again" in out["warnings"][0]
+    assert (staged / "observations.json").read_text() == "[]"
+
+
+def test_an_unknown_run_id_is_refused(staged):
+    r = _cli("--undo", "../../etc")
+    assert r.exit_code == 1 and "not a backfill run id" in r.output
+
+
+def _three_folders(staged):
+    import shutil
+
+    names = [staged.name]
+    for stem in ("2026-01-08~aaaaaaaaaaaa", "2026-01-09~bbbbbbbbbbbb"):
+        shutil.copytree(staged, staged.parent / stem)
+        names.append(stem)
+    return names
+
+
+def test_an_error_on_one_folder_does_not_stop_the_others(staged, monkeypatch):
+    names = _three_folders(staged)
+    commits, rebuilds = _record_commits(monkeypatch)
+    _answer(monkeypatch, [{"id": "o1", "properties": {"trigger": "the review"}}])
+    real_prompt = backfill._prompt
+
+    def prompt(chunk, document, schema, scoped, folder):
+        if folder.name == names[1]:
+            raise RuntimeError("synthetic failure")
+        return real_prompt(chunk, document, schema, scoped, folder)
+    monkeypatch.setattr(backfill, "_prompt", prompt)
+
+    report = backfill.backfill_domain("journal", targets={"EMOTION": ["trigger"]}, model="m")
+
+    assert [c for c, _ in commits] == [names[0], names[2]] and rebuilds == ["journal"]
+    assert report["errors"] == [names[1]] and report["committed"] == 2
+    assert any("failed" in w for w in report["warnings"])
+
+
+def test_a_raise_mid_run_still_rebuilds_what_committed(staged, monkeypatch):
+    names = _three_folders(staged)
+    commits, rebuilds = _record_commits(monkeypatch)
+    _answer(monkeypatch, [{"id": "o1", "properties": {"trigger": "the review"}}])
+
+    def commit(d, dom, defer_rebuild=False):
+        if d.name == names[1]:
+            raise KeyboardInterrupt
+        commits.append((d.name, defer_rebuild))
+        return True
+    monkeypatch.setattr(ing, "commit_to_graph", commit)
+
+    with pytest.raises(KeyboardInterrupt):
+        backfill.backfill_domain("journal", targets={"EMOTION": ["trigger"]}, model="m")
+    assert [c for c, _ in commits] == [names[0]] and rebuilds == ["journal"]
+
+
+def test_nothing_committed_means_no_rebuild(staged, monkeypatch):
+    commits, rebuilds = _record_commits(monkeypatch)
+    _answer(monkeypatch, [])
+    report = backfill.backfill_domain("journal", targets={"EMOTION": ["trigger"]}, model="m")
+    assert commits == [] and rebuilds == [] and report["committed"] == 0
+
+
+def test_refuses_while_the_worker_runs(staged, monkeypatch):
+    monkeypatch.setattr(backfill, "_worker_running", lambda: True)
+    monkeypatch.setattr(backfill, "_ask", lambda *a, **k: (_ for _ in ()).throw(AssertionError("no LLM")))
+    r = _cli(*FILL)
+    assert r.exit_code == 1 and "worker is running" in r.output
+    assert _cli(*FILL, "--dryRun").exit_code == 0, "a dry run writes nothing, so it may run"
+
+
+def test_a_folder_written_since_planning_is_skipped(staged, monkeypatch):
+    commits, _ = _record_commits(monkeypatch)
+
+    def ask(step, model, prompt, debug_dir=None):
+        doc = json.loads((staged / "document.json").read_text())
+        (staged / "document.json").write_text(json.dumps({**doc, "title": "edited meanwhile"}))
+        return [{"id": "o1", "properties": {"trigger": "the review"}}], True
+    monkeypatch.setattr(backfill, "_ask", ask)
+    before = (staged / "observations.json").read_bytes()
+
+    report = backfill.backfill_domain("journal", targets={"EMOTION": ["trigger"]}, model="m")
+
+    assert commits == [] and (staged / "observations.json").read_bytes() == before
+    assert report["results"][0]["skipped"] and "changed since planning" in report["warnings"][0]
+
+
+def test_a_failed_commit_is_recoverable_with_retry_commit(staged, monkeypatch):
+    commits, _ = _record_commits(monkeypatch, fail={staged.name})
+    _answer(monkeypatch, [{"id": "o1", "properties": {"trigger": "the review"}}])
+
+    r = _cli(*FILL)
+
+    assert r.exit_code == 1
+    out = json.loads(r.stdout)
+    assert out["next"] == f"artmind ingest backfill-properties --retryCommit {out['run_id']}"
+    assert "--retryCommit" in r.output.split(r.stdout.strip())[-1], "the error text names the recovery too"
+    commits2, rebuilds = _record_commits(monkeypatch)
+    dry = json.loads(_cli("--retryCommit", out["run_id"], "--dryRun").stdout)
+    assert dry["retried"] == [staged.name] and commits2 == []
+    done = json.loads(_cli("--retryCommit", out["run_id"]).stdout)
+    assert done["committed"] == 1 and commits2 == [(staged.name, True)] and rebuilds == ["journal"]
+    assert json.loads(_cli("--retryCommit", out["run_id"]).stdout)["retried"] == [], "committed: nothing left"
+
+
+def test_only_filled_observations_change_and_an_unfilled_folder_is_untouched(staged, monkeypatch):
+    commits, _ = _record_commits(monkeypatch)
+    obs = json.loads((staged / "observations.json").read_text())
+    # PERSON carries a key its class does not declare (a retime would drop it).
+    (staged / "observations.json").write_text(json.dumps(
+        [{**o, "mood": "calm"} if o["entity_class"] == "PERSON" else o for o in obs], indent=2))
+    before = (staged / "observations.json").read_bytes()
+
+    _answer(monkeypatch, [])  # nothing filled
+    backfill.backfill_domain("journal", targets={"EMOTION": ["trigger"]}, model="m")
+    assert (staged / "observations.json").read_bytes() == before and commits == []
+
+    _answer(monkeypatch, [{"id": "o1", "properties": {"trigger": "the review"}}], [])
+    monkeypatch.setattr(backfill, "_cache_path", lambda prompt, model: staged.parent / "no-cache.json")
+    backfill.backfill_domain("journal", targets={"EMOTION": ["trigger"]}, model="m")
+    after = {o["entity_class"]: o for o in json.loads((staged / "observations.json").read_text())}
+    assert after["PERSON"]["mood"] == "calm", "an unfilled observation is left exactly as it was"
+
+
+def test_failed_chunks_warn_and_name_the_rerun(staged, monkeypatch):
+    _record_commits(monkeypatch)
+    monkeypatch.setattr(backfill, "_ask", lambda *a, **k: ([], False))
+    out = json.loads(_cli(*FILL).stdout)
+    assert len(out["failed_chunks"]) == 1
+    assert any("1 chunk(s) failed; re-run to retry" in w for w in out["warnings"])
+    assert out["next"] == "artmind ingest backfill-properties --domain journal --entityClass EMOTION --property trigger"
+
+
+def test_a_step_name_per_chunk_and_a_debug_folder(staged, monkeypatch):
+    seen = []
+    monkeypatch.setattr(backfill, "_ask", lambda step, model, prompt, debug_dir=None:
+                        seen.append((step, debug_dir)) or ([], True))
+    backfill.backfill_domain("journal", targets={"EMOTION": ["trigger"]}, model="m")
+    ((step, debug_dir),) = seen
+    assert step == "backfill_001_properties" and debug_dir.is_dir() and staged.name in str(debug_dir)
+
+
+def test_duplicate_answers_take_the_first_and_filled_counts_real_changes(staged, monkeypatch):
+    commits, _ = _record_commits(monkeypatch)
+    _answer(monkeypatch, [{"id": "o1", "properties": {"trigger": "first"}},
+                          {"id": "o1", "properties": {"trigger": "second"}}])
+    report = backfill.backfill_domain("journal", targets={"EMOTION": ["trigger"]}, model="m")
+    assert _by_class(staged)["EMOTION"]["trigger"] == "first" and report["filled"] == 1
+
+    commits.clear()
+    _answer(monkeypatch, [{"id": "o1", "properties": {"trigger": "first"}}])
+    monkeypatch.setattr(backfill, "_cache_path", lambda prompt, model: staged.parent / "no-cache.json")
+    report = backfill.backfill_domain("journal", targets={"EMOTION": ["trigger"]}, model="m")
+    assert report["filled"] == 0 and commits == [], "an unchanged value is no fill"
+
+
+def test_an_empty_property_list_is_refused(staged):
+    r = _cli("--domain", "journal", "--entityClass", "EMOTION", "--property", " , ")
+    assert r.exit_code == 2 and "at least one --property" in r.output
+    with pytest.raises(ValueError, match="at least one property"):
+        backfill.backfill_domain("journal", targets={"EMOTION": []}, model="m")

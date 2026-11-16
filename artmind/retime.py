@@ -254,7 +254,19 @@ def retime_domain(
         folders = [f for f in folders if f.name in wanted or f.name.rsplit("~", 1)[0] in wanted]
     if limit is not None:
         folders = folders[:limit]
-    results, failed = [], []
+    # Every precondition of the redo is checked before retime writes anything.
+    targets: dict[str, list[str]] = {}
+    if redo_properties:
+        from artmind import backfill
+        from artmind.temporal import _entity_temporal_mapping
+
+        if not text_model:
+            raise ValueError("--redoProperties needs a model")
+        targets = {cls: sorted(set(m.values())) for cls, m in _entity_temporal_mapping(schema).items()}
+        if targets:
+            backfill.check_ready(schema, targets, dry_run=dry_run)
+
+    results, failed, warnings = [], [], []
     committed_names: set[str] = set()
     retimed: list[Path] = []
     dropped_keys: Counter = Counter()
@@ -270,43 +282,50 @@ def retime_domain(
             retimed.append(folder)
 
     # After the re-dating is written, so the backfill's date anchor is the document's new date.
-    redo, attempted = None, {}
-    if redo_properties:
-        from artmind import backfill
-        from artmind.temporal import _entity_temporal_mapping
-
-        if not text_model:
-            raise ValueError("--redoProperties needs a model")
-        targets = {cls: sorted(set(m.values())) for cls, m in _entity_temporal_mapping(schema).items()}
-        if targets:
+    redo, attempted = None, set()
+    if targets:
+        try:
             redo = backfill.backfill_domain(domain, targets=targets, model=text_model, dry_run=dry_run,
                                             documents=documents, limit=limit, rebuild=False)
+        except Exception as e:  # retime's own folders are still committed below
+            logger.error("retime: the properties redo failed: {}", e)
+            warnings.append(f"the properties redo failed: {e}; the re-dated documents are still committed")
+        else:
+            warnings += redo["warnings"]
             failed += redo["commit_failed"]
-            attempted = {r["folder"]: r["document"] for r in redo["results"] if r["changed"]}
-            committed_names |= {f for f, d in attempted.items() if d not in redo["commit_failed"]}
+            attempted = {r["folder"] for r in redo["results"] if r.get("changed")}
+            committed_names |= {r["folder"] for r in redo["results"] if r.get("committed")}
     redone = {r["folder"]: r for r in (redo or {}).get("results") or []}
     planned = set((redo or {}).get("planned") or [])
 
     retimed_names = {f.name for f in retimed}
-    for i, (folder, result) in enumerate(zip(folders, results)):
+    for i, folder in enumerate(folders):
         if folder.name in redone and folder.name not in retimed_names:
             r = redone[folder.name]
-            results[i] = {"document": r["document"], "before": r["before"], "after": r["after"],
+            results[i] = {"document": r["document"], "before": r.get("before"), "after": r.get("after"),
                           "source": r.get("source"), "changed": r["changed"]}
-    if not dry_run:
-        for folder, result in zip(folders, results):
-            # The backfill's commit already carries retime's staging (retime wrote first).
-            if folder in retimed and folder.name not in attempted:
-                if ingest.commit_to_graph(folder, domain, defer_rebuild=True):
-                    committed_names.add(folder.name)
-                else:
-                    failed.append(result["document"])
-    committed = len(committed_names)
+    try:
+        if not dry_run:
+            for folder, result in zip(folders, results):
+                # A folder the backfill wrote was committed by it (its commit carries retime's staging,
+                # written first); matched by folder name, never by document name.
+                if folder in retimed and folder.name not in attempted:
+                    try:
+                        ok = ingest.commit_to_graph(folder, domain, defer_rebuild=True)
+                    except Exception as e:
+                        logger.error("retime: commit of {} failed: {}", folder.name, e)
+                        ok = False
+                    if ok:
+                        committed_names.add(folder.name)
+                    else:
+                        failed.append(result["document"])
+    finally:
+        committed = len(committed_names)
+        rebuild = ingest.rebuild_projection(domain) if committed else None
     # Retime's changed folders plus every folder the backfill planned: the same set dry or real.
     changed_folders = [f for f in folders if f in retimed or f.name in planned]
     redo_chunks = redo["effect"]["llm"]["calls"] if redo else 0
 
-    rebuild = ingest.rebuild_projection(domain) if committed else None
     changed = [r for r in results if r.get("changed")]
     return {
         "domain": domain,
@@ -321,5 +340,8 @@ def retime_domain(
         "sample": changed[:10],
         "rebuild": rebuild,
         "dropped": dict(dropped_keys),
+        "warnings": warnings,
+        "failed_chunks": (redo or {}).get("failed_chunks") or [],
+        "redo_run_id": (redo or {}).get("run_id"),
         "effect": _effect(domain, changed_folders, redo_properties, redo_chunks, text_model, dropped_keys),
     }

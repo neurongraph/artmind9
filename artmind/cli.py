@@ -1821,35 +1821,62 @@ def ingest_retime(
 
 
 @ingest.command("backfill-properties")
-@click.option("--domain", required=True, help="Domain whose staged documents to fill")
-@click.option("--entityClass", "entity_class", required=True, help="Class whose observations get the properties")
-@click.option("--property", "properties", multiple=True, required=True,
+@click.option("--domain", default=None, help="Domain whose staged documents to fill")
+@click.option("--entityClass", "entity_class", default=None, help="Class whose observations get the properties")
+@click.option("--property", "properties", multiple=True,
               help="Declared property to fill; repeatable, comma-separated")
-@click.option("--match", default=None, help="Only staging folders whose name matches this glob")
+@click.option("--match", default=None, help="Only staging folders whose name matches this glob, e.g. `2026-01-*`")
+@click.option("--undo", "undo", default=None, metavar="RUN_ID",
+              help="Restore what run RUN_ID wrote (observations.json and chunk-cache files), commit, rebuild")
+@click.option("--retryCommit", "retry_commit", default=None, metavar="RUN_ID",
+              help="Commit the documents run RUN_ID wrote but failed to commit, then rebuild")
 @dry_run_option("Report documents, chunks and LLM calls; ask nothing, write nothing", legacy=False)
 @compact_option
-def ingest_backfill_properties(domain, entity_class, properties, match, dry_run, compact) -> None:
+def ingest_backfill_properties(domain, entity_class, properties, match, undo, retry_commit, dry_run, compact) -> None:
     """Fill a class's newly declared properties from the stored chunks.
 
     \b
     LLM: one call per chunk with an observation of the class; each such chunk's text is sent to the
     configured provider once (cached; a re-run resumes). Entities, names, relationships and summaries
-    are not re-run, and only the named keys change. Changed documents are committed and the
-    projection is rebuilt once; each changed observations.json is kept under logs/backfill-stash/.
+    are not re-run. Only the named keys of observations that get a value change (their valid time is
+    re-derived); a document where nothing is filled is not written. Changed documents are committed
+    and the projection is rebuilt once. Each run keeps its pre-run files under
+    logs/backfill-stash/RUN_ID/: --undo RUN_ID puts them back, --retryCommit RUN_ID commits what a
+    failed commit left staged. Refuses while the ingest worker is running.
     """
     _setup_logger()
     from artmind import backfill
 
-    env = load_env()
-    props = [p.strip() for v in properties for p in v.split(",") if p.strip()]
+    if undo and retry_commit:
+        raise click.UsageError("--undo and --retryCommit are separate runs; give one")
     try:
-        report = backfill.backfill_domain(domain, targets={entity_class: props}, model=resolve_llm_model(env),
-                                          match=match, dry_run=dry_run)
+        if undo or retry_commit:
+            if domain or entity_class or properties or match:
+                raise click.UsageError("--undo/--retryCommit take only a RUN_ID (and --dryRun)")
+            report = (backfill.undo_run(undo, dry_run=dry_run) if undo
+                      else backfill.retry_commits(retry_commit, dry_run=dry_run))
+        else:
+            if not (domain and entity_class):
+                raise click.UsageError("--domain and --entityClass are required (or --undo / --retryCommit RUN_ID)")
+            props = [p.strip() for v in properties for p in v.split(",") if p.strip()]
+            if not props:
+                raise click.UsageError("name at least one --property")
+            env = load_env()
+            report = backfill.backfill_domain(domain, targets={entity_class: props},
+                                              model=resolve_llm_model(env), match=match, dry_run=dry_run)
+            if report["failed_chunks"]:
+                report["next"] = shlex.join(["artmind", "ingest", "backfill-properties", "--domain", domain,
+                                             "--entityClass", entity_class, "--property", ",".join(props),
+                                             *(["--match", match] if match else [])])
     except (FileNotFoundError, ValueError) as e:
         raise click.ClickException(str(e))
+    run_id = report.get("run_id")
+    if report["commit_failed"] and run_id:
+        report["next"] = f"artmind ingest backfill-properties --retryCommit {run_id}"
     _echo_json(report, compact)
     if report["commit_failed"]:
-        raise click.ClickException(f"{len(report['commit_failed'])} document(s) failed to commit -- see the log")
+        hint = f"; run `artmind ingest backfill-properties --retryCommit {run_id}`" if run_id else ""
+        raise click.ClickException(f"{len(report['commit_failed'])} document(s) failed to commit -- see the log{hint}")
 
 
 @ingest.command("write-to-graph")

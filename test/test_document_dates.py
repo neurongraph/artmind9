@@ -50,6 +50,7 @@ def _vault(tmp_path, monkeypatch, filename, body):
     monkeypatch.setattr(db, "DB_PATH", tmp_path / "registry.db")
     monkeypatch.setattr("artmind.delta.apply_metadata_only", lambda **k: None)
     monkeypatch.setattr(ing, "KG_DIR", tmp_path / "kg")
+    monkeypatch.setattr(ing, "LOGS_DIR", tmp_path / "logs")  # the backfill's answer cache and stash
     schemas = tmp_path / "schemas"
     schemas.mkdir()
     (schemas / "journal_schema.yaml").write_text(JOURNAL_SCHEMA, encoding="utf-8")
@@ -571,3 +572,50 @@ def test_extraction_and_retime_normalize_property_keys(tmp_path, monkeypatch):
     assert retime_folder(_folder("2026-01-07"), yaml.safe_load(with_alias))["changed"]
     (obs,) = json.loads((_folder("2026-01-07") / "observations.json").read_text())
     assert obs["narrative_role"] == "host" and "narrative_function" not in obs, "retime applies a new alias"
+
+
+def test_a_failing_redo_still_commits_the_redated_documents(tmp_path, monkeypatch):
+    from artmind import backfill
+    from artmind.retime import retime_domain
+
+    folder, _ = _ingested_under_the_old_schema(tmp_path, monkeypatch)
+    commits, rebuilds = [], []
+    monkeypatch.setattr(ing, "commit_to_graph", lambda d, dom, defer_rebuild=False: commits.append(d) or True)
+    monkeypatch.setattr(ing, "rebuild_projection", lambda domain: rebuilds.append(domain) or {})
+    monkeypatch.setattr(backfill, "backfill_domain", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("synthetic")))
+
+    report = retime_domain("journal", redo_properties=True, text_model="m", embed_model="e")
+
+    assert commits == [folder] and rebuilds == ["journal"] and report["committed"] == 1
+    assert any("properties redo failed" in w for w in report["warnings"])
+
+
+def test_redo_preconditions_refuse_before_retime_writes(tmp_path, monkeypatch):
+    import pytest
+
+    from artmind import backfill
+    from artmind.retime import retime_domain
+
+    folder, _ = _ingested_under_the_old_schema(tmp_path, monkeypatch)
+    before = (folder / "document.json").read_bytes()
+    with pytest.raises(ValueError, match="needs a model"):
+        retime_domain("journal", redo_properties=True, text_model=None)
+    monkeypatch.setattr(backfill, "_worker_running", lambda: True)
+    with pytest.raises(ValueError, match="worker is running"):
+        retime_domain("journal", redo_properties=True, text_model="m")
+    assert (folder / "document.json").read_bytes() == before, "nothing re-dated before the refusal"
+
+
+def test_redo_report_names_failed_chunks(tmp_path, monkeypatch):
+    from artmind import backfill
+    from artmind.retime import retime_domain
+
+    _ingested_under_the_old_schema(tmp_path, monkeypatch)
+    monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: True)
+    monkeypatch.setattr(ing, "rebuild_projection", lambda domain: {})
+    monkeypatch.setattr(backfill, "_ask", lambda *a, **k: ([], False))
+
+    report = retime_domain("journal", redo_properties=True, text_model="m", embed_model="e")
+
+    assert len(report["failed_chunks"]) == 1 and any("re-run to retry" in w for w in report["warnings"])
+    assert report["committed"] == 1, "the re-dating still commits"
