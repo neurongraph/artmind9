@@ -178,7 +178,11 @@ def _row(cls: str, key: str, decl: dict | None, tally: _Tally, depended_on: dict
         # under: retime of those domains drops it.
         row["undeclared_in"] = undeclared_in
         where = ", ".join(undeclared_in)
-        if tally.declared_in.get((cls, key)):
+        wanted = (decl.get("required") is True or decl.get("keep_reason") or decl.get("temporal")
+                  or flags.get("depended_on"))
+        if wanted:
+            row["proposal"], row["reason"] = "review", f"declare it under {where}, or drop it"
+        elif tally.declared_in.get((cls, key)):
             row["proposal"], row["reason"] = "review", f"not declared under {where}: retime there drops it"
         else:
             row["proposal"], row["reason"] = "drop", f"not declared under {where}"

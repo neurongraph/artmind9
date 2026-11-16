@@ -237,6 +237,23 @@ def test_a_key_declared_in_one_observing_domain_only_is_review(tmp_path):
     assert row["declared"] is False and row["undeclared_in"] == ["d.child"] and row["proposal"] == "review"
 
 
+def test_a_wanted_key_undeclared_in_a_child_is_review_not_drop(tmp_path):
+    """Required, keep_reason, temporal and depended-on keys the child does not declare: the fix is
+    usually to declare them there, so the audit asks rather than proposing a drop."""
+    kg = tmp_path / "kg"
+    child = kg / "d.child" / "doc2"
+    child.mkdir(parents=True)
+    (child / "observations.json").write_text(json.dumps(
+        [_obs(2, must="m", kept="k", date_or_time="2026-01-07", cause="c", rare="r")]))
+    leaves = {"d": SCHEMA, "d.child": {"entity_types": {"EVENT": {"properties": {}}}}}
+    rows = {r["key"]: r for r in pa.audit("d", SCHEMA, kg_dir=kg, depended_on={("EVENT", "cause"): {"mart"}},
+                                          leaf_schema=lambda name: leaves[name])["rows"]}
+    for key in ("must", "kept", "date_or_time", "cause"):
+        assert rows[key]["proposal"] == "review", key
+        assert rows[key]["reason"] == "declare it under d.child, or drop it"
+    assert rows["rare"]["proposal"] == "drop"
+
+
 def test_the_cli_uses_the_family_schema(tmp_path, monkeypatch):
     import yaml
     from click.testing import CliRunner
