@@ -227,7 +227,20 @@ artmind ingest retime --domain YOUR_DOMAIN --redoProperties --limit 5   # LLM: r
 artmind ingest retime --domain YOUR_DOMAIN --redoProperties --document 2026-01-18.md   # one chosen entry
 ```
 
-With no flags it is deterministic and cheap. It also applies the schema's property-key rules (`property_aliases`, singular/plural folding) and `exclusive:` properties to existing observations, so run it after changing either. `--redoProperties` re-asks, from the staged chunk text, only the `temporal:` properties of classes that declare one, with the document's date in the prompt (it is `ingest backfill-properties` over those classes in one pass). `date_or_time`-style properties become ISO dates instead of "today". Every other entity is never shown to the model, and a key the model does not answer keeps its value. It costs one LLM call per staged chunk that has a dated entity, keeps every entity's existing canonical name (identity is not re-decided), needs no chunk cache, and keeps each changed `observations.json` under `logs/backfill-stash/`. Run it with `--limit` first.
+With no flags it is deterministic and cheap. It also applies the schema's property-key rules (`property_aliases`, singular/plural folding) to existing observations and drops every key the observation's class does not declare (the dropped values are kept under `logs/retime-dropped/<domain>/<folder>.json`), so run it after changing either; `--dryRun` shows what it would drop. Table folders (`table2graph`) are skipped. `--redoProperties` re-asks, from the staged chunk text, only the `temporal:` properties of classes that declare one, with the document's date in the prompt (it is `ingest backfill-properties` over those classes in one pass). `date_or_time`-style properties become ISO dates instead of "today". Every other entity is never shown to the model, and a key the model does not answer keeps its value. It costs one LLM call per staged chunk that has a dated entity, keeps every entity's existing canonical name (identity is not re-decided), needs no chunk cache, and keeps each changed `observations.json` under `logs/backfill-stash/`. Run it with `--limit` first.
+
+### C.2 — Fill a newly declared property on documents already ingested (`backfill-properties`)
+
+A key added to a class's `properties:` reaches only documents extracted afterwards. To fill it on staged documents without re-running entities, names, relationships or summaries:
+
+```bash
+artmind ingest backfill-properties --domain YOUR_DOMAIN --entityClass CLASS --property key[,key] --dryRun   # documents, chunks, LLM calls; asks nothing
+artmind ingest backfill-properties --domain YOUR_DOMAIN --entityClass CLASS --property key --match '2026-01-*'  # a few folders first
+artmind ingest backfill-properties --undo RUN_ID [--dryRun]          # put back what run RUN_ID wrote, commit, rebuild
+artmind ingest backfill-properties --retryCommit RUN_ID [--dryRun]   # commit what a failed commit left staged
+```
+
+The keys must be declared on the class. One LLM call per staged chunk holding an observation of the class: **each such chunk's text goes to the configured provider** (answers cached under `logs/backfill-cache/`, so a re-run resumes). Only the named keys of observations that get a value change; a key the model does not answer keeps its value, and a document where nothing is filled is not written. Changed documents are committed and the projection is rebuilt once. Each run keeps `manifest.json` and the pre-run `observations.json` and chunk-cache files under `logs/backfill-stash/<run_id>/` (private, never pruned); raw answers of failed or cut-off calls go to `logs/extraction-debug/<domain>/<folder>/`. It refuses while the ingest worker is running. `artmind domains property-audit --domain YOUR_DOMAIN` shows which keys are worth declaring or dropping first.
 
 ---
 

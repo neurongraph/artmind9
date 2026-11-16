@@ -37,3 +37,15 @@ relationship. Level values must come from the declaration's vocabulary. A member
 follows its canonical key.
 
 Then rebuild the tables: `artmind mart build --domain <d> --compact` (no LLM).
+
+## A new seed property
+
+When the declaration starts reading a property the graph does not have yet (a new `seed_property`,
+a `wholes` match key), the order is:
+
+1. **declare** the key on the class in the domain schema (`domains validate` errors when the mart
+   reads an undeclared `CLASS.key`);
+2. **fill** it on staged documents: `artmind ingest backfill-properties --domain <d> --entityClass
+   <CLASS> --property <key> --dryRun --compact`, then without `--dryRun` (LLM: each selected chunk's
+   text goes to the provider; the user's yes first; `--undo <run_id>` restores);
+3. **rebuild** the tables: `artmind mart build --domain <d> --compact`.

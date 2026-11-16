@@ -251,9 +251,9 @@ domains-properties-prompt domain:
 domains-relationships-prompt domain:
     uv run artmind domains relationships-prompt {{ domain }}
 
-# propose keep/drop/required per property key from a domain's staging, read-only  (usage: just domains-property-audit <domain>)
-domains-property-audit domain:
-    uv run artmind domains property-audit --domain {{ domain }} --compact
+# propose keep/drop/required per property key from a domain's staging, read-only, no LLM  (usage: just domains-property-audit <domain> [--graph])
+domains-property-audit domain *args:
+    uv run artmind domains property-audit --domain {{ domain }} --compact {{ args }}
 
 # sync child domain schemas against their parent  (usage: just domains-harmonize [domain] [--dryRun])
 domains-harmonize domain="" dry_run="":
@@ -304,6 +304,10 @@ ingest-write-to-graph document domain:
 # re-derive staged documents' dates from the current schema, no LLM  (usage: just ingest-retime <domain> [--dryRun|--redoProperties|--limit N])
 ingest-retime domain *args:
     uv run artmind ingest retime --domain {{ domain }} {{ args }}
+
+# fill a class's newly declared properties from staged chunks (LLM; --dryRun first)  (usage: just ingest-backfill-properties <domain> <CLASS> <prop[,prop]> [--dryRun|--match GLOB])
+ingest-backfill-properties domain cls props *args:
+    uv run artmind ingest backfill-properties --domain {{ domain }} --entityClass {{ cls }} --property {{ props }} {{ args }}
 
 # batch write all document KG JSON in a folder to Neo4j  (usage: just ingest-write-to-graph-folder <folder> [domain])
 ingest-write-to-graph-folder folder domain="":

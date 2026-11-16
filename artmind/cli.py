@@ -921,7 +921,7 @@ def domains_harmonize(domain: str | None, dry_run: bool, compact: bool):
 
 @cli.group()
 def ingest():
-    """Manage document ingestion (sync, async, pending, status, results,...), table -> graph projection (table2graph; table2graph --pending lists the tables waiting), and summary backfill (summarise [--domain] [--match] [--dryRun]). Writes take --dryRun: `sync --dryRun` lists files by tier with an LLM-call estimate; every dry run returns an `effect` block."""
+    """Manage document ingestion (sync, async, pending, status, results,...), table -> graph projection (table2graph; table2graph --pending lists the tables waiting), summary backfill (summarise [--domain] [--match] [--dryRun]), and property backfill (backfill-properties --domain D --entityClass C --property P [--undo RUN_ID] [--dryRun]). Writes take --dryRun: `sync --dryRun` lists files by tier with an LLM-call estimate; every dry run returns an `effect` block."""
     pass
 
 
