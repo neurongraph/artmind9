@@ -354,3 +354,84 @@ def test_an_empty_property_list_is_refused(staged):
     assert r.exit_code == 2 and "at least one --property" in r.output
     with pytest.raises(ValueError, match="at least one property"):
         backfill.backfill_domain("journal", targets={"EMOTION": []}, model="m")
+
+
+# ── undo / retry recover every failure ────────────────────────────────────
+
+def _filled_run(staged, monkeypatch):
+    commits, rebuilds = _record_commits(monkeypatch)
+    _answer(monkeypatch, [{"id": "o1", "properties": {"trigger": "the review"}}])
+    run = backfill.backfill_domain("journal", targets={"EMOTION": ["trigger"]}, model="m")
+    (chunk_file,) = (staged / "chunks").rglob("chunk_001.json")
+    commits.clear(), rebuilds.clear()
+    return run["run_id"], chunk_file, commits, rebuilds
+
+
+def _stashed(run_id, staged, rel="observations.json"):
+    return (ing.LOGS_DIR / "backfill-stash" / run_id / "journal" / staged.name / rel).read_bytes()
+
+
+def test_a_partly_failed_undo_is_finished_by_a_second_undo(staged, monkeypatch):
+    run_id, chunk_file, commits, _ = _filled_run(staged, monkeypatch)
+    real_restore = backfill._restore_file
+    monkeypatch.setattr(backfill, "_restore_file", lambda src, dst: (_ for _ in ()).throw(OSError("synthetic")))
+
+    first = backfill.undo_run(run_id)
+
+    assert first["restored"] == [] and commits == [] and "re-run the undo" in first["warnings"][0]
+    assert not list(staged.rglob("*.undo.tmp"))
+    monkeypatch.setattr(backfill, "_restore_file", real_restore)
+    second = backfill.undo_run(run_id)
+    assert second["restored"] == [staged.name] and commits == [(staged.name, True)]
+    assert (staged / "observations.json").read_bytes() == _stashed(run_id, staged)
+    assert chunk_file.read_bytes() == _stashed(run_id, staged, str(chunk_file.relative_to(staged)))
+
+
+def test_an_undo_whose_observations_were_already_restored_still_commits(staged, monkeypatch):
+    run_id, _, commits, _ = _filled_run(staged, monkeypatch)
+    (staged / "observations.json").write_bytes(_stashed(run_id, staged))  # restored, never committed
+    out = backfill.undo_run(run_id)
+    assert out["restored"] == [staged.name] and commits == [(staged.name, True)]
+
+
+def test_a_failed_undo_commit_is_recovered_by_retry_commit(staged, monkeypatch):
+    run_id, _, _, _ = _filled_run(staged, monkeypatch)
+    _record_commits(monkeypatch, fail={staged.name})
+    r = _cli("--undo", run_id)
+    assert r.exit_code == 1 and json.loads(r.stdout)["next"].endswith(f"--retryCommit {run_id}")
+
+    commits, rebuilds = _record_commits(monkeypatch)
+    out = backfill.retry_commits(run_id)
+    assert out["retried"] == [staged.name] and commits == [(staged.name, True)] and rebuilds == ["journal"]
+    assert (staged / "observations.json").read_bytes() == _stashed(run_id, staged), "the restored staging"
+    assert backfill.retry_commits(run_id)["retried"] == [], "undo committed: nothing left"
+    assert backfill.undo_run(run_id)["restored"] == [], "already undone and committed"
+
+
+def test_a_folder_whose_write_failed_is_never_retried_or_undone(staged, monkeypatch):
+    commits, _ = _record_commits(monkeypatch)
+    _answer(monkeypatch, [{"id": "o1", "properties": {"trigger": "the review"}}])
+    monkeypatch.setattr(ing, "write_staging", lambda *a, **k: (_ for _ in ()).throw(OSError("synthetic")))
+    before = (staged / "observations.json").read_bytes()
+
+    run = backfill.backfill_domain("journal", targets={"EMOTION": ["trigger"]}, model="m")
+
+    assert commits == [] and run["errors"] == [staged.name]
+    assert backfill.retry_commits(run["run_id"])["retried"] == []
+    undo = backfill.undo_run(run["run_id"])
+    assert undo["restored"] == [] and commits == []
+    assert (staged / "observations.json").read_bytes() == before
+
+
+def test_retry_commit_warns_when_staging_moved_but_commits_it(staged, monkeypatch):
+    commits, _ = _record_commits(monkeypatch, fail={staged.name})
+    _answer(monkeypatch, [{"id": "o1", "properties": {"trigger": "the review"}}])
+    run_id = backfill.backfill_domain("journal", targets={"EMOTION": ["trigger"]}, model="m")["run_id"]
+    (staged / "observations.json").write_text("[]")
+    commits, _ = _record_commits(monkeypatch)
+    out = backfill.retry_commits(run_id)
+    assert commits == [(staged.name, True)] and "staging changed since the run" in out["warnings"][0]
+
+
+def test_undo_with_fill_options_is_a_usage_error(staged):
+    assert _cli("--undo", "0123456789ab", "--domain", "journal").exit_code == 2

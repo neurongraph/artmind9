@@ -343,5 +343,6 @@ def retime_domain(
         "warnings": warnings,
         "failed_chunks": (redo or {}).get("failed_chunks") or [],
         "redo_run_id": (redo or {}).get("run_id"),
+        "redo_commit_failed": (redo or {}).get("commit_failed") or [],
         "effect": _effect(domain, changed_folders, redo_properties, redo_chunks, text_model, dropped_keys),
     }

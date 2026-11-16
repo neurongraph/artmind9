@@ -1815,9 +1815,16 @@ def ingest_retime(
         )
     except (FileNotFoundError, ValueError) as e:
         raise click.ClickException(str(e))
+    hint = ""
+    if report.get("redo_commit_failed") and report.get("redo_run_id"):
+        # The redo's documents are recoverable through its backfill run; a re-run of retime is not
+        # (staging already holds the new values, so retime sees nothing to change).
+        report["next"] = f"artmind ingest backfill-properties --retryCommit {report['redo_run_id']}"
+        hint = f"; run `{report['next']}`"
     _echo_json(report, compact)
     if report["commit_failed"]:
-        raise click.ClickException(f"{len(report['commit_failed'])} document(s) failed to commit -- see the log")
+        raise click.ClickException(
+            f"{len(report['commit_failed'])} document(s) failed to commit -- see the log{hint}")
 
 
 @ingest.command("backfill-properties")

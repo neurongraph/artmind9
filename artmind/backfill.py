@@ -169,27 +169,6 @@ def _answer_for(prompt: str, model: str, step: str, debug_dir: Path) -> list | N
     return answer
 
 
-def _cache_path(prompt: str, model: str) -> Path:
-    # The prompt holds the chunk text, classes, keys, template and anchor: any change is a new key.
-    key = hashlib.sha256(f"{model}\n{prompt}".encode("utf-8")).hexdigest()
-    return ingest.LOGS_DIR / "backfill-cache" / f"{key}.json"
-
-
-def _answer_for(prompt: str, model: str, step: str, debug_dir: Path) -> list | None:
-    path = _cache_path(prompt, model)
-    try:
-        cached = _load_json(path)
-    except ValueError:
-        cached = None
-    if isinstance(cached, list):
-        return cached
-    answer, ok = _ask(step, model, prompt, debug_dir)
-    if not ok:
-        return None
-    _write_atomic(path, json.dumps(answer, ensure_ascii=False))
-    return answer
-
-
 # ── the run folder: manifest + pre-run copies ──────────────────────────────
 
 _RUN_ID = re.compile(r"^[0-9a-f]{12}$")
@@ -378,12 +357,13 @@ def _fill_folder(w: dict, *, domain: str, schema: dict, scoped: dict, targets: d
         return {**row, "skipped": "staging changed since planning"}
     run_id = manifest["run_id"]
     _stash_file(run_id, domain, folder, "observations.json")
-    entry = manifest["folders"].setdefault(folder.name, {"document": name, "chunk_files": [], "committed": False})
-    _save_manifest(manifest)
     if dropped:
         _keep_dropped(folder, name, dropped)
     ingest.write_staging(folder, {"observations.json": new})
-    entry["after_sha"] = _sha(folder / "observations.json")
+    # The entry exists only once the write succeeded: undo and retry act on written folders alone.
+    entry = manifest["folders"][folder.name] = {
+        "document": name, "chunk_files": [], "committed": False,
+        "after_sha": _sha(folder / "observations.json")}
     _save_manifest(manifest)
     try:
         entry["chunk_files"] = _patch_chunk_cache(
@@ -448,6 +428,7 @@ def backfill_domain(domain: str, *, targets: dict[str, list[str]], model: str, m
         return {**report, "effect": effect}
     run_id = uuid.uuid4().hex[:12]
     manifest = {"run_id": run_id, "domain": domain, "targets": targets, "model": model, "folders": {}}
+    _save_manifest(manifest)  # a reported run_id always resolves, even when nothing gets written
     report["run_id"] = run_id
     key_rules = property_key_rules(schema)
     committed = 0
@@ -495,21 +476,45 @@ def _run_effect(manifest: dict, folders: list[str], summary: str) -> dict:
     ).to_json()
 
 
+def _written(entry: dict) -> bool:
+    """Whether the run wrote this folder (an entry without `after_sha` never got its write)."""
+    return bool(entry.get("after_sha"))
+
+
+def _restore_file(src: Path, dst: Path) -> None:
+    tmp = dst.with_name(f".{dst.name}.undo.tmp")
+    try:
+        shutil.copy2(src, tmp)
+        os.replace(tmp, dst)
+    finally:
+        tmp.unlink(missing_ok=True)
+
+
 def undo_run(run_id: str, *, dry_run: bool = False) -> dict:
-    """Put back what run `run_id` wrote -- each observations.json and patched chunk-cache file from
-    the run folder -- and commit each restored folder, then rebuild once. A folder written again
-    since the run (its observations.json no longer the run's output) is left alone and named."""
+    """Put back what run `run_id` wrote -- each patched chunk-cache file, then observations.json, from
+    the run folder -- and commit each restored folder, then rebuild once.
+
+    Idempotent: a folder whose observations.json is already the pre-run copy (an earlier undo restored
+    it, then failed) counts as restored and goes on to its commit. A folder written again since the run
+    (neither the run's output nor the pre-run copy) is left alone and named, as is one already undone
+    and committed."""
     manifest = _load_manifest(run_id)
     domain = manifest["domain"]
     base = run_dir(run_id) / domain
     folders, warnings = [], []
     for name, entry in manifest["folders"].items():
         folder = ingest.KG_DIR / domain / name
-        if not (base / name / "observations.json").exists():
+        stashed = base / name / "observations.json"
+        current = _sha(folder / "observations.json")
+        if not _written(entry):
+            warnings.append(f"{name}: the run never wrote it; left alone")
+        elif not stashed.exists():
             warnings.append(f"{name}: no stashed observations.json; left alone")
         elif not folder.is_dir():
             warnings.append(f"{name}: staging folder is gone; left alone")
-        elif entry.get("after_sha") and _sha(folder / "observations.json") != entry["after_sha"]:
+        elif entry.get("undone") and entry.get("undo_committed"):
+            warnings.append(f"{name}: already undone and committed")
+        elif current not in (entry["after_sha"], _sha(stashed)):
             warnings.append(f"{name}: staging written again since the run; left alone")
         else:
             folders.append(name)
@@ -520,47 +525,70 @@ def undo_run(run_id: str, *, dry_run: bool = False) -> dict:
     if dry_run:
         return {**report, "restored": folders, "effect": effect}
     refuse_while_worker_runs()
+    from artmind.atomic_dir import write_dir_atomic
+
     committed = 0
     try:
         for name in folders:
             folder = ingest.KG_DIR / domain / name
             entry = manifest["folders"][name]
+            stashed = base / name / "observations.json"
             try:
-                from artmind.atomic_dir import write_dir_atomic
-
-                write_dir_atomic(folder, {"observations.json": (base / name / "observations.json").read_bytes()})
+                # Chunk-cache files first, observations.json last: until the last write lands the folder
+                # still reads as the run's output, so a second undo picks it up again.
                 for rel in entry.get("chunk_files") or []:
-                    src = base / name / rel
-                    if src.exists():
-                        tmp = (folder / rel).with_name(f".{Path(rel).name}.undo.tmp")
-                        shutil.copy2(src, tmp)
-                        os.replace(tmp, folder / rel)
+                    if (base / name / rel).exists():
+                        _restore_file(base / name / rel, folder / rel)
+                if _sha(folder / "observations.json") != _sha(stashed):
+                    write_dir_atomic(folder, {"observations.json": stashed.read_bytes()})
             except Exception as e:
                 logger.error("backfill undo: {} not restored: {}", name, e)
-                report["warnings"].append(f"{name}: not restored ({e})")
+                report["warnings"].append(f"{name}: not restored ({e}); re-run the undo")
                 continue
             report["restored"].append(name)
-            row = {"document": entry.get("document") or name}
-            ok = _commit(folder, domain, manifest, row, report)
             entry["undone"] = True
-            entry["committed"] = False  # the run's own values are no longer committed
-            entry["undo_committed"] = ok
+            entry["undo_committed"] = False
             _save_manifest(manifest)
-            committed += ok
+            committed += _commit_undone(folder, domain, manifest, entry, report)
     finally:
         _finish(report, domain, committed, True)
+    if report["commit_failed"]:
+        report["warnings"].append(f"{len(report['commit_failed'])} restored document(s) failed to commit; "
+                                  f"run `artmind ingest backfill-properties --retryCommit {run_id}`")
     return {**report, "effect": effect}
 
 
+def _commit_undone(folder: Path, domain: str, manifest: dict, entry: dict, report: dict) -> bool:
+    """Commit a restored folder: the run's own values are then no longer committed."""
+    ok = _commit(folder, domain, manifest, {"document": entry.get("document") or folder.name}, report)
+    entry["committed"] = False
+    entry["undo_committed"] = ok
+    _save_manifest(manifest)
+    return ok
+
+
 def retry_commits(run_id: str, *, dry_run: bool = False) -> dict:
-    """Commit the folders run `run_id` wrote but could not commit; rebuild once."""
+    """Commit what run `run_id` (or an undo of it) left staged but uncommitted; rebuild once. A folder
+    whose staging no longer matches what the run (or undo) wrote is named in `warnings`; its current
+    staging is committed all the same -- staging is the record."""
     manifest = _load_manifest(run_id)
     domain = manifest["domain"]
-    folders = [n for n, e in manifest["folders"].items()
-               if not e.get("committed") and not e.get("undone") and (ingest.KG_DIR / domain / n).is_dir()]
+    base = run_dir(run_id) / domain
+    folders, warnings = [], []
+    for n, e in manifest["folders"].items():
+        if not _written(e) or not (ingest.KG_DIR / domain / n).is_dir():
+            continue
+        undone = bool(e.get("undone"))
+        if (undone and e.get("undo_committed")) or (not undone and e.get("committed")):
+            continue
+        expected = _sha(base / n / "observations.json") if undone else e["after_sha"]
+        if _sha(ingest.KG_DIR / domain / n / "observations.json") != expected:
+            warnings.append(f"{n}: staging changed since the {'undo' if undone else 'run'}; "
+                            "committing the current staging")
+        folders.append(n)
     effect = _run_effect(manifest, folders, f"Commit {len(folders)} staged document(s) of {domain} that backfill "
                                             f"run {run_id} wrote but did not commit, then rebuild the projection once.")
-    report = {"domain": domain, "run_id": run_id, "dry_run": dry_run, "warnings": [],
+    report = {"domain": domain, "run_id": run_id, "dry_run": dry_run, "warnings": warnings,
               "retried": folders, "committed": 0, "commit_failed": [], "rebuild": None}
     if dry_run:
         return {**report, "effect": effect}
@@ -568,8 +596,12 @@ def retry_commits(run_id: str, *, dry_run: bool = False) -> dict:
     committed = 0
     try:
         for name in folders:
-            row = {"document": manifest["folders"][name].get("document") or name}
-            committed += _commit(ingest.KG_DIR / domain / name, domain, manifest, row, report)
+            entry = manifest["folders"][name]
+            folder = ingest.KG_DIR / domain / name
+            if entry.get("undone"):
+                committed += _commit_undone(folder, domain, manifest, entry, report)
+            else:
+                committed += _commit(folder, domain, manifest, {"document": entry.get("document") or name}, report)
     finally:
         _finish(report, domain, committed, True)
     return {**report, "effect": effect}

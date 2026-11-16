@@ -98,3 +98,20 @@ def test_dry_run_names_the_property_values_it_would_drop(tmp_path, monkeypatch):
     real = _run()
     assert {"kind": "property_values_dropped", "count": 1, "sample": ["mood"]} in dry["effect"]["changes"]
     assert real["effect"] == dry["effect"]
+
+
+def test_a_failed_redo_commit_names_the_retry_command(tmp_path, monkeypatch):
+    from artmind import backfill
+
+    folder, _ = _ingested_under_the_old_schema(tmp_path, monkeypatch)
+    _stub_commit(monkeypatch)
+    _run()  # dates settled: only the redo writes now
+    monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: False)
+    monkeypatch.setattr(backfill, "_ask", lambda *a, **k: ([{"id": "o1", "properties": {"date_or_time": "2026-01-05"}}], True))
+
+    r = CliRunner().invoke(cli, ["ingest", "retime", "--domain", "journal", "--redoProperties", "--compact"])
+
+    assert r.exit_code == 1
+    out = json.loads(r.stdout)
+    assert out["next"] == f"artmind ingest backfill-properties --retryCommit {out['redo_run_id']}"
+    assert "--retryCommit" in r.output.split(r.stdout.strip())[-1]
