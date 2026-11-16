@@ -516,6 +516,39 @@ def view_property_refs(cypher: str, declared: dict[str, set[str]]) -> list[tuple
     return refs
 
 
+def mart_property_refs(decl) -> list[tuple[str, tuple[str, ...], str]]:
+    """(label, classes, key) for every property a mart declaration reads; the key must be declared
+    on at least one of `classes`. `decl` None gives []. Shared by `property_reference_report` and
+    `property_audit.depended_on_keys`."""
+    if decl is None:
+        return []
+    refs = []
+    for label, cls, key in (("dimensions.person.seed", decl.person.entity_class, decl.person.seed_property),
+                            ("dimensions.place.seed", decl.place.entity_class, decl.place.seed_property)):
+        if key:
+            refs.append((label, (cls,), key))
+    for cls in decl.type.classes:
+        refs.append(("dimensions.type.property", (cls,), decl.type.property))
+    for kind, w in (decl.wholes or {}).items():
+        for key in [m for m in (getattr(w, "match", None) or []) if m not in ("edge", "name")]:
+            refs.append((f"wholes.{kind}.match", tuple(decl.happening_classes), key))
+    return refs
+
+
+def insights_property_refs(cfg) -> list[tuple[str, str, str]]:
+    """(label, class, key) for every property an insights config's outcome / open_loops block reads."""
+    if cfg is None:
+        return []
+    refs = []
+    outcome, loops = cfg.block("outcome"), cfg.block("open_loops")
+    if outcome:
+        refs.append(("outcome.property", outcome["class"], outcome["property"]))
+    if loops:
+        for field in ("property", "urgency_property"):
+            refs.append((f"open_loops.{field}", loops["class"], loops[field]))
+    return refs
+
+
 def property_reference_report(domain: str, schema: dict) -> dict:
     """Keys the mart declaration, insights config or a saved view reads that the schema does not
     declare (spec §2.6). `schema` is the domain's `family_schema`. Only `domains validate` calls
@@ -537,32 +570,21 @@ def property_reference_report(domain: str, schema: dict) -> dict:
         decl = mart_declaration.load_declaration(domain)
     except Exception:
         decl = None  # mart_validate already reports a broken declaration
-    if decl is not None:
-        for label, cls, key in (("dimensions.person.seed", decl.person.entity_class, decl.person.seed_property),
-                                ("dimensions.place.seed", decl.place.entity_class, decl.place.seed_property)):
-            if key and not has(cls, key):
-                errors.append(f"mart/{domain} {label}: {cls}.{key} is not declared")
-        for cls in decl.type.classes:
-            if not has(cls, decl.type.property):
-                errors.append(f"mart/{domain} dimensions.type.property: {cls}.{decl.type.property} is not declared")
-        for kind, w in (decl.wholes or {}).items():
-            for key in [m for m in (getattr(w, "match", None) or []) if m not in ("edge", "name")]:
-                if not any(has(c, key) for c in decl.happening_classes):
-                    errors.append(f"mart/{domain} wholes.{kind}.match: {key!r} is declared on none of "
-                                  f"{', '.join(decl.happening_classes)}")
+    for label, classes, key in mart_property_refs(decl):
+        if any(has(c, key) for c in classes):
+            continue
+        if label.startswith("wholes."):
+            errors.append(f"mart/{domain} {label}: {key!r} is declared on none of {', '.join(classes)}")
+        else:
+            errors.append(f"mart/{domain} {label}: {classes[0]}.{key} is not declared")
 
     try:
         cfg = insights_config.load_config(domain)
     except InsightsError:
         cfg = None  # `insights config check` reports it
-    if cfg is not None:
-        outcome, loops = cfg.block("outcome"), cfg.block("open_loops")
-        if outcome and not has(outcome["class"], outcome["property"]):
-            errors.append(f"insights/{domain} outcome.property: {outcome['class']}.{outcome['property']} is not declared")
-        if loops:
-            for field in ("property", "urgency_property"):
-                if not has(loops["class"], loops[field]):
-                    errors.append(f"insights/{domain} open_loops.{field}: {loops['class']}.{loops[field]} is not declared")
+    for label, cls, key in insights_property_refs(cfg):
+        if not has(cls, key):
+            errors.append(f"insights/{domain} {label}: {cls}.{key} is not declared")
 
     views, _invalid = views_store.list_views([domain])
     for view in views:
