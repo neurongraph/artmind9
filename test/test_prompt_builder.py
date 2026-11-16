@@ -77,31 +77,14 @@ def test_assemble_entities_prompt_instructs_singular_naming():
 
 def test_assemble_properties_prompt_lists_properties_and_hints():
     result = assemble_properties_prompt(SCHEMA)
-    assert "For PERSON, consider:" in result
+    assert "For PERSON, extract:" in result
     assert "- role (their role in the document)" in result
     assert "- affiliation" in result
-    # LOCATION has no properties -- no empty "For LOCATION, consider:" block
-    assert "For LOCATION, consider:" not in result
+    # LOCATION has no properties -- no empty "For LOCATION, extract:" block
+    assert "For LOCATION, extract:" not in result
     assert "PROPERTY GUIDANCE LINE" in result
     assert "PERSON-SPECIFIC NOTE" in result  # per-class guidance also rendered here
     assert "{entities_list}" in result and "{text}" in result
-
-
-def test_assemble_properties_prompt_instructs_singular_key_naming():
-    """Finding B: 'verification_requirement' / 'verification_requirements'
-    was one of the live near-dup pairs -- a plural/singular split of the
-    same key, not a genuinely different concept."""
-    result = assemble_properties_prompt(SCHEMA)
-    assert "SINGULAR" in result
-
-
-def test_assemble_properties_prompt_renders_the_property_vocabulary_when_given():
-    with_vocab = assemble_properties_prompt(SCHEMA, vocabulary={"PERSON": ["role"]})
-    without = assemble_properties_prompt(SCHEMA)
-    assert "PROPERTY KEYS ALREADY IN USE" in with_vocab
-    assert "- role" in with_vocab
-    assert "PROPERTY KEYS ALREADY IN USE" not in without
-    assert "{{PROPERTY_VOCABULARY}}" not in without
 
 
 def test_assemble_relationships_prompt_renders_one_line_per_pair():
@@ -216,3 +199,32 @@ def test_the_example_is_shown_under_the_class_that_declares_it_only():
 def test_a_half_declared_example_is_ignored_rather_than_rendered_broken():
     prompt = assemble_entities_prompt(_recurrent_schema(naming_example={"right": "Only the right half"}))
     assert "Only the right half" not in prompt
+
+
+def test_properties_prompt_is_schema_only():
+    result = assemble_properties_prompt(SCHEMA)
+    assert "Extract ONLY the properties listed" in result and "Never add a key" in result
+    assert "NO fixed schema" not in result
+    assert "For PERSON, extract:" in result and "consider:" not in result
+
+
+def test_a_required_key_is_marked():
+    schema = {"entity_types": {"PERSON": {"kind": "recurrent", "properties": {
+        "role": {"hint": "their role", "required": True}, "affiliation": {}}}}}
+    result = assemble_properties_prompt(schema)
+    assert "- role (their role) (required when stated)" in result
+    assert "- affiliation (required" not in result
+
+
+def test_only_the_given_classes_are_rendered():
+    schema = {"entity_types": {"PERSON": {"kind": "recurrent", "properties": {"role": {}}},
+                               "ORG": {"kind": "recurrent", "properties": {"sector": {}}}}}
+    result = assemble_properties_prompt(schema, classes={"ORG"})
+    assert "For ORG, extract:" in result and "For PERSON" not in result
+
+
+def test_an_old_template_token_is_blanked():
+    meta = load_meta()
+    old = {**meta, "prompt_templates": {**meta["prompt_templates"],
+                                        "properties": "{{PROPERTY_BLOCKS}}\n{{PROPERTY_VOCABULARY}}\n{entities_list}{text}"}}
+    assert "{{PROPERTY_VOCABULARY}}" not in assemble_properties_prompt(SCHEMA, meta=old)

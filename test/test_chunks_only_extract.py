@@ -25,7 +25,6 @@ def chunks_only(ingest_env, monkeypatch, tmp_path):
     import artmind.canonicalize as canon
 
     monkeypatch.setattr(canon, "retrieve_vocabulary", forbidden)
-    monkeypatch.setattr(canon, "retrieve_property_vocabulary", forbidden)
     return vault
 
 

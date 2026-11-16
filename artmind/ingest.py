@@ -3921,30 +3921,6 @@ def extract_kg(
     except Exception as e:
         logger.warning("Name vocabulary unavailable, extracting without it ({})", e)
 
-    # ── property-key vocabulary, retrieved ONCE before any chunk extracts ──
-    # Cross-document drift control for property KEYS, the same problem
-    # `vocabulary` above solves for entity NAMES: a property key already
-    # committed to the graph for this class family should be reused rather
-    # than reinvented (`balance_minimum` vs. a fresh `balance_range_minimum`
-    # for the same concept). No embedding needed here -- see
-    # `retrieve_property_vocabulary`'s docstring. Never fatal, same fail-open
-    # contract as the name vocabulary above.
-    property_vocabulary: dict = {}
-    try:
-        if chunks_only:
-            raise _ChunksOnly
-        from artmind.canonicalize import retrieve_property_vocabulary
-        from artmind.graph_query import read_session
-
-        with read_session() as prop_vocab_session:
-            property_vocabulary = retrieve_property_vocabulary(
-                prop_vocab_session, domain=domain, schema=schema,
-            )
-    except _ChunksOnly:
-        pass
-    except Exception as e:
-        logger.warning("Property vocabulary unavailable, extracting without it ({})", e)
-
     chunk_files = sorted(chunks_dir.glob("chunk_*.md"))
     chunk_count = len(chunk_files)
 
@@ -4147,8 +4123,7 @@ def extract_kg(
                 raw_props, ok = _step(
                     "properties",
                     lambda text: build_properties_prompt(
-                        text, prompt_entities, schema,
-                        vocabulary=property_vocabulary, anchor_date=anchor_date,
+                        text, prompt_entities, schema, anchor_date=anchor_date,
                     ),
                     _merge_property_pieces,
                 )

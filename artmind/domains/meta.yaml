@@ -140,24 +140,18 @@ prompt_templates:
     PROPERTIES MAP GUIDANCE:
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-    There is NO fixed schema for properties beyond what is listed below. You
-    decide what matters based on the entity's role in the document.
+    Extract ONLY the properties listed for each entity's class below, using exactly
+    those key names. Omit a property the passage does not state. Never add a key
+    that is not listed.
 
     {{PROPERTY_BLOCKS}}
-    {{PROPERTY_VOCABULARY}}
     {{GUIDANCE}}
     KEY RULES FOR PROPERTIES:
-      1. Use clear, readable key names (e.g., "fee_amount" not "amt")
-      2. Use arrays for multiple values
-      3. Use nested objects only when genuinely needed
-      4. Omit a property entirely rather than writing null or "unknown"
-      5. Values should be specific to THIS document, not generic definitions
-      6. Keep individual values concise
-      7. If a property feels forced or uncertain, leave it out
-      8. Name keys in the SINGULAR, even when the value is an array (e.g.
-         "verification_requirement": [...], not "verification_requirements").
-         A key that flips between singular and plural for the same concept
-         is a second, unrelated key to anything that reads it back.
+      1. Use arrays for multiple values
+      2. Omit a property entirely rather than writing null or "unknown"
+      3. Values should be specific to THIS document, not generic definitions
+      4. Keep individual values concise; a value is a plain string, number or list of them
+      5. If a property feels forced or uncertain, leave it out
 
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     OUTPUT:
@@ -175,7 +169,7 @@ prompt_templates:
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
     Before responding, verify:
-      □ No hallucinated properties?
+      □ Only listed keys, each stated in the passage?
       □ Properties genuinely useful -- not just restating the entity name?
 
     Extract properties for the following __list_of_entities__ from the __text__ below.
