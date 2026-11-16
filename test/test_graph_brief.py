@@ -289,6 +289,15 @@ def test_declared_orders_reads_only_the_named_domains_without_temporal_keys(tmp_
     assert gq._declared_for(orders, {"entity_class": "TEAM"}) is None  # no _domain
 
 
+def test_declared_orders_leave_out_own_keys(tmp_path):
+    """A class declaring `context` / `description` / `domain` must not put the entity's context
+    list or description into brief `properties`."""
+    (tmp_path / "own_schema.yaml").write_text(
+        "entity_types:\n  EVENT:\n    properties:\n      context: {}\n      description: {}\n"
+        "      domain: {}\n      outcome: {}\n", encoding="utf-8")
+    assert _REAL_DECLARED_ORDERS({"own"}, schemas_dir=tmp_path)[0] == {"own": {"EVENT": ["outcome"]}}
+
+
 def test_declared_orders_reloads_an_edited_schema(tmp_path):
     d = _schemas(tmp_path)
     assert _REAL_DECLARED_ORDERS({"fam.kid"}, schemas_dir=d)[0]["fam.kid"]["TEAM"] == ["size"]

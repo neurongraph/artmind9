@@ -41,6 +41,36 @@ def test_build_observations_drops_undeclared_keys_after_alias_folding():
     assert dropped == {"EVENT": {"sentiment": 1}}
 
 
+def test_build_observations_drops_model_emitted_provenance_keys():
+    """A raw LLM bag's `source_kind` / `created_by` are not the observation's own fields: a stray
+    `source_kind: table` would make retime and the audit skip the observation."""
+    entities = [{"id": "e1", "name": "Call", "entity_class": "EVENT", "chunk_id": "d_001", "_domain": "j"}]
+    props = [{"id": "e1", "properties": {"source_kind": "table", "created_by": "X", "foo": "x", "outcome": "ok"}}]
+    document = {"id": "d", "version": 1, "_valid_from": "2026-01-07"}
+    obs, dropped = ing._build_observations(entities, props, {}, SCHEMA, document)
+    assert "source_kind" not in obs[0] and "created_by" not in obs[0] and "foo" not in obs[0]
+    assert obs[0]["outcome"] == "ok"
+    assert dropped == {"EVENT": {"source_kind": 1, "created_by": 1, "foo": 1}}
+
+
+def test_filter_declared_own_parameter():
+    from artmind.observations import LLM_BAG_OWN_KEYS
+
+    declared = declared_property_keys(SCHEMA)
+    staged = {"id": "o", "source_kind": "update_session", "created_by": "u", "outcome": "x"}
+    assert filter_declared(staged, "EVENT", declared)[0] == staged, "a staged observation keeps its own keys"
+    kept, gone = filter_declared(staged, "EVENT", declared, own=LLM_BAG_OWN_KEYS)
+    assert kept == {"id": "o", "outcome": "x"} and gone == {"source_kind": "update_session", "created_by": "u"}
+
+
+def test_declared_order_can_leave_out_own_keys():
+    schema = {"entity_types": {"EVENT": {"properties": {
+        "context": {}, "outcome": {}, "description": {"required": True}, "domain": {}}}}}
+    assert declared_property_order(schema)["EVENT"] == ["description", "context", "outcome", "domain"]
+    assert declared_property_order(schema, include_own=False)["EVENT"] == ["outcome"]
+    assert declared_property_keys(schema)["EVENT"] == {"context", "outcome", "description", "domain"}
+
+
 NO_PROPS_SCHEMA = """\
 name: journal
 subject: a journal

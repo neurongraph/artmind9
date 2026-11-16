@@ -367,7 +367,8 @@ def write_user_chat(
     schema setup, the staging folder or the commit.
     """
     from artmind.observations import (
-        aggregate_key, build_observation, declared_property_keys, filter_declared, key_string,
+        LLM_BAG_OWN_KEYS, aggregate_key, build_observation, declared_property_keys, filter_declared,
+        key_string,
         normalize_property_keys, property_key_rules,
     )
 
@@ -449,7 +450,7 @@ def write_user_chat(
             # Spec 2026-11-15 §2.2: only the class's declared keys, as extraction keeps.
             domain_props, gone = filter_declared(
                 normalize_property_keys(dict(entity_data.get("properties") or {}), *key_rules),
-                entity_class, declared,
+                entity_class, declared, own=LLM_BAG_OWN_KEYS,  # a raw LLM bag: only declared keys
             )
             dropped_property_values += len(gone)
             observation = build_observation(

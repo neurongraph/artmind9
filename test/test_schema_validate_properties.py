@@ -111,9 +111,12 @@ def test_properties_as_a_list_is_an_error_not_a_crash():
     assert sv.guidance_property_warnings(schema, "d") == []
 
 
-def test_an_alias_to_a_common_key_does_not_warn():
+def test_an_alias_to_a_common_key_warns_as_an_own_field():
+    """`description` is an observation's own field: a property renamed onto it is dropped by
+    `flatten_domain_props`, so the alias loses every value it renames."""
     schema = {**_schema(outcome={}), "property_aliases": {"summary": "description"}}
-    assert sv.property_alias_warnings(schema, "d") == []
+    (w,) = sv.property_alias_warnings(schema, "d")
+    assert "own field" in w
 
 
 def test_alias_warnings_tolerate_a_non_map_entity_types():
@@ -214,3 +217,28 @@ def test_view_bound_classes():
     assert sv.view_bound_classes("MATCH (t:TASK), (e) WHERE e.entity_class = 'EVENT' RETURN t",
                                  {"TASK": set(), "EVENT": set(), "PLACE": set()}) == {"TASK", "EVENT"}
     assert sv.view_bound_classes("", {"TASK": set()}) == set()
+
+
+def test_an_alias_onto_an_own_field_warns():
+    schema = {"property_aliases": {"notes": "context", "job": "role"},
+              "entity_types": {"PERSON": {"properties": {"role": {}, "context": {}}}}}
+    (w,) = sv.property_alias_warnings(schema, "d")
+    assert "'notes' -> 'context'" in w and "own field" in w
+
+
+def test_exclusive_flag_warns_that_it_has_no_effect():
+    schema = {"entity_types": {"EVENT": {"properties": {
+        "date_or_time": {"temporal": "valid_from", "exclusive": True}, "outcome": {}}}}}
+    (w,) = sv.exclusive_property_warnings(schema, "d")
+    assert "EVENT.properties.date_or_time.exclusive" in w and "no effect" in w
+    assert sv.exclusive_property_warnings({"entity_types": ["EVENT"]}, "d") == []
+
+
+def test_the_teaching_journal_schema_carries_no_exclusive_flag():
+    from pathlib import Path
+
+    import yaml
+
+    asset = (Path(__file__).resolve().parent.parent / "artmind" / "skills" / "artmind-create-schema"
+             / "assets" / "personal_journal_schema.yaml")
+    assert sv.exclusive_property_warnings(yaml.safe_load(asset.read_text(encoding="utf-8")), "j") == []

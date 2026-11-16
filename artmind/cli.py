@@ -749,8 +749,8 @@ def domains_validate(domain: str | None, compact: bool):
     is never written, so the schema should use another name.
     """
     from artmind.schema_validate import (
-        graph_extraction_warnings, guidance_property_warnings, load_meta, meta_template_warnings,
-        own_key_property_warnings, property_alias_warnings, property_reference_report,
+        exclusive_property_warnings, graph_extraction_warnings, guidance_property_warnings, load_meta,
+        meta_template_warnings, own_key_property_warnings, property_alias_warnings, property_reference_report,
         reserved_relationship_warnings, validate_all, validate_schema, warn_all,
     )
 
@@ -769,7 +769,7 @@ def domains_validate(domain: str | None, compact: bool):
             violations = {domain: errors} if errors else {}
             warnings = {domain: reserved_relationship_warnings(data, domain) + graph_extraction_warnings(data, domain)
                         + property_alias_warnings(data, domain) + guidance_property_warnings(data, domain)
-                        + own_key_property_warnings(data, domain)}
+                        + own_key_property_warnings(data, domain) + exclusive_property_warnings(data, domain)}
     else:
         violations = validate_all()
         warnings = warn_all()
@@ -857,12 +857,16 @@ def domains_property_audit(domain: str, with_graph: bool, compact: bool) -> None
 
     Read-only, no LLM: reads the staging (observations and chunk text) of the domain and its
     children, their schemas, the mart declaration, insights config, saved views and topic
-    plans. Lists key names, counts and shares, never values. After editing the schema, `artmind ingest retime --domain D
-    --dryRun` shows what a trim would drop.
+    plans. Lists key names, counts and shares, never values. A key is `declared` when the schema
+    of the domain each observation was extracted under declares it (a child's own schema, not the
+    root's), as retime judges it. After editing the schema, `artmind ingest retime --domain D
+    --dryRun` shows what a trim would drop; for a family root, run it once per child domain
+    (`--domain root.child`) and once for the root's own folder.
     """
     from artmind import ingest as _ingest
     from artmind import property_audit
     from artmind.schema_validate import family_schema, schema_parse_error
+    from artmind.temporal import load_schema
 
     schema_file = DOMAIN_SCHEMAS_DIR / f"{domain}_schema.yaml"
     if not schema_file.exists():
@@ -875,6 +879,7 @@ def domains_property_audit(domain: str, with_graph: bool, compact: bool) -> None
         domain, schema, kg_dir=_ingest.KG_DIR,
         depended_on=property_audit.depended_on_keys(domain, schema),
         conflicts=property_audit.graph_conflicts(domain) if with_graph else None,
+        leaf_schema=lambda name: load_schema(name, schemas_dir=DOMAIN_SCHEMAS_DIR),
     )
     report["next"] = "artmind domains validate"
     _echo_json(report, compact)
@@ -921,7 +926,7 @@ def domains_harmonize(domain: str | None, dry_run: bool, compact: bool):
 
 @cli.group()
 def ingest():
-    """Manage document ingestion (sync, async, pending, status, results,...), table -> graph projection (table2graph; table2graph --pending lists the tables waiting), summary backfill (summarise [--domain] [--match] [--dryRun]), and property backfill (backfill-properties --domain D --entityClass C --property P [--undo RUN_ID] [--dryRun]). Writes take --dryRun: `sync --dryRun` lists files by tier with an LLM-call estimate; every dry run returns an `effect` block."""
+    """Manage document ingestion (sync, async, pending, status, results,...), table -> graph projection (table2graph; table2graph --pending lists the tables waiting), summary backfill (summarise [--domain] [--match] [--dryRun]), and property backfill (backfill-properties --domain D --entityClass C --property P [--undo RUN_ID | --retryCommit RUN_ID] [--dryRun]). Writes take --dryRun: `sync --dryRun` lists files by tier with an LLM-call estimate; every dry run returns an `effect` block."""
     pass
 
 

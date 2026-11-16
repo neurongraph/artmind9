@@ -257,6 +257,11 @@ def property_key_rules(schema: dict) -> tuple[dict[str, str], frozenset[str]]:
 #: `_`-prefixed keys are always kept too.
 OBSERVATION_OWN_KEYS = _STRUCTURAL_KEYS | {"source_kind", "created_by"}
 
+#: The `own=` of `filter_declared` for a raw LLM property bag: only the structural keys, which
+#: `flatten_domain_props` drops quietly anyway. `source_kind` / `created_by` are artmind's
+#: provenance, never the model's, so a model-emitted one is an undeclared key and is dropped.
+LLM_BAG_OWN_KEYS = _STRUCTURAL_KEYS
+
 
 def _entity_types(schema) -> dict:
     types = schema.get("entity_types") if isinstance(schema, dict) else None
@@ -277,26 +282,36 @@ def declared_property_keys(schema: dict) -> dict[str, set[str]]:
     }
 
 
-def declared_property_order(schema: dict, *, include_temporal: bool = True) -> dict[str, list[str]]:
+def declared_property_order(schema: dict, *, include_temporal: bool = True,
+                            include_own: bool = True) -> dict[str, list[str]]:
     """{class: declared keys in schema order, `required: true` keys first}. A malformed schema
-    (non-mapping `entity_types` or `properties`) gives {} / [] there instead of raising."""
+    (non-mapping `entity_types` or `properties`) gives {} / [] there instead of raising.
+    `include_own=False` leaves out a declared key that is an observation's own field
+    (`OBSERVATION_OWN_KEYS`: `context`, `description`, `domain`, ...), which is never a domain
+    property on the observation (brief rows)."""
     out: dict[str, list[str]] = {}
     for cls, decl in _entity_types(schema).items():
         if not isinstance(decl, dict):
             continue
         items = [(str(p), pd if isinstance(pd, dict) else {}) for p, pd in _class_properties(decl).items()]
         items = [(p, pd) for p, pd in items if include_temporal or not pd.get("temporal")]
+        items = [(p, pd) for p, pd in items if include_own or p not in OBSERVATION_OWN_KEYS]
         out[str(cls)] = ([p for p, pd in items if pd.get("required") is True]
                          + [p for p, pd in items if pd.get("required") is not True])
     return out
 
 
-def filter_declared(obs: dict, entity_class: str, declared: dict[str, set[str]]) -> tuple[dict, dict]:
-    """(`obs` with only the class's declared domain keys, {dropped key: value}). Own and `_` keys stay."""
+def filter_declared(obs: dict, entity_class: str, declared: dict[str, set[str]], *,
+                    own: frozenset[str] = OBSERVATION_OWN_KEYS) -> tuple[dict, dict]:
+    """(`obs` with only the class's declared domain keys, {dropped key: value}). `own` keys and
+    `_` keys stay. The default suits a staged observation (retime), whose own fields are real; a
+    raw LLM property bag (`ingest._build_observations`, `update.write_user_chat`) passes
+    `own=LLM_BAG_OWN_KEYS`, so a model-emitted `source_kind` or `created_by` is dropped like any
+    other undeclared key (structural and `_` keys are then dropped by `flatten_domain_props`)."""
     allowed = declared.get(entity_class, set())
     kept, dropped = {}, {}
     for k, v in obs.items():
-        if k in allowed or k in OBSERVATION_OWN_KEYS or str(k).startswith(RESERVED_PREFIX):
+        if k in allowed or k in own or str(k).startswith(RESERVED_PREFIX):
             kept[k] = v
         else:
             dropped[k] = v

@@ -3632,7 +3632,7 @@ def _build_observations(
     rebuild needs to tell a conflict from ordinary history.
     """
     from artmind.observations import (
-        build_observation, class_kind, declared_property_keys, filter_declared,
+        LLM_BAG_OWN_KEYS, build_observation, class_kind, declared_property_keys, filter_declared,
         normalize_property_keys, property_key_rules,
     )
     from artmind.temporal import _entity_temporal_mapping
@@ -3659,6 +3659,7 @@ def _build_observations(
         cls = entity.get("entity_class") or ""
         domain_props, gone = filter_declared(
             normalize_property_keys(dict(props_by_id.get(entity.get("id"), {})), *key_rules), cls, declared,
+            own=LLM_BAG_OWN_KEYS,  # a raw LLM bag: a model-emitted `source_kind` is not an own field
         )
         for key in gone:
             dropped.setdefault(cls, {}).setdefault(key, 0)

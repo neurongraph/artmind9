@@ -34,7 +34,9 @@ from pathlib import Path
 from loguru import logger
 
 from artmind import ingest
-from artmind.observations import flatten_domain_props, normalize_property_keys, property_key_rules
+from artmind.observations import (
+    OBSERVATION_OWN_KEYS, flatten_domain_props, normalize_property_keys, property_key_rules,
+)
 from artmind.retime import _keep_dropped, _load_json, retime_observations, staging_folders
 
 
@@ -59,7 +61,8 @@ def _write_atomic(path: Path, text: str) -> None:
 
 def scoped_schema(schema: dict, targets: dict[str, list[str]]) -> dict:
     """`schema` cut down to the target classes and keys -- all the prompt renders.
-    Raises ValueError for a class the schema lacks or a key the class does not declare."""
+    Raises ValueError for a class the schema lacks, a key the class does not declare, or a key
+    that is an observation's own field (`OBSERVATION_OWN_KEYS`: `context`, `description`, ...)."""
     types = schema.get("entity_types") or {}
     scoped = {}
     for cls, props in targets.items():
@@ -70,6 +73,11 @@ def scoped_schema(schema: dict, targets: dict[str, list[str]]) -> dict:
         missing = [p for p in props if p not in declared]
         if missing:
             raise ValueError(f"{', '.join(missing)} not declared on {cls}; declare it in the schema first")
+        own = [p for p in props if p in OBSERVATION_OWN_KEYS]
+        if own:
+            raise ValueError(
+                f"{', '.join(own)} on {cls} is an observation's own field, not a property it can backfill; "
+                "rename the property in the schema (e.g. `event_context`) first")
         scoped[cls] = {**decl, "properties": {p: declared[p] for p in props}}
     out = copy.deepcopy(schema)
     out["entity_types"] = scoped

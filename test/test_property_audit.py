@@ -206,6 +206,37 @@ def test_a_family_root_scans_its_children_folders(tmp_path):
     assert {r["key"]: r for r in out["rows"]}["outcome"]["fill"] == round(2 / 3, 3)
 
 
+def test_a_family_root_judges_declared_against_each_folders_leaf_schema(tmp_path):
+    """A key only the root declares, observed in a child folder, is what retime of the child drops:
+    `declared: false` there. Rows stay one per (class, key); `undeclared_in` names the domains."""
+    kg = _stage(tmp_path, [_obs(1, outcome="x", cause="c")], "x")  # kg/d: the root's own folder
+    child = kg / "d.child" / "doc2"
+    child.mkdir(parents=True)
+    (child / "observations.json").write_text(json.dumps([_obs(2, outcome="y"), _obs(3, rare="r")]))
+    child_schema = {"entity_types": {"EVENT": {"properties": {"outcome": {}}}}}
+    leaves = {"d": SCHEMA, "d.child": child_schema}
+    rows = {r["key"]: r for r in pa.audit("d", SCHEMA, kg_dir=kg, depended_on={},
+                                          leaf_schema=lambda name: leaves[name])["rows"]}
+    assert rows["outcome"]["declared"] is True and "undeclared_in" not in rows["outcome"]
+    assert rows["cause"]["declared"] is True, "seen only under the root, which declares it"
+    assert rows["rare"]["declared"] is False and rows["rare"]["undeclared_in"] == ["d.child"]
+    assert rows["rare"]["proposal"] == "drop"
+    # without leaf schemas the family schema decides, as before
+    plain = {r["key"]: r for r in pa.audit("d", SCHEMA, kg_dir=kg, depended_on={})["rows"]}
+    assert plain["rare"]["declared"] is True
+
+
+def test_a_key_declared_in_one_observing_domain_only_is_review(tmp_path):
+    kg = _stage(tmp_path, [_obs(1, rare="a")], "x")
+    child = kg / "d.child" / "doc2"
+    child.mkdir(parents=True)
+    (child / "observations.json").write_text(json.dumps([_obs(2, rare="b")]))
+    leaves = {"d": SCHEMA, "d.child": {"entity_types": {"EVENT": {"properties": {}}}}}
+    row = {r["key"]: r for r in pa.audit("d", SCHEMA, kg_dir=kg, depended_on={},
+                                         leaf_schema=lambda name: leaves[name])["rows"]}["rare"]
+    assert row["declared"] is False and row["undeclared_in"] == ["d.child"] and row["proposal"] == "review"
+
+
 def test_the_cli_uses_the_family_schema(tmp_path, monkeypatch):
     import yaml
     from click.testing import CliRunner
@@ -216,7 +247,8 @@ def test_the_cli_uses_the_family_schema(tmp_path, monkeypatch):
     kg = _stage(tmp_path, [_obs(1, outcome="x")], "x")
     (kg / "d.child" / "doc2").mkdir(parents=True)
     (kg / "d.child" / "doc2" / "observations.json").write_text(json.dumps(
-        [{"id": "p", "entity_class": "PLACE", "chunk_id": "c9", "region": "north"}]))
+        [{"id": "p", "entity_class": "PLACE", "chunk_id": "c9", "region": "north"},
+         _obs(5, outcome="seen in the child")]))
     monkeypatch.setattr(ing, "KG_DIR", kg)
     schemas = tmp_path / "schemas"
     schemas.mkdir()
@@ -233,6 +265,10 @@ def test_the_cli_uses_the_family_schema(tmp_path, monkeypatch):
     rows = {(x["class"], x["key"]): x for x in json.loads(r.stdout)["rows"]}
     assert rows[("PLACE", "region")]["declared"] is True
     assert "PLACE" in seen["schema"]["entity_types"]
+    # EVENT.outcome is declared by the root only; d.child's own schema (which retime and
+    # extraction of d.child read) does not, so its observation there makes it undeclared.
+    assert rows[("EVENT", "outcome")]["declared"] is False
+    assert rows[("EVENT", "outcome")]["undeclared_in"] == ["d.child"]
 
 
 def test_a_malformed_schema_is_a_click_error(tmp_path, monkeypatch):

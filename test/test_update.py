@@ -947,6 +947,52 @@ def test_write_user_chat_keeps_only_declared_property_keys(tmp_path, monkeypatch
     assert result["dropped_property_values"] == 1
 
 
+def test_write_user_chat_drops_model_emitted_provenance_keys(tmp_path, monkeypatch):
+    """`source_kind` / `created_by` in the LLM's property bag are undeclared keys, not the
+    observation's own provenance: they are dropped (and counted) before the real ones are set."""
+    import yaml
+
+    import artmind.temporal as temporal
+    import artmind.update as upd
+
+    schemas = tmp_path / "schemas"
+    schemas.mkdir()
+    (schemas / "testchat_schema.yaml").write_text(yaml.safe_dump({
+        "name": "testchat", "entity_types": {"PERSON": {"kind": "recurrent", "properties": {"role": {}}}}}))
+    monkeypatch.setattr(temporal, "DOMAIN_SCHEMAS_DIR", schemas)
+    monkeypatch.setattr(upd, "DOMAIN_SCHEMAS_DIR", schemas)
+    resolutions = [{"entity_temp_id": "e0", "action": "create", "node_id": None}]
+    extracted_entities = [{"temp_id": "e0", "name": "Alice", "entity_class": "PERSON",
+                           "properties": {"role": "lead", "source_kind": "table", "created_by": "X"}}]
+    calls = []
+
+    def run_side_effect(cypher, **kwargs):
+        calls.append((cypher, kwargs))
+        result = MagicMock()
+        result.data.return_value = []
+        return result
+
+    session = MagicMock()
+    session.run.side_effect = run_side_effect
+    session.execute_write.side_effect = lambda fn, *a, **k: fn(session, *a, **k)
+
+    with patch("artmind.update.embed_document", return_value=[0.1] * 768), \
+         patch("artmind.update._find_existing_entity", return_value=None), \
+         patch("artmind.update.neo4j_session") as mock_ctx, \
+         patch("artmind.projection.rebuild", return_value={}):
+        mock_ctx.return_value.__enter__.return_value = session
+        result = write_user_chat(
+            session_id="s", raw_text="Alice is the lead.", domain="testchat",
+            user_id="u", resolutions=resolutions,
+            extracted_entities=extracted_entities, extracted_relationships=[],
+        )
+
+    (props,) = [kw["props"] for c, kw in calls if "CREATE (n:Observation {id: $id})" in c and "props" in kw]
+    assert props["role"] == "lead"
+    assert props["source_kind"] == "user_chat" and props["created_by"] == "u"
+    assert result["dropped_property_values"] == 2
+
+
 def test_write_user_chat_without_a_schema_file_uses_the_general_schema(tmp_path, monkeypatch):
     import yaml
 

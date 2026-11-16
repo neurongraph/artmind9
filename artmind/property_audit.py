@@ -2,7 +2,10 @@
 2026-11-15 §3). Read-only: staging files, schema, mart declaration, insights config, saved views
 and topic plans; Neo4j only with --graph. Lists key names, counts and shares -- never a value.
 A family root (`banking`) is audited with its children: staging under `kg/banking/` and
-`kg/banking.*/`, declarations from `schema_validate.family_schema`."""
+`kg/banking.*/`. `depended_on` and the rows listed come from `schema_validate.family_schema`; a
+key's `declared` is judged per observation against the leaf schema of its folder's domain (the
+schema extraction and retime of that domain read), so a key only the root declares, observed in
+`kg/banking.policy/`, is `declared: false` -- retime of `banking.policy` drops it."""
 from __future__ import annotations
 
 import json
@@ -10,6 +13,7 @@ import re
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Callable
 
 from artmind.atomic_dir import is_scratch
 from artmind.observations import OBSERVATION_OWN_KEYS, RESERVED_PREFIX, declared_property_keys
@@ -77,15 +81,21 @@ class _Tally:
     filled: Counter = field(default_factory=Counter)
     chars: dict = field(default_factory=lambda: defaultdict(lambda: [0, 0, 0]))
     distinct: dict = field(default_factory=lambda: defaultdict(set))
+    #: {(class, key): {leaf domain}} -- folders whose own schema does not declare the key.
+    undeclared_in: dict = field(default_factory=lambda: defaultdict(set))
+    #: {(class, key): {leaf domain}} -- folders whose own schema declares it.
+    declared_in: dict = field(default_factory=lambda: defaultdict(set))
 
 
 def _is_domain_key(key, value) -> bool:
     return not (key in OBSERVATION_OWN_KEYS or str(key).startswith(RESERVED_PREFIX) or value in (None, "", []))
 
 
-def _scan_observation(obs: dict, chunk: set[str] | None, tally: _Tally) -> None:
+def _scan_observation(obs: dict, chunk: set[str] | None, tally: _Tally,
+                      leaf: tuple[str, dict[str, set[str]]] | None = None) -> None:
     """`chunk` None (no `chunk_id`): the observation counts for fill and distinct values but not
-    for the overlap shares, which need its chunk text."""
+    for the overlap shares, which need its chunk text. `leaf` (folder domain, its declared keys)
+    records a key that domain's own schema does not declare."""
     cls = str(obs["entity_class"])
     tally.per_class[cls] += 1
     context = obs.get("context") or []
@@ -94,6 +104,8 @@ def _scan_observation(obs: dict, chunk: set[str] | None, tally: _Tally) -> None:
         if not _is_domain_key(key, value):
             continue
         tally.filled[(cls, key)] += 1
+        if leaf is not None:
+            (tally.declared_in if key in leaf[1].get(cls, set()) else tally.undeclared_in)[(cls, key)].add(leaf[0])
         if chunk is not None:
             a, b, c = _overlap(value, described, chunk)
             acc = tally.chars[(cls, key)]
@@ -104,9 +116,16 @@ def _scan_observation(obs: dict, chunk: set[str] | None, tally: _Tally) -> None:
             tally.distinct[(cls, key)].add(_normalised(value))
 
 
-def _scan(kg_dir: Path, domain: str) -> _Tally:
+def _scan(kg_dir: Path, domain: str, leaf_schema: Callable[[str], dict] | None = None) -> _Tally:
     tally = _Tally()
+    leaves: dict[str, dict[str, set[str]]] = {}
     for folder in _folders(kg_dir, domain):
+        leaf = None
+        if leaf_schema is not None:
+            name = folder.parent.name
+            if name not in leaves:
+                leaves[name] = declared_property_keys(leaf_schema(name) or {})
+            leaf = (name, leaves[name])
         chunk_rows = _load(folder / "chunks.json", [])
         chunks = {c.get("id"): set(_words(c.get("text") or "")) for c in chunk_rows if isinstance(c, dict)} \
             if isinstance(chunk_rows, list) else {}
@@ -115,7 +134,7 @@ def _scan(kg_dir: Path, domain: str) -> _Tally:
             if not isinstance(obs, dict) or obs.get("source_kind") == "table" or not obs.get("entity_class"):
                 continue
             chunk_id = obs.get("chunk_id")
-            _scan_observation(obs, chunks.get(chunk_id, set()) if chunk_id else None, tally)
+            _scan_observation(obs, chunks.get(chunk_id, set()) if chunk_id else None, tally, leaf)
     return tally
 
 
@@ -145,7 +164,8 @@ def _row(cls: str, key: str, decl: dict | None, tally: _Tally, depended_on: dict
     if depended_on.get((cls, key)):
         flags["depended_on"] = sorted(depended_on[(cls, key)])
     n = tally.per_class[cls]
-    row = {"class": cls, "key": key, "declared": decl is not None,
+    undeclared_in = sorted(tally.undeclared_in.get((cls, key), ()))
+    row = {"class": cls, "key": key, "declared": decl is not None and not undeclared_in,
            "fill": round(tally.filled[(cls, key)] / n, 3) if n else 0.0,
            "in_description": round(a / total, 3), "text_only": round(b / total, 3),
            "inferred": round(c / total, 3), "distinct_values": len(tally.distinct[(cls, key)]), "flags": flags}
@@ -153,16 +173,33 @@ def _row(cls: str, key: str, decl: dict | None, tally: _Tally, depended_on: dict
         row["distinct_capped"] = True
     if conflicts is not None:
         row["conflicts"] = conflicts.get((cls, key), 0)
+    if decl is not None and undeclared_in:
+        # Declared in the family but not by the leaf schema these observations were extracted
+        # under: retime of those domains drops it.
+        row["undeclared_in"] = undeclared_in
+        where = ", ".join(undeclared_in)
+        if tally.declared_in.get((cls, key)):
+            row["proposal"], row["reason"] = "review", f"not declared under {where}: retime there drops it"
+        else:
+            row["proposal"], row["reason"] = "drop", f"not declared under {where}"
+        return row
     row["proposal"], row["reason"] = _propose(row, decl, observed=n)
     return row
 
 
-def audit(domain: str, schema: dict, *, kg_dir: Path, depended_on: dict, conflicts: dict | None = None) -> dict:
+def audit(domain: str, schema: dict, *, kg_dir: Path, depended_on: dict, conflicts: dict | None = None,
+          leaf_schema: Callable[[str], dict] | None = None) -> dict:
     """One row per (class, key) declared by `schema` (the domain's `family_schema`) or found in
     the staged document observations of the domain and its children (table observations and
-    observations without a class are skipped). `conflicts` None leaves the column out."""
+    observations without a class are skipped). `conflicts` None leaves the column out.
+
+    `leaf_schema(name)` -> the schema extraction and retime read for the folder domain `name`
+    (`temporal.load_schema`). A key `schema` declares but an observation's own leaf schema does
+    not is `declared: false` with `undeclared_in: [domains]`, and `proposal: drop` (or `review`
+    when another observing domain does declare it). None judges every observation against
+    `schema`."""
     decls = _declarations(schema)
-    tally = _scan(kg_dir, domain)
+    tally = _scan(kg_dir, domain, leaf_schema)
     keys = {(c, k) for c, ks in decls.items() for k in ks} | set(tally.filled)
     rows = [_row(cls, key, (decls.get(cls) or {}).get(key), tally, depended_on, conflicts)
             for cls, key in sorted(keys)]

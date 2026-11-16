@@ -184,7 +184,6 @@ entity_types:
       date_or_time:
         hint: ISO date (YYYY-MM-DD) resolved against the entry date, then any time of day
         temporal: valid_from
-        exclusive: true
       participants:
         hint: list with roles
       outcome:
@@ -244,7 +243,6 @@ entity_types:
       date_or_time:
         hint: ISO date (YYYY-MM-DD) resolved against the entry date, then any time of day
         temporal: valid_from
-        exclusive: true
     relates_to:
       LOCATION:
       - takes_place_at
@@ -367,7 +365,6 @@ entity_types:
       date_or_time:
         hint: when the change occurred — anchored to the entry date if relative
         temporal: valid_from
-        exclusive: true
     relates_to:
       PERSON:
       - state_of

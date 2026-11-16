@@ -805,7 +805,8 @@ def _declared_order_cached(name: str, schemas_dir: str, stamps: tuple) -> dict[s
     from artmind.observations import declared_property_order
     from artmind.temporal import load_schema
 
-    order = declared_property_order(load_schema(name, schemas_dir=Path(schemas_dir)), include_temporal=False)
+    order = declared_property_order(load_schema(name, schemas_dir=Path(schemas_dir)), include_temporal=False,
+                                    include_own=False)
     return {c: tuple(keys) for c, keys in order.items()}
 
 

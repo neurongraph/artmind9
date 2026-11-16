@@ -285,7 +285,7 @@ def warn_all(schemas_dir: Path = DOMAIN_SCHEMAS_DIR) -> dict[str, list[str]]:
         name = schema.get("name", schema_file.stem)
         warnings = (reserved_relationship_warnings(schema, name) + graph_extraction_warnings(schema, name)
                     + property_alias_warnings(schema, name) + guidance_property_warnings(schema, name)
-                    + own_key_property_warnings(schema, name))
+                    + own_key_property_warnings(schema, name) + exclusive_property_warnings(schema, name))
         if warnings:
             found[name] = warnings
     return found
@@ -399,12 +399,10 @@ def family_schema(domain: str, schemas_dir: Path | None = None) -> dict:
 
 
 def _declared(entity_types: dict) -> dict[str, set[str]]:
-    out = {}
-    for c, d in entity_types.items():
-        if isinstance(d, dict):
-            props = d.get("properties")
-            out[c] = set(props) if isinstance(props, dict) else set()
-    return out
+    """{class: declared keys} -- `observations.declared_property_keys`, the one reading."""
+    from artmind.observations import declared_property_keys
+
+    return declared_property_keys({"entity_types": entity_types})
 
 
 def _property_decl_errors(entity_types: dict, label: str) -> list[str]:
@@ -431,7 +429,11 @@ def _property_decl_errors(entity_types: dict, label: str) -> list[str]:
 
 def property_alias_warnings(schema: dict, schema_name: str = "") -> list[str]:
     """An alias whose target no class declares (and is not a common key): under
-    schema-only keys its values are dropped."""
+    schema-only keys its values are dropped. An alias whose target is an observation's own field
+    (`context`, `description`, ...): the renamed value is dropped too, since the flattened domain
+    properties never carry an own field."""
+    from artmind.observations import OBSERVATION_OWN_KEYS
+
     label = schema_name or schema.get("name", "<unnamed>")
     types = schema.get("entity_types") or {}
     declared = _declared(types if isinstance(types, dict) else {})
@@ -439,10 +441,29 @@ def property_alias_warnings(schema: dict, schema_name: str = "") -> list[str]:
     aliases = schema.get("property_aliases")
     if not isinstance(aliases, dict):
         return []  # a malformed map is an error from _property_alias_errors
-    return [
-        f"{label}.property_aliases: {a!r} -> {t!r}, but no class declares {t!r}, so every value it renames is dropped"
-        for a, t in aliases.items() if str(t) not in every and str(t) not in COMMON_KEYS
-    ]
+    out = []
+    for a, t in aliases.items():
+        if str(t) in OBSERVATION_OWN_KEYS:
+            out.append(f"{label}.property_aliases: {a!r} -> {t!r}, but {t!r} is an observation's own field, "
+                       "never a domain property, so every value it renames is dropped")
+        elif str(t) not in every and str(t) not in COMMON_KEYS:
+            out.append(f"{label}.property_aliases: {a!r} -> {t!r}, but no class declares {t!r}, "
+                       "so every value it renames is dropped")
+    return out
+
+
+def exclusive_property_warnings(schema: dict, schema_name: str = "") -> list[str]:
+    """A property declared `exclusive:`: the flag has no effect any more -- the declared-key
+    filter keeps a key only on the classes that declare it (spec 2026-11-15 §2.2)."""
+    label = schema_name or schema.get("name", "<unnamed>")
+    types = schema.get("entity_types") or {}
+    if not isinstance(types, dict):
+        return []
+    return [f"{label}.entity_types.{cls}.properties.{prop}.exclusive: has no effect; "
+            "the declared-key filter does this (remove it)"
+            for cls, decl in types.items() if isinstance(decl, dict)
+            and isinstance(decl.get("properties"), dict)
+            for prop, pd in decl["properties"].items() if isinstance(pd, dict) and "exclusive" in pd]
 
 
 def guidance_property_warnings(schema: dict, schema_name: str = "") -> list[str]:

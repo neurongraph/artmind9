@@ -14,12 +14,13 @@ An undated document keeps the date first recorded for it (`prior=`), so a
 retime never re-stamps "today".
 
 `redo_properties=True` is the one LLM path: it runs `backfill.backfill_domain` once
-over every class that declares a `temporal:` property, with all their declared
-keys, so a `temporal:`-tagged property such as `date_or_time` is re-asked with the
-document's date in the prompt (`temporal.relative_anchor`). One call per staged
-chunk (`chunks.json`, no chunk cache needed) that holds an observation of such a
-class; every other observation is never shown to the model, names and ids never
-change, and a key the model does not answer keeps its value.
+over every class that declares a `temporal:` property, targeting only those
+`temporal:`-tagged keys, so a property such as `date_or_time` is re-asked with the
+document's date in the prompt (`temporal.relative_anchor`); the class's other
+declared keys are neither asked nor changed. One call per staged chunk
+(`chunks.json`, no chunk cache needed) that holds an observation of such a class;
+every other observation is never shown to the model, names and ids never change,
+and a key the model does not answer keeps its value.
 
 Changed folders are committed through `commit_to_graph` (the one write path)
 with the rebuild deferred, then the domain's projection is rebuilt once.

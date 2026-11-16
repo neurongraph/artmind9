@@ -83,6 +83,13 @@ def test_an_undeclared_property_is_refused(staged):
         backfill.backfill_domain("journal", targets={"EMOTION": ["mood"]}, model="m")
 
 
+def test_an_own_field_cannot_be_a_target():
+    schema = {"entity_types": {"EVENT": {"properties": {"context": {}, "outcome": {}}}}}
+    with pytest.raises(ValueError, match="context on EVENT is an observation's own field"):
+        backfill.scoped_schema(schema, {"EVENT": ["outcome", "context"]})
+    assert list(backfill.scoped_schema(schema, {"EVENT": ["outcome"]})["entity_types"]["EVENT"]["properties"]) == ["outcome"]
+
+
 def test_a_rerun_uses_the_cache(staged, monkeypatch):
     _answer(monkeypatch, [{"id": "o1", "properties": {"trigger": "the review"}}])
     backfill.backfill_domain("journal", targets={"EMOTION": ["trigger"]}, model="m")
