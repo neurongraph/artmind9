@@ -13,10 +13,11 @@ from pathlib import Path
 
 @dataclass
 class MigrationContext:
-    """What a step may use: the domains in scope, a way to open this machine's
-    graph (`session_factory() -> context manager`), and whether this is a dry run."""
+    """What a step may use: the domains in scope (None = unscoped: every node, whatever
+    its `_domain`; a step that walks staging lists domains itself), a way to open this
+    machine's graph (`session_factory() -> context manager`), and whether this is a dry run."""
 
-    domains: list[str]
+    domains: list[str] | None
     session_factory: Callable
     dry_run: bool = False
 
@@ -37,6 +38,10 @@ def _graph_steps() -> list[Step]:
         # Dates fold before supersession ends are restated: a newer document's
         # `_valid_from` is the end an undated edge writes.
         Step("document_dates", graph.document_dates_pending, graph.document_dates_apply),
+        # Legacy edges get records before ends are restated: `restate_validity` skips an
+        # edge with no `record_id`.
+        Step("supersession_records", graph.supersession_records_pending, graph.supersession_records_apply,
+             graph.supersession_records_writes),
         Step("supersession_ends", graph.supersession_ends_pending, graph.supersession_ends_apply),
         Step("record_time", graph.record_time_pending, graph.record_time_apply),
         Step("old_indexes", graph.old_indexes_pending, graph.old_indexes_apply),

@@ -44,9 +44,10 @@ def _probe_graph():
 
 
 def _context(domain: tuple, dry_run: bool) -> MigrationContext:
-    from artmind.cli import _get_available_domains, _parse_domains
+    from artmind.cli import _parse_domains
 
-    domains = _parse_domains(domain) if domain else _get_available_domains()
+    # No --domain: unscoped (None), so graph steps cover every node, whatever its `_domain`.
+    domains = _parse_domains(domain) if domain else None
     return MigrationContext(domains=domains, session_factory=_open_graph, dry_run=dry_run)
 
 
@@ -187,11 +188,19 @@ def migrate_temporal(domain: tuple, dry_run: bool, compact: bool) -> None:
             click.echo("migrate temporal: " + "; ".join(warnings), err=True)
             raise SystemExit(3)
         raise click.ClickException("migrate temporal: not started, nothing was changed: " + "; ".join(warnings))
-    results, failure = [], None
+    results, failure, applied_any = [], None, False
     for step, counts in before:
         row = {"name": step.name, "pending": counts, "applied": {}}
         results.append(row)
+        if not counts and applied_any and failure is None:
+            # An earlier step's apply may have made work for this one (a folded date is
+            # the end a supersession writes): judge it again now.
+            try:
+                counts = row["pending"] = step.pending(ctx) or {}
+            except Exception as exc:  # noqa: BLE001 - report it on the step's row and stop
+                row["error"], failure = _err(exc), exc
         if counts and failure is None:
+            applied_any = True
             try:
                 row["applied"] = step.apply(ctx, False)
             except Exception as exc:  # noqa: BLE001 - report it on the step's row and stop
@@ -203,7 +212,7 @@ def migrate_temporal(domain: tuple, dry_run: bool, compact: bool) -> None:
     stamped = False
     if failure is None:
         # The stamp judges every domain: a run scoped to one must not bless the others.
-        everything = MigrationContext(domains=_all_domains(), session_factory=ctx.session_factory, dry_run=False)
+        everything = MigrationContext(domains=None, session_factory=ctx.session_factory, dry_run=False)
         stamped = bool(steps_mod.stamp_if_done(everything))
     _echo_json(with_effect({"steps": results, "done": done, "stamped": stamped, "blocked": [],
                             "warnings": warnings + after_warnings}, effect), compact)

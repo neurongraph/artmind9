@@ -38,8 +38,9 @@ def _writes(recorder):
 
 def test_the_steps_are_registered_dates_before_ends():
     names = [s.name for s in steps_mod._graph_steps()]
-    assert names == ["document_dates", "supersession_ends", "record_time", "old_indexes"]
-    assert all(s.writes(None) == [] for s in steps_mod._graph_steps())  # graph only: no files
+    assert names == ["document_dates", "supersession_records", "supersession_ends", "record_time", "old_indexes"]
+    # graph-only steps write no files; supersession_records declares its record files
+    assert all(s.writes(None) == [] for s in steps_mod._graph_steps() if s.name != "supersession_records")
 
 
 # ── document_dates ────────────────────────────────────────────────────────────
@@ -56,22 +57,51 @@ def test_dates_done_is_empty():
     assert graph.document_dates_pending(_ctx(_rec(n=0))) == {}
 
 
-def test_dates_fold_valid_from_and_remove_both_without_folding_valid_to():
-    rec = _rec(n=1, rows=[{"domain": "notes"}])
+def test_dates_fold_valid_from_and_remove_both_without_folding_valid_to(monkeypatch):
+    from artmind import temporal
+
+    monkeypatch.setattr(temporal, "load_schema", lambda d: {"temporal": {"defaults": {"time_source": "filed"}}}
+                        if d == "notes" else {})
+    rec = _rec(n=1, rows=[{"domain": "notes"}, {"domain": "other"}])
     out = graph.document_dates_apply(_ctx(rec))
     assert out == {"Document": 1, "DocumentHistory": 1}
     writes = _writes(rec)
     assert [re.search(r"MATCH \(d:(\w+)\)", c).group(1) for c, _ in writes] == ["Document", "DocumentHistory"]
-    for cypher, _ in writes:
+    for cypher, params in writes:
         assert "d._valid_from = coalesce(d._valid_from, d.valid_from)" in cypher
         assert "REMOVE d.valid_from, d.valid_to" in cypher
         # A supersession's end is never a stated end: no `_valid_to` is written here.
         assert "_valid_to =" not in cypher
-        # Only rows still holding an unprefixed name: a second run matches nothing.
-        assert "(d.valid_from IS NOT NULL OR d.valid_to IS NOT NULL)" in cypher
+        # Only rows still to do: a second run matches nothing.
+        assert ("(d.valid_from IS NOT NULL OR d.valid_to IS NOT NULL "
+                "OR (d._valid_precision IS NULL AND d._valid_from IS NOT NULL))") in cypher
+        # A default date is undated; an old full date is read as a day.
+        assert ("WHEN d._valid_time_source = coalesce($sources[coalesce(d._domain, '')], 'default_ingestion') "
+                "THEN 'none'") in cypher
+        assert "WHEN size(toString(d._valid_from)) = 4 THEN 'year'" in cypher and "ELSE 'day' END" in cypher
+        assert params["sources"] == {"notes": "filed", "other": "default_ingestion"}
         assert "IN TRANSACTIONS OF 5000 ROWS" in cypher
     bumps = rec.queries_containing("MERGE (s:DomainState")
-    assert [p["domains"] for _, p in bumps] == [["notes"]]
+    assert [p["domains"] for _, p in bumps] == [["notes", "other"]]
+    # bumped before the batched writes commit
+    first_write = next(i for i, (c, _) in enumerate(rec.calls) if "IN TRANSACTIONS" in c)
+    assert rec.calls.index(bumps[0]) < first_write
+
+
+def test_dates_under_a_domain_also_fold_the_newer_side_of_a_supersession():
+    rec = _rec(n=1)
+    graph.document_dates_pending(_ctx(rec))
+    cypher = rec.calls[0][0]
+    assert ("OR EXISTS { MATCH (d)-[:SUPERSEDES {scope: 'document'}]->(o) WHERE (o._domain IN $domains") in cypher
+
+
+def test_an_unscoped_run_has_no_domain_predicate():
+    rec = _rec(n=1, rows=[])
+    ctx = _ctx(rec)
+    ctx.domains = None
+    for step in steps_mod._graph_steps():
+        step.pending(ctx)
+    assert rec.calls and not [c for c, _ in rec.calls if "$domains" in c]
 
 
 def test_dates_dry_run_apply_sends_nothing():
@@ -91,7 +121,8 @@ def test_ends_pending_counts_superseded_documents_with_an_open_node():
     for label in ("Observation", "ObservationHistory", "DocChunk", "DocChunkHistory", "DocPassage",
                   "DocPassageHistory", "DocSummary", "DocSummaryHistory"):
         assert f"MATCH (x:{label} {{doc_id: older.id}}) WHERE x._valid_to IS NULL" in cypher
-    assert "coalesce(newer._valid_from, newer.valid_from)" in cypher
+    # only prefixed dates count: document_dates folds the newer side first
+    assert "ELSE newer._valid_from END" in cypher and "newer.valid_from" not in cypher
 
 
 def test_ends_apply_restates_each_superseded_document(monkeypatch):
@@ -164,7 +195,14 @@ def test_retired_by_rules_in_cypher():
     assert "toInteger(x.doc_version) >= toInteger(d.version)) THEN $tags[coalesce(x.doc_id, x.id)]" in obs
     assert "THEN 'version:' + toString(toInteger(x.doc_version) + 1)" in obs
     assert obs.endswith("ELSE 'version:unknown' END")
-    assert graph._retired_by("DocChunkHistory") == "coalesce($tags[coalesce(x.doc_id, x.id)], 'version:unknown')"
+    chunk = graph._retired_by("DocChunkHistory")
+    assert chunk == ("CASE WHEN $tags[coalesce(x.doc_id, x.id)] IS NULL THEN 'version:unknown' "
+                     "WHEN $chunks[coalesce(x.doc_id, x.id)] IS NULL OR x.id IS NULL "
+                     "OR x.id IN $chunks[coalesce(x.doc_id, x.id)] THEN $tags[coalesce(x.doc_id, x.id)] "
+                     "ELSE 'version:unknown' END")
+    assert "x.chunk_id IN $chunks" in graph._retired_by("DocPassageHistory")
+    assert "x.chunk_id IN $chunks" in graph._retired_by("DocSummaryHistory")
+    assert graph._retired_by("DocumentHistory") == "coalesce($tags[coalesce(x.doc_id, x.id)], 'version:unknown')"
 
 
 @pytest.fixture
@@ -195,7 +233,8 @@ def test_retirement_tags_from_records_edges_and_marks(curation):
         {"id": "doc-gone", "lifecycle_record": None, "records": []},
     ]
     rec = WritableRecorder(lambda c, p: rows)
-    tags = graph.retirement_tags(rec, ["notes"])
+    tags, domains = graph.retirement_tags(rec, ["notes"])
+    assert set(domains) == set(tags)
     assert tags == {"doc-rec": "supersede:r9", "doc-edge": "supersede:r2", "doc-old": "retire", "doc-mark": "retire"}
     cypher, params = rec.calls[0]
     assert "MATCH (d:DocumentHistory)" in cypher and "d._domain IN $domains" in cypher
@@ -212,7 +251,60 @@ def test_record_time_passes_the_tags(curation):
     rec = WritableRecorder(respond)
     graph.record_time_apply(_ctx(rec))
     (cypher, params), = _writes(rec)
-    assert params["tags"] == {"doc-r": "retire"}
+    assert params["tags"] == {"doc-r": "retire"} and params["chunks"] == {}
+
+
+def test_staged_chunk_ids_read_the_latest_chunks_json(monkeypatch, tmp_path):
+    import paths
+
+    monkeypatch.setattr(paths, "KG_DIR", tmp_path / "kg")
+    folder = tmp_path / "kg" / "notes" / "note-a~abc"
+    folder.mkdir(parents=True)
+    (folder / "document.json").write_text(json.dumps({"id": "doc-a"}))
+    (folder / "chunks.json").write_text(json.dumps([{"id": "doc-a_001"}, {"id": "doc-a_002"}]))
+    other = tmp_path / "kg" / "notes" / "note-b"
+    other.mkdir()
+    (other / "document.json").write_text(json.dumps({"id": "doc-b"}))  # no chunks.json
+    assert graph.staged_chunk_ids({"doc-a": "notes", "doc-b": "notes", "doc-c": "gone"}) == {
+        "doc-a": ["doc-a_001", "doc-a_002"]}
+
+
+# ── supersession_records ──────────────────────────────────────────────────────
+
+def test_legacy_edges_get_a_record_file_then_the_edge_is_tied(curation, monkeypatch):
+    from artmind import curation_records, supersession_records
+
+    def respond(cypher, params):
+        if "AS n" in cypher and "s.record_id IS NULL" in cypher and "RETURN count(s)" in cypher:
+            return [{"n": 1}]
+        if "RETURN newer.id AS newer" in cypher:
+            return [{"newer": "doc-new", "older": "doc-old", "effective": "2025-03-01", "detected_by": None}]
+        if "RETURN DISTINCT d._domain" in cypher:
+            return [{"domain": "notes"}]
+        return [{"n": 1}]
+    rec = WritableRecorder(respond)
+    ctx = _ctx(rec)
+    assert graph.supersession_records_pending(ctx) == {"edges": 1}
+    rid = supersession_records.record_id("doc-new", "doc-old", "document")
+    path = curation_records.record_path(supersession_records.NAME, rid)
+    assert graph.supersession_records_writes(ctx) == [path]
+    rec.calls.clear()
+    assert graph.supersession_records_apply(ctx) == {"records": 1}
+    record = json.loads(path.read_text())
+    assert (record["newer_doc_id"], record["older_doc_id"], record["scope"], record["effective"]) == (
+        "doc-new", "doc-old", "document", "2025-03-01")
+    assert record["detected_by"] == "migration" and record["domains"] == ["notes"]
+    (tie, params), = rec.queries_containing("SET s.record_id = $id")
+    assert "WHERE s.record_id IS NULL" in tie
+    assert params["id"] == rid and params["fingerprint"] == curation_records.fingerprint(path.read_bytes())
+    assert (params["newer"], params["older"], params["effective"]) == ("doc-new", "doc-old", "2025-03-01")
+
+
+def test_no_legacy_edges_is_done_and_writes_nothing(curation):
+    rec = WritableRecorder(lambda c, p: [{"n": 0}] if "AS n" in c else [])
+    assert graph.supersession_records_pending(_ctx(rec)) == {}
+    assert graph.supersession_records_apply(_ctx(rec)) == {}
+    assert not curation.exists()
 
 
 # ── old_indexes ───────────────────────────────────────────────────────────────
@@ -324,7 +416,7 @@ def test_dry_run_over_the_real_steps_sends_only_reads(runner):
     assert result.exit_code == 0, result.output
     out = json.loads(result.stdout)
     assert [s["name"] for s in out["steps"] if s["pending"]] == [
-        "document_dates", "supersession_ends", "record_time", "old_indexes"]
+        "document_dates", "supersession_records", "supersession_ends", "record_time", "old_indexes"]
     assert_no_write_cypher(rec)
     assert not [c for c, _ in rec.calls if "IN TRANSACTIONS" in c or c.startswith("DROP")]
 
@@ -343,3 +435,64 @@ def test_an_interrupted_run_resumes_and_a_second_run_is_a_no_op(runner):
     third = _invoke()
     assert third.exit_code == 0
     assert not [c for c, _ in g.calls if "IN TRANSACTIONS" in c or c.startswith("DROP")]
+
+
+class CrossDomainGraph:
+    """Two documents: `doc-old` (domain notes) superseded through an undated edge by
+    `doc-new` (domain other), whose date is still unprefixed. A document-dates query
+    reaches `doc-new` only through the SUPERSEDES clause of `_doc_scope`."""
+
+    def __init__(self):
+        self.new_folded, self.old_open, self.calls = False, True, []
+
+    def run(self, cypher, **params):
+        from _neo4j_recorder import FakeResult
+
+        self.calls.append((cypher, params))
+        reaches_newer = "EXISTS { MATCH (d)-[:SUPERSEDES" in cypher or "$domains" not in cypher
+        if "d._valid_precision IS NULL AND d._valid_from IS NOT NULL" in cypher:  # document_dates
+            todo = int(reaches_newer and not self.new_folded and "MATCH (d:Document)" in cypher)
+            if "IN TRANSACTIONS" in cypher:
+                self.new_folded = self.new_folded or bool(todo)
+                return FakeResult([])
+            if "AS n" in cypher:
+                return FakeResult([{"n": todo}])
+            return FakeResult([{"domain": "other"}] if todo else [])
+        if "SUPERSEDES {scope: 'document'}]->(older)" in cypher and "s.record_id IS NOT NULL" in cypher:
+            open_ = int(self.new_folded and self.old_open)  # the end is the newer's _valid_from
+            if "AS n" in cypher:
+                return FakeResult([{"n": open_}])
+            return FakeResult([{"id": "doc-old"}] if open_ else [])
+        if "AS n" in cypher:
+            return FakeResult([{"n": 0}])
+        return FakeResult([])
+
+    def execute_write(self, fn):
+        return fn(self)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+
+def test_a_cross_domain_supersession_under_domain_reaches_done(runner, monkeypatch):
+    from artmind import projection, supersession_records
+
+    g = CrossDomainGraph()
+    runner["graph"] = g
+
+    def restate(tx, older):
+        g.old_open = False
+        return 1
+    monkeypatch.setattr(supersession_records, "restate_validity", restate)
+    monkeypatch.setattr(projection, "keys_for_document", lambda tx, doc_id, status=None: set())
+    monkeypatch.setattr("artmind.cli._parse_domains", lambda d: ["notes"])
+    result = _invoke("--domain", "notes")
+    assert result.exit_code == 0, result.output
+    out = json.loads(result.stdout)
+    assert out["done"] is True
+    assert g.new_folded and not g.old_open
+    ends = next(s for s in out["steps"] if s["name"] == "supersession_ends")
+    assert ends["applied"] == {"documents": 1, "nodes_closed": 1}

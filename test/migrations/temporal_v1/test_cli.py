@@ -145,22 +145,47 @@ def _two_domain_steps(monkeypatch, log):
     left = {"a": 1, "b": 1}
 
     def pending(ctx):
-        n = sum(left[d] for d in ctx.domains)
+        n = sum(left[d] for d in (ctx.domains or left))
         return {"items": n} if n else {}
 
     def apply(ctx, dry):
-        for d in ctx.domains:
+        for d in (ctx.domains or list(left)):
             left[d] = 0
         return {}
     monkeypatch.setattr(steps_mod, "STEPS", [Step("per", pending, apply)])
-    monkeypatch.setattr(steps_mod, "stamp_if_done", lambda ctx: log.append(list(ctx.domains)) or False)
+    monkeypatch.setattr(steps_mod, "stamp_if_done", lambda ctx: log.append(ctx.domains) or False)
 
 
-def test_a_scoped_run_hands_the_stamp_every_domain(env, monkeypatch):
+def test_a_scoped_run_hands_the_stamp_an_unscoped_context(env, monkeypatch):
     log = []
     _two_domain_steps(monkeypatch, log)
     _run("migrate", "temporal", "--domain", "a")
-    assert log == [["a", "b"]]
+    assert log == [None]  # None: every node, whatever its domain
+
+
+def test_no_domain_is_unscoped(env, monkeypatch):
+    seen = []
+    monkeypatch.setattr(steps_mod, "STEPS", [Step("s", lambda ctx: seen.append(ctx.domains) or {}, lambda c, d: {})])
+    _run("migrate", "status")
+    assert seen == [None]
+
+
+def test_a_step_made_pending_by_an_earlier_apply_runs_in_the_same_run(env, monkeypatch):
+    state = {"first": 1, "second": 0}
+
+    def apply_first(ctx, dry):
+        state["first"], state["second"] = 0, 2  # e.g. a folded date makes an end to restate
+        return {}
+
+    def apply_second(ctx, dry):
+        state["second"] = 0
+        return {"done": 2}
+    monkeypatch.setattr(steps_mod, "STEPS", [
+        Step("first", lambda c: {"n": state["first"]} if state["first"] else {}, apply_first),
+        Step("second", lambda c: {"n": state["second"]} if state["second"] else {}, apply_second)])
+    out = json.loads(_run("migrate", "temporal").stdout)
+    assert out["done"] is True and out["steps"][1]["applied"] == {"done": 2}
+    assert out["steps"][1]["pending"] == {"n": 2}
 
 
 def test_domain_reaches_the_context(env, monkeypatch):
