@@ -134,9 +134,12 @@ Conditions (`when`, `prefer`): `{column: C, equals: V}`, `{column: C, in: [...]}
   latest` keeps one observation per identity (the newest version that
   produced it — a 2025 review survives a 2026 refresh with its last values),
   `all` keeps every version (use on a `recurrent` class to record temporal
-  variation). A closed version's `_valid_to` column (exclusive; empty or `9999-12-31` = open)
-  becomes the observation's `_valid_to`, unless a `temporal: valid_to` property gives one.
-  A relationship is asserted only by the row version whose
+  variation). A closed version's `_valid_to` column (the store writes it; exclusive -- a source
+  with an inclusive end date needs +1 day before loading; empty or `9999-12-31` = open)
+  becomes the `_valid_to` of the row's own subject entities only (those with a property read
+  from a `row_key` column; stubs and shared entities get none), unless a `temporal: valid_to`
+  property gives one; an end not after the observation's start is dropped. Relationship
+  edges built from a closed row stay open. A relationship is asserted only by the row version whose
   endpoint observation was kept, so a changed manager replaces the old edge.
 - **Order matters** within `properties` (templates see earlier ones) and among
   non-lookup `entities` (templates see earlier entities).

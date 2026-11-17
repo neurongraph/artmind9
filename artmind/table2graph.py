@@ -897,14 +897,25 @@ def _iso(value) -> str | None:
 
 def _row_end(value, valid_from: str | None) -> str | None:
     """An SCD2 version's `_valid_to` as a day: None while the version is open (no value, a
-    far-future sentinel such as 9999-12-31, or an end not after its own start)."""
-    from artmind.temporal import OPEN_END, parse_valid
+    non-day value, a far-future sentinel such as 9999-12-31, or an end not after its own
+    start)."""
+    from artmind.temporal import OPEN_END
 
-    parsed = parse_valid(_iso(value))
-    end = parsed.start if parsed else None
+    end = _to_date(value) if value not in (None, "") else None
     if end is None or end >= OPEN_END or (valid_from and end <= valid_from):
         return None
     return end
+
+
+def _subject_aliases(mapping: TableMapping, key_columns: list[str]) -> set[str]:
+    """The non-lookup entities that are a row's own subject: those with a property read
+    from one of the row's key columns. Only they inherit the row's end; stubs and shared
+    entities (a department) outlive the row version."""
+    keys = set(key_columns)
+    return {
+        alias for alias, spec in mapping.entities.items()
+        if spec.lookup is None and any(f.columns() & keys for f in spec.properties.values())
+    }
 
 
 def row_text(mapping: TableMapping, table_name: str, row: _Row, columns: list[str]) -> str:
@@ -1094,6 +1105,7 @@ def build_staged(
         survivors = ordered[-1:] if policy == "latest" else ordered
         keep_ids.update(id(b) for b in survivors)
 
+    subjects = _subject_aliases(mapping, key_columns)
     observations: list[dict] = []
     obs_by_built: dict[int, str] = {}
     for built in all_built:
@@ -1109,6 +1121,9 @@ def build_staged(
             entity["type"] = built.type
         if built.description:
             entity["description"] = built.description
+        row_end = built.row.valid_to if built.alias in subjects else None
+        if row_end and fact.valid_from and row_end <= fact.valid_from:
+            row_end = None
         observation = build_observation(
             entity,
             canonical_name=built.name,
@@ -1119,7 +1134,7 @@ def build_staged(
             kind=class_kind(schema, built.entity_class),
             doc_valid_from=built.row.valid_from,
             valid_from=fact.valid_from,
-            valid_to=fact.valid_to or built.row.valid_to,
+            valid_to=fact.valid_to or row_end,
             valid_time_source="property" if fact.valid_from else ("table_row" if temporal else "table"),
             # A row's own date (its SCD2 batch) is a day.
             valid_precision=fact.precision or ("day" if built.row.valid_from else None),

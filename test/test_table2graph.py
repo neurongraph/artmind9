@@ -401,6 +401,57 @@ def test_an_scd2_far_future_end_is_an_open_end():
     assert all("_valid_to" not in o for o in staged["observations"] if o["name"] == "Pooja Jain (001)")
 
 
+def test_only_the_rows_own_subject_inherits_the_end():
+    rows = [_closed(_row("001", "Jain, Pooja", "Nobody, Unknown"), "2025-11-01", "2026-02-01")]
+    staged, _ = _build(rows=rows, table=TEMPORAL)
+    ends = {o["name"]: o.get("_valid_to") for o in staged["observations"]}
+    assert ends["Pooja Jain (001)"] == "2026-02-01"
+    assert ends["Unknown Nobody"] is None, "a stubbed manager outlives the row version"
+    assert ends["2025 Performance Segment - Pooja Jain (001)"] is None
+
+
+def _with_person_dates(started=None, left=None):
+    mapping = json.loads(json.dumps(MAPPING))
+    schema = json.loads(json.dumps(SCHEMA))
+    props = mapping["entities"]["person"]["properties"]
+    for key, column, tag, value in (("started_on", "Start", "valid_from", started), ("left_on", "Left", "valid_to", left)):
+        if value:
+            props[key] = {"column": column}
+            schema["entity_types"]["PERSON"]["properties"][key] = {"temporal": tag}
+    return t2g.parse_mapping(mapping), schema
+
+
+def test_a_valid_to_property_wins_over_the_row_end():
+    mapping, schema = _with_person_dates(left=True)
+    rows = [{**_closed(_row("001", "Jain, Pooja", "Kothari, Anubhav"), "2025-11-01", "2026-02-01"), "Left": "2026-01-15"}]
+    staged, _ = t2g.build_staged(TEMPORAL, rows, COLUMNS + ["Left"], mapping, schema)
+    assert _obs(staged, "Pooja Jain (001)")["_valid_to"] == "2026-01-15"
+
+
+def test_a_row_end_before_the_property_start_is_no_end():
+    mapping, schema = _with_person_dates(started=True)
+    rows = [{**_closed(_row("001", "Jain, Pooja", "Kothari, Anubhav"), "2025-11-01", "2026-02-01"), "Start": "2026-03-01"}]
+    staged, _ = t2g.build_staged(TEMPORAL, rows, COLUMNS + ["Start"], mapping, schema)
+    person = _obs(staged, "Pooja Jain (001)")
+    assert person["_valid_from"] == "2026-03-01" and "_valid_to" not in person
+
+
+def test_latest_keeps_the_end_of_a_closed_newest_row():
+    rows = [
+        _closed(_row("001", "Jain, Pooja", "Kothari, Anubhav", band="6"), "2025-11-01", "2026-02-01"),
+        _closed(_row("001", "Jain, Pooja", "Kothari, Anubhav", band="7"), "2026-02-01", "2026-06-01"),
+    ]
+    staged, _ = _build(rows=rows, table=TEMPORAL)
+    persons = [o for o in staged["observations"] if o["name"] == "Pooja Jain (001)"]
+    assert len(persons) == 1 and persons[0]["band"] == "7" and persons[0]["_valid_to"] == "2026-06-01"
+
+
+def test_a_row_end_not_after_its_start_is_no_end():
+    rows = [_closed(_row("001", "Jain, Pooja", "Kothari, Anubhav"), "2025-11-01", "2025-11-01")]
+    staged, _ = _build(rows=rows, table=TEMPORAL)
+    assert "_valid_to" not in _obs(staged, "Pooja Jain (001)")
+
+
 # ── transforms ───────────────────────────────────────────────────────────────
 
 
