@@ -59,3 +59,42 @@ def test_no_next_when_every_value_parses(tmp_path, monkeypatch):
     monkeypatch.setattr(date_audit, "load_schema", lambda domain: SCHEMA)
     payload = date_audit.audit_domain("pj")
     assert payload["next"] is None and payload["rows"] == [] and payload["documents"] == 0
+
+
+def test_an_end_taken_from_the_document_is_not_a_range(tmp_path):
+    folder = tmp_path / "d1"
+    folder.mkdir()
+    obs = [{"entity_class": "EVENT", "date_or_time": "2026-01-07", "_valid_time_source": "property",
+            "_valid_precision": "day", "_valid_to": "2026-06-30"}]
+    (folder / "observations.json").write_text(json.dumps(obs))
+    assert date_audit.audit_folders([folder], SCHEMA)[0]["ranges"] == 0
+
+
+def test_a_family_root_scans_its_children_with_their_own_schemas(tmp_path, monkeypatch):
+    from artmind import ingest
+
+    monkeypatch.setattr(ingest, "KG_DIR", tmp_path)
+    _stage(tmp_path / "fam")
+    _stage(tmp_path / "fam.child")
+    _stage(tmp_path / "other")
+    child_only = {"entity_types": {"PERSON": {"properties": {"born": {"temporal": "valid_from"}}}}}
+    monkeypatch.setattr(date_audit, "load_schema",
+                        lambda domain: child_only if domain == "fam.child" else SCHEMA)
+    payload = date_audit.audit_domain("fam")
+    assert payload["documents"] == 2
+    by_class = {r["class"]: r for r in payload["rows"]}
+    assert by_class["EVENT"]["observations"] == 3          # only fam's folder declares EVENT dates
+    assert by_class["PERSON"] == {"class": "PERSON", "observations": 1, "dated_by_property": 0, "share": 0.0,
+                                  "precision": {}, "ranges": 0, "unparsed": 0}
+
+
+def test_an_unknown_domain_is_named_in_warnings(tmp_path, monkeypatch):
+    from artmind import ingest
+
+    monkeypatch.setattr(ingest, "KG_DIR", tmp_path)
+    monkeypatch.setattr(date_audit, "load_schema", lambda domain: {})
+    monkeypatch.setattr("artmind.schema_validate.family_schema", lambda domain: {"entity_types": {}})
+    result = CliRunner().invoke(cli, ["ingest", "date-audit", "--domain", "nosuch", "--compact"])
+    payload = json.loads(result.stdout)
+    assert result.exit_code == 0 and payload["rows"] == []
+    assert len(payload["warnings"]) == 1 and "nosuch" in payload["warnings"][0]

@@ -3728,10 +3728,6 @@ def _build_observations(
 
         # A fact carrying its own dates overrides the document's.
         fact = _fact_valid_time(entity_dates, cls, domain_props)
-        if counts is not None:
-            counts["dated"] += 1 if fact.valid_from else 0
-            counts["ranges"] += 1 if fact.valid_from and fact.valid_to else 0
-            counts["unparsed"] += fact.unparsed
 
         observation = build_observation(
             entity,
@@ -3755,6 +3751,10 @@ def _build_observations(
             continue
         seen.add(observation["id"])
         observations.append(observation)
+        if counts is not None:  # after the dedup: one count per staged observation
+            counts["dated"] += 1 if fact.valid_from else 0
+            counts["ranges"] += 1 if fact.valid_from and fact.valid_to else 0
+            counts["unparsed"] += fact.unparsed
     return observations, dropped
 
 

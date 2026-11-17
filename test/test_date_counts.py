@@ -53,3 +53,66 @@ def test_job_status_shows_the_date_counts(tmp_path, monkeypatch):
     assert "date_counts" not in second
     active = jobs._fetch_active_jobs()[0]["files"]
     assert active[0]["date_counts"] == {"dated": 2, "ranges": 1, "unparsed": 0}
+
+
+def test_a_repeated_entity_in_one_chunk_is_counted_once():
+    entities = _entities(1) * 2
+    props = [{"id": "e0", "properties": {"date_or_time": "2026-01-07 to 2026-01-09"}}]
+    counts: dict = {}
+    observations, _ = ing._build_observations(entities, props, {}, SCHEMA, {"id": "d1"}, counts=counts)
+    assert len(observations) == 1
+    assert counts == {"dated": 1, "ranges": 1, "unparsed": 0}
+
+
+def test_extract_kg_reports_the_date_counts(tmp_path, monkeypatch):
+    from test_document_dates import _stub_llm, _vault
+
+    doc = _vault(tmp_path, monkeypatch, "2026-01-07.md", "2026-01-07\n\nA call in the morning.\n")
+    _stub_llm(monkeypatch, date_or_time="2026-01-07 to 2026-01-09")
+    result = ing.ingest_file(doc, "gemma4:e4b", "journal", chunk_size=6000)
+    assert ing.extract_kg(result, "journal", max_workers=1) is not None
+    assert result["date_counts"] == {"dated": 1, "ranges": 1, "unparsed": 0}
+
+
+def test_the_worker_forwards_the_date_counts(monkeypatch, tmp_path):
+    import artmind.worker as worker_module
+    from artmind.jobs import _create_job
+
+    job_id = _create_job(["/vault/Notes/plain.md"], domain="fiction")
+    sent: list[dict] = []
+
+    def fake_ingest_to_kg(result, *a, **k):
+        result["date_counts"] = {"dated": 3, "ranges": 1, "unparsed": 2}
+        return True
+
+    monkeypatch.setattr(worker_module, "ARTMIND_VAULT_DIR", tmp_path, raising=False)
+    monkeypatch.setattr(worker_module, "ingest_file", lambda *a, **k: {"status": "ok", "sha256": "s1"})
+    monkeypatch.setattr(worker_module, "ingest_to_kg", fake_ingest_to_kg)
+    monkeypatch.setattr(worker_module, "_update_job_file_status", lambda *a, **k: sent.append(k))
+    monkeypatch.setattr(ing, "rebuild_projection", lambda d: {}, raising=False)
+
+    worker_module._process_job(job_id=job_id, domain="fiction", env={})
+
+    finished = [k for k in sent if k.get("status") == "completed"]
+    assert finished and finished[-1]["date_counts"] == {"dated": 3, "ranges": 1, "unparsed": 2}
+
+
+def test_a_junk_date_counts_value_is_left_out(tmp_path, monkeypatch):
+    import artmind.db as db
+    from artmind import jobs
+
+    monkeypatch.setattr(db, "DB_PATH", tmp_path / "registry.db")
+    conn = db._get_db()
+    conn.execute(
+        "INSERT INTO ingestion_jobs (job_id, status, file_count, processed_count, queued_at) "
+        "VALUES ('j1', 'processing', 2, 0, 'now')"
+    )
+    conn.execute("INSERT INTO ingestion_job_files (job_id, filename, status, date_counts) "
+                 "VALUES ('j1', 'a.md', 'completed', '{not json')")
+    conn.execute("INSERT INTO ingestion_job_files (job_id, filename, status, date_counts) "
+                 "VALUES ('j1', 'b.md', 'completed', '[1, 2]')")
+    conn.commit()
+    conn.close()
+
+    for files in (jobs._get_job_status("j1")["files"], jobs._fetch_active_jobs()[0]["files"]):
+        assert all("date_counts" not in f for f in files)
