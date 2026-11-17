@@ -30,7 +30,9 @@ def test_occasion_day():
     assert occasion_day("2024-03-30", "day") == "2024-03-30"
     assert occasion_day("2024-03-30", "none") is None
     assert occasion_day(None, "day") is None
-    assert occasion_day("2024-03", "month") is None
+    # Coarse dates key on their start day (parse_valid always yields a full date); an open
+    # design question recorded for the user.
+    assert occasion_day("2024-03-01", "month") == "2024-03-01"
 
 
 def _document(doc_date="2024-03-30", source="filename"):
@@ -72,7 +74,8 @@ def test_an_undeclared_class_is_an_occasion():
 
 
 def test_the_observation_id_carries_no_day():
-    """One chunk is one day: the id stays chunk-scoped, so a re-key moves the node in place."""
+    """The id stays chunk-scoped, so a re-key moves the node in place. Known limit: a chunk
+    mentioning the same occasion name on two days keeps the first (ingest dedups on the id)."""
     from artmind.observations import observation_id
 
     assert _obs("Tennis", "ACTIVITY", "2024-03-30")["id"] == observation_id("c1", "Tennis", "ACTIVITY", "pj")
@@ -176,4 +179,13 @@ def test_entity_history_by_name_matches_day_keys(monkeypatch):
     monkeypatch.setattr(graph_query, "_run_read_query", lambda c, p: calls.append((c, p)) or [])
     graph_query.entity_history(["pj"], name="Tennis")
     cypher, params = calls[0]
-    assert "split(o.key, '|')[0] STARTS WITH $nameKey + '~'" in cypher and params["nameKey"] == "tennis"
+    assert "split(o.key, '|')[0] =~ $nameKeyRe" in cypher and params["nameKey"] == "tennis"
+    assert params["nameKeyRe"] == r"tennis~\d{4}-\d{2}-\d{2}"
+    graph_query.entity_history(["pj"], name="C++ (x)")
+    import re
+    assert re.fullmatch(calls[1][1]["nameKeyRe"], "c++ (x)~2024-03-30")
+    assert not re.fullmatch(calls[0][1]["nameKeyRe"], "tennis~2024-03-30x")
+
+
+def test_empty_name_never_gets_a_day():
+    assert aggregate_key("", "ACTIVITY", "pj", occurs_on="2024-03-30")[0] == ""

@@ -2431,6 +2431,10 @@ def entity_history(
       AND {domain_predicate("o")}"""
     else:
         params["nameKey"] = normalize_name(name)
+        # An occasion's name part is `<name>~YYYY-MM-DD`, exactly (an empty name has no day key).
+        params["nameKeyRe"] = (
+            re.escape(params["nameKey"]) + r"~\d{4}-\d{2}-\d{2}" if params["nameKey"] else "(?!)"
+        )
         params["nameLower"] = name.casefold()
         class_clause = ""
         if entity_class:
@@ -2441,7 +2445,7 @@ def entity_history(
     WHERE (o:Observation OR o:ObservationHistory)
       AND {domain_predicate("o")}
       AND (split(o.key, '|')[0] = $nameKey
-           OR split(o.key, '|')[0] STARTS WITH $nameKey + '~'
+           OR split(o.key, '|')[0] =~ $nameKeyRe
            OR toLower(o.name) = $nameLower
            OR toLower(o.canonical_name) = $nameLower){class_clause}"""
 

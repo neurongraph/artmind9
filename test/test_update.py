@@ -1097,3 +1097,43 @@ def test_extract_facts_asks_properties_only_for_classes_that_declare_some():
          patch("artmind.update.resolve_llm_model", return_value="m"):
         extract_facts("At the park.", "d", schema)
     assert [s for s, _ in steps] == ["update_entities", "update_relationships"]
+
+
+def test_a_link_to_a_node_of_another_class_resolves_to_the_observations_own_key():
+    """One rule decides the entity id: the key `build_observation` built, not a second
+    derivation from the extracted class (assert on what `_entity_id_for` is given)."""
+    resolutions = [{"entity_temp_id": "e0", "action": "link", "node_id": "4:abc:run"}]
+    extracted_entities = [{"temp_id": "e0", "name": "Run", "entity_class": "NOTE", "properties": {}}]
+    calls = []
+
+    def run_side_effect(cypher, **kwargs):
+        calls.append((cypher, kwargs))
+        result = MagicMock()
+        if "elementId(e) = $ref" in cypher:
+            result.single.return_value = {
+                "id": "run-uuid", "name": "Run", "entity_class": "ACTIVITY", "domain": "general",
+                "key": "run~2024-03-30|ACTIVITY|general",
+            }
+        else:
+            result.single.return_value = None
+        result.data.return_value = []
+        return result
+
+    session = MagicMock()
+    session.run.side_effect = run_side_effect
+    session.execute_write.side_effect = lambda fn, *a, **k: fn(session, *a, **k)
+    seen = []
+    from artmind.update import _entity_id_for as real
+
+    with patch("artmind.update.embed_document", return_value=[0.1] * 768), \
+         patch("artmind.update.neo4j_session") as mock_ctx, \
+         patch("artmind.update._entity_id_for", side_effect=lambda k: seen.append(k) or real(k)):
+        mock_ctx.return_value.__enter__.return_value = session
+        write_user_chat(
+            session_id="sess1", raw_text="Ran.", domain="general", user_id="u@example.com",
+            resolutions=resolutions, extracted_entities=extracted_entities, extracted_relationships=[],
+        )
+
+    written = [kw["props"] for c, kw in calls if "CREATE (n:Observation {id: $id})" in c]
+    assert seen == [tuple(written[0]["key"].rsplit("|", 2))]
+    assert seen[0] == ("run~2024-03-30", "ACTIVITY", "general")

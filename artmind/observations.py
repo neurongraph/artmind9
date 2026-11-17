@@ -176,13 +176,16 @@ def aggregate_key(
     if identity:
         return (normalize_identity(identity), entity_class or "", domain or "")
     name = normalize_name(canonical_name)
-    if occurs_on:
+    if occurs_on and name:
         name = f"{name}{OCCASION_SEP}{str(occurs_on)[:10]}"
     return (name, entity_class or "", domain or "")
 
 
 def split_occasion(name_part: str | None) -> tuple[str, str | None]:
-    """`("tennis", "2024-03-30")` for `tennis~2024-03-30`; `(name_part, None)` otherwise."""
+    """`("tennis", "2024-03-30")` for `tennis~2024-03-30`; `(name_part, None)` otherwise.
+
+    A name-identity name that itself ends in a literal `~YYYY-MM-DD` would be misread as
+    an occasion; callers apply this only to occasion classes."""
     head, sep, day = (name_part or "").rpartition(OCCASION_SEP)
     if sep and _DAY_RE.fullmatch(day):
         return head, day

@@ -460,7 +460,6 @@ def write_user_chat(
             else:
                 continue
 
-            key = aggregate_key(canonical_name, entity_class, target_domain, identity=identity, occurs_on=occurs_on)
             # Spec 2026-11-15 §2.2: only the class's declared keys, as extraction keeps.
             domain_props, gone = filter_declared(
                 normalize_property_keys(dict(entity_data.get("properties") or {}), *key_rules),
@@ -498,7 +497,8 @@ def write_user_chat(
             observation["created_by"] = user_id
             observations.append(observation)
             resolved[temp_id] = {
-                "id": _entity_id_for(key), "name": canonical_name,
+                # One rule: the id of the key `build_observation` just built.
+                "id": _entity_id_for(tuple(observation["key"].rsplit("|", 2))), "name": canonical_name,
                 "observation_id": observation["id"],
             }
 
