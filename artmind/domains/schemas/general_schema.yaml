@@ -3,6 +3,10 @@ description: Catch-all domain for documents that do not fit a more specific doma
   memos, articles, presentations, and miscellaneous content covering any subject. Uses broad entity classes
   that can capture the essential knowledge structure of virtually any document type.
 subject: documents of any type
+temporal:
+  defaults:
+    valid_from: ingestion_date
+    time_source: default_ingestion
 guidance:
   entities: 'CHOOSE THE MOST SPECIFIC CLASS: if content could fit multiple classes, pick the one that
     best captures its role in THIS document. E.g., "GDP growth rate" is a METRIC, not a CONCEPT. "Inflation"
@@ -167,6 +171,7 @@ entity_types:
     properties:
       date_or_period:
         hint: if mentioned
+        temporal: valid_from
       participants:
         hint: who was involved
       outcome:
@@ -209,6 +214,9 @@ entity_types:
         hint: what evidence backs it up, if stated
       who_makes_it:
         hint: the author, the document, a cited source
+      stated_on:
+        hint: date the claim was made, if stated
+        temporal: valid_from
       implications:
         hint: what follows if the claim is true
     relates_to:

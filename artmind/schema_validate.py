@@ -172,16 +172,63 @@ def validate_schema(schema: dict, meta: dict, schema_name: str = "") -> list[str
         elif kind not in valid_kinds:
             errors.append(f"{where}: kind={kind!r} is not one of {sorted(valid_kinds)}")
 
-        for prop in (decl.get("properties") or {}):
+        props = decl.get("properties") or {}
+        for prop in props:
             _check_reserved(prop, prefix, f"{where}.properties", errors)
+            tag = props[prop].get("temporal") if isinstance(props, dict) and isinstance(props[prop], dict) else None
+            if tag is not None and tag not in TEMPORAL_VALUES:
+                errors.append(f"{where}.properties.{prop}: temporal={tag!r} is not one of {list(TEMPORAL_VALUES)}")
 
         for target in (decl.get("relates_to") or {}):
             _check_reserved(target, prefix, f"{where}.relates_to", errors)
 
     errors.extend(_property_alias_errors(schema, entity_types, prefix, label))
+    errors.extend(_temporal_document_errors(schema, label))
     errors.extend(_document_entity_errors(schema, entity_types, label))
     errors.extend(_property_decl_errors(entity_types, label))
     return errors
+
+
+#: What a property's `temporal:` tag may say (spec 2026-11-15 §4): the fact's valid time
+#: (`valid_from`, `valid_to`), a deadline (`due`) or a review date (`review`).
+TEMPORAL_VALUES = ("valid_from", "valid_to", "due", "review")
+#: The keys of a schema's `temporal.document` label mapping.
+DOCUMENT_TEMPORAL_KEYS = ("valid_from", "valid_to", "revised", "version")
+
+
+def _temporal_document_errors(schema: dict, label: str) -> list[str]:
+    temporal = schema.get("temporal")
+    document = temporal.get("document") if isinstance(temporal, dict) else None
+    if not isinstance(document, dict):
+        return []
+    return [f"{label}.temporal.document.{key}: not one of {list(DOCUMENT_TEMPORAL_KEYS)}"
+            for key in document if key not in DOCUMENT_TEMPORAL_KEYS]
+
+
+def class_identity(schema: dict, cls: str) -> str:
+    """How same-name mentions of `cls` are told apart: `occasion` (one per day) for a
+    `kind: occurrent` class, else `name`. The default rule; Task 14 adds the `identity:` key."""
+    types = schema.get("entity_types") if isinstance(schema, dict) else None
+    decl = types.get(cls) if isinstance(types, dict) else None
+    return "occasion" if isinstance(decl, dict) and decl.get("kind") == "occurrent" else "name"
+
+
+def temporal_warnings(schema: dict, schema_name: str = "") -> list[str]:
+    """WARNs for the temporal rules (spec 2026-11-15 §4, §5.3): an occasion class that
+    declares no `temporal: valid_from` property is dated by its document only."""
+    label = schema_name or schema.get("name", "<unnamed>")
+    types = schema.get("entity_types")
+    if not isinstance(types, dict):
+        return []
+    out = []
+    for cls, decl in types.items():
+        props = (decl or {}).get("properties") if isinstance(decl, dict) else None
+        props = props if isinstance(props, dict) else {}
+        tags = {p.get("temporal") for p in props.values() if isinstance(p, dict)}
+        if class_identity(schema, cls) == "occasion" and "valid_from" not in tags:
+            out.append(f"{label}.entity_types.{cls}: an occasion class declares no "
+                       "`temporal: valid_from` property; its facts are dated by their document only")
+    return out
 
 
 def _document_entity_errors(schema: dict, entity_types: dict, label: str) -> list[str]:
@@ -285,7 +332,7 @@ def warn_all(schemas_dir: Path = DOMAIN_SCHEMAS_DIR) -> dict[str, list[str]]:
         name = schema.get("name", schema_file.stem)
         warnings = (reserved_relationship_warnings(schema, name) + graph_extraction_warnings(schema, name)
                     + property_alias_warnings(schema, name) + guidance_property_warnings(schema, name)
-                    + own_key_property_warnings(schema, name) + exclusive_property_warnings(schema, name))
+                    + own_key_property_warnings(schema, name) + temporal_warnings(schema, name))
         if warnings:
             found[name] = warnings
     return found
@@ -450,20 +497,6 @@ def property_alias_warnings(schema: dict, schema_name: str = "") -> list[str]:
             out.append(f"{label}.property_aliases: {a!r} -> {t!r}, but no class declares {t!r}, "
                        "so every value it renames is dropped")
     return out
-
-
-def exclusive_property_warnings(schema: dict, schema_name: str = "") -> list[str]:
-    """A property declared `exclusive:`: the flag has no effect any more -- the declared-key
-    filter keeps a key only on the classes that declare it (spec 2026-11-15 §2.2)."""
-    label = schema_name or schema.get("name", "<unnamed>")
-    types = schema.get("entity_types") or {}
-    if not isinstance(types, dict):
-        return []
-    return [f"{label}.entity_types.{cls}.properties.{prop}.exclusive: has no effect; "
-            "the declared-key filter does this (remove it)"
-            for cls, decl in types.items() if isinstance(decl, dict)
-            and isinstance(decl.get("properties"), dict)
-            for prop, pd in decl["properties"].items() if isinstance(pd, dict) and "exclusive" in pd]
 
 
 def guidance_property_warnings(schema: dict, schema_name: str = "") -> list[str]:

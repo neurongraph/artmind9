@@ -40,10 +40,10 @@ from artmind.observations import normalize_property_keys, property_key_rules
 
 #: The fields a retime owns -- everything else in a staging folder is left
 #: byte-for-byte alone.
-_DOCUMENT_TIME_KEYS = ("_valid_from", "_valid_to", "_valid_time_source", "_valid_precision")
+_DOCUMENT_TIME_KEYS = ("_valid_from", "_valid_to", "_valid_time_source", "_valid_precision", "_revised_at")
 _OBSERVATION_TIME_KEYS = (
     "_valid_from", "_valid_to", "_valid_time_source", "_valid_precision", "_valid_time_of_day",
-    "_doc_valid_from",
+    "_doc_valid_from", "_due", "_review",
 )
 
 
@@ -103,6 +103,8 @@ def retime_observations(observations: list[dict], document: dict, schema: dict) 
             ),
             "_valid_time_of_day": fact.time_of_day,
             "_doc_valid_from": doc_from,
+            "_due": fact.due,
+            "_review": fact.review,
         }
         new.update({k: v for k, v in times.items() if v})
         out.append(new)

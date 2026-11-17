@@ -3592,6 +3592,9 @@ def _document_valid_time(
         out["_valid_precision"] = lifted.get("valid_precision") or "day"
     if lifted.get("valid_to"):
         out["_valid_to"] = lifted["valid_to"]
+    if lifted.get("revised"):
+        # "Last Updated": when the document was revised, never when it took effect (spec §4).
+        out["_revised_at"] = lifted["revised"]
     if lifted.get("time_source"):
         out["_valid_time_source"] = lifted["time_source"]
     if lifted.get("version"):
@@ -3607,7 +3610,8 @@ class FactTime:
     """A fact's valid time from its class's `temporal:` properties (spec 2026-11-15 §3.2).
 
     `valid_to` is a tagged `valid_to` property's start, else the `valid_from` value's range
-    end (exclusive). `due` / `review` are read for Task 10's tags. `unparsed` counts tagged
+    end (exclusive). `due` / `review` are the `temporal: due|review` tags' starts: a deadline
+    or a review date, never the fact's valid time (spec §4). `unparsed` counts tagged
     values present but holding no date ("Ongoing"); they never become a date.
     """
 
@@ -3744,6 +3748,11 @@ def _build_observations(
             valid_precision=fact.precision if fact.valid_from else _document_precision(document, schema),
             valid_time_of_day=fact.time_of_day,
         )
+        # A deadline or review date is its own field, never the fact's valid time (spec §4).
+        if fact.due:
+            observation["_due"] = fact.due
+        if fact.review:
+            observation["_review"] = fact.review
         # Two chunks asserting the same identity produce the same id only when
         # they ARE the same chunk; within one chunk, a repeated entity is one
         # observation, not several.

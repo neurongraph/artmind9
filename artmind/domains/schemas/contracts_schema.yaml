@@ -196,7 +196,6 @@ entity_types:
       contract_date:
         hint: ISO date (YYYY-MM-DD) the contract was made or took effect (also signature date)
         temporal: valid_from
-        exclusive: true
       term_start_date:
         hint: ISO date (YYYY-MM-DD)
       term_end_date:
@@ -270,7 +269,6 @@ entity_types:
       effective_date:
         hint: ISO date (YYYY-MM-DD) the change takes effect (the "Amendment Date")
         temporal: valid_from
-        exclusive: true
       signed_date:
         hint: ISO date (YYYY-MM-DD) of the last signature
       status:
@@ -368,11 +366,9 @@ entity_types:
       applies_from:
         hint: ISO date (YYYY-MM-DD)
         temporal: valid_from
-        exclusive: true
       applies_until:
         hint: ISO date (YYYY-MM-DD)
         temporal: valid_to
-        exclusive: true
     relates_to:
       TERM:
       - overrides
@@ -445,11 +441,9 @@ entity_types:
       applies_from:
         hint: ISO date (YYYY-MM-DD)
         temporal: valid_from
-        exclusive: true
       applies_until:
         hint: ISO date (YYYY-MM-DD)
         temporal: valid_to
-        exclusive: true
     relates_to:
       CHARGE:
       - discounts

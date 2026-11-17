@@ -210,7 +210,7 @@ entity_types:
         hint: what must be done
       due_date:
         hint: if stated
-        temporal: valid_from
+        temporal: due
       status:
         hint: pending | in_progress | complete
       owner_or_team: {}
@@ -518,6 +518,9 @@ entity_types:
       filing_deadline: {}
       confidentiality_rule: {}
       consequence_of_non_filing: {}
+      filed_on:
+        hint: date the SAR was filed
+        temporal: valid_from
     relates_to:
       TRANSACTION:
       - triggered_by
@@ -557,6 +560,9 @@ entity_types:
       threshold_value:
         hint: numeric, no currency symbol or thousands separators, e.g., 10000
       dispute_or_reversal_rules: {}
+      transaction_date:
+        hint: date of the transaction, YYYY-MM-DD
+        temporal: valid_from
 guidance:
   relationships: |-
     All CASE → INCIDENT_EVENT, CASE → CUSTOMER_COMPLAINT, CASE → IMPACT_ASSESSMENT, CASE → REMEDIATION_ACTION, and CASE → RETENTION_DECISION links captured.

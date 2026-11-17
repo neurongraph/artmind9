@@ -311,6 +311,7 @@ entity_types:
         hint: if mentioned
       date:
         hint: if mentioned
+        temporal: valid_from
     relates_to:
       PROJECT:
       - directs
@@ -346,7 +347,7 @@ entity_types:
         hint: what triggered this action
       dependencies: {}
       due_date:
-        temporal: valid_from
+        temporal: due
         hint: or timeframe
     relates_to:
       MILESTONE:
@@ -475,8 +476,9 @@ entity_types:
       to_state: {}
       date_or_time:
         hint: when the change occurred — anchored to the document date if relative
-      due_date:
         temporal: valid_from
+      due_date:
+        temporal: due
     relates_to:
       PERSON:
       - state_of

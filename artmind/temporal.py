@@ -399,14 +399,17 @@ def lift_document_dates(
 ) -> dict:
     """Return canonical document props from header labels / frontmatter / patterns.
 
-    mapping example: {"valid_from": ["Effective Date"], "version": ["Version"]}
+    mapping example: {"valid_from": ["Effective Date"], "revised": ["Last Updated"],
+                      "version": ["Version"]}
     patterns example: {"valid_from": [{"filename": r"^(\\d{4}-\\d{2}-\\d{2})$"}]}
     Labels are tried first; `patterns` (the schema's `temporal.document_patterns`)
     only when no label answers -- see `_match_document_pattern`.
     Records time_source: 'header' | 'frontmatter' | 'filename' | 'first_line', and
     `valid_precision`, how much of `valid_from` was stated (`parse_valid`; `none` for the
     `ingestion_date` default). A ranged `valid_from` sets `valid_to` (exclusive) when no
-    `valid_to` was found.
+    `valid_to` was found. A `revised` date ("Last Updated") is kept as `revised` and never
+    becomes `valid_from`: a revision date is not when the document took effect, so a
+    document with only a revision date takes the default date (spec 2026-11-15 §4).
     """
     out: dict = {}
     source = None
@@ -417,22 +420,22 @@ def lift_document_dates(
         # A date is taken only where the header holds one; a version is any value.
         raw = (_find_header_value(md_text, labels) if canon == "version"
                else _find_header_date_text(md_text, labels))
-        if raw is not None:
-            source = source or "header"
-        else:
+        found_in = "header" if raw is not None else None
+        if raw is None:
             for lbl in labels:
                 if frontmatter.get(lbl.lower().replace(" ", "_")) or frontmatter.get(lbl):
                     raw = str(frontmatter.get(lbl.lower().replace(" ", "_")) or frontmatter.get(lbl))
-                    source = source or "frontmatter"
+                    found_in = "frontmatter"
                     break
         if raw is None and canon == "valid_from" and frontmatter.get("date"):
             raw = str(frontmatter["date"])
-            source = source or "frontmatter"
+            found_in = "frontmatter"
         if raw is None and patterns.get(canon):
             matched = _match_document_pattern(patterns[canon], md_text, filename)
             if matched:
-                raw, pattern_source = matched
-                source = source or pattern_source
+                raw, found_in = matched
+        if found_in and canon != "revised":  # time_source says where the dating came from
+            source = source or found_in
         if raw is None:
             continue
         if canon == "version":
@@ -456,6 +459,7 @@ def lift_document_dates(
         # A ranged date ("2026-01 to 2026-03") ends the document's validity when no
         # `valid_to` label says otherwise, as a fact's range does (spec 2026-11-15 §3.2).
         out["valid_to"] = range_end
+    # `revised` is not in this list: a revision date alone leaves the default to date it.
     if any(k in out for k in ("valid_from", "valid_to", "version")):
         out["time_source"] = source or "header"
     elif defaults and defaults.get("valid_from") == "ingestion_date":

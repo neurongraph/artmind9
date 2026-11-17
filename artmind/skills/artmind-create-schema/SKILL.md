@@ -327,20 +327,22 @@ already declared it:
         temporal: valid_from
 ```
 
-`temporal` accepts exactly two values: `valid_from` and `valid_to` — nothing
-else. This is what lets one document's own dated properties override the
+`temporal` accepts exactly four values. `valid_from` and `valid_to` are the
+fact's own valid time: they let one document's dated properties override the
 document's own date for that specific fact (`docs/projection-pipeline.md`'s
-"two valid-time axes"). Tag it on **any** class regardless of `kind` — an
-`occurrent` class needs this just as much as a `recurrent` one; there is no
-separate `event_at` axis. A property tagged anything else (including the
-retired `event_at`) is silently ignored by the observation builder, not an
-error — so a typo here fails silently. Double-check the two spellings.
+"two valid-time axes"). `due` (a deadline: "due by", "deadline", "target
+date") and `review` (a next review or check date) are stored as the fact's
+`_due` / `_review` and never date it — tag a deadline `due`, never
+`valid_from`, or the action is dated when it is due rather than when it was
+raised. Tag `valid_from` on **any** class regardless of `kind`; an
+`occurrent` class (a happening) should always declare one, or its facts are
+dated by their document only (`domains validate` WARNs). There is no separate
+`event_at` axis. Any other value is an ERROR in `domains validate`.
 
 A date property stays on the classes that declare it: a journal's
 `date_or_time` on a PERSON would only mean "mentioned in this entry", and the
 declared-key filter drops it there (extraction, and `ingest retime` for
-staged data). The older `exclusive: true` flag is therefore no longer needed;
-it is accepted and has no effect. To let another class carry the same date
+staged data). To let another class carry the same date
 (`effective_date` on a contract OBLIGATION is a fact), declare it there too.
 
 To decide which keys a class should keep once a domain has data, run
@@ -377,6 +379,11 @@ Include this only when documents in this domain carry their own date
 (a "Version"/"Effective Date" header) or express dates relative to
 themselves (a journal entry's "today"). Both keys are optional — omit the
 whole block for a domain with no natural document date.
+
+`document` takes `valid_from`, `valid_to`, `revised` and `version` (any other
+key is an ERROR). Put a "Last Updated" / "Revised" label under `revised`,
+never `valid_from`: a revision date is stored as the document's
+`_revised_at` and does not say when the document took effect.
 
 `document.valid_from` lists **labels**: a frontmatter key, a `Label: value`
 line, or a `| Label | value |` table row. A label alone never reads a
@@ -686,8 +693,9 @@ guidance:                              # optional — schema-wide, not per-class
 □ 5–8 entity classes total, POOLE+ base types included
 □ every non-obvious property's hint pins a FORMAT when the value could be
   written more than one way (currency, dates, ranges, percentages)
-□ at most one or two properties per class tagged temporal: valid_from/valid_to
-  — spelled exactly that way, nothing else (not event_at)
+□ at most one or two properties per class tagged temporal: valid_from/valid_to;
+  deadlines tagged temporal: due, review dates temporal: review (not event_at)
+□ every occurrent class declares a temporal: valid_from property
 □ relates_to covers all major class-pair combinations, declared from one side only
 □ domain-specific vocabulary used throughout (no generic placeholders left in)
 □ property names are singular, and one idea has one name across classes

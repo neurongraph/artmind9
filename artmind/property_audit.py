@@ -154,9 +154,8 @@ def _row(cls: str, key: str, decl: dict | None, tally: _Tally, depended_on: dict
     total = (a + b + c) or 1
     flags: dict = {}
     if decl is not None:
-        for flag in ("temporal", "exclusive"):
-            if decl.get(flag):
-                flags[flag] = decl[flag]
+        if decl.get("temporal"):
+            flags["temporal"] = decl["temporal"]
         if decl.get("required") is True:
             flags["required"] = True
         if key in OBSERVATION_OWN_KEYS:

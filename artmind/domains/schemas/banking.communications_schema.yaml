@@ -10,6 +10,7 @@ temporal:
     - Effective Date
     - Issued Date
     - Reporting Date
+    revised:
     - Last Updated
     version:
     - Version
@@ -654,6 +655,9 @@ entity_types:
       filing_deadline: {}
       confidentiality_rule: {}
       consequence_of_non_filing: {}
+      filed_on:
+        hint: date the SAR was filed
+        temporal: valid_from
     relates_to:
       TRANSACTION:
       - triggered_by
@@ -693,6 +697,9 @@ entity_types:
       threshold_value:
         hint: numeric, no currency symbol or thousands separators, e.g., 10000
       dispute_or_reversal_rules: {}
+      transaction_date:
+        hint: date of the transaction, YYYY-MM-DD
+        temporal: valid_from
 guidance:
   relationships: |-
     All COMMUNICATION_TEMPLATE → TEMPLATE_VARIABLE contains links captured.
