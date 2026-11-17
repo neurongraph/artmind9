@@ -38,6 +38,8 @@ def _graph_steps() -> list[Step]:
         # Dates fold before supersession ends are restated: a newer document's
         # `_valid_from` is the end an undated edge writes.
         Step("document_dates", graph.document_dates_pending, graph.document_dates_apply),
+        # After the fold, so folded values are normalised too; before ends, which compare dates.
+        Step("partial_dates", graph.partial_dates_pending, graph.partial_dates_apply),
         # Legacy edges get records before ends are restated: `restate_validity` skips an
         # edge with no `record_id`.
         Step("supersession_records", graph.supersession_records_pending, graph.supersession_records_apply,

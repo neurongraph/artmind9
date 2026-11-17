@@ -38,7 +38,8 @@ def _writes(recorder):
 
 def test_the_steps_are_registered_dates_before_ends():
     names = [s.name for s in steps_mod._graph_steps()]
-    assert names == ["document_dates", "supersession_records", "supersession_ends", "record_time", "old_indexes"]
+    assert names == ["document_dates", "partial_dates", "supersession_records", "supersession_ends",
+                     "record_time", "old_indexes"]
     # graph-only steps write no files; supersession_records declares its record files
     assert all(s.writes(None) == [] for s in steps_mod._graph_steps() if s.name != "supersession_records")
 
@@ -74,11 +75,14 @@ def test_dates_fold_valid_from_and_remove_both_without_folding_valid_to(monkeypa
         assert "_valid_to =" not in cypher
         # Only rows still to do: a second run matches nothing.
         assert ("(d.valid_from IS NOT NULL OR d.valid_to IS NOT NULL "
-                "OR (d._valid_precision IS NULL AND d._valid_from IS NOT NULL))") in cypher
+                "OR (d._valid_precision IS NULL AND d._valid_from IS NOT NULL "
+                "AND NOT toString(d._valid_from) =~ '[0-9]{4}(-(0[1-9]|1[0-2]))?'))") in cypher
         # A default date is undated; an old full date is read as a day.
         assert ("WHEN d._valid_time_source = coalesce($sources[coalesce(d._domain, '')], 'default_ingestion') "
                 "THEN 'none'") in cypher
-        assert "WHEN size(toString(d._valid_from)) = 4 THEN 'year'" in cypher and "ELSE 'day' END" in cypher
+        # a full date reads as a day; a partial one is left to partial_dates
+        assert "ELSE 'day' END" in cypher and "'year'" not in cypher
+        assert "AND NOT toString(d._valid_from) =~ '[0-9]{4}(-(0[1-9]|1[0-2]))?'" in cypher.split("WITH d WHERE")[1]
         assert params["sources"] == {"notes": "filed", "other": "default_ingestion"}
         assert "IN TRANSACTIONS OF 5000 ROWS" in cypher
     bumps = rec.queries_containing("MERGE (s:DomainState")
@@ -416,7 +420,10 @@ def test_dry_run_over_the_real_steps_sends_only_reads(runner):
     assert result.exit_code == 0, result.output
     out = json.loads(result.stdout)
     assert [s["name"] for s in out["steps"] if s["pending"]] == [
-        "document_dates", "supersession_records", "supersession_ends", "record_time", "old_indexes"]
+        "document_dates", "partial_dates", "supersession_records", "supersession_ends", "record_time",
+        "old_indexes"]
+    ends = next(s for s in out["steps"] if s["name"] == "supersession_ends")
+    assert ends["pending"] == {"documents": 3}  # the estimate equals the count here
     assert_no_write_cypher(rec)
     assert not [c for c, _ in rec.calls if "IN TRANSACTIONS" in c or c.startswith("DROP")]
 
@@ -496,3 +503,78 @@ def test_a_cross_domain_supersession_under_domain_reaches_done(runner, monkeypat
     assert g.new_folded and not g.old_open
     ends = next(s for s in out["steps"] if s["name"] == "supersession_ends")
     assert ends["applied"] == {"documents": 1, "nodes_closed": 1}
+
+
+# ── partial_dates ─────────────────────────────────────────────────────────────
+
+def test_partial_map_uses_parse_valid(monkeypatch):
+    from artmind import temporal
+
+    seen = []
+    real = temporal.parse_valid
+    monkeypatch.setattr(temporal, "parse_valid", lambda v: seen.append(v) or real(v))
+    assert graph.partial_map(["2026", "2026-03", "2026", "9999"]) == {
+        "2026": {"start": "2026-01-01", "end": "2027-01-01", "precision": "year"},
+        "2026-03": {"start": "2026-03-01", "end": "2026-04-01", "precision": "month"},
+        "9999": {"start": "9999-01-01", "end": None, "precision": "year"},  # an open end
+    }
+    assert seen == ["2026", "2026-03", "9999"]
+
+
+def test_partial_dates_pending_covers_every_label_and_key():
+    rec = _rec(n=2)
+    out = graph.partial_dates_pending(_ctx(rec))
+    assert set(out) == set(graph.PARTIAL_LABELS) and "Entity" in out
+    cypher = rec.calls[0][0]
+    for key in ("_valid_from", "_valid_to", "_doc_valid_from", "_doc_valid_to"):
+        assert f"toString(x.{key}) =~ '[0-9]{{4}}(-(0[1-9]|1[0-2]))?'" in cypher
+
+
+def test_partial_dates_apply_normalises_with_the_map_bumping_first():
+    def respond(cypher, params):
+        if "collect(DISTINCT v)" in cypher:
+            return [{"n": 1, "values": ["2026-03"], "domains": ["notes"]}] if "(x:Observation)" in cypher else [
+                {"n": 0, "values": [], "domains": []}]
+        return []
+    rec = WritableRecorder(respond)
+    assert graph.partial_dates_apply(_ctx(rec)) == {"Observation": 1}
+    (cypher, params), = _writes(rec)
+    assert params["map"] == {"2026-03": {"start": "2026-03-01", "end": "2026-04-01", "precision": "month"}}
+    assert "coalesce(x._valid_precision, valid_from.precision)" in cypher
+    assert "x._valid_from = CASE WHEN valid_from IS NULL THEN x._valid_from ELSE valid_from.start END" in cypher
+    assert "x._valid_to = CASE WHEN valid_to IS NULL THEN x._valid_to ELSE valid_to.end END" in cypher
+    assert "x._doc_valid_to = CASE WHEN doc_valid_to IS NULL THEN x._doc_valid_to ELSE doc_valid_to.end END" in cypher
+    bump = next(i for i, (c, _) in enumerate(rec.calls) if "MERGE (s:DomainState" in c)
+    assert bump < rec.calls.index((cypher, params))
+
+
+def test_partial_dates_second_run_sends_no_writes():
+    rec = WritableRecorder(lambda c, p: [{"n": 0, "values": [], "domains": []}] if "collect" in c else [{"n": 0}])
+    assert graph.partial_dates_pending(_ctx(rec)) == {}
+    assert graph.partial_dates_apply(_ctx(rec)) == {}
+    assert_no_write_cypher(rec)
+
+
+def test_partial_dates_dry_run_sends_only_reads():
+    rec = _rec(n=4)
+    ctx = _ctx(rec)
+    ctx.dry_run = True
+    assert graph.partial_dates_pending(ctx)
+    assert graph.partial_dates_apply(ctx, True) == {}
+    assert_no_write_cypher(rec)
+
+
+# ── the dry run's estimate of supersession ends ───────────────────────────────
+
+def test_the_dry_run_estimates_ends_the_earlier_steps_will_open_up():
+    def respond(cypher, params):
+        if "s.record_id IS NOT NULL" in cypher:
+            return [{"n": 0}]  # nothing yet: dates unfolded, records not minted
+        return [{"n": 2}]
+    rec = WritableRecorder(respond)
+    ctx = _ctx(rec)
+    assert graph.supersession_ends_pending(ctx) == {}  # a real run's pending is the real count
+    ctx.dry_run = True
+    assert graph.supersession_ends_pending(ctx) == {"documents (after earlier steps)": 2}
+    estimate = rec.calls[-1][0]
+    assert "coalesce(newer._valid_from, newer.valid_from)" in estimate and "record_id" not in estimate

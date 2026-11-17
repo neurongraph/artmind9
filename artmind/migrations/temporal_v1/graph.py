@@ -16,10 +16,15 @@ batched write.
   stated end, so it is removed and `supersession_ends` derives the end again. A
   dated document with no `_valid_precision` gets one: `none` when its
   `_valid_time_source` is its domain's default (`temporal.defaults.time_source`,
-  else `default_ingestion`), else `year`/`month` by the value's shape, else `day`
-  (an approximation: the parsed precision was never stored). Under `--domain` the
+  else `default_ingestion`), else `day` for a full date (an approximation: the parsed
+  precision was never stored); a partial date is left to `partial_dates`. Under `--domain` the
   newer side of every document-scope `SUPERSEDES` edge into an in-scope document is
   folded too, whatever its domain: its `_valid_from` is the end an undated edge writes.
+- `partial_dates`: a partial date string (`YYYY`, `YYYY-MM`; old `parse_iso` kept them)
+  in `_valid_from`/`_valid_to`/`_doc_valid_from`/`_doc_valid_to` on documents, their
+  rows and entities is normalised with core `parse_valid`: a start to its first day
+  (`_valid_precision` year/month when unset), an end to the period's exclusive end.
+  Runs after `document_dates` (which then sets only `none` or `day` precision).
 - `supersession_records`: a document-scope edge with no `record_id` (asserted
   before supersession records) gets its record minted by core `record_for`,
   written as a curation file (declared in `writes`, so the run needs it
@@ -105,8 +110,14 @@ def _distinct_domains(session, cypher: str, **params) -> set:
 
 # Still to do on a document: an unprefixed name, or a date with no precision (written
 # before precision existed).
+#: A partial date string (`YYYY`, `YYYY-MM`) as old graphs hold them (before `parse_valid`,
+#: `parse_iso` returned them unchanged); `partial_dates` normalises them. Cypher's `=~`
+#: matches the whole string.
+PARTIAL = "[0-9]{4}(-(0[1-9]|1[0-2]))?"
+
 _DATES_PENDING = ("(d.valid_from IS NOT NULL OR d.valid_to IS NOT NULL "
-                  "OR (d._valid_precision IS NULL AND d._valid_from IS NOT NULL))")
+                  "OR (d._valid_precision IS NULL AND d._valid_from IS NOT NULL "
+                  f"AND NOT toString(d._valid_from) =~ '{PARTIAL}'))")
 
 
 def _doc_scope(domains: list[str] | None) -> str:
@@ -123,20 +134,19 @@ def _dates_match(label: str, domains: list[str] | None) -> str:
 
 
 # A document's precision, set once its date is folded: `none` when its date is its
-# domain's default (`temporal.defaults.time_source`, as core writes it), else read
-# from the stored value's shape -- `day` for a full date (an approximation: an old
-# document's parsed precision was never stored).
+# domain's default (`temporal.defaults.time_source`, as core writes it), else `day` for
+# a full date (an approximation: an old document's parsed precision was never stored).
+# A partial date is left to `partial_dates`, which reads its precision with `parse_valid`.
 _FOLD = """
 CALL (d) {
   SET d._valid_from = coalesce(d._valid_from, d.valid_from)
   REMOVE d.valid_from, d.valid_to
   WITH d WHERE d._valid_precision IS NULL AND d._valid_from IS NOT NULL
+    AND NOT toString(d._valid_from) =~ '%s'
   SET d._valid_precision = CASE
     WHEN d._valid_time_source = coalesce($sources[coalesce(d._domain, '')], 'default_ingestion') THEN 'none'
-    WHEN size(toString(d._valid_from)) = 4 THEN 'year'
-    WHEN size(toString(d._valid_from)) = 7 THEN 'month'
     ELSE 'day' END
-} IN TRANSACTIONS OF %d ROWS""" % BATCH_ROWS
+} IN TRANSACTIONS OF %d ROWS""" % (PARTIAL, BATCH_ROWS)
 
 
 def default_sources(domains) -> dict[str, str]:
@@ -181,6 +191,88 @@ def document_dates_apply(ctx: MigrationContext, dry_run: bool = False) -> dict:
             # (`supersession_ends` derives it again with a `_valid_to_by` marker).
             session.run(_dates_match(label, ctx.domains) + _FOLD, domains=ctx.domains, sources=sources).consume()
     return {k: v for k, v in applied.items() if v}
+
+
+# ── partial_dates ─────────────────────────────────────────────────────────────
+
+PARTIAL_LABELS = ("Document", "DocumentHistory", "Observation", "ObservationHistory", "DocChunk",
+                  "DocChunkHistory", "DocPassage", "DocPassageHistory", "DocSummary", "DocSummaryHistory",
+                  "Entity")
+_DATE_KEYS = ("_valid_from", "_valid_to", "_doc_valid_from", "_doc_valid_to")
+
+
+def _partial(var: str, key: str) -> str:
+    return f"toString({var}.{key}) =~ '{PARTIAL}'"
+
+
+def _partial_match(label: str, domains: list[str] | None) -> str:
+    any_partial = " OR ".join(_partial("x", k) for k in _DATE_KEYS)
+    return f"MATCH (x:{label}) WHERE ({any_partial}){_scope('x', domains)} "
+
+
+def partial_map(values) -> dict[str, dict]:
+    """Core `parse_valid` over each partial value: its first day (`start`), the exclusive
+    end of its period (`end`; None when open) and its precision."""
+    from artmind import temporal
+
+    out: dict[str, dict] = {}
+    for value in sorted({v for v in values if isinstance(v, str)}):
+        parsed = temporal.parse_valid(value)
+        if parsed is not None:
+            out[value] = {"start": parsed.start, "end": parsed.implied_end, "precision": parsed.precision}
+    return out
+
+
+def _normalise() -> str:
+    """Pad a partial start to its first day, turn a partial end into the period's exclusive
+    end (None = open: removed), and keep the precision a partial `_valid_from` stated."""
+    lookups = ", ".join(f"CASE WHEN {_partial('x', k)} THEN $map[x.{k}] END AS {k.strip('_')}" for k in _DATE_KEYS)
+    return (
+        f"CALL (x) {{ WITH x, {lookups} "
+        "SET x._valid_precision = CASE WHEN valid_from IS NULL THEN x._valid_precision "
+        "ELSE coalesce(x._valid_precision, valid_from.precision) END, "
+        "x._valid_from = CASE WHEN valid_from IS NULL THEN x._valid_from ELSE valid_from.start END, "
+        "x._doc_valid_from = CASE WHEN doc_valid_from IS NULL THEN x._doc_valid_from ELSE doc_valid_from.start END, "
+        "x._valid_to = CASE WHEN valid_to IS NULL THEN x._valid_to ELSE valid_to.end END, "
+        "x._doc_valid_to = CASE WHEN doc_valid_to IS NULL THEN x._doc_valid_to ELSE doc_valid_to.end END "
+        f"}} IN TRANSACTIONS OF {BATCH_ROWS} ROWS"
+    )
+
+
+def partial_dates_pending(ctx: MigrationContext) -> dict:
+    with ctx.session_factory() as session:
+        counts = {label: _count(session, _partial_match(label, ctx.domains) + "RETURN count(x) AS n",
+                                domains=ctx.domains)
+                  for label in PARTIAL_LABELS}
+    return {k: v for k, v in counts.items() if v}
+
+
+def partial_dates_apply(ctx: MigrationContext, dry_run: bool = False) -> dict:
+    if dry_run:
+        return {}
+    applied: dict = {}
+    values: set = set()
+    domains: set = set()
+    with ctx.session_factory() as session:
+        for label in PARTIAL_LABELS:
+            rows = session.run(
+                _partial_match(label, ctx.domains)
+                + "UNWIND [" + ", ".join(f"x.{k}" for k in _DATE_KEYS) + "] AS v "
+                f"WITH x, v WHERE toString(v) =~ '{PARTIAL}' "
+                "RETURN count(DISTINCT x) AS n, collect(DISTINCT v) AS values, collect(DISTINCT x._domain) AS domains",
+                domains=ctx.domains).data()
+            row = rows[0] if rows else {}
+            if row.get("n"):
+                applied[label] = int(row["n"])
+                values |= set(row.get("values") or [])
+                domains |= set(row.get("domains") or [])
+        if not applied:
+            return {}
+        mapping = partial_map(values)
+        _bump(session, domains)
+        for label in applied:
+            session.run(_partial_match(label, ctx.domains) + _normalise(), domains=ctx.domains, map=mapping).consume()
+    return applied
 
 
 # ── supersession_records ──────────────────────────────────────────────────────
@@ -281,10 +373,33 @@ def _superseded_open(domains: list[str] | None) -> str:
     )
 
 
+ESTIMATE = "documents (after earlier steps)"
+
+
+def _superseded_estimate(domains: list[str] | None) -> str:
+    """As `_superseded_open`, but read before the earlier steps ran: any document-scope
+    edge (record or not) whose end resolves from the unprefixed date too."""
+    return (
+        "MATCH (newer)-[s:SUPERSEDES {scope: 'document'}]->(older) "
+        f"WHERE (older:Document OR older:DocumentHistory){_scope('older', domains)} "
+        "AND coalesce(s.effective, CASE WHEN newer._valid_precision = 'none' THEN null "
+        "ELSE coalesce(newer._valid_from, newer.valid_from) END) IS NOT NULL "
+        f"WITH DISTINCT older WHERE {_open_node()} "
+    )
+
+
 def supersession_ends_pending(ctx: MigrationContext) -> dict:
+    """What `restate_validity` would close now. A dry run also estimates what it will close
+    once the earlier steps have folded dates and minted records (on an unmigrated graph the
+    first count is often 0)."""
     with ctx.session_factory() as session:
         n = _count(session, _superseded_open(ctx.domains) + "RETURN count(older) AS n", domains=ctx.domains)
-    return {"documents": n} if n else {}
+        estimate = (_count(session, _superseded_estimate(ctx.domains) + "RETURN count(older) AS n",
+                           domains=ctx.domains) if ctx.dry_run else 0)
+    out = {"documents": n} if n else {}
+    if estimate and estimate != n:
+        out[ESTIMATE] = estimate
+    return out
 
 
 def _restate_batch(tx, ids: list[str]) -> int:
