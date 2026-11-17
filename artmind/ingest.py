@@ -3552,6 +3552,8 @@ def _document_valid_time(
                 out[key] = parsed.start
                 if key == "_valid_from":
                     out["_valid_precision"] = parsed.precision
+                    if parsed.end and not frontmatter.get("_valid_to"):
+                        out["_valid_to"] = parsed.end   # a range ends it (spec §3.2)
     if frontmatter.get("_valid_time_source") and out:
         out["_valid_time_source"] = str(frontmatter["_valid_time_source"])
     if out.get("_valid_from"):

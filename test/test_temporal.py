@@ -443,3 +443,32 @@ def test_a_partial_header_date_answers_before_a_filename_pattern():
         patterns={"valid_from": [{"filename": r"(\d{4}-\d{2}-\d{2})"}]}, filename="log 2026-03-04.md",
     )
     assert (out["valid_from"], out["valid_precision"], out["time_source"]) == ("2026-03-01", "month", "header")
+
+
+@pytest.mark.parametrize("value", ["Q1 2026 to Q2 2026", "2026-01 to 2026-03"])
+def test_a_header_range_under_a_date_label_answers(value):
+    from artmind.temporal import _find_header_date_text
+
+    assert _find_header_date_text(f"Date: {value}\n", ["Date"]) == value
+
+
+def test_a_ranged_header_date_sets_the_documents_valid_to():
+    out = lift_document_dates("| Date | 2026-01 to 2026-03 |\n", {}, {"valid_from": ["Date"]}, None)
+    assert (out["valid_from"], out["valid_to"], out["valid_precision"]) == ("2026-01-01", "2026-04-01", "month")
+
+
+def test_an_explicit_valid_to_label_wins_over_the_range_end():
+    out = lift_document_dates(
+        "| Date | 2026-01 to 2026-03 |\n| Ends | 2026-02-15 |\n", {},
+        {"valid_from": ["Date"], "valid_to": ["Ends"]}, None,
+    )
+    assert out["valid_to"] == "2026-02-15"
+
+
+def test_a_ranged_frontmatter_valid_from_sets_valid_to(tmp_path):
+    from artmind.ingest import _document_valid_time
+
+    md = tmp_path / "n.md"
+    md.write_text("Body\n", encoding="utf-8")
+    out = _document_valid_time(md, {"_valid_from": "2026-03-01 to 2026-03-05"}, {"temporal": {}}, filename="n.md")
+    assert (out["_valid_from"], out["_valid_to"], out["_valid_precision"]) == ("2026-03-01", "2026-03-06", "day")

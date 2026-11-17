@@ -14,15 +14,18 @@ from loguru import logger
 from artmind.graph_query import expand_domain_family, neo4j_session
 from paths import DOMAIN_SCHEMAS_DIR, MARKDOWNS_DIR
 
+_MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July",
+                "August", "September", "October", "November", "December"]
+#: Month names, full and abbreviated ("Jan", "Sept").
 _MONTHS = {
-    m.lower(): i for i, m in enumerate(
-        ["January", "February", "March", "April", "May", "June", "July",
-         "August", "September", "October", "November", "December"], start=1)
+    **{m.lower(): i for i, m in enumerate(_MONTH_NAMES, start=1)},
+    **{m[:3].lower(): i for i, m in enumerate(_MONTH_NAMES, start=1)},
+    "sept": 9,
 }
 _ISO_FULL_RE = re.compile(r"^(\d{4})-(\d{2})-(\d{2})")
 _ISO_PARTIAL_RE = re.compile(r"^(\d{4})(?:-(\d{2}))?$")
-_DMY_RE = re.compile(r"^(\d{1,2})(?:st|nd|rd|th)?\s+([A-Za-z]+)\s+(\d{4})$")
-_MDY_RE = re.compile(r"^([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})$")
+_DMY_RE = re.compile(r"^(\d{1,2})(?:st|nd|rd|th)?\s+([A-Za-z]+)\.?\s+(\d{4})$")
+_MDY_RE = re.compile(r"^([A-Za-z]+)\.?\s+(\d{1,2}),?\s+(\d{4})$")
 #: A numeric date, 01/01/2026 or 1.4.2025: read day first, as the documents that
 #: write it this way do (UK contracts), unless only month-first can be valid.
 _NUMERIC_RE = re.compile(r"^(\d{1,2})[/.](\d{1,2})[/.](\d{4})$")
@@ -41,6 +44,8 @@ _DATE_IN_TEXT = re.compile(
 PRECISIONS = ("day", "month", "quarter", "half", "year", "none")
 _COARSENESS = {p: i for i, p in enumerate(PRECISIONS)}
 TIME_OF_DAY_MAX = 40
+#: An end on or after this is open (SCD2's open-end sentinel, and `date.max`).
+OPEN_END = "9999-12-31"
 
 _RANGE_RE = re.compile(
     r"^(?:from\s+)?(?P<a>.+?)\s*(?:\bto\b|\buntil\b|\s[-–—]\s|–|—)\s*(?P<b>.+)$", re.IGNORECASE
@@ -49,14 +54,19 @@ _RANGE_RE = re.compile(
 _SLASH_DAY_RE = re.compile(r"^(\d{4}-\d{2}-\d{2})/(\d{1,2})$")
 _DAY_ONLY_RE = re.compile(r"^\d{1,2}$")
 #: An ISO datetime's `T`, read as a space so the time is split off like any other.
-_ISO_T_RE = re.compile(r"^(\d{4}-\d{2}-\d{2})T(?=\d)")
+_ISO_T_RE = re.compile(r"(\d{4}-\d{2}-\d{2})T(?=\d)")
+#: A time, with an optional zone: a known abbreviation or a numeric offset. An open
+#: `[A-Z]{2,5}` would eat "TO" or "AT".
 _TIME_RE = re.compile(
-    r"\b(\d{1,2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:\s*(?:Z\b|[A-Z]{2,5}\b|[+-]\d{2}:?\d{2}))?)"
+    r"\b(\d{1,2}:\d{2}(?::\d{2}(?:\.\d+)?)?"
+    r"(?:Z\b|[+-]\d{2}:?\d{2}\b|\s*(?:UTC|GMT|Z|BST|CET|CEST|IST|[ECMP][SD]T)\b)?)"
 )
 _QUALIFIER_RE = re.compile(r"\(([^()]*)\)\s*$")
 _QUARTER_RE = re.compile(r"^(?:(\d{4})-?Q([1-4])|Q([1-4])\s+(\d{4}))$", re.IGNORECASE)
 _HALF_RE = re.compile(r"^(?:H([12])\s+(\d{4})|(\d{4})-?H([12]))$", re.IGNORECASE)
-_MONTH_YEAR_RE = re.compile(r"^([A-Za-z]+)\s+(\d{4})$")
+_MONTH_YEAR_RE = re.compile(r"^([A-Za-z]+)\.?\s+(\d{4})$")
+#: A year in a residual text: such a tail is another date, not a time of day.
+_YEAR_IN_TEXT = re.compile(r"\b\d{4}\b")
 
 
 @dataclass(frozen=True)
@@ -71,46 +81,22 @@ class ValidTime:
     time_of_day: str | None
 
     @property
-    def implied_end(self) -> str:
-        """The exclusive end the precision implies: the next day, month, quarter, half or year."""
+    def implied_end(self) -> str | None:
+        """The exclusive end the precision implies: the next day, month, quarter, half or
+        year; None when that is open (at or past `OPEN_END`)."""
         y, m, d = (int(x) for x in self.start.split("-"))
-        if self.precision == "day":
-            return (date(y, m, d) + timedelta(days=1)).isoformat()
-        months = {"month": 1, "quarter": 3, "half": 6, "year": 12}.get(self.precision)
-        if not months:
-            return self.start
-        total = (y * 12 + m - 1) + months
-        return date(total // 12, total % 12 + 1, 1).isoformat()
-
-
-def _parse_day(v: str) -> str | None:
-    """A whole value that is one day-precision date, as ISO-8601, else None.
-
-    Accepts ISO, '15 March 2026', '15th March 2026', 'March 15, 2026' and numeric
-    '15/03/2026' or '15.03.2026' (day first; '03/15/2026', which can only be month
-    first, is read so). An impossible date ('2026-02-30') is None.
-    """
-    m = _NUMERIC_RE.match(v)
-    if m:
-        first, second, year = (int(g) for g in m.groups())
-        day, month = (second, first) if first <= 12 < second else (first, second)
         try:
-            return datetime(year, month, day).date().isoformat()
-        except ValueError:
+            if self.precision == "day":
+                end = (date(y, m, d) + timedelta(days=1)).isoformat()
+            else:
+                months = {"month": 1, "quarter": 3, "half": 6, "year": 12}.get(self.precision)
+                if not months:
+                    return self.start
+                total = (y * 12 + m - 1) + months
+                end = date(total // 12, total % 12 + 1, 1).isoformat()
+        except (OverflowError, ValueError):
             return None
-    m = _ISO_FULL_RE.fullmatch(v)
-    if m:
-        try:
-            return date(int(m.group(1)), int(m.group(2)), int(m.group(3))).isoformat()
-        except ValueError:
-            return None
-    m = _DMY_RE.match(v)
-    if m and m.group(2).lower() in _MONTHS:
-        return _checked(int(m.group(3)), _MONTHS[m.group(2).lower()], int(m.group(1)))
-    m = _MDY_RE.match(v)
-    if m and m.group(1).lower() in _MONTHS:
-        return _checked(int(m.group(3)), _MONTHS[m.group(1).lower()], int(m.group(2)))
-    return None
+        return None if end >= OPEN_END else end
 
 
 def _checked(year: int, month: int, day: int) -> str | None:
@@ -120,28 +106,55 @@ def _checked(year: int, month: int, day: int) -> str | None:
         return None
 
 
+def _parse_day(v: str) -> str | None:
+    """A whole value that is one day-precision date, as ISO-8601, else None.
+
+    Accepts ISO, '15 March 2026', '15th Mar 2026', 'March 15, 2026' and numeric
+    '15/03/2026' or '15.03.2026' (day first; '03/15/2026', which can only be month
+    first, is read so). An impossible date ('2026-02-30') is None.
+    """
+    m = _NUMERIC_RE.match(v)
+    if m:
+        first, second, year = (int(g) for g in m.groups())
+        day, month = (second, first) if first <= 12 < second else (first, second)
+        return _checked(year, month, day)
+    m = _ISO_FULL_RE.fullmatch(v)
+    if m:
+        return _checked(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+    m = _DMY_RE.match(v)
+    if m and m.group(2).lower() in _MONTHS:
+        return _checked(int(m.group(3)), _MONTHS[m.group(2).lower()], int(m.group(1)))
+    m = _MDY_RE.match(v)
+    if m and m.group(1).lower() in _MONTHS:
+        return _checked(int(m.group(3)), _MONTHS[m.group(1).lower()], int(m.group(2)))
+    return None
+
+
 def _one_date(text: str) -> tuple[str, str] | None:
-    """(start, precision) of a single full or partial date, or None."""
+    """(start, precision) of a single full or partial date, or None. Year 0 is no date."""
     v = text.strip().rstrip(".,;")
+    found = None
     m = _QUARTER_RE.match(v)
     if m:
         year = int(m.group(1) or m.group(4))
         quarter = int(m.group(2) or m.group(3))
-        return f"{year:04d}-{3 * (quarter - 1) + 1:02d}-01", "quarter"
-    m = _HALF_RE.match(v)
-    if m:
+        found = f"{year:04d}-{3 * (quarter - 1) + 1:02d}-01", "quarter"
+    elif m := _HALF_RE.match(v):
         year, half = (m.group(2), m.group(1)) if m.group(1) else (m.group(3), m.group(4))
-        return f"{int(year):04d}-{1 if half == '1' else 7:02d}-01", "half"
-    m = _MONTH_YEAR_RE.match(v)
-    if m and m.group(1).lower() in _MONTHS:
-        return f"{int(m.group(2)):04d}-{_MONTHS[m.group(1).lower()]:02d}-01", "month"
-    m = _ISO_PARTIAL_RE.match(v)
-    if m:
+        found = f"{int(year):04d}-{1 if half == '1' else 7:02d}-01", "half"
+    elif (m := _MONTH_YEAR_RE.match(v)) and m.group(1).lower() in _MONTHS:
+        found = f"{int(m.group(2)):04d}-{_MONTHS[m.group(1).lower()]:02d}-01", "month"
+    elif m := _ISO_PARTIAL_RE.match(v):
         if not m.group(2):
-            return f"{m.group(1)}-01-01", "year"
-        return (f"{m.group(1)}-{m.group(2)}-01", "month") if 1 <= int(m.group(2)) <= 12 else None
-    iso = _parse_day(v)
-    return (iso, "day") if iso else None
+            found = f"{m.group(1)}-01-01", "year"
+        elif 1 <= int(m.group(2)) <= 12:
+            found = f"{m.group(1)}-{m.group(2)}-01", "month"
+    else:
+        iso = _parse_day(v)
+        found = (iso, "day") if iso else None
+    if found and found[0].startswith("0000"):
+        return None
+    return found
 
 
 def _day_in_month_of(start: str, day: str) -> tuple[str, str] | None:
@@ -150,15 +163,48 @@ def _day_in_month_of(start: str, day: str) -> tuple[str, str] | None:
     return (iso, "day") if iso else None
 
 
+def _dates_of(text: str) -> list[tuple[str, str]] | None:
+    """The one date, or the two ends of a range, that `text` is in full; else None."""
+    slash = _SLASH_DAY_RE.match(text)
+    if slash:
+        first = _one_date(slash.group(1))
+        second = _day_in_month_of(slash.group(1), slash.group(2)) if first else None
+        return [first, second] if first and second else None
+    r = _RANGE_RE.match(text)
+    if r:
+        a = _one_date(r.group("a"))
+        b_text = r.group("b").strip().rstrip(".,;")
+        if a and a[1] == "day" and _DAY_ONLY_RE.match(b_text):
+            b = _day_in_month_of(a[0], b_text)
+        else:
+            b = _one_date(b_text)
+        if a and b:
+            return [a, b]
+    single = _one_date(text)
+    return [single] if single else None
+
+
+def _is_date_value(value: str) -> bool:
+    """Whether `value` is a date or a range on its own ("2026-03", "Q1 2026 to Q2 2026"),
+    allowing only a trailing parenthesised qualifier ("2026 (draft)"). Prose after a
+    number ("2024 budget", "1500 units") is not one."""
+    text = " ".join(_QUALIFIER_RE.sub("", value).split())
+    return bool(text) and _dates_of(text) is not None
+
+
 def parse_valid(value) -> ValidTime | None:
-    """Parse one valid-time value (spec 2026-11-15 §3.1). Pure; None when it holds no date.
+    """Parse one valid-time value (spec 2026-11-15 §3.1). Pure, never raises; None when it
+    holds no date.
 
     A range (`A to B`, `A - B`, `A – B`, `A/B` with a day-only `B`, `from A until B`) gives
     `end = B`'s implied end, exclusive, and the coarser end's precision; an end not after
-    the start is dropped. Partial dates (`YYYY`, `YYYY-MM`, `YYYY-Qn`, `Qn YYYY`,
-    `Month YYYY`, `H1/H2 YYYY`) start on their first day. A time (`HH:MM`, optional zone),
-    a trailing parenthesised qualifier, or the text after a leading date goes to
-    `time_of_day` (≤ `TIME_OF_DAY_MAX` chars) and never moves the date.
+    the start, or at `OPEN_END` or later, is dropped (open). Partial dates (`YYYY`,
+    `YYYY-MM`, `YYYY-Qn`, `Qn YYYY`, `Month YYYY`, `H1/H2 YYYY`) start on their first day.
+    Times (`HH:MM`, optional zone) are taken out before the dates are read, the first kept
+    as `time_of_day`, as is a trailing parenthesised qualifier. A day or month followed by
+    prose with no other date ("2026-01-07 evening") keeps the prose, in its order, as
+    `time_of_day`; a year followed by prose ("1500 units") is no date. `time_of_day` is
+    capped at `TIME_OF_DAY_MAX` characters and never moves the date.
     """
     if value is None:
         return None
@@ -166,51 +212,34 @@ def parse_valid(value) -> ValidTime | None:
     if not text:
         return None
     text = _ISO_T_RE.sub(r"\1 ", text)
-    notes: list[str] = []
+    qualifier = None
     q = _QUALIFIER_RE.search(text)
     if q:
-        if q.group(1).strip():
-            notes.append(q.group(1).strip())
+        qualifier = q.group(1).strip() or None
         text = text[: q.start()].strip()
-    t = _TIME_RE.search(text)
-    if t:
-        notes.insert(0, t.group(1).strip())
-        text = " ".join((text[: t.start()] + " " + text[t.end():]).split())
+    with_times = text
+    times = [t.group(1).strip() for t in _TIME_RE.finditer(text)]
+    text = " ".join(_TIME_RE.sub(" ", text).split())
 
-    parts = None
-    slash = _SLASH_DAY_RE.match(text)
-    if slash:
-        first = _one_date(slash.group(1))
-        second = _day_in_month_of(slash.group(1), slash.group(2)) if first else None
-        if first and second:
-            parts = [first, second]
-    else:
-        r = _RANGE_RE.match(text)
-        if r:
-            a = _one_date(r.group("a"))
-            b_text = r.group("b").strip().rstrip(".,;")
-            if a and a[1] == "day" and _DAY_ONLY_RE.match(b_text):
-                b = _day_in_month_of(a[0], b_text)
-            else:
-                b = _one_date(b_text)
-            if a and b:
-                parts = [a, b]
+    notes = [times[0]] if times else []
+    parts = _dates_of(text) if text else None
     if parts is None:
-        single = _one_date(text)
-        if single is None:
-            head, _, tail = text.partition(" ")
-            single = _one_date(head)
-            if single is None:
-                return None
-            if tail:
-                notes.append(tail)
+        head, _, tail = text.partition(" ")
+        single = _one_date(head)
+        if single is None or single[1] not in ("day", "month") or _YEAR_IN_TEXT.search(tail):
+            return None
+        # The residual prose in its original order, times included ("at 10:30").
+        rest = with_times.partition(" ")[2] if with_times.startswith(head + " ") else tail
+        notes = [rest.strip()] if rest.strip() else []
         parts = [single]
+    if qualifier:
+        notes.append(qualifier)
 
     start, precision = parts[0]
     end = None
     if len(parts) == 2:
         end = ValidTime(parts[1][0], None, parts[1][1], None).implied_end
-        if end > start:
+        if end and end > start:
             precision = max((parts[0][1], parts[1][1]), key=_COARSENESS.__getitem__)
         else:
             end = None
@@ -261,14 +290,17 @@ def _find_header_date(md_text: str, labels: list[str]) -> str | None:
 
 
 def _find_header_date_text(md_text: str, labels: list[str]) -> str | None:
-    """The text of a document date from its header, readable by `parse_valid`: for each
-    label in order, every line that gives it -- a table row "| Label | value |",
-    "Label: value", the label and its value on one line ("Dated 01/01/2026"), or a
-    defined term ("'Amendment Date' means 1 August 2025") -- and the first value that
-    holds a readable date (a day by `find_date`, else a value that is a partial date on
-    its own, such as "2026-03", kept as text so `parse_valid` keeps its precision). A label whose values hold none (a
-    signature block's empty "Date:") does not answer; the next label, then the
-    schema's patterns and default, are tried instead."""
+    """The text of a document date from its header, readable by `parse_valid`.
+
+    For each label in order, every line that gives it -- a table row
+    "| Label | value |", "Label: value", the label and its value on one line
+    ("Dated 01/01/2026"), or a defined term ("'Amendment Date' means 1 August 2025")
+    -- and the first value that holds a readable date: a value that is a date or a
+    range on its own ("2026-03", "Q1 2026 to Q2 2026", "2026 (draft)"), kept as text
+    so `parse_valid` keeps its precision and end; else the first day `find_date`
+    finds inside it. A label whose values hold none (a signature block's empty
+    "Date:", "2024 budget") does not answer; the next label, then the schema's
+    patterns and default, are tried instead."""
     for label in labels:
         escaped = re.escape(label)
         for pattern in (
@@ -280,22 +312,12 @@ def _find_header_date_text(md_text: str, labels: list[str]) -> str | None:
         ):
             for m in re.finditer(pattern, md_text, re.IGNORECASE | re.MULTILINE):
                 value = m.group(1).strip().strip("*")
-                # The first day-precision date inside the value; else a partial date
-                # ("2026-03"), returned as text so `parse_valid` keeps its precision.
+                if _is_date_value(value):
+                    return value
                 iso = find_date(value)
                 if iso:
                     return iso
-                if _is_partial_date(value):
-                    return value
     return None
-
-
-def _is_partial_date(value: str) -> bool:
-    """Whether `value` is one partial date on its own ("2026-03", "Q1 2026", "March 2026"),
-    allowing only a trailing parenthesised qualifier ("2026 (draft)"). Prose after a
-    number ("2024 budget", "1500 units") is not a date, so a header label holding it does
-    not answer."""
-    return _one_date(_QUALIFIER_RE.sub("", value).strip()) is not None
 
 
 def _find_header_value(md_text: str, labels: list[str]) -> str | None:
@@ -383,10 +405,12 @@ def lift_document_dates(
     only when no label answers -- see `_match_document_pattern`.
     Records time_source: 'header' | 'frontmatter' | 'filename' | 'first_line', and
     `valid_precision`, how much of `valid_from` was stated (`parse_valid`; `none` for the
-    `ingestion_date` default).
+    `ingestion_date` default). A ranged `valid_from` sets `valid_to` (exclusive) when no
+    `valid_to` was found.
     """
     out: dict = {}
     source = None
+    range_end = None
     patterns = patterns or {}
     for canon in [*mapping, *(k for k in patterns if k not in mapping)]:
         labels = mapping.get(canon) or []
@@ -424,9 +448,14 @@ def lift_document_dates(
                 out[canon] = parsed.start
                 if canon == "valid_from":
                     out["valid_precision"] = parsed.precision
+                    range_end = parsed.end
             else:
                 # Never store text as a date: it sorts wrongly against ISO dates (spec 1.5).
                 out.setdefault("unparsed", []).append(canon)
+    if range_end and "valid_to" not in out:
+        # A ranged date ("2026-01 to 2026-03") ends the document's validity when no
+        # `valid_to` label says otherwise, as a fact's range does (spec 2026-11-15 §3.2).
+        out["valid_to"] = range_end
     if any(k in out for k in ("valid_from", "valid_to", "version")):
         out["time_source"] = source or "header"
     elif defaults and defaults.get("valid_from") == "ingestion_date":

@@ -1085,9 +1085,10 @@ def build_staged(
     for built in all_built:
         if id(built) not in keep_ids:
             continue
+        tagged = (entity_dates.get(built.entity_class) or {}).values()
         fact = _fact_valid_time(
             entity_dates, built.entity_class,
-            {k: _display(v) for k, v in built.props.items() if v is not None},
+            {p: _display(built.props[p]) for p in tagged if built.props.get(p) is not None},
         )
         entity = {"name": built.name, "entity_class": built.entity_class, "_domain": domain}
         if built.type:
