@@ -3544,6 +3544,17 @@ def _document_valid_time(
     """
     from artmind.temporal import lift_document_dates, parse_valid
 
+    temporal = schema.get("temporal") or {}
+    mapping = temporal.get("document") or {}
+    patterns = temporal.get("document_patterns") or {}
+    defaults = temporal.get("defaults") or {}
+    body = ""
+    if md_file.exists():
+        try:
+            _, body = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
+        except Exception as e:
+            logger.warning("Could not read {} for valid-time lifting: {}", md_file, e)
+
     out: dict = {}
     for key in ("_valid_from", "_valid_to"):
         if frontmatter.get(key):
@@ -3558,19 +3569,13 @@ def _document_valid_time(
         out["_valid_time_source"] = str(frontmatter["_valid_time_source"])
     if out.get("_valid_from"):
         out.setdefault("_valid_time_source", "frontmatter")
+        # The system dates win, but a revision label still says when the document was revised.
+        if mapping.get("revised"):
+            revised = lift_document_dates(body, frontmatter, {"revised": mapping["revised"]}).get("revised")
+            if revised:
+                out["_revised_at"] = revised
         return out
     out.pop("_valid_precision", None)
-
-    temporal = schema.get("temporal") or {}
-    mapping = temporal.get("document") or {}
-    patterns = temporal.get("document_patterns") or {}
-    defaults = temporal.get("defaults") or {}
-    body = ""
-    if md_file.exists():
-        try:
-            _, body = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
-        except Exception as e:
-            logger.warning("Could not read {} for valid-time lifting: {}", md_file, e)
 
     lifted = (
         lift_document_dates(

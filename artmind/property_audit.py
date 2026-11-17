@@ -116,10 +116,10 @@ def _scan_observation(obs: dict, chunk: set[str] | None, tally: _Tally,
             tally.distinct[(cls, key)].add(_normalised(value))
 
 
-def _scan(kg_dir: Path, domain: str, leaf_schema: Callable[[str], dict] | None = None) -> _Tally:
+def _scan(folders: list[Path], leaf_schema: Callable[[str], dict] | None = None) -> _Tally:
     tally = _Tally()
     leaves: dict[str, dict[str, set[str]]] = {}
-    for folder in document_folders(kg_dir, domain):
+    for folder in folders:
         leaf = None
         if leaf_schema is not None:
             name = folder.parent.name
@@ -190,6 +190,10 @@ def _row(cls: str, key: str, decl: dict | None, tally: _Tally, depended_on: dict
     return row
 
 
+#: The `ingest date-audit` columns a `temporal: valid_from` key's row carries under `dates`.
+DATE_COLUMNS = ("dated_by_property", "precision", "ranges", "unparsed")
+
+
 def audit(domain: str, schema: dict, *, kg_dir: Path, depended_on: dict, conflicts: dict | None = None,
           leaf_schema: Callable[[str], dict] | None = None) -> dict:
     """One row per (class, key) declared by `schema` (the domain's `family_schema`) or found in
@@ -202,16 +206,18 @@ def audit(domain: str, schema: dict, *, kg_dir: Path, depended_on: dict, conflic
     when another observing domain does declare it). None judges every observation against
     `schema`.
 
-    A `temporal: valid_from` key's row carries `dates`: its class's `ingest date-audit` counts
-    (`DATE_COLUMNS`; `unparsed` counts every tagged key of the class)."""
+    Each `temporal: valid_from` key's row carries `dates`, its class's `ingest date-audit` counts
+    (`DATE_COLUMNS`): class-level, so a class with two such keys shows the same counts on both,
+    and `unparsed` counts every tagged key of the class."""
     from artmind.date_audit import audit_folders
 
     decls = _declarations(schema)
-    tally = _scan(kg_dir, domain, leaf_schema)
+    folders = document_folders(kg_dir, domain)
+    tally = _scan(folders, leaf_schema)
     keys = {(c, k) for c, ks in decls.items() for k in ks} | set(tally.filled)
     rows = [_row(cls, key, (decls.get(cls) or {}).get(key), tally, depended_on, conflicts)
             for cls, key in sorted(keys)]
-    dated = {r["class"]: r for r in audit_folders(document_folders(kg_dir, domain), leaf_schema or schema)}
+    dated = {r["class"]: r for r in audit_folders(folders, leaf_schema or schema)}
     for row in rows:
         # The class's date fill (`ingest date-audit`'s row) on the key that dates it.
         if row["flags"].get("temporal") == "valid_from" and row["class"] in dated:
@@ -220,10 +226,6 @@ def audit(domain: str, schema: dict, *, kg_dir: Path, depended_on: dict, conflic
             "observations": dict(tally.per_class),
             "rules": {"required_fill": REQUIRED_FILL, "inferred_drop": INFERRED_DROP,
                       "text_only_max": TEXT_ONLY_MAX, "rare_fill": RARE_FILL}}
-
-
-#: The `ingest date-audit` columns a `temporal: valid_from` key's row carries under `dates`.
-DATE_COLUMNS = ("dated_by_property", "precision", "ranges", "unparsed")
 
 
 def _warnings(domain: str, tally: _Tally) -> list[str]:

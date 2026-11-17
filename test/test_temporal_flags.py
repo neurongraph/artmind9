@@ -49,9 +49,7 @@ def test_revised_reaches_the_document_as_revised_at(tmp_path):
     assert (out["_valid_from"], out["_revised_at"]) == ("2026-01-01", "2026-03-04")
 
 
-def test_unknown_temporal_value_is_an_error():
-    bad = {"entity_types": {"X": {"kind": "recurrent", "properties": {"d": {"temporal": "deadline"}}}}}
-    assert any("temporal" in e for e in sv.validate_schema(bad, META))
+def test_a_known_temporal_value_is_valid():
     good = {"entity_types": {"X": {"kind": "recurrent", "properties": {"d": {"temporal": "review"}}}}}
     assert sv.validate_schema(good, META) == []
 
@@ -59,7 +57,7 @@ def test_unknown_temporal_value_is_an_error():
 def test_unknown_document_temporal_key_is_an_error():
     bad = {"temporal": {"document": {"valid_from": ["Date"], "updated": ["Last Updated"]}}, "entity_types": {}}
     (err,) = sv.validate_schema(bad, META, "b")
-    assert "temporal.document.updated" in err
+    assert "temporal.document.updated: unknown key" in err
     ok = {"temporal": {"document": {"valid_from": ["Date"], "revised": ["Last Updated"], "version": ["V"]}},
           "entity_types": {}}
     assert sv.validate_schema(ok, META, "b") == []
@@ -70,3 +68,62 @@ def test_occasion_without_a_date_property_warns():
                                "BANK": {"kind": "recurrent", "properties": {}}}}
     (w,) = sv.temporal_warnings(schema, "b")
     assert "SAR" in w and "valid_from" in w
+
+
+def test_unknown_temporal_value_is_an_error():
+    bad = {"entity_types": {"X": {"kind": "recurrent", "properties": {"d": {"temporal": "deadline"}}}}}
+    (err,) = sv.validate_schema(bad, META, "b")
+    assert err.startswith("b.entity_types.X.properties.d:") and "'deadline'" in err
+
+
+def test_document_labels_must_be_a_list_and_pattern_keys_are_checked():
+    schema = {"temporal": {"document": {"valid_from": "Effective Date"},
+                           "document_patterns": {"effective": [{"filename": "^(.*)$"}]}}, "entity_types": {}}
+    errors = sv.validate_schema(schema, META, "b")
+    assert any("temporal.document.valid_from" in e and "list of label strings" in e for e in errors)
+    assert any("temporal.document_patterns.effective" in e and "unknown key" in e for e in errors)
+
+
+BANKING = {"temporal": {"document": {"valid_from": ["Effective Date"], "revised": ["Last Updated"],
+                                     "version": ["Version"]},
+                        "defaults": {"valid_from": "ingestion_date", "time_source": "default_ingestion"}}}
+
+
+def test_version_and_revised_without_an_effective_date_take_the_default(tmp_path):
+    md = tmp_path / "sop.md"
+    md.write_text("| Version | 1.0 |\n| Last Updated | 2026-03-04 |\n", encoding="utf-8")
+    out = ing._document_valid_time(md, {}, BANKING)
+    assert out["_valid_from"] and out["_valid_precision"] == "none"
+    assert out["_valid_time_source"] == "default_ingestion"
+    assert (out["_revised_at"], out["declared_version"]) == ("2026-03-04", "1.0")
+
+
+def test_frontmatter_valid_from_keeps_the_revision_date(tmp_path):
+    md = tmp_path / "sop.md"
+    md.write_text("| Last Updated | 2026-03-04 |\n", encoding="utf-8")
+    out = ing._document_valid_time(md, {"_valid_from": "2026-01-01"}, BANKING)
+    assert (out["_valid_from"], out["_revised_at"]) == ("2026-01-01", "2026-03-04")
+
+
+def test_a_revised_label_from_frontmatter():
+    out = lift_document_dates("Body.\n", {"last_updated": "2026-03-04"},
+                              {"valid_from": ["Effective Date"], "revised": ["Last Updated"]})
+    assert out["revised"] == "2026-03-04" and "time_source" not in out
+
+
+def test_retime_removes_a_stale_revised_at(tmp_path):
+    import json
+
+    from artmind.retime import retime_folder
+
+    md = tmp_path / "sop.md"
+    md.write_text("| Effective Date | 2026-01-01 |\n", encoding="utf-8")
+    folder = tmp_path / "kg" / "b" / "sop"
+    folder.mkdir(parents=True)
+    (folder / "document.json").write_text(json.dumps({
+        "id": "d1", "name": "sop.md", "path": str(md), "_valid_from": "2026-01-01",
+        "_valid_precision": "day", "_valid_time_source": "header", "_revised_at": "2025-12-01"}))
+    (folder / "observations.json").write_text("[]")
+    assert retime_folder(folder, BANKING)["changed"] is True
+    document = json.loads((folder / "document.json").read_text())
+    assert "_revised_at" not in document and document["_valid_from"] == "2026-01-01"

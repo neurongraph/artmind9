@@ -192,17 +192,30 @@ def validate_schema(schema: dict, meta: dict, schema_name: str = "") -> list[str
 #: What a property's `temporal:` tag may say (spec 2026-11-15 §4): the fact's valid time
 #: (`valid_from`, `valid_to`), a deadline (`due`) or a review date (`review`).
 TEMPORAL_VALUES = ("valid_from", "valid_to", "due", "review")
-#: The keys of a schema's `temporal.document` label mapping.
+#: The keys of a schema's `temporal.document` label mapping and `temporal.document_patterns`.
 DOCUMENT_TEMPORAL_KEYS = ("valid_from", "valid_to", "revised", "version")
 
 
 def _temporal_document_errors(schema: dict, label: str) -> list[str]:
+    """`temporal.document` / `document_patterns` keys outside DOCUMENT_TEMPORAL_KEYS, and a
+    `temporal.document` value that is not a list of label strings (a bare string would be read
+    one character at a time)."""
     temporal = schema.get("temporal")
-    document = temporal.get("document") if isinstance(temporal, dict) else None
-    if not isinstance(document, dict):
+    if not isinstance(temporal, dict):
         return []
-    return [f"{label}.temporal.document.{key}: not one of {list(DOCUMENT_TEMPORAL_KEYS)}"
-            for key in document if key not in DOCUMENT_TEMPORAL_KEYS]
+    errors = []
+    for section in ("document", "document_patterns"):
+        block = temporal.get(section)
+        if not isinstance(block, dict):
+            continue
+        for key, value in block.items():
+            where = f"{label}.temporal.{section}.{key}"
+            if key not in DOCUMENT_TEMPORAL_KEYS:
+                errors.append(f"{where}: unknown key; expected one of {list(DOCUMENT_TEMPORAL_KEYS)}")
+            elif section == "document" and not (
+                    isinstance(value, list) and all(isinstance(v, str) for v in value)):
+                errors.append(f"{where}: must be a list of label strings, not {value!r}")
+    return errors
 
 
 def class_identity(schema: dict, cls: str) -> str:

@@ -459,14 +459,17 @@ def lift_document_dates(
         # A ranged date ("2026-01 to 2026-03") ends the document's validity when no
         # `valid_to` label says otherwise, as a fact's range does (spec 2026-11-15 §3.2).
         out["valid_to"] = range_end
-    # `revised` is not in this list: a revision date alone leaves the default to date it.
-    if any(k in out for k in ("valid_from", "valid_to", "version")):
+    # Without a stated `valid_from` the default dates the document, whatever else was found
+    # (a version, a revision date, an end); those are kept beside it.
+    if "valid_from" in out:
         out["time_source"] = source or "header"
     elif defaults and defaults.get("valid_from") == "ingestion_date":
         out["valid_from"] = date.today().isoformat()      # document time is local
         out["valid_precision"] = "none"                    # a default date is not a date (spec §2)
         out["time_source"] = defaults.get("time_source", "default_ingestion")
         out["valid_from_inferred"] = defaults.get("valid_from_inferred", True)
+    elif "valid_to" in out or "version" in out:
+        out["time_source"] = source or "header"
     return out
 
 
