@@ -38,10 +38,12 @@ def _writes(recorder):
 
 def test_the_steps_are_registered_dates_before_ends():
     names = [s.name for s in steps_mod._graph_steps()]
-    assert names == ["document_dates", "partial_dates", "supersession_records", "supersession_ends",
-                     "record_time", "old_indexes"]
-    # graph-only steps write no files; supersession_records declares its record files
-    assert all(s.writes(None) == [] for s in steps_mod._graph_steps() if s.name != "supersession_records")
+    assert names == ["document_dates", "partial_dates", "record_effective", "supersession_records",
+                     "supersession_ends", "record_time", "old_indexes"]
+    # graph-only steps write no files and do not travel; the record steps declare their files
+    assert all(s.writes(None) == [] for s in steps_mod._graph_steps()
+               if s.name not in ("supersession_records", "record_effective"))
+    assert [s.name for s in steps_mod._graph_steps() if s.travels] == ["record_effective"]
 
 
 # ── document_dates ────────────────────────────────────────────────────────────
@@ -362,8 +364,8 @@ class Graph:
     """A tiny stateful graph: each step's pending count, and a write that converts
     `per_call` rows per statement (raising once mid-way when `fail_once`)."""
 
-    STEPS = ("document_dates", "partial_dates", "supersession_records", "supersession_ends", "record_time",
-             "old_indexes")
+    STEPS = ("document_dates", "partial_dates", "record_effective", "supersession_records", "supersession_ends",
+             "record_time", "old_indexes")
 
     def __init__(self, left, fail_once=False):
         self.left = {k: 0 for k in self.STEPS}
@@ -464,7 +466,7 @@ def test_dry_run_over_the_real_steps_sends_only_reads(runner):
     out = json.loads(result.stdout)
     assert [s["name"] for s in out["steps"] if s["pending"]] == [
         "document_dates", "partial_dates", "supersession_records", "supersession_ends", "record_time",
-        "old_indexes"]
+        "old_indexes"]  # record_effective: no record files here
     ends = next(s for s in out["steps"] if s["name"] == "supersession_ends")
     assert ends["pending"] == {"documents": 3}  # the estimate equals the count here
     effect = out["effect"]
@@ -778,3 +780,97 @@ def test_a_record_written_before_a_failed_tie_does_not_block_the_resume(runner, 
     path.write_text(path.read_text().replace("2025-03-01", "2025-04-01"))
     third = _invoke()
     assert third.exit_code == 1 and "uncommitted changes" in third.output
+
+
+# ── record_effective ──────────────────────────────────────────────────────────
+
+def _record_file(curation, rid, effective, domains=("notes",)):
+    from artmind import curation_records
+
+    record = {"id": rid, "newer_doc_id": "doc-new", "older_doc_id": "doc-old", "scope": "document",
+              "effective": effective, "detected_by": "notice", "domains": list(domains),
+              "recorded_at": "2025-01-01T00:00:00+00:00"}
+    path = curation / "supersessions" / f"{rid}.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(curation_records.serialize(record))
+    return path
+
+
+def test_record_effective_rewrites_to_the_start_and_reties_the_edge(curation):
+    from artmind import curation_records
+
+    partial = _record_file(curation, "a" * 40, "2020")
+    number = _record_file(curation, "b" * 40, 2021)
+    full = _record_file(curation, "c" * 40, "2020-05-01")
+    bad = _record_file(curation, "d" * 40, "2020-13-45x")  # not partial: left alone, not counted
+    odd = _record_file(curation, "e" * 40, 99999)  # not a string, unreadable
+    elsewhere = _record_file(curation, "f" * 40, "2019", domains=("other",))
+    untouched = {p: p.read_bytes() for p in (full, bad, odd, elsewhere)}
+    rec = WritableRecorder(lambda c, p: [{"n": 1}])
+    ctx = _ctx(rec)
+    assert graph.record_effective_pending(ctx) == {"records": 2, "unparseable": {"records": 1}}
+    assert graph.record_effective_writes(ctx) == [partial, number]
+    assert graph.record_effective_apply(ctx) == {"records": 2}
+    assert json.loads(partial.read_text())["effective"] == "2020-01-01"
+    assert json.loads(number.read_text())["effective"] == "2021-01-01"
+    assert all(p.read_bytes() == b for p, b in untouched.items())
+    ties = rec.queries_containing("SET s.record_fingerprint = $fingerprint")
+    assert [(p["id"], p["effective"]) for _, p in ties] == [("a" * 40, "2020-01-01"), ("b" * 40, "2021-01-01")]
+    assert ties[0][1]["fingerprint"] == curation_records.fingerprint(partial.read_bytes())
+    # a second run touches nothing
+    rec.calls.clear()
+    assert graph.record_effective_pending(ctx) == {"unparseable": {"records": 1}}
+    assert graph.record_effective_apply(ctx) == {} and rec.calls == []
+    assert steps_mod.is_done(graph.record_effective_pending(ctx))
+
+
+def test_record_effective_unscoped_covers_every_record(curation):
+    _record_file(curation, "f" * 40, "2019", domains=("other",))
+    ctx = _ctx(WritableRecorder())
+    ctx.domains = None
+    assert graph.record_effective_pending(ctx) == {"records": 1}
+
+
+def test_record_effective_dry_run_writes_nothing(curation):
+    path = _record_file(curation, "a" * 40, "2020-03")
+    before = path.read_bytes()
+    rec = WritableRecorder()
+    ctx = _ctx(rec)
+    ctx.dry_run = True
+    assert graph.record_effective_pending(ctx) == {"records": 1}
+    assert graph.record_effective_apply(ctx, True) == {}
+    assert path.read_bytes() == before and rec.calls == []
+
+
+# ── _blocked over a real git repository whose top is above the vault ──────────
+
+def test_own_work_is_resolved_from_the_repository_top(monkeypatch, tmp_path):
+    import subprocess
+
+    from artmind.migrations.temporal_v1 import cli as pack_cli
+    from artmind.migrations.temporal_v1.steps import Step
+
+    repo = tmp_path / "repo"
+    vault = repo / "vaults" / "v1"
+    (vault / "curation").mkdir(parents=True)
+    env_git = ["git", "-c", "user.name=t", "-c", "user.email=t@example.invalid"]
+    subprocess.run([*env_git, "init", "-q"], cwd=repo, check=True)
+    (vault / "keep.txt").write_text("x")
+    subprocess.run([*env_git, "add", "."], cwd=repo, check=True)
+    subprocess.run([*env_git, "commit", "-q", "-m", "init"], cwd=repo, check=True)
+    own = vault / "curation" / "own.json"
+    own.write_text("{}")  # untracked: a killed run's own record
+    other = vault / "curation" / "other.json"
+    other.write_text("{}")  # untracked, not the step's work
+
+    monkeypatch.setattr(pack_cli, "_vault_root", lambda: vault)
+    monkeypatch.setattr(pack_cli, "_probe_graph", lambda: WritableRecorder())
+    monkeypatch.setattr(backfill, "worker_is_running", lambda: False)
+    monkeypatch.setattr(data_model, "MODEL_FILE", vault / "data_model.yaml")
+    step = Step("s", lambda c: {}, lambda c, d: {}, writes=lambda c: [own], own_work=lambda c: [own])
+    monkeypatch.setattr(steps_mod, "STEPS", [step])
+    assert pack_cli._blocked(_ctx(WritableRecorder())) == []
+    monkeypatch.setattr(steps_mod, "STEPS", [Step("s", lambda c: {}, lambda c, d: {},
+                                                  writes=lambda c: [own, other], own_work=lambda c: [own])])
+    reasons = pack_cli._blocked(_ctx(WritableRecorder()))
+    assert len(reasons) == 1 and "vaults/v1/curation/other.json" in reasons[0] and "own.json" not in reasons[0]

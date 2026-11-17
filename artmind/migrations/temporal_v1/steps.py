@@ -59,6 +59,9 @@ def _graph_steps() -> list[Step]:
         Step("document_dates", graph.document_dates_pending, graph.document_dates_apply),
         # After the fold, so folded values are normalised too; before ends, which compare dates.
         Step("partial_dates", graph.partial_dates_pending, graph.partial_dates_apply),
+        # Record files keep the edge's end: a legacy partial `effective` becomes its start.
+        Step("record_effective", graph.record_effective_pending, graph.record_effective_apply,
+             graph.record_effective_writes, travels=True),
         # Legacy edges get records before ends are restated: `restate_validity` skips an
         # edge with no `record_id`.
         # Its record files are committed with the vault; its edge ties are this graph's.

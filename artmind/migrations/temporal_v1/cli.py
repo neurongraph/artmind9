@@ -90,9 +90,11 @@ def _blocked(ctx: MigrationContext) -> list[str]:
     root = _vault_root()
     if root is None:
         reasons.append("not inside a vault")
-    elif _git(root, "rev-parse", "--is-inside-work-tree").returncode != 0:
+    elif (top_out := _git(root, "rev-parse", "--show-toplevel")).returncode != 0:
         reasons.append("the vault is not a git repository (its files must be committed before a migration)")
     else:
+        # Porcelain paths are relative to the repository's top, which may sit above the vault.
+        top = Path((top_out.stdout or "").strip() or root)
         paths, own = [data_model.MODEL_FILE], set()
         for step in steps_mod.STEPS:
             paths.extend(step.writes(ctx))
@@ -102,12 +104,12 @@ def _blocked(ctx: MigrationContext) -> list[str]:
         declared = sorted({str(p) for p in paths})
         dirty: list[str] = []
         for i in range(0, len(declared), GIT_BATCH):
-            status = _git(root, "status", "--porcelain", "--", *declared[i:i + GIT_BATCH])
+            status = _git(root, "status", "--porcelain", "--untracked-files=all", "--", *declared[i:i + GIT_BATCH])
             if status.returncode != 0:
                 dirty.append("(git status failed)")
             # A dirty file that is a step's own half-done work (an interrupted run) does not block.
             dirty.extend(line[3:] for line in status.stdout.splitlines()
-                         if line.strip() and (root / line[3:].strip().strip('"')).resolve() not in own)
+                         if line.strip() and (top / line[3:].strip().strip('"')).resolve() not in own)
         if dirty:
             reasons.append("uncommitted changes (commit or restore them first): " + ", ".join(sorted(set(dirty))))
     if backfill.worker_is_running():

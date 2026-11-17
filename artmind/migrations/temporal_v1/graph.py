@@ -34,6 +34,10 @@ travel (each machine migrates its own graph).
   document's start). Values are read as strings (`toString`); one `parse_valid` cannot
   read is never pending: it is counted under `unparseable`, which does not block done.
   Runs after `document_dates` (which then sets only `none` or `day` precision).
+- `record_effective`: a supersession curation record whose `effective` is partial or not
+  a string is rewritten to its start date (`parse_valid`), and its edge re-tied to the
+  new bytes (`record_fingerprint`, `effective`), so `vault sync` sees no drift. Its
+  files travel with the vault; unparseable ones are reported, never changed.
 - `supersession_records`: a document-scope edge with no `record_id` (asserted
   before supersession records) gets its record minted by core `record_for`,
   written as a curation file (declared in `writes`, so the run needs it
@@ -356,6 +360,84 @@ def partial_dates_apply(ctx: MigrationContext, dry_run: bool = False) -> dict:
                 session.run(_partial_match(name, ctx.domains, _readable()) + _normalise(),
                             domains=ctx.domains, readable=readable, map=mapping).consume()
     return {name: todo for name, (_, todo, _) in plan.items()}
+
+
+# ── record_effective ──────────────────────────────────────────────────────────
+
+_RETIE_EFFECTIVE = (
+    "MATCH ()-[s:SUPERSEDES {record_id: $id}]->() "
+    "SET s.record_fingerprint = $fingerprint, s.effective = $effective RETURN count(s) AS n"
+)
+
+
+def _in_scope(record: dict, domains: list[str] | None) -> bool:
+    if domains is None:
+        return True
+    names = [d for d in record.get("domains") or [] if isinstance(d, str)]
+    return any(n == d or n.startswith(d + ".") for n in names for d in domains)
+
+
+def _legacy_effective(value) -> bool:
+    """A record's `effective` written before full dates: partial, or not a string."""
+    import re
+
+    if value is None:
+        return False
+    return not isinstance(value, str) or re.fullmatch(PARTIAL, value) is not None
+
+
+def _record_effective_plan(domains: list[str] | None) -> tuple[list[tuple], list]:
+    """`([(path, record, new effective)], [unparseable paths])` over the supersession
+    record files in scope whose `effective` is legacy."""
+    from artmind import curation_records, supersession_records, temporal
+
+    folder = curation_records.curation_dir() / supersession_records.NAME
+    todo, bad = [], []
+    for path in sorted(folder.glob("*.json")) if folder.is_dir() else []:
+        record = curation_records.parse(path.read_bytes())
+        if not isinstance(record, dict) or not _legacy_effective(record.get("effective")) \
+                or not _in_scope(record, domains):
+            continue
+        parsed = temporal.parse_valid(str(record["effective"]))
+        if parsed is None:
+            bad.append(path)
+        else:
+            todo.append((path, record, parsed.start))
+    return todo, bad
+
+
+def record_effective_pending(ctx: MigrationContext) -> dict:
+    todo, bad = _record_effective_plan(ctx.domains)
+    out: dict = {"records": len(todo)} if todo else {}
+    if bad:
+        out["unparseable"] = {"records": len(bad)}  # informs; never blocks done
+    return out
+
+
+def record_effective_writes(ctx: MigrationContext) -> list:
+    return [path for path, _, _ in _record_effective_plan(ctx.domains)[0]]
+
+
+def record_effective_apply(ctx: MigrationContext, dry_run: bool = False) -> dict:
+    """Rewrite each legacy `effective` to its start date (a supersession's end is the newer
+    document's start). The edge is re-tied first (`record_fingerprint` of the new bytes,
+    `effective`), then the file is written atomically: an interrupted run finds the file
+    still legacy and does both again, so vault sync ends seeing no drift."""
+    from artmind import curation_records, supersession_records
+
+    if dry_run:
+        return {}
+    todo, _ = _record_effective_plan(ctx.domains)
+    if not todo:
+        return {}
+    with ctx.session_factory() as session:
+        for _path, record, start in todo:
+            updated = {**record, "effective": start}
+            fingerprint = curation_records.fingerprint(curation_records.serialize(updated))
+            session.execute_write(lambda tx, r=updated, f=fingerprint: tx.run(
+                _RETIE_EFFECTIVE, id=r["id"], fingerprint=f, effective=r["effective"]).consume())
+            curation_records.write_record(supersession_records.NAME, updated)
+    return {"records": len(todo)}
 
 
 # ── supersession_records ──────────────────────────────────────────────────────
