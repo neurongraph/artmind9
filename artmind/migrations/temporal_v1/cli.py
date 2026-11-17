@@ -12,6 +12,7 @@ from artmind.migrations.temporal_v1.steps import MigrationContext, Step
 
 NEXT_DRY = "artmind migrate temporal --dryRun"
 PROBE_TIMEOUT_S = 5.0
+GIT_BATCH = 200
 
 
 @click.group("migrate")
@@ -59,14 +60,17 @@ def _err(exc: BaseException) -> str:
     return f"{type(exc).__name__}: {exc}"
 
 
-def _pending(ctx: MigrationContext) -> tuple[list[tuple[Step, dict | None]], list[str]]:
-    """Each step's pending counts (None when it could not be read) and a warning per failure."""
+def _pending(ctx: MigrationContext, errors: list | None = None) -> tuple[list[tuple[Step, dict | None]], list[str]]:
+    """Each step's pending counts (None when it could not be read) and a warning per failure
+    (the exceptions are appended to `errors` when given)."""
     out, warnings = [], []
     for s in steps_mod.STEPS:
         try:
             out.append((s, s.pending(ctx) or {}))
         except Exception as exc:  # noqa: BLE001 - one unreadable step must not hide the others
             out.append((s, None))
+            if errors is not None:
+                errors.append(exc)
             warnings.append(f"step {s.name}: pending could not be read ({_err(exc)})")
     return out, warnings
 
@@ -91,10 +95,17 @@ def _blocked(ctx: MigrationContext) -> list[str]:
         paths = [data_model.MODEL_FILE]
         for step in steps_mod.STEPS:
             paths.extend(step.writes(ctx))
-        dirs = sorted({str(p if p.is_dir() else p.parent) for p in paths})
-        status = _git(root, "status", "--porcelain", "--", *dirs)
-        if status.returncode != 0 or status.stdout.strip():
-            reasons.append("uncommitted changes under: " + ", ".join(dirs) + " (commit or restore them first)")
+        # Exactly the paths the run declares, never their parents: an unrelated dirty
+        # file beside them must not block the migration.
+        declared = sorted({str(p) for p in paths})
+        dirty: list[str] = []
+        for i in range(0, len(declared), GIT_BATCH):
+            status = _git(root, "status", "--porcelain", "--", *declared[i:i + GIT_BATCH])
+            if status.returncode != 0:
+                dirty.append("(git status failed)")
+            dirty.extend(line[3:] for line in status.stdout.splitlines() if line.strip())
+        if dirty:
+            reasons.append("uncommitted changes (commit or restore them first): " + ", ".join(sorted(set(dirty))))
     if backfill.worker_is_running():
         reasons.append("the ingest worker is running (wait for it to finish: artmind ingest job-status)")
     try:
@@ -162,7 +173,8 @@ def migrate_temporal(domain: tuple, dry_run: bool, compact: bool) -> None:
     from artmind.cli import _echo_json
 
     ctx = _context(domain, dry_run)
-    before, warnings = _pending(ctx)
+    errors: list = []
+    before, warnings = _pending(ctx, errors)
     effect = _effect(before)
     blocked = _blocked(ctx)
     if dry_run:
@@ -171,6 +183,9 @@ def migrate_temporal(domain: tuple, dry_run: bool, compact: bool) -> None:
     if blocked:
         raise click.ClickException("migrate temporal: not started, nothing was changed: " + "; ".join(blocked))
     if any(p is None for _, p in before):
+        if any(store_failure(e) is not None for e in errors):
+            click.echo("migrate temporal: " + "; ".join(warnings), err=True)
+            raise SystemExit(3)
         raise click.ClickException("migrate temporal: not started, nothing was changed: " + "; ".join(warnings))
     results, failure = [], None
     for step, counts in before:

@@ -12,6 +12,9 @@ from artmind.migrations.temporal_v1 import steps as steps_mod
 from artmind.migrations.temporal_v1.steps import Step
 
 
+REAL_GIT = pack_cli._git
+
+
 class FakeSession:
     def run(self, *_a, **_k):
         class R:
@@ -218,3 +221,33 @@ def test_status_writes_nothing(env, monkeypatch, tmp_path):
     before = sorted(tmp_path.rglob("*"))
     _run("migrate", "status")
     assert stamps == [] and sorted(tmp_path.rglob("*")) == before
+
+
+
+def test_only_the_declared_paths_are_checked(env, monkeypatch, tmp_path):
+    """Real git: a dirty neighbour of data_model.yaml does not block; a dirty declared file is named."""
+    import subprocess
+
+    def sh(*a):
+        subprocess.run(["git", *a], cwd=tmp_path, check=True, capture_output=True)
+    sh("init", "-q")
+    (tmp_path / "data_model.yaml").write_text("version: 0\n")
+    (tmp_path / "notes.txt").write_text("x")
+    sh("add", "-A")
+    sh("-c", "user.name=t", "-c", "user.email=t@t", "commit", "-qm", "init")
+    monkeypatch.setattr(pack_cli, "_git", REAL_GIT)
+    monkeypatch.setattr(data_model, "MODEL_FILE", tmp_path / "data_model.yaml")
+    (tmp_path / "notes.txt").write_text("edited")
+    assert _run("migrate", "temporal", "--dryRun") and json.loads(_run("migrate", "temporal", "--dryRun").stdout)["blocked"] == []
+    (tmp_path / "data_model.yaml").write_text("version: 5\n")
+    blocked = json.loads(_run("migrate", "temporal", "--dryRun").stdout)["blocked"]
+    assert len(blocked) == 1 and "data_model.yaml" in blocked[0] and "notes.txt" not in blocked[0]
+
+
+def test_a_store_failure_reading_pending_exits_3(env, monkeypatch):
+    from neo4j.exceptions import ServiceUnavailable
+
+    def down(ctx):
+        raise ServiceUnavailable("down")
+    monkeypatch.setattr(steps_mod, "STEPS", [Step("g", down, lambda c, d: {})])
+    assert _run("migrate", "temporal", ok=False).exit_code == 3
