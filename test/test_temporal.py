@@ -386,3 +386,17 @@ def test_a_defined_term_gives_a_header_date_and_a_dateless_definition_does_not()
     assert _find_header_date("- 'Amendment Date' means 1 August 2025.\n", labels) == "2025-08-01"
     assert _find_header_date("“Effective Date” means 01/04/2026;\n", labels) == "2026-04-01"
     assert _find_header_date("'Amendment Date' means the date of this Amendment\n", labels) is None
+
+
+from artmind.temporal import widen_as_of
+
+
+@pytest.mark.parametrize("value, expected", [
+    ("2026", "2026-12-31"),
+    ("2026-02", "2026-02-28"),
+    ("2024-02", "2024-02-29"),
+    ("2026-05-01", "2026-05-01"),
+    ("2026-05-01T10:00", "2026-05-01T10:00"),
+])
+def test_widen_as_of_reaches_the_last_day(value, expected):
+    assert widen_as_of(value) == expected

@@ -171,8 +171,9 @@ _ASOF_RE = re.compile(r"^\d{4}(-\d{2}){0,2}(T[0-9:.+-]+)?$")
 def resolve_as_of(value: str | None) -> str | None:
     """Resolve an --asOf value to an ISO date string.
 
-    Accepts 'today'/'now' (resolved to the current date) and ISO dates at
-    year/month/day precision. Anything else raises ValueError: asof_predicate
+    Accepts 'today'/'now' (resolved to the current local date: query time is
+    local) and ISO dates at year/month/day precision; a year or month is widened
+    to its last day, so a date inside that period compares <= it. Anything else raises ValueError: asof_predicate
     compares strings lexically, so an unresolved value like the literal
     'today' would silently hide every node that carries a valid_to.
     """
@@ -187,7 +188,9 @@ def resolve_as_of(value: str | None) -> str | None:
         raise ValueError(
             f"--asOf must be an ISO date (YYYY[-MM[-DD]]) or 'today'/'now'; got {value!r}"
         )
-    return v
+    from artmind.temporal import widen_as_of
+
+    return widen_as_of(v)
 
 
 PATTERN_REQUIRED_OPTIONS = {

@@ -22,8 +22,8 @@ def test_resolve_as_of_today_and_now_resolve_to_current_date():
 
 def test_resolve_as_of_iso_passthrough():
     assert gq.resolve_as_of("2026-07-12") == "2026-07-12"
-    assert gq.resolve_as_of("2026-07") == "2026-07"
-    assert gq.resolve_as_of("2026") == "2026"
+    assert gq.resolve_as_of("2026-07") == "2026-07-31"
+    assert gq.resolve_as_of("2026") == "2026-12-31"
 
 
 def test_resolve_as_of_rejects_non_iso():
@@ -392,3 +392,23 @@ def test_entity_context_cli_passes_new_options(monkeypatch):
     assert captured["rel_types"] == ["PARTICIPATES_IN", "GIFTS", "VISITS"]
     assert captured["max_connections"] == 7
     assert captured["max_list_items"] == 3
+
+
+def test_year_only_as_of_includes_that_years_dates():
+    from artmind.graph_query import resolve_as_of
+
+    assert "2026-05-01" <= resolve_as_of("2026")          # text comparison, as the Cypher does
+
+
+def test_today_is_the_local_date(monkeypatch):
+    import datetime as dt
+
+    from artmind import graph_query
+
+    class Frozen(dt.date):
+        @classmethod
+        def today(cls):
+            return dt.date(2026, 1, 2)       # local; UTC may still be 2026-01-01
+
+    monkeypatch.setattr(graph_query, "date", Frozen)
+    assert graph_query.resolve_as_of("today") == "2026-01-02"

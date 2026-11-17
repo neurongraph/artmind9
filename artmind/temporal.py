@@ -3,8 +3,9 @@
 Non-destructive: original domain-named properties are never touched; canonical
 `valid_from`/`valid_to`/`event_at` are additive copies. Idempotent on re-run.
 """
+import calendar
 import re
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 from loguru import logger
@@ -74,6 +75,21 @@ def find_date(text: str | None) -> str | None:
             return iso
     return None
 
+
+
+def widen_as_of(value: str) -> str:
+    """A year or month `--asOf` as its last day, so `'2026-05-01' <= asOf` holds for 2026.
+
+    A day, or a day with a time, is returned unchanged. Valid-time strings compare as text,
+    and `'2026-05-01' <= '2026'` is false -- the defect this fixes (spec 2026-11-15 §1.5).
+    """
+    if re.fullmatch(r"\d{4}", value):
+        return f"{value}-12-31"
+    m = re.fullmatch(r"(\d{4})-(\d{2})", value)
+    if m:
+        year, month = int(m.group(1)), int(m.group(2))
+        return f"{value}-{calendar.monthrange(year, month)[1]:02d}"
+    return value
 
 def _find_header_date(md_text: str, labels: list[str]) -> str | None:
     """A document date from its header: for each label in order, every line that
