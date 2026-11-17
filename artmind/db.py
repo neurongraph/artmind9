@@ -283,6 +283,10 @@ def _create_schema(cursor: sqlite3.Cursor) -> None:
     # repaired, unrepaired), so a silent loss in a conversion shows in job-status.
     if "page_check" not in existing:
         cursor.execute("ALTER TABLE ingestion_job_files ADD COLUMN page_check TEXT")
+    # How a staged extraction's facts were dated (a JSON object: dated, ranges,
+    # unparsed; spec 2026-11-15 §3.4). Counts only, never values.
+    if "date_counts" not in existing:
+        cursor.execute("ALTER TABLE ingestion_job_files ADD COLUMN date_counts TEXT")
 
     # Phase 2 dropped path/filename-derived identity (logical_id) for
     # frontmatter-carried `artmind_id`, and Phase 5 shrank the row further

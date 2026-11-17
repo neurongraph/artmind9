@@ -34,9 +34,15 @@ def test_the_ingestion_default_is_the_local_date(monkeypatch):
 
 
 def test_an_unparsed_value_still_gets_the_ingestion_default(monkeypatch):
+    class Frozen(dt.date):
+        @classmethod
+        def today(cls):
+            return dt.date(2026, 1, 2)
+
+    monkeypatch.setattr(temporal, "date", Frozen)
     out = temporal.lift_document_dates(
         "Body\n", {"effective_date": "next review"}, {"valid_from": ["Effective Date"]},
         defaults={"valid_from": "ingestion_date"},
     )
-    assert out["valid_from"] == dt.date.today().isoformat()
+    assert out["valid_from"] == "2026-01-02"
     assert out["unparsed"] == ["valid_from"]

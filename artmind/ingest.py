@@ -3673,11 +3673,15 @@ def _build_observations(
     canonical_names: dict[str, str],
     schema: dict,
     document: dict,
+    counts: dict | None = None,
 ) -> tuple[list[dict], dict[str, dict[str, int]]]:
     """Turn this document version's extraction output into Observation props.
 
     Returns (observations, dropped): a property key the entity's class does not declare is
     dropped (spec 2026-11-15 §2.2), counted in `dropped` as {class: {key: count}} (never values).
+    `counts`, when given, is reset and filled with how the facts were dated (spec 2026-11-15
+    §3.4): `dated` by their own property, `ranges` among those with an end, `unparsed` tagged
+    values that held no date. Numbers only.
 
     One observation per (chunk, extracted-entity-identity). The entity's own
     schema-declared date property (a property tagged `temporal: valid_from`)
@@ -3701,6 +3705,9 @@ def _build_observations(
     doc_id = document["id"]
     doc_version = document.get("version") or 1
 
+    if counts is not None:
+        counts.clear()
+        counts.update({"dated": 0, "ranges": 0, "unparsed": 0})
     observations: list[dict] = []
     seen: set[str] = set()
     for entity in entities:
@@ -3721,6 +3728,10 @@ def _build_observations(
 
         # A fact carrying its own dates overrides the document's.
         fact = _fact_valid_time(entity_dates, cls, domain_props)
+        if counts is not None:
+            counts["dated"] += 1 if fact.valid_from else 0
+            counts["ranges"] += 1 if fact.valid_from and fact.valid_to else 0
+            counts["unparsed"] += fact.unparsed
 
         observation = build_observation(
             entity,
@@ -3745,6 +3756,13 @@ def _build_observations(
         seen.add(observation["id"])
         observations.append(observation)
     return observations, dropped
+
+
+def _date_counts_line(counts: dict) -> str:
+    """The per-document date counts as one log line: numbers only, never a value."""
+    n = counts.get("ranges", 0)
+    return (f"dates: {counts.get('dated', 0)} dated by property, {n} range{'s' if n != 1 else ''}, "
+            f"{counts.get('unparsed', 0)} unparsed")
 
 
 class _ChunksOnly(Exception):
@@ -4448,8 +4466,9 @@ def extract_kg(
             for cls, name, prop in stamped:
                 logger.info("Document entity: {} {!r} {} = {} (from the document)", cls, name, prop, own_date)
 
+    date_counts: dict = {}
     all_observations, dropped_props = _build_observations(
-        all_entities, all_properties, canonical_names, schema, document,
+        all_entities, all_properties, canonical_names, schema, document, counts=date_counts,
     )
     if dropped_props:
         file_result["dropped_property_values"] = dropped_props
@@ -4504,6 +4523,8 @@ def extract_kg(
         # refused extraction leaves the staging folder as it was.
         staged_files[DOCUMENT_CONTEXT_FILE] = context_summary
     write_staging(doc_kg_dir, staged_files)
+    # Only a staged extraction reports its date counts (job-status `date_counts`).
+    file_result["date_counts"] = date_counts
     _drop_extraction_stash(stash)
     # The document now has its staging folder under this name and domain; the
     # one its baseline came from (a note moved or re-domained since) is stale.
@@ -4527,6 +4548,7 @@ def extract_kg(
         failed_count,
         sum(n for keys in dropped_props.values() for n in keys.values()),
     )
+    logger.info("{}: {}", registered_path.name, _date_counts_line(date_counts))
     return doc_kg_dir
 
 

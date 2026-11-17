@@ -6,7 +6,7 @@ Non-destructive: original domain-named properties are never touched; canonical
 import calendar
 import re
 from dataclasses import dataclass
-from datetime import date, datetime, timedelta
+from datetime import date, timedelta
 from pathlib import Path
 
 from loguru import logger
