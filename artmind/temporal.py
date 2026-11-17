@@ -846,7 +846,7 @@ def apply_supersession(
         # assertions stop being the current record at once.
         from artmind.lifecycle import retire_document
 
-        retire_document(older_doc_id)
+        retire_document(older_doc_id, retired_by=f"supersede:{record['id']}")
     logger.info("supersession: {} supersedes {} (scope={}, effective={})", newer_doc_id, older_doc_id, scope, effective)
     return {"newer": newer_doc_id, "older": older_doc_id, "scope": scope, "effective": effective}
 

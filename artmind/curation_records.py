@@ -157,6 +157,17 @@ def read_record(kind: str, record_id: str) -> dict | None:
     return parse(path.read_bytes())
 
 
+def recorded_at(kind: str, record_id: str) -> str:
+    """A record's `recorded_at` (UTC, spec 2026-11-15 §6.1): the one already in
+    this working tree's file, else now -- so re-asserting the same record
+    rewrites nothing."""
+    from datetime import datetime, timezone
+
+    existing = read_record(kind, record_id) or {}
+    value = existing.get("recorded_at")
+    return value if isinstance(value, str) and value else datetime.now(timezone.utc).isoformat()
+
+
 def parse(data: bytes | None) -> dict | None:
     """A record from its bytes; None when absent or not a JSON object."""
     if data is None:

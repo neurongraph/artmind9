@@ -12,7 +12,7 @@ from __future__ import annotations
 
 RETIRE = """
 MATCH (s:DocSummary {doc_id: $doc_id})
-REMOVE s:DocSummary SET s:DocSummaryHistory
+REMOVE s:DocSummary SET s:DocSummaryHistory, s._retired_at = $now, s._retired_by = $by
 """
 
 _MERGE = """
@@ -77,9 +77,11 @@ def summary_rows(data: dict | None, document: dict, chunks: list[dict] | None = 
     return rows
 
 
-def write_document_summaries(tx, doc_id: str, rows: list[dict], *, recorded_at: str | None = None) -> int:
+def write_document_summaries(
+    tx, doc_id: str, rows: list[dict], *, recorded_at: str | None = None, retired_by: str | None = None,
+) -> int:
     """Record time as `passage_store.write_chunk_passages` (spec 2026-11-15 §6.1)."""
-    tx.run(RETIRE, doc_id=doc_id)
+    tx.run(RETIRE, doc_id=doc_id, now=recorded_at, by=retired_by)
     for label in ("Document", "DocChunk"):
         batch = [r for r in rows if r["target_label"] == label]
         if batch:

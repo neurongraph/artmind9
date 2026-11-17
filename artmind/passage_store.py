@@ -8,13 +8,14 @@ them under :DocPassage holding exactly `row.props` -- no `embedding`: the sweep
 fills it from the embedding cache or the model. Runs in the caller's transaction.
 
 Record time (spec 2026-11-15 §6.1): a new passage gets `_recorded_at`; a reused one
-keeps its first, and one revived from :DocPassageHistory gains `_revived_at`.
+keeps its first, and one revived from :DocPassageHistory gains `_revived_at`; a retired
+one gets `_retired_at` / `_retired_by`.
 """
 from __future__ import annotations
 
 RETIRE_CHUNK_PASSAGES = """
 MATCH (p:DocPassage {chunk_id: $chunk_id})
-REMOVE p:DocPassage SET p:DocPassageHistory
+REMOVE p:DocPassage SET p:DocPassageHistory, p._retired_at = $now, p._retired_by = $by
 """
 
 MERGE_PASSAGES = """
@@ -37,8 +38,13 @@ MERGE (n)-[:PART_OF]->(c)
 """
 
 
-def write_chunk_passages(tx, chunk_id: str, rows: list[dict], *, recorded_at: str | None = None) -> int:
-    tx.run(RETIRE_CHUNK_PASSAGES, chunk_id=chunk_id)
+def write_chunk_passages(
+    tx, chunk_id: str, rows: list[dict], *, recorded_at: str | None = None, retired_by: str | None = None,
+) -> int:
+    """`recorded_at` (UTC) is both the record time of new passages and the
+    `_retired_at` of retired ones; `retired_by` names why they were retired
+    (`version:<n>` from a commit, `resplit` from the passage sweep)."""
+    tx.run(RETIRE_CHUNK_PASSAGES, chunk_id=chunk_id, now=recorded_at, by=retired_by)
     if rows:
         tx.run(MERGE_PASSAGES, rows=rows, recorded_at=recorded_at)
     return len(rows)

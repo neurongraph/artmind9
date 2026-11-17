@@ -135,9 +135,10 @@ def test_retract_document_also_retires_a_user_chat(session, monkeypatch):
 
     ing.retract_document("update:s1:7", "general")
 
-    assert session.matching("REMOVE c:UserChat SET c:UserChatHistory") == [
-        ("MATCH (c:UserChat {id: $doc_id}) REMOVE c:UserChat SET c:UserChatHistory", {"doc_id": "update:s1:7"})
-    ]
+    ((cypher, params),) = session.matching("REMOVE c:UserChat SET c:UserChatHistory")
+    assert cypher == ("MATCH (c:UserChat {id: $doc_id}) REMOVE c:UserChat "
+                      "SET c:UserChatHistory, c._retired_at = $now, c._retired_by = $by")
+    assert params["doc_id"] == "update:s1:7" and params["by"] == "removed" and params["now"].endswith("+00:00")
 
 
 def test_fingerprints_are_read_from_documents_and_user_chats_in_one_query(monkeypatch):

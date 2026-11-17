@@ -156,7 +156,8 @@ def reconcile_passages(
             if not built:          # nothing to split (cannot happen past the trim filter)
                 skipped.add(row["id"])
                 continue
-            passage_store.write_chunk_passages(session, row["id"], built, recorded_at=recorded_at)
+            passage_store.write_chunk_passages(session, row["id"], built, recorded_at=recorded_at,
+                                               retired_by="resplit")
             result["chunks_split"] += 1
         if len(rows) < batch_size:
             break

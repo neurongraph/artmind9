@@ -15,7 +15,7 @@ def test_write_chunk_passages_retires_old_then_merges_new():
     passage_store.write_chunk_passages(tx, "d1_001", ROWS)
     (retire, p1), (merge, p2) = tx.calls
     assert "MATCH (p:DocPassage {chunk_id: $chunk_id})" in retire and "SET p:DocPassageHistory" in retire
-    assert p1 == {"chunk_id": "d1_001"}
+    assert p1 == {"chunk_id": "d1_001", "now": None, "by": None}
     assert "UNWIND $rows AS row" in merge and "OPTIONAL MATCH (o2:DocPassageHistory {id: row.id})" in merge
     assert "SET n = row.props" in merge and "MERGE (n)-[:PART_OF]->(c)" in merge
     assert p2 == {"rows": ROWS, "recorded_at": None}
@@ -29,10 +29,10 @@ def test_write_chunk_passages_with_no_rows_only_retires():
 
 def test_retract_prior_version_moves_passages_to_history():
     tx = Recorder(lambda c, p: [{"n": 0}])
-    ingest._retract_prior_version(tx, "papers", "d1")
+    ingest._retract_prior_version(tx, "papers", "d1", retired_by="version:2", retired_at="2026-11-16T00:00:00+00:00")
     swaps = tx.queries_containing("MATCH (p:DocPassage {doc_id: $doc_id})")
     assert swaps and "REMOVE p:DocPassage SET p:DocPassageHistory" in swaps[0][0]
-    assert swaps[0][1] == {"doc_id": "d1"}
+    assert swaps[0][1] == {"doc_id": "d1", "now": "2026-11-16T00:00:00+00:00", "by": "version:2"}
 
 
 class _Result:

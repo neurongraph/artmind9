@@ -75,6 +75,7 @@ def no_rebuild(monkeypatch):
 def test_a_lifecycle_record_is_keyed_by_a_hash_of_the_document_id():
     record = lifecycle_records.record_for(_Tx(), "table:banking:accounts")
 
+    assert record.pop("recorded_at").endswith("+00:00")
     assert record == {
         "id": hashlib.sha1(b"table:banking:accounts").hexdigest(),
         "doc_id": "table:banking:accounts", "domain": "banking", "status": "retired",
@@ -361,3 +362,10 @@ def test_remove_of_an_already_restored_document_restores_nothing(no_rebuild):
 
     assert [c for c in restored.texts() if "SET d:Document" in c or "lifecycle_fingerprint" in c] == []
     assert len([1 for c in restored.texts() if "RETURN count(d) AS n" in c]) == 2
+
+
+def test_a_lifecycle_record_keeps_its_first_recorded_at():
+    record = lifecycle_records.record_for(_Tx(), "doc-1")
+    record["recorded_at"] = "2026-01-01T00:00:00+00:00"
+    curation_records.write_record("lifecycle", record)
+    assert lifecycle_records.record_for(_Tx(), "doc-1")["recorded_at"] == "2026-01-01T00:00:00+00:00"

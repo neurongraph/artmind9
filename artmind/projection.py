@@ -1211,7 +1211,9 @@ def _sync_same_as_links_batch(tx, links: list[tuple[tuple[str, str, str], tuple[
     )
 
 
-def apply_retractions(tx, observations: list[dict]) -> set[tuple[str, str, str]]:
+def apply_retractions(
+    tx, observations: list[dict], *, retired_at: str | None = None,
+) -> set[tuple[str, str, str]]:
     """Apply every `_retracts` pointer among `observations`, before the keys
     they touch are rebuilt.
 
@@ -1224,7 +1226,9 @@ def apply_retractions(tx, observations: list[dict]) -> set[tuple[str, str, str]]
     - Retracting an **Observation** demotes it to `:ObservationHistory` — the
       same label swap `lifecycle._transition` uses for a whole document, here
       scoped to one fact. It is never deleted, only removed from the `latest`
-      pool that feeds the aggregate.
+      pool that feeds the aggregate. It records when and by what:
+      `_retired_at` (`retired_at`, UTC; default now) and `_retired_by =
+      'retract:<retracting observation id>'` (spec 2026-11-15 §6.1).
     - Retracting a **relationship** deletes the `ASSERTS_RELATION` edge
       outright. Edges carry no history label, and `RELATES_TO` is already
       recomputed from scratch on every rebuild (`rebuild`'s own batched
@@ -1243,6 +1247,7 @@ def apply_retractions(tx, observations: list[dict]) -> set[tuple[str, str, str]]
     unrebuilt.
     """
     keys: set[tuple[str, str, str]] = set()
+    now = retired_at or _record_now()
     for observation in observations:
         target = observation.get("_retracts")
         if not target:
@@ -1250,10 +1255,11 @@ def apply_retractions(tx, observations: list[dict]) -> set[tuple[str, str, str]]
         rec = tx.run(
             """
             MATCH (o:Observation {id: $id})
-            REMOVE o:Observation SET o:ObservationHistory
+            REMOVE o:Observation
+            SET o:ObservationHistory, o._retired_at = $now, o._retired_by = 'retract:' + $retractor
             RETURN o.key AS key
             """,
-            id=target,
+            id=target, retractor=observation.get("id"), now=now,
         ).single()
         if rec:
             parsed = _parse_key(rec["key"])

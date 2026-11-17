@@ -40,7 +40,7 @@ def test_write_retires_then_merges_and_links_each_level():
     assert n == 3
     retire, merge_doc, merge_chunk = tx.calls
     assert "MATCH (s:DocSummary {doc_id: $doc_id})" in retire[0] and "SET s:DocSummaryHistory" in retire[0]
-    assert retire[1] == {"doc_id": "d1"}
+    assert retire[1] == {"doc_id": "d1", "now": None, "by": None}
     assert "MATCH (t:Document {id: row.target})" in merge_doc[0]
     assert [r["id"] for r in merge_doc[1]["rows"]] == ["d1:summary"]
     assert "MATCH (t:DocChunk {id: row.target})" in merge_chunk[0]
@@ -61,7 +61,7 @@ def test_retract_and_lifecycle_swap_summaries():
     from artmind import lifecycle
 
     tx = Recorder(respond=lambda c, p: [{"n": 0}])
-    ing._retract_prior_version(tx, "notes", "d1")
+    ing._retract_prior_version(tx, "notes", "d1", retired_by="version:2")
     assert tx.queries_containing("MATCH (s:DocSummary {doc_id: $doc_id})")
     assert any("SET s:DocSummaryHistory" in c for c, _ in tx.calls)
 
@@ -71,12 +71,12 @@ def test_retract_and_lifecycle_swap_summaries():
     try:
         projection.keys_for_document = lambda tx, doc_id: []
         lifecycle._transition(tx, "d1", to_history=True, rebuild=False)
-        assert any("MATCH (s:DocSummary {doc_id: $doc_id}) REMOVE s:DocSummary SET s:DocSummaryHistory" in c
-                   for c, _ in tx.calls)
+        assert any("MATCH (s:DocSummary {doc_id: $doc_id}) REMOVE s:DocSummary SET s:DocSummaryHistory, "
+                   "s._retired_at = $now, s._retired_by = $by" in c for c, _ in tx.calls)
         tx.calls.clear()
         lifecycle._transition(tx, "d1", to_history=False, rebuild=False)
-        assert any("MATCH (s:DocSummaryHistory {doc_id: $doc_id}) REMOVE s:DocSummaryHistory SET s:DocSummary" in c
-                   for c, _ in tx.calls)
+        assert any("MATCH (s:DocSummaryHistory {doc_id: $doc_id}) REMOVE s:DocSummaryHistory SET s:DocSummary, "
+                   "s._revived_at = $now REMOVE s._retired_at, s._retired_by" in c for c, _ in tx.calls)
     finally:
         projection.keys_for_document = lifecycle_keys
 

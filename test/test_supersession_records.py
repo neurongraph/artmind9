@@ -53,6 +53,7 @@ def _record(**overrides):
 def test_a_supersession_record_is_keyed_by_newer_older_and_scope():
     record = _record()
 
+    assert record.pop("recorded_at").endswith("+00:00")
     assert record == {
         "id": hashlib.sha1(b"new-doc|old-doc|document").hexdigest(),
         "newer_doc_id": "new-doc", "older_doc_id": "old-doc", "scope": "document",
@@ -204,3 +205,44 @@ def test_a_node_scope_supersession_does_not_retire_the_older_document(monkeypatc
 
     assert any("MERGE (newer)-[s:SUPERSEDES" in c for c, _ in session.calls), "the edge is still asserted"
     assert retired == []
+
+
+class _DatedSession(_Session):
+    def __init__(self, valid_from, precision):
+        super().__init__()
+        self._dated = {"valid_from": valid_from, "precision": precision}
+
+    def run(self, cypher, **params):
+        if "d._valid_precision AS precision" in cypher:
+            self.calls.append((cypher, params))
+            return _Result([self._dated])
+        return super().run(cypher, **params)
+
+
+def test_a_record_with_no_effective_takes_the_newer_documents_stated_date():
+    session = _DatedSession("2026-02-01", "day")
+    record = supersession_records.record_for(session, "new-doc", "old-doc", "document", None, "manual")
+    assert record["effective"] == "2026-02-01"
+    (cypher, params), = [(c, p) for c, p in session.calls if "_valid_precision" in c]
+    assert params == {"id": "new-doc"} and "(d:Document OR d:DocumentHistory)" in cypher
+    assert record["recorded_at"].endswith("+00:00")
+
+
+def test_a_default_date_is_not_an_effective_date():
+    record = supersession_records.record_for(
+        _DatedSession("2026-11-17", "none"), "new-doc", "old-doc", "document", None, "manual")
+    assert record["effective"] is None
+
+
+def test_a_given_effective_wins_and_reads_no_date():
+    session = _DatedSession("2026-02-01", "day")
+    record = supersession_records.record_for(session, "new-doc", "old-doc", "document", "2026-03-01", "manual")
+    assert record["effective"] == "2026-03-01"
+    assert not [c for c, _ in session.calls if "_valid_precision" in c]
+
+
+def test_re_asserting_keeps_the_first_recorded_at(curation_dir):
+    first = _record()
+    first["recorded_at"] = "2026-01-01T00:00:00+00:00"
+    curation_records.write_record(supersession_records.NAME, first)
+    assert _record()["recorded_at"] == "2026-01-01T00:00:00+00:00"

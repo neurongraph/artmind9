@@ -8,11 +8,14 @@ to live only in the graph. Each assertion is now also a file,
 `.artmind/data/curation/supersessions/<id>.json`:
 
     {"id", "newer_doc_id", "older_doc_id", "scope", "effective",
-     "detected_by", "domains"}
+     "detected_by", "domains", "recorded_at"}
 
 The id is sha1 of `newer|older|scope`, so re-asserting the same supersession
-on any machine names the same record. No timestamp: re-running detection
-rewrites nothing.
+on any machine names the same record. `recorded_at` (UTC) is when it was first
+asserted, kept from the file on a re-assertion, so re-running detection
+rewrites nothing. With no `effective` given, it is the newer document's own
+`_valid_from` when the document states one (precision other than `none`;
+spec 2026-11-15 §6.1, §7.2).
 
 **`older._valid_to` and `older.superseded_by` are derived from the edges.**
 Supersession writes `_valid_to` over the document's own end from its staging
@@ -84,6 +87,12 @@ SET older.superseded_by = CASE WHEN size(edges) = 0 THEN null ELSE edges[0].newe
 REMOVE older.valid_to
 """
 
+_NEWER_VALID_FROM = """
+MATCH (d) WHERE (d:Document OR d:DocumentHistory) AND d.id = $id
+RETURN d._valid_from AS valid_from, d._valid_precision AS precision
+LIMIT 1
+"""
+
 _DOMAINS = """
 MATCH (d) WHERE (d:Document OR d:DocumentHistory) AND d.id IN $ids
 RETURN DISTINCT d._domain AS domain
@@ -103,18 +112,35 @@ def record_for(
     session, newer_doc_id: str, older_doc_id: str, scope: str, effective: str | None, detected_by: str
 ) -> dict:
     """The record for one assertion; its `domains` read from the two
-    documents (for `vault sync --domain`)."""
+    documents (for `vault sync --domain`), `effective` from the newer
+    document when the caller gives none."""
+    from artmind import curation_records
+
     rows = session.run(_DOMAINS, ids=[newer_doc_id, older_doc_id]).data()
     domains = sorted({row.get("domain") for row in rows if isinstance(row, dict) and isinstance(row.get("domain"), str)})
+    if effective is None:
+        effective = _stated_valid_from(session, newer_doc_id)
+    rid = record_id(newer_doc_id, older_doc_id, scope)
     return {
-        "id": record_id(newer_doc_id, older_doc_id, scope),
+        "id": rid,
         "newer_doc_id": newer_doc_id,
         "older_doc_id": older_doc_id,
         "scope": scope,
         "effective": effective,
         "detected_by": detected_by,
         "domains": domains,
+        "recorded_at": curation_records.recorded_at(NAME, rid),
     }
+
+
+def _stated_valid_from(session, doc_id: str) -> str | None:
+    """The document's `_valid_from` when its source states it; None for a
+    default date (precision `none`) or none at all."""
+    row = session.run(_NEWER_VALID_FROM, id=doc_id).single()
+    if row is None:
+        return None
+    value, precision = row.get("valid_from"), row.get("precision")
+    return value if isinstance(value, str) and value and precision != "none" else None
 
 
 def apply(tx, record: dict, fingerprint: str) -> set:

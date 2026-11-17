@@ -6,7 +6,10 @@ a document and everything it asserted from `latest` to `history`; `docs
 restore` moves it back. That used to live only in the graph. A retired
 document now also has a file, `.artmind/data/curation/lifecycle/<id>.json`:
 
-    {"id": sha1(doc_id), "doc_id", "domain", "status": "retired"}
+    {"id": sha1(doc_id), "doc_id", "domain", "status": "retired", "recorded_at"}
+
+`recorded_at` (UTC) is when the retirement was first recorded; retiring an
+already-retired document keeps it (`curation_records.recorded_at`).
 
 **The file exists exactly while the document is retired**: `docs retire`
 writes it, `docs restore` deletes it. So `vault sync` retires a document when
@@ -75,7 +78,11 @@ def record_for(tx, doc_id: str, domain: str | None = None) -> dict:
         # not a dict: read it with `.get`, and check the value's type.
         value = rec.get("domain") if rec is not None else None
         domain = value if isinstance(value, str) else None
-    return {"id": record_id(doc_id), "doc_id": doc_id, "domain": domain, "status": "retired"}
+    from artmind import curation_records
+
+    rid = record_id(doc_id)
+    return {"id": rid, "doc_id": doc_id, "domain": domain, "status": "retired",
+            "recorded_at": curation_records.recorded_at(NAME, rid)}
 
 
 def retired_in_working_tree(doc_id: str | None) -> bool:

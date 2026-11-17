@@ -3199,7 +3199,9 @@ def _summarise_effect(pending: list[dict], model: str) -> dict:
     ).to_json()
 
 
-def _retract_prior_version(tx, domain: str, doc_id: str) -> dict:
+def _retract_prior_version(
+    tx, domain: str, doc_id: str, *, retired_by: str, retired_at: str | None = None,
+) -> dict:
     """Move everything the previous version of ``doc_id`` asserted out of
     ``latest`` — the version/status transition that replaces the old
     hard-retraction.
@@ -3227,47 +3229,53 @@ def _retract_prior_version(tx, domain: str, doc_id: str) -> dict:
     observations touch) recomputes the aggregate edges from scratch. Nothing
     here has to know an edge existed.
 
+    Record time (spec 2026-11-15 §6.1): every node moved gets `_retired_at`
+    (`retired_at`, UTC; default now) and `_retired_by` -- `version:<n>` from a
+    commit of version n, `removed` from `retract_document`. A node the commit
+    writes again is revived and loses both (`_merge_relabeled`).
+
     Runs inside the caller's transaction.
     """
     result = {"observations_demoted": 0, "chunks": 0, "passages": 0}
+    stamp = {"now": retired_at or _record_now(), "by": retired_by}
 
     rec = tx.run(
         """
         MATCH (o:Observation {doc_id: $doc_id})
-        REMOVE o:Observation SET o:ObservationHistory
+        REMOVE o:Observation SET o:ObservationHistory, o._retired_at = $now, o._retired_by = $by
         RETURN count(o) AS n
         """,
-        doc_id=doc_id,
+        doc_id=doc_id, **stamp,
     ).single()
     result["observations_demoted"] = int(rec["n"]) if rec else 0
 
     rec = tx.run(
         """
         MATCH (c:DocChunk {doc_id: $doc_id})
-        REMOVE c:DocChunk SET c:DocChunkHistory
+        REMOVE c:DocChunk SET c:DocChunkHistory, c._retired_at = $now, c._retired_by = $by
         RETURN count(c) AS n
         """,
-        doc_id=doc_id,
+        doc_id=doc_id, **stamp,
     ).single()
     result["chunks"] = int(rec["n"]) if rec else 0
 
     rec = tx.run(
         """
         MATCH (p:DocPassage {doc_id: $doc_id})
-        REMOVE p:DocPassage SET p:DocPassageHistory
+        REMOVE p:DocPassage SET p:DocPassageHistory, p._retired_at = $now, p._retired_by = $by
         RETURN count(p) AS n
         """,
-        doc_id=doc_id,
+        doc_id=doc_id, **stamp,
     ).single()
     result["passages"] = int(rec["n"]) if rec else 0
 
     rec = tx.run(
         """
         MATCH (s:DocSummary {doc_id: $doc_id})
-        REMOVE s:DocSummary SET s:DocSummaryHistory
+        REMOVE s:DocSummary SET s:DocSummaryHistory, s._retired_at = $now, s._retired_by = $by
         RETURN count(s) AS n
         """,
-        doc_id=doc_id,
+        doc_id=doc_id, **stamp,
     ).single()
     result["summaries"] = int(rec["n"]) if rec else 0
     return result
@@ -3300,15 +3308,18 @@ def retract_document(doc_id: str, domain: str) -> dict:
 
     def _tx(tx):
         keys = projection.keys_for_document(tx, doc_id)
-        retracted = _retract_prior_version(tx, domain, doc_id)
+        stamp = {"now": _record_now(), "by": "removed"}
+        retracted = _retract_prior_version(tx, domain, doc_id, retired_by=stamp["by"], retired_at=stamp["now"])
         tx.run(
-            "MATCH (d:Document {id: $doc_id}) REMOVE d:Document SET d:DocumentHistory",
-            doc_id=doc_id,
+            "MATCH (d:Document {id: $doc_id}) REMOVE d:Document "
+            "SET d:DocumentHistory, d._retired_at = $now, d._retired_by = $by",
+            doc_id=doc_id, **stamp,
         )
         # An `update__*` folder commits as a :UserChat (`_commit_document_tx`).
         tx.run(
-            "MATCH (c:UserChat {id: $doc_id}) REMOVE c:UserChat SET c:UserChatHistory",
-            doc_id=doc_id,
+            "MATCH (c:UserChat {id: $doc_id}) REMOVE c:UserChat "
+            "SET c:UserChatHistory, c._retired_at = $now, c._retired_by = $by",
+            doc_id=doc_id, **stamp,
         )
         # A retracted document is no longer "retired by a record": removing
         # that record later must not bring it back (`lifecycle_records.remove`).
@@ -4985,7 +4996,8 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     prior_keys = projection.keys_for_document(tx, doc_id)
 
     # 2. Demote the prior version.
-    summary["retracted"] = _retract_prior_version(tx, domain, doc_id)
+    retired_by = f"version:{document.get('version') or 1}"
+    summary["retracted"] = _retract_prior_version(tx, domain, doc_id, retired_by=retired_by, retired_at=recorded_at)
 
     # 3. Document + chunks. A re-ingest of a document `docs retire` had moved
     #    to :DocumentHistory revives that same node rather than creating a
@@ -5028,7 +5040,7 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
             doc_id=chunk["doc_id"],
         )
         passage_store.write_chunk_passages(tx, chunk["id"], passages.passage_rows(chunk, title),
-                                           recorded_at=recorded_at)
+                                           recorded_at=recorded_at, retired_by=retired_by)
     summary["chunks"] = len(staged["chunks"])
     summary["passage_chunk_ids"] = [chunk["id"] for chunk in staged["chunks"]]
 
@@ -5039,7 +5051,7 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
             tx, doc_id, summary_store.summary_rows(
                 staged.get("summaries"), {**document, "_domain": domain}, chunks=staged["chunks"],
             ),
-            recorded_at=recorded_at,
+            recorded_at=recorded_at, retired_by=retired_by,
         )
 
     # 4. Observations.
@@ -5061,7 +5073,7 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     #     anything else this document touched, so it joins `incoming_keys` —
     #     `affected_keys` doesn't distinguish why a key is in scope, only that
     #     it is.
-    retracted_keys = projection.apply_retractions(tx, observations)
+    retracted_keys = projection.apply_retractions(tx, observations, retired_at=recorded_at)
     incoming_keys |= retracted_keys
     summary["retracted_observations"] = sorted(key_string(k) for k in retracted_keys)
 
@@ -5083,7 +5095,7 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     if staged.get("retired") and source_label == "Document":
         from artmind.lifecycle import _transition
 
-        _transition(tx, doc_id, to_history=True, rebuild=False)
+        _transition(tx, doc_id, to_history=True, rebuild=False, at=recorded_at)
         summary["retired"] = True
 
     # 6. The affected-key union, then the rebuild — which now also aggregates
