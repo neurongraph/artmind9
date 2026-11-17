@@ -40,7 +40,7 @@ def summary_rows(data: dict | None, document: dict) -> list[dict]:
     if not isinstance(data, dict) or not isinstance(data.get("chunks"), list):
         return []
     common = {"doc_id": document["id"], "_domain": document.get("_domain")}
-    for field in ("valid_from", "valid_to"):
+    for field in ("_valid_from", "_valid_to"):
         if document.get(field) is not None:
             common[field] = document[field]
     rows: list[dict] = []

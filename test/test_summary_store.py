@@ -9,7 +9,7 @@ DATA = {
     "chunks": [{"chunk_id": "c1", "key": "k1", "summary": "Part one."},
                {"chunk_id": "c2", "key": "k2", "summary": "Part two."}],
 }
-DOC = {"id": "d1", "_domain": "notes", "valid_from": "2026-01-01"}
+DOC = {"id": "d1", "_domain": "notes", "_valid_from": "2026-01-01"}
 
 
 def test_rows_cover_both_levels_with_deterministic_ids():
@@ -17,7 +17,7 @@ def test_rows_cover_both_levels_with_deterministic_ids():
     assert [r["id"] for r in rows] == ["d1:summary", "c1:summary", "c2:summary"]
     doc, c1 = rows[0], rows[1]
     assert doc["props"] == {"id": "d1:summary", "level": "document", "doc_id": "d1", "_domain": "notes",
-                            "text": "The whole thing.", "key": "dk", "valid_from": "2026-01-01"}
+                            "text": "The whole thing.", "key": "dk", "_valid_from": "2026-01-01"}
     assert doc["target"] == "d1" and doc["target_label"] == "Document"
     assert c1["props"]["level"] == "chunk" and c1["props"]["chunk_id"] == "c1"
     assert c1["target"] == "c1" and c1["target_label"] == "DocChunk"
@@ -78,3 +78,16 @@ def test_retract_and_lifecycle_swap_summaries():
                    for c, _ in tx.calls)
     finally:
         projection.keys_for_document = lifecycle_keys
+
+
+def test_summary_rows_carry_the_documents_prefixed_valid_time():
+    from artmind.summary_store import summary_rows
+
+    data = {"document": {"summary": "S", "key": "k"}, "chunks": [{"chunk_id": "c1", "summary": "C", "key": "k1"}]}
+    document = {"id": "d1", "_domain": "pj", "_valid_from": "2024-03-30", "_valid_to": "2024-04-01"}
+    rows = summary_rows(data, document)
+    assert len(rows) == 2
+    for row in rows:
+        assert row["props"]["_valid_from"] == "2024-03-30"
+        assert row["props"]["_valid_to"] == "2024-04-01"
+        assert "valid_from" not in row["props"]
