@@ -376,7 +376,7 @@ def write_user_chat(
     from artmind.observations import (
         LLM_BAG_OWN_KEYS, aggregate_key, build_observation, declared_property_keys, filter_declared,
         key_string,
-        normalize_property_keys, property_key_rules,
+        normalize_property_keys, property_key_rules, strip_occasion_date,
     )
     from artmind.schema_validate import class_identity
 
@@ -427,11 +427,14 @@ def write_user_chat(
             target_domain = domain
             identity = None
 
-            # An occasion keys on its fact's day, as ingest keys it (spec 2026-11-15 §5.2).
+            # An occasion keys on its fact's day, and is named without it, as ingest
+            # keys and names it (spec 2026-11-15 §5.2).
             occurs_on = _occasion_day(entity_data.get("properties"), entity_class, schema, today, rules)
+            if class_identity(schema, entity_class) == "occasion":
+                canonical_name = strip_occasion_date(canonical_name)
             if action == "link":
                 target = _resolve_target_identity(
-                    session, res.get("node_id"), entity_data["name"], entity_class, domain, occurs_on
+                    session, res.get("node_id"), canonical_name, entity_class, domain, occurs_on
                 )
                 if not target:
                     # Counting a link that matched nothing would report a write

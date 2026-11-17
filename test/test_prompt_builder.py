@@ -268,3 +268,30 @@ def test_every_form_the_section_names_is_one_parse_valid_reads():
     example = re.search(r'e\.g\. "([^"]+)"', text).group(1)
     parsed = parse_valid(example)
     assert (parsed.start, parsed.time_of_day) == ("2026-01-07", "evening")
+
+
+def test_occasion_classes_get_the_no_date_naming_rule():
+    from artmind.prompt_builder import _render_class_block
+
+    meta = {"kind_naming_rules": {"occurrent": "a date ... belongs IN the name."},
+            "identity_naming_rules": {"occasion": "NEVER add a date to the name."}}
+    block = _render_class_block("ACTIVITY", {"kind": "occurrent", "identity": "occasion"}, meta)
+    assert "NEVER add a date" in block and "belongs IN the name" not in block
+    other = _render_class_block("AMENDMENT", {"kind": "occurrent", "identity": "name"}, meta)
+    assert "belongs IN the name" in other and "NEVER add a date" not in other
+
+
+def test_a_meta_without_the_occasion_rule_names_the_migration():
+    import pytest
+    from artmind.prompt_builder import MetaIncomplete, _render_class_block
+
+    with pytest.raises(MetaIncomplete, match="migrate status"):
+        _render_class_block("ACTIVITY", {"kind": "occurrent", "identity": "occasion"}, {"kind_naming_rules": {}})
+
+
+def test_packaged_meta_carries_the_occasion_rule():
+    from pathlib import Path
+    import yaml
+
+    meta = yaml.safe_load((Path(__file__).resolve().parent.parent / "artmind" / "domains" / "meta.yaml").read_text())
+    assert "NEVER add a date" in meta["identity_naming_rules"]["occasion"]

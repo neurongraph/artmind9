@@ -113,7 +113,8 @@ def test_the_recurrent_naming_rule_reaches_the_entities_prompt():
 
     prompt = build_entities_prompt("passage", SCHEMA)
     assert "NEVER embed a measurement" in prompt
-    assert "completed event" in prompt
+    # INCIDENT is occurrent, so an occasion by default: named without its date (spec 2026-11-15 §5.2).
+    assert "NEVER add a date" in prompt and "completed event" not in prompt
 
 
 # ── the per-document canonicalization pass ──────────────────────────────────

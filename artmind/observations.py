@@ -201,6 +201,55 @@ def occasion_day(valid_from: str | None, precision: str | None) -> str | None:
     return day if _DAY_RE.fullmatch(day) else None
 
 
+# ── occasion names carry no date (spec 2026-11-15 §5.2, plan question 5) ─────
+
+_MONTH = (r"(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?"
+          r"|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\.?")
+_ORDINAL_DAY = r"\d{1,2}(?:st|nd|rd|th)?"
+_WEEKDAY = r"(?:mon|tues|wednes|thurs|fri|satur|sun)day"
+_RELATIVE_DAY = r"(?:today|tonight|yesterday|tomorrow|last night|this (?:morning|afternoon|evening))"
+# A whole date, optionally after a weekday: ISO, dd/mm/yyyy, "30 March 2024", "March 30, 2024".
+_FULL_DATE = (rf"(?:{_WEEKDAY},?\s+)?(?:\d{{4}}-\d{{2}}-\d{{2}}|\d{{1,2}}/\d{{1,2}}/\d{{4}}"
+              rf"|{_ORDINAL_DAY}\s+(?:of\s+)?{_MONTH},?\s+\d{{4}}|{_MONTH}\s+{_ORDINAL_DAY},?\s+\d{{4}})")
+# What a separator, "on" or brackets may introduce besides a whole date: a day without a
+# year, "the 30th", a weekday, "today". A bare space introduces only a whole date or "today",
+# so "Easter Sunday" and "Black Friday sale" keep their weekday.
+_DAY_TOKEN = (rf"(?:{_FULL_DATE}|(?:{_WEEKDAY},?\s+)?(?:{_ORDINAL_DAY}\s+(?:of\s+)?{_MONTH}|{_MONTH}\s+{_ORDINAL_DAY}"
+              rf"|(?:the\s+)?\d{{1,2}}(?:st|nd|rd|th)(?:\s+of\s+{_MONTH})?)|{_WEEKDAY}|{_RELATIVE_DAY})")
+# Lookarounds keep a token whole: "28-30 March 2024" is a range, not a tail.
+_OCCASION_TAIL_RE = re.compile(
+    rf"(?:\s*[-–—:,]\s*(?:on\s+)?(?<![\w-]){_DAY_TOKEN}"
+    rf"|\s+on\s+{_DAY_TOKEN}"
+    rf"|\s*\(\s*(?:on\s+)?{_DAY_TOKEN}\s*\)"
+    rf"|\s+(?<![\w-])(?:{_FULL_DATE}|{_RELATIVE_DAY}))\W*$",
+    re.IGNORECASE,
+)
+_OCCASION_HEAD_RE = re.compile(rf"^\W*{_FULL_DATE}(?![\w-])\s*[-–—:,]?\s*", re.IGNORECASE)
+_WORD_RE = re.compile(r"\w")
+
+
+def strip_occasion_date(name: str | None) -> str:
+    """An occasion's name without the date it happened on (spec 2026-11-15 §5.2). Pure.
+
+    The day is part of an occasion's key (`aggregate_key(occurs_on=)`), so a date, weekday,
+    ordinal ("on the 30th") or "today" in its name only splits one happening into several
+    names. Strips a trailing one -- after a dash, colon, comma, "on", in brackets, or, for a
+    whole date or "today", after a bare space -- and a leading whole date. Numbers that are
+    not dates stay ("Flight AI 302", "Room 101", "Q3 review"), as does a weekday that is
+    part of a name ("Easter Sunday"). Idempotent; a name that is only a date is returned
+    unchanged, never emptied.
+    """
+    original = (name or "").strip()
+    text = original
+    for _ in range(8):
+        before = text
+        text = _OCCASION_TAIL_RE.sub("", text).strip()
+        text = _OCCASION_HEAD_RE.sub("", text).strip()
+        if text == before:
+            break
+    return text if _WORD_RE.search(text) else original
+
+
 def key_string(key: tuple[str, str, str]) -> str:
     """The key rendered for storage and hashing: `name|class|domain`."""
     return "|".join(key)

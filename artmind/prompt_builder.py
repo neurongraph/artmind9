@@ -21,6 +21,7 @@ from __future__ import annotations
 
 from functools import lru_cache
 
+import click
 import yaml
 
 from paths import DOMAIN_META_PATH
@@ -46,6 +47,10 @@ def _fill(template: str, tokens: dict[str, str]) -> str:
     return out
 
 
+class MetaIncomplete(click.ClickException):
+    """meta.yaml lacks a key core reads; the vault's files predate the model (spec 2026-11-15 §8)."""
+
+
 def _class_enum(entity_types: dict) -> str:
     return " | ".join(entity_types.keys())
 
@@ -54,7 +59,9 @@ def _render_class_block(cls: str, decl: dict, meta: dict | None = None) -> str:
     """One class's block in the entities prompt.
 
     The class's declared `kind` is rendered as a naming instruction, from
-    `meta.yaml`'s `kind_naming_rules`. Without it the recurrent naming rule
+    `meta.yaml`'s `kind_naming_rules` -- or, for an `identity: occasion` class,
+    `identity_naming_rules.occasion` (no date in the name; `MetaIncomplete` when
+    the vault's meta.yaml lacks it). Without it the recurrent naming rule
     existed only as prose for schema authors and never reached the extractor
     -- which is why names arrived carrying the very measurements and dates the
     aggregate key then had to strip back off.
@@ -67,7 +74,18 @@ def _render_class_block(cls: str, decl: dict, meta: dict | None = None) -> str:
     desc = (decl.get("description") or "").strip()
     if desc:
         lines.append(f"  {desc}")
-    kind_rule = ((meta or {}).get("kind_naming_rules") or {}).get(decl.get("kind"))
+    from artmind.schema_validate import class_identity
+
+    if class_identity({"entity_types": {cls: decl}}, cls) == "occasion":
+        # An occasion's naming rule replaces its kind's: its day is in its key (spec 2026-11-15 §5.2).
+        kind_rule = ((meta or {}).get("identity_naming_rules") or {}).get("occasion")
+        if not kind_rule:
+            raise MetaIncomplete(
+                "meta.yaml has no identity_naming_rules.occasion; this vault's files predate "
+                "the temporal model. Run: artmind migrate status"
+            )
+    else:
+        kind_rule = ((meta or {}).get("kind_naming_rules") or {}).get(decl.get("kind"))
     if kind_rule:
         lines.append(f"  {kind_rule.strip()}")
         # A worked example is the class's own, never the meta-schema's: a rule

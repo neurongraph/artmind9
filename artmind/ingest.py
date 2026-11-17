@@ -3738,7 +3738,7 @@ def _build_observations(
     """
     from artmind.observations import (
         LLM_BAG_OWN_KEYS, build_observation, class_kind, declared_property_keys, filter_declared,
-        normalize_property_keys, property_key_rules,
+        normalize_property_keys, property_key_rules, strip_occasion_date,
     )
     from artmind.schema_validate import class_identity
     from artmind.temporal import _entity_temporal_mapping
@@ -3766,6 +3766,10 @@ def _build_observations(
             continue
 
         cls = entity.get("entity_class") or ""
+        identity_kind = class_identity(schema, cls)
+        if identity_kind == "occasion":
+            # Its day is in its key; a date in its name would only split it (spec 2026-11-15 §5.2).
+            canonical = strip_occasion_date(canonical)
         domain_props, gone = filter_declared(
             normalize_property_keys(dict(props_by_id.get(entity.get("id"), {})), *key_rules), cls, declared,
             own=LLM_BAG_OWN_KEYS,  # a raw LLM bag: a model-emitted `source_kind` is not an own field
@@ -3791,7 +3795,7 @@ def _build_observations(
             valid_time_source=("property" if fact.valid_from else document.get("_valid_time_source")),
             valid_precision=fact.precision if fact.valid_from else _document_precision(document, schema),
             valid_time_of_day=fact.time_of_day,
-            identity_kind=class_identity(schema, cls),
+            identity_kind=identity_kind,
         )
         # A deadline or review date is its own field, never the fact's valid time (spec §4).
         if fact.due:

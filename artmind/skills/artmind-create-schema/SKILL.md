@@ -157,10 +157,14 @@ amount, a percentage, or a date. `"SmartSaver Account Tier 2 Rate"` is
 right; `"SmartSaver Account Tier 2 Rate — 4.60% AER, effective 2026-02-01"`
 is wrong — that value belongs in a property, and a name carrying it can
 never be recognised as the same thing again in the next document. An
-`occurrent` class is the opposite: the date or a distinguishing identifier
-belongs IN the name, because that's what tells one occurrence apart from
-another (`meta.yaml`'s `kind_naming_rules` renders both instructions into
-the actual extraction prompt, so this reaches the model, not just you).
+`occurrent` class declared `identity: name` is the opposite: the date or a
+distinguishing identifier belongs IN the name, because that's what tells one
+occurrence apart from another. An `identity: occasion` class (the default for
+`occurrent`) is named WITHOUT its date ("Tennis", not "Tennis on 2024-03-30"):
+its day is already part of its key, and ingest strips a date the model adds
+anyway (`meta.yaml`'s `kind_naming_rules` and `identity_naming_rules` render
+these instructions into the actual extraction prompt, so this reaches the
+model, not just you).
 The rule carries no example of its own. Give a recurrent class one from your
 own domain when the model needs to see it:
 
