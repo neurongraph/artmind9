@@ -13,6 +13,7 @@ import networkx as nx
 from artmind.insights.detectors import Detector, RunContext, Skip
 from artmind.insights.model import Finding
 from artmind.insights.profile import declared_triples
+from artmind.schema_validate import class_types
 
 
 def _all(ctx: RunContext) -> list[str]:
@@ -68,8 +69,10 @@ def _near_duplicates(sample: list[str]) -> list[list[str]]:
 def _expected(schema: dict, cls: str, prop: str) -> tuple[int, str] | None:
     decl = (schema.get("entity_types") or {}).get(cls) or {}
     if prop == "type":
-        examples = decl.get("type_examples") or []
-        return (len(examples) * 5, "type_examples") if examples else (40, "no type_examples")
+        declared = class_types(decl)
+        if (decl.get("types") or []):
+            return len(declared), "types (closed list)"
+        return (len(declared) * 5, "type_examples") if declared else (40, "no type_examples")
     spec = (decl.get("properties") or {}).get(prop)
     options = hint_options(spec.get("hint") if isinstance(spec, dict) else None)
     return (max(10, len(options) * 5), "hint options") if options else None

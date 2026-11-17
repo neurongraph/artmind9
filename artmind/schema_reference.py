@@ -30,7 +30,7 @@ from artmind.prompt_builder import (
     assemble_relationships_prompt,
     relationship_pairs,
 )
-from artmind.schema_validate import graph_extraction_enabled
+from artmind.schema_validate import class_types, graph_extraction_enabled
 
 
 def _render_chunks_only(s: dict[str, Any]) -> tuple[str, str]:
@@ -62,7 +62,7 @@ def build_schema_dict(schema_path: Path) -> dict[str, Any]:
                 "class": cls,
                 "kind": decl.get("kind", ""),
                 "description": decl.get("description", ""),
-                "types": decl.get("type_examples", []),
+                "types": class_types(decl),
                 "properties": properties,
             }
         )

@@ -176,6 +176,8 @@ def validate_schema(schema: dict, meta: dict, schema_name: str = "") -> list[str
         if identity is not None and identity not in IDENTITIES:
             errors.append(f"{where}: identity={identity!r} is not one of {list(IDENTITIES)}")
 
+        errors.extend(_types_errors(decl, where))
+
         props = decl.get("properties") or {}
         for prop in props:
             _check_reserved(prop, prefix, f"{where}.properties", errors)
@@ -190,6 +192,29 @@ def validate_schema(schema: dict, meta: dict, schema_name: str = "") -> list[str
     errors.extend(_temporal_document_errors(schema, label))
     errors.extend(_document_entity_errors(schema, entity_types, label))
     errors.extend(_property_decl_errors(entity_types, label))
+    return errors
+
+
+def class_types(decl: dict | None) -> list[str]:
+    """The class's declared `type` values (spec 2026-11-15 §5.3): the closed `types:` list, else
+    the illustrative `type_examples:`. The one reader; empty when neither is a list."""
+    decl = decl if isinstance(decl, dict) else {}
+    for key in ("types", "type_examples"):
+        value = decl.get(key)
+        if isinstance(value, list) and value:
+            return [str(v) for v in value]
+    return []
+
+
+def _types_errors(decl: dict, where: str) -> list[str]:
+    """`types:` is a closed list: non-empty, of names, and not beside `type_examples:`."""
+    errors = []
+    if "types" in decl:
+        value = decl["types"]
+        if not isinstance(value, list) or not value or not all(isinstance(v, str) and v.strip() for v in value):
+            errors.append(f"{where}.types: must be a non-empty list of type names, e.g. [device, food]")
+        if "type_examples" in decl:
+            errors.append(f"{where}: declares both `types` and `type_examples`; keep `types` (the closed list)")
     return errors
 
 

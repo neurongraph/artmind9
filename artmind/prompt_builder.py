@@ -98,9 +98,14 @@ def _render_class_block(cls: str, decl: dict, meta: dict | None = None) -> str:
     guidance = (decl.get("guidance") or "").strip()
     if guidance:
         lines.append(f"  {guidance}")
-    type_examples = decl.get("type_examples") or []
-    if type_examples:
-        lines.append("  example type values: " + " | ".join(type_examples))
+    from artmind.schema_validate import class_types
+
+    declared_types = class_types(decl)
+    if declared_types:
+        if decl.get("types"):
+            lines.append("  type: exactly one of: " + " | ".join(declared_types))
+        else:
+            lines.append("  example type values: " + " | ".join(declared_types))
     return "\n".join(lines)
 
 

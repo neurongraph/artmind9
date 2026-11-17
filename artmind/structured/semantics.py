@@ -43,6 +43,7 @@ mappings behind forever.
 
 import json
 
+from artmind.schema_validate import class_types
 from artmind.structured import registry
 
 #: Below this, a bridge-column or mapping proposal is not persisted. Shared by

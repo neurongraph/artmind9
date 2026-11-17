@@ -312,17 +312,23 @@ entity_types:
   OBJECT:
     kind: recurrent
     identity: name
-    description: Any physical item, possession, or tangible thing that plays a role in the journal entry
-      — gifts, household items, vehicles, or objects with emotional significance.
-    type_examples:
-    - gift
-    - vehicle
-    - household_item
-    - food
-    - document
-    - clothing
-    - possession
+    description: A physical thing that is owned, used, kept, given, eaten or taken — gifts, household
+      items, vehicles, devices, documents, food, medicine, or objects with emotional significance. A
+      trip, flight, ride, meal or appointment is an ACTIVITY or EVENT, not an object; the vehicle, ticket
+      or document involved is an object only when the text is about the thing itself.
+    types:
     - device
+    - document
+    - vehicle
+    - clothing
+    - household_item
+    - possession
+    - gift
+    - food
+    - medication
+    - medical_item
+    - decoration
+    - pet
     properties:
       what_it_is:
         hint: brief description

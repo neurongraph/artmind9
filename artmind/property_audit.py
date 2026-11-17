@@ -85,6 +85,9 @@ class _Tally:
     undeclared_in: dict = field(default_factory=lambda: defaultdict(set))
     #: {(class, key): {leaf domain}} -- folders whose own schema declares it.
     declared_in: dict = field(default_factory=lambda: defaultdict(set))
+    #: {class: Counter of normalised `type` values} -- `type` is an observation field, so the
+    #: key scan skips it; this reads it for a class's declared `types:` list.
+    type_values: dict = field(default_factory=lambda: defaultdict(Counter))
 
 
 def _is_domain_key(key, value) -> bool:
@@ -98,6 +101,8 @@ def _scan_observation(obs: dict, chunk: set[str] | None, tally: _Tally,
     records a key that domain's own schema does not declare."""
     cls = str(obs["entity_class"])
     tally.per_class[cls] += 1
+    if obs.get("type") not in (None, "", []):
+        tally.type_values[cls][_normalised(obs["type"])] += 1
     context = obs.get("context") or []
     described = set(_words([obs.get("description") or "", *(context if isinstance(context, list) else [context])]))
     for key, value in obs.items():
@@ -194,6 +199,32 @@ def _row(cls: str, key: str, decl: dict | None, tally: _Tally, depended_on: dict
 DATE_COLUMNS = ("dated_by_property", "precision", "ranges", "unparsed")
 
 
+def _type_key(value: str) -> str:
+    return re.sub(r"[\s-]+", "_", str(value).strip().lower())
+
+
+def _type_rows(schema: dict, tally: _Tally) -> list[dict]:
+    """One `type` row per class that declares a closed `types:` list (spec 2026-11-15 §5.3):
+    `outside_types` is how many observations carry a `type` outside it, `outside_distinct` how
+    many different values those are (counts only, never the values), `fill` the share of the
+    class's observations with a `type` at all. Always `keep`: it is an observation field."""
+    types = schema.get("entity_types") if isinstance(schema, dict) else None
+    out = []
+    for cls, decl in (types.items() if isinstance(types, dict) else []):
+        listed = {_type_key(t) for t in (decl.get("types") or [])} if isinstance(decl, dict) \
+            and isinstance(decl.get("types"), list) else set()
+        if not listed or not tally.per_class.get(cls):
+            continue
+        values = tally.type_values.get(cls, Counter())
+        outside = {v: n for v, n in values.items() if _type_key(v) not in listed}
+        out.append({"class": cls, "key": "type", "declared": True,
+                    "fill": round(sum(values.values()) / tally.per_class[cls], 3),
+                    "distinct_values": len(values), "outside_types": sum(outside.values()),
+                    "outside_distinct": len(outside), "flags": {"reserved": True},
+                    "proposal": "keep", "reason": "the class's declared type list"})
+    return out
+
+
 def audit(domain: str, schema: dict, *, kg_dir: Path, depended_on: dict, conflicts: dict | None = None,
           leaf_schema: Callable[[str], dict] | None = None) -> dict:
     """One row per (class, key) declared by `schema` (the domain's `family_schema`) or found in
@@ -217,6 +248,8 @@ def audit(domain: str, schema: dict, *, kg_dir: Path, depended_on: dict, conflic
     keys = {(c, k) for c, ks in decls.items() for k in ks} | set(tally.filled)
     rows = [_row(cls, key, (decls.get(cls) or {}).get(key), tally, depended_on, conflicts)
             for cls, key in sorted(keys)]
+    have = {(r["class"], r["key"]) for r in rows}
+    rows.extend(r for r in _type_rows(schema, tally) if (r["class"], r["key"]) not in have)
     dated = {r["class"]: r for r in audit_folders(folders, leaf_schema or schema)}
     for row in rows:
         # The class's date fill (`ingest date-audit`'s row) on the key that dates it.
