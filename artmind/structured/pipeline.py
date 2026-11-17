@@ -150,7 +150,7 @@ def _seed_temporal_history(
             f"--effectiveDateColumn '{effective_date_column}' not found in source"
         )
 
-    batch_date = date.today().isoformat()
+    batch_date = date.today().isoformat()   # a document date: local (record time is UTC)
     eff_expr = (
         f"COALESCE({_quote_ident(effective_date_column)}, DATE {_quote_literal(batch_date)})"
         if effective_date_column

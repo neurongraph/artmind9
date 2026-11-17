@@ -5,7 +5,7 @@ Non-destructive: original domain-named properties are never touched; canonical
 """
 import calendar
 import re
-from datetime import date, datetime, timezone
+from datetime import date, datetime
 from pathlib import Path
 
 from loguru import logger
@@ -237,7 +237,7 @@ def lift_document_dates(
     if out:
         out["time_source"] = source or "header"
     elif defaults and defaults.get("valid_from") == "ingestion_date":
-        out["valid_from"] = datetime.now(timezone.utc).date().isoformat()
+        out["valid_from"] = date.today().isoformat()      # document time is local
         out["time_source"] = defaults.get("time_source", "default_ingestion")
         out["valid_from_inferred"] = defaults.get("valid_from_inferred", True)
     return out

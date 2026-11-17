@@ -1,7 +1,7 @@
 # artmind/update.py
 import json
 import uuid
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 import yaml
@@ -375,7 +375,9 @@ def write_user_chat(
     env = load_env()
     embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
     embedding_dim = int(env.get("ARTMIND_KG_EMBEDDING_DIMENSIONS", "768"))
-    now = datetime.now().isoformat()
+    # Clocks (spec 2026-11-15 §6.1): record time (`created_at`) is UTC, the
+    # document date (`today`) is local.
+    now = datetime.now(timezone.utc).isoformat()
     today = date.today().isoformat()
     draft_part = draft_id if draft_id is not None else uuid.uuid4().hex[:12]
     chat_id = user_chat_id(session_id, draft_part)
