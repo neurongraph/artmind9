@@ -24,6 +24,7 @@ def test_timeline_labels_are_the_occasion_classes(monkeypatch):
     cypher, params = rec.calls[0]
     assert params["labels"] == ["ACTIVITY", "EVENT"]
     assert params["from_"] == "2024-01-01" and params["to"] == "2024-12-31"
+    assert "AMENDMENT" not in params["labels"] and "EMOTION" not in params["labels"]
 
 
 def test_timeline_rows_carry_precision_and_time_and_undated_sort_last(monkeypatch):
@@ -36,5 +37,15 @@ def test_timeline_rows_carry_precision_and_time_and_undated_sort_last(monkeypatc
 
 
 def test_undated_rows_are_not_dropped_by_a_window(monkeypatch):
-    cypher, _ = _run(monkeypatch, from_="2024-01-01").calls[0]
+    cypher, _ = _run(monkeypatch, from_="2024-01-01", to="2024-12-31").calls[0]
     assert "'none') OR e._valid_from >= $from_" in cypher
+    assert "'none') OR e._valid_from <= $to" in cypher
+
+
+def test_no_occasion_class_means_no_rows_and_no_query(monkeypatch):
+    rec = Recorder()
+    monkeypatch.setattr("artmind.temporal.load_schema",
+                        lambda d: {"entity_types": {"EMOTION": {"kind": "recurrent"}, "PERSON": {"kind": "recurrent"}}})
+    monkeypatch.setattr(gq, "read_session", lambda: rec)
+    assert gq.timeline(["pj"])["rows"] == []
+    assert rec.calls == []

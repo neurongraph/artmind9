@@ -4,7 +4,7 @@ Read this for a temporal question — "as of <date>", "history of…", "what was
 before it changed", "what happened in order" — or when an entity carries
 `_temporal_props`.
 
-- **timeline vs entity-history**: `timeline` is domain-scoped, not entity-scoped — it lists every entity of an occurrent class ordered by `valid_from`, for "what happened in this domain, in order". For ONE entity's own history — "what was X's value before it changed", "what did X look like on date D" — use `entity-history` instead: it reads every observation behind that entity, fact-level (`_valid_from`), spanning both current and retired (`docs retire`/superseded) sources. `--property P` narrows to one property's value at each point.
+- **timeline vs entity-history**: `timeline` is domain-scoped, not entity-scoped — it lists every entity of an `identity: occasion` class ordered by `valid_from` (undated last), for "what happened in this domain, in order". For ONE entity's own history — "what was X's value before it changed", "what did X look like on date D" — use `entity-history` instead: it reads every observation behind that entity, fact-level (`_valid_from`), spanning both current and retired (`docs retire`/superseded) sources. `--property P` narrows to one property's value at each point.
 - **`_temporal_props` is the signal to drill into `entity-history`.** An entity carrying
   `_temporal_props: ["rate_value", ...]` means that property genuinely varies across
   instants — the value on the entity itself is only the current winner (latest

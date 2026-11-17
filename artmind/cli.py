@@ -3821,7 +3821,7 @@ def graph_conflicts(domain: tuple, entity_id: tuple, entity_name: str | None, st
 @click.option("--to", "to", default=None, help="ISO date: only entities with valid_from on or before this")
 @compact_option
 def graph_timeline(domain: tuple, from_: str | None, to: str | None, compact: bool) -> None:
-    """Every entity of a `kind: occurrent` class in these domains, ordered by valid_from.
+    """Every entity of an `identity: occasion` class in these domains, ordered by valid_from (undated last).
 
     Domain-scoped, not entity-scoped (--entityId is gone) — an entity-scoped
     fact history now lives in `query entity-history`.
