@@ -293,3 +293,20 @@ def test_record_from_graph_rebuilds_a_pre_file_conflicts_record():
 
 def test_record_from_graph_is_none_without_a_node():
     assert conflict_records.record_from_graph(_Tx(), "nope") is None
+
+
+@pytest.mark.parametrize("stored, expected", [
+    ("2026-02-03T04:05:06Z", "2026-02-03T04:05:06+00:00"),
+    ("2026-02-03T09:35:06+05:30", "2026-02-03T04:05:06+00:00"),
+    ("2026-02-03T04:05:06", "2026-02-03T04:05:06+00:00"),
+    ("2026-02-03T04:05:06.250000+00:00", "2026-02-03T04:05:06.250000+00:00"),
+])
+def test_a_stored_recorded_at_is_read_as_utc(curation_dir, stored, expected):
+    curation_records.write_record("lifecycle", {"id": "r1", "recorded_at": stored})
+    assert curation_records.recorded_at("lifecycle", "r1") == expected
+
+
+def test_an_unreadable_recorded_at_falls_back_to_now(curation_dir):
+    curation_records.write_record("lifecycle", {"id": "r1", "recorded_at": "last week"})
+    assert curation_records.recorded_at("lifecycle", "r1").endswith("+00:00")
+    assert curation_records.utc_iso(None) is None and curation_records.utc_iso("") is None

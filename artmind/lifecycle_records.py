@@ -36,7 +36,7 @@ import hashlib
 
 from loguru import logger
 
-from artmind.curation_records import Kind, matched_count
+from artmind.curation_records import Kind, matched_count, utc_iso
 
 NAME = "lifecycle"
 
@@ -124,7 +124,7 @@ def apply(tx, record: dict, fingerprint: str) -> set:
     # does); a record without one falls back to now inside `_transition`.
     result = _transition(tx, record["doc_id"], to_history=True, rebuild=False,
                          retired_by=record.get("retired_by") or "retire",
-                         at=record.get("recorded_at"))
+                         at=utc_iso(record.get("recorded_at")))
     if mark(tx, record, fingerprint) == 0:
         # Not an error -- the document may not have reached this graph yet,
         # and a later sync (or its replay) applies the record again -- but

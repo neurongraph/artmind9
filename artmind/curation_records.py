@@ -164,15 +164,31 @@ def first_value(kind: str, record_id: str, key: str, value):
     return existing if isinstance(existing, str) and existing else value
 
 
+def utc_iso(value) -> str | None:
+    """A stored record time as UTC `isoformat()` (`+00:00`), the one format
+    record time is compared in; `Z` or another offset is converted, a value
+    without a zone is taken as UTC. None for a missing or unreadable value."""
+    from datetime import datetime, timezone
+
+    if not isinstance(value, str) or not value.strip():
+        return None
+    try:
+        moment = datetime.fromisoformat(value.strip())
+    except ValueError:
+        return None
+    if moment.tzinfo is None:
+        moment = moment.replace(tzinfo=timezone.utc)
+    return moment.astimezone(timezone.utc).isoformat()
+
+
 def recorded_at(kind: str, record_id: str) -> str:
     """A record's `recorded_at` (UTC, spec 2026-11-15 §6.1): the one already in
-    this working tree's file, else now -- so re-asserting the same record
-    rewrites nothing."""
+    this working tree's file (normalised by `utc_iso`), else now -- so
+    re-asserting the same record rewrites nothing."""
     from datetime import datetime, timezone
 
     existing = read_record(kind, record_id) or {}
-    value = existing.get("recorded_at")
-    return value if isinstance(value, str) and value else datetime.now(timezone.utc).isoformat()
+    return utc_iso(existing.get("recorded_at")) or datetime.now(timezone.utc).isoformat()
 
 
 def parse(data: bytes | None) -> dict | None:

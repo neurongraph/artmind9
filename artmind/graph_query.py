@@ -251,8 +251,20 @@ def resolve_known_as_of(value: str | None) -> str | None:
     low = v.lower()
     if low == "now":
         return datetime.now(timezone.utc).isoformat()
+    bad = ValueError(
+        "--knownAsOf must be YYYY[-MM[-DD]], an ISO datetime (YYYY-MM-DDThh:mm[:ss][zone]) "
+        f"or 'today'/'now'; got {value!r}"
+    )
+    is_date = re.fullmatch(r"\d{4}(-\d{2}){0,2}", v)
+    # Only an extended-format day before the time: fromisoformat also reads
+    # compact (20260308) and week (2026-W10) dates, which are not accepted here.
+    is_datetime = re.fullmatch(r"\d{4}-\d{2}-\d{2}[T ]\S+", v)
+    if low != "today" and not is_date and not is_datetime:
+        raise bad
+    if low != "today" and not 1 < int(v[:4]) < 9999:
+        raise ValueError(f"--knownAsOf is out of range (years 2-9998); got {value!r}")
     try:
-        if low == "today" or re.fullmatch(r"\d{4}(-\d{2}){0,2}", v):
+        if low == "today" or is_date:
             from artmind.temporal import widen_as_of
 
             day = date.today() if low == "today" else date.fromisoformat(widen_as_of(v))
@@ -262,11 +274,11 @@ def resolve_known_as_of(value: str | None) -> str | None:
             moment = datetime.fromisoformat(v)
             if moment.tzinfo is None:
                 moment = moment.astimezone()
+        return moment.astimezone(timezone.utc).isoformat()
     except ValueError:
-        raise ValueError(
-            f"--knownAsOf must be an ISO date or datetime, or 'today'/'now'; got {value!r}"
-        ) from None
-    return moment.astimezone(timezone.utc).isoformat()
+        raise bad from None
+    except OverflowError:
+        raise ValueError(f"--knownAsOf is out of range; got {value!r}") from None
 
 
 PATTERN_REQUIRED_OPTIONS = {

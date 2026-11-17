@@ -3746,7 +3746,7 @@ def graph_pattern10(
 ) -> None:
     """Retrieve all text chunks for a named document (current only, with history, or as the graph held them at --knownAsOf)."""
     domains = _parse_domains(domain)
-    history = include_history or as_of is not None or known_as_of is not None
+    history = include_history or as_of is not None or bool((known_as_of or "").strip())
     try:
         # as_of=None on purpose: resolve_as_of would reject the non-ISO values the old presence flag accepted.
         result = graph_query.execute_pattern(

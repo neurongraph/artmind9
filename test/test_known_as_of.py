@@ -10,12 +10,19 @@ from artmind.cli import cli
 
 
 @pytest.fixture()
-def kolkata(monkeypatch):
-    monkeypatch.setenv("TZ", "Asia/Kolkata")
+def local_tz(monkeypatch):
+    """Sets the process's local zone; the teardown restores TZ, then re-reads it."""
+    def use(zone):
+        monkeypatch.setenv("TZ", zone)
+        time.tzset()
+    yield use
+    monkeypatch.undo()
     time.tzset()
-    yield
-    monkeypatch.delenv("TZ")
-    time.tzset()
+
+
+@pytest.fixture()
+def kolkata(local_tz):
+    local_tz("Asia/Kolkata")
 
 
 def _recording(monkeypatch, rows=()):
@@ -41,6 +48,41 @@ def test_a_month_means_the_end_of_its_last_local_day(kolkata):
 def test_a_datetime_without_a_zone_is_local_and_one_with_a_zone_is_kept(kolkata):
     assert gq.resolve_known_as_of("2026-03-01T10:00:00") == "2026-03-01T04:30:00+00:00"
     assert gq.resolve_known_as_of("2026-03-01T10:00:00+00:00") == "2026-03-01T10:00:00+00:00"
+
+
+@pytest.mark.parametrize("day, expected", [
+    ("2026-03-07", "2026-03-08T04:59:59.999999+00:00"),  # EST, the day before the change
+    ("2026-03-08", "2026-03-09T03:59:59.999999+00:00"),  # clocks went forward: ends in EDT
+    ("2026-11-01", "2026-11-02T04:59:59.999999+00:00"),  # clocks went back: ends in EST
+])
+def test_the_end_of_a_local_day_follows_daylight_saving(local_tz, day, expected):
+    local_tz("America/New_York")
+    assert gq.resolve_known_as_of(day) == expected
+
+
+def test_today_is_the_end_of_the_local_day(kolkata):
+    from datetime import date
+
+    today = date.today().isoformat()
+    assert gq.resolve_known_as_of("today") == gq.resolve_known_as_of(today)
+    assert gq.resolve_known_as_of("today").endswith("T18:29:59.999999+00:00")
+
+
+@pytest.mark.parametrize("value", ["20260308", "2026-W10", "2026-W10-1", "2026-067", "20260308T10:00",
+                                   "2026-03-08x", "2026/03/08"])
+def test_only_extended_dates_and_datetimes_are_read(value):
+    with pytest.raises(ValueError, match="--knownAsOf must be YYYY"):
+        gq.resolve_known_as_of(value)
+
+
+def test_a_space_separated_datetime_is_read(kolkata):
+    assert gq.resolve_known_as_of("2026-03-01 10:00") == "2026-03-01T04:30:00+00:00"
+
+
+@pytest.mark.parametrize("value", ["0001", "0001-01-01", "9999-12-31", "9999-12-31T23:00:00+00:00"])
+def test_the_first_and_last_years_are_out_of_range(value):
+    with pytest.raises(ValueError, match="out of range"):
+        gq.resolve_known_as_of(value)
 
 
 def test_now_is_utc_and_garbage_is_refused():
@@ -158,3 +200,29 @@ def test_a_bad_known_as_of_is_a_usage_failure(monkeypatch):
     result = CliRunner().invoke(cli, ["query", "entity-history", "--domain", "pj", "--key", "k",
                                       "--knownAsOf", "soon"])
     assert result.exit_code == 1 and "--knownAsOf" in result.output
+
+
+def test_the_approximate_warning_reaches_the_cli_envelope(monkeypatch):
+    monkeypatch.setattr(gq, "_run_read_query", lambda c, p: [{"observation": {"key": "k", "_record_time_approx": True},
+                                                              "status": "current"}])
+    payload = _cli(["entity-history", "--key", "k", "--knownAsOf", "2026-03-01"])
+    assert any("approximate record time" in w for w in payload["warnings"])
+    assert payload["parameters"]["knownAsOf"].endswith("+00:00")
+
+
+def test_entity_history_takes_as_of_and_known_as_of_together(monkeypatch):
+    sent = _recording(monkeypatch)
+    out = gq.entity_history(["pj"], key="a|PERSON|pj", as_of="2026-02", known_as_of="2026-03-01")
+    cypher, params = sent[0]
+    assert params["asOf"] == "2026-02-28" and params["knownAsOf"].endswith("+00:00")
+    assert "o._valid_to IS NULL OR o._valid_to > $asOf" in cypher
+    assert "o._recorded_at <= $knownAsOf" in cypher
+    assert out["parameters"] == {"asOf": "2026-02-28", "knownAsOf": params["knownAsOf"]}
+
+
+@pytest.mark.parametrize("blank", ["", "   "])
+def test_a_blank_known_as_of_does_not_turn_pattern10_history_on(monkeypatch, blank):
+    seen = {}
+    monkeypatch.setattr(gq, "execute_pattern", lambda **kw: seen.update(kw) or {"rows": [{"document": {}, "chunk": {}}]})
+    _cli(["graph", "pattern10", "--documentName", "a.md", "--knownAsOf", blank])
+    assert seen["includeHistory"] is None
