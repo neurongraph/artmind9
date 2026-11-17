@@ -380,6 +380,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Curation", "commands": ["sameas"]},
         {"name": "Updates", "commands": ["update"]},
         {"name": "Sessions", "commands": ["session", "snapshot"]},
+        {"name": "Maintenance", "commands": ["migrate"]},
         {"name": "Setup & tools", "commands": ["vault", "setup", "init", "serve", "chat-ui", "admin-ui"]},
     ],
     "artmind ingest": [
@@ -412,6 +413,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Query", "commands": ["sql", "timeline"]},
         {"name": "Maintenance", "commands": ["refresh", "connect", "backup", "restore", "export-text", "restore-text"]},
     ],
+    "artmind migrate": [{"name": "Migrate", "commands": ["status", "temporal"]}],
     "artmind mart": [{"name": "Mart", "commands": ["build", "enrich", "status", "review", "calendar"]}],
     "artmind mart review": [{"name": "Review", "commands": ["list", "set"]}],
     "artmind mart calendar": [{"name": "Calendar", "commands": ["set"]}],
@@ -7580,6 +7582,8 @@ def setup(compact: bool):
                                   if result.get("topic_page_graph_copy") else None),
     }, compact)
 
+
+from artmind.migrations.temporal_v1.cli import migrate_group; cli.add_command(migrate_group)  # noqa: E402,E702 - temporary pack; sunset in its __init__
 
 # Data-model gate (spec 2026-11-15 §8.1): every WRITE_COMMANDS entry refuses an
 # unmigrated vault; every other command warns once. Must stay last, after every
