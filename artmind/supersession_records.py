@@ -119,12 +119,14 @@ RETURN s.record_id AS record_id, newer.id AS newer,
 ORDER BY coalesce(s.effective, '') DESC, newer.id DESC
 """
 
-# The documents `$newer` supersedes (document scope): their ends fall back to its `_valid_from`.
+# The documents `$newer` supersedes through an undated edge (document scope): only their
+# ends fall back to its `_valid_from`; a dated edge's end never reads it.
 _SUPERSEDED_BY_NEWER = """
 OPTIONAL MATCH (n1:Document {id: $newer}) OPTIONAL MATCH (n2:DocumentHistory {id: $newer})
 WITH coalesce(n1, n2) AS newer
 WHERE newer IS NOT NULL
-MATCH (newer)-[:SUPERSEDES {scope: 'document'}]->(older)
+MATCH (newer)-[s:SUPERSEDES {scope: 'document'}]->(older)
+WHERE s.effective IS NULL
 RETURN DISTINCT older.id AS older
 """
 

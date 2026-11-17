@@ -156,8 +156,10 @@ class _Graph:
             assert "ORDER BY coalesce(s.effective, '') DESC, newer.id DESC" in cypher
             return FakeResult(self._edge_rows(params["older"]))
         if "RETURN DISTINCT older.id AS older" in cypher:
+            assert "WHERE s.effective IS NULL" in cypher
             return FakeResult([{"older": o} for o in sorted({e.get("older", "A") for e in self.edges
-                                                               if e["newer"] == params["newer"]})])
+                                                               if e["newer"] == params["newer"]
+                                                               and not e.get("effective")})])
         m = re.search(r"MATCH \(x:(\w+) \{(\w+): \$older\}\)", cypher)
         if not m:
             return FakeResult([{"oid": "A"}] if "RETURN oid" in cypher else [])
@@ -365,6 +367,16 @@ def test_recommitting_the_newer_document_with_a_new_date_moves_the_olders_end():
     graph.newer_docs["B"]["_valid_from"] = "2026-04-01"      # B committed again with a new stated date
     assert sr.restate_superseded(graph, "B") == ["A"]
     assert _by_id(graph) == {"c1": ("2026-04-01", RID)}
+
+
+def test_a_commit_restates_only_undated_supersessions():
+    graph = _Graph([{"label": "DocChunkHistory", "doc_id": "A", "id": "c1"}],
+                   [{"record_id": RID, "newer": "B", "effective": "2026-02-01"},
+                    {"record_id": "r2", "newer": "B", "effective": None, "older": "Z"}],
+                   newer_docs={"B": {"_valid_from": "2026-04-01", "_valid_precision": "day"}})
+    assert sr.restate_superseded(graph, "B") == ["Z"], "a dated edge's older document is not restated"
+    (cypher, _), = [c for c in graph.calls if "RETURN DISTINCT older.id AS older" in c[0]]
+    assert "WHERE s.effective IS NULL" in cypher
 
 
 def test_a_commit_restates_the_documents_it_supersedes_and_rebuilds_their_keys(tmp_path, monkeypatch):
