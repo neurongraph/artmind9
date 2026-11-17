@@ -3539,14 +3539,15 @@ def _document_valid_time(
     IS the rule, and an LLM-extracted `status` colliding with the system's own
     is exactly what row 9 of the scorecard counts.
     """
-    from artmind.temporal import lift_document_dates
+    from artmind.temporal import lift_document_dates, parse_iso
 
     out: dict = {}
-    if frontmatter.get("_valid_from"):
-        out["_valid_from"] = str(frontmatter["_valid_from"])
-    if frontmatter.get("_valid_to"):
-        out["_valid_to"] = str(frontmatter["_valid_to"])
-    if frontmatter.get("_valid_time_source"):
+    for key in ("_valid_from", "_valid_to"):
+        if frontmatter.get(key):
+            iso = parse_iso(str(frontmatter[key]))
+            if iso:
+                out[key] = iso
+    if frontmatter.get("_valid_time_source") and out:
         out["_valid_time_source"] = str(frontmatter["_valid_time_source"])
     if out.get("_valid_from"):
         out.setdefault("_valid_time_source", "frontmatter")

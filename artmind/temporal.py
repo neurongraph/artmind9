@@ -233,8 +233,12 @@ def lift_document_dates(
             out["version"] = m.group(1) if m else raw.strip()
         else:
             iso = parse_iso(raw)
-            out[canon] = iso if iso else raw
-    if out:
+            if iso:
+                out[canon] = iso
+            else:
+                # Never store text as a date: it sorts wrongly against ISO dates (spec 1.5).
+                out.setdefault("unparsed", []).append(canon)
+    if any(k in out for k in ("valid_from", "valid_to", "version")):
         out["time_source"] = source or "header"
     elif defaults and defaults.get("valid_from") == "ingestion_date":
         out["valid_from"] = date.today().isoformat()      # document time is local

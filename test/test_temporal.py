@@ -400,3 +400,11 @@ from artmind.temporal import widen_as_of
 ])
 def test_widen_as_of_reaches_the_last_day(value, expected):
     assert widen_as_of(value) == expected
+
+
+def test_unreadable_header_date_is_not_stored_as_valid_from():
+    # The header scan already refuses unreadable values; frontmatter is the branch that kept raw text.
+    out = lift_document_dates("Body\n", {"effective_date": "next review"}, {"valid_from": ["Effective Date"]})
+    assert "valid_from" not in out
+    assert out.get("unparsed") == ["valid_from"]
+    assert "time_source" not in out
