@@ -2347,6 +2347,157 @@ def timeline(
     }
 
 
+#: Participant / place classes one hop from a happening, kept when the schema declares them.
+HAPPENING_PEOPLE_CLASSES = ("PERSON",)
+HAPPENING_PLACE_CLASSES = ("LOCATION", "PLACE")
+#: Names / ids a full happening row lists at most per list (deduplicated in Python).
+_HAPPENING_LIST_CAP = 20
+
+#: `query happenings` (spec 2026-11-15 §5.2, plan question 16): occasion-class entities whose
+#: name or aliases match (field-scoped Lucene on `entity_name_ft`; `description` is left out,
+#: it pulls in every happening that merely mentions the word), their same-as group, and those
+#: whose `type` equals the term. A default date (`_valid_precision` 'none') is undated: never
+#: inside a --from/--to window, sorted last.
+_HAPPENINGS = """
+CALL db.index.fulltext.queryNodes('entity_name_ft', $ft_query) YIELD node AS hit
+WHERE {scope_hit} AND hit.entity_class IN $classes
+WITH collect(DISTINCT hit) AS hits
+CALL (hits) {{
+  UNWIND hits AS h RETURN h AS e
+  UNION
+  UNWIND hits AS h MATCH (h)-[:SAME_AS]-(e:Entity) WHERE {scope_e} AND e.entity_class IN $classes RETURN e
+  UNION
+  MATCH (e:Entity) WHERE {scope_e} AND e.entity_class IN $classes AND toLower(e.type) = toLower($term) RETURN e
+}}
+WITH DISTINCT e
+WITH e, (e._valid_from IS NULL OR coalesce(e._valid_precision, '') = 'none') AS undated
+WHERE ($from_ IS NULL OR (NOT undated AND e._valid_from >= $from_))
+  AND ($to IS NULL OR (NOT undated AND e._valid_from <= $to))
+  AND ($withId IS NULL OR EXISTS {{ MATCH (e)-[:RELATES_TO]-(:Entity {{_id: $withId}}) }})
+WITH e, undated ORDER BY undated, e._valid_from, e._valid_time_of_day, e.name
+WITH collect(e) AS matched
+RETURN size(matched) AS rows_total, [e IN matched[..$limit] | {{
+  id: e._id, name: e.name, entity_class: e.entity_class, type: e.type,
+  date: CASE WHEN e._valid_from IS NULL OR coalesce(e._valid_precision, '') = 'none' THEN null ELSE e._valid_from END,
+  precision: coalesce(e._valid_precision, 'day'), time_of_day: e._valid_time_of_day,
+  participants: [(e)-[:RELATES_TO]-(n:Entity) WHERE n.entity_class IN $people | n.name][..{cap}],
+  places: [(e)-[:RELATES_TO]-(n:Entity) WHERE n.entity_class IN $places | n.name][..{cap}],
+  chunk_ids: [(e)-[:AGGREGATES]->(o:Observation) WHERE o.chunk_id IS NOT NULL | o.chunk_id][..{cap}],
+  doc_ids: [(e)-[:AGGREGATES]->(o:Observation) WHERE o.doc_id IS NOT NULL | o.doc_id][..{cap}]
+}}] AS rows
+"""
+
+
+def _distinct(values, cap: int | None = None, *, sort: bool = False) -> list:
+    out = list(dict.fromkeys(v for v in values or [] if v))
+    out = sorted(out, key=str.casefold) if sort else out
+    return out[:cap] if cap is not None else out
+
+
+def happenings(
+    domains: "str | Sequence[str]",
+    match: str,
+    *,
+    entity_class: str | None = None,
+    from_: str | None = None,
+    to: str | None = None,
+    by: str | None = None,
+    with_id: str | None = None,
+    limit: int = 200,
+) -> dict:
+    """Every dated happening (an `identity: occasion` class) matching `match` (spec 2026-11-15 §5.2).
+
+    `from_` / `to` are ISO dates already resolved by the caller (`to` widened). Returns one row
+    per happening ordered by date (undated last), `rows_total` / `truncated`, `undated`,
+    `periods` with `by`, and `coverage`: documents whose passage text matches the term in the
+    window (`topics.grid.count_subject`) against the documents the rows come from; when text
+    matches more documents, `next` names a survey (`hints.happenings_survey`).
+    """
+    from artmind import hints
+    from artmind.schema_validate import classes_with_identity
+    from artmind.temporal import load_schema
+    from artmind.topics.grid import count_subject
+    from artmind.vector_query import _expand
+
+    domains = normalize_domains(domains)
+    term = (match or "").strip()
+    escaped = sanitize_lucene_query(term)
+    if not escaped:
+        raise ValueError("--match contains no searchable text")
+    occasion: set[str] = set()
+    declared: set[str] = set()
+    for domain in domains:
+        schema = load_schema(domain)
+        declared.update((schema.get("entity_types") or {}) if isinstance(schema, dict) else {})
+        for cls in classes_with_identity(schema, "occasion"):
+            try:
+                occasion.add(normalize_entity_class(cls))
+            except ValueError:
+                continue
+    classes = sorted(occasion)
+    if entity_class:
+        wanted = normalize_entity_class(entity_class)
+        if wanted not in occasion:
+            raise ValueError(f"--entityClass {wanted} is not an `identity: occasion` class here; "
+                             f"occasion classes: {', '.join(classes) or 'none'}")
+        classes = [wanted]
+    base = {**_domain_output(domains), "query_type": "graph", "command": "happenings", "match": term,
+            "classes": classes, "window": {"from": from_, "to": to}, "by": by}
+    if not classes:
+        return {**base, "warnings": [f"no `identity: occasion` class in {', '.join(domains)}"],
+                "rows_total": 0, "truncated": False, "undated": 0, "rows": []}
+
+    params = {
+        "domains": domains, "classes": classes, "term": term,
+        "ft_query": f"name:({escaped}) OR aliases:({escaped})",
+        "from_": from_, "to": to, "withId": with_id, "limit": limit,
+        "people": [c for c in HAPPENING_PEOPLE_CLASSES if c in declared],
+        "places": [c for c in HAPPENING_PLACE_CLASSES if c in declared],
+    }
+    cypher = _HAPPENINGS.format(scope_hit=domain_predicate("hit"), scope_e=domain_predicate("e"),
+                                cap=_HAPPENING_LIST_CAP)
+    scoped = _expand(domains)
+    with read_session() as session:
+        rec = session.run(cypher, **params).single()
+        matching, at_least = count_subject(session, term, scoped)
+    record = serialize_record(rec) if rec is not None else {}
+    rows = []
+    for row in record.get("rows") or []:
+        rows.append({**row,
+                     "participants": _distinct(row.get("participants"), sort=True),
+                     "places": _distinct(row.get("places"), sort=True),
+                     "chunk_ids": _distinct(row.get("chunk_ids"), sort=True),
+                     "doc_ids": _distinct(row.get("doc_ids"), sort=True)})
+    rows_total = int(record.get("rows_total") or len(rows))
+
+    def in_window(day) -> bool:
+        if not (from_ or to):
+            return True
+        if not day:
+            return False
+        day = str(day)[:10]
+        return (not from_ or day >= from_) and (not to or day <= to)
+
+    in_text = {d["doc_id"] for d in matching if in_window(d.get("date"))}
+    in_rows = {doc for row in rows for doc in row["doc_ids"]}
+    coverage: dict = {"matching_documents": len(in_text), "documents_in_rows": len(in_rows)}
+    if at_least:
+        coverage["at_least"] = True
+    out = {**base, "rows_total": rows_total, "truncated": rows_total > len(rows),
+           "undated": sum(1 for row in rows if not row.get("date")), "coverage": coverage}
+    if by:
+        width = 4 if by == "year" else 7
+        counts: dict[str, int] = {}
+        for row in rows:
+            if row.get("date"):
+                key = str(row["date"])[:width]
+                counts[key] = counts.get(key, 0) + 1
+        out["periods"] = [{"period": p, "count": n} for p, n in sorted(counts.items())]
+    out["rows"] = rows
+    out["next"] = hints.happenings_survey(out, domains, term, by=by, from_=from_, to=to)
+    return out
+
+
 _PROPERTY_NAME_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 
 

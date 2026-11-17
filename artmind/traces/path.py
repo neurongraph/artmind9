@@ -26,6 +26,7 @@ _EXACT = {
     "db sql": "sql",   # raw read-only SQL; db bridge/list/schema/timeline/review are discovery
     "query entity-context": "graph",
     "query entity-history": "graph",
+    "query happenings": "graph",
     "query document-history": "graph",
     "query graph entity-listing": "graph",
     "query graph filing-listing": "graph",

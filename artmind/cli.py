@@ -452,6 +452,7 @@ click.rich_click.COMMAND_GROUPS = {
                 "chunks",
                 "entity-context",
                 "entity-history",
+                "happenings",
                 "document-history",
                 "text2sql",
                 "resolve-key",
@@ -3293,7 +3294,8 @@ def query():
     parameterised queries: list / show / run), `insights` (the latest
     unprompted findings: list / show), and `topics` (saved topic plans:
     plan / run). `survey` ranks documents for cross-document questions
-    (summaries + passages). `catalogue` says what the system knows about a domain
+    (summaries + passages). `happenings` lists the dated occasions matching a term, by period.
+    `catalogue` says what the system knows about a domain
     (classes, relations, documents, stores, time, health) and `assets` what it
     already answers (views, topic plans, insights, summaries). `page` reads the rest of a result
     that ARTMIND_OUTPUT_BUDGET cut (by its handle). The rest are lookup commands.
@@ -4345,6 +4347,48 @@ def query_entity_history(
         )
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@query.command("happenings")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
+@click.option("--match", "match", required=True, help="What happened, in the corpus's words (name, alias or type)")
+@click.option("--entityClass", "entity_class", default=None, help="Only this occasion class")
+@click.option("--from", "from_", default=None, help="On or after this date (YYYY[-MM[-DD]])")
+@click.option("--to", "to", default=None,
+              help="On or before this date (YYYY[-MM[-DD]]; a year or month means its last day)")
+@click.option("--by", type=click.Choice(["year", "month"]), default=None, help="Group rows by period")
+@click.option("--with", "with_id", default=None, help="Only happenings linked to this entity id")
+@click.option("--limit", type=click.IntRange(1, 1000), default=200, show_default=True)
+@shape_option
+@compact_option
+def query_happenings(domain: tuple, match: str, entity_class: str | None, from_: str | None, to: str | None,
+                     by: str | None, with_id: str | None, limit: int, shape: str, compact: bool) -> None:
+    """Every dated happening (an `identity: occasion` class) matching a term: one row per
+    occasion with its date, class, type, participants, places and chunk ids.
+
+    Answers "every year", "how many times", "when did X happen". Matches the term against
+    happening names and aliases (and an equal `type`), plus their same-as group. Undated
+    happenings sort last and never fall inside a --from/--to window. `coverage` counts
+    documents whose text matches; when it exceeds the documents in the rows, `next` names a survey.
+    """
+    from artmind import brief
+    from artmind.temporal import parse_iso
+
+    domains = _parse_domains(domain)
+    try:
+        start = None
+        if from_:
+            start = parse_iso(from_) if graph_query._ASOF_RE.match(from_.strip()) else None
+            if start is None:
+                raise ValueError(f"--from must be an ISO date (YYYY[-MM[-DD]]); got {from_!r}")
+        end = graph_query.resolve_as_of(to)
+        result = graph_query.happenings(domains, match, entity_class=entity_class, from_=start, to=end,
+                                        by=by, with_id=with_id, limit=limit)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    if shape == "brief":
+        result["rows"] = [brief.happening_row(row) for row in result.get("rows") or []]
     _echo_json(result, compact)
 
 

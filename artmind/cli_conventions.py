@@ -50,6 +50,7 @@ LIST_KEY: dict[str, str] = {
     "query graph pattern2": "rows",
     "query graph pattern7": "rows",
     "query entity-context": "rows",
+    "query happenings": "rows",
 }
 
 SERVER_COMMANDS = frozenset({"serve", "chat-ui", "admin-ui"})
