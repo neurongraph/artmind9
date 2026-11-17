@@ -58,7 +58,7 @@ Each item is something in the spec that is wrong against the code, unclear, or t
 
 17. **Record time on derived nodes (§6.1).** `:Entity`, `RELATES_TO` and `:Conflict` are rebuilt from observations on every rebuild. **Proposal (Task 22):** stamp `_recorded_at` on Document, DocChunk, DocPassage, DocSummary, Observation and `ASSERTS_RELATION`; on `:Entity` only `ON CREATE`; never on `RELATES_TO` or `:Conflict`.
 
-18. **`resolve_as_of('today')` uses local time.** §6.1 moves record time to UTC; `--asOf today` is valid time, but one clock is simpler. **Proposal (Task 2):** UTC there too.
+18. **Clocks (decided 2026-11-17).** Query time is local, record time is UTC, document time is local. So `--asOf today` stays the local date (Task 2); `update.py`'s `created_at` moves to UTC while its document date stays local, and the `ingestion_date` default moves from a UTC date to the local date (Task 4); a `--knownAsOf` date is the end of that local day converted to UTC (Task 24).
 
 19. **`H1/H2 YYYY` needs a precision value.** §2 lists `day`, `month`, `quarter`, `year`; §3.1 accepts halves. **Proposal (Task 6):** add `half`.
 
@@ -205,18 +205,18 @@ def test_year_only_as_of_includes_that_years_dates():
     assert "2026-05-01" <= resolve_as_of("2026")          # text comparison, as the Cypher does
 
 
-def test_today_resolves_in_utc(monkeypatch):
+def test_today_is_the_local_date(monkeypatch):
     import datetime as dt
 
     from artmind import graph_query
 
-    class Frozen(dt.datetime):
+    class Frozen(dt.date):
         @classmethod
-        def now(cls, tz=None):
-            return dt.datetime(2026, 1, 1, 23, 30, tzinfo=dt.timezone.utc).astimezone(tz)
+        def today(cls):
+            return dt.date(2026, 1, 2)       # local; UTC may still be 2026-01-01
 
-    monkeypatch.setattr(graph_query, "datetime", Frozen)
-    assert graph_query.resolve_as_of("today") == "2026-01-01"
+    monkeypatch.setattr(graph_query, "date", Frozen)
+    assert graph_query.resolve_as_of("today") == "2026-01-02"
 ```
 
 - [ ] **Step 2: Run and confirm failure.** `uv run --group dev pytest test/test_temporal.py test/test_query_layer.py -k "widen or as_of" -v` — expected: ImportError for `widen_as_of`, then the year test FAILs.
@@ -242,11 +242,11 @@ def widen_as_of(value: str) -> str:
     return value
 ```
 
-In `artmind/graph_query.py`, import `datetime, timezone` beside the existing `date` import, and change `resolve_as_of`:
+In `artmind/graph_query.py`, change `resolve_as_of` (query time is local, question 18):
 
 ```python
     if v.lower() in ("today", "now"):
-        return datetime.now(timezone.utc).date().isoformat()
+        return date.today().isoformat()
     if not _ASOF_RE.match(v):
         raise ValueError(
             f"--asOf must be an ISO date (YYYY[-MM[-DD]]) or 'today'/'now'; got {value!r}"
@@ -264,7 +264,7 @@ Docstring: a year or month is widened to its last day.
 
 ```bash
 git add artmind/temporal.py artmind/graph_query.py test/test_temporal.py test/test_query_layer.py
-git commit -m "fix(query): a year or month --asOf covers the whole period; today is UTC"
+git commit -m "fix(query): a year or month --asOf covers the whole period"
 ```
 
 **Beyond the suite:** in banking_corpus, `ARTMIND_NO_PROXY=1 uv run --project $WT artmind docs list --domain banking --asOf 2026 --compact | python3 -c "import json,sys; print(len(json.load(sys.stdin)['rows']))"` returns more rows than the same command with the global `artmind` (which drops 2026-dated documents).
@@ -314,49 +314,54 @@ git commit -m "fix(summaries): read the document's _valid_from, not an unprefixe
 
 ---
 
-### Task 4: One clock for record dates: UTC
+### Task 4: Clocks: record time UTC, document time local
+
+Question 18 (decided): query time is local, record time is UTC, document time is local.
 
 **Files:**
-- Modify: `artmind/update.py` lines ~369–370 (`write_user_chat`).
-- Modify: `artmind/structured/pipeline.py` lines ~153 and ~549.
-- Test: `test/test_utc_clocks.py` (new).
+- Modify: `artmind/update.py` lines ~378–379 (`write_user_chat`): `now` (the `created_at` record timestamp) becomes `datetime.now(timezone.utc).isoformat()`; `today` (the document date) stays `date.today().isoformat()`, with a comment naming the rule.
+- Modify: `artmind/temporal.py` `lift_document_dates` (line ~224): the `ingestion_date` default becomes `date.today().isoformat()` (local), not `datetime.now(timezone.utc).date()`.
+- Unchanged: `artmind/structured/pipeline.py`'s SCD2 batch date (`date.today()`, a document date, already local); add a one-line comment there naming the rule.
+- Test: `test/test_clocks.py` (new).
 
-- [ ] **Step 1: Write the failing test.** Both dates are computed inline, so it scans the modules' source.
+- [ ] **Step 1: Write the failing tests.**
 
 ```python
-"""Record dates use UTC everywhere (spec 2026-11-15 §1.5, §6.1)."""
+"""Clocks (spec 2026-11-15 §6.1, question 18): record time UTC, document time local."""
+import datetime as dt
 import inspect
 
-from artmind import update
-from artmind.structured import pipeline
+from artmind import temporal, update
 
 
-def test_no_local_date_today_in_record_paths():
-    for module in (update, pipeline):
-        source = inspect.getsource(module)
-        assert "date.today()" not in source, module.__name__
-        assert "datetime.now().isoformat()" not in source, module.__name__
+def test_update_records_in_utc_and_dates_documents_locally():
+    source = inspect.getsource(update.write_user_chat)
+    assert "datetime.now(timezone.utc).isoformat()" in source
+    assert "datetime.now().isoformat()" not in source
+    assert "date.today().isoformat()" in source
+
+
+def test_the_ingestion_default_is_the_local_date(monkeypatch):
+    class Frozen(dt.date):
+        @classmethod
+        def today(cls):
+            return dt.date(2026, 1, 2)
+
+    monkeypatch.setattr(temporal, "date", Frozen)
+    out = temporal.lift_document_dates({}, {}, {"valid_from": "ingestion_date"})
+    assert out["valid_from"] == "2026-01-02"
 ```
 
-- [ ] **Step 2: Run and confirm failure.** `uv run --group dev pytest test/test_utc_clocks.py -v` — expected: FAIL for both modules.
+Adapt the `lift_document_dates` call to its real signature (`sed -n 150,230p artmind/temporal.py`); import `date` at module level in `temporal.py` so the monkeypatch reaches it.
 
-- [ ] **Step 3: Implement.** In `update.py`:
-
-```python
-    now_dt = datetime.now(timezone.utc)
-    now = now_dt.isoformat()
-    today = now_dt.date().isoformat()
-```
-
-(add `timezone` to its `datetime` import). In `structured/pipeline.py`, both `date.today().isoformat()` become `datetime.now(timezone.utc).date().isoformat()`.
-
-- [ ] **Step 4: Run and confirm.** `uv run --group dev pytest test/test_utc_clocks.py test/test_update.py $(rg -l "structured.pipeline|from artmind.structured import pipeline" test) -v` — expected: PASS.
-
+- [ ] **Step 2: Run and confirm failure.** `uv run --group dev pytest test/test_clocks.py -v` — expected: FAIL.
+- [ ] **Step 3: Implement** as listed.
+- [ ] **Step 4: Run and confirm.** `uv run --group dev pytest test/test_clocks.py test/test_update.py test/test_temporal.py test/test_document_dates.py -v` — expected: PASS.
 - [ ] **Step 5: Commit.**
 
 ```bash
-git add artmind/update.py artmind/structured/pipeline.py test/test_utc_clocks.py
-git commit -m "fix: update and SCD2 batch dates use UTC"
+git add artmind/update.py artmind/temporal.py artmind/structured/pipeline.py test/test_clocks.py
+git commit -m "fix: record time is UTC, document dates are local"
 ```
 
 ---
@@ -2535,7 +2540,7 @@ git commit -m "feat(record-time): every move to History records when and why"
 ### Task 24: `--knownAsOf` on `entity-history`, `document-history` and `pattern10`; `--asOf` honours `_valid_to`
 
 **Files:**
-- Modify: `artmind/graph_query.py` — `known_predicate(var, param="knownAsOf")`; `resolve_known_as_of(value)` (date → end of that UTC day, datetime → as given, `now`); `entity_history(..., known_as_of=None)`: when set, filters both labels with `known_predicate`, and each row's `status` becomes `current`/`history` **as of T** (`_retired_at` IS NULL or > T → current); `entity_history --asOf` uses `valid_predicate("o")` instead of the floor (line ~2333); `document_history(..., known_as_of=None)`; `pattern10` (`parameters["knownAsOf"]`) filters chunks with `known_predicate` over both labels.
+- Modify: `artmind/graph_query.py` — `known_predicate(var, param="knownAsOf")`; `resolve_known_as_of(value)` (a date → the end of that **local** day, a datetime without a zone → local, `now`; each converted to a UTC ISO string, question 18); `entity_history(..., known_as_of=None)`: when set, filters both labels with `known_predicate`, and each row's `status` becomes `current`/`history` **as of T** (`_retired_at` IS NULL or > T → current); `entity_history --asOf` uses `valid_predicate("o")` instead of the floor (line ~2333); `document_history(..., known_as_of=None)`; `pattern10` (`parameters["knownAsOf"]`) filters chunks with `known_predicate` over both labels.
 - Modify: `artmind/cli.py` — `--knownAsOf` options on `query entity-history` (line ~4100), `query document-history` (~4139), `query graph pattern10` (~3531); `entity-history --asOf` help: "a point in valid time: facts whose own date window contains this date".
 - Modify: `artmind/skills/artmind-query/references/temporal.md` and `SKILL.md` line ~341 — `--asOf` is a point; `--knownAsOf` reads what the graph held at T; nodes the migration pack backfilled carry approximate record time (`_record_time_approx`; a History node backfilled with the epoch counts as known before the backfill).
 - Test: `test/test_known_as_of.py` (new).
@@ -2555,8 +2560,15 @@ def test_known_predicate_text():
     assert "o._retired_at IS NULL OR o._retired_at > $knownAsOf" in text
 
 
-def test_a_date_means_the_end_of_that_utc_day():
-    assert gq.resolve_known_as_of("2026-03-01") == "2026-03-01T23:59:59.999999+00:00"
+def test_a_date_means_the_end_of_that_local_day(monkeypatch):
+    monkeypatch.setenv("TZ", "Asia/Kolkata")
+    import time
+    time.tzset()
+    try:
+        assert gq.resolve_known_as_of("2026-03-01") == "2026-03-01T18:29:59.999999+00:00"
+    finally:
+        monkeypatch.delenv("TZ")
+        time.tzset()
 
 
 def test_entity_history_sends_both_labels_and_the_param(monkeypatch):
@@ -2564,7 +2576,7 @@ def test_entity_history_sends_both_labels_and_the_param(monkeypatch):
     monkeypatch.setattr(gq, "_run_read_query", lambda cypher, params: sent.append((cypher, params)) or [])
     gq.entity_history(["pj"], key="a|PERSON|pj", known_as_of="2026-03-01")
     cypher, params = sent[0]
-    assert params["knownAsOf"] == "2026-03-01T23:59:59.999999+00:00"
+    assert params["knownAsOf"].endswith("+00:00") and params["knownAsOf"].startswith("2026-03-0")
     assert "o:Observation OR o:ObservationHistory" in cypher and "_retired_at > $knownAsOf" in cypher
 
 

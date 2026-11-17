@@ -95,6 +95,7 @@ of the measured numbers below come from it.
 - **Alternative.** Keep four parts and update all ten parsers. That touches far more
   code, and a parser that gets missed fails silently.
 - **Recommendation.** Keep the proposal.
+- **Response** - Agreed
 
 ### Q3. Which classes become `occasion` in the shipped schemas
 
@@ -115,6 +116,7 @@ of the measured numbers below come from it.
   gets the default from `kind`. That is a permanent rule of the schema language, not
   a migration aid. The data-model gate stops an upgraded vault from writing new keys
   until the pack has re-keyed its existing data, so old and new keys never mix.
+- **Response** - Agreed
 
 ### Q20. When `domains validate` warns "this class's dates will fold"
 
@@ -127,6 +129,7 @@ of the measured numbers below come from it.
   **and** has a `valid_from` property, which describes a happening whose days would
   fold. Never warn for document-entity classes.
 - **Recommendation.** Keep the proposal.
+- **Response** - Agreed
 
 ### Q21. Rows from structured tables
 
@@ -136,6 +139,7 @@ of the measured numbers below come from it.
 - **Proposal.** Never add a day to observations that come from a table, whatever the
   class's `identity` says.
 - **Recommendation.** Keep the proposal.
+- **Response** - Agreed
 
 ---
 
@@ -158,6 +162,7 @@ of the measured numbers below come from it.
 - **Alternative.** Keep a code fallback (the earlier proposal). That puts migration
   logic in core, which is what you asked to avoid.
 - **Recommendation.** Keep the revision.
+- **Response** - Agreed
 
 ### Q5. Removing dates from names already extracted
 
@@ -175,6 +180,7 @@ of the measured numbers below come from it.
 - **Alternative.** Strip in `canonicalize`, as the spec says. That only helps new
   extractions, so existing data would need a re-extraction with LLM cost.
 - **Recommendation.** Keep the proposal.
+- **Response** - Agreed
 
 ### Q12. What happens to existing same-as groups of occasion entities (revised)
 
@@ -193,6 +199,7 @@ of the measured numbers below come from it.
   but it is a new concept that the spec does not describe.
 - **Recommendation.** Keep the proposal. `query happenings` already groups across days
   by name match, so per-day groups are enough.
+- **Response** - Agreed
 
 ### Q13. One command for the re-key (revised)
 
@@ -205,6 +212,7 @@ of the measured numbers below come from it.
   writes to `logs/migrate-temporal/<run_id>/` first. If a record rewrite fails, it
   restores those files and commits nothing.
 - **Recommendation.** Keep it. It is still one command with one dry run.
+- **Response** - Agreed
 
 ### Q14. Moving travel mentions from OBJECT to ACTIVITY (revised)
 
@@ -221,6 +229,7 @@ of the measured numbers below come from it.
 - **Recommendation.** Keep the revision. One caution remains: "train ticket" or
   "booking confirmation" would also move. The dry run shows the count before anything
   changes, and the list can be trimmed then.
+**Response** - Agreed
 
 ### Q16. How `query happenings` matches a term
 
@@ -235,7 +244,7 @@ of the measured numbers below come from it.
   the festival. Or add `type` to the index, which needs a `setup` migration.
 - **Recommendation.** Keep the proposal. If recall turns out short in Task 30, an
   opt-in `--inDescription` is a small follow-up.
-
+**Response** - Agreed
 ---
 
 ## C. Valid-time dates
@@ -251,6 +260,7 @@ of the measured numbers below come from it.
   disappears, because the gate keeps a vault from being written until the pack has
   run.
 - **Recommendation.** Keep it.
+- **Response** - Agreed
 
 ### Q7. project_governance STATE_CHANGE's two date keys
 
@@ -265,6 +275,22 @@ of the measured numbers below come from it.
   state changed.
 - **Recommendation.** Keep the proposal, unless you know the documents use it the other
   way.
+**Response** - Agreed. Would this design work for a TASK or TODO class (when that comes in)?
+
+**Reply (2026-11-17).** Yes, with no further change. A TASK class would be:
+- `kind: recurrent`, because its status changes over time (open → done), and that
+  is history, not a conflict;
+- `identity: name`, because one task is one thing across the notes that mention
+  it. A chore repeated on several days ("water the plants") would instead be
+  `identity: occasion`, with one entity per day;
+- `due_date: {temporal: due}`, stored as `_due`. It never dates the task.
+- The task's own date (`_valid_from`) is when it was raised: a `raised_on`
+  property tagged `temporal: valid_from`, or else the note's date.
+- A completion date tagged `temporal: valid_to` closes it, so `--asOf` after
+  completion no longer shows it as open.
+
+One gap: no query filters on `_due` yet ("what is due before Friday"). The spec
+records it as follow-up F4: a `--dueBefore` filter, or a saved view.
 
 ### Q15. When a chunk gets its own date
 
@@ -279,6 +305,7 @@ of the measured numbers below come from it.
 - **Alternative.** Also accept month or year headings ("## March 2026"), which suits
   monthly logs but carries a higher risk of false dates.
 - **Recommendation.** Keep the proposal.
+- **Response** - Agreed
 
 ### Q18. Which clock `--asOf today` uses
 
@@ -291,6 +318,13 @@ of the measured numbers below come from it.
 - **Recommendation.** This one is a judgement call. The plan says UTC; I lean slightly
   to **local** for `--asOf today` only, since valid time is a calendar date with no
   timezone (spec non-goal), while record time stays UTC. Tell me which you prefer.
+**Response** - Query time is local, record time is UTC, document time is assumed local
+
+**Applied (2026-11-17).** `--asOf today` stays the local date (Task 2). Record
+timestamps (`_recorded_at`, `_retired_at`, `update`'s `created_at`) are UTC. Dates
+artmind assigns to a document (the `ingestion_date` default, `update`'s document
+date, the SCD2 batch date) are local (Task 4). A `--knownAsOf` date means the end
+of that local day, converted to UTC before comparing with record time (Task 24).
 
 ### Q19. A precision value for half-years
 
@@ -299,6 +333,7 @@ of the measured numbers below come from it.
   "H1 2026" / "H2 2026", which have no precision value of their own.
 - **Proposal.** Add `half`.
 - **Recommendation.** Keep the proposal.
+- **Response** - Agreed
 
 ---
 
@@ -313,6 +348,7 @@ of the measured numbers below come from it.
   (`projection.apply_retractions`), which *do* move an observation to History.
 - **Proposal.** Drop `sameas:` and add `retract:<observation id>`.
 - **Recommendation.** Keep the proposal.
+- **Response** - Agreed
 
 ### Q9. Record time for data that existed before this change (revised)
 
@@ -329,6 +365,7 @@ of the measured numbers below come from it.
 - **Alternative.** Recover first-recorded times from the vault's git history. That is
   more accurate, but slow and complex.
 - **Recommendation.** Keep the revision.
+- **Response** - Agreed
 
 ### Q10. New underscore fields and the projection winner
 
@@ -340,6 +377,7 @@ of the measured numbers below come from it.
 - **Proposal.** Add every new field to the system-key list. In the winner sort, treat a
   date with precision `none` as empty.
 - **Recommendation.** Keep the proposal. Without it, the change breaks things.
+- **Response** - Agreed
 
 ### Q11. Extra conflicts from ACTIVITY and PLAN becoming occurrent
 
@@ -354,6 +392,7 @@ of the measured numbers below come from it.
   still get day keys, and disagreements would read as history, not conflicts. `domains
   validate` would warn about that combination (spec §5.3).
 - **Recommendation.** Keep the proposal; the measurement will show whether it matters.
+- **Response** - Agreed
 
 ### Q17. Which nodes get `_recorded_at`
 
@@ -365,7 +404,7 @@ of the measured numbers below come from it.
   created. Never stamp `RELATES_TO` or `:Conflict`; their record time comes from their
   observations.
 - **Recommendation.** Keep the proposal.
-
+**Response** - Agreed
 ---
 
 ## Summary of my recommendations

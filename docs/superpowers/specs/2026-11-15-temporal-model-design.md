@@ -119,8 +119,10 @@ the date model; F1 covers recall per period.
 - **Default date treated as real.** The `default_ingestion` date (today) is
   counted as a real date by survey, timeline, mart and the projection winner.
   Only the anchor, catalogue and insights exclude it.
-- **Mixed clocks.** `update.py` and the SCD2 batch date use local `date.today()`;
-  everything else uses UTC.
+- **Mixed clocks.** `update.py` writes its record timestamp (`created_at`) in local
+  time, and the `ingestion_date` default is a UTC date while `update.py`'s document
+  date is local. The rule (decided 2026-11-17): query time is local, record time is
+  UTC, document time is local.
 - **Winner and displayed date disagree.** The projection winner is chosen on
   `_doc_valid_from` but shows the fact's `_valid_from`, so a later fact stated in
   an older document can never win.
@@ -556,8 +558,16 @@ medicine and some happenings.
 - **Curation records.** Supersession and lifecycle records gain `recorded_at`.
   Supersession records gain the `effective` date derived from §4 labels where
   the documents state one.
-- **Clock.** All record time is UTC (`update.py` and the SCD2 batch date move
-  off local `date.today()`).
+- **Clocks** (decided 2026-11-17):
+  - **record time is UTC:** `_recorded_at`, `_retired_at`, `ingested_at`,
+    `created_at` (`update.py` moves its `datetime.now()` to UTC);
+  - **document time is local:** a date artmind assigns as valid time when the
+    source gives none — the `ingestion_date` default, `update.py`'s document date,
+    the SCD2 batch date — is the machine's local date (the `ingestion_date`
+    default moves off UTC);
+  - **query time is local:** `--asOf today` is the local date, and a
+    `--knownAsOf` date means the end of that local day, converted to UTC before it
+    is compared with record time.
 
 ### 6.2 Reads
 
@@ -566,7 +576,8 @@ medicine and some happenings.
   - It compares against `_valid_from` and `_valid_to` only.
   - A year or month `--asOf` is widened to its last day, which fixes §1.5.
   - It treats precision `none` as undated.
-- **Record-time filter.** `--knownAsOf <date|datetime>` on `entity-history`,
+- **Record-time filter.** `--knownAsOf <date|datetime>` (a date is the end of that
+  local day; a datetime without a zone is local; both converted to UTC) on `entity-history`,
   `document-history` and `pattern10` reads record time: a node counts when
   `_recorded_at <= T` and (`_retired_at` IS NULL OR `_retired_at > T`).
   - Both labels are searched (current and History), so this answers "what did
@@ -746,6 +757,12 @@ real run, then `insights refresh` and `mart build`.
   correct rate.
 
 ## 11. Follow-ups
+
+- **F4. Deadlines in queries.** `_due` and `_review` are stored (§4) but no query
+  filters on them. A TASK or TODO class (`kind: recurrent`, `identity: name`, a
+  `temporal: due` property, a completion date tagged `temporal: valid_to`) works
+  with this design as it stands; "what is due before X" would need a `--dueBefore`
+  filter on `entity-listing`/`pattern7` or a saved view.
 
 - **F1. Per-period recall.** A dated `survey --by year|month` should guarantee a
   minimum of ranked documents per period that has keyword hits (today 2 of 5
