@@ -117,3 +117,36 @@ def test_commit_writes_passages_per_chunk_with_title(tmp_path, session, monkeypa
 def test_commit_title_falls_back_to_name(tmp_path, session, monkeypatch):
     chunks, written, _ = _commit(tmp_path, session, monkeypatch, {"id": "doc-1", "name": "a.md"})
     assert written[0][1] == passages.passage_rows(chunks[0], "a.md")
+
+
+def test_commit_carries_chunk_dates_to_chunks_passages_and_summaries(tmp_path, session, monkeypatch):
+    """Spec 2026-11-15 §5.1: the staged chunk dates reach the DocChunk merge (an absent one is
+    removed, the merge being additive), its passages and its chunk summary."""
+    from artmind import summary_store
+
+    folder = tmp_path / "doc"
+    folder.mkdir()
+    document = {"id": "doc-1", "name": "a.md", "_valid_from": "2026-01-01", "_valid_precision": "month"}
+    (folder / "document.json").write_text(json.dumps(document))
+    chunk = {"id": "doc-1_001", "doc_id": "doc-1", "_domain": "general", "text": "Wind.",
+             "_valid_from": "2026-01-14", "_valid_precision": "day", "_doc_valid_from": "2026-01-01"}
+    (folder / "chunks.json").write_text(json.dumps([chunk]))
+    (folder / "observations.json").write_text("[]")
+    (folder / "relationships.json").write_text("[]")
+    (folder / "summaries.json").write_text(json.dumps(
+        {"document": {"summary": "S"}, "chunks": [{"chunk_id": "doc-1_001", "summary": "C"}]}))
+    written, summaries = [], []
+    monkeypatch.setattr(passage_store, "write_chunk_passages",
+                        lambda tx, chunk_id, rows: written.append(rows) or len(rows))
+    monkeypatch.setattr(summary_store, "write_document_summaries",
+                        lambda tx, doc_id, rows: summaries.extend(rows) or len(rows))
+
+    ingest._commit_document_tx(session, ingest._load_staged(folder, "general"), True)
+
+    (merge,) = [p["props"] for c, p in session.calls if p.get("id") == "doc-1_001" and "props" in p]
+    assert (merge["_valid_from"], merge["_valid_precision"], merge["_doc_valid_from"]) == (
+        "2026-01-14", "day", "2026-01-01")
+    assert merge["_doc_valid_to"] is None and merge["_valid_to"] is None
+    assert written[0][0]["props"]["_valid_from"] == "2026-01-14"
+    chunk_summary = next(r["props"] for r in summaries if r["props"]["level"] == "chunk")
+    assert (chunk_summary["_valid_from"], chunk_summary["_doc_valid_from"]) == ("2026-01-14", "2026-01-01")

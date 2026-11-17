@@ -36,7 +36,9 @@ WHERE trim(coalesce(c.text, '')) <> ''
   AND NOT c.id IN $skip_ids{scope}
 OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
 RETURN c.id AS id, c.doc_id AS doc_id, c._domain AS _domain, c.text AS chunk_text,
-       c.header_path AS header_path, c.valid_from AS valid_from, c.valid_to AS valid_to,
+       c.header_path AS header_path, c._valid_from AS _valid_from, c._valid_to AS _valid_to,
+       c._valid_precision AS _valid_precision, c._doc_valid_from AS _doc_valid_from,
+       c._doc_valid_to AS _doc_valid_to,
        coalesce(d.title, d.name) AS title
 LIMIT $batch_size
 """
@@ -146,7 +148,7 @@ def reconcile_passages(
         for row in rows:
             chunk = {"id": row["id"], "doc_id": row.get("doc_id"), "_domain": row.get("_domain"),
                      "text": row.get("chunk_text") or "", "header_path": row.get("header_path"),
-                     "valid_from": row.get("valid_from"), "valid_to": row.get("valid_to")}
+                     **{k: row.get(k) for k in passages.PASSAGE_DATE_KEYS}}
             built = passages.passage_rows(chunk, row.get("title"))
             if not built:          # nothing to split (cannot happen past the trim filter)
                 skipped.add(row["id"])

@@ -118,6 +118,10 @@ def embedding_text(text: str) -> str:
     return text
 
 
+# The chunk's date fields every passage copies (spec 2026-11-15 §5.1).
+PASSAGE_DATE_KEYS = ("_valid_from", "_valid_to", "_valid_precision", "_doc_valid_from", "_doc_valid_to")
+
+
 def passage_rows(chunk: dict, title: str | None) -> list[dict]:
     """One chunk's passages as write rows for `passage_store.write_chunk_passages`."""
     context = " > ".join(p for p in (title, chunk.get("header_path")) if p)
@@ -131,7 +135,7 @@ def passage_rows(chunk: dict, title: str | None) -> list[dict]:
             "char_start": p.char_start, "char_end": p.char_end, "text": p.text,
             "context": context, "_split_key": key,
         }
-        for field in ("valid_from", "valid_to"):
+        for field in PASSAGE_DATE_KEYS:
             if chunk.get(field) is not None:
                 props[field] = chunk[field]
         rows.append({"id": pid, "chunk_id": chunk["id"], "props": props})

@@ -169,14 +169,21 @@ def retime_folder(doc_kg_dir: Path, schema: dict, *, write: bool = True) -> dict
     new_observations, dropped = retime_observations(observations, new_document, schema)
     counts = Counter(k for d in dropped.values() for k in d)
 
-    changed = new_document != document or new_observations != observations
+    # Chunks carry the document's window and their own day (spec 2026-11-15 §5.1).
+    chunks = _load_json(doc_kg_dir / "chunks.json", None)
+    new_chunks = ingest._date_chunks(chunks, new_document) if isinstance(chunks, list) else chunks
+
+    changed = new_document != document or new_observations != observations or new_chunks != chunks
     if changed and write:
         if dropped:
             _keep_dropped(doc_kg_dir, name, dropped)
-        ingest.write_staging(doc_kg_dir, {
+        files = {
             "document.json": new_document,
             "observations.json": new_observations,
-        })
+        }
+        if new_chunks != chunks:
+            files["chunks.json"] = new_chunks
+        ingest.write_staging(doc_kg_dir, files)
     result = {
         "document": name,
         "before": document.get("_valid_from"),

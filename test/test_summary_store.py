@@ -17,7 +17,8 @@ def test_rows_cover_both_levels_with_deterministic_ids():
     assert [r["id"] for r in rows] == ["d1:summary", "c1:summary", "c2:summary"]
     doc, c1 = rows[0], rows[1]
     assert doc["props"] == {"id": "d1:summary", "level": "document", "doc_id": "d1", "_domain": "notes",
-                            "text": "The whole thing.", "key": "dk", "_valid_from": "2026-01-01"}
+                            "text": "The whole thing.", "key": "dk", "_valid_from": "2026-01-01",
+                            "_doc_valid_from": "2026-01-01"}
     assert doc["target"] == "d1" and doc["target_label"] == "Document"
     assert c1["props"]["level"] == "chunk" and c1["props"]["chunk_id"] == "c1"
     assert c1["target"] == "c1" and c1["target_label"] == "DocChunk"
@@ -91,3 +92,15 @@ def test_summary_rows_carry_the_documents_prefixed_valid_time():
         assert row["props"]["_valid_from"] == "2024-03-30"
         assert row["props"]["_valid_to"] == "2024-04-01"
         assert "valid_from" not in row["props"]
+
+
+def test_chunk_summaries_take_their_chunks_date():
+    from artmind.summary_store import summary_rows
+
+    data = {"document": {"summary": "S"}, "chunks": [{"chunk_id": "c1", "summary": "C"}]}
+    doc = {"id": "d1", "_domain": "pj", "_valid_from": "2026-01-01", "_valid_precision": "month"}
+    rows = summary_rows(data, doc, chunks=[{"id": "c1", "_valid_from": "2026-01-14", "_valid_precision": "day"}])
+    by_level = {r["props"]["level"]: r["props"] for r in rows}
+    assert (by_level["chunk"]["_valid_from"], by_level["chunk"]["_valid_precision"]) == ("2026-01-14", "day")
+    assert (by_level["document"]["_valid_from"], by_level["document"]["_valid_precision"]) == ("2026-01-01", "month")
+    assert by_level["chunk"]["_doc_valid_from"] == by_level["document"]["_doc_valid_from"] == "2026-01-01"

@@ -3676,6 +3676,44 @@ def _document_precision(document: dict, schema: dict) -> str | None:
     return document.get("_valid_precision") or "day"
 
 
+# The date fields a staged chunk carries (`_chunk_valid_time`); a chunk's `_valid_to` stays
+# unset, the document's end is `_doc_valid_to`.
+CHUNK_DATE_KEYS = ("_valid_from", "_valid_precision", "_doc_valid_from", "_doc_valid_to")
+
+
+def _chunk_valid_time(chunk: dict, document: dict) -> dict:
+    """A chunk's dates: its document's window, plus its own day when its last heading or its
+    first non-blank line is only a date, readable to the day (spec 2026-11-15 §5.1, plan
+    question 15). Otherwise the chunk takes the document's `_valid_from` and
+    `_valid_precision` (`none` for a default date, so the chunk reads as undated too)."""
+    from artmind.temporal import parse_valid
+
+    out = {"_doc_valid_from": document.get("_valid_from"), "_doc_valid_to": document.get("_valid_to")}
+    own = None
+    heading = (chunk.get("header_path") or "").rsplit(">", 1)[-1].strip()
+    first_line = next((line.strip() for line in (chunk.get("text") or "").splitlines() if line.strip()), "")
+    for candidate in (heading, first_line.lstrip("#").strip()):
+        parsed = parse_valid(candidate) if candidate else None
+        if parsed and parsed.precision == "day" and parsed.end is None and not parsed.time_of_day:
+            own = parsed.start
+            break
+    if own:
+        out["_valid_from"], out["_valid_precision"] = own, "day"
+    else:
+        out["_valid_from"] = document.get("_valid_from")
+        out["_valid_precision"] = document.get("_valid_precision") if document.get("_valid_from") else None
+    return {k: v for k, v in out.items() if v}
+
+
+def _date_chunks(chunks: list[dict], document: dict) -> list[dict]:
+    """`chunks` with their date fields re-derived from `document` (stale ones dropped)."""
+    return [
+        {**{k: v for k, v in c.items() if k not in CHUNK_DATE_KEYS and k != "_valid_to"},
+         **_chunk_valid_time(c, document)}
+        for c in chunks
+    ]
+
+
 def _build_observations(
     entities: list[dict],
     properties: list[dict],
@@ -4425,6 +4463,8 @@ def extract_kg(
     # swallowed its own exceptions.
     # (`document_dates` was resolved before any chunk extracted -- see above.)
     document.update(document_dates)
+    # Every chunk carries its document's window and its own day when it has one (spec §5.1).
+    all_chunks = _date_chunks(all_chunks, document)
 
     # ── per-document canonicalization: ONE call, after ALL chunks ──────────
     # Intra-document drift control. Chunks extracted in parallel and could not
@@ -4888,6 +4928,9 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
         # vector lives on the chunk's passages, written right below without one and
         # filled by the post-commit passage sweep.
         chunk_props = _flatten_props({k: v for k, v in chunk.items() if k != "embedding"})
+        # The merge is additive, so a date the chunk no longer carries is removed explicitly
+        # (`SET n += {k: null}` removes `k`).
+        chunk_props.update({k: None for k in (*CHUNK_DATE_KEYS, "_valid_to") if k not in chunk_props})
         # additive (replace=False): a chunk's filing metadata / char offsets
         # accrete the way they always have — see _merge_relabeled for why the
         # label-pair match is needed at all (a same-doc_id re-ingest reuses
@@ -4912,7 +4955,9 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     #     folder (UserChat) has no chunks and no summaries.
     if source_label == "Document":
         summary["summaries"] = summary_store.write_document_summaries(
-            tx, doc_id, summary_store.summary_rows(staged.get("summaries"), {**document, "_domain": domain}),
+            tx, doc_id, summary_store.summary_rows(
+                staged.get("summaries"), {**document, "_domain": domain}, chunks=staged["chunks"],
+            ),
         )
 
     # 4. Observations.

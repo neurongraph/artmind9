@@ -35,14 +35,25 @@ MERGE (n)-[:SUMMARIZES]->(t)
 """
 
 
-def summary_rows(data: dict | None, document: dict) -> list[dict]:
-    """Write rows for `summaries.json` data: the document summary first, then the chunks."""
+def summary_rows(data: dict | None, document: dict, chunks: list[dict] | None = None) -> list[dict]:
+    """Write rows for `summaries.json` data: the document summary first, then the chunks.
+
+    Every row carries its document's window (`_doc_valid_from` / `_doc_valid_to`); the document
+    summary carries the document's `_valid_from` / `_valid_to` / `_valid_precision`, and a chunk
+    summary its chunk's own `_valid_from` / `_valid_precision` when `chunks` (the staged
+    `chunks.json` rows) gives one (spec 2026-11-15 §5.1)."""
     if not isinstance(data, dict) or not isinstance(data.get("chunks"), list):
         return []
     common = {"doc_id": document["id"], "_domain": document.get("_domain")}
-    for field in ("_valid_from", "_valid_to"):
-        if document.get(field) is not None:
-            common[field] = document[field]
+    for src, dst in (("_valid_from", "_valid_from"), ("_valid_to", "_valid_to"),
+                     ("_valid_precision", "_valid_precision"),
+                     ("_valid_from", "_doc_valid_from"), ("_valid_to", "_doc_valid_to")):
+        if document.get(src) is not None:
+            common[dst] = document[src]
+    chunk_dates = {
+        c["id"]: {k: c[k] for k in ("_valid_from", "_valid_precision") if c.get(k) is not None}
+        for c in chunks or [] if isinstance(c, dict) and c.get("id")
+    }
     rows: list[dict] = []
     doc = data.get("document")
     if isinstance(doc, dict) and doc.get("summary"):
@@ -56,6 +67,7 @@ def summary_rows(data: dict | None, document: dict) -> list[dict]:
         sid = f"{entry['chunk_id']}:summary"
         rows.append({"id": sid, "target": entry["chunk_id"], "target_label": "DocChunk",
                      "props": {"id": sid, "level": "chunk", "chunk_id": entry["chunk_id"], **common,
+                               **chunk_dates.get(entry["chunk_id"], {}),
                                "text": entry["summary"], "key": entry.get("key")}})
     return rows
 

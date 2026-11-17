@@ -255,7 +255,14 @@ def test_retime_folder_redates_the_document_and_its_observations(tmp_path, monke
     assert (document["_valid_from"], document["_valid_time_source"]) == ("2026-01-07", "filename")
     assert (obs["_valid_from"], obs["_doc_valid_from"], obs["_valid_time_source"]) == (
         "2026-01-07", "2026-01-07", "filename")
-    assert (folder / "chunks.json").read_bytes() == chunks_before, "only the time fields move"
+    # Chunks move only their date fields (spec 2026-11-15 §5.1): the document's window, and
+    # the chunk's own day from its first line.
+    date_keys = set(ing.CHUNK_DATE_KEYS)
+    before, after = json.loads(chunks_before), json.loads((folder / "chunks.json").read_text())
+    assert [{k: v for k, v in c.items() if k not in date_keys} for c in after] == [
+        {k: v for k, v in c.items() if k not in date_keys} for c in before]
+    assert {(c["_valid_from"], c["_valid_precision"], c["_doc_valid_from"]) for c in after} == {
+        ("2026-01-07", "day", "2026-01-07")}
     # Idempotent.
     assert retime_folder(folder, _schema())["changed"] is False
 
