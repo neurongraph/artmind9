@@ -6,6 +6,8 @@
 
 **Architecture:** One parser, `temporal.parse_valid`, feeds every valid-time write (`_document_valid_time`, `lift_document_dates`, `_fact_valid_time`, `retime`, `table2graph`, `update`). One reader, `schema_validate.class_identity`, decides per class whether same-name mentions are one entity (`name`), one per day (`occasion`) or one label (`category`); `observations.aggregate_key(..., occurs_on=)` adds the day to the key's name part for `occasion` classes. One predicate, `graph_query.valid_predicate`, replaces `asof_predicate`. `ingest retime` (no LLM) carries every change to existing staging, and gains a re-key phase that rewrites same-as and curation records before its single rebuild. Record time is stamped inside `_commit_document_tx` and every relabel to History.
 
+**Migration pack (revised 2026-11-17, spec §8).** Core code knows only the new model. Everything that converts what a vault already holds (documents' unprefixed dates, approximate record time, the OBJECT→ACTIVITY move, the occasion re-key of same-as and curation records, `meta.yaml`'s new naming rule) lives in `artmind/migrations/temporal_v1/`, built in Part 9 and run once per vault as `artmind migrate temporal`. No core module imports it (a test enforces it); it is deleted once every vault reports done. Core keeps one generic gate, `artmind/data_model.py` (Task 31), that refuses writes on a vault whose data predates the model. Tasks 13, 17, 19, 20 and 25 changed accordingly; Tasks 20 and 25 moved into Part 9.
+
 **Tech Stack:** Python 3.14, Click, pytest + `CliRunner`, `test/_neo4j_recorder.py`, Neo4j (real-run verification only), `uv`.
 
 **Companion:** `docs/superpowers/plans/2026-11-15-schema-bound-properties.md` (below, "SBP"). Shared files: `artmind/retime.py`, `artmind/schema_validate.py`, `artmind/prompt_builder.py`, `artmind/ingest.py` (`_build_observations`). Neither plan blocks the other except where a task here says **Blocked by SBP Task N**. Rules for the overlap:
@@ -28,27 +30,27 @@ Each item is something in the spec that is wrong against the code, unclear, or t
 
 3. **The default `occasion` for every `occurrent` class changes ids in every schema (§5.3).** Measured on banking_corpus's staging: only 2 TRANSACTION keys and 3 AUDIT_FINDING keys span two days, so banking barely changes. contracts' AMENDMENT is `occurrent`, is a `document_entity` class (one name per document by design), and tags `effective_date: valid_from`; day keys could split one amendment when two documents state its date differently. **Proposal (Task 14):** declare `identity` explicitly in every shipped schema, set contracts AMENDMENT to `identity: name`, and make `domains validate` skip the "`name` with a `temporal: valid_from` property" WARN for `document_entity` classes.
 
-4. **The meta-schema tells the model to put dates IN occurrent names.** `meta.yaml` `kind_naming_rules.occurrent` says "a date or identifier that distinguishes one occurrence from another belongs IN the name". That rule is why 1,958 of 2,822 staged EVENT observations in brain01 carry a date in their canonical name. A vault's `meta.yaml` is the user's copy and is not refreshed by `setup` (SBP question 3). **Proposal (Task 17):** a new `identity_naming_rules.occasion` in `meta.yaml`, with the same text as a code default in `prompt_builder` (`OCCASION_NAMING_RULE`) used when a vault's `meta.yaml` lacks the key; for an `occasion` class it replaces the kind rule. The occurrent kind rule stays for `identity: name` occurrent classes.
+4. **The meta-schema tells the model to put dates IN occurrent names.** `meta.yaml` `kind_naming_rules.occurrent` says "a date or identifier that distinguishes one occurrence from another belongs IN the name". That rule is why 1,958 of 2,822 staged EVENT observations in brain01 carry a date in their canonical name. A vault's `meta.yaml` is the user's copy and is not refreshed by `setup` (SBP question 3). **Proposal (Task 17):** a new `identity_naming_rules.occasion` in `meta.yaml`; for an `occasion` class it replaces the kind rule. The occurrent kind rule stays for `identity: name` occurrent classes. **Revised 2026-11-17:** no copy of the rule in code; the migration pack (Task 34) adds the key to a vault's `meta.yaml`, and the data-model gate guarantees it ran.
 
 5. **Half of the dated event names already fold across days.** `normalize_name`'s measurement-tail rule strips a dash or colon tail that holds a digit, so "Tennis - 2024-03-30" and "Tennis - 2024-04-02" already share the key `tennis`: about 1,060 of the 1,958 dated names have this form. About 900 put the date after a word with no separator ("Tennis on 2024-03-30") and stay separate. So the stripping rule (§5.2) must cover the no-separator, weekday and ordinal forms, and the day key is what splits the already-folded ones. **Proposal (Task 17):** `observations.strip_occasion_date(name)`, pure, applied where keys are built (`_build_observations`, `retime`), not in `canonicalize` (the LLM step). The spec's "under 5% of occasion names contain a date" is checked on `canonical_name`, which this also rewrites; the raw `name` keeps the model's wording.
 
-6. **The unprefixed `valid_to` fold (§7.1) must move to step 4.** Superseded documents carry only the unprefixed `valid_to` (`supersession_records._RECOMPUTE`). Step 4's `valid_predicate` "compares against `_valid_from` and `_valid_to` only", so between steps 4 and 7 every superseded document would read as open. **Proposal (Task 13):** the fold migration, and `_RECOMPUTE` writing `_valid_to`, ship with the predicate in Part 4.
+6. **The unprefixed `valid_to` fold (§7.1) must move to step 4.** Superseded documents carry only the unprefixed `valid_to` (`supersession_records._RECOMPUTE`). Step 4's `valid_predicate` "compares against `_valid_from` and `_valid_to` only", so between steps 4 and 7 every superseded document would read as open. **Proposal (Task 13):** `_RECOMPUTE` writes `_valid_to` and the predicate reads only prefixed names, in Part 4. **Revised 2026-11-17:** the fold of existing documents is a migration-pack step (Task 33); the data-model gate keeps an unmigrated vault from being read as if folded (reads warn).
 
 7. **STATE_CHANGE.due_date appears twice in §4.** It is listed as a deadline (→ `temporal: due`) and as a duplicate of `date_or_time` to fold with `property_aliases`. It cannot be both. **Proposal (Task 10):** `date_or_time` becomes `temporal: valid_from`, `due_date` becomes `temporal: due`, no alias. CASE's `opened_date` → `opened` alias stays.
 
 8. **Same-as folds relabel nothing (§6.1).** A same-as merge happens in the projection: member observations stay `:Observation`, and only the member's `:Entity` node is deleted. There is no node to stamp `_retired_by: sameas:<id>` on. The spec also misses `projection.apply_retractions`, which does relabel an observation to History. **Proposal (Task 23):** drop `sameas:`; add `retract:<observation id>`.
 
-9. **Record-time backfill for History nodes (§6.2, §8).** `Document.ingested_at` is the latest extraction, so it is later than when a History observation was first recorded. **Proposal (Task 25):** current nodes get `_recorded_at = ingested_at` and `_record_time_approx = true`; History nodes get `_retired_at = ingested_at` (approximate) and no `_recorded_at`; `--knownAsOf` counts a node with no `_recorded_at` as recorded before the backfill, and warns. Then the spec's acceptance test ("before a note's last re-ingest returns the earlier version") passes on backfilled data.
+9. **Record-time backfill for History nodes (§6.2, §8).** `Document.ingested_at` is the latest extraction, so it is later than when a History observation was first recorded. **Proposal (Task 33, was 25):** current nodes get `_recorded_at = ingested_at` and `_record_time_approx = true`; History nodes get `_retired_at = ingested_at` and `_recorded_at` = the epoch (`1970-01-01T00:00:00+00:00`, "known before the backfill"), both flagged approximate. **Revised 2026-11-17:** the backfill is a pack step, so core's `known_predicate` never has a missing-`_recorded_at` branch; it warns only on `_record_time_approx`. Then the spec's acceptance test ("before a note's last re-ingest returns the earlier version") passes on backfilled data.
 
 10. **New underscore fields must be system keys in the projection.** `projection._OBSERVATION_SYSTEM_KEYS` lists the observation keys the merge skips; any other key is merged as a domain property, and differing values become conflicts. `_valid_precision`, `_valid_time_of_day`, `_due`, `_review`, `_revised_at`, `_recorded_at`, `_revived_at`, `_retired_at`, `_retired_by` and `_record_time_approx` must join it (Tasks 6, 10, 22). The winner sort (§6.2) must treat a `_valid_from` with precision `none` as empty, or the ingestion date beats every real date (Task 28).
 
 11. **ACTIVITY and PLAN becoming occurrent adds conflicts.** For an occurrent class, two same-key observations that disagree on a scalar property raise a `:Conflict`. Day keys make keys smaller, but same-day mentions with different `emotional_valence` or `purpose` will now conflict, and an open conflict blocks `projection synthesize`. SBP's property trim reduces this. Accept, and measure the open-conflict count before and after (Task 30).
 
-12. **Same-as migration semantics (§5.2, §8).** An old group such as `[tennis|ACTIVITY|pj, tennis match|ACTIVITY|pj]` names two folds that each span many days. **Proposal (Task 20):** expand each `occasion` member into its new day keys; keep one group per day on which at least two members have observations, canonical = the old canonical's key for that day; drop members with no same-day partner; report the counts. `category` members' groups are dropped. The same rule guards new proposals centrally in `sameas.propose`, so `--fromFile` proposals cannot reintroduce cross-day pairs.
+12. **Same-as migration semantics (§5.2, §8).** An old group such as `[tennis|ACTIVITY|pj, tennis match|ACTIVITY|pj]` names two folds that each span many days. **Proposal (Task 35, was 20; a migration-pack step):** expand each `occasion` member into its new day keys; keep one group per day on which at least two members have observations, canonical = the old canonical's key for that day; drop members with no same-day partner; report the counts. `category` members' groups are dropped. The same rule guards new proposals centrally in `sameas.propose`, so `--fromFile` proposals cannot reintroduce cross-day pairs.
 
-13. **One command for the migration.** The spec says "`retime` … then one `projection rebuild` re-keys … and migrates same-as records", but nothing rewrites `same_as.yaml` or curation records today. **Proposal (Task 20):** `ingest retime` gains a re-key phase (`artmind/rekey.py`): it compares each staged observation's key before and after, rewrites `same_as.yaml`, closes open proposals, and re-points synthesis, conflict and mart records, all before its one rebuild. The tier-1 dry run lists all of it.
+13. **One command for the migration.** The spec says "`retime` … then one `projection rebuild` re-keys … and migrates same-as records", but nothing rewrites `same_as.yaml` or curation records today. **Proposal (Task 35, was 20):** one command re-keys and migrates records before its one rebuild; the tier-1 dry run lists all of it. **Revised 2026-11-17:** the command is `artmind migrate temporal` (the pack), not a phase of `ingest retime`; `retime` stays a permanent re-derive with no record rewriting.
 
-14. **The OBJECT → ACTIVITY move needs a rule somewhere (§5.3).** **Proposal (Task 19):** a declarative schema block, `retime_reclassify: [{from: OBJECT, to: ACTIVITY, name_words: [...]}]`, read only by `retime` and checked by `domains validate`. It keeps vault-specific words out of code and lets a vault adjust them. The shipped list is generic travel words (flight, train, cab, taxi, ride, trip, journey, booking).
+14. **The OBJECT → ACTIVITY move needs a rule somewhere (§5.3).** **Revised 2026-11-17 (Task 35):** no schema keyword. The move is a one-time pack step with its word list in the pack (flight, train, cab, taxi, ride, trip, journey, booking; whole words in `canonical_name`), listed with counts in the dry run. New extractions are kept right by OBJECT's new description (Task 19).
 
 15. **A chunk's own date (§5.1) needs a narrow rule.** **Proposal (Task 12):** a chunk gets its own `_valid_from` only when its `header_path`'s last heading, or its first non-blank line, is a single date that `parse_valid` reads at day precision; otherwise the document's. In brain01 every entry is one day, so this changes nothing there; it matters for multi-day notes.
 
@@ -77,10 +79,11 @@ Each item is something in the spec that is wrong against the code, unclear, or t
 | `artmind/ingest.py` | `FactTime`, `_fact_valid_time`; `_build_observations` (precision, time of day, due/review, day key, name strip, counts); chunk dates; record-time stamps in `_commit_document_tx`, `_retract_prior_version`, `_merge_relabeled` | 6, 7, 10, 12, 15, 17, 22, 23 |
 | `artmind/observations.py` | `build_observation` new fields; `aggregate_key(occurs_on=)`; `split_occasion`; `strip_occasion_date` | 6, 15, 17 |
 | `artmind/projection.py` | `_OBSERVATION_SYSTEM_KEYS`; entity copies precision/time of day; `_winner_sort_key(kind)` | 6, 22, 28 |
-| `artmind/retime.py` | `parse_valid`; `_kind` re-derived; chunk dates; day re-key; name strip; reclassify; re-key phase | 6, 12, 15, 17, 19, 20 |
-| `artmind/rekey.py` (new) | old→new key map from staging; `same_as.yaml`, proposals, synthesis/conflict/mart records | 20 |
+| `artmind/retime.py` | `parse_valid`; `_kind` re-derived; chunk dates; day re-key; name strip | 6, 12, 15, 17 |
+| `artmind/data_model.py` (new) | `CURRENT`, `data_model.yaml`, `require_current()` gate | 31 |
+| `artmind/migrations/temporal_v1/` (new, temporary) | `migrate temporal|status`; meta.yaml rule; graph fold + record-time backfill; reclassify + re-key + same-as/curation rewrite; stamp | 32–36 |
 | `artmind/date_audit.py` (new) | `ingest date-audit` rows | 9, 11 |
-| `artmind/schema_validate.py` | `class_identity`; temporal-value, identity, `types`, `retime_reclassify` checks | 10, 14, 19 |
+| `artmind/schema_validate.py` | `class_identity`; temporal-value, identity, `types` checks | 10, 14, 19 |
 | `artmind/prompt_builder.py`, `artmind/domains/meta.yaml` | DATES section forms; occasion naming rule; `types` rendering | 8, 17, 19 |
 | `artmind/canonicalize.py` | `recurrent_classes` → `named_classes` | 18 |
 | `artmind/sameas.py`, `artmind/refine_graph.py`, `artmind/conflicts.py`, `artmind/insights/detectors/same_as.py`, `artmind/identity.py`, `artmind/cli.py` (entity-resolve) | identity gate | 18 |
@@ -88,8 +91,8 @@ Each item is something in the spec that is wrong against the code, unclear, or t
 | `artmind/supersession_records.py`, `artmind/lifecycle.py`, `artmind/lifecycle_records.py` | `_valid_to`; validity close and restore; record stamps; `recorded_at` | 13, 23, 26 |
 | `artmind/table2graph.py` | `parse_valid`; SCD2 `_valid_to` | 6, 27 |
 | `artmind/update.py`, `artmind/structured/pipeline.py` | UTC; `parse_valid`; occasion day | 4, 6, 15 |
-| `artmind/migrations/document_valid_time_names.py` (new), `artmind/migrations/record_time_backfill.py` (new), `artmind/setup.py` | §7.1 fold; record-time backfill | 13, 25 |
-| `artmind/cli.py`, `artmind/cli_conventions.py`, `artmind/traces/path.py` | `ingest date-audit`; `query happenings`; `--knownAsOf`; `COMMAND_GROUPS`; `EFFECT_KINDS` | 9, 20, 21, 24 |
+
+| `artmind/cli.py`, `artmind/cli_conventions.py`, `artmind/traces/path.py` | `ingest date-audit`; `query happenings`; `--knownAsOf`; `migrate` registration; `COMMAND_GROUPS`; `EFFECT_KINDS` | 9, 21, 24, 32 |
 | `artmind/domains/schemas/*.yaml`, `artmind/skills/artmind-create-schema/assets/personal_journal_schema.yaml` | §4 fixes; identity; journal ACTIVITY/PLAN/EMOTION/OBJECT | 10, 14, 19 |
 | Skills, `justfile`, `CLAUDE.md`, plugin fixtures | docs | 1, 21, 29 |
 
@@ -101,22 +104,14 @@ Each item is something in the spec that is wrong against the code, unclear, or t
 - **Always `ARTMIND_NO_PROXY=1`**: a running `serve`, chat-ui or admin-ui answers with old code.
 - **`env -u ANTHROPIC_BASE_URL`** in front of any command that calls the LLM. In this plan that is only Task 30's re-extraction sample and benchmark runs; every other task is LLM-free.
 - **brain01** (private, local Neo4j :7689, configured in the vault's `config.env`): print counts, class names and key shapes only — never names, values or text. Use **banking_corpus** (public) for anything that prints values.
-- **Never run `artmind setup` or `artmind init` from the checkout.** A migration that `setup` runs is exercised inside a vault, with the user's yes.
+- **Never run `artmind setup` or `artmind init` from the checkout.** The migration pack (`artmind migrate temporal`) is exercised inside a vault, dry run first, the real run only with the user's yes.
 - **Ask before any real write to a vault.** `--dryRun` is always safe; a real `retime` rewrites committed staging and the graph.
 
-## What breaks if a vault runs Part 5's code before its migration
+## What breaks if a vault runs the new code before its migration
 
-Part 5 changes entity ids for `occasion` classes. Code that computes keys (`_build_observations`, `update`) starts producing day keys at once, while the graph and the vault's curation still hold old ones. Until `ingest retime --domain d` runs (Task 20):
+Part 5 changes entity ids for `occasion` classes, and Parts 4 and 6 read only prefixed dates and record time. A vault whose graph, staging and curation predate this would mix old and new keys on its next ingest (same-as groups merge less, synthesis/conflict/mart records orphan, superseded documents read as open).
 
-- **Mixed keys.** A note re-ingested after the upgrade writes `tennis~2024-03-30|ACTIVITY|pj`; untouched notes still have `tennis|ACTIVITY|pj`. Both show as entities; `query happenings` finds both (it matches on the name part), but `entity-context` on the old entity shows fewer days each time a note is re-ingested.
-- **Same-as groups stop merging.** `same_as.yaml` members name old keys; a re-ingested note's observations no longer carry them, so the group silently merges less (same_as.py logs nothing for a key with no observations; catalogue health `same_as_dangling` lists them).
-- **Curation records orphan.** `syntheses/<entity id>.json` and `conflicts/<id>.json` name old ids; the synthesis for a re-keyed entity is not applied (the entity gets the winner's description), and a closed conflict re-opens as a new id.
-- **Mart dimension records** (`mart_dimension`, `member_key = name|CLASS|domain`) stop matching; `mart build` treats re-keyed happenings as unenriched.
-- **Insights snapshots** keep old `_id`s; the next `insights refresh` reports old findings as gone and re-keyed ones as new (a noisy diff, no data loss).
-- **Caches** (`logs/plan-catalog/`, `logs/topic-freshness/`, `logs/results/`) hold old ids; the catalogue revalidates on the `catalogue.state` generation, which every commit bumps, so these self-heal.
-- **Saved views and topic plans** in brain01 hold no `occasion` entity id (checked: `domains/views`, `domains/topic_plans` contain none); a view that passes an entity param by id would get "no entity with _id" for a re-keyed happening.
-
-Guard (Task 20, Step 7): `projection rebuild`, `vault sync` and `ingest sync|async` warn once, with the `ingest retime --domain d --dryRun` command, when the domain's schema declares `occasion` classes and the graph's `:ProjectionState` records no `identity_version` ≥ 1 for it. The rebuild after `retime` writes it. The warning never blocks.
+Guard (Task 31): `data_model.require_current()` refuses every write path on a vault whose `data_model.yaml` is below `CURRENT` (an existing vault without the file is at 0), with one message naming `artmind migrate status`. Read paths warn once per process and proceed. The pack (Part 9) brings the vault to `CURRENT`. So the mixed state cannot be produced; it can only be read (with a warning) until the pack runs. Caches (`logs/plan-catalog/`, `logs/topic-freshness/`, `logs/results/`) self-heal on the generation bump of the pack's rebuild; insights snapshots show one noisy diff on the next refresh.
 
 ---
 
@@ -1473,8 +1468,8 @@ git commit -m "feat(retrieval): chunks, passages and summaries carry their dates
 - Modify: `artmind/vector_query.py` lines ~366–390 (`_passage_vector_cypher`, `_passage_text_cypher`) and its one `coalesce`.
 - Modify: `artmind/survey.py` (5 reads, lines ~61–100), `artmind/topics/grid.py` (`_MATCHING`), `artmind/topics/members.py`, `artmind/conflicts.py` (3), `artmind/webui/curate_routes.py` (1), `artmind/temporal.py` (1): `d._valid_from` only; survey's `--from/--to` and `--by` skip documents whose `_valid_precision` is `none`.
 - Modify: `artmind/supersession_records.py` `_RECOMPUTE` (lines ~74–84): `SET older._valid_to = …` and `REMOVE older.valid_to`.
-- Create: `artmind/migrations/document_valid_time_names.py`; call it from `setup.setup_all` beside the other migrations (lines ~1116–1123), and add its result to the returned summary.
-- Test: `test/test_valid_predicate.py` (new), `test/test_migration_document_valid_time_names.py` (new), `test/test_supersession_records.py` (append), plus updates to tests that assert the old predicate text.
+- (The fold of existing documents' unprefixed names is migration-pack Task 33, not here.)
+- Test: `test/test_valid_predicate.py` (new), `test/test_supersession_records.py` (append), plus updates to tests that assert the old predicate text.
 
 - [ ] **Step 1: Write the failing tests.** `test/test_valid_predicate.py`:
 
@@ -1516,38 +1511,7 @@ def test_vector_text_sends_the_widened_as_of(monkeypatch):
 
 (Adjust the last test's entry point to `vector_query`'s public search function — `rg -n "^def " artmind/vector_query.py` — and the embedding stub to the function it calls; the assertion stays on the `asOf` param sent.)
 
-`test/test_migration_document_valid_time_names.py`:
-
-```python
-from _neo4j_recorder import Recorder
-
-from artmind.migrations import document_valid_time_names as m
-
-
-def test_folds_unprefixed_names_on_documents_and_reports_counts():
-    rec = Recorder(lambda c, p: [{"n": 3}])
-    out = m.run(rec)
-    fold = rec.queries_containing("SET d._valid_to")
-    assert fold and "coalesce(d._valid_to, d.valid_to)" in fold[0][0] and "REMOVE d.valid_to" in fold[0][0]
-    assert all(label in fold[0][0] for label in ("Document", "DocumentHistory"))
-    assert out == {"documents": 3}
-
-
-def test_second_run_is_a_no_op():
-    rec = Recorder(lambda c, p: [{"n": 0}])
-    assert m.run(rec) == {"documents": 0}
-```
-
-Append to `test/test_supersession_records.py`:
-
-```python
-def test_recompute_writes_the_prefixed_valid_to():
-    from artmind import supersession_records as sr
-
-    assert "older._valid_to" in sr._RECOMPUTE and "older.valid_to =" not in sr._RECOMPUTE
-```
-
-- [ ] **Step 2: Run and confirm failure.** `uv run --group dev pytest test/test_valid_predicate.py test/test_migration_document_valid_time_names.py test/test_supersession_records.py -v` — expected: FAIL.
+- [ ] **Step 2: Run and confirm failure.** `uv run --group dev pytest test/test_valid_predicate.py test/test_supersession_records.py -v` — expected: FAIL.
 
 - [ ] **Step 3: Implement the predicate.**
 
@@ -1568,52 +1532,24 @@ def valid_predicate(var: str, param: str = "asOf", *, include_undated: bool = Tr
 
 Delete `asof_predicate`; replace its callers (`rg -n "asof_predicate" artmind`). Replace every `coalesce(x._valid_from, x.valid_from)` with `x._valid_from` and every `coalesce(x.valid_to, x._valid_to)` with `x._valid_to` in the files listed (`rg -n "coalesce\(\w+\._valid_from, \w+\.valid_from\)|coalesce\(\w+\.valid_to, \w+\._valid_to\)" artmind`). In `survey.py`'s `--from/--to` clause and `--by` grouping, add `AND coalesce(d._valid_precision, 'day') <> 'none'`. The help text of `--asOf` on `vector-text`, `chunks` and `docs list` drops "valid_to is rarely set, so this is a floor": it is now a point.
 
-- [ ] **Step 4: Implement the migration.** `artmind/migrations/document_valid_time_names.py`:
+- [ ] **Step 4: Supersession writes the prefixed name.** In `_RECOMPUTE`, `SET older.superseded_by = …, older._valid_to = head([...])` and append `REMOVE older.valid_to`. Confirm with `test_catalogue_bump_sites.py`; add a bump if a catalogue part reads `_valid_to`.
 
-```python
-"""Temporary (spec 2026-11-15 §7.1): fold unprefixed `valid_from`/`valid_to` on documents into
-`_valid_from`/`_valid_to`. Run by `setup`; idempotent. Delete once every graph reports 0."""
-
-_FOLD = """
-MATCH (d) WHERE (d:Document OR d:DocumentHistory) AND (d.valid_to IS NOT NULL OR d.valid_from IS NOT NULL)
-SET d._valid_to = coalesce(d._valid_to, d.valid_to), d._valid_from = coalesce(d._valid_from, d.valid_from)
-REMOVE d.valid_to, d.valid_from
-RETURN count(d) AS n
-"""
-
-
-def run(session) -> dict:
-    rec = session.run(_FOLD).single()
-    return {"documents": int(rec["n"]) if rec else 0}
-```
-
-and in `setup.setup_all`, after the other two:
-
-```python
-        # Temporary (spec 2026-11-15 §7.1): delete with artmind/migrations/document_valid_time_names.py.
-        from artmind.migrations import document_valid_time_names
-
-        valid_time_names = document_valid_time_names.run(session)
-```
-
-returning `"document_valid_time_names": valid_time_names`. In `_RECOMPUTE`, `SET older.superseded_by = …, older._valid_to = head([...])` and append `REMOVE older.valid_to`. `catalogue.state.bump` is not needed for the migration: it changes no catalogue part's inputs (`time` reads `_valid_from`, which the fold only fills where it was empty); confirm with `test_catalogue_bump_sites.py`, and add a bump there if a part reads `_valid_to`.
-
-- [ ] **Step 5: Run and confirm.** `uv run --group dev pytest test/test_valid_predicate.py test/test_migration_document_valid_time_names.py test/test_supersession_records.py test/test_vector_query.py test/test_query_layer.py $(rg -l "survey" test | head -20) test/test_catalogue_bump_sites.py -v && just dev-test`. Tests that assert the old predicate's text are updated to `valid_predicate`'s. Expected: PASS.
+- [ ] **Step 5: Run and confirm.** `uv run --group dev pytest test/test_valid_predicate.py test/test_supersession_records.py test/test_vector_query.py test/test_query_layer.py $(rg -l "survey" test | head -20) test/test_catalogue_bump_sites.py -v && just dev-test`. Tests that assert the old predicate's text are updated to `valid_predicate`'s. Expected: PASS.
 
 - [ ] **Step 6: Commit.**
 
 ```bash
-git add artmind/graph_query.py artmind/vector_query.py artmind/survey.py artmind/topics artmind/conflicts.py artmind/webui/curate_routes.py artmind/temporal.py artmind/supersession_records.py artmind/migrations/document_valid_time_names.py artmind/setup.py test/
-git commit -m "feat(query): one valid-time predicate over prefixed names; fold documents' unprefixed dates"
+git add artmind/graph_query.py artmind/vector_query.py artmind/survey.py artmind/topics artmind/conflicts.py artmind/webui/curate_routes.py artmind/temporal.py artmind/supersession_records.py test/
+git commit -m "feat(query): one valid-time predicate over prefixed names"
 ```
 
-**Beyond the suite** (read-only until the migration): in banking_corpus, with the user's yes, `cd ~/artmind_vaults/banking_corpus && artmind setup` (inside the vault, with the worktree code: `uv run --project $WT artmind setup`) reports `document_valid_time_names.documents` = the superseded-document count; a second run reports 0. Then, after a retime commit has dated passages (Task 12): `ARTMIND_NO_PROXY=1 uv run --project $WT artmind query vector-text "interest rate" --domain banking --asOf 2025-06-30 --compact` returns fewer rows than without `--asOf` (acceptance §10 "Retrieval filters"), and `--asOf 2026` includes 2026-dated rows.
+**Beyond the suite:** after the pack has run in banking_corpus (Part 9) and a retime commit has dated passages (Task 12): `ARTMIND_NO_PROXY=1 uv run --project $WT artmind query vector-text "interest rate" --domain banking --asOf 2025-06-30 --compact` returns fewer rows than without `--asOf` (acceptance §10 "Retrieval filters"), and `--asOf 2026` includes 2026-dated rows.
 
 ---
 
 ## Part 5 — Declared identity and dated happenings (spec §5.2, §5.3; rollout step 5)
 
-Part 5's tasks change ids. Read "What breaks if a vault runs Part 5's code before its migration" above. Tasks 14–19 land on one branch and merge together with Task 20; a release that has Task 15 without Task 20 must not reach a vault.
+Part 5's tasks change ids. Read "What breaks if a vault runs the new code before its migration" above. The whole branch merges once, with the data-model gate (Task 31) and the pack (Part 9); a release with Task 15 but without Task 31 must not reach a vault.
 
 ### Task 14: `identity` in schemas, its one reader, its checks
 
@@ -1927,7 +1863,7 @@ git add artmind/observations.py artmind/ingest.py artmind/retime.py artmind/upda
 git commit -m "feat(identity): occasion classes key on name and day"
 ```
 
-**Beyond the suite** (no write, counts only): the vault's own schema is not changed until Task 20, so load the worktree's shipped journal schema in a one-off script: `cd ~/artmind_vaults/brain01 && uv run --project $WT python -I -c "import json,glob,yaml; from artmind.retime import retime_observations; s=yaml.safe_load(open('$WT/artmind/domains/schemas/personal_journal_schema.yaml')); …"` over the first 50 staging folders, printing per class the number of distinct keys before and after. Expect ACTIVITY's count to rise and PERSON's to stay the same. Print no names.
+**Beyond the suite** (no write, counts only): the vault's own schema is not changed until the per-vault rollout, so load the worktree's shipped journal schema in a one-off script: `cd ~/artmind_vaults/brain01 && uv run --project $WT python -I -c "import json,glob,yaml; from artmind.retime import retime_observations; s=yaml.safe_load(open('$WT/artmind/domains/schemas/personal_journal_schema.yaml')); …"` over the first 50 staging folders, printing per class the number of distinct keys before and after. Expect ACTIVITY's count to rise and PERSON's to stay the same. Print no names.
 
 ---
 
@@ -1974,7 +1910,7 @@ git commit -m "feat(timeline): list every occasion class"
 
 **Files:**
 - Modify: `artmind/domains/meta.yaml` — new `identity_naming_rules: {occasion: …}`.
-- Modify: `artmind/prompt_builder.py` — `OCCASION_NAMING_RULE` default; `_render_class_block` uses the identity rule for an `occasion` class instead of the kind rule (lines ~66–79).
+- Modify: `artmind/prompt_builder.py` — `_render_class_block` uses `meta.yaml`'s `identity_naming_rules.occasion` for an `occasion` class instead of the kind rule (lines ~66–79). No copy of the rule in code: when `meta.yaml` lacks the key, raise `prompt_builder.MetaIncomplete` (a `ClickException`) naming the key and `artmind migrate status` — the data-model gate (Task 31) normally stops such a vault first. (Revised 2026-11-17.)
 - Modify: `artmind/observations.py` — `strip_occasion_date(name) -> str`.
 - Modify: `artmind/ingest.py` — `_build_observations` strips the canonical name of an `occasion` observation before `build_observation`.
 - Modify: `artmind/retime.py` — `retime_observations` strips `canonical_name` of occasion observations (before re-keying, Task 15).
@@ -2020,13 +1956,30 @@ Append to the prompt-builder tests:
 
 ```python
 def test_occasion_classes_get_the_no_date_naming_rule():
-    from artmind.prompt_builder import OCCASION_NAMING_RULE, _render_class_block
+    from artmind.prompt_builder import _render_class_block
 
-    meta = {"kind_naming_rules": {"occurrent": "a date ... belongs IN the name."}}
+    meta = {"kind_naming_rules": {"occurrent": "a date ... belongs IN the name."},
+            "identity_naming_rules": {"occasion": "NEVER add a date to the name."}}
     block = _render_class_block("ACTIVITY", {"kind": "occurrent", "identity": "occasion"}, meta)
-    assert OCCASION_NAMING_RULE.split(".")[0] in block and "belongs IN the name" not in block
+    assert "NEVER add a date" in block and "belongs IN the name" not in block
     other = _render_class_block("AMENDMENT", {"kind": "occurrent", "identity": "name"}, meta)
     assert "belongs IN the name" in other
+
+
+def test_a_meta_without_the_occasion_rule_names_the_migration():
+    import pytest
+    from artmind.prompt_builder import MetaIncomplete, _render_class_block
+
+    with pytest.raises(MetaIncomplete, match="migrate status"):
+        _render_class_block("ACTIVITY", {"kind": "occurrent", "identity": "occasion"}, {"kind_naming_rules": {}})
+
+
+def test_packaged_meta_carries_the_occasion_rule():
+    from pathlib import Path
+    import yaml
+
+    meta = yaml.safe_load((Path(__file__).resolve().parent.parent / "artmind" / "domains" / "meta.yaml").read_text())
+    assert "NEVER add a date" in meta["identity_naming_rules"]["occasion"]
 ```
 
 - [ ] **Step 2: Run and confirm failure.** `uv run --group dev pytest test/test_occasion_names.py -v` and the prompt test — expected: ImportError / FAIL.
@@ -2072,11 +2025,8 @@ identity_naming_rules:
 In `prompt_builder.py`:
 
 ```python
-#: Used when a vault's own meta.yaml predates `identity_naming_rules` (it is the user's copy).
-OCCASION_NAMING_RULE = (
-    'naming: name the happening as the text does ("Tennis", "Lake trip", "Lantern festival lights"). '
-    'NEVER add a date, a weekday or "today" to the name -- the date goes in the class\'s date property.'
-)
+class MetaIncomplete(click.ClickException):
+    """meta.yaml lacks a key core reads; the vault's files predate the model (spec 2026-11-15 §8)."""
 ```
 
 and in `_render_class_block`:
@@ -2085,10 +2035,15 @@ and in `_render_class_block`:
     from artmind.schema_validate import class_identity
 
     if class_identity({"entity_types": {cls: decl}}, cls) == "occasion":
-        kind_rule = ((meta or {}).get("identity_naming_rules") or {}).get("occasion") or OCCASION_NAMING_RULE
+        kind_rule = ((meta or {}).get("identity_naming_rules") or {}).get("occasion")
+        if not kind_rule:
+            raise MetaIncomplete("meta.yaml has no identity_naming_rules.occasion; "
+                                 "this vault's files predate the temporal model. Run: artmind migrate status")
     else:
         kind_rule = ((meta or {}).get("kind_naming_rules") or {}).get(decl.get("kind"))
 ```
+
+Tests that build an entities prompt from a hand-written `meta` dict with an occasion class gain the key (`rg -l "_render_class_block|assemble_entities_prompt" test`); conftest's seeded `meta.yaml` is the packaged one, which has it.
 
 - [ ] **Step 4: Run and confirm.** `uv run --group dev pytest test/test_occasion_names.py $(rg -l "_render_class_block|assemble_entities_prompt" test) test/test_occasion_keys.py test/test_retime_valid_time.py -v && just dev-test` — expected: PASS.
 
@@ -2201,13 +2156,12 @@ git commit -m "feat(identity): same-as, twins and the name vocabulary follow dec
 
 ---
 
-### Task 19: Journal OBJECT: a declared `type` list, happenings moved to ACTIVITY
+### Task 19: Journal OBJECT: a declared `type` list and a description that keeps happenings out
 
 **Files:**
-- Modify: `artmind/domains/schemas/personal_journal_schema.yaml` and its skills-assets copy — OBJECT: new description (spec §5.3 wording), `types:` (closed list: device, document, vehicle, clothing, household_item, possession, gift, food, medication, medical_item, decoration, pet) replacing `type_examples`; new top-level `retime_reclassify: [{from: OBJECT, to: ACTIVITY, name_words: [flight, train, cab, taxi, ride, trip, journey, booking]}]`.
+- Modify: `artmind/domains/schemas/personal_journal_schema.yaml` and its skills-assets copy — OBJECT: new description (spec §5.3 wording), `types:` (closed list: device, document, vehicle, clothing, household_item, possession, gift, food, medication, medical_item, decoration, pet) replacing `type_examples`. (No `retime_reclassify` keyword: moving existing travel observations is the pack's Task 35.)
 - Modify: `artmind/prompt_builder.py` — `_render_class_block` renders `types:` as "type: exactly one of: a | b | …" (closed), `type_examples` as today.
-- Modify: `artmind/schema_validate.py` — ERROR on an empty or non-list `types`; ERROR when both `types` and `type_examples` are given; checks on `retime_reclassify` (classes exist, `name_words` a non-empty list of strings); readers of `type_examples` (`structured/semantics.py:352`, `schema_reference.py:64`, `insights/detectors/health.py:71`) read `types or type_examples` through a new `schema_validate.class_types(decl)`.
-- Modify: `artmind/retime.py` — `retime_observations` applies `retime_reclassify`: an observation of class `from` whose `canonical_name` contains one of `name_words` as a whole word moves to `to` (class, `_kind`, key recomputed; `type` dropped).
+- Modify: `artmind/schema_validate.py` — ERROR on an empty or non-list `types`; ERROR when both `types` and `type_examples` are given; readers of `type_examples` (`structured/semantics.py:352`, `schema_reference.py:64`, `insights/detectors/health.py:71`) read `types or type_examples` through a new `schema_validate.class_types(decl)`.
 - Test: `test/test_object_types.py` (new); property-audit report of out-of-list `type` values is **Blocked by SBP Task 8** (append there: `row["outside_types"]` count for the `type` key).
 
 - [ ] **Step 1: Write the failing tests.**
@@ -2220,8 +2174,6 @@ import yaml
 
 from artmind import schema_validate as sv
 from artmind.prompt_builder import _render_class_block
-from artmind.retime import retime_observations
-
 JOURNAL = yaml.safe_load((Path(__file__).resolve().parent.parent / "artmind" / "domains" / "schemas"
                           / "personal_journal_schema.yaml").read_text(encoding="utf-8"))
 
@@ -2246,203 +2198,18 @@ def test_empty_types_is_an_error():
     assert any("types" in e for e in sv.validate_schema(schema, {"kinds": {"recurrent": "", "occurrent": ""}}))
 
 
-def test_retime_moves_travel_objects_to_activity():
-    staged = [{"id": "o1", "key": "flight to lisbon|OBJECT|pj", "entity_class": "OBJECT", "_domain": "pj",
-               "canonical_name": "Flight to Lisbon", "name": "flight", "type": "flight"},
-              {"id": "o2", "key": "bread|OBJECT|pj", "entity_class": "OBJECT", "_domain": "pj",
-               "canonical_name": "Bread", "type": "food"}]
-    new = _obs(retime_observations(staged, {"_valid_from": "2024-03-30", "_valid_time_source": "filename"}, JOURNAL))
-    moved, kept = new
-    assert (moved["entity_class"], moved["key"], "type" in moved) == ("ACTIVITY", "flight to lisbon~2024-03-30|ACTIVITY|pj", False)
-    assert (kept["entity_class"], kept["type"]) == ("OBJECT", "food")
 ```
 
-- [ ] **Step 2: Run, implement, run.** Implement as listed; the reclassify step runs first in `retime_observations` so the moved observation is then dated, stripped and re-keyed as an ACTIVITY. Run `uv run --group dev pytest test/test_object_types.py test/test_schema_validate.py test/test_journal_schema_guidance.py $(rg -l "type_examples" test) -v && just dev-test` — expected: PASS.
+- [ ] **Step 2: Run, implement, run.** Implement as listed. Run `uv run --group dev pytest test/test_object_types.py test/test_schema_validate.py test/test_journal_schema_guidance.py $(rg -l "type_examples" test) -v && just dev-test` — expected: PASS.
 
 - [ ] **Step 3: Commit.**
 
 ```bash
-git add artmind/domains/schemas/personal_journal_schema.yaml artmind/skills/artmind-create-schema/assets artmind/prompt_builder.py artmind/schema_validate.py artmind/retime.py artmind/structured/semantics.py artmind/schema_reference.py artmind/insights/detectors/health.py test/
-git commit -m "feat(journal): OBJECT has a closed type list; trips and rides move to ACTIVITY"
+git add artmind/domains/schemas/personal_journal_schema.yaml artmind/skills/artmind-create-schema/assets artmind/prompt_builder.py artmind/schema_validate.py artmind/structured/semantics.py artmind/schema_reference.py artmind/insights/detectors/health.py test/
+git commit -m "feat(journal): OBJECT has a closed type list and keeps happenings out"
 ```
 
-**Beyond the suite** (read-only, counts only): in brain01 staging, the number of OBJECT observations `retime_reclassify` would move (spec §5.3 evidence: tens, mostly travel), printed as a count.
-
----
-
-### Task 20: The re-key migration inside `ingest retime`
-
-**Files:**
-- Create: `artmind/rekey.py` — `key_moves(folders_before, folders_after) -> dict[old_key, set[new_key]]` (from each staged observation's key before and after `retime_observations`, by observation id); `migrate_same_as(path, moves, schema_for) -> (groups, report)`; `close_proposals(session, moves, schema_for, dry_run)`; `migrate_records(moves, dry_run)` for `syntheses/` (record key → the new key with the most observations; ties by key; the other new keys get no synthesis), `conflicts/` (a record whose two entities no longer share a key is closed as `stale_identity`), `mart_dimension/` (`member_key` → each new key, one record per new key, same levels and source).
-- Modify: `artmind/retime.py` — `retime_domain` computes `moves` from the planned changes before committing; when `moves` is non-empty, runs the three migrations (dry run: counts only), then commits folders, then one rebuild, then records `identity_version: 1` for the domain on `:ProjectionState` (inside the rebuild's state write: `projection.record_rebuild(..., identity_versions={domain: 1})`).
-- Modify: `artmind/projection.py` — `record_rebuild` accepts and stores `identity_versions`; `read_state` returns it.
-- Modify: `artmind/retime.py` `_effect` — new changes `{kind: "entity_rekey", count, sample: [class names]}`, `{kind: "same_as_groups", count}`, `{kind: "sameas_proposals_closed", count}`, `{kind: "curation_records", count}`; `records` lists `.artmind/same_as.yaml` and `.artmind/data/curation/...` folders touched; `reversible: true` with `undo`: "git restore the listed records and the staging folders, then ingest retime again with the previous schema".
-- Modify: `artmind/cli_conventions.py` `EFFECT_KINDS` += those four.
-- Modify: `artmind/ingest.py` `rebuild_projection`, `artmind/vault_sync.py` and `ingest sync|async` — the one-line warning when a domain's schema declares occasion classes and `read_state()["identity_versions"][domain]` is absent (see "What breaks…").
-- Modify: `artmind/catalogue` — `same_as.yaml` change bumps nothing (catalogue reads the graph); the rebuild bumps the domains as today (`projection.py:1406`).
-- Test: `test/test_rekey.py` (new), `test/test_dry_run_ingest_retime.py` (append: the re-key dry run sends no write Cypher, writes no record and `same_as.yaml` is byte-identical).
-
-- [ ] **Step 1: Write the failing tests.** `test/test_rekey.py`:
-
-```python
-"""Re-keying occasions (spec 2026-11-15 §5.2, §8; questions 12-13). Synthetic keys only."""
-import yaml
-
-from _neo4j_recorder import Recorder
-
-from artmind import rekey
-
-SCHEMA = {"entity_types": {"ACTIVITY": {"kind": "occurrent", "identity": "occasion"},
-                           "EMOTION": {"kind": "recurrent", "identity": "category"},
-                           "PERSON": {"kind": "recurrent", "identity": "name"}}}
-MOVES = {"tennis|ACTIVITY|pj": {"tennis~2024-03-30|ACTIVITY|pj", "tennis~2024-04-02|ACTIVITY|pj"},
-         "tennis match|ACTIVITY|pj": {"tennis match~2024-03-30|ACTIVITY|pj"}}
-
-
-def test_key_moves_compares_by_observation_id():
-    before = [{"id": "o1", "key": "tennis|ACTIVITY|pj"}, {"id": "o2", "key": "alex|PERSON|pj"}]
-    after = [{"id": "o1", "key": "tennis~2024-03-30|ACTIVITY|pj"}, {"id": "o2", "key": "alex|PERSON|pj"}]
-    assert rekey.key_moves(before, after) == {"tennis|ACTIVITY|pj": {"tennis~2024-03-30|ACTIVITY|pj"}}
-
-
-def test_same_as_groups_split_per_shared_day(tmp_path):
-    path = tmp_path / "same_as.yaml"
-    path.write_text(yaml.safe_dump([
-        {"canonical": "tennis|ACTIVITY|pj", "members": ["tennis|ACTIVITY|pj", "tennis match|ACTIVITY|pj"]},
-        {"canonical": "calm|EMOTION|pj", "members": ["calm|EMOTION|pj", "serenity|EMOTION|pj"]},
-        {"canonical": "alex|PERSON|pj", "members": ["alex|PERSON|pj", "alexander|PERSON|pj"]}]))
-    groups, report = rekey.migrate_same_as(path, MOVES, lambda d: SCHEMA, write=True)
-    assert groups == [
-        {"canonical": "tennis~2024-03-30|ACTIVITY|pj",
-         "members": ["tennis match~2024-03-30|ACTIVITY|pj", "tennis~2024-03-30|ACTIVITY|pj"]},
-        {"canonical": "alex|PERSON|pj", "members": ["alex|PERSON|pj", "alexander|PERSON|pj"]}]
-    assert report == {"groups_before": 3, "groups_after": 2, "split": 1, "dropped_category": 1, "members_dropped": 0}
-    assert yaml.safe_load(path.read_text()) == groups
-
-
-def test_dry_run_writes_no_file(tmp_path):
-    path = tmp_path / "same_as.yaml"
-    path.write_text("[]\n")
-    rekey.migrate_same_as(path, MOVES, lambda d: SCHEMA, write=False)
-    assert path.read_text() == "[]\n"
-
-
-def test_open_proposals_across_days_are_closed_with_the_reason():
-    open_rows = [{"id": "p1", "canonical": "tennis~2024-03-30|ACTIVITY|pj",
-                  "members": ["tennis~2024-03-30|ACTIVITY|pj", "tennis~2024-04-02|ACTIVITY|pj"]},
-                 {"id": "p2", "canonical": "calm|EMOTION|pj", "members": ["calm|EMOTION|pj", "serenity|EMOTION|pj"]}]
-    rec = Recorder(lambda c, p: open_rows if "status = 'open'" in c else [])
-    closed = rekey.close_proposals(rec, MOVES, lambda d: SCHEMA, dry_run=False)
-    (cypher, params), = rec.queries_containing("SET p.status = 'rejected'")
-    assert params["rows"] == [{"id": "p1", "reason": "identity:occasion"}, {"id": "p2", "reason": "identity:category"}]
-    assert closed == 2
-
-
-def test_dry_run_closes_nothing():
-    rec = Recorder(lambda c, p: [{"id": "p2", "canonical": "calm|EMOTION|pj", "members": ["calm|EMOTION|pj", "x|EMOTION|pj"]}])
-    assert rekey.close_proposals(rec, MOVES, lambda d: SCHEMA, dry_run=True) == 1
-    assert not rec.queries_containing("SET p.status")
-```
-
-Open proposals must be read with their old member keys mapped through `moves` first: an open proposal stored before the migration names `tennis|ACTIVITY|pj`. `close_proposals` maps each member through `moves`; a member with several new keys makes the proposal cross-day, so it closes with `identity:occasion`. Add a test for that case.
-
-Records tests (append): a synthesis record keyed `tennis|ACTIVITY|pj` is re-pointed to the new key with more observations (pass a `counts` map); a mart dimension record is copied to each new key; a conflict record whose sides now have different keys is closed. Assert on the files written under a tmp `CURATION_DIR`, never on counts alone.
-
-- [ ] **Step 2: Run and confirm failure.** `uv run --group dev pytest test/test_rekey.py -v` — expected: ImportError.
-
-- [ ] **Step 3: Implement `artmind/rekey.py`.** Core of `migrate_same_as`:
-
-```python
-def migrate_same_as(path, moves: dict[str, set[str]], schema_for, *, write: bool) -> tuple[list[dict], dict]:
-    """Rewrite same-as groups for re-keyed members (question 12). Pure apart from the write."""
-    from artmind.observations import split_occasion
-    from artmind.schema_validate import class_identity
-
-    groups = yaml.safe_load(path.read_text(encoding="utf-8")) if path.exists() else []
-    out, report = [], {"groups_before": len(groups or []), "groups_after": 0, "split": 0,
-                       "dropped_category": 0, "members_dropped": 0}
-    for group in groups or []:
-        members = group.get("members") or []
-        canonical = group.get("canonical") or (members[0] if members else None)
-        classes = {m.split("|")[1] for m in members if m.count("|") == 2}
-        domain = canonical.split("|")[2] if canonical and canonical.count("|") == 2 else ""
-        idents = {class_identity(schema_for(domain), c) for c in classes}
-        if "category" in idents:
-            report["dropped_category"] += 1
-            continue
-        if not any(m in moves for m in members):
-            out.append(group)
-            continue
-        by_day: dict[str, list[str]] = {}
-        for m in members:
-            for new in sorted(moves.get(m, {m})):
-                by_day.setdefault(split_occasion(new.split("|")[0])[1] or "", []).append(new)
-        canon_new = {split_occasion(k.split("|")[0])[1] or "": k for k in moves.get(canonical, {canonical})}
-        kept = 0
-        for day, day_members in sorted(by_day.items()):
-            if len(day_members) < 2:
-                report["members_dropped"] += len(day_members)
-                continue
-            out.append({"canonical": canon_new.get(day, sorted(day_members)[0]), "members": sorted(day_members)})
-            kept += 1
-        report["split"] += 1 if kept != 1 else 0
-    report["groups_after"] = len(out)
-    if write:
-        atomic_write_yaml(path, out)      # temp file under LOGS_DIR, then os.replace, like same_as.py's writer
-    return out, report
-```
-
-Use `same_as.py`'s existing writer for the atomic write (`rg -n "def .*write|os.replace" artmind/same_as.py`) rather than a new one; keep the file's key order and comments policy the same as that writer. The format above (`canonical`/`members`) must match what `same_as.load_groups` reads; check it first (`sed -n 100,200p artmind/same_as.py`) and adapt both test and code to the real shape.
-
-`close_proposals` reads `MATCH (p:SameAsProposal) WHERE p.status = 'open' RETURN p.id AS id, p.canonical AS canonical, p.members AS members`, maps members through `moves`, applies `sameas.identity_refusal`, and (not dry run) sends one `UNWIND $rows AS row MATCH (p:SameAsProposal {id: row.id}) SET p.status = 'rejected', p.resolved_at = $now, p.resolution_reason = row.reason`.
-
-- [ ] **Step 4: Wire it into `retime_domain`.** Order inside `retime_domain`:
-  1. retime every folder with `write=False`, collecting `(folder, before_obs, after_obs)`;
-  2. `moves = rekey.key_moves(all_before, all_after)`;
-  3. if `moves`: `migrate_same_as(..., write=not dry_run)`, `close_proposals(session, ..., dry_run)`, `migrate_records(moves, dry_run)`;
-  4. dry run: return the effect;
-  5. write changed folders, commit each with `defer_rebuild=True` (as today), one `rebuild_projection(domain)`, then record `identity_versions`.
-
-  The rebuild after step 3 sees the new same-as groups; `affected_keys` includes the old keys through `keys_for_document` (prior keys), so old entities lose their observations and are deleted by the zero-observation rule, and new ones are created.
-
-- [ ] **Step 5: Write the dry-run test** in `test/test_dry_run_ingest_retime.py`:
-
-```python
-def test_rekey_dry_run_writes_no_record_and_sends_no_write(tmp_path, monkeypatch):
-    folder, _ = _ingested_occasion_under_the_old_schema(tmp_path, monkeypatch)   # new fixture: ACTIVITY recurrent
-    same_as = tmp_path / "same_as.yaml"
-    same_as.write_text(yaml.safe_dump([{"canonical": "tennis|ACTIVITY|journal",
-                                        "members": ["tennis|ACTIVITY|journal", "tennis match|ACTIVITY|journal"]}]))
-    monkeypatch.setattr("artmind.same_as.SAME_AS_PATH", same_as)
-    rec = WritableRecorder(lambda c, p: [])
-    monkeypatch.setattr("artmind.retime.neo4j_session", lambda: rec, raising=False)
-    before = same_as.read_bytes()
-    dry = _run("--dryRun")
-    assert_no_write_cypher(rec)
-    assert same_as.read_bytes() == before
-    kinds = {c["kind"] for c in dry["effect"]["changes"]}
-    assert {"entity_rekey", "same_as_groups"} <= kinds
-```
-
-The fixture `_ingested_occasion_under_the_old_schema` extends `test_document_dates._ingested_under_the_old_schema`: stage under a schema where ACTIVITY is `kind: recurrent` with no `identity`, then switch the schema file to `kind: occurrent, identity: occasion`.
-
-- [ ] **Step 6: Run and confirm.** `uv run --group dev pytest test/test_rekey.py test/test_dry_run_ingest_retime.py test/test_document_dates.py test/test_catalogue_bump_sites.py test/test_cli_conventions.py -v && just dev-test` — expected: PASS.
-
-- [ ] **Step 7: The pre-migration warning.** Add `projection.identity_migration_pending(domain) -> bool` (reads `read_state`, the domain's schema; true when an occasion class exists and no version is recorded) and print, once per process, `artmind: <domain> holds occasion classes whose entities were keyed before identity (spec 2026-11-15); run: artmind ingest retime --domain <domain> --dryRun` on stderr from `rebuild_projection`, `vault sync` and `ingest sync|async`. Test it with a Recorder returning a state without `identity_versions`; assert the message text and that the command still proceeds.
-
-- [ ] **Step 8: Commit.**
-
-```bash
-git add artmind/rekey.py artmind/retime.py artmind/projection.py artmind/cli_conventions.py artmind/ingest.py artmind/vault_sync.py artmind/cli.py test/
-git commit -m "feat(retime): re-key occasions and migrate same-as and curation records in one run"
-```
-
-**Beyond the suite** (dry run first; the real run only with the user's yes):
-
-1. `cd ~/artmind_vaults/brain01 && git status` must be clean (the migration rewrites committed files; git is the undo).
-2. Inside the vault: `uv run --project $WT artmind init --force --schema personal_journal` (refused unless git can restore it). Then hand-apply the vault's own edits the shipped schema lacks (SBP rollout step 2: `location` on EVENT/ACTIVITY).
-3. `ARTMIND_NO_PROXY=1 uv run --project $WT artmind ingest retime --domain personal_journal --dryRun --compact | python3 -c "import json,sys; r=json.load(sys.stdin); print([(c['kind'], c['count']) for c in r['effect']['changes']])"` — counts only. Expect `entity_rekey` in the low thousands (ACTIVITY ~265 multi-day keys over ~1,089 days, EMOTION unchanged keys, PLAN ~33, EVENT ~72 folded by the dash-tail rule), `same_as_groups` near the 36 ACTIVITY + 60 EVENT + 9 PLAN members' groups, and `curation_records` including the 42 EVENT and 4 ACTIVITY mart dimension records.
-4. With the user's yes: the same command without `--dryRun`. Then the acceptance queries (Task 30, "Happenings").
+(No beyond-the-suite step: the move of existing observations is measured by the pack's dry run, Task 35.)
 
 ---
 
@@ -2593,7 +2360,7 @@ git add artmind/graph_query.py artmind/cli.py artmind/cli_conventions.py artmind
 git commit -m "feat(query): happenings lists dated occasions per period, with coverage"
 ```
 
-**Beyond the suite** (read-only; after Task 20's real run): in brain01, for each of the four recurring-happening questions in `<vault>/benchmarking/` (classic suite), run `ARTMIND_NO_PROXY=1 uv run --project $WT artmind query happenings --domain personal_journal --match "<term>" --by year --compact | python3 -c "import json,sys; r=json.load(sys.stdin); print([(p['period'], p['count']) for p in r['periods']], r['coverage'])"` and compare per-year counts with the dated days the expected answers name (acceptance §10). Print periods and counts only. In banking_corpus (public), the same for "transaction" prints full rows.
+**Beyond the suite** (read-only; after the pack's real run, Task 35): in brain01, for each of the four recurring-happening questions in `<vault>/benchmarking/` (classic suite), run `ARTMIND_NO_PROXY=1 uv run --project $WT artmind query happenings --domain personal_journal --match "<term>" --by year --compact | python3 -c "import json,sys; r=json.load(sys.stdin); print([(p['period'], p['count']) for p in r['periods']], r['coverage'])"` and compare per-year counts with the dated days the expected answers name (acceptance §10). Print periods and counts only. In banking_corpus (public), the same for "transaction" prints full rows.
 
 ---
 ## Part 6 — Record time and `--knownAsOf` (spec §6.1, §6.2; rollout step 6)
@@ -2770,7 +2537,7 @@ git commit -m "feat(record-time): every move to History records when and why"
 **Files:**
 - Modify: `artmind/graph_query.py` — `known_predicate(var, param="knownAsOf")`; `resolve_known_as_of(value)` (date → end of that UTC day, datetime → as given, `now`); `entity_history(..., known_as_of=None)`: when set, filters both labels with `known_predicate`, and each row's `status` becomes `current`/`history` **as of T** (`_retired_at` IS NULL or > T → current); `entity_history --asOf` uses `valid_predicate("o")` instead of the floor (line ~2333); `document_history(..., known_as_of=None)`; `pattern10` (`parameters["knownAsOf"]`) filters chunks with `known_predicate` over both labels.
 - Modify: `artmind/cli.py` — `--knownAsOf` options on `query entity-history` (line ~4100), `query document-history` (~4139), `query graph pattern10` (~3531); `entity-history --asOf` help: "a point in valid time: facts whose own date window contains this date".
-- Modify: `artmind/skills/artmind-query/references/temporal.md` and `SKILL.md` line ~341 — `--asOf` is a point; `--knownAsOf` reads what the graph held at T; nodes recorded before the backfill carry approximate record time.
+- Modify: `artmind/skills/artmind-query/references/temporal.md` and `SKILL.md` line ~341 — `--asOf` is a point; `--knownAsOf` reads what the graph held at T; nodes the migration pack backfilled carry approximate record time (`_record_time_approx`; a History node backfilled with the epoch counts as known before the backfill).
 - Test: `test/test_known_as_of.py` (new).
 
 - [ ] **Step 1: Write the failing tests.**
@@ -2784,7 +2551,7 @@ from artmind import graph_query as gq
 
 def test_known_predicate_text():
     text = gq.known_predicate("o")
-    assert "o._recorded_at IS NULL OR o._recorded_at <= $knownAsOf" in text
+    assert "o._recorded_at <= $knownAsOf" in text and "_recorded_at IS NULL" not in text
     assert "o._retired_at IS NULL OR o._retired_at > $knownAsOf" in text
 
 
@@ -2827,45 +2594,6 @@ git commit -m "feat(query): --knownAsOf reads record time; entity-history --asOf
 ```
 
 **Beyond the suite** (synthetic vault, acceptance §10 "Record time"): `just` has no recipe for a throwaway vault; use `artmind vault new` per `docs/INSTALL.md` into `/tmp/tm-vault` with a scratch Neo4j database the user names. Write a note, ingest it (`env -u ANTHROPIC_BASE_URL … ingest sync`), note the time T, edit one fact, ingest again, then `ARTMIND_NO_PROXY=1 uv run --project $WT artmind query entity-history --domain d --name "<entity>" --knownAsOf <T minus 1 second>` returns the first version's observation and `--knownAsOf now` the second's.
-
----
-
-### Task 25: Record-time backfill migration
-
-**Files:**
-- Create: `artmind/migrations/record_time_backfill.py`; call it from `setup.setup_all` after `document_valid_time_names`.
-- Test: `test/test_migration_record_time_backfill.py` (new).
-
-- [ ] **Step 1: Write the failing test.**
-
-```python
-from _neo4j_recorder import Recorder
-
-from artmind.migrations import record_time_backfill as m
-
-
-def test_current_nodes_get_recorded_at_history_nodes_get_retired_at():
-    rec = Recorder(lambda c, p: [{"n": 2}])
-    out = m.run(rec)
-    current = rec.queries_containing("SET n._recorded_at = d.ingested_at")
-    history = rec.queries_containing("SET n._retired_at = d.ingested_at")
-    assert current and history
-    assert "_record_time_approx = true" in current[0][0] and "n._recorded_at IS NULL" in current[0][0]
-    assert "n._retired_at IS NULL" in history[0][0]
-    assert set(out) == {"recorded", "retired"}
-```
-
-- [ ] **Step 2: Implement.** One statement per label pair, batched with `CALL { … } IN TRANSACTIONS OF 5000 ROWS` (brain01 has ~19k observations). Current labels (`Observation`, `DocChunk`, `DocPassage`, `DocSummary`) join their `Document` by `doc_id`; history labels join `Document` or `DocumentHistory`. Nodes whose document has no `ingested_at` are left alone and counted as `unknown`. `catalogue.state.bump` is not needed (no catalogue part reads record time); `test_catalogue_bump_sites.py` confirms.
-
-- [ ] **Step 3: Run, commit.**
-
-```bash
-uv run --group dev pytest test/test_migration_record_time_backfill.py test/test_catalogue_bump_sites.py -v
-git add artmind/migrations/record_time_backfill.py artmind/setup.py test/test_migration_record_time_backfill.py
-git commit -m "feat(migrations): approximate record time from Document.ingested_at"
-```
-
-**Beyond the suite:** inside banking_corpus first, with the user's yes: `uv run --project $WT artmind setup` reports `record_time_backfill.recorded` ≈ the vault's observation + chunk + passage + summary count; a second run reports 0.
 
 ---
 
@@ -3021,14 +2749,282 @@ git commit -m "fix(projection): a recurrent class's winner is the latest fact, t
 
 ---
 
+## Part 9 — The data-model gate and the migration pack (spec §8; revised 2026-11-17)
+
+Runs after Part 7 and before Part 8 (its tasks are numbered 31–36 so the earlier numbers keep their meaning).
+
+Core code (Parts 1–7) knows only the new model. This part adds the one permanent gate that keeps an unmigrated vault from being written (Task 31) and the temporary pack that brings a vault to the model (Tasks 32–36). Rules for the pack:
+
+- **Location.** `artmind/migrations/temporal_v1/` — `__init__.py`, `cli.py` (the `migrate` group), `steps.py` (step registry), `meta_rule.py`, `graph.py`, `rekey.py`, `reclassify.py`.
+- **One-way imports.** The pack may import core; no module outside the pack imports it, except one `cli.add_command(migrate_group)` line in `artmind/cli.py`. `test/test_migration_pack_isolation.py` greps `artmind/` (excluding the pack) for `temporal_v1` and allows exactly that line.
+- **Steps judged by facts.** Every step has `pending(ctx) -> dict` (counts; empty = done) and `apply(ctx, dry_run) -> dict`. `migrate status` and the dry run call `pending`; the real run calls `apply` for every pending step in order, then re-checks. A step's `apply` touches only what `pending` counted, so a second run is a no-op and an interrupted run resumes.
+- **Preconditions** (real run only; the dry run reports them as `blocked` reasons): the vault is git-clean for the files the run will write (`setup._uncommitted`), the ingest worker is not running (`vault_sync.worker_running`, as `backfill` checks), Neo4j is reachable.
+- **Tests** live in `test/migrations/temporal_v1/` so the sunset removes them with one `rm -r`. Synthetic keys and invented names only.
+- **Sunset.** CLAUDE.md gets a row saying: delete `artmind/migrations/temporal_v1/`, `test/migrations/temporal_v1/` and the `add_command` line once `artmind migrate status` reports `version: 1` and no pending step in every vault. `data_model.py` stays.
+
+### Task 31: `artmind/data_model.py`, the generic gate (permanent)
+
+**Files:**
+- Create: `artmind/data_model.py` — `CURRENT = 1`; `MODEL_FILE = ARTMIND_HOME / "data_model.yaml"`; `recorded() -> int` (file's `version`; absent file → 0 when `paths.DB_PATH` exists, else `CURRENT` and the file is written: a fresh vault starts current); `require_current(command: str)` raises `DataModelBehind(click.ClickException)` with `"<command>: this vault's data is at model {n}, the code needs {CURRENT}. Run: artmind migrate status"`; `warn_if_behind()` prints the same text once per process on stderr, prefixed `artmind:`; `stamp(version)` writes the file atomically (temp under `LOGS_DIR`, `os.replace`).
+- Modify: write paths call `require_current(...)` at their start: `ingest sync|async|retime|extract-kg|commit|backfill-properties|summarise|table2graph|refine-graph|detect-supersession|unsupersede`, `projection rebuild|synthesize`, `vault sync`, `update confirm`, `docs retire|supersede|restore|archive`, the curate write routes (`webui/curate_routes.py`, one dependency), `worker._process_job` (fails the job with the message). Find them through `cli_conventions.WRITE_COMMANDS` plus the worker and routes; the contract test below walks `WRITE_COMMANDS`.
+- Modify: `artmind/_entry.py` is untouched (stdlib-only); `cli._RootGroup.invoke` calls `warn_if_behind()` for any command not in `WRITE_COMMANDS` and not under `migrate`.
+- Modify: `test/conftest.py` — an autouse fixture sets `data_model.MODEL_FILE` to a tmp path holding `version: CURRENT`; `test_data_model.py` opts out.
+- Test: `test/test_data_model.py` (new), `test/test_cli_conventions.py` (append).
+
+- [ ] **Step 1: Write the failing tests.**
+
+```python
+"""The data-model gate (spec 2026-11-15 §8.1)."""
+import pytest
+import yaml
+
+from artmind import data_model as dm
+
+
+@pytest.fixture
+def model(tmp_path, monkeypatch):
+    monkeypatch.setattr(dm, "MODEL_FILE", tmp_path / "data_model.yaml")
+    monkeypatch.setattr(dm, "DB_PATH", tmp_path / "document_registry.db")
+    monkeypatch.setattr(dm, "_warned", False)
+    return tmp_path
+
+
+def test_a_fresh_vault_starts_current_and_writes_the_file(model):
+    assert dm.recorded() == dm.CURRENT
+    assert yaml.safe_load((model / "data_model.yaml").read_text())["version"] == dm.CURRENT
+
+
+def test_an_existing_vault_without_the_file_is_at_zero(model):
+    (model / "document_registry.db").write_bytes(b"")
+    assert dm.recorded() == 0
+    assert not (model / "data_model.yaml").exists()
+
+
+def test_require_current_names_the_command_and_migrate_status(model):
+    (model / "document_registry.db").write_bytes(b"")
+    with pytest.raises(dm.DataModelBehind, match=r"ingest sync: .*model 0.*artmind migrate status"):
+        dm.require_current("ingest sync")
+
+
+def test_stamp_then_current_passes(model):
+    (model / "document_registry.db").write_bytes(b"")
+    dm.stamp(dm.CURRENT)
+    dm.require_current("ingest sync")
+
+
+def test_warn_is_once_per_process(model, capsys):
+    (model / "document_registry.db").write_bytes(b"")
+    dm.warn_if_behind(); dm.warn_if_behind()
+    assert capsys.readouterr().err.count("artmind migrate status") == 1
+```
+
+Append to `test/test_cli_conventions.py`: every command in `WRITE_COMMANDS` except `migrate temporal` is refused with exit 1 and the gate's text when `MODEL_FILE` holds `version: 0` (invoke each with `--help`-free minimal args through `CliRunner`, or, where a command needs arguments, assert its callback's source calls `require_current` — use whichever the existing walk already does for `--dryRun`).
+
+- [ ] **Step 2: Run, implement, run.** `uv run --group dev pytest test/test_data_model.py test/test_cli_conventions.py -v` — FAIL, then PASS after the implementation and the call sites. Then `just dev-test` in the background with the env prefix.
+
+- [ ] **Step 3: Commit.**
+
+```bash
+git add artmind/data_model.py artmind/cli.py artmind/worker.py artmind/webui/curate_routes.py test/
+git commit -m "feat(data-model): a versioned gate refuses writes on a vault whose data predates the code"
+```
+
+### Task 32: The pack's skeleton: `migrate status` and `migrate temporal`
+
+**Files:**
+- Create: `artmind/migrations/temporal_v1/__init__.py` (docstring: temporary, spec 2026-11-15 §8, sunset rule), `steps.py` (`Step(name, pending, apply)`, `STEPS: list[Step]` filled by Tasks 33–36, `MigrationContext(domains, session_factory, dry_run)`), `cli.py`:
+  - `artmind migrate status [--domain] [--compact]` — read-only: `{version, current, steps: [{name, pending: {...}, done: bool}], blocked: [...]}`.
+  - `artmind migrate temporal [--domain] [--dryRun] [--compact]` — tier-1 write. Dry run: every step's `pending` plus a combined `effect`. Real run: preconditions, then each pending step's `apply` in order, then `steps.stamp_if_done()` (Task 36).
+- Modify: `artmind/cli.py` — one `from artmind.migrations.temporal_v1.cli import migrate_group; cli.add_command(migrate_group)`; `COMMAND_GROUPS` gains a "Maintenance" row for `migrate`.
+- Modify: `artmind/cli_conventions.py` — `WRITE_COMMANDS["migrate temporal"] = 1`; `test/test_cli_conventions_unit.py`'s tier-1 count 31 → 32.
+- Test: `test/migrations/temporal_v1/test_cli.py`, `test/test_migration_pack_isolation.py`, `test/test_dry_run_migrate_temporal.py` (tier-1 dry-run test: no write Cypher, no file written, `assert_effect_shape`).
+
+- [ ] **Step 1: Failing tests** for: status lists every step with `done`; the dry run with two fake steps calls only `pending`; the real run calls `apply` only for pending steps and in order; a precondition failure writes nothing and exits 1 naming it; the isolation test.
+- [ ] **Step 2: Implement, run** `uv run --group dev pytest test/migrations/temporal_v1 test/test_migration_pack_isolation.py test/test_dry_run_migrate_temporal.py test/test_cli_conventions.py test/test_cli_conventions_unit.py test/test_cli_guide.py -v`.
+- [ ] **Step 3: Commit** `feat(migrate): temporal_v1 pack skeleton with status and a fact-judged step runner`.
+
+### Task 33: Step `graph`: fold unprefixed document dates; approximate record time
+
+Replaces the plan's old Task 13 migration and Task 25.
+
+**Files:**
+- Create: `artmind/migrations/temporal_v1/graph.py` — two sub-steps, each a `Step`:
+  - `document_dates`: `pending` = `MATCH (d) WHERE (d:Document OR d:DocumentHistory) AND (d.valid_to IS NOT NULL OR d.valid_from IS NOT NULL) RETURN count(d)`; `apply` = `SET d._valid_to = coalesce(d._valid_to, d.valid_to), d._valid_from = coalesce(d._valid_from, d.valid_from) REMOVE d.valid_to, d.valid_from`.
+  - `record_time`: `pending` = counts per label of current nodes (`Observation`, `DocChunk`, `DocPassage`, `DocSummary`, `Document`) with no `_recorded_at`, and history nodes (`ObservationHistory`, `DocChunkHistory`, `DocPassageHistory`, `DocSummaryHistory`, `DocumentHistory`) with no `_retired_at`; `apply`, batched `CALL { … } IN TRANSACTIONS OF 5000 ROWS`: current → `_recorded_at = d.ingested_at`, history → `_retired_at = d.ingested_at, _recorded_at = coalesce(n._recorded_at, '1970-01-01T00:00:00+00:00')`, both `_record_time_approx = true`; nodes whose document has no `ingested_at` are counted `unknown` and get the epoch `_recorded_at` with the flag. Joins by `doc_id` to `Document` or `DocumentHistory`.
+- Both scoped by `$domains` when `--domain` is given (`domain_predicate`).
+- Test: `test/migrations/temporal_v1/test_graph.py` — Recorder: the fold's Cypher removes both unprefixed names and covers both labels; record-time Cypher sets `_record_time_approx = true`, guards `IS NULL` so a second run touches nothing, uses the epoch for history `_recorded_at`; dry run sends only the count queries (`assert_no_write_cypher`).
+- `catalogue.state.bump` for the touched domains inside the fold's transaction (it changes what `time` reads on superseded documents); `test_catalogue_bump_sites.py` must list the new site.
+
+- [ ] Steps: failing tests → implement → `uv run --group dev pytest test/migrations/temporal_v1/test_graph.py test/test_catalogue_bump_sites.py -v` → commit `feat(migrate): fold documents' unprefixed dates; approximate record time`.
+
+**Beyond the suite** (later, Task 30 rollout): banking_corpus `migrate status` shows the superseded-document count under `document_dates`; after the real run, 0.
+
+### Task 34: Step `meta_rule`: add `identity_naming_rules.occasion` to the vault's `meta.yaml`
+
+**Files:**
+- Create: `artmind/migrations/temporal_v1/meta_rule.py` — `pending`: `DOMAIN_META_PATH` exists and its YAML lacks `identity_naming_rules.occasion`; `apply`: append the packaged block's text (read from `PACKAGE_META_YAML`, the lines from `identity_naming_rules:` to the next top-level key) to the end of the file, separated by one blank line, written atomically. If the file already has an `identity_naming_rules:` key without `occasion`, insert the `occasion:` entry under it (text insertion after that line, same indent). The YAML is re-parsed after the edit and the step fails, restoring the original bytes, if it no longer parses or the key is absent.
+- Test: `test/migrations/temporal_v1/test_meta_rule.py` — a meta with comments keeps them byte-for-byte above the appended block; an existing `identity_naming_rules: {}` mapping gains `occasion`; a second run is a no-op; dry run writes nothing.
+
+- [ ] Steps: failing tests → implement → run → commit `feat(migrate): add the occasion naming rule to a vault's meta.yaml`.
+
+### Task 35: Step `rekey`: OBJECT travel to ACTIVITY, occasion re-key, same-as and curation records
+
+Replaces the plan's old Task 20 and the reclassify half of Task 19. Core's `retime` (Tasks 6, 12, 15, 17) already computes the new keys; this step adds only what is one-time: the reclassify word list and the rewrite of records that name old keys.
+
+**Files:**
+- Create: `artmind/migrations/temporal_v1/reclassify.py` — `TRAVEL_WORDS = ("flight", "train", "cab", "taxi", "ride", "trip", "journey", "booking")`; `reclassify(observations, schema) -> (observations, moved: Counter)`: an OBJECT observation whose `canonical_name` contains one of the words as a whole word (case-insensitive) becomes ACTIVITY (`entity_class`, `_kind` from the schema; `type` dropped); applied only when the schema declares both classes (personal_journal and its children).
+- Create: `artmind/migrations/temporal_v1/rekey.py` — the old Task 20's `key_moves`, `migrate_same_as`, `close_proposals`, `migrate_records` (text and tests carried over from the old Task 20 below, unchanged in behaviour), plus `pending(ctx)`: per domain, plan in memory — `reclassify` then `retime.retime_observations` over every staged folder with `write=False` — and report `{domain: {objects_moved, entity_rekey, same_as_groups, sameas_proposals_closed, curation_records}}`; empty when no staged key would move and no OBJECT would move.
+- `apply`: per pending domain, in this order: (1) write each changed folder's staging (reclassified + retimed), (2) `migrate_same_as(..., write=True)`, (3) `close_proposals`, (4) `migrate_records`, (5) commit changed folders with `defer_rebuild=True`, (6) one `ingest.rebuild_projection(domain)`. A failure in (2)–(4) restores every file this domain's run wrote from the copies taken in (1) under `logs/migrate-temporal/<run_id>/` (private, not pruned) and stops before any commit; a failure in (5)–(6) leaves the staging written and reports `retryCommit`-style: `migrate temporal` again resumes, because `pending` then sees staging whose graph keys differ (compare `projection.keys_for_document` with the staged keys).
+- Effect: changes `objects_reclassified`, `entity_rekey` (sample: class names), `same_as_groups`, `sameas_proposals_closed`, `curation_records`; `records` lists `.artmind/same_as.yaml`, the curation folders and `.artmind/data/kg/<domain>`; `reversible: true`, `undo`: "git restore the listed files, then `artmind ingest retime --domain d` and `artmind projection rebuild`". `cli_conventions.EFFECT_KINDS` += these five.
+- Test: `test/migrations/temporal_v1/test_rekey.py` (the old Task 20 tests, moved, plus: a cross-day open proposal stored under an old key is closed `identity:occasion`; a failure in `migrate_records` restores `same_as.yaml` byte-for-byte and commits nothing; a second `pending` after `apply` is empty), `test/migrations/temporal_v1/test_reclassify.py` (whole-word match: "Flight to Lisbon" moves, "Flightless bird figurine" stays; `type` dropped; a schema without ACTIVITY moves nothing).
+
+Carried over from the old Task 20, unchanged: the `test_rekey.py` bodies (`key_moves` by observation id; same-as groups split per shared day; `category` groups dropped; dry run writes no file; open proposals closed with the reason; dry run closes nothing; records tests asserting on written files), the `migrate_same_as` implementation sketch (using `same_as.load_groups`/`save_groups`' real `{"groups": [{canonical, members}]}` shape and an atomic write), and `close_proposals`' Cypher. Reviewers probe failure paths and undo as on SBP's backfill: kill between steps, re-run, and diff the vault.
+
+- [ ] Steps: failing tests → implement → `uv run --group dev pytest test/migrations/temporal_v1 test/test_dry_run_migrate_temporal.py test/test_catalogue_bump_sites.py test/test_cli_conventions.py -v` → background full suite → commit `feat(migrate): re-key occasions and rewrite same-as and curation records`.
+
+**Beyond the suite** (dry run only; real run with the user's yes, Task 30): brain01 `migrate temporal --domain personal_journal --dryRun --compact`, printing `[(c['kind'], c['count']) for c in r['effect']['changes']]` only. Expect `entity_rekey` in the low thousands, `objects_reclassified` in the tens, `same_as_groups` near the 36 ACTIVITY + 60 EVENT + 9 PLAN members' groups, `curation_records` including the 42 EVENT and 4 ACTIVITY mart dimension records.
+
+### Task 36: Step `stamp`, docs and the sunset note
+
+- `steps.stamp_if_done()`: after the last step, re-run every `pending` over **all** domains; when all are empty, `data_model.stamp(1)` and return `version: 1`; otherwise return the pending domains and leave the version (so a `--domain` run stamps only when it was the last).
+- `artmind/skills/artmind-ingestion-helper/SKILL.md`: an "Upgrading a vault" section (`migrate status`, dry run, git-clean, the real run, then `insights refresh` and `mart build`).
+- `CLAUDE.md`: rows for `artmind/data_model.py` (permanent) and `artmind/migrations/temporal_v1/` (temporary, with the sunset rule).
+- Test: `test/migrations/temporal_v1/test_stamp.py` — with one domain still pending, no stamp; with none, `MODEL_FILE` holds `version: 1`; the gate then lets `ingest sync` through.
+- Commit `feat(migrate): stamp the data model once every step is done; docs`.
+
+---
+
+### Appendix to Task 35: tests and code carried over from the old Task 20
+
+Only the test bodies and the `migrate_same_as` / `close_proposals` sketch carry over; the module is `artmind/migrations/temporal_v1/rekey.py` and the tests live in `test/migrations/temporal_v1/test_rekey.py`. Task 35's file list, apply order, effect and failure handling replace everything else the old task said (its `retime_domain` wiring, the `identity_versions` state and the per-command warning are gone).
+
+- [ ] **Step 1: Write the failing tests.** `test/test_rekey.py`:
+
+```python
+"""Re-keying occasions (spec 2026-11-15 §5.2, §8; questions 12-13). Synthetic keys only."""
+import yaml
+
+from _neo4j_recorder import Recorder
+
+from artmind.migrations.temporal_v1 import rekey
+
+SCHEMA = {"entity_types": {"ACTIVITY": {"kind": "occurrent", "identity": "occasion"},
+                           "EMOTION": {"kind": "recurrent", "identity": "category"},
+                           "PERSON": {"kind": "recurrent", "identity": "name"}}}
+MOVES = {"tennis|ACTIVITY|pj": {"tennis~2024-03-30|ACTIVITY|pj", "tennis~2024-04-02|ACTIVITY|pj"},
+         "tennis match|ACTIVITY|pj": {"tennis match~2024-03-30|ACTIVITY|pj"}}
+
+
+def test_key_moves_compares_by_observation_id():
+    before = [{"id": "o1", "key": "tennis|ACTIVITY|pj"}, {"id": "o2", "key": "alex|PERSON|pj"}]
+    after = [{"id": "o1", "key": "tennis~2024-03-30|ACTIVITY|pj"}, {"id": "o2", "key": "alex|PERSON|pj"}]
+    assert rekey.key_moves(before, after) == {"tennis|ACTIVITY|pj": {"tennis~2024-03-30|ACTIVITY|pj"}}
+
+
+def test_same_as_groups_split_per_shared_day(tmp_path):
+    path = tmp_path / "same_as.yaml"
+    path.write_text(yaml.safe_dump([
+        {"canonical": "tennis|ACTIVITY|pj", "members": ["tennis|ACTIVITY|pj", "tennis match|ACTIVITY|pj"]},
+        {"canonical": "calm|EMOTION|pj", "members": ["calm|EMOTION|pj", "serenity|EMOTION|pj"]},
+        {"canonical": "alex|PERSON|pj", "members": ["alex|PERSON|pj", "alexander|PERSON|pj"]}]))
+    groups, report = rekey.migrate_same_as(path, MOVES, lambda d: SCHEMA, write=True)
+    assert groups == [
+        {"canonical": "tennis~2024-03-30|ACTIVITY|pj",
+         "members": ["tennis match~2024-03-30|ACTIVITY|pj", "tennis~2024-03-30|ACTIVITY|pj"]},
+        {"canonical": "alex|PERSON|pj", "members": ["alex|PERSON|pj", "alexander|PERSON|pj"]}]
+    assert report == {"groups_before": 3, "groups_after": 2, "split": 1, "dropped_category": 1, "members_dropped": 0}
+    assert yaml.safe_load(path.read_text()) == groups
+
+
+def test_dry_run_writes_no_file(tmp_path):
+    path = tmp_path / "same_as.yaml"
+    path.write_text("[]\n")
+    rekey.migrate_same_as(path, MOVES, lambda d: SCHEMA, write=False)
+    assert path.read_text() == "[]\n"
+
+
+def test_open_proposals_across_days_are_closed_with_the_reason():
+    open_rows = [{"id": "p1", "canonical": "tennis~2024-03-30|ACTIVITY|pj",
+                  "members": ["tennis~2024-03-30|ACTIVITY|pj", "tennis~2024-04-02|ACTIVITY|pj"]},
+                 {"id": "p2", "canonical": "calm|EMOTION|pj", "members": ["calm|EMOTION|pj", "serenity|EMOTION|pj"]}]
+    rec = Recorder(lambda c, p: open_rows if "status = 'open'" in c else [])
+    closed = rekey.close_proposals(rec, MOVES, lambda d: SCHEMA, dry_run=False)
+    (cypher, params), = rec.queries_containing("SET p.status = 'rejected'")
+    assert params["rows"] == [{"id": "p1", "reason": "identity:occasion"}, {"id": "p2", "reason": "identity:category"}]
+    assert closed == 2
+
+
+def test_dry_run_closes_nothing():
+    rec = Recorder(lambda c, p: [{"id": "p2", "canonical": "calm|EMOTION|pj", "members": ["calm|EMOTION|pj", "x|EMOTION|pj"]}])
+    assert rekey.close_proposals(rec, MOVES, lambda d: SCHEMA, dry_run=True) == 1
+    assert not rec.queries_containing("SET p.status")
+```
+
+Open proposals must be read with their old member keys mapped through `moves` first: an open proposal stored before the migration names `tennis|ACTIVITY|pj`. `close_proposals` maps each member through `moves`; a member with several new keys makes the proposal cross-day, so it closes with `identity:occasion`. Add a test for that case.
+
+Records tests (append): a synthesis record keyed `tennis|ACTIVITY|pj` is re-pointed to the new key with more observations (pass a `counts` map); a mart dimension record is copied to each new key; a conflict record whose sides now have different keys is closed. Assert on the files written under a tmp `CURATION_DIR`, never on counts alone.
+
+- [ ] **Step 2: Run and confirm failure.** `uv run --group dev pytest test/test_rekey.py -v` — expected: ImportError.
+
+- [ ] **Step 3: Implement `artmind/rekey.py`.** Core of `migrate_same_as`:
+
+```python
+def migrate_same_as(path, moves: dict[str, set[str]], schema_for, *, write: bool) -> tuple[list[dict], dict]:
+    """Rewrite same-as groups for re-keyed members (question 12). Pure apart from the write."""
+    from artmind.observations import split_occasion
+    from artmind.schema_validate import class_identity
+
+    groups = yaml.safe_load(path.read_text(encoding="utf-8")) if path.exists() else []
+    out, report = [], {"groups_before": len(groups or []), "groups_after": 0, "split": 0,
+                       "dropped_category": 0, "members_dropped": 0}
+    for group in groups or []:
+        members = group.get("members") or []
+        canonical = group.get("canonical") or (members[0] if members else None)
+        classes = {m.split("|")[1] for m in members if m.count("|") == 2}
+        domain = canonical.split("|")[2] if canonical and canonical.count("|") == 2 else ""
+        idents = {class_identity(schema_for(domain), c) for c in classes}
+        if "category" in idents:
+            report["dropped_category"] += 1
+            continue
+        if not any(m in moves for m in members):
+            out.append(group)
+            continue
+        by_day: dict[str, list[str]] = {}
+        for m in members:
+            for new in sorted(moves.get(m, {m})):
+                by_day.setdefault(split_occasion(new.split("|")[0])[1] or "", []).append(new)
+        canon_new = {split_occasion(k.split("|")[0])[1] or "": k for k in moves.get(canonical, {canonical})}
+        kept = 0
+        for day, day_members in sorted(by_day.items()):
+            if len(day_members) < 2:
+                report["members_dropped"] += len(day_members)
+                continue
+            out.append({"canonical": canon_new.get(day, sorted(day_members)[0]), "members": sorted(day_members)})
+            kept += 1
+        report["split"] += 1 if kept != 1 else 0
+    report["groups_after"] = len(out)
+    if write:
+        atomic_write_yaml(path, out)      # temp file under LOGS_DIR, then os.replace, like same_as.py's writer
+    return out, report
+```
+
+Use `same_as.py`'s existing writer for the atomic write (`rg -n "def .*write|os.replace" artmind/same_as.py`) rather than a new one; keep the file's key order and comments policy the same as that writer. The format above (`canonical`/`members`) must match what `same_as.load_groups` reads; check it first (`sed -n 100,200p artmind/same_as.py`) and adapt both test and code to the real shape.
+
+`close_proposals` reads `MATCH (p:SameAsProposal) WHERE p.status = 'open' RETURN p.id AS id, p.canonical AS canonical, p.members AS members`, maps members through `moves`, applies `sameas.identity_refusal`, and (not dry run) sends one `UNWIND $rows AS row MATCH (p:SameAsProposal {id: row.id}) SET p.status = 'rejected', p.resolved_at = $now, p.resolution_reason = row.reason`.
+
+---
+
+
+---
+
 ## Part 8 — Docs and acceptance
 
 ### Task 29: Skills, justfile, CLAUDE.md
 
 **Files:**
 - Modify: `artmind/skills/artmind-query/SKILL.md` and `references/temporal.md` — the two time axes; `_valid_precision` (`none` = undated); `--asOf` a point on every command that keeps it; `--knownAsOf`; `query happenings` (Task 21 added the route row; here the reference text and an example with `--by year` and `--with`).
-- Modify: `artmind/skills/artmind-create-schema/SKILL.md` — `identity: name|occasion|category` with when to use each; `temporal: valid_from|valid_to|due|review`; document `revised` / `valid_to` labels; `types:` closed lists; `retime_reclassify`; occasion naming (no dates in names).
-- Modify: `artmind/skills/artmind-ingestion-helper/SKILL.md` — `ingest date-audit`; `retime` now re-keys occasions and migrates same-as/curation records (dry run first, git-clean vault); the pre-migration warning.
+- Modify: `artmind/skills/artmind-create-schema/SKILL.md` — `identity: name|occasion|category` with when to use each; `temporal: valid_from|valid_to|due|review`; document `revised` / `valid_to` labels; `types:` closed lists; occasion naming (no dates in names, `meta.yaml` `identity_naming_rules`).
+- Modify: `artmind/skills/artmind-ingestion-helper/SKILL.md` — `ingest date-audit`; `retime` re-derives dates, chunk dates and occasion keys (the "Upgrading a vault" section is Task 36's).
 - Modify: `artmind/skills/artmind-curate/SKILL.md` — same-as proposals never pair occasions on different days or category entities; closed proposals carry `identity:<value>`.
 - Modify: `justfile` — next to `ingest-retime`:
 
@@ -3042,7 +3038,7 @@ query-happenings domain term *args:
     uv run artmind query happenings --domain {{ domain }} --match "{{ term }}" --by year {{ args }}
 ```
 
-- Modify: `CLAUDE.md` — rows for `artmind/date_audit.py`, `artmind/rekey.py`, the two migrations; the `retime.py` row (re-key phase, reclassify, chunk dates); the `temporal.py` row (`parse_valid`); the `observations.py` behaviour (occasion keys `name~YYYY-MM-DD`); command notes for `query happenings`, `--knownAsOf`, `ingest date-audit`; `graph timeline` lists occasion classes.
+- Modify: `CLAUDE.md` — a row for `artmind/date_audit.py` (Task 36 adds `data_model.py` and the pack); the `retime.py` row (chunk dates, occasion day keys, name stripping); the `temporal.py` row (`parse_valid`); the `observations.py` behaviour (occasion keys `name~YYYY-MM-DD`); command notes for `query happenings`, `--knownAsOf`, `ingest date-audit`; `graph timeline` lists occasion classes.
 
 - [ ] **Step 1:** Make the edits.
 - [ ] **Step 2:** `uv run --group dev pytest test/test_cli_conventions.py test/test_cli_guide.py test/test_query_skill_structural_schema.py test/test_temporal_skill_text.py -v` — expected: PASS. Update `test_temporal_skill_text.py`'s first test to assert "a point" now that `--asOf` honours `_valid_to`.
@@ -3072,7 +3068,8 @@ Ask the user before each run that writes a vault or calls the LLM. brain01 resul
 - [ ] **Answers on happenings.** `env -u ANTHROPIC_BASE_URL` benchmark runs of the brain01 classic suite with the new skill, 3 runs; the four recurring-happening questions: at least 2 of 4 correct in 2 of 3 runs, against the current-skill runs (`traces compare --baseline A,D --grade --allowJudge`).
 - [ ] **Record time.** Task 24's synthetic-vault check.
 - [ ] **Answers.** Classic suites on both vaults, 3 runs per side, no drop in grade bands; brain01 "when did X" questions hold their correct rate.
-- [ ] **Conflicts (question 11).** Open projection conflicts on brain01 before and after the identity migration, by class.
+- [ ] **Conflicts (question 11).** Open projection conflicts on brain01 before and after `migrate temporal`, by class.
+- [ ] **Migration pack.** In each vault: `migrate status` before (pending counts), dry run, real run, `migrate status` after (`version: 1`, nothing pending), a second real run is a no-op, and `ingest sync` of one note succeeds (the gate lets it through).
 
 Record results in the PR body; brain01 as aggregates only.
 
@@ -3080,12 +3077,12 @@ Record results in the PR body; brain01 as aggregates only.
 
 ## Per-vault rollout (after merge; the operator runs it)
 
-Order follows spec §9, interleaved with the SBP rollout. Each step: dry run, then the real run with a git-clean vault.
+The branch merges once. On first use after the upgrade, every write command in an existing vault refuses until the pack has run (reads warn). Per vault, each step a dry run first, then the real run with a git-clean vault:
 
-1. **After Parts 1–2 merge:** inside the vault, `artmind ingest retime --domain d --dryRun`, then `artmind ingest retime --domain d` (dates: ranges, precision, time of day). If SBP Task 6 has merged, the same run also drops undeclared keys (SBP rollout step 4) — read both `effect` blocks before saying yes.
-2. **After Part 3:** `artmind init --force [--schema NAME]` for shipped schemas (banking deadlines, Last Updated → revised); `artmind domains validate`; `ingest retime` again. For banking TRANSACTION/SAR, `ingest backfill-properties --entityClass TRANSACTION --property transaction_date --dryRun` (SBP Task 10), then without `--dryRun` (LLM: `env -u ANTHROPIC_BASE_URL`).
-3. **After Part 4:** `artmind setup` inside the vault (runs the §7.1 fold); `ingest retime` (chunk dates) — its commits re-write passages and summaries with dates; `ingest embed-passages` only if the sweep reports stale passages.
-4. **After Part 5:** `artmind init --force --schema personal_journal` (journal vaults), re-apply the vault's own schema edits, `domains validate`, then `ingest retime --domain personal_journal --dryRun` and read `entity_rekey`, `same_as_groups`, `sameas_proposals_closed`, `curation_records`; then the real run. Commit the vault (staging, `same_as.yaml`, curation records) through Obsidian Git. Then `insights refresh` and `mart build` for the domain.
-5. **After Part 6:** `artmind setup` inside the vault (record-time backfill).
-6. **After Part 7:** `projection rebuild --domain d` (winner change; superseded documents' validity closes when `vault sync` or `detect-supersession` next applies their records — run `ingest detect-supersession --domain d --dryRun` to see counts).
-7. Restart `serve`, `chat-ui` and `admin-ui` from inside the vault after each step.
+1. `artmind init --force --schema NAME` for each shipped schema the vault uses whose content changed (journal ACTIVITY/PLAN/OBJECT, banking deadlines and TRANSACTION/SAR dates, Last Updated → `revised`); re-apply the vault's own edits (SBP rollout step 2: `location` on EVENT/ACTIVITY); `artmind domains validate`. Commit.
+2. `artmind migrate status`, then `artmind migrate temporal --dryRun` and read every step's counts (and SBP's dropped keys if its retime has not run yet), then `artmind migrate temporal`. Commit the vault (staging, `same_as.yaml`, curation records, `meta.yaml`, `data_model.yaml`) through Obsidian Git.
+3. `artmind ingest retime --domain d` for every other domain (dates: ranges, precision, time of day, chunk dates); `ingest embed-passages` only if the sweep reports stale passages.
+4. For banking TRANSACTION/SAR: `ingest backfill-properties --entityClass TRANSACTION --property transaction_date --dryRun` (SBP Task 10), then without `--dryRun` (LLM: `env -u ANTHROPIC_BASE_URL`).
+5. `projection rebuild --domain d` (winner change); superseded documents' validity closes when `vault sync` or `detect-supersession` next applies their records — `ingest detect-supersession --domain d --dryRun` shows counts.
+6. `insights refresh` and `mart build` per domain. Restart `serve`, `chat-ui` and `admin-ui` from inside the vault.
+7. Once every vault's `migrate status` reports `version: 1` and nothing pending: a sunset commit deletes `artmind/migrations/temporal_v1/`, `test/migrations/temporal_v1/` and the `add_command` line.

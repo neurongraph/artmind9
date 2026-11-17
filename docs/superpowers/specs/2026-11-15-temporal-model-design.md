@@ -1,6 +1,7 @@
 # Temporal model: dated extraction, valid intervals and record time
 
-Status: design, 2026-11-15. Companion to
+Status: design, 2026-11-15; revised 2026-11-17 (one-time changes to existing
+data and vault files moved into a migration pack, §8). Companion to
 `2026-11-15-schema-bound-properties-design.md` (shared rollout, §9).
 
 ## Goal
@@ -199,7 +200,8 @@ Rules:
     retired, superseded). It is the time artmind stopped holding it, not the
     time it stopped being true.
   - `_retired_by` names why: `version:<n>`, `retire`, `supersede:<record id>`,
-    or `sameas:<id>`.
+    or `retract:<observation id>`. A same-as fold relabels nothing (members stay
+    current), so it has no reason of its own.
 - **The document's date stays distinct.** `_doc_valid_from` is kept on
   observations. The unprefixed `valid_from` / `valid_to` on documents are folded
   into the prefixed names (§7.1).
@@ -350,9 +352,8 @@ questions one route to them.
   name on two days is two entities.
 - An undated mention keys on its document's date, as today's observations
   already carry it.
-- This changes ids for those entities. Same-as records keyed on old ids are
-  migrated by the §8 rebuild (`same_as` maps by key string, which the migration
-  rewrites).
+- This changes ids for those entities. The migration pack (§8) rewrites
+  same-as and curation records for existing vaults.
 - A multi-day range (§3.1) keys on its start day and keeps its `_valid_to`.
 - **Accepted limit:** two different happenings written with the same name on
   the same day merge (two people's "Tennis" on one day). In brain01 one day of
@@ -366,9 +367,11 @@ questions one route to them.
   happening as the text does ("Tennis", "Lantern festival lights", "Lake trip").
   Never add a date, weekday or "today"; the date goes in the class's
   `temporal:` property.
-- `canonicalize` strips a trailing date, weekday or ordinal from an `occasion`
-  name before keying, so existing staged names fold (`retime` applies it with
-  no LLM).
+- Where keys are built (`_build_observations`, `retime`), a trailing or
+  leading date, weekday or ordinal is stripped from an `occasion` name before
+  keying (pure code, no LLM). New extractions can still write one, so this is
+  permanent behaviour; existing staged names fold the first time `retime` runs
+  (through the migration pack, §8).
 - Mentions of one recurring happening then share a name across days, so
   grouping them is a name match at query time. Variant names on one day
   ("Tennis" and "Tennis match") are linked by same-as review (§5.3).
@@ -452,8 +455,12 @@ fold occasions as well as things:
 **Defaults and validation.**
 
 - Absent `identity`: `name` for `kind: recurrent`, `occasion` for
-  `kind: occurrent`. That keeps every schema's behaviour except the change from
-  §5.2: occurrent classes gain day keys.
+  `kind: occurrent`. This is a permanent rule of the schema language, not a
+  migration aid. Shipped schemas declare it on every class anyway (contracts
+  AMENDMENT, a document-entity class, is `name`). An upgraded vault cannot mix
+  old and new keys under the default, because the data-model gate (§8.1) stops
+  writes until the migration pack has run.
+- A class the schema does not declare (extractor drift) is `occasion`.
 - One reader: `schema_validate.class_identity(schema, cls)`. These read it:
   - `aggregate_key`;
   - `canonicalize.recurrent_classes`, renamed `named_classes` (`name` +
@@ -526,10 +533,11 @@ medicine and some happenings.
     list, which today number over 20 ad-hoc ones (`medical_specimen`,
     `vehicle_part` and so on).
   - Queries filter on `type` ("which medicines", "what devices").
-- **Existing data.** `retime` cannot re-classify, so one rule in the §8
-  migration moves OBJECT observations whose name names a trip, flight, ride or
-  booking to ACTIVITY. Their `type` values (`flight`, `travel_ticket`) are
-  dropped with them.
+- **Existing data.** `retime` does not re-classify. A one-time step in the
+  migration pack (§8) moves OBJECT observations whose name names a trip,
+  flight, ride or booking to ACTIVITY, dropping their `type` values (`flight`,
+  `travel_ticket`). The word list lives in the pack, not in schemas or core
+  code.
 - **Kept in reserve, not built.** An `identity` override per `type` value
   (`food: category`), if same-as noise on food or medicine proves a burden.
 
@@ -544,7 +552,7 @@ medicine and some happenings.
   - version supersession (`_retract_prior_version`);
   - `docs retire`;
   - supersession;
-  - same-as folds.
+  - retractions (`projection.apply_retractions`).
 - **Curation records.** Supersession and lifecycle records gain `recorded_at`.
   Supersession records gain the `effective` date derived from §4 labels where
   the documents state one.
@@ -563,9 +571,10 @@ medicine and some happenings.
   `_recorded_at <= T` and (`_retired_at` IS NULL OR `_retired_at > T`).
   - Both labels are searched (current and History), so this answers "what did
     the graph say on T".
-  - Nodes written before this change have no `_recorded_at`. A backfill (§8)
-    sets it from `Document.ingested_at` where that is the only evidence, and the
-    payload warns that record time before the backfill date is approximate.
+  - Nodes written before this change get approximate record time from the
+    migration pack (§8), flagged `_record_time_approx`. Core never meets a
+    node without `_recorded_at`; the payload warns when a row's record time
+    is approximate.
 - **`entity-history --asOf` keeps its meaning,** now a proper valid-time point
   that honours `_valid_to`. Its skill text is corrected.
 - **Projection winner** becomes max of (`_valid_from`, `_doc_valid_from`,
@@ -579,10 +588,9 @@ medicine and some happenings.
 
 ### 7.1 One name
 
-`valid_to` / `valid_from` (unprefixed) on documents are folded into
-`_valid_to` / `_valid_from` by a migration (`artmind/migrations/`, run by
-`setup`). Every reader then uses the prefixed names; `coalesce(…)` reads are
-removed.
+Every writer uses `_valid_to` / `_valid_from` and every reader reads only
+them; `coalesce(…)` reads are removed. Existing documents' unprefixed
+`valid_to` / `valid_from` are folded once by the migration pack (§8).
 
 ### 7.2 Supersession and retirement
 
@@ -599,30 +607,91 @@ removed.
 `table2graph` passes an SCD2 row's `_valid_to` to the observation, so a closed
 row version ends in the graph too.
 
-## 8. Existing data
+## 8. Existing data: the migration pack
 
-No re-extraction is needed for most of this:
+Core code knows only the new model. Everything that converts what a vault
+already holds lives in one pack, `artmind/migrations/temporal_v1/`, run once per
+vault and deleted when every vault has run it (§8.3).
 
-- **Dates.** `ingest retime` (no LLM) re-reads every staged observation's raw
-  temporal property with `parse_valid`. That fills `_valid_to`, `_valid_precision`
-  and `_valid_time_of_day` from values already stored.
-- **Happenings.** The journal schema's identity declarations (§5.3), ACTIVITY's
-  and PLAN's `kind` change, the OBJECT happenings move (§5.3) and the name stripping (§5.2)
-  apply to staged observations through `ingest retime` (no LLM), then one
-  `projection rebuild` re-keys `occasion` entities and migrates same-as
-  records. Open same-as proposals that pair `occasion` entities on different
-  days, or `category` entities, are closed as `rejected` with reason
-  `identity:<value>`.
-- **Chunk, passage and summary dates** come from their documents through a
-  `retime`-driven commit.
-- **Record time** is backfilled once from `Document.ingested_at` (approximate,
-  flagged) by the same migration as §7.1.
-- **Nothing needs re-extraction.** Names and dates of happenings are already
-  staged.
+### 8.1 What stays in core
+
+These are permanent behaviour, not migration, even though their first run also
+fixes old data:
+
+- `ingest retime` re-derives staged observations from the current schema: dates
+  through `parse_valid`, chunk dates, occasion day keys and name stripping.
+- `sameas.propose` refuses cross-day `occasion` pairs and `category` pairs.
+- `meta.yaml` must carry `identity_naming_rules.occasion`; there is no copy of
+  the rule in code. The pack adds it to a vault's `meta.yaml`.
+- **One generic gate, `artmind/data_model.py`.** `CURRENT = 1`; the run folder's
+  `data_model.yaml` records the version its data is at (committed with the
+  vault). An absent file means 0 when the data dir already holds a registry DB,
+  and `CURRENT` (written at once) when it holds nothing. `require_current()` is
+  called by every write path (`ingest sync|async|retime|…`, `projection
+  rebuild`, `vault sync`, `update`, same-as and curation writes) and raises one
+  error: "this vault's data is at model 0; run `artmind migrate status`". Read
+  paths warn once per process and proceed. The gate is not temporal-specific:
+  a later migration pack bumps `CURRENT` and reuses it. An unmigrated vault
+  therefore stops instead of mixing old and new keys.
+
+### 8.2 What the pack does
+
+`artmind migrate temporal [--domain d] [--dryRun]` (tier-1 write, no LLM, git-clean
+vault required, ingest worker stopped). The dry run reports the whole plan; the
+real run applies the steps in this order, each idempotent:
+
+1. **Vault files.** Add `identity_naming_rules.occasion` to the vault's
+   `meta.yaml` when absent, as a textual block at the end, so comments and order
+   survive. Undo: `git restore`. Vault schemas are not edited: the kind default
+   applies, and content changes to shipped schemas arrive through `init --force`.
+2. **Graph.** Fold documents' unprefixed `valid_to` / `valid_from` into the
+   prefixed names (§7.1). Backfill record time: current nodes get
+   `_recorded_at = Document.ingested_at`; History nodes get
+   `_retired_at = ingested_at` and `_recorded_at` set to the epoch
+   (`1970-01-01T00:00:00+00:00`, "known before the backfill"). Both are flagged
+   `_record_time_approx`. Only nodes without the field are touched.
+3. **Staging and curation.** Plan `retime` in memory under the migrated
+   schemas, then:
+   - move OBJECT trips and rides to ACTIVITY (the pack's word list, shown in the
+     dry run with a sample of class counts);
+   - compute the old→new key map;
+   - rewrite `same_as.yaml` (one group per day on which two or more members
+     have observations; `category` groups dropped);
+   - close open same-as proposals that pair different days or `category`
+     entities as `rejected` with reason `identity:<value>`;
+   - re-point synthesis, conflict and mart dimension records;
+   - write and commit the staging, then one `projection rebuild`.
+   Undo: `git restore` of the listed files, then `ingest retime`.
+
+4. **Stamp.** Write `data_model.yaml` `version: 1`. A run with `--domain`
+   stamps only when no other domain is pending.
+
+`artmind migrate status` (read-only) reports the recorded version and, per step
+and domain, done or pending from facts (schemas lacking `identity`, documents
+with unprefixed dates, nodes without `_recorded_at`, staging whose keys would
+move, `meta.yaml` lacking the rule). Because each step is idempotent and judged by facts, an interrupted run
+is resumed by running it again.
+
+Content changes to shipped schemas (journal ACTIVITY/PLAN/OBJECT, banking
+deadlines) reach a vault through `artmind init --force --schema NAME` before the
+pack runs.
+
+### 8.3 Sunset
+
+The pack is self-contained: no core module imports it, and a test enforces this.
+It may import core (staging readers, `retime_observations`, the same-as writer,
+`rebuild_projection`). The only core references to it are one `cli.add_command`
+line. Once `migrate status` reports done in every vault, delete the folder and
+that line; `data_model.py` and its gate stay.
+
+A later change of a class's `identity` in a vault that has already migrated is
+not this pack's job: `retime` re-keys it, and catalogue health
+(`same_as_dangling`) lists the same-as members left behind.
 
 ## 9. Rollout
 
-Shared order with the schema-bound properties spec:
+The code lands in this order (one branch, merged once). Shared order with the
+schema-bound properties spec:
 
 1. Defect fixes:
    - year-only `--asOf`;
@@ -638,10 +707,15 @@ Shared order with the schema-bound properties spec:
    - day keys for `occasion` classes;
    - the naming rule and name stripping;
    - same-as and twins gated by identity;
-   - journal OBJECT: happenings to ACTIVITY, and a declared `type` list;
+   - journal OBJECT: a declared `type` list;
    - `query happenings` and the skill route.
-6. Record time (§6.1), its backfill and `--knownAsOf`.
+6. Record time (§6.1) and `--knownAsOf`.
 7. Ends of validity (§7) and the projection winner change.
+8. The migration pack (§8).
+
+Per vault, after the upgrade: `init --force` for shipped schemas whose content
+changed (re-apply the vault's own edits), `migrate temporal --dryRun`, then the
+real run, then `insights refresh` and `mart build`.
 
 ## 10. Acceptance
 
