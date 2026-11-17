@@ -31,6 +31,21 @@ kinds:
     finding, a filed report. Two observations disagreeing is always a
     conflict; a completed event's attributes do not drift.
 
+# What makes two mentions with the same name one entity (spec 2026-11-15 §5.3),
+# declared per class as `identity:`. Separate from `kind`. Absent: `name` for a
+# recurrent class, `occasion` for an occurrent one.
+identities:
+  name: >
+    Same normalised name, class and domain is one entity -- a person, a place,
+    a product, a policy. Same-as review, twins and the name vocabulary run over it.
+  occasion: >
+    One entity per name and day -- an event, an activity, a transaction. The
+    same happening on two days is two entities; grouping across days happens
+    at query time.
+  category: >
+    Folded by name like `name`, but a label many occasions share (an emotion,
+    a mood) rather than a thing: same-as review and twins skip it.
+
 # Every entity carries these regardless of domain -- the properties an
 # extraction prompt's OUTPUT FORMAT section always emits, on top of whatever
 # a class declares under its own `properties:`.

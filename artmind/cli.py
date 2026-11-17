@@ -754,6 +754,7 @@ def domains_validate(domain: str | None, compact: bool):
         graph_extraction_warnings, guidance_property_warnings, load_meta,
         meta_template_warnings, own_key_property_warnings, property_alias_warnings, property_reference_report,
         reserved_relationship_warnings, temporal_warnings, validate_all, validate_schema, warn_all,
+        identity_warnings,
     )
 
     if domain:
@@ -771,7 +772,8 @@ def domains_validate(domain: str | None, compact: bool):
             violations = {domain: errors} if errors else {}
             warnings = {domain: reserved_relationship_warnings(data, domain) + graph_extraction_warnings(data, domain)
                         + property_alias_warnings(data, domain) + guidance_property_warnings(data, domain)
-                        + own_key_property_warnings(data, domain) + temporal_warnings(data, domain)}
+                        + own_key_property_warnings(data, domain) + temporal_warnings(data, domain)
+                        + identity_warnings(data, domain)}
     else:
         violations = validate_all()
         warnings = warn_all()

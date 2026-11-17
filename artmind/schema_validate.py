@@ -172,6 +172,10 @@ def validate_schema(schema: dict, meta: dict, schema_name: str = "") -> list[str
         elif kind not in valid_kinds:
             errors.append(f"{where}: kind={kind!r} is not one of {sorted(valid_kinds)}")
 
+        identity = decl.get("identity")
+        if identity is not None and identity not in IDENTITIES:
+            errors.append(f"{where}: identity={identity!r} is not one of {list(IDENTITIES)}")
+
         props = decl.get("properties") or {}
         for prop in props:
             _check_reserved(prop, prefix, f"{where}.properties", errors)
@@ -218,12 +222,57 @@ def _temporal_document_errors(schema: dict, label: str) -> list[str]:
     return errors
 
 
-def class_identity(schema: dict, cls: str) -> str:
-    """How same-name mentions of `cls` are told apart: `occasion` (one per day) for a
-    `kind: occurrent` class, else `name`. The default rule; Task 14 adds the `identity:` key."""
+#: What a class's `identity:` may say (spec 2026-11-15 §5.3): same name is one entity
+#: (`name`), one entity per day (`occasion`), or one shared label (`category`).
+IDENTITIES = ("name", "occasion", "category")
+
+
+def class_identity(schema: dict, entity_class: str) -> str:
+    """What makes two same-name mentions one entity (spec 2026-11-15 §5.3). The one reader.
+
+    Declared `identity`, else `name` for `kind: recurrent` and `occasion` otherwise -- an
+    undeclared class is occurrent by `observations.class_kind`'s rule, so it is an occasion.
+    """
     types = schema.get("entity_types") if isinstance(schema, dict) else None
-    decl = types.get(cls) if isinstance(types, dict) else None
-    return "occasion" if isinstance(decl, dict) and decl.get("kind") == "occurrent" else "name"
+    decl = types.get(entity_class) if isinstance(types, dict) else None
+    decl = decl if isinstance(decl, dict) else {}
+    declared = decl.get("identity")
+    if declared in IDENTITIES:
+        return declared
+    return "name" if decl.get("kind") == "recurrent" else "occasion"
+
+
+def classes_with_identity(schema: dict, *identities: str) -> set[str]:
+    """The schema's declared classes whose `class_identity` is one of `identities`."""
+    types = schema.get("entity_types") if isinstance(schema, dict) else None
+    return {c for c in (types if isinstance(types, dict) else {}) if class_identity(schema, c) in identities}
+
+
+def identity_warnings(schema: dict, schema_name: str = "") -> list[str]:
+    """WARNs for `identity` (spec 2026-11-15 §5.3, plan question 20): an `occasion` class
+    declared `kind: recurrent`, and a dated `kind: occurrent` class declared `identity: name`
+    (its days fold into one entity) unless it is a `document_entity` class."""
+    label = schema_name or schema.get("name", "<unnamed>")
+    types = schema.get("entity_types")
+    if not isinstance(types, dict):
+        return []
+    doc_setting = schema.get("document_entity")
+    doc_classes = set((doc_setting.get("classes") or []) if isinstance(doc_setting, dict) else [])
+    out = []
+    for cls, decl in types.items():
+        decl = decl if isinstance(decl, dict) else {}
+        ident = class_identity(schema, cls)
+        where = f"{label}.entity_types.{cls}"
+        if ident == "occasion" and decl.get("kind") == "recurrent":
+            out.append(f"{where}: identity: occasion with kind: recurrent -- its changes become "
+                       "separate entities, never history")
+        props = decl.get("properties")
+        dated = any(isinstance(p, dict) and p.get("temporal") == "valid_from"
+                    for p in (props.values() if isinstance(props, dict) else []))
+        if ident == "name" and decl.get("kind") == "occurrent" and dated and cls not in doc_classes:
+            out.append(f"{where}: a dated occurrent class with identity: name -- its mentions on "
+                       "different days fold into one entity; declare identity: occasion")
+    return out
 
 
 def temporal_warnings(schema: dict, schema_name: str = "") -> list[str]:
@@ -345,7 +394,8 @@ def warn_all(schemas_dir: Path = DOMAIN_SCHEMAS_DIR) -> dict[str, list[str]]:
         name = schema.get("name", schema_file.stem)
         warnings = (reserved_relationship_warnings(schema, name) + graph_extraction_warnings(schema, name)
                     + property_alias_warnings(schema, name) + guidance_property_warnings(schema, name)
-                    + own_key_property_warnings(schema, name) + temporal_warnings(schema, name))
+                    + own_key_property_warnings(schema, name) + temporal_warnings(schema, name)
+                    + identity_warnings(schema, name))
         if warnings:
             found[name] = warnings
     return found

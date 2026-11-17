@@ -35,6 +35,7 @@ property_aliases:
 entity_types:
   PERSON:
     kind: recurrent
+    identity: name
     description: Any individual named or meaningfully described in the entry — family members, colleagues,
       friends, service providers, or the diarist themselves. Include people who are merely mentioned or
       discussed.
@@ -137,6 +138,7 @@ entity_types:
       - joined
   LOCATION:
     kind: recurrent
+    identity: name
     description: Any location mentioned or visited — rooms, buildings, neighbourhoods, cities, or institutions.
       Include places only referenced in plans or memories.
     type_examples:
@@ -165,6 +167,7 @@ entity_types:
         hint: why it matters in this entry
   EVENT:
     kind: occurrent
+    identity: occasion
     description: Any significant occurrence, happening, or episode described in the entry. Not routine
       background actions — only those with emotional, social, or practical weight.
     type_examples:
@@ -215,9 +218,9 @@ entity_types:
       - organised_by
       - involves
   ACTIVITY:
-    kind: recurrent
-    description: A recurring or single purposeful activity, task, or pursuit described in the entry. Distinct
-      from one-off events — activities are things people do regularly or invest deliberate effort in.
+    kind: occurrent
+    identity: occasion
+    description: "One occasion of doing something: a task, pursuit or outing on a given day."
     type_examples:
     - domestic
     - exercise
@@ -249,6 +252,7 @@ entity_types:
       - associated_with
   EMOTION:
     kind: recurrent
+    identity: category
     description: A feeling, mood, or emotional state experienced or observed in the entry. Extract as
       a named entity when it is explicitly described or strongly implied, and has significance to the
       narrative.
@@ -277,7 +281,8 @@ entity_types:
       duration:
         hint: momentary, lingering
   PLAN:
-    kind: recurrent
+    kind: occurrent
+    identity: occasion
     description: Any stated intention, goal, task, or future arrangement mentioned in the entry. Includes
       both firm plans and tentative thoughts about what needs to happen.
     type_examples:
@@ -292,6 +297,7 @@ entity_types:
     properties:
       timeframe:
         hint: today, this week, vague future
+        temporal: valid_from
       who_involved: {}
       motivation:
         hint: why this plan matters
@@ -305,6 +311,7 @@ entity_types:
       - discussed_with
   OBJECT:
     kind: recurrent
+    identity: name
     description: Any physical item, possession, or tangible thing that plays a role in the journal entry
       — gifts, household items, vehicles, or objects with emotional significance.
     type_examples:
@@ -326,6 +333,7 @@ entity_types:
         hint: why it matters in this entry
   ORGANIZATION:
     kind: recurrent
+    identity: name
     description: Any formal or informal group, institution, company, or collective mentioned in the journal
       entry.
     type_examples:
@@ -348,6 +356,7 @@ entity_types:
         hint: if notable
   STATE_CHANGE:
     kind: occurrent
+    identity: occasion
     description: A change in an entity's state, status, or relationship over time — extract when an entry
       records that something became different from before (a mood shift, a relationship change, a plan
       starting or ending). Carry the date it happened.

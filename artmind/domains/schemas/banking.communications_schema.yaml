@@ -24,6 +24,7 @@ temporal:
 entity_types:
   COMMUNICATION_TEMPLATE:
     kind: recurrent
+    identity: name
     description: A named, reusable communication template — email, SMS, letter, or call centre script
       — designed for a specific trigger event or customer interaction. Capture the template's purpose,
       trigger condition, key structure, tone, and any embedded regulatory disclosures. Each named template
@@ -111,6 +112,7 @@ entity_types:
       Naming: use the template title from the document. RIGHT:   { "name": "Account Opening Confirmation Email Template" }
   TEMPLATE_VARIABLE:
     kind: recurrent
+    identity: name
     description: A named placeholder in a template that is replaced with dynamic data at send time — customer
       name, account number, balance, rate, date, etc. Extract variable names and what data they represent.
       Group closely related variables (e.g., all address fields) into one entity only if the document
@@ -147,6 +149,7 @@ entity_types:
     guidance: Each distinct placeholder variable captured as a TEMPLATE_VARIABLE.
   TRAINING_MODULE:
     kind: recurrent
+    identity: name
     description: A named, self-contained unit of staff training with defined content, learning objectives,
       and an assessment. Each module covering a distinct topic (AML, KYC, GDPR, Fraud, etc.) is a separate
       entity. Also extract the overall training program as a top-level entity when described as a whole.
@@ -232,6 +235,7 @@ entity_types:
       Naming: include the module number and topic. RIGHT:   { "name": "Module 1 — AML & Sanctions Compliance" }
   LEARNING_OBJECTIVE:
     kind: recurrent
+    identity: name
     description: A specific skill, knowledge item, understanding, or behaviour that staff must demonstrate
       or know after completing a training module. Each distinct stated objective is a separate entity.
       Extract from "by the end of this module you will be able to" or equivalent statements.
@@ -267,6 +271,7 @@ entity_types:
       item.
   WARNING_SIGN:
     kind: recurrent
+    identity: name
     description: A named red flag, indicator, behavioural pattern, or scenario that staff are trained
       to recognise as suspicious, risky, or requiring action. These are the specific signals staff must
       look for. Each named red flag or indicator is a separate entity.
@@ -328,6 +333,7 @@ entity_types:
       Naming: state the red flag descriptively. RIGHT:   { "name": "Large Cash Deposit Followed by Immediate Transfer Out (AML Red Flag)" } WRONG:   { "name": "Red flag 1" }
   COMPLIANCE_OBLIGATION:
     kind: recurrent
+    identity: name
     description: A specific compliance requirement, duty, or prohibition explained in training — something
       staff MUST do, MUST NOT do, MUST report, or MUST document. These are the actionable obligations
       extracted from training content, distinct from warning signs (which are inputs) and actions (which
@@ -380,6 +386,7 @@ entity_types:
       COMPLIANCE_OBLIGATION entities include obligation_type, timeframe, consequence_of_failure.
   PRODUCT:
     kind: recurrent
+    identity: name
     description: A banking product referenced in a product training module or customer communication template.
       Extract when the product is the primary subject of training content or the context for a communication
       template.
@@ -400,6 +407,7 @@ entity_types:
         hint: tone and key points of customer communications
   ACCOUNT:
     kind: recurrent
+    identity: name
     description: A customer account opened, held, modified, or closed under a banking product — savings,
       current, or joint. Extract when the document defines rules, state, or events that apply to the account
       itself.
@@ -457,6 +465,7 @@ entity_types:
       - deducts_from
   ACCOUNT_HOLDER:
     kind: recurrent
+    identity: name
     description: A person with legal rights and obligations over an account — primary, joint, or secondary
       holder — including their liability, authority, and due-diligence obligations.
     type_examples:
@@ -478,6 +487,7 @@ entity_types:
       - liable_under
   AML_SCREENING:
     kind: recurrent
+    identity: name
     description: Anti-Money Laundering screening — sanctions/PEP list checks, transaction monitoring,
       or ongoing screening — as mandated, executed, or reviewed by the document.
     type_examples:
@@ -501,6 +511,7 @@ entity_types:
       - leads_to_filing_of
   CARD:
     kind: recurrent
+    identity: name
     description: A payment card issued to, or referenced in connection with, a customer account — its
       issuance, use, blocking, or replacement.
     type_examples:
@@ -519,6 +530,7 @@ entity_types:
       daily_or_contactless_limit: {}
   CUSTOMER:
     kind: recurrent
+    identity: name
     description: A natural person who holds, applies for, or is otherwise the subject of a banking relationship
       — an account, product, transaction, or compliance process. Extract as a first-class entity whenever
       the customer is a defined party in the document, not merely mentioned in passing.
@@ -571,6 +583,7 @@ entity_types:
       - belongs_to
   DIRECT_DEBIT:
     kind: recurrent
+    identity: name
     description: A direct debit mandate on a customer account — its setup, the Direct Debit Guarantee,
       amendment, cancellation, or dispute.
     type_examples:
@@ -585,6 +598,7 @@ entity_types:
       cancellation_or_dispute_process: {}
   FRAUD_ALERT:
     kind: recurrent
+    identity: name
     description: A fraud detection alert or fraud response — its generation, investigation, escalation,
       or the customer-facing action it triggers.
     type_examples:
@@ -607,6 +621,7 @@ entity_types:
       - raised_on
   JOINT_ACCOUNT:
     kind: recurrent
+    identity: name
     description: An account arrangement held jointly by two or more customers with shared rights, liabilities,
       and consent requirements.
     type_examples:
@@ -621,6 +636,7 @@ entity_types:
       closure_consent: {}
   KYC_VERIFICATION:
     kind: recurrent
+    identity: name
     description: The Know Your Customer identity/address verification process — as a compliance obligation,
       an operational procedure, or an audited control. Extract when the document defines, executes, or
       evaluates KYC requirements.
@@ -642,6 +658,7 @@ entity_types:
       - applied_to
   SAR:
     kind: occurrent
+    identity: occasion
     description: A Suspicious Activity Report — the obligation, preparation, filing, or tracking of a
       SAR to the relevant authority (e.g. the NCA).
     type_examples:
@@ -664,6 +681,7 @@ entity_types:
       - based_on_evidence_from
   STANDING_ORDER:
     kind: recurrent
+    identity: name
     description: A standing order payment instruction on a customer account — its setup, amendment, cancellation,
       or failure handling.
     type_examples:
@@ -678,6 +696,7 @@ entity_types:
       failure_handling: {}
   TRANSACTION:
     kind: occurrent
+    identity: occasion
     description: A financial event on a customer account — a deposit, withdrawal, transfer, payment, or
       fee charge — referenced because it is monitored, disputed, reported, or otherwise governed by the
       document.

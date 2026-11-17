@@ -136,6 +136,21 @@ time, or is it a completed point event?
   decision made once). Two documents disagreeing about an occurrent
   property is always a conflict — a finished event's attributes don't drift.
 
+**Declare `identity` on every class too** (on the line after `kind:`; `meta.yaml`'s
+`identities:` describes the values). It decides what makes two same-name mentions
+one entity:
+
+- **`name`** — same name is one entity (people, places, products, policies). The
+  default for `kind: recurrent`.
+- **`occasion`** — one entity per name and day (events, activities,
+  transactions): "tennis" on two days is two entities. The default for
+  `kind: occurrent`. Give such a class a `temporal: valid_from` property.
+- **`category`** — one shared label many occasions carry (an emotion).
+
+`domains validate` errors on any other value and warns on `occasion` with
+`kind: recurrent`, or on a dated `kind: occurrent` class declared `identity: name`
+(its days fold into one entity) unless it is a `document_entity` class.
+
 **The name-is-identity rule — the single biggest lever on extraction
 quality**: a `recurrent` class's name must never embed a measurement, an
 amount, a percentage, or a date. `"SmartSaver Account Tier 2 Rate"` is

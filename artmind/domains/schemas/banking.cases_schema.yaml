@@ -22,6 +22,7 @@ temporal:
 entity_types:
   CASE:
     kind: recurrent
+    identity: name
     description: A formally opened, named incident, complaint, or investigation record — identified by
       a case ID (e.g., CASE-2026-041) — that ties together the incident timeline, customer complaint,
       impact assessment, remediation, and retention decision under one owner and status. Extract the case
@@ -79,6 +80,7 @@ entity_types:
       Naming: use the case ID as given (e.g. "CASE-2026-041") plus a short descriptive title. RIGHT:   { "name": "CASE-2026-041 — Customer Data Exposure" }
   INCIDENT_EVENT:
     kind: occurrent
+    identity: occasion
     description: A discrete, timestamped step in an incident's timeline — a detection, severity classification,
       containment action, forensic referral, reconciliation finding, or escalation — as recorded in an
       incident timeline or log. Extract each timeline row or log entry as its own entity, preserving its
@@ -118,6 +120,7 @@ entity_types:
       Naming: name it by what happened, not by its timestamp alone. RIGHT:   { "name": "Service Disabled and Logs Preserved" } WRONG:   { "name": "Event at 10:42" }
   CUSTOMER_COMPLAINT:
     kind: recurrent
+    identity: name
     description: A customer's expression of dissatisfaction or a formal request — for an impact explanation,
       compensation, subject access, or erasure — raised in connection with a case. Extract as an entity
       distinct from the case itself, capturing what the customer is asking for and how it is being handled.
@@ -156,6 +159,7 @@ entity_types:
       reflected in the CUSTOMER_COMPLAINT.
   IMPACT_ASSESSMENT:
     kind: occurrent
+    identity: occasion
     description: A stated finding of how many customers, accounts, or records were affected by an incident,
       attributed to the team that produced it (e.g., Security's initial count vs. Operations' reconciled
       count). Extract each distinct assessment as its own entity rather than collapsing conflicting counts
@@ -195,6 +199,7 @@ entity_types:
       Naming: include the attributing team in the name. RIGHT:   { "name": "Security Initial Assessment — 120 Potentially Affected Customers" }
   REMEDIATION_ACTION:
     kind: recurrent
+    identity: name
     description: A specific corrective or preventive action required before a case can close — a technical
       fix, a process control, a monitoring period, or a root-cause ownership assignment — distinct from
       the incident events that preceded it. Extract each named action separately, even when several are
@@ -223,6 +228,7 @@ entity_types:
     guidance: Each remediation step (patch, peer review, monitoring, ownership) captured as its own REMEDIATION_ACTION.
   RETENTION_DECISION:
     kind: occurrent
+    identity: occasion
     description: A data protection officer's or compliance owner's ruling on whether specific data linked
       to a case may be suppressed, restricted, retained, or erased — including any active legal or regulatory
       hold and its scheduled review date. Extract the decision as one entity; the individual data categories
@@ -263,6 +269,7 @@ entity_types:
       RETENTION_DECISION entities include hold_status and review_date.
   ACCOUNT:
     kind: recurrent
+    identity: name
     description: A customer account opened, held, modified, or closed under a banking product — savings,
       current, or joint. Extract when the document defines rules, state, or events that apply to the account
       itself.
@@ -320,6 +327,7 @@ entity_types:
       - deducts_from
   ACCOUNT_HOLDER:
     kind: recurrent
+    identity: name
     description: A person with legal rights and obligations over an account — primary, joint, or secondary
       holder — including their liability, authority, and due-diligence obligations.
     type_examples:
@@ -341,6 +349,7 @@ entity_types:
       - liable_under
   AML_SCREENING:
     kind: recurrent
+    identity: name
     description: Anti-Money Laundering screening — sanctions/PEP list checks, transaction monitoring,
       or ongoing screening — as mandated, executed, or reviewed by the document.
     type_examples:
@@ -364,6 +373,7 @@ entity_types:
       - leads_to_filing_of
   CARD:
     kind: recurrent
+    identity: name
     description: A payment card issued to, or referenced in connection with, a customer account — its
       issuance, use, blocking, or replacement.
     type_examples:
@@ -382,6 +392,7 @@ entity_types:
       daily_or_contactless_limit: {}
   CUSTOMER:
     kind: recurrent
+    identity: name
     description: A natural person who holds, applies for, or is otherwise the subject of a banking relationship
       — an account, product, transaction, or compliance process. Extract as a first-class entity whenever
       the customer is a defined party in the document, not merely mentioned in passing.
@@ -434,6 +445,7 @@ entity_types:
       - belongs_to
   DIRECT_DEBIT:
     kind: recurrent
+    identity: name
     description: A direct debit mandate on a customer account — its setup, the Direct Debit Guarantee,
       amendment, cancellation, or dispute.
     type_examples:
@@ -448,6 +460,7 @@ entity_types:
       cancellation_or_dispute_process: {}
   FRAUD_ALERT:
     kind: recurrent
+    identity: name
     description: A fraud detection alert or fraud response — its generation, investigation, escalation,
       or the customer-facing action it triggers.
     type_examples:
@@ -470,6 +483,7 @@ entity_types:
       - protects
   JOINT_ACCOUNT:
     kind: recurrent
+    identity: name
     description: An account arrangement held jointly by two or more customers with shared rights, liabilities,
       and consent requirements.
     type_examples:
@@ -484,6 +498,7 @@ entity_types:
       closure_consent: {}
   KYC_VERIFICATION:
     kind: recurrent
+    identity: name
     description: The Know Your Customer identity/address verification process — as a compliance obligation,
       an operational procedure, or an audited control. Extract when the document defines, executes, or
       evaluates KYC requirements.
@@ -505,6 +520,7 @@ entity_types:
       - applied_to
   SAR:
     kind: occurrent
+    identity: occasion
     description: A Suspicious Activity Report — the obligation, preparation, filing, or tracking of a
       SAR to the relevant authority (e.g. the NCA).
     type_examples:
@@ -527,6 +543,7 @@ entity_types:
       - based_on_evidence_from
   STANDING_ORDER:
     kind: recurrent
+    identity: name
     description: A standing order payment instruction on a customer account — its setup, amendment, cancellation,
       or failure handling.
     type_examples:
@@ -541,6 +558,7 @@ entity_types:
       failure_handling: {}
   TRANSACTION:
     kind: occurrent
+    identity: occasion
     description: A financial event on a customer account — a deposit, withdrawal, transfer, payment, or
       fee charge — referenced because it is monitored, disputed, reported, or otherwise governed by the
       document.

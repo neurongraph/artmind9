@@ -68,6 +68,7 @@ guidance:
 entity_types:
   ORGANIZATION:
     kind: recurrent
+    identity: name
     description: Any company or body named in the contract — the customer, the supplier, approved subcontractors,
       third-party technology providers the supplier procures from, parent/group companies, and regulatory bodies
       whose powers are referenced. Always use the full legal name (e.g., "Orchard Services Limited"), never the
@@ -130,6 +131,7 @@ entity_types:
       - discounts
   PERSON:
     kind: recurrent
+    identity: name
     description: Any individual named in the contract — signatories, authorised representatives, key personnel,
       escalation contacts and witnesses. Only a real, named person qualifies. Role placeholders such as
       "Signatory", "Project Manager" or "Authorised Representative" are not people, so record them as the
@@ -169,6 +171,7 @@ entity_types:
       - accepts
   CONTRACT:
     kind: recurrent
+    identity: name
     description: A framework agreement/MSA, transaction contract, statement of work or side letter. It persists
       and is varied over time by amendments, so its terms are recorded as properties and linked entities. Name
       it by its title plus the customer's reference (e.g., "Testing Services Transaction Contract B01234"). Phrases
@@ -245,6 +248,7 @@ entity_types:
       - sets_timeline_for
   AMENDMENT:
     kind: occurrent
+    identity: name
     description: A contract change note (CCN), amendment agreement or variation that changes an existing
       contract from a stated date. One whole document is ONE amendment, so name it with its CCN reference or
       ordinal and its effective date (e.g., "CCN12 Testing Services Indexation Uplift 2026-04-01") and put every
@@ -315,6 +319,7 @@ entity_types:
       - changes_milestone
   TERM:
     kind: recurrent
+    identity: name
     description: A legal or commercial provision of a contract — termination rights, indexation, volume discount
       mechanism, liability, service levels, payment terms, intellectual property, confidentiality, change
       control, governing law. Name it by what it is plus the contract, never by its current values. In a
@@ -381,6 +386,7 @@ entity_types:
       - governs_charge
   CHARGE:
     kind: recurrent
+    identity: name
     description: A price, estimate, rate, discount, cap, expense allowance, liquidated damages amount or supplier
       investment in the contract. Name it by what it is plus the contract (e.g., "Estimated Time and Material
       Charges"), never by its amount. A rate card is one CHARGE per role and location (e.g., "UK Test Engineer
@@ -459,6 +465,7 @@ entity_types:
       - triggered_at
   DELIVERABLE:
     kind: recurrent
+    identity: name
     description: A service, document or non-document work product the supplier is to provide and the customer to
       accept under a contract — design documents, plans, reports, test artefacts, converted source code,
       runbooks, services, workstreams. Name each one specifically ("Prefix Migration to Magic Transit"), never
@@ -504,6 +511,7 @@ entity_types:
       - associated_with
   MILESTONE:
     kind: recurrent
+    identity: name
     description: A significant temporal checkpoint or phase in the programme timeline — a numbered programme
       milestone, a workstream phase, or a named programme event such as Cutover, Dress Rehearsal, Go-Live,
       or Hypercare. Include both delivered/achieved and future/planned milestones. A payment milestone is a
@@ -535,6 +543,7 @@ entity_types:
       - depends_on
   SYSTEM:
     kind: recurrent
+    identity: name
     description: 'A named technology system, application, interface, tool, or platform referenced in the
       contract''s technical scope — a legacy application being converted, a target application being built
       or integrated with, a batch scheduler, a database platform, or a conversion/runtime tooling asset.

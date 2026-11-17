@@ -7,6 +7,7 @@ persona: a knowledgeable technical analyst
 entity_types:
   CONCEPT:
     kind: recurrent
+    identity: name
     description: Abstract ideas, theories, paradigms, problems, or research areas that are central to
       the paper's discourse. Extract concepts that the paper explains, builds upon, challenges, or advances.
     type_examples:
@@ -57,6 +58,7 @@ entity_types:
       - required_for
   METHOD:
     kind: recurrent
+    identity: name
     description: A specific technique, algorithm, procedure, training strategy, or approach described
       or used in the paper. Methods are actionable — they describe how something is done.
     type_examples:
@@ -100,6 +102,7 @@ entity_types:
       - pre_trains_on
   MODEL:
     kind: recurrent
+    identity: name
     description: A named AI model, system, architecture, or implementation — either proposed in the paper
       or referenced as a baseline or comparison point.
     type_examples:
@@ -151,6 +154,7 @@ entity_types:
       - adapted_for
   FINDING:
     kind: occurrent
+    identity: occasion
     description: A result, conclusion, observation, or empirical claim stated in the paper. Findings are
       what the paper asserts or demonstrates, grounded in evidence.
     type_examples:
@@ -197,6 +201,7 @@ entity_types:
       - measured_with
   DATASET:
     kind: recurrent
+    identity: name
     description: Any named training corpus, evaluation benchmark, or data collection used or referenced
       in the paper.
     type_examples:
@@ -218,6 +223,7 @@ entity_types:
       notable_characteristics: {}
   PERSON:
     kind: recurrent
+    identity: name
     description: Named researchers, academics, or practitioners who created, co-authored, or are cited
       in the paper.
     type_examples:
@@ -249,6 +255,7 @@ entity_types:
       - collaborates_with
   METRIC:
     kind: recurrent
+    identity: name
     description: A quantitative or qualitative measure used to evaluate performance, compare systems,
       or characterise results.
     type_examples:
@@ -269,6 +276,7 @@ entity_types:
         hint: if given
   APPLICATION:
     kind: recurrent
+    identity: name
     description: A real-world domain, use case, or deployment context in which the paper's ideas are applied
       or have implications.
     type_examples:
@@ -300,6 +308,7 @@ entity_types:
       - benefits_from
   ORGANIZATION:
     kind: recurrent
+    identity: name
     description: Any research institution, company, university, or formal group associated with the work
       — as producer, funder, or named collaborator.
     type_examples:
@@ -336,6 +345,7 @@ entity_types:
       - researches
   LOCATION:
     kind: recurrent
+    identity: name
     description: Any geographic location, country, or region referenced in the paper — where research
       was conducted, datasets collected, or systems deployed.
     type_examples:
@@ -360,6 +370,7 @@ entity_types:
       - operates_in
   OBJECT:
     kind: recurrent
+    identity: name
     description: Any physical piece of hardware, equipment, device, or tangible system described or used
       in the research.
     type_examples:

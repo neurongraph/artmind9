@@ -20,6 +20,7 @@ temporal:
 entity_types:
   CLIENT:
     kind: recurrent
+    identity: name
     description: Any named customer, reference client, target segment, or prospect organisation described
       in the document. Includes anonymised clients described by industry or geography.
     type_examples:
@@ -70,6 +71,7 @@ entity_types:
       - operates
   OFFERING_SOLUTION:
     kind: recurrent
+    identity: name
     description: A named product, solution, service, programme, or engagement type being sold or described.
       Offerings are what the selling organisation provides to clients as solutions to solve their challenges
       or problems.
@@ -133,6 +135,7 @@ entity_types:
       - migrates_to
   CAPABILITY:
     kind: recurrent
+    identity: name
     description: A specific technical, functional, or operational capability that the selling organisation
       or its solution provides. Capabilities are components of an offering — things the solution can do.
     type_examples:
@@ -174,6 +177,7 @@ entity_types:
       - results_in
   USE_CASE:
     kind: recurrent
+    identity: name
     description: A specific application, scenario, or context in which the offering, solution or capability
       is applied to solve a problem or create value.
     type_examples:
@@ -212,6 +216,7 @@ entity_types:
       - integrates_with
   BENEFIT:
     kind: recurrent
+    identity: name
     description: A stated outcome, result, or value delivered — quantified or qualified. Benefits are
       what the client gains or has gained from the offering.
     type_examples:
@@ -240,6 +245,7 @@ entity_types:
       Capture the benefit's exact quantified value when the document states one, and link it to the capability or offering that delivers it.
   CHALLENGE:
     kind: recurrent
+    identity: name
     description: A named business problem, pain point, constraint, or need that the client faces. Challenges
       justify why the offering or capability is relevant.
     type_examples:
@@ -267,6 +273,7 @@ entity_types:
     guidance: Client problems captured as CHALLENGE entities.
   TECHNOLOGY:
     kind: recurrent
+    identity: name
     description: A named platform, system, tool, framework, protocol, or technical component referenced
       in the collateral — either part of the solution, the client's existing landscape, or a third-party
       component.
@@ -301,6 +308,7 @@ entity_types:
       - migrates_to
   DIFFERENTIATOR:
     kind: recurrent
+    identity: name
     description: A stated competitive advantage, unique quality, proof point, or distinctive characteristic
       of the offering or the selling organisation. Differentiators explain why the buyer should choose
       this over alternatives.
@@ -339,6 +347,7 @@ entity_types:
       - proven_for
   PERSON:
     kind: recurrent
+    identity: name
     description: Any named individual referenced in the sales document — decision-makers, champions, customer
       contacts, or named representatives.
     type_examples:
@@ -378,6 +387,7 @@ entity_types:
       - part_of
   OBJECT:
     kind: recurrent
+    identity: name
     description: Any physical product, hardware, or tangible item relevant to the sales context — distinct
       from a named TECHNOLOGY platform.
     type_examples:
@@ -408,6 +418,7 @@ entity_types:
       - runs_on
   ORGANIZATION:
     kind: recurrent
+    identity: name
     description: Any company, institution, partner, or formal group referenced beyond the CLIENT — vendors,
       regulators, industry bodies, or competitors.
     type_examples:
@@ -440,6 +451,7 @@ entity_types:
       - regulates
   LOCATION:
     kind: recurrent
+    identity: name
     description: Any geographic area, market, country, or site mentioned in the sales context.
     type_examples:
     - market
@@ -467,6 +479,7 @@ entity_types:
       - targeted_at
   EVENT:
     kind: occurrent
+    identity: occasion
     description: Any named occurrence, launch, announcement, or industry event referenced in the material.
     type_examples:
     - product_launch

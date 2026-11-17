@@ -31,6 +31,7 @@ guidance:
 entity_types:
   PRODUCT:
     kind: recurrent
+    identity: name
     description: 'A distinct banking product or sub-product offered by FirstUK Bank to customers. Each
       named product variant (SmartSaver Account, SmartSaver Plus, Current Account, Mortgage) is a separate
       entity. Include both the product name and its product_id code when stated. Note: payment cards are
@@ -104,6 +105,7 @@ entity_types:
       - explained_in
   PRODUCT_FEATURE:
     kind: recurrent
+    identity: name
     description: A specific capability, service, or entitlement included in a product — something that
       describes what the customer can do with or through the product. Capture features that differentiate
       products or are customer-facing benefits, not internal mechanics.
@@ -130,6 +132,7 @@ entity_types:
         hint: free or fees apply
   INTEREST_RATE_TIER:
     kind: recurrent
+    identity: name
     description: A specific interest rate applied to a defined balance range or product variant. Capture
       both the rate value and the balance threshold together as a single entity. Include both AER and
       gross rates when both are stated.
@@ -181,6 +184,7 @@ entity_types:
         WRONG:   { "name": "SmartSaver Tier 1 Rate -- 4.50% AER (£0-£10,000)" }
   FEE:
     kind: recurrent
+    identity: name
     description: A specific charge levied on the customer for a transaction type, service, or event. Capture
       the fee name, amount, and the triggering condition as a single entity. Include £0 fees only when
       they are explicitly called out as a feature (e.g., "no monthly fee").
@@ -215,6 +219,7 @@ entity_types:
       Capture £0 fees too when explicitly called out as a feature (e.g. "no monthly fee").
   ELIGIBILITY_RULE:
     kind: recurrent
+    identity: name
     description: A condition that a customer must satisfy to open, hold, or access a product. Include
       identity, residency, age, and balance requirements. These define who the product is for.
     type_examples:
@@ -246,6 +251,7 @@ entity_types:
       - referenced_in
   TERMS_CLAUSE:
     kind: recurrent
+    identity: name
     description: A specific contractual provision that governs the rights, obligations, or procedures
       between the customer and the bank under the product. This includes liability rules, dispute resolution,
       fraud protections, dormancy policies, data rights, and change-of-terms provisions. Each distinct
@@ -287,6 +293,7 @@ entity_types:
     guidance: TERMS_CLAUSE entities include time_limits when stated.
   FAQ_ITEM:
     kind: recurrent
+    identity: name
     description: A customer question and its official answer as a paired unit. Capture the question topic
       and key answer points together. Extract FAQ items that convey policy decisions, product rules, or
       useful customer guidance not otherwise captured in the above classes.
@@ -331,6 +338,7 @@ entity_types:
       - references
   ACCOUNT:
     kind: recurrent
+    identity: name
     description: A customer account opened, held, modified, or closed under a banking product — savings,
       current, or joint. Extract when the document defines rules, state, or events that apply to the account
       itself.
@@ -398,6 +406,7 @@ entity_types:
       - deducts_from
   ACCOUNT_HOLDER:
     kind: recurrent
+    identity: name
     description: A person with legal rights and obligations over an account — primary, joint, or secondary
       holder — including their liability, authority, and due-diligence obligations.
     type_examples:
@@ -422,6 +431,7 @@ entity_types:
       - liable_under
   AML_SCREENING:
     kind: recurrent
+    identity: name
     description: Anti-Money Laundering screening — sanctions/PEP list checks, transaction monitoring,
       or ongoing screening — as mandated, executed, or reviewed by the document.
     type_examples:
@@ -445,6 +455,7 @@ entity_types:
       - leads_to_filing_of
   CARD:
     kind: recurrent
+    identity: name
     description: A payment card issued to, or referenced in connection with, a customer account — its
       issuance, use, blocking, or replacement.
     type_examples:
@@ -471,6 +482,7 @@ entity_types:
       - governed_by
   CUSTOMER:
     kind: recurrent
+    identity: name
     description: A natural person who holds, applies for, or is otherwise the subject of a banking relationship
       — an account, product, transaction, or compliance process. Extract as a first-class entity whenever
       the customer is a defined party in the document, not merely mentioned in passing.
@@ -532,6 +544,7 @@ entity_types:
       - belongs_to
   DIRECT_DEBIT:
     kind: recurrent
+    identity: name
     description: A direct debit mandate on a customer account — its setup, the Direct Debit Guarantee,
       amendment, cancellation, or dispute.
     type_examples:
@@ -546,6 +559,7 @@ entity_types:
       cancellation_or_dispute_process: {}
   FRAUD_ALERT:
     kind: recurrent
+    identity: name
     description: A fraud detection alert or fraud response — its generation, investigation, escalation,
       or the customer-facing action it triggers.
     type_examples:
@@ -568,6 +582,7 @@ entity_types:
       - raised_on
   JOINT_ACCOUNT:
     kind: recurrent
+    identity: name
     description: An account arrangement held jointly by two or more customers with shared rights, liabilities,
       and consent requirements.
     type_examples:
@@ -589,6 +604,7 @@ entity_types:
       - both_holders_must_satisfy
   KYC_VERIFICATION:
     kind: recurrent
+    identity: name
     description: The Know Your Customer identity/address verification process — as a compliance obligation,
       an operational procedure, or an audited control. Extract when the document defines, executes, or
       evaluates KYC requirements.
@@ -617,6 +633,7 @@ entity_types:
       - applied_to
   SAR:
     kind: occurrent
+    identity: occasion
     description: A Suspicious Activity Report — the obligation, preparation, filing, or tracking of a
       SAR to the relevant authority (e.g. the NCA).
     type_examples:
@@ -639,6 +656,7 @@ entity_types:
       - based_on_evidence_from
   STANDING_ORDER:
     kind: recurrent
+    identity: name
     description: A standing order payment instruction on a customer account — its setup, amendment, cancellation,
       or failure handling.
     type_examples:
@@ -653,6 +671,7 @@ entity_types:
       failure_handling: {}
   TRANSACTION:
     kind: occurrent
+    identity: occasion
     description: A financial event on a customer account — a deposit, withdrawal, transfer, payment, or
       fee charge — referenced because it is monitored, disputed, reported, or otherwise governed by the
       document.

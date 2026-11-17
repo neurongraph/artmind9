@@ -20,6 +20,7 @@ temporal:
 entity_types:
   PROJECT:
     kind: recurrent
+    identity: name
     description: A named project, workstream, programme, initiative, or engagement described in the document.
       Includes both the top-level programme and individual sub-workstreams or tracks.
     type_examples:
@@ -100,6 +101,7 @@ entity_types:
       - impacted_by
   MILESTONE:
     kind: recurrent
+    identity: name
     description: A named checkpoint, deliverable, phase gate, target date, or key event in the project
       timeline. Includes both achieved and upcoming milestones.
     type_examples:
@@ -132,6 +134,7 @@ entity_types:
       - precedes
   PERSON:
     kind: recurrent
+    identity: name
     description: Any named individual mentioned in the document — project leads, sponsors, team members,
       client stakeholders, or named owners of actions and decisions.
     type_examples:
@@ -186,6 +189,7 @@ entity_types:
       - is_resolving
   ORGANIZATION:
     kind: recurrent
+    identity: name
     description: Any named company, team, business unit, or group involved in the project — client organisations,
       delivery partners, vendors, or internal teams.
     type_examples:
@@ -215,6 +219,7 @@ entity_types:
       - is_replacing
   RISK:
     kind: recurrent
+    identity: name
     description: An identified risk that could negatively impact the project if it materialises. Risks
       are potential, not yet realised.
     type_examples:
@@ -251,6 +256,7 @@ entity_types:
       materialised. Distinguish from ISSUE, which is already occurring.
   ISSUE:
     kind: recurrent
+    identity: name
     description: An active problem, blocker, or impediment that is currently affecting the project. Issues
       are already occurring, not merely potential.
     type_examples:
@@ -288,6 +294,7 @@ entity_types:
       from RISK, which has not yet materialised.
   DECISION:
     kind: occurrent
+    identity: occasion
     description: A governance decision, approval, direction change, or key agreement captured in the document.
       Decisions reflect choices made by named individuals or bodies.
     type_examples:
@@ -323,6 +330,7 @@ entity_types:
       - confirms
   ACTION:
     kind: recurrent
+    identity: name
     description: A specific task, next step, or follow-up item assigned to an owner with a due date or
       implied urgency. Actions are concrete and assignable.
     type_examples:
@@ -356,6 +364,7 @@ entity_types:
       - clears_path_to
   TECHNOLOGY:
     kind: recurrent
+    identity: name
     description: A named platform, system, tool, framework, or technical component referenced in the project
       context — either being used, built, migrated, or replaced.
     type_examples:
@@ -388,6 +397,7 @@ entity_types:
       - migrating_to
   OBJECT:
     kind: recurrent
+    identity: name
     description: Any physical item, document, deliverable, or tangible asset relevant to the project governance
       context.
     type_examples:
@@ -427,6 +437,7 @@ entity_types:
       - approved_by
   LOCATION:
     kind: recurrent
+    identity: name
     description: Any place, site, office, or geographic area referenced in the governance context — where
       work is performed, teams are based, or delivery takes place.
     type_examples:
@@ -460,6 +471,7 @@ entity_types:
       - office_of
   STATE_CHANGE:
     kind: occurrent
+    identity: occasion
     description: A change in an entity's state, status, or relationship over time — extract when the document
       records that something became different from before (a project's RAG status shifting, a risk escalating,
       a workstream starting or ending). Carry the date it happened.

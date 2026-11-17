@@ -19,6 +19,7 @@ guidance:
 entity_types:
   THING:
     kind: recurrent
+    identity: name
     description: Any named real-world object, person, organisation, product, place, or system that plays
       a concrete role in the document. Use this for the "who" and "what" of the document.
     type_examples:
@@ -99,6 +100,7 @@ entity_types:
       - regulated_by
   CONCEPT:
     kind: recurrent
+    identity: name
     description: Abstract ideas, topics, theories, principles, themes, or categories of knowledge discussed
       in the document. Use this for the intellectual content and subject matter.
     type_examples:
@@ -153,6 +155,7 @@ entity_types:
       - measured_through
   EVENT:
     kind: occurrent
+    identity: occasion
     description: Any named or described occurrence, happening, development, or episode referenced in the
       document — past, present, or planned.
     type_examples:
@@ -190,6 +193,7 @@ entity_types:
       - contradicts
   CLAIM:
     kind: occurrent
+    identity: occasion
     description: An assertion, argument, conclusion, recommendation, or stated opinion made in the document.
       Claims are what the document is trying to say or establish.
     type_examples:
@@ -244,6 +248,7 @@ entity_types:
       - illustrated_by
   METRIC:
     kind: recurrent
+    identity: name
     description: A quantitative measurement, statistic, figure, or data point presented in the document.
     type_examples:
     - financial
@@ -284,6 +289,7 @@ entity_types:
     guidance: Quantitative data points captured as METRIC entities.
   SOURCE:
     kind: recurrent
+    identity: name
     description: A named reference, citation, data provider, publication, or authority that the document
       draws on or points to.
     type_examples:
@@ -310,6 +316,7 @@ entity_types:
         hint: if mentioned
   PERSON:
     kind: recurrent
+    identity: name
     description: Any named individual referenced in the document — authors, subjects, experts, decision-makers,
       or people mentioned by name. Use when the entity is clearly an individual person rather than an
       organisation.
@@ -362,6 +369,7 @@ entity_types:
       - cited_from
   OBJECT:
     kind: recurrent
+    identity: name
     description: Any physical item, product, system, or tangible entity referenced in the document. Use
       when the entity is clearly a physical object rather than an organisation or abstract concept.
     type_examples:
@@ -391,6 +399,7 @@ entity_types:
       - characterised_by
   ORGANIZATION:
     kind: recurrent
+    identity: name
     description: Any company, institution, government body, NGO, or formal group referenced in the document.
       Use instead of THING when the entity is clearly an organisation.
     type_examples:
@@ -424,6 +433,7 @@ entity_types:
       - distributes
   LOCATION:
     kind: recurrent
+    identity: name
     description: Any geographic area, place, site, or address referenced in the document.
     type_examples:
     - country
