@@ -41,7 +41,10 @@ from artmind.observations import normalize_property_keys, property_key_rules
 #: The fields a retime owns -- everything else in a staging folder is left
 #: byte-for-byte alone.
 _DOCUMENT_TIME_KEYS = ("_valid_from", "_valid_to", "_valid_time_source")
-_OBSERVATION_TIME_KEYS = ("_valid_from", "_valid_to", "_valid_time_source", "_doc_valid_from")
+_OBSERVATION_TIME_KEYS = (
+    "_valid_from", "_valid_to", "_valid_time_source", "_valid_precision", "_valid_time_of_day",
+    "_doc_valid_from",
+)
 
 
 def _load_json(path: Path, default=None):
@@ -89,12 +92,16 @@ def retime_observations(observations: list[dict], document: dict, schema: dict) 
                 # An id-less observation is keyed by its key, else its position: never "" (two
                 # such observations would collide in the sidecar).
                 dropped[str(obs.get("id") or obs.get("key") or f"#{len(out)}")] = gone
-        fact_from, fact_to = ingest._fact_valid_time(entity_dates, cls, obs)
+        fact = ingest._fact_valid_time(entity_dates, cls, obs)
         new = {k: v for k, v in obs.items() if k not in _OBSERVATION_TIME_KEYS}
         times = {
-            "_valid_from": fact_from or doc_from,
-            "_valid_to": fact_to or doc_to,
-            "_valid_time_source": "property" if fact_from else document.get("_valid_time_source"),
+            "_valid_from": fact.valid_from or doc_from,
+            "_valid_to": fact.valid_to or doc_to,
+            "_valid_time_source": "property" if fact.valid_from else document.get("_valid_time_source"),
+            "_valid_precision": (
+                fact.precision if fact.valid_from else ingest._document_precision(document, schema)
+            ),
+            "_valid_time_of_day": fact.time_of_day,
             "_doc_valid_from": doc_from,
         }
         new.update({k: v for k, v in times.items() if v})

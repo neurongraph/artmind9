@@ -3592,26 +3592,69 @@ def _document_valid_time(
     return out
 
 
-def _fact_valid_time(entity_dates: dict, entity_class: str, props: dict) -> tuple[str | None, str | None]:
-    """A fact's own (valid_from, valid_to), from its class's `temporal:`-tagged
-    properties; None for a date absent or not readable as one ("today").
+@dataclass(frozen=True)
+class FactTime:
+    """A fact's valid time from its class's `temporal:` properties (spec 2026-11-15 §3.2).
+
+    `valid_to` is a tagged `valid_to` property's start, else the `valid_from` value's range
+    end (exclusive). `due` / `review` are read for Task 10's tags. `unparsed` counts tagged
+    values present but holding no date ("Ongoing"); they never become a date.
+    """
+
+    valid_from: str | None = None
+    valid_to: str | None = None
+    precision: str | None = None
+    time_of_day: str | None = None
+    due: str | None = None
+    review: str | None = None
+    unparsed: int = 0
+
+
+def _fact_valid_time(entity_dates: dict, entity_class: str, props: dict) -> FactTime:
+    """A fact's own valid time, from its class's `temporal:`-tagged properties, each read
+    with `temporal.parse_valid`; an absent or unreadable value gives no date.
 
     `entity_dates` is `temporal._entity_temporal_mapping(schema)`. Shared by
-    `_build_observations` and `artmind.retime`, which re-derives it from a
-    staged observation (its domain properties keep their names flattened).
+    `_build_observations`, `artmind.retime` (staged properties stay flattened, so it reads
+    a staged observation as is), `table2graph` and `update`. A tagged `valid_to` wins over
+    a range's end.
     """
-    from artmind.temporal import parse_iso
+    from artmind.temporal import parse_valid
 
-    fact_valid_from, fact_valid_to = None, None
+    found: dict = {}
+    unparsed = 0
     for canon_key, prop_name in (entity_dates.get(entity_class) or {}).items():
-        parsed = parse_iso(str(props.get(prop_name))) if props.get(prop_name) else None
-        if not parsed:
+        raw = props.get(prop_name)
+        if raw in (None, ""):
             continue
-        if canon_key == "valid_from":
-            fact_valid_from = parsed
-        elif canon_key == "valid_to":
-            fact_valid_to = parsed
-    return fact_valid_from, fact_valid_to
+        parsed = parse_valid(raw)
+        if parsed is None:
+            unparsed += 1
+        else:
+            found[canon_key] = parsed
+    start, end = found.get("valid_from"), found.get("valid_to")
+    return FactTime(
+        valid_from=start.start if start else None,
+        valid_to=end.start if end else (start.end if start else None),
+        precision=start.precision if start else None,
+        time_of_day=start.time_of_day if start else None,
+        due=found["due"].start if "due" in found else None,
+        review=found["review"].start if "review" in found else None,
+        unparsed=unparsed,
+    )
+
+
+def _document_precision(document: dict, schema: dict) -> str | None:
+    """The precision of a fact dated by its document: `none` for the schema's default date
+    (spec 2026-11-15 §2), the document's own `_valid_precision` else `day`; None when the
+    document has no date at all."""
+    from artmind.temporal import date_is_only_the_default
+
+    if not document.get("_valid_from"):
+        return None
+    if date_is_only_the_default(schema, document):
+        return "none"
+    return document.get("_valid_precision") or "day"
 
 
 def _build_observations(
@@ -3667,9 +3710,7 @@ def _build_observations(
             dropped[cls][key] += 1
 
         # A fact carrying its own dates overrides the document's.
-        fact_valid_from, fact_valid_to = _fact_valid_time(
-            entity_dates, entity.get("entity_class") or "", domain_props
-        )
+        fact = _fact_valid_time(entity_dates, cls, domain_props)
 
         observation = build_observation(
             entity,
@@ -3680,9 +3721,11 @@ def _build_observations(
             chunk_id=chunk_id,
             kind=class_kind(schema, entity.get("entity_class") or ""),
             doc_valid_from=doc_valid_from,
-            valid_from=fact_valid_from,
-            valid_to=fact_valid_to or doc_valid_to,
-            valid_time_source=("property" if fact_valid_from else document.get("_valid_time_source")),
+            valid_from=fact.valid_from,
+            valid_to=fact.valid_to or doc_valid_to,
+            valid_time_source=("property" if fact.valid_from else document.get("_valid_time_source")),
+            valid_precision=fact.precision if fact.valid_from else _document_precision(document, schema),
+            valid_time_of_day=fact.time_of_day,
         )
         # Two chunks asserting the same identity produce the same id only when
         # they ARE the same chunk; within one chunk, a repeated entity is one

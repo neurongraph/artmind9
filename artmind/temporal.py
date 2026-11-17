@@ -5,7 +5,8 @@ Non-destructive: original domain-named properties are never touched; canonical
 """
 import calendar
 import re
-from datetime import date, datetime
+from dataclasses import dataclass
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 from loguru import logger
@@ -35,17 +36,60 @@ _DATE_IN_TEXT = re.compile(
 )
 
 
-def parse_iso(value: str | None) -> str | None:
-    """Deterministically parse a date-ish string to ISO-8601 (date), else None.
+#: How much of a date the source stated. `none`: a default date, not a real one (spec
+#: 2026-11-15 §2); `half` is H1/H2 (plan question 19).
+PRECISIONS = ("day", "month", "quarter", "half", "year", "none")
+_COARSENESS = {p: i for i, p in enumerate(PRECISIONS)}
+TIME_OF_DAY_MAX = 40
 
-    Accepts full ISO, partial ISO (year / year-month), '15 March 2026',
-    '15th March 2026', 'March 15, 2026' and numeric '15/03/2026' or '15.03.2026'
-    (day first; '03/15/2026', which can only be month first, is read so).
-    Returns the input unchanged for partial ISO.
+_RANGE_RE = re.compile(
+    r"^(?:from\s+)?(?P<a>.+?)\s*(?:\bto\b|\buntil\b|\s[-–—]\s|–|—)\s*(?P<b>.+)$", re.IGNORECASE
+)
+#: `2026-01-27/28`: a range whose end gives only the day.
+_SLASH_DAY_RE = re.compile(r"^(\d{4}-\d{2}-\d{2})/(\d{1,2})$")
+_DAY_ONLY_RE = re.compile(r"^\d{1,2}$")
+#: An ISO datetime's `T`, read as a space so the time is split off like any other.
+_ISO_T_RE = re.compile(r"^(\d{4}-\d{2}-\d{2})T(?=\d)")
+_TIME_RE = re.compile(
+    r"\b(\d{1,2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:\s*(?:Z\b|[A-Z]{2,5}\b|[+-]\d{2}:?\d{2}))?)"
+)
+_QUALIFIER_RE = re.compile(r"\(([^()]*)\)\s*$")
+_QUARTER_RE = re.compile(r"^(?:(\d{4})-?Q([1-4])|Q([1-4])\s+(\d{4}))$", re.IGNORECASE)
+_HALF_RE = re.compile(r"^(?:H([12])\s+(\d{4})|(\d{4})-?H([12]))$", re.IGNORECASE)
+_MONTH_YEAR_RE = re.compile(r"^([A-Za-z]+)\s+(\d{4})$")
+
+
+@dataclass(frozen=True)
+class ValidTime:
+    """A parsed valid-time value: `start`/`end` ISO dates (`end` exclusive), how much of the
+    date was stated (`PRECISIONS`), and the time or qualifier text the source gave (kept,
+    never compared)."""
+
+    start: str
+    end: str | None
+    precision: str
+    time_of_day: str | None
+
+    @property
+    def implied_end(self) -> str:
+        """The exclusive end the precision implies: the next day, month, quarter, half or year."""
+        y, m, d = (int(x) for x in self.start.split("-"))
+        if self.precision == "day":
+            return (date(y, m, d) + timedelta(days=1)).isoformat()
+        months = {"month": 1, "quarter": 3, "half": 6, "year": 12}.get(self.precision)
+        if not months:
+            return self.start
+        total = (y * 12 + m - 1) + months
+        return date(total // 12, total % 12 + 1, 1).isoformat()
+
+
+def _parse_day(v: str) -> str | None:
+    """A whole value that is one day-precision date, as ISO-8601, else None.
+
+    Accepts ISO, '15 March 2026', '15th March 2026', 'March 15, 2026' and numeric
+    '15/03/2026' or '15.03.2026' (day first; '03/15/2026', which can only be month
+    first, is read so). An impossible date ('2026-02-30') is None.
     """
-    if not value:
-        return None
-    v = value.strip()
     m = _NUMERIC_RE.match(v)
     if m:
         first, second, year = (int(g) for g in m.groups())
@@ -54,17 +98,133 @@ def parse_iso(value: str | None) -> str | None:
             return datetime(year, month, day).date().isoformat()
         except ValueError:
             return None
-    if _ISO_FULL_RE.match(v):
-        return _ISO_FULL_RE.match(v).group(0)
-    if _ISO_PARTIAL_RE.match(v):
-        return v
+    m = _ISO_FULL_RE.fullmatch(v)
+    if m:
+        try:
+            return date(int(m.group(1)), int(m.group(2)), int(m.group(3))).isoformat()
+        except ValueError:
+            return None
     m = _DMY_RE.match(v)
     if m and m.group(2).lower() in _MONTHS:
-        return f"{int(m.group(3)):04d}-{_MONTHS[m.group(2).lower()]:02d}-{int(m.group(1)):02d}"
+        return _checked(int(m.group(3)), _MONTHS[m.group(2).lower()], int(m.group(1)))
     m = _MDY_RE.match(v)
     if m and m.group(1).lower() in _MONTHS:
-        return f"{int(m.group(3)):04d}-{_MONTHS[m.group(1).lower()]:02d}-{int(m.group(2)):02d}"
+        return _checked(int(m.group(3)), _MONTHS[m.group(1).lower()], int(m.group(2)))
     return None
+
+
+def _checked(year: int, month: int, day: int) -> str | None:
+    try:
+        return date(year, month, day).isoformat()
+    except ValueError:
+        return None
+
+
+def _one_date(text: str) -> tuple[str, str] | None:
+    """(start, precision) of a single full or partial date, or None."""
+    v = text.strip().rstrip(".,;")
+    m = _QUARTER_RE.match(v)
+    if m:
+        year = int(m.group(1) or m.group(4))
+        quarter = int(m.group(2) or m.group(3))
+        return f"{year:04d}-{3 * (quarter - 1) + 1:02d}-01", "quarter"
+    m = _HALF_RE.match(v)
+    if m:
+        year, half = (m.group(2), m.group(1)) if m.group(1) else (m.group(3), m.group(4))
+        return f"{int(year):04d}-{1 if half == '1' else 7:02d}-01", "half"
+    m = _MONTH_YEAR_RE.match(v)
+    if m and m.group(1).lower() in _MONTHS:
+        return f"{int(m.group(2)):04d}-{_MONTHS[m.group(1).lower()]:02d}-01", "month"
+    m = _ISO_PARTIAL_RE.match(v)
+    if m:
+        if not m.group(2):
+            return f"{m.group(1)}-01-01", "year"
+        return (f"{m.group(1)}-{m.group(2)}-01", "month") if 1 <= int(m.group(2)) <= 12 else None
+    iso = _parse_day(v)
+    return (iso, "day") if iso else None
+
+
+def _day_in_month_of(start: str, day: str) -> tuple[str, str] | None:
+    """`28` after `2026-01-27`: the same month's day, or None when it is no date."""
+    iso = _checked(int(start[:4]), int(start[5:7]), int(day))
+    return (iso, "day") if iso else None
+
+
+def parse_valid(value) -> ValidTime | None:
+    """Parse one valid-time value (spec 2026-11-15 §3.1). Pure; None when it holds no date.
+
+    A range (`A to B`, `A - B`, `A – B`, `A/B` with a day-only `B`, `from A until B`) gives
+    `end = B`'s implied end, exclusive, and the coarser end's precision; an end not after
+    the start is dropped. Partial dates (`YYYY`, `YYYY-MM`, `YYYY-Qn`, `Qn YYYY`,
+    `Month YYYY`, `H1/H2 YYYY`) start on their first day. A time (`HH:MM`, optional zone),
+    a trailing parenthesised qualifier, or the text after a leading date goes to
+    `time_of_day` (≤ `TIME_OF_DAY_MAX` chars) and never moves the date.
+    """
+    if value is None:
+        return None
+    text = " ".join(str(value).split())
+    if not text:
+        return None
+    text = _ISO_T_RE.sub(r"\1 ", text)
+    notes: list[str] = []
+    q = _QUALIFIER_RE.search(text)
+    if q:
+        if q.group(1).strip():
+            notes.append(q.group(1).strip())
+        text = text[: q.start()].strip()
+    t = _TIME_RE.search(text)
+    if t:
+        notes.insert(0, t.group(1).strip())
+        text = " ".join((text[: t.start()] + " " + text[t.end():]).split())
+
+    parts = None
+    slash = _SLASH_DAY_RE.match(text)
+    if slash:
+        first = _one_date(slash.group(1))
+        second = _day_in_month_of(slash.group(1), slash.group(2)) if first else None
+        if first and second:
+            parts = [first, second]
+    else:
+        r = _RANGE_RE.match(text)
+        if r:
+            a = _one_date(r.group("a"))
+            b_text = r.group("b").strip().rstrip(".,;")
+            if a and a[1] == "day" and _DAY_ONLY_RE.match(b_text):
+                b = _day_in_month_of(a[0], b_text)
+            else:
+                b = _one_date(b_text)
+            if a and b:
+                parts = [a, b]
+    if parts is None:
+        single = _one_date(text)
+        if single is None:
+            head, _, tail = text.partition(" ")
+            single = _one_date(head)
+            if single is None:
+                return None
+            if tail:
+                notes.append(tail)
+        parts = [single]
+
+    start, precision = parts[0]
+    end = None
+    if len(parts) == 2:
+        end = ValidTime(parts[1][0], None, parts[1][1], None).implied_end
+        if end > start:
+            precision = max((parts[0][1], parts[1][1]), key=_COARSENESS.__getitem__)
+        else:
+            end = None
+    time_of_day = " ".join(notes)[:TIME_OF_DAY_MAX] or None
+    return ValidTime(start, end, precision, time_of_day)
+
+
+def parse_iso(value: str | None) -> str | None:
+    """The start of `parse_valid(value)` as an ISO date, for readers that need only a date.
+
+    A partial date is its first day (`2026` -> `2026-01-01`); a range is its start.
+    """
+    parsed = parse_valid(value)
+    return parsed.start if parsed else None
 
 
 def find_date(text: str | None) -> str | None:

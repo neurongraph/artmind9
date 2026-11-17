@@ -31,8 +31,8 @@ def test_parse_iso_human_date():
     assert parse_iso("15 March 2026") == "2026-03-15"
 
 
-def test_parse_iso_partial_year():
-    assert parse_iso("2026") == "2026"
+def test_parse_iso_partial_year_is_its_first_day():
+    assert parse_iso("2026") == "2026-01-01"
 
 
 def test_parse_iso_unparseable_returns_none():

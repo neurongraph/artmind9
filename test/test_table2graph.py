@@ -773,3 +773,10 @@ def test_table2graph_refuses_a_period_as_of(value):
     result = CliRunner().invoke(cli, ["ingest", "table2graph", "t", "--asOf", value])
     assert result.exit_code == 1
     assert "full ISO date" in result.output
+
+
+def test_a_date_column_takes_only_a_whole_day():
+    """parse_iso now reads "2026" as its first day; a `date` column still takes days only."""
+    assert t2g._to_date("15/03/2026") == "2026-03-15"
+    assert t2g._to_date("2026") is None
+    assert t2g._to_date("2026-Q1") is None

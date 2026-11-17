@@ -417,6 +417,8 @@ def build_observation(
     valid_time_source: str | None = None,
     retracts: str | None = None,
     identity: str | None = None,
+    valid_precision: str | None = None,
+    valid_time_of_day: str | None = None,
 ) -> dict:
     """Build one Observation's property map. Pure -- no session, no I/O.
 
@@ -439,6 +441,10 @@ def build_observation(
     - **`_doc_valid_from`** -- *document-level*, always. This is what orders
       the winner. It is denormalized onto the observation so the rebuild needs
       no Document join and no schema access inside its transaction.
+
+    `_valid_precision` (`temporal.PRECISIONS`; `none` for a default document date) and
+    `_valid_time_of_day` (the time or qualifier text, never compared) travel with the
+    fact-level window (spec 2026-11-15 §2).
 
     `_kind` is likewise denormalized from the class's schema declaration at
     ingest time, for the same reason.
@@ -492,6 +498,10 @@ def build_observation(
         props["_valid_to"] = valid_to
     if valid_time_source:
         props["_valid_time_source"] = valid_time_source
+    if valid_precision:
+        props["_valid_precision"] = valid_precision
+    if valid_time_of_day:
+        props["_valid_time_of_day"] = valid_time_of_day
     if doc_valid_from:
         props["_doc_valid_from"] = doc_valid_from
     if retracts:

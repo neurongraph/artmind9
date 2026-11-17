@@ -50,6 +50,11 @@ _OBSERVATION_SYSTEM_KEYS = frozenset(
         "_valid_to",
         "_doc_valid_from",
         "_valid_time_source",
+        "_valid_precision",
+        "_valid_time_of_day",
+        "_due",
+        "_review",
+        "_revised_at",
         "_retracts",
     }
 )
@@ -409,6 +414,9 @@ def merge_observations(
         props["_valid_to"] = winner["_valid_to"]
     if winner.get("_valid_time_source"):
         props["_valid_time_source"] = winner["_valid_time_source"]
+    for field in ("_valid_precision", "_valid_time_of_day"):
+        if winner.get(field):
+            props[field] = winner[field]
 
     return {
         "props": props,

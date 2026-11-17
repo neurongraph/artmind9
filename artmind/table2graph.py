@@ -132,10 +132,11 @@ def _to_date(value):
     match = _ISO_DATE_RE.match(str(value))
     if match:
         return match.group(1)
-    from artmind.temporal import parse_iso
+    from artmind.temporal import parse_valid
 
-    parsed = parse_iso(str(value))
-    return parsed if parsed and len(parsed) == 10 else None
+    # A `date` column holds days: a partial date ("2026") is not one.
+    parsed = parse_valid(str(value))
+    return parsed.start if parsed and parsed.precision == "day" else None
 
 
 def _to_year(value):
@@ -923,7 +924,8 @@ def build_staged(
     `refresh_mode`, `business_key`, `ingested_at`, `source_file`).
     """
     from artmind.observations import build_observation, class_kind
-    from artmind.temporal import _entity_temporal_mapping, parse_iso
+    from artmind.ingest import _fact_valid_time
+    from artmind.temporal import _entity_temporal_mapping
 
     domain = table["domain"]
     table_name = table["table_name"]
@@ -1083,14 +1085,10 @@ def build_staged(
     for built in all_built:
         if id(built) not in keep_ids:
             continue
-        fact_from, fact_to = None, None
-        for canon, prop in (entity_dates.get(built.entity_class) or {}).items():
-            raw = built.props.get(prop)
-            parsed = parse_iso(_display(raw)) if raw is not None else None
-            if canon == "valid_from":
-                fact_from = parsed
-            elif canon == "valid_to":
-                fact_to = parsed
+        fact = _fact_valid_time(
+            entity_dates, built.entity_class,
+            {k: _display(v) for k, v in built.props.items() if v is not None},
+        )
         entity = {"name": built.name, "entity_class": built.entity_class, "_domain": domain}
         if built.type:
             entity["type"] = built.type
@@ -1105,9 +1103,12 @@ def build_staged(
             chunk_id=built.row.chunk_id,
             kind=class_kind(schema, built.entity_class),
             doc_valid_from=built.row.valid_from,
-            valid_from=fact_from,
-            valid_to=fact_to,
-            valid_time_source="property" if fact_from else ("table_row" if temporal else "table"),
+            valid_from=fact.valid_from,
+            valid_to=fact.valid_to,
+            valid_time_source="property" if fact.valid_from else ("table_row" if temporal else "table"),
+            # A row's own date (its SCD2 batch) is a day.
+            valid_precision=fact.precision or ("day" if built.row.valid_from else None),
+            valid_time_of_day=fact.time_of_day,
             identity=built.name,
         )
         # Same provenance marker `update confirm` sets ("user_chat"). Which

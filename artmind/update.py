@@ -390,9 +390,11 @@ def write_user_chat(
     # A domain with no schema file of its own falls back to general_schema.yaml, as the draft
     # step (`_load_schema`) does, so it does not lose every property to the declared-key filter;
     # `load_schema` first, for a dotted child's inherited `property_aliases`.
-    from artmind.temporal import load_schema
+    from artmind.ingest import _fact_valid_time
+    from artmind.temporal import _entity_temporal_mapping, load_schema
 
     schema = load_schema(domain) or _load_schema(domain) or {}
+    entity_dates = _entity_temporal_mapping(schema)
     declared = declared_property_keys(schema)
     key_rules = property_key_rules(schema)
     dropped_property_values = 0
@@ -459,6 +461,8 @@ def write_user_chat(
                 entity_class, declared, own=LLM_BAG_OWN_KEYS,  # a raw LLM bag: only declared keys
             )
             dropped_property_values += len(gone)
+            # A fact stating its own date is dated by it (spec 2026-11-15 §3.1), else by today.
+            fact = _fact_valid_time(entity_dates, entity_class, domain_props)
             observation = build_observation(
                 {
                     "name": entity_data["name"],
@@ -476,7 +480,11 @@ def write_user_chat(
                 chunk_id=chat_id,
                 kind=_class_kind(schema, entity_class),
                 doc_valid_from=today,
-                valid_time_source="user_chat",
+                valid_from=fact.valid_from,
+                valid_to=fact.valid_to,
+                valid_time_source="property" if fact.valid_from else "user_chat",
+                valid_precision=fact.precision or "day",
+                valid_time_of_day=fact.time_of_day,
                 identity=identity,
             )
             observation["source_kind"] = "user_chat"
@@ -505,6 +513,7 @@ def write_user_chat(
                     kind=_class_kind(schema, entity_class),
                     doc_valid_from=today,
                     valid_time_source="user_chat",
+                    valid_precision="day",
                     retracts=target_id,
                     identity=identity,
                 )
