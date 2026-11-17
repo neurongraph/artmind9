@@ -642,7 +642,7 @@ def test_redo_preconditions_refuse_before_retime_writes(tmp_path, monkeypatch):
     before = (folder / "document.json").read_bytes()
     with pytest.raises(ValueError, match="needs a model"):
         retime_domain("journal", redo_properties=True, text_model=None)
-    monkeypatch.setattr(backfill, "_worker_running", lambda: True)
+    monkeypatch.setattr(backfill, "worker_is_running", lambda: True)
     with pytest.raises(ValueError, match="worker is running"):
         retime_domain("journal", redo_properties=True, text_model="m")
     assert (folder / "document.json").read_bytes() == before, "nothing re-dated before the refusal"

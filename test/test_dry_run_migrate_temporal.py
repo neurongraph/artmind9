@@ -5,7 +5,7 @@ from contextlib import contextmanager
 from click.testing import CliRunner
 
 from _dry_run import WritableRecorder, assert_effect_shape, assert_no_write_cypher
-from artmind import backfill, data_model, setup
+from artmind import backfill, data_model
 from artmind.cli import cli
 from artmind.migrations.temporal_v1 import cli as pack_cli
 from artmind.migrations.temporal_v1 import steps as steps_mod
@@ -24,8 +24,12 @@ def test_dry_run_sends_no_write_cypher_and_writes_no_file(monkeypatch, tmp_path)
                                                   lambda ctx, dry: applied.append(1) or {})])
     monkeypatch.setattr(pack_cli, "_open_graph", graph)
     monkeypatch.setattr(pack_cli, "_vault_root", lambda: tmp_path)
-    monkeypatch.setattr(setup, "_uncommitted", lambda root, path: False)
-    monkeypatch.setattr(backfill, "_worker_running", lambda: False)
+    monkeypatch.setattr(pack_cli, "_probe_graph", graph)
+
+    class Out:
+        returncode, stdout = 0, ""
+    monkeypatch.setattr(pack_cli, "_git", lambda root, *a: Out())
+    monkeypatch.setattr(backfill, "worker_is_running", lambda: False)
     monkeypatch.setattr(data_model, "MODEL_FILE", tmp_path / "data_model.yaml")
     before = sorted(tmp_path.rglob("*"))
     result = CliRunner().invoke(cli, ["migrate", "temporal", "--dryRun", "--compact"])

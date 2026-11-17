@@ -5,7 +5,7 @@ from contextlib import contextmanager
 import pytest
 from click.testing import CliRunner
 
-from artmind import backfill, data_model, setup
+from artmind import backfill, data_model
 from artmind.cli import cli
 from artmind.migrations.temporal_v1 import cli as pack_cli
 from artmind.migrations.temporal_v1 import steps as steps_mod
@@ -43,6 +43,21 @@ class Fake:
         return Step(self.name, pending, apply)
 
 
+class _Out:
+    def __init__(self, rc=0, out=""):
+        self.returncode, self.stdout = rc, out
+
+
+def _git(repo=True, dirty=False, calls=None):
+    def run(root, *args):
+        if calls is not None:
+            calls.append(args)
+        if args[0] == "rev-parse":
+            return _Out(0 if repo else 128)
+        return _Out(0, " M kg/x.json" if dirty else "")
+    return run
+
+
 @pytest.fixture
 def env(monkeypatch, tmp_path):
     log = []
@@ -50,8 +65,10 @@ def env(monkeypatch, tmp_path):
     monkeypatch.setattr(steps_mod, "STEPS", [a.step(log), b.step(log), c.step(log)])
     monkeypatch.setattr(pack_cli, "_open_graph", _graph)
     monkeypatch.setattr(pack_cli, "_vault_root", lambda: tmp_path)
-    monkeypatch.setattr(setup, "_uncommitted", lambda root, path: False)
-    monkeypatch.setattr(backfill, "_worker_running", lambda: False)
+    monkeypatch.setattr(pack_cli, "_probe_graph", _graph)
+    monkeypatch.setattr(pack_cli, "_git", _git())
+    monkeypatch.setattr("artmind.cli._get_available_domains", lambda: ["a", "b"])
+    monkeypatch.setattr(backfill, "worker_is_running", lambda: False)
     monkeypatch.setattr(data_model, "recorded", lambda: 0)
     monkeypatch.setattr(data_model, "read_graph_version", lambda *a, **k: 0)
     return log
@@ -96,9 +113,10 @@ def test_real_run_applies_only_pending_steps_in_order_then_rechecks(env):
 
 
 @pytest.mark.parametrize("reason, patch", [
-    ("uncommitted", lambda mp: mp.setattr(setup, "_uncommitted", lambda root, path: True)),
-    ("ingest worker", lambda mp: mp.setattr(backfill, "_worker_running", lambda: True)),
-    ("Neo4j", lambda mp: mp.setattr(pack_cli, "_open_graph", lambda: (_ for _ in ()).throw(OSError("down")))),
+    ("uncommitted", lambda mp: mp.setattr(pack_cli, "_git", _git(dirty=True))),
+    ("repository", lambda mp: mp.setattr(pack_cli, "_git", _git(repo=False))),
+    ("ingest worker", lambda mp: mp.setattr(backfill, "worker_is_running", lambda: True)),
+    ("Neo4j", lambda mp: mp.setattr(pack_cli, "_probe_graph", lambda: (_ for _ in ()).throw(OSError("down")))),
 ])
 def test_a_failed_precondition_writes_nothing_and_exits_1(env, monkeypatch, reason, patch):
     patch(monkeypatch)
@@ -108,6 +126,95 @@ def test_a_failed_precondition_writes_nothing_and_exits_1(env, monkeypatch, reas
 
 
 def test_the_dry_run_reports_preconditions_as_blocked(env, monkeypatch):
-    monkeypatch.setattr(backfill, "_worker_running", lambda: True)
+    monkeypatch.setattr(backfill, "worker_is_running", lambda: True)
     out = json.loads(_run("migrate", "temporal", "--dryRun").stdout)
     assert len(out["blocked"]) == 1 and "worker" in out["blocked"][0]
+
+
+def test_git_status_runs_once_over_directories(env, monkeypatch):
+    calls = []
+    monkeypatch.setattr(pack_cli, "_git", _git(calls=calls))
+    _run("migrate", "temporal", "--dryRun")
+    assert [c[0] for c in calls] == ["rev-parse", "status"]
+
+
+def _two_domain_steps(monkeypatch, log):
+    left = {"a": 1, "b": 1}
+
+    def pending(ctx):
+        n = sum(left[d] for d in ctx.domains)
+        return {"items": n} if n else {}
+
+    def apply(ctx, dry):
+        for d in ctx.domains:
+            left[d] = 0
+        return {}
+    monkeypatch.setattr(steps_mod, "STEPS", [Step("per", pending, apply)])
+    monkeypatch.setattr(steps_mod, "stamp_if_done", lambda ctx: log.append(list(ctx.domains)) or False)
+
+
+def test_a_scoped_run_hands_the_stamp_every_domain(env, monkeypatch):
+    log = []
+    _two_domain_steps(monkeypatch, log)
+    _run("migrate", "temporal", "--domain", "a")
+    assert log == [["a", "b"]]
+
+
+def test_domain_reaches_the_context(env, monkeypatch):
+    seen = []
+    monkeypatch.setattr(steps_mod, "STEPS", [Step("s", lambda ctx: seen.append(ctx.domains) or {}, lambda c, d: {})])
+    _run("migrate", "status", "--domain", "a")
+    assert seen == [["a"]]
+
+
+def test_a_failing_step_reports_and_stops(env, monkeypatch):
+    log, stamps = [], []
+
+    def boom(ctx, dry):
+        raise RuntimeError("bad key")
+    monkeypatch.setattr(steps_mod, "STEPS", [Fake("one", 1).step(log), Step("two", lambda c: {"n": 1}, boom),
+                                              Fake("three", 1).step(log)])
+    monkeypatch.setattr(steps_mod, "stamp_if_done", lambda ctx: stamps.append(1) or True)
+    result = _run("migrate", "temporal", ok=False)
+    out = json.loads(result.stdout)
+    assert result.exit_code == 1 and stamps == []
+    assert out["steps"][1]["error"] == "RuntimeError: bad key" and out["done"] is False
+    assert ("apply", "three", False) not in log and ("apply", "one", False) in log
+    assert out["steps"][2]["remaining"] == {"items": 1}  # the re-check ran
+
+
+def test_a_store_failure_in_a_step_exits_3(env, monkeypatch):
+    from neo4j.exceptions import ServiceUnavailable
+
+    def boom(ctx, dry):
+        raise ServiceUnavailable("down")
+    monkeypatch.setattr(steps_mod, "STEPS", [Step("g", lambda c: {"n": 1}, boom)])
+    assert _run("migrate", "temporal", ok=False).exit_code == 3
+
+
+def test_a_step_still_pending_after_apply_exits_1(env, monkeypatch):
+    monkeypatch.setattr(steps_mod, "STEPS", [Step("stuck", lambda c: {"n": 1}, lambda c, d: {})])
+    result = _run("migrate", "temporal", ok=False)
+    out = json.loads(result.stdout)
+    assert result.exit_code == 1 and out["done"] is False and out["steps"][0]["remaining"] == {"n": 1}
+
+
+def test_an_unreadable_step_is_reported_and_status_still_prints(env, monkeypatch):
+    def boom(ctx):
+        raise OSError("no graph")
+    monkeypatch.setattr(steps_mod, "STEPS", [Step("bad", boom, lambda c, d: {}), Fake("ok", 1).step([])])
+    out = json.loads(_run("migrate", "status").stdout)
+    assert out["steps"][0]["pending"] is None and out["steps"][0]["done"] is False and "error" in out["steps"][0]
+    assert out["steps"][1]["pending"] == {"items": 1}
+    assert any("bad" in w for w in out["warnings"])
+    assert json.loads(_run("migrate", "temporal", "--dryRun").stdout)["steps"][0]["pending"] is None
+
+
+def test_status_writes_nothing(env, monkeypatch, tmp_path):
+    stamps = []
+    monkeypatch.setattr(data_model, "stamp", lambda v: stamps.append(v))
+    monkeypatch.setattr(data_model, "stamp_graph", lambda s, v: stamps.append(v))
+    monkeypatch.setattr(steps_mod, "stamp_if_done", lambda ctx: stamps.append(1) or True)
+    before = sorted(tmp_path.rglob("*"))
+    _run("migrate", "status")
+    assert stamps == [] and sorted(tmp_path.rglob("*")) == before

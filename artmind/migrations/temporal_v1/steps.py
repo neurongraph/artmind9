@@ -34,5 +34,8 @@ STEPS: list[Step] = []
 
 
 def stamp_if_done(ctx: MigrationContext) -> bool:
-    """Stamp the file and this graph current once no step is pending. Filled in by Task 36."""
+    """Stamp the file and this graph current once no step is pending.
+
+    Always called with an unscoped context (every domain): a run limited to one domain
+    must not bless the others. Filled in by Task 36."""
     return False

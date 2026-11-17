@@ -264,7 +264,7 @@ def test_nothing_committed_means_no_rebuild(staged, monkeypatch):
 
 
 def test_refuses_while_the_worker_runs(staged, monkeypatch):
-    monkeypatch.setattr(backfill, "_worker_running", lambda: True)
+    monkeypatch.setattr(backfill, "worker_is_running", lambda: True)
     monkeypatch.setattr(backfill, "_ask", lambda *a, **k: (_ for _ in ()).throw(AssertionError("no LLM")))
     r = _cli(*FILL)
     assert r.exit_code == 1 and "worker is running" in r.output
