@@ -4761,11 +4761,14 @@ def _undated_lookup(observations: list[dict]) -> dict[tuple[str, str], set[str]]
     that is no observation's own -- a same-day variant of an occasion ("Tennis today" beside
     "Tennis") folds onto one observation and keeps only the first raw name. Used only when it
     names exactly one observation of the chunk; two days of "Tennis" stay unresolved rather
-    than guessed (spec 2026-11-15 §5.2)."""
+    than guessed (spec 2026-11-15 §5.2). Only occasion observations (a key carrying
+    `OCCASION_SEP`) take part: a name-identity name is never matched through it."""
+    from artmind.observations import OCCASION_SEP
+
     out: dict[tuple[str, str], set[str]] = {}
     for o in observations:
         chunk_id = o.get("chunk_id")
-        if not chunk_id:
+        if not chunk_id or OCCASION_SEP not in (o.get("key") or ""):
             continue
         for field in ("name", "canonical_name"):
             if o.get(field):

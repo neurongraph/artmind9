@@ -29,6 +29,8 @@ from artmind.observations import normalize_name, strip_occasion_date
     ("Tennis on 30th", "Tennis"),
     ("Race, 1st of May", "Race"),
     ("Tennis   on   2024-03-30", "Tennis"),
+    ("Trip 28 - 30 March 2024", "Trip 28 - 30 March 2024"),
+    ("Festival 1 – 3 May", "Festival 1 – 3 May"),
     # A bare ordinal after a separator is a place in a series, not a day.
     ("Grand Prix - 1st", "Grand Prix - 1st"),
     ("Match, 2nd", "Match, 2nd"),
@@ -233,5 +235,21 @@ def test_an_undated_name_naming_two_days_is_not_guessed():
     observations, _ = ing._build_observations(entities, props, {}, SCHEMA, DOCUMENT)
     tx = Recorder()
     rels = [{"source_name": "Alex", "target_name": "Tennis on Saturday", "rel_type": "PLAYED", "chunk_id": "c1"}]
+    assert ing._write_relation_observations(tx, rels, DOCUMENT, observations) == 0
+    assert tx.calls == []
+
+
+def test_a_name_identity_observation_is_not_matched_through_its_undated_name():
+    from _neo4j_recorder import Recorder
+
+    from artmind import ingest as ing
+
+    entities = [
+        {"id": "e1", "name": "Lease change on 2024-03-30", "entity_class": "AMENDMENT", "chunk_id": "c1", "_domain": "pj"},
+        {"id": "e5", "name": "Alex", "entity_class": "PERSON", "chunk_id": "c1", "_domain": "pj"},
+    ]
+    observations, _ = ing._build_observations(entities, [], {}, SCHEMA, DOCUMENT)
+    tx = Recorder()
+    rels = [{"source_name": "Alex", "target_name": "Lease change", "rel_type": "SIGNED", "chunk_id": "c1"}]
     assert ing._write_relation_observations(tx, rels, DOCUMENT, observations) == 0
     assert tx.calls == []
