@@ -26,8 +26,9 @@ before it changed", "what happened in order" — or when an entity carries
   Use `--includeHistory` when the question is explicitly historical ("what did the
   policy say in January", "history of…", "previous version", "what changed"); omit it
   otherwise. (`--asOf` still works on `pattern10` as an alias, but it is a switch, not a
-  date filter.) `entity-history` is the one command with a genuine
-  point-in-time `--asOf`, because it's reading the fact-level valid-time axis directly.
+  date filter.) `entity-history --asOf` is a valid-time floor too: it keeps observations
+  whose own `_valid_from` is on or before the date and ignores `_valid_to`. Read the rows'
+  dates yourself when the question is about one moment.
 
 ## Edited documents: what a re-ingest keeps
 
