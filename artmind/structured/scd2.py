@@ -5,7 +5,7 @@ tagged with three system columns: ``_valid_from``, ``_valid_to`` (``NULL`` =
 still open), ``_is_current`` (bool). ``apply_scd2_refresh`` diffs a new batch
 of rows against that history and rewrites the file with the merged result;
 ``asof_view_sql`` builds the read-side query fragment (current-only, or as of
-a given date) mirroring ``graph_query.asof_predicate``'s valid-time semantics.
+a given date) mirroring ``graph_query.valid_predicate``'s valid-time semantics.
 
 DuckDB cannot ``UPDATE``/``INSERT`` a parquet-backed VIEW in place, so the
 refresh materializes the existing history into a real temp table, applies the
@@ -174,7 +174,7 @@ def asof_view_sql(table: str, as_of: str | None = None) -> str:
 
     ``as_of=None`` returns the "current" filter (``_is_current``). A given
     ``as_of`` (an ISO date string) returns the as-of filter using the same
-    valid-time convention as ``graph_query.asof_predicate``: a row is visible
+    valid-time convention as ``graph_query.valid_predicate``: a row is visible
     when ``_valid_from <= as_of`` and (``_valid_to`` is still open, or
     ``as_of`` falls strictly before it). Resolve/validate ``as_of`` (e.g. via
     ``graph_query.resolve_as_of``) before calling this function -- it is

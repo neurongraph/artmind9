@@ -88,7 +88,7 @@ def test_adjudicator_applies_the_later_document_as_newer(monkeypatch):
     with patch("artmind.supersession_direction.meta_for", return_value={}):
         c.materialize(session, PAIR, VERDICT, [], [], "m")
     assert applied == [(("docA", "docB", "document", "2026-03-01"), {"detected_by": "adjudicator"})]
-    assert "coalesce(da._valid_from, da.valid_from)" in session.calls[0][0]
+    assert "da._valid_from AS af" in session.calls[0][0] and "da.valid_from" not in session.calls[0][0]
 
 
 def test_adjudicator_applies_nothing_when_direction_is_unknown(monkeypatch):
@@ -102,7 +102,7 @@ def test_adjudicator_applies_nothing_when_direction_is_unknown(monkeypatch):
 def test_doc_validity_reads_underscore_valid_from():
     session = _Session({"valid_from": "2026-03-01", "version": "2.0"})
     assert c._doc_validity(session, [{"doc_id": "d1"}]) == ("2026-03-01", "2.0")
-    assert "coalesce(d._valid_from, d.valid_from) AS valid_from" in session.calls[0][0]
+    assert "d._valid_from AS valid_from" in session.calls[0][0] and "d.valid_from" not in session.calls[0][0]
 
 
 def test_detect_supersession_reads_underscore_valid_from_and_skips_contradicting_pair(monkeypatch):
@@ -135,7 +135,7 @@ def test_detect_supersession_reads_underscore_valid_from_and_skips_contradicting
 
     report = t.detect_supersession("d", dry_run=False)
 
-    assert "coalesce(d._valid_from, d.valid_from) AS valid_from" in sessions[0]
+    assert "d._valid_from AS valid_from" in sessions[0] and "d.valid_from" not in sessions[0]
     # x.md says it supersedes x_v2, x_v2.md says it is superseded by x: consistent, x newer -> applied
     assert applied and applied[0][:2] == ("old", "new")
 

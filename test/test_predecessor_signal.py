@@ -13,12 +13,12 @@ OLD = {"id": "o1", "name": "old.md", "path": "old.md", "valid_from": "2026-01-15
 
 def test_supersedes_field_projects_valid_from():
     f = supersedes_field("d")
-    assert "valid_from: coalesce(older._valid_from, older.valid_from)" in f
+    assert "valid_from: older._valid_from" in f and "older.valid_from" not in f
     assert "SUPERSEDES]->(older)" in f
 
 
 def test_chunk_fetch_and_survey_cypher_carry_predecessors():
-    assert "valid_from: coalesce(older._valid_from" in vector_query._chunk_fetch_cypher()
+    assert "valid_from: older._valid_from" in vector_query._chunk_fetch_cypher()
     assert "SUPERSEDES]->(older)" in survey._DOCUMENTS
     assert "AS supersedes" in survey._DOCUMENTS
 

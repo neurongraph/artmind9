@@ -135,25 +135,25 @@ def expand_domain_family(domain: str) -> list[str]:
     return [domain] + sorted({r["dom"] for r in rows if r.get("dom")})
 
 
-def asof_predicate(var: str, param: str = "asOf") -> str:
-    """NULL-safe valid-time filter. Untimed nodes are always visible.
+def valid_predicate(var: str, param: str = "asOf", *, include_undated: bool = True) -> str:
+    """Valid-time filter over `_valid_from` / `_valid_to` only (spec 2026-11-15 §6.2).
 
-    Emitted only when the caller requests as-of filtering.
+    `_valid_to` is exclusive. A node with no `_valid_from`, or with `_valid_precision = 'none'`
+    (a default date, not a real one), is undated: shown when `include_undated`, else hidden.
+    `$asOf` is already widened by `resolve_as_of` (a year means its last day).
     """
-    return (
-        f"(${param} IS NULL OR "
-        f"((coalesce({var}._valid_from, {var}.valid_from) IS NULL "
-        f"OR coalesce({var}._valid_from, {var}.valid_from) <= ${param}) "
-        f"AND (coalesce({var}.valid_to, {var}._valid_to) IS NULL "
-        f"OR coalesce({var}.valid_to, {var}._valid_to) > ${param})))"
-    )
+    undated = f"({var}._valid_from IS NULL OR {var}._valid_precision = 'none')"
+    dated = (f"({var}._valid_from <= ${param} "
+             f"AND ({var}._valid_to IS NULL OR {var}._valid_to > ${param}))")
+    body = f"({undated} OR {dated})" if include_undated else f"(NOT {undated} AND {dated})"
+    return f"(${param} IS NULL OR {body})"
 
 
 def supersedes_list(var: str) -> str:
     """Cypher list expression naming the documents `var` replaced, with each one's date
-    (`valid_from`: the stored `_valid_from`, else `valid_from`)."""
+    (`valid_from`: the stored `_valid_from`)."""
     return (f"[({var})-[:SUPERSEDES]->(older) | older {{ .id, .name, .path, "
-            f"valid_from: coalesce(older._valid_from, older.valid_from) }}]")
+            f"valid_from: older._valid_from }}]")
 
 
 def supersedes_field(var: str) -> str:
@@ -174,7 +174,7 @@ def resolve_as_of(value: str | None) -> str | None:
     Accepts 'today'/'now' (resolved to the current local date: query time is
     local) and ISO dates at year/month/day precision; a year or month is widened
     to its last day, so a date inside that period compares <= it. Anything else
-    raises ValueError: asof_predicate compares strings lexically, so an
+    raises ValueError: valid_predicate compares strings lexically, so an
     unresolved value like the literal 'today' would silently hide every node
     that carries a valid_to. (A node whose valid_to falls inside a widened
     period, e.g. 2026-06-30 for `--asOf 2026`, is hidden: valid_to is exclusive.)
@@ -562,7 +562,7 @@ def filing_listing(
     as_of_resolved = resolve_as_of(as_of)
     if as_of_resolved:
         params["asOf"] = as_of_resolved
-        filters.append(asof_predicate("d"))
+        filters.append(valid_predicate("d"))
 
     where_clause = " AND ".join(filters) if filters else "true"
 
@@ -1209,10 +1209,10 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         # rather than implied.
         include_history = bool(parameters.get("includeHistory") or parameters.get("asOf"))
         doc_return = (
-            "d { .id, .name, .path, .source_path, ._domain, valid_from: coalesce(d._valid_from, d.valid_from), valid_to: coalesce(d.valid_to, d._valid_to), .superseded_by, "
+            "d { .id, .name, .path, .source_path, ._domain, valid_from: d._valid_from, valid_to: d._valid_to, .superseded_by, "
             + supersedes_field("d") + " } AS document"
         )
-        chunk_return = "c { .id, .name, .doc_id, ._domain, .valid_to, .text } AS chunk"
+        chunk_return = "c { .id, .name, .doc_id, ._domain, valid_to: c._valid_to, .text } AS chunk"
         # A long document can hold hundreds of chunks, each carrying its own
         # `.text` -- unlike structural_metadata/entity_listing's short names,
         # not something to pull across the wire in full just to slice it in
@@ -1459,7 +1459,7 @@ def _chunks_query(expand: int, as_of: str | None, scoped: bool = True) -> str:
 
     scoped=False (no --domain) drops the domain predicate: the lookup is by chunk id.
     """
-    asof_c = f"\n      AND {asof_predicate('c')}" if as_of else ""
+    asof_c = f"\n      AND {valid_predicate('c')}" if as_of else ""
     domain_c = f"\n      AND {domain_predicate('c')}" if scoped else ""
     neighbor_call = ""
     neighbor_return = ""
@@ -1477,16 +1477,16 @@ def _chunks_query(expand: int, as_of: str | None, scoped: bool = True) -> str:
       WITH sibs, coalesce([i IN range(0, size(sibs)-1) WHERE sibs[i].id = c.id][0], -1) AS idx
       RETURN [j IN range(idx - $expand, idx + $expand)
               WHERE idx >= 0 AND j >= 0 AND j < size(sibs) AND j <> idx
-              | {{id: sibs[j].id, name: sibs[j].name, valid_to: sibs[j].valid_to, text: sibs[j].text}}] AS neighbors
+              | {{id: sibs[j].id, name: sibs[j].name, valid_to: sibs[j]._valid_to, text: sibs[j].text}}] AS neighbors
     }}"""
         neighbor_return = ",\n           neighbors"
     return f"""
     MATCH (c:DocChunk)
     WHERE c.id IN $chunkIds{domain_c}{asof_c}
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document){neighbor_call}
-    RETURN c {{ .id, .name, .doc_id, ._domain, .header_path, .valid_from, .valid_to, .text }} AS chunk,
-           d {{ .id, .name, .path, .source_path, ._domain, valid_from: coalesce(d._valid_from, d.valid_from), valid_to: coalesce(d.valid_to, d._valid_to), .superseded_by, {supersedes_field("d")},
-                title: coalesce(d.title, d.name), date: coalesce(d._valid_from, d.valid_from),
+    RETURN c {{ .id, .name, .doc_id, ._domain, .header_path, valid_from: c._valid_from, valid_to: c._valid_to, .text }} AS chunk,
+           d {{ .id, .name, .path, .source_path, ._domain, valid_from: d._valid_from, valid_to: d._valid_to, .superseded_by, {supersedes_field("d")},
+                title: coalesce(d.title, d.name), date: d._valid_from,
                 superseded: EXISTS {{ MATCH (:Document)-[:SUPERSEDES]->(d) }} }} AS document{neighbor_return}
     ORDER BY c.id
     """
@@ -1666,7 +1666,7 @@ def _entity_context_queries() -> dict[str, str]:
     OPTIONAL MATCH (p:DocPassage)-[:PART_OF]->(c)
     WITH c, d, max({_query_score("p")}) AS score
     RETURN c.id AS id, c.name AS name, c.doc_id AS doc_id,
-           c.valid_to IS NULL AS current, d.valid_from AS doc_valid_from,
+           c._valid_to IS NULL AS current, d._valid_from AS doc_valid_from,
            score
     """,
         "chunk_keyword": """
@@ -1682,9 +1682,9 @@ def _entity_context_queries() -> dict[str, str]:
     MATCH (c:DocChunk {id: cid})
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
     RETURN c {
-      .id, .name, .doc_id, ._domain, .header_path, .valid_to, .text,
-      document: d { .id, .name, .path, .source_path, ._domain, valid_from: coalesce(d._valid_from, d.valid_from), valid_to: coalesce(d.valid_to, d._valid_to), .superseded_by,
-                    title: coalesce(d.title, d.name), date: coalesce(d._valid_from, d.valid_from),
+      .id, .name, .doc_id, ._domain, .header_path, valid_to: c._valid_to, .text,
+      document: d { .id, .name, .path, .source_path, ._domain, valid_from: d._valid_from, valid_to: d._valid_to, .superseded_by,
+                    title: coalesce(d.title, d.name), date: d._valid_from,
                     superseded: EXISTS { MATCH (:Document)-[:SUPERSEDES]->(d) } }
     } AS chunk
     """,
@@ -1693,7 +1693,7 @@ def _entity_context_queries() -> dict[str, str]:
     MATCH (e)-[:AGGREGATES]->(so:Observation)
     WITH DISTINCT so.doc_id AS did
     MATCH (sd:Document {{id: did}})
-    RETURN sd {{ .id, .name, .path, .source_path, ._domain, valid_from: coalesce(sd._valid_from, sd.valid_from) }} AS document
+    RETURN sd {{ .id, .name, .path, .source_path, ._domain, valid_from: sd._valid_from }} AS document
     """,
     }
 
@@ -2323,16 +2323,16 @@ def timeline(
     window = ""
     if from_:
         params["from_"] = from_
-        window += "\n      AND (coalesce(e._valid_from, e.valid_from) IS NULL OR coalesce(e._valid_from, e.valid_from) >= $from_)"
+        window += "\n      AND (e._valid_from IS NULL OR e._valid_from >= $from_)"
     if to:
         params["to"] = to
-        window += "\n      AND (coalesce(e._valid_from, e.valid_from) IS NULL OR coalesce(e._valid_from, e.valid_from) <= $to)"
+        window += "\n      AND (e._valid_from IS NULL OR e._valid_from <= $to)"
     cypher = f"""
     MATCH (e:Entity)
     WHERE {domain_predicate("e")}
       AND any(l IN labels(e) WHERE l IN $labels){window}
-    RETURN e {{ ._id, .name, .entity_class, label: labels(e), valid_from: coalesce(e._valid_from, e.valid_from), valid_to: coalesce(e.valid_to, e._valid_to) }} AS entity
-    ORDER BY coalesce(e._valid_from, e.valid_from)
+    RETURN e {{ ._id, .name, .entity_class, label: labels(e), valid_from: e._valid_from, valid_to: e._valid_to }} AS entity
+    ORDER BY e._valid_from
     """
     return {
         **_domain_output(domains),

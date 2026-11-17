@@ -235,7 +235,7 @@ def test_window_filters_every_leg_on_the_coalesced_date(monkeypatch):
             or "summary_embedding" in c or "summary_text_ft" in c]
     assert len(legs) == 6   # P vec+text, D vec+text, C vec+text
     for cypher, params in legs:
-        assert "coalesce(d._valid_from, d.valid_from)" in cypher and "$date_from" in cypher and "$date_to" in cypher
+        assert "d._valid_from >= $date_from" in cypher and "d.valid_from" not in cypher and "$date_from" in cypher and "$date_to" in cypher
         assert params["date_from"] == "2025-01-01" and params["date_to"] == "2025-12-31"
 
 

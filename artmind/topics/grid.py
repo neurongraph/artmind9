@@ -18,14 +18,16 @@ HIT_LIMIT = 5000
 
 #: Distinct documents with a keyword hit for one subject, with their date and domain.
 #: `scanned` is the passages the index returned before the domain filter: at HIT_LIMIT
-#: the counts are a floor.
+#: the counts are a floor. A default date (`_valid_precision` `none`) is no date: the
+#: document counts as undated (spec 2026-11-15 §2).
 _MATCHING = """
 CALL db.index.fulltext.queryNodes('passage_text_ft', $ft_query, {limit: $hit_limit})
 YIELD node AS p
 WITH count(p) AS scanned, collect(DISTINCT CASE WHEN p._domain IN $domains THEN p.doc_id END) AS ids
 OPTIONAL MATCH (d:Document) WHERE d.id IN ids
 RETURN scanned, collect(CASE WHEN d IS NULL THEN NULL ELSE
-       {doc_id: d.id, date: coalesce(d._valid_from, d.valid_from), domain: d._domain} END) AS docs
+       {doc_id: d.id, date: CASE WHEN coalesce(d._valid_precision, 'day') = 'none' THEN null ELSE d._valid_from END,
+        domain: d._domain} END) AS docs
 """
 
 

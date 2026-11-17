@@ -14,12 +14,12 @@ The id is sha1 of `newer|older|scope`, so re-asserting the same supersession
 on any machine names the same record. No timestamp: re-running detection
 rewrites nothing.
 
-**`older.valid_to` and `older.superseded_by` are derived from the edges.**
-Only supersession writes them (a document's own window is `_valid_from`/
-`_valid_to`, from its staging folder), so both are recomputed from every
+**`older._valid_to` and `older.superseded_by` are derived from the edges.**
+Supersession writes `_valid_to` over the document's own end from its staging
+folder (spec 2026-11-15 §7.1: one name), so both are recomputed from every
 `SUPERSEDES` edge still pointing at the older document after each apply or
 removal: `superseded_by` is the newer document of the edge with the latest
-`effective` (ties by id), `valid_to` that latest non-null `effective`, both
+`effective` (ties by id), `_valid_to` that latest non-null `effective`, both
 null when no edge remains. Un-asserting a supersession therefore restores
 exactly what the remaining assertions say -- no snapshot of an earlier value
 to go stale, and the same result on every machine whatever order records are
@@ -80,7 +80,8 @@ WITH older, newer, s
 ORDER BY coalesce(s.effective, '') DESC, newer.id DESC
 WITH older, collect(CASE WHEN s IS NULL THEN null ELSE {newer: newer.id, effective: s.effective} END) AS edges
 SET older.superseded_by = CASE WHEN size(edges) = 0 THEN null ELSE edges[0].newer END,
-    older.valid_to = head([e IN edges WHERE e.effective IS NOT NULL | e.effective])
+    older._valid_to = head([e IN edges WHERE e.effective IS NOT NULL | e.effective])
+REMOVE older.valid_to
 """
 
 _DOMAINS = """
@@ -118,7 +119,7 @@ def record_for(
 
 def apply(tx, record: dict, fingerprint: str) -> set:
     """MERGE the `SUPERSEDES` edge (both documents must exist, live or
-    retired), then recompute the older document's `superseded_by`/`valid_to`
+    retired), then recompute the older document's `superseded_by`/`_valid_to`
     from its edges. Document-level: returns no projection keys."""
     merged = tx.run(
         _APPLY, newer=record["newer_doc_id"], older=record["older_doc_id"], scope=record["scope"],
@@ -140,7 +141,7 @@ def apply(tx, record: dict, fingerprint: str) -> set:
 
 def remove(tx, record: dict) -> set:
     """Un-assert: delete the edge the record names, then recompute the older
-    document's `superseded_by`/`valid_to` from the edges that remain. A
+    document's `superseded_by`/`_valid_to` from the edges that remain. A
     record whose content could not be read (only its id is known, or it lacks
     a newer/older/scope field) matches the edge by `record_id` instead, and
     every older document that edge pointed at is recomputed."""

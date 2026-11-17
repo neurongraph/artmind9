@@ -187,12 +187,12 @@ RULES:
 - Return meaningful column aliases.
 - Keep the query concise.
 - If the question is present-tense ("who CAN approve…"), add a validity filter to
-  timed nodes: ($asOf IS NULL OR ((n.valid_from IS NULL OR n.valid_from <= $asOf)
-  AND (n.valid_to IS NULL OR n.valid_to > $asOf))); include "asOf" in parameters.
-  For historical questions ("what WAS the limit in 2024?") set asOf to that date.
-  Note this "asOf" is a floor (in force BY that date), not a point-in-time snapshot —
-  valid_to is rarely set, so a still-open row satisfies any asOf at or after its
-  valid_from.
+  timed nodes: ($asOf IS NULL OR (n._valid_from IS NULL OR n._valid_precision = 'none')
+  OR (n._valid_from <= $asOf AND (n._valid_to IS NULL OR n._valid_to > $asOf)));
+  include "asOf" in parameters. Valid time is stored only as `_valid_from` /
+  `_valid_to` (`_valid_to` exclusive); a `_valid_precision` of 'none' means the date
+  is a default, not a real one. For historical questions ("what WAS the limit in
+  2024?") set asOf to that date.
 - :DocumentHistory / :DocChunkHistory / :ObservationHistory are history only — the
   retired counterpart of :Document / :DocChunk / :Observation. Never traverse into
   them to answer a "what is true now" question; the base labels are current by

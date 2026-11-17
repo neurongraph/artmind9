@@ -2410,7 +2410,7 @@ def ingest_unsupersede(
 
     Deletes the SUPERSEDES edge and its vault file
     (.artmind/data/curation/supersessions/), recomputes the older document's
-    valid_to / superseded_by from the edges that remain, and restores the older
+    _valid_to / superseded_by from the edges that remain, and restores the older
     document when no other supersession points at it. Use it to correct an edge
     written the wrong way round, then assert the right one with `ingest supersede`.
     """
@@ -3429,7 +3429,7 @@ def graph_entity_listing_cmd(
 @click.option("--project", "project", default=None, help="Filter by project (ADR 0010 filing metadata)")
 @click.option("--area", "area", default=None, help="Filter by area (ADR 0010 filing metadata)")
 @click.option("--tag", "tag", multiple=True, help="Filter by tag (repeatable; matches ANY listed tag)")
-@click.option("--asOf", "as_of", default=None, help="Only docs in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; docs without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Only docs in force on this date (_valid_from <= asOf < _valid_to; a year or month means its last day). ISO date or 'today'; docs without a real date always shown")
 @compact_option
 def graph_filing_listing_cmd(domain: tuple, project: str | None, area: str | None, tag: tuple, as_of: str | None, compact: bool) -> None:
     """List Documents filtered by filing taxonomy (project, area, tags, domain)."""
@@ -3972,7 +3972,7 @@ def query_orient(domain: tuple, compact: bool) -> None:
 @click.option("--topK", "top_k", type=int, default=5, show_default=True, help="Results to return (1-50)")
 @click.option("--context", type=click.Choice(["chunk", "passage"]), default="chunk", show_default=True,
               help="Return each hit's parent chunk text, or only the matching passage")
-@click.option("--asOf", "as_of", default=None, help="Only rows in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; nodes without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Only rows in force on this date (_valid_from <= asOf < _valid_to; a year or month means its last day). ISO date or 'today'; nodes without a real date always shown")
 @shape_option
 @compact_option
 @click.argument("question")
@@ -4198,7 +4198,7 @@ def query_entity_resolve(domain: tuple, top_k: int, compact: bool, reference: st
 @click.option("--domain", "domain", multiple=True, help="Scope the lookup to this domain (repeatable; comma-splittable). Optional: without it the ids are looked up in every domain and the output's domains come from the chunks")
 @click.option("--idList", "id_list", multiple=True, required=True, help="Exact chunk id (repeatable; comma-splittable)")
 @click.option("--expand", type=int, default=0, show_default=True, help="Also return up to N adjacent chunks per hit (same document)")
-@click.option("--asOf", "as_of", default=None, help="Only rows in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; nodes without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Only rows in force on this date (_valid_from <= asOf < _valid_to; a year or month means its last day). ISO date or 'today'; nodes without a real date always shown")
 @shape_option
 @compact_option
 def query_chunks(domain: tuple, id_list: tuple, expand: int, as_of: str | None, shape: str, compact: bool) -> None:

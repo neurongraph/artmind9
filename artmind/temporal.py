@@ -1099,7 +1099,7 @@ def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str |
     with neo4j_session() as session:
         docs = session.run(
             "MATCH (d:Document) WHERE d._domain=$domain "
-            "RETURN d.id AS id, d.name AS name, d.version AS version, coalesce(d._valid_from, d.valid_from) AS valid_from, d.path AS path",
+            "RETURN d.id AS id, d.name AS name, d.version AS version, d._valid_from AS valid_from, d.path AS path",
             domain=domain,
         ).data()
     by_version_group: dict = {}
@@ -1159,7 +1159,7 @@ def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str |
             )
             continue
         # Guarantee an effective date whenever we can: without one,
-        # apply_supersession never sets older.valid_to and the old version
+        # apply_supersession never sets older._valid_to and the old version
         # stays "current" forever (the confirmed sop_account_opening bug). Fall
         # back to the newer document's own valid_from — the date the new
         # version itself takes effect is a reasonable, safe default. If the

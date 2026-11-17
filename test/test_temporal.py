@@ -180,12 +180,12 @@ def test_canonical_entity_dates_no_mapping_returns_empty():
 
 
 
-def test_asof_predicate_shape():
-    from artmind.graph_query import asof_predicate
-    pred = asof_predicate("e")
+def test_valid_predicate_shape():
+    from artmind.graph_query import valid_predicate
+    pred = valid_predicate("e")
     assert "$asOf IS NULL" in pred
-    assert "coalesce(e._valid_from, e.valid_from) IS NULL OR coalesce(e._valid_from, e.valid_from) <= $asOf" in pred
-    assert "coalesce(e.valid_to, e._valid_to) IS NULL OR coalesce(e.valid_to, e._valid_to) > $asOf" in pred
+    assert "(e._valid_from IS NULL OR e._valid_precision = 'none')" in pred
+    assert "e._valid_from <= $asOf AND (e._valid_to IS NULL OR e._valid_to > $asOf)" in pred
 
 
 def test_pattern1_cypher_never_references_asof():

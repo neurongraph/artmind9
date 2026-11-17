@@ -75,7 +75,9 @@ def test_apply_merges_the_edge_then_derives_valid_to_from_every_edge():
         "detected_by": "manual", "id": record["id"], "fingerprint": "fp",
     }
     assert "ORDER BY coalesce(s.effective, '') DESC, newer.id DESC" in recompute
-    assert "older.valid_to = head([e IN edges WHERE e.effective IS NOT NULL | e.effective])" in recompute
+    assert "older._valid_to = head([e IN edges WHERE e.effective IS NOT NULL | e.effective])" in recompute
+    assert "REMOVE older.valid_to" in recompute, "one name (spec 2026-11-15 §7.1)"
+    assert "SET older.valid_to" not in recompute and "older.valid_to =" not in recompute
     assert "older.superseded_by = CASE WHEN size(edges) = 0 THEN null" in recompute
     assert recompute_params == {"older": "old-doc"}
 

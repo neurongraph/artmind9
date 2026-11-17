@@ -191,7 +191,7 @@ def _doc_validity(session, evidence: list[dict]) -> tuple[str, str]:
         return "", ""
     try:
         rec = session.run(
-            "MATCH (d:Document {id:$id}) RETURN coalesce(d._valid_from, d.valid_from) AS valid_from, d.version AS version",
+            "MATCH (d:Document {id:$id}) RETURN d._valid_from AS valid_from, d.version AS version",
             id=doc_id,
         ).single()
         if not rec:
@@ -258,8 +258,8 @@ def materialize(session, pair: dict, verdict: dict, evidence_a: list[dict], evid
             """
             MATCH (a:Entity {_id:$idA})-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(:DocChunk)-[:PART_OF]->(da:Document)
             MATCH (b:Entity {_id:$idB})-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(:DocChunk)-[:PART_OF]->(db:Document)
-            RETURN da.id AS a, da.name AS an, da.path AS ap, coalesce(da._valid_from, da.valid_from) AS af, da.version AS av,
-                   db.id AS b, db.name AS bn, db.path AS bp, coalesce(db._valid_from, db.valid_from) AS bf, db.version AS bv
+            RETURN da.id AS a, da.name AS an, da.path AS ap, da._valid_from AS af, da.version AS av,
+                   db.id AS b, db.name AS bn, db.path AS bp, db._valid_from AS bf, db.version AS bv
             LIMIT 1
             """,
             idA=pair["id_a"], idB=pair["id_b"],

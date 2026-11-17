@@ -172,7 +172,7 @@ def _closed_documents(doc_ids) -> set:
         return set()
     with neo4j_session() as session:
         rows = session.run(
-            "MATCH (d:Document) WHERE d.id IN $ids AND coalesce(d.valid_to, d._valid_to) IS NOT NULL "
+            "MATCH (d:Document) WHERE d.id IN $ids AND d._valid_to IS NOT NULL "
             "OR (d.id IN $ids AND EXISTS { MATCH (:Document)-[:SUPERSEDES]->(d) }) RETURN DISTINCT d.id AS id",
             ids=list(doc_ids),
         ).data()
