@@ -327,12 +327,13 @@ def _load_domain_schema(domain_name: str) -> dict:
 
 def _get_available_domains() -> list[str]:
     """Return all domain names from schema files, always including 'general'."""
+    from artmind import schema_yaml
+
     domains = []
     if DOMAIN_SCHEMAS_DIR.exists():
         for df in sorted(DOMAIN_SCHEMAS_DIR.glob("*_schema.yaml")):
             try:
-                with open(df) as f:
-                    data = yaml.safe_load(f)
+                data = schema_yaml.load(df)
                 name = data.get("name")
                 if name and name not in domains:
                     domains.append(name)

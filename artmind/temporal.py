@@ -292,15 +292,15 @@ def load_schema(domain: str, schemas_dir: Path | None = None) -> dict:
     """
     schemas_dir = Path(schemas_dir) if schemas_dir is not None else DOMAIN_SCHEMAS_DIR
     path = schemas_dir / f"{domain}_schema.yaml"
-    import yaml
+    from artmind import schema_yaml
     if not path.exists():
         return {}
-    schema = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    schema = schema_yaml.load(path) or {}
     if "." in domain:
         parent_name = domain.rsplit(".", 1)[0]
         parent_path = schemas_dir / f"{parent_name}_schema.yaml"
         if parent_path.exists():
-            parent_schema = yaml.safe_load(parent_path.read_text(encoding="utf-8")) or {}
+            parent_schema = schema_yaml.load(parent_path) or {}
             schema["temporal"] = _deep_merge_temporal(
                 parent_schema.get("temporal") or {}, schema.get("temporal") or {}
             )
