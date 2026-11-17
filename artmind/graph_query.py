@@ -159,6 +159,33 @@ def valid_predicate(var: str, param: str = "asOf", *, include_undated: bool = Tr
     return f"(${param} IS NULL OR {body})"
 
 
+def known_predicate(var: str, param: str = "knownAsOf") -> str:
+    """Record-time filter: what the graph held at `$knownAsOf` (spec 2026-11-15 §6.2).
+
+    A node was known at T when it had been recorded by then and had not yet been
+    moved to History (`_retired_at`, set only on History nodes, is after T). Both
+    sides are UTC ISO strings (`resolve_known_as_of`), compared lexically. Every
+    node carries `_recorded_at`; the migration pack backfills older ones, flagged
+    `_record_time_approx`.
+    """
+    return (f"(${param} IS NULL OR ({var}._recorded_at <= ${param} "
+            f"AND ({var}._retired_at IS NULL OR {var}._retired_at > ${param})))")
+
+
+def known_status(var: str, param: str = "knownAsOf") -> str:
+    """`current`/`history` as of `$knownAsOf`: retired after T counts as current then."""
+    return (f"CASE WHEN {var}._retired_at IS NULL OR {var}._retired_at > ${param} "
+            f"THEN 'current' ELSE 'history' END")
+
+
+def approximate_record_time_warning(count: int) -> str | None:
+    """The warning for rows whose record time the migration pack backfilled."""
+    if not count:
+        return None
+    return (f"{count} row(s) carry approximate record time (_record_time_approx: backfilled by "
+            "the migration, not recorded at ingest), so --knownAsOf is approximate for them")
+
+
 def supersedes_list(var: str) -> str:
     """Cypher list expression naming the documents `var` replaced, with each one's date
     (`valid_from`: the stored `_valid_from`)."""
@@ -203,6 +230,43 @@ def resolve_as_of(value: str | None) -> str | None:
     from artmind.temporal import widen_as_of
 
     return widen_as_of(v)
+
+
+def resolve_known_as_of(value: str | None) -> str | None:
+    """Resolve a --knownAsOf value to a UTC ISO timestamp (record time is UTC).
+
+    'now' is this instant; 'today' or a date (YYYY[-MM[-DD]]; a year or month
+    means its last day) is the end of that **local** day (question 18); a
+    datetime without a zone is local; one with a zone is taken as given. Each is
+    converted to UTC, in the format record time is written in
+    (`datetime.isoformat()`, `+00:00`).
+    """
+    from datetime import datetime, time, timezone
+
+    if value is None:
+        return None
+    v = value.strip()
+    if not v:
+        return None
+    low = v.lower()
+    if low == "now":
+        return datetime.now(timezone.utc).isoformat()
+    try:
+        if low == "today" or re.fullmatch(r"\d{4}(-\d{2}){0,2}", v):
+            from artmind.temporal import widen_as_of
+
+            day = date.today() if low == "today" else date.fromisoformat(widen_as_of(v))
+            # astimezone() on a naive datetime reads it as local time.
+            moment = datetime.combine(day, time(23, 59, 59, 999999)).astimezone()
+        else:
+            moment = datetime.fromisoformat(v)
+            if moment.tzinfo is None:
+                moment = moment.astimezone()
+    except ValueError:
+        raise ValueError(
+            f"--knownAsOf must be an ISO date or datetime, or 'today'/'now'; got {value!r}"
+        ) from None
+    return moment.astimezone(timezone.utc).isoformat()
 
 
 PATTERN_REQUIRED_OPTIONS = {
@@ -1217,7 +1281,12 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         # document and its retired/superseded chunks become visible too.
         # Coarser than "in force by T" elsewhere, and said so in the CLI help
         # rather than implied.
-        include_history = bool(parameters.get("includeHistory") or parameters.get("asOf"))
+        # `--knownAsOf` is the one point in time this pattern honours: record
+        # time, so it reaches both labels and keeps the chunks the graph held then.
+        known_as_of = parameters.get("knownAsOf")
+        include_history = bool(parameters.get("includeHistory") or parameters.get("asOf") or known_as_of)
+        chunk_known = f" AND {known_predicate('c')}" if known_as_of else ""
+        approx_return = ", c._record_time_approx AS _approx" if known_as_of else ""
         doc_return = (
             "d { .id, .name, .path, .source_path, ._domain, valid_from: d._valid_from, valid_to: d._valid_to, .superseded_by, "
             + supersedes_field("d") + " } AS document"
@@ -1243,14 +1312,14 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             }}
             WITH d
             MATCH (c)-[:PART_OF]->(d)
-            WHERE c:DocChunk OR c:DocChunkHistory
+            WHERE (c:DocChunk OR c:DocChunkHistory){chunk_known}
             WITH d, c
             ORDER BY c.id
             WITH collect({{d: d, c: c}}) AS pairs
             WITH pairs, size(pairs) AS _rowsTotal
             UNWIND pairs[$offset..$offset + $limit] AS pair
             WITH pair.d AS d, pair.c AS c, _rowsTotal
-            RETURN {doc_return}, {chunk_return}, _rowsTotal
+            RETURN {doc_return}, {chunk_return}, _rowsTotal{approx_return}
             """
         else:
             cypher = f"""
@@ -1272,6 +1341,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
                 "documentName": parameters["documentName"],
                 "limit": parameters.get("limit", PATTERN10_DEFAULT_LIMIT),
                 "offset": parameters.get("offset", 0),
+                **({"knownAsOf": known_as_of} if known_as_of else {}),
             },
         )
     raise ValueError(f"Unsupported graph query pattern: {pattern}")
@@ -1295,6 +1365,10 @@ def execute_pattern(
         raise ValueError(f"--shape brief is not available for {pattern}")
     domains = normalize_domains(domains)
     as_of = resolve_as_of(as_of)
+    if parameters.get("knownAsOf") is not None:
+        if pattern != "pattern10":
+            raise ValueError(f"--knownAsOf is not available for {pattern}")
+        parameters["knownAsOf"] = resolve_known_as_of(parameters["knownAsOf"])
     params = normalize_pattern_parameters(pattern, {"domains": domains, "asOf": as_of, **parameters})
     validate_pattern_parameters(pattern, params)
     cypher, cypher_params = _pattern_query(pattern, params)
@@ -1321,7 +1395,10 @@ def execute_pattern(
     raw_hits = None
     anchors_matched = None
     chunks_total = None
+    approx_count = 0
     for row in rows:
+        if isinstance(row, dict) and "_approx" in row:
+            approx_count += bool(row.pop("_approx"))
         if isinstance(row, dict) and "_rowsTotal" in row:
             rows_total = row.pop("_rowsTotal")
         if isinstance(row, dict) and "_rawHits" in row:
@@ -1371,6 +1448,9 @@ def execute_pattern(
     }
     if schema_warnings:
         result["warnings"] = [*(result.get("warnings") or []), *schema_warnings]
+    approx_warning = approximate_record_time_warning(approx_count)
+    if approx_warning:
+        result["warnings"] = [*(result.get("warnings") or []), approx_warning]
     if summaries is not None:
         result["summaries"] = summaries
     if rows_total is not None:
@@ -2534,6 +2614,7 @@ def entity_history(
     key: str | None = None,
     name: str | None = None,
     entity_class: str | None = None,
+    known_as_of: str | None = None,
 ) -> dict:
     """Every observation behind one entity, ordered by the **fact-level**
     valid-time axis (`_valid_from`/`_valid_to`) — "what was this worth at
@@ -2561,14 +2642,17 @@ def entity_history(
       `entity_class` narrows it. Several keys can match — `keys` lists them.
 
     `--property` narrows to one property's value at each point rather than
-    the full observation. `--asOf` here means "every fact in force by this
-    date" (`_valid_from <= asOf`), the same floor-not-snapshot meaning as
-    everywhere else `--asOf` survives (see the option's own help text).
+    the full observation. `--asOf` is a point in valid time: facts whose own
+    window contains it (`valid_predicate`; undated facts always shown).
+    `--knownAsOf` is a point in record time: only observations the graph held
+    then (`known_predicate`, both labels), each row's `status` as of that
+    moment (retired after it counts as `current`).
     """
     from artmind.observations import normalize_name
 
     domains = normalize_domains(domains)
     as_of = resolve_as_of(as_of)
+    known_as_of = resolve_known_as_of(known_as_of)
     entity_id = (entity_id or "").strip() or None
     key = (key or "").strip() or None
     name = (name or "").strip() or None
@@ -2584,7 +2668,10 @@ def entity_history(
     filters = []
     if as_of:
         params["asOf"] = as_of
-        filters.append("(o._valid_from IS NULL OR o._valid_from <= $asOf)")
+        filters.append(valid_predicate("o"))
+    if known_as_of:
+        params["knownAsOf"] = known_as_of
+        filters.append(known_predicate("o"))
     if property:
         params["property"] = property
         filters.append("o[$property] IS NOT NULL")
@@ -2626,12 +2713,16 @@ def entity_history(
            OR toLower(o.name) = $nameLower
            OR toLower(o.canonical_name) = $nameLower){class_clause}"""
 
+    status = known_status("o") if known_as_of else "CASE WHEN o:Observation THEN 'current' ELSE 'history' END"
     cypher = f"""{match}{filter_clause}
     RETURN o {{.*}} AS observation,
-           CASE WHEN o:Observation THEN 'current' ELSE 'history' END AS status
+           {status} AS status
     ORDER BY o._valid_from, o.doc_id
     """
     rows = strip_internal_props(_run_read_query(cypher, params))
+    approx = approximate_record_time_warning(
+        sum(bool(row["observation"].get("_record_time_approx")) for row in rows)
+    ) if known_as_of else None
     keys = sorted({row["observation"].get("key") for row in rows if row["observation"].get("key")})
     if property:
         rows = [
@@ -2658,9 +2749,11 @@ def entity_history(
         "keys": keys,
         "parameters": {
             **({"asOf": as_of} if as_of else {}),
+            **({"knownAsOf": known_as_of} if known_as_of else {}),
             **({"property": property} if property else {}),
         },
         "rows": rows,
+        **({"warnings": [approx]} if approx else {}),
     }
 
 
@@ -2691,7 +2784,9 @@ def _document_names_like(domains: list[str], *, names: list[str] | None = None, 
     return [r["name"] for r in rows if r.get("name")]
 
 
-def document_history(domains: "str | Sequence[str]", document_name: str) -> dict:
+def document_history(
+    domains: "str | Sequence[str]", document_name: str, known_as_of: str | None = None,
+) -> dict:
     """What each ingested version of one document asserted: its current
     `:Observation`s next to the `:ObservationHistory` its earlier versions
     left behind.
@@ -2719,17 +2814,34 @@ def document_history(domains: "str | Sequence[str]", document_name: str) -> dict
     `.txt`, `.html`) is matched if exactly one document fits: the result
     carries `matched_name` and a warning. Otherwise the rows are empty and
     `closest` lists up to 5 similar document names, with a runnable `next`.
+
+    `known_as_of` reads record time: only observations the graph held then
+    (`known_predicate`), with `status` and the document's `retired` as of that
+    moment.
     """
     domains = normalize_domains(domains)
     document_name = (document_name or "").strip()
     if not document_name:
         raise ValueError("--documentName is required")
+    known_as_of = resolve_known_as_of(known_as_of)
+    if known_as_of:
+        obs_known = f" AND {known_predicate('o')}"
+        obs_status = known_status("o")
+        doc_retired = "NOT (d._retired_at IS NULL OR d._retired_at > $knownAsOf)"
+        approx_return = ",\n               sum(CASE WHEN o._record_time_approx THEN 1 ELSE 0 END) AS approx"
+    else:
+        obs_known = approx_return = ""
+        obs_status = "CASE WHEN o:Observation THEN 'current' ELSE 'history' END"
+        doc_retired = "d:DocumentHistory"
+    approx_count = 0
 
     def _rows_for(name: str) -> tuple[list[dict], bool]:
+        nonlocal approx_count
         params = {
             "domains": domains,
             "documentName": name,
             "limit": DOCUMENT_HISTORY_MAX_DOCUMENTS + 1,
+            **({"knownAsOf": known_as_of} if known_as_of else {}),
         }
         cypher = f"""
         MATCH (d)
@@ -2740,19 +2852,20 @@ def document_history(domains: "str | Sequence[str]", document_name: str) -> dict
                OR d.id = $documentName)
         WITH d ORDER BY d.path LIMIT $limit
         OPTIONAL MATCH (o)
-        WHERE (o:Observation OR o:ObservationHistory) AND o.doc_id = d.id
+        WHERE (o:Observation OR o:ObservationHistory) AND o.doc_id = d.id{obs_known}
         WITH d, o ORDER BY o.doc_version, o.key
         RETURN d {{.id, .name, .path, .version}} AS document,
-               d:DocumentHistory AS retired,
+               {doc_retired} AS retired,
                collect(CASE WHEN o IS NULL THEN null ELSE o {{
                    .id, .name, .entity_class, .key, .chunk_id, .doc_version,
                    .description, ._valid_from,
-                   status: CASE WHEN o:Observation THEN 'current' ELSE 'history' END
-               }} END) AS observations
+                   status: {obs_status}
+               }} END) AS observations{approx_return}
         """
         found = _run_read_query(cypher, params)
         rows = []
         for row in found[:DOCUMENT_HISTORY_MAX_DOCUMENTS]:
+            approx_count += row.get("approx") or 0
             observations = row.get("observations") or []
             current = {o.get("key") for o in observations if o.get("status") == "current"}
             history = {o.get("key") for o in observations if o.get("status") == "history"}
@@ -2774,17 +2887,24 @@ def document_history(domains: "str | Sequence[str]", document_name: str) -> dict
             })
         return rows, len(found) > DOCUMENT_HISTORY_MAX_DOCUMENTS
 
+    def _approx_warned(out: dict) -> dict:
+        warning = approximate_record_time_warning(approx_count)
+        if warning:
+            out["warnings"] = [*(out.get("warnings") or []), warning]
+        return out
+
     rows, truncated = _rows_for(document_name)
     out: dict = {
         **_domain_output(domains),
         "query_type": "graph",
         "command": "document_history",
         "document_name": document_name,
+        **({"known_as_of": known_as_of} if known_as_of else {}),
         "truncated": truncated,
         "rows": rows,
     }
     if rows:
-        return out
+        return _approx_warned(out)
     # Nothing by exact name, path or id (spec 2026-10-22 §5.4.4): a unique
     # suffixed name is used, with a warning; otherwise name the closest ones.
     low = document_name.casefold()
@@ -2797,7 +2917,7 @@ def document_history(domains: "str | Sequence[str]", document_name: str) -> dict
         rows, truncated = _rows_for(suffixed[0])
         out.update(rows=rows, truncated=truncated, matched_name=suffixed[0],
                    warnings=[f"no document named {document_name!r}; matched {suffixed[0]!r}"])
-        return out
+        return _approx_warned(out)
     stem = document_name
     for suffix in DOCUMENT_NAME_SUFFIXES:
         if low.endswith(suffix):

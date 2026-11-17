@@ -3734,23 +3734,25 @@ def graph_pattern9(
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--documentName", "document_name", required=True, help="Document name (substring match)")
 @click.option("--includeHistory", "include_history", is_flag=True, help="Also reach retired/superseded documents and chunks (:DocumentHistory / :DocChunkHistory). Omit for current content only")
-@click.option("--asOf", "as_of", default=None, help="Alias of --includeHistory kept for old callers: any value turns history on. It is NOT a date filter here (chunks carry no date of their own)")
+@click.option("--asOf", "as_of", default=None, help="Alias of --includeHistory kept for old callers: any value turns history on. It is NOT a date filter here (chunks carry no date of their own; --knownAsOf is the point in time this pattern honours)")
+@click.option("--knownAsOf", "known_as_of", default=None, help="Read what the graph held at this point in record time: content recorded by then and not yet retired (an ISO date means the end of that local day; a datetime without a zone is local; or 'today'/'now'). Reaches both current and history chunks")
 @click.option("--limit", type=int, default=graph_query.PATTERN10_DEFAULT_LIMIT, show_default=True, help="Max chunks; rows_total carries the full count")
 @click.option("--offset", type=int, default=0, show_default=True, help="Skip this many chunks (ordered by chunk id) before --limit; page past a truncated result with offset += limit")
 @compact_option
 @click.argument("question", required=False)
 def graph_pattern10(
-    domain: tuple, document_name: str, include_history: bool, as_of: str | None, limit: int, offset: int,
-    compact: bool, question: str | None,
+    domain: tuple, document_name: str, include_history: bool, as_of: str | None, known_as_of: str | None,
+    limit: int, offset: int, compact: bool, question: str | None,
 ) -> None:
-    """Retrieve all text chunks for a named document (current only, or with history)."""
+    """Retrieve all text chunks for a named document (current only, with history, or as the graph held them at --knownAsOf)."""
     domains = _parse_domains(domain)
-    history = include_history or as_of is not None
+    history = include_history or as_of is not None or known_as_of is not None
     try:
         # as_of=None on purpose: resolve_as_of would reject the non-ISO values the old presence flag accepted.
         result = graph_query.execute_pattern(
             domains=domains, pattern="pattern10", question=question, as_of=None,
             documentName=document_name, includeHistory=True if history else None, limit=limit, offset=offset,
+            knownAsOf=known_as_of,
         )
         # First page only: an empty page past the end of a current document is not a retired-only match.
         if not history and offset == 0 and not result.get("rows"):
@@ -4316,7 +4318,8 @@ def query_entity_context(
 @click.option("--key", "key", default=None, help="Aggregate key name|CLASS|domain (as entity-resolve and history rows show it); works whether or not the entity still exists")
 @click.option("--name", "name", default=None, help="Entity name, matched against the key's normalized name part and the extracted name; works whether or not the entity still exists")
 @click.option("--entityClass", "entity_class", default=None, help="With --name: only observations of this entity class")
-@click.option("--asOf", "as_of", default=None, help="Only facts in force by this date (_valid_from <= asOf; _valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'")
+@click.option("--asOf", "as_of", default=None, help="A point in valid time: facts whose own date window contains this date (_valid_from <= asOf < _valid_to; a year or month means its last day). ISO date or 'today'; facts without a real date always shown")
+@click.option("--knownAsOf", "known_as_of", default=None, help="Read what the graph held at this point in record time: content recorded by then and not yet retired (an ISO date means the end of that local day; a datetime without a zone is local; or 'today'/'now'). Each row's status is as of that moment")
 @click.option("--property", "property_", default=None, help="Narrow to one property's value at each point instead of the full observation")
 @compact_option
 def query_entity_history(
@@ -4326,6 +4329,7 @@ def query_entity_history(
     name: str | None,
     entity_class: str | None,
     as_of: str | None,
+    known_as_of: str | None,
     property_: str | None,
     compact: bool,
 ) -> None:
@@ -4343,7 +4347,7 @@ def query_entity_history(
     try:
         result = graph_query.entity_history(
             domains, entity_id, as_of=as_of, property=property_,
-            key=key, name=name, entity_class=entity_class,
+            key=key, name=name, entity_class=entity_class, known_as_of=known_as_of,
         )
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
@@ -4395,8 +4399,9 @@ def query_happenings(domain: tuple, match: str, entity_class: str | None, from_:
 @query.command("document-history")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--documentName", "document_name", required=True, help="Document name (case-insensitive; a missing extension is matched when exactly one document fits), vault path, or document id")
+@click.option("--knownAsOf", "known_as_of", default=None, help="Read what the graph held at this point in record time: content recorded by then and not yet retired (an ISO date means the end of that local day; a datetime without a zone is local; or 'today'/'now'). Status and retired are as of that moment")
 @compact_option
-def query_document_history(domain: tuple, document_name: str, compact: bool) -> None:
+def query_document_history(domain: tuple, document_name: str, known_as_of: str | None, compact: bool) -> None:
     """What a document's ingested versions asserted: current vs history observations.
 
     A re-ingest demotes facts the new version no longer states to history
@@ -4410,7 +4415,7 @@ def query_document_history(domain: tuple, document_name: str, compact: bool) -> 
     """
     domains = _parse_domains(domain)
     try:
-        result = graph_query.document_history(domains, document_name)
+        result = graph_query.document_history(domains, document_name, known_as_of=known_as_of)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)

@@ -1,4 +1,4 @@
-# Temporal: `--asOf`, `entity-history`, `timeline`, `_temporal_props`
+# Temporal: `--asOf`, `--knownAsOf`, `entity-history`, `timeline`, `_temporal_props`
 
 Read this for a temporal question — "as of <date>", "history of…", "what was X
 before it changed", "what happened in order" — or when an entity carries
@@ -16,19 +16,31 @@ before it changed", "what happened in order" — or when an entity carries
   entirely (see `docs retire` / the History labels in SKILL.md), so there is nothing stale left
   to filter out. None of the ten `pattern*` commands, `entity-listing`, `entity-resolve`,
   `entity-context`, or `graph metadata` accept it — don't pass it.
-- **`--asOf` still exists, with a narrower meaning, on the commands that keep it**:
-  `vector-text`, `chunks`, `docs list`, `db timeline`, `db sql`. On all of
-  these it is a **floor** ("in force by this date"), not a point-in-time snapshot —
-  `valid_to` is rarely set, so a still-open row satisfies any `--asOf` at or after its
-  `valid_from`. On `pattern10` use **`--includeHistory`** instead: it additionally
-  matches `:DocumentHistory`/`:DocChunkHistory` for that document, surfacing retired
-  chunks alongside current ones; omitting it matches only the current document.
-  Use `--includeHistory` when the question is explicitly historical ("what did the
-  policy say in January", "history of…", "previous version", "what changed"); omit it
+- **`--asOf` is a point in valid time** on the graph commands that keep it:
+  `vector-text`, `chunks`, `docs list`, `entity-history` (on the structured-store
+  commands `db timeline` and `db sql` it is still a floor; see their help). A row is kept when
+  its own date window contains the date (`_valid_from <= asOf < _valid_to`; a year or
+  month means its last day); undated rows are always shown. Where no `_valid_to` is set
+  yet (most chunks), a still-open row satisfies any `--asOf` at or after its
+  `valid_from`, so there it acts as a floor. `entity-history --asOf D` returns the facts
+  whose own window contains D: a fact closed before D is not shown. On `pattern10` use
+  **`--includeHistory`** instead: it additionally matches
+  `:DocumentHistory`/`:DocChunkHistory` for that document, surfacing retired chunks
+  alongside current ones; omitting it matches only the current document. Use
+  `--includeHistory` when the question is explicitly historical ("what did the policy
+  say in January", "history of…", "previous version", "what changed"); omit it
   otherwise. (`--asOf` still works on `pattern10` as an alias, but it is a switch, not a
-  date filter.) `entity-history --asOf` is a valid-time floor too: it keeps observations
-  whose own `_valid_from` is on or before the date and ignores `_valid_to`. Read the rows'
-  dates yourself when the question is about one moment.
+  date filter.)
+- **`--knownAsOf T` reads what the graph held at T** (record time, not valid time) on
+  `entity-history`, `document-history` and `graph pattern10`: only content recorded by
+  T and not yet retired then, from both current and history nodes, with each row's
+  `status` (and `document-history`'s `retired`) as of T. A date means the end of that
+  local day; `now` and ISO datetimes work too. Use it for "what did we know on D",
+  "what did the graph say before the last re-ingest". `--asOf` asks when a fact was
+  true; `--knownAsOf` asks when artmind learned it. Nodes the migration pack backfilled
+  carry approximate record time (`_record_time_approx`, and a warning says how many
+  rows): a History node backfilled with the epoch counts as known since before the
+  backfill, so an earlier `--knownAsOf` may still show it.
 
 ## Edited documents: what a re-ingest keeps
 

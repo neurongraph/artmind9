@@ -182,7 +182,8 @@ def test_cli_entity_history_passes_key_and_name():
                                      "--name", "Zorvan", "--entityClass", "PERSON"])
     assert result.exit_code == 0, result.output
     query.assert_called_once_with(["journal"], None, as_of=None, property=None,
-                                  key=None, name="Zorvan", entity_class="PERSON")
+                                  key=None, name="Zorvan", entity_class="PERSON",
+                                  known_as_of=None)
 
 
 def test_cli_entity_history_reports_a_missing_lookup():
@@ -197,7 +198,7 @@ def test_cli_document_history_outputs_json():
         result = CliRunner().invoke(cli, ["query", "document-history", "--domain", "journal",
                                           "--documentName", "2030-01-02.md", "--compact"])
     assert result.exit_code == 0, result.output
-    query.assert_called_once_with(["journal"], "2030-01-02.md")
+    query.assert_called_once_with(["journal"], "2030-01-02.md", known_as_of=None)
     assert plain(json.loads(result.output)) == plain(payload)
 
 
