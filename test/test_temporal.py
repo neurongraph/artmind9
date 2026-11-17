@@ -184,7 +184,7 @@ def test_valid_predicate_shape():
     from artmind.graph_query import valid_predicate
     pred = valid_predicate("e")
     assert "$asOf IS NULL" in pred
-    assert "(e._valid_from IS NULL OR e._valid_precision = 'none')" in pred
+    assert "(e._valid_from IS NULL OR coalesce(e._valid_precision, '') = 'none')" in pred
     assert "e._valid_from <= $asOf AND (e._valid_to IS NULL OR e._valid_to > $asOf)" in pred
 
 

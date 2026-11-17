@@ -20,7 +20,7 @@ def test_survey_documents_query_reads_underscore_date():
 
 def test_valid_predicate_reads_prefixed_names_only():
     pred = valid_predicate("d")
-    assert "d._valid_from" in pred and "d._valid_to" in pred and "coalesce" not in pred
+    assert "d._valid_from" in pred and "d._valid_to" in pred and "coalesce(d._valid_from" not in pred
     assert not re.search(r"(?<![_.\w])d\.valid_(from|to)", pred)
 
 

@@ -90,8 +90,9 @@ def test_summary_rows_carry_the_documents_prefixed_valid_time():
     assert len(rows) == 2
     for row in rows:
         assert row["props"]["_valid_from"] == "2024-03-30"
-        assert row["props"]["_valid_to"] == "2024-04-01"
+        assert row["props"]["_doc_valid_to"] == "2024-04-01"
         assert "valid_from" not in row["props"]
+    assert rows[0]["props"]["_valid_to"] == "2024-04-01"   # the document summary's own end
 
 
 def test_chunk_summaries_take_their_chunks_date():
@@ -104,3 +105,13 @@ def test_chunk_summaries_take_their_chunks_date():
     assert (by_level["chunk"]["_valid_from"], by_level["chunk"]["_valid_precision"]) == ("2026-01-14", "day")
     assert (by_level["document"]["_valid_from"], by_level["document"]["_valid_precision"]) == ("2026-01-01", "month")
     assert by_level["chunk"]["_doc_valid_from"] == by_level["document"]["_doc_valid_from"] == "2026-01-01"
+
+
+def test_only_the_document_summary_takes_the_documents_end():
+    from artmind.summary_store import summary_rows
+
+    data = {"document": {"summary": "S"}, "chunks": [{"chunk_id": "c1", "summary": "C"}]}
+    doc = {"id": "d1", "_domain": "pj", "_valid_from": "2026-01-01", "_valid_to": "2026-02-01"}
+    by_level = {r["props"]["level"]: r["props"] for r in summary_rows(data, doc)}
+    assert by_level["document"]["_valid_to"] == "2026-02-01"
+    assert "_valid_to" not in by_level["chunk"] and by_level["chunk"]["_doc_valid_to"] == "2026-02-01"

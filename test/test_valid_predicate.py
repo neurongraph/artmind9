@@ -8,11 +8,12 @@ from artmind import graph_query as gq
 def test_predicate_reads_prefixed_names_only():
     text = gq.valid_predicate("p")
     assert "p._valid_from" in text and "p._valid_to" in text
-    assert "p.valid_from" not in text and "p.valid_to" not in text and "coalesce" not in text
+    assert "p.valid_from" not in text and "p.valid_to" not in text
+    assert "coalesce(p._valid_from" not in text and "coalesce(p.valid" not in text
 
 
 def test_predicate_treats_precision_none_as_undated():
-    assert "p._valid_precision = 'none'" in gq.valid_predicate("p")
+    assert "coalesce(p._valid_precision, '') = 'none'" in gq.valid_predicate("p")
 
 
 def test_predicate_is_a_point_with_an_exclusive_end():
@@ -23,7 +24,15 @@ def test_predicate_is_a_point_with_an_exclusive_end():
 
 def test_excluding_undated_negates_the_undated_branch():
     text = gq.valid_predicate("p", include_undated=False)
-    assert "NOT (p._valid_from IS NULL OR p._valid_precision = 'none')" in text
+    assert "NOT (p._valid_from IS NULL OR coalesce(p._valid_precision, '') = 'none')" in text
+
+
+def test_a_null_precision_never_nulls_the_predicate():
+    # `NULL = 'none'` is null and `NOT null` is null: the precision is coalesced so a dated node
+    # with no precision passes the excluding form.
+    for text in (gq.valid_predicate("p"), gq.valid_predicate("p", include_undated=False)):
+        assert "coalesce(p._valid_precision, '') = 'none'" in text
+        assert "p._valid_precision = 'none'" not in text.replace("coalesce(p._valid_precision, '') = 'none'", "")
 
 
 def test_a_custom_parameter_name():
@@ -46,7 +55,7 @@ def test_vector_text_sends_the_widened_as_of_and_the_predicate(monkeypatch):
     for cypher, params in sent:
         assert params["asOf"] == "2026-12-31"
         assert gq.valid_predicate("p") in cypher
-        assert "p.valid_from" not in cypher and "coalesce(p" not in cypher
+        assert "p.valid_from" not in cypher and "coalesce(p._valid_from" not in cypher
 
 
 def test_vector_text_without_as_of_sends_no_predicate(monkeypatch):
@@ -82,7 +91,8 @@ def test_survey_window_and_periods_skip_default_dates():
 
     window = survey._windowed("RETURN s { .id }", "s", {"date_from": "2026-01-01", "date_to": None})
     assert "d._valid_from >= $date_from" in window and "coalesce(d._valid_precision, 'day') <> 'none'" in window
-    assert "coalesce(d._valid_precision, 'day') <> 'none'" in survey._PERIOD_HITS
+    assert "WHEN coalesce(d._valid_precision, 'day') = 'none' THEN null" in survey._PERIOD_HITS
+    assert "<> 'none'" not in survey._PERIOD_HITS, "default-dated documents count as undated hits"
     assert "WHEN coalesce(d._valid_precision, 'day') = 'none' THEN null" in survey._PERIOD_DATES
     for text in (survey._DOCUMENTS, survey._PERIOD_DATES, survey._PERIOD_HITS, window):
         assert "d.valid_from" not in text
@@ -103,3 +113,10 @@ def test_conflicts_read_prefixed_dates_only():
     conflicts._doc_validity(rec, [{"doc_id": "d1"}])
     cypher, params = rec.calls[0]
     assert "d._valid_from AS valid_from" in cypher and "d.valid_from" not in cypher and params == {"id": "d1"}
+
+
+def test_entity_context_doc_date_ignores_a_default_date():
+    """A default-dated document gives its chunks no `doc_valid_from`, so it never sorts first."""
+    cypher = " ".join(gq._entity_context_queries()["chunk_refs"].split())
+    assert ("CASE WHEN coalesce(d._valid_precision, 'day') = 'none' THEN null ELSE d._valid_from END "
+            "AS doc_valid_from") in cypher

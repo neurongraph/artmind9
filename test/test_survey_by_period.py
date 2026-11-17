@@ -273,3 +273,17 @@ def test_cli_from_to_options(monkeypatch):
                                  "--to", "2025-12-31", "q"])
     assert r.exit_code == 0, r.output
     assert seen["date_from"] == "2025-01-01" and seen["date_to"] == "2025-12-31"
+
+
+def test_default_dated_documents_count_as_undated_keyword_hits(monkeypatch):
+    """Spec 2026-11-15 §2: the hit query maps a default date to null rather than dropping the
+    document, so the undated period still reports the hits and the warning."""
+    s = Recorder(_responder([{"date": None, "hits": 2}], order=("A",)))
+    _patch(monkeypatch, s)
+    out = survey.survey_search(["notes"], "alpha", by="year")
+    (cypher, params), = [(c, p) for c, p in s.calls if "hit_limit" in p]
+    assert "CASE WHEN coalesce(d._valid_precision, 'day') = 'none' THEN null ELSE d._valid_from END AS date" in cypher
+    assert "<> 'none'" not in cypher
+    und = [p for p in out["periods"] if p["period"] == "undated"][0]
+    assert und["keyword_hits"] == 2 and und["documents"] == []
+    assert any("undated" in w for w in out["warnings"])

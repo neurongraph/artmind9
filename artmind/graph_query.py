@@ -142,7 +142,8 @@ def valid_predicate(var: str, param: str = "asOf", *, include_undated: bool = Tr
     (a default date, not a real one), is undated: shown when `include_undated`, else hidden.
     `$asOf` is already widened by `resolve_as_of` (a year means its last day).
     """
-    undated = f"({var}._valid_from IS NULL OR {var}._valid_precision = 'none')"
+    # coalesce: a null precision must not make the negated (include_undated=False) form null.
+    undated = f"({var}._valid_from IS NULL OR coalesce({var}._valid_precision, '') = 'none')"
     dated = (f"({var}._valid_from <= ${param} "
              f"AND ({var}._valid_to IS NULL OR {var}._valid_to > ${param}))")
     body = f"({undated} OR {dated})" if include_undated else f"(NOT {undated} AND {dated})"
@@ -1666,7 +1667,8 @@ def _entity_context_queries() -> dict[str, str]:
     OPTIONAL MATCH (p:DocPassage)-[:PART_OF]->(c)
     WITH c, d, max({_query_score("p")}) AS score
     RETURN c.id AS id, c.name AS name, c.doc_id AS doc_id,
-           c._valid_to IS NULL AS current, d._valid_from AS doc_valid_from,
+           c._valid_to IS NULL AS current,
+           CASE WHEN coalesce(d._valid_precision, 'day') = 'none' THEN null ELSE d._valid_from END AS doc_valid_from,
            score
     """,
         "chunk_keyword": """

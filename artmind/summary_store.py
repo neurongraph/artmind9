@@ -40,16 +40,18 @@ def summary_rows(data: dict | None, document: dict, chunks: list[dict] | None = 
 
     Every row carries its document's window (`_doc_valid_from` / `_doc_valid_to`); the document
     summary carries the document's `_valid_from` / `_valid_to` / `_valid_precision`, and a chunk
-    summary its chunk's own `_valid_from` / `_valid_precision` when `chunks` (the staged
-    `chunks.json` rows) gives one (spec 2026-11-15 §5.1)."""
+    summary its chunk's own `_valid_from` / `_valid_precision` (the document's when `chunks`, the
+    staged `chunks.json` rows, gives none) and no `_valid_to`, as its chunk (spec 2026-11-15 §5.1)."""
     if not isinstance(data, dict) or not isinstance(data.get("chunks"), list):
         return []
     common = {"doc_id": document["id"], "_domain": document.get("_domain")}
-    for src, dst in (("_valid_from", "_valid_from"), ("_valid_to", "_valid_to"),
-                     ("_valid_precision", "_valid_precision"),
+    for src, dst in (("_valid_from", "_valid_from"), ("_valid_precision", "_valid_precision"),
                      ("_valid_from", "_doc_valid_from"), ("_valid_to", "_doc_valid_to")):
         if document.get(src) is not None:
             common[dst] = document[src]
+    # The document's end is the document summary's own; a chunk summary, like its chunk and
+    # passages, carries it only as `_doc_valid_to`.
+    doc_end = {"_valid_to": document["_valid_to"]} if document.get("_valid_to") is not None else {}
     chunk_dates = {
         c["id"]: {k: c[k] for k in ("_valid_from", "_valid_precision") if c.get(k) is not None}
         for c in chunks or [] if isinstance(c, dict) and c.get("id")
@@ -59,7 +61,7 @@ def summary_rows(data: dict | None, document: dict, chunks: list[dict] | None = 
     if isinstance(doc, dict) and doc.get("summary"):
         sid = f"{document['id']}:summary"
         rows.append({"id": sid, "target": document["id"], "target_label": "Document",
-                     "props": {"id": sid, "level": "document", **common,
+                     "props": {"id": sid, "level": "document", **common, **doc_end,
                                "text": doc["summary"], "key": doc.get("key")}})
     for entry in data["chunks"]:
         if not isinstance(entry, dict) or not entry.get("summary") or not entry.get("chunk_id"):

@@ -884,15 +884,17 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     )
 
     # ── Temporal range indexes (canonical valid-time) ─────────────────────────
-    # event_at (+ its index) is gone — for an occurrent entity valid_from IS
+    # event_at (+ its index) is gone — for an occurrent entity `_valid_from` IS
     # the event date, so a second axis was redundant; `timeline` (Phase 4) is
-    # re-specified as a preset over entity_listing ordered by valid_from.
-    session.run("CREATE INDEX entity_valid_from IF NOT EXISTS FOR (n:Entity) ON (n.valid_from)")
-    session.run("CREATE INDEX entity_valid_to IF NOT EXISTS FOR (n:Entity) ON (n.valid_to)")
-    session.run("CREATE INDEX chunk_valid_from IF NOT EXISTS FOR (n:DocChunk) ON (n.valid_from)")
-    session.run("CREATE INDEX chunk_valid_to IF NOT EXISTS FOR (n:DocChunk) ON (n.valid_to)")
-    session.run("CREATE INDEX document_valid_from IF NOT EXISTS FOR (n:Document) ON (n.valid_from)")
-    session.run("CREATE INDEX document_valid_to IF NOT EXISTS FOR (n:Document) ON (n.valid_to)")
+    # re-specified as a preset over entity_listing ordered by `_valid_from`.
+    # Valid time is stored only under the prefixed names (spec 2026-11-15 §7.1).
+    # The old indexes on unprefixed `valid_from`/`valid_to` are dropped by the
+    # migration pack, not here.
+    # New names: the old indexes hold `<stem>_valid_from` / `<stem>_valid_to`, and IF NOT EXISTS
+    # would skip a new index under an existing name.
+    for label, stem in (("Entity", "entity"), ("DocChunk", "chunk"), ("Document", "document")):
+        for prop in ("_valid_from", "_valid_to"):
+            session.run(f"CREATE INDEX {stem}_prefixed{prop} IF NOT EXISTS FOR (n:{label}) ON (n.{prop})")
     session.run("CREATE INDEX conflict_status IF NOT EXISTS FOR (n:Conflict) ON (n.status)")
 
     # ── 2-field composite for name+domain entity lookups (ingest/update writes) ─

@@ -73,13 +73,14 @@ RETURN d.id AS doc_id,
 """
 
 #: `--by`: keyword hits per document date over the whole passage index, not just the ranked pool.
+#: A default-dated document counts as undated, as in `_PERIOD_DATES`.
 _PERIOD_HITS = """
 CALL db.index.fulltext.queryNodes('passage_text_ft', $ft_query, {limit: $hit_limit})
 YIELD node AS p
 WHERE p._domain IN $domains
 MATCH (d:Document {id: p.doc_id})
-WHERE coalesce(d._valid_precision, 'day') <> 'none'
-RETURN d._valid_from AS date, count(DISTINCT d) AS hits
+RETURN CASE WHEN coalesce(d._valid_precision, 'day') = 'none' THEN null ELSE d._valid_from END AS date,
+       count(DISTINCT d) AS hits
 """
 
 HIT_LIMIT = 5000
