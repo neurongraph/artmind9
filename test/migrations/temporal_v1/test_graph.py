@@ -250,12 +250,37 @@ def test_record_time_passes_the_tags(curation):
         if "AS n" in cypher:
             return [{"n": 1 if _label(cypher) == "ObservationHistory" else 0}]
         if "MATCH (d:DocumentHistory)" in cypher:
-            return [{"id": "doc-r", "lifecycle_record": "m", "records": []}]
+            return [{"id": "doc-r", "domain": "notes", "lifecycle_record": "m", "records": []},
+                    {"id": "doc-s", "domain": "notes", "lifecycle_record": "m", "records": []}]
+        if "AS doc" in cypher:
+            return [{"doc": "doc-r"}]  # only doc-r has rows still to do
         return [{"domain": "notes"}]
     rec = WritableRecorder(respond)
     graph.record_time_apply(_ctx(rec))
     (cypher, params), = _writes(rec)
-    assert params["tags"] == {"doc-r": "retire"} and params["chunks"] == {}
+    # tags only for the documents with rows to do; no $chunks on an observation statement
+    assert params["tags"] == {"doc-r": "retire"} and "chunks" not in params
+
+
+def test_chunks_go_only_to_chunk_family_statements_per_document(curation, monkeypatch):
+    monkeypatch.setattr(graph, "staged_chunk_ids",
+                        lambda docs: {d: [f"{d}_001"] for d in docs if d is not None})
+
+    def respond(cypher, params):
+        if "AS n" in cypher:
+            return [{"n": 1 if _label(cypher) in ("DocChunkHistory", "ObservationHistory") else 0}]
+        if "MATCH (d:DocumentHistory)" in cypher:
+            return [{"id": "doc-r", "domain": "notes", "lifecycle_record": "m", "records": []},
+                    {"id": "doc-s", "domain": "notes", "lifecycle_record": "m", "records": []}]
+        if "AS doc" in cypher:
+            return [{"doc": "doc-r"}] if _label(cypher) == "DocChunkHistory" else [{"doc": "doc-s"}]
+        return [{"domain": "notes"}]
+    rec = WritableRecorder(respond)
+    graph.record_time_apply(_ctx(rec))
+    writes = {_label(c): p for c, p in _writes(rec)}
+    assert writes["DocChunkHistory"]["chunks"] == {"doc-r": ["doc-r_001"]}
+    assert writes["DocChunkHistory"]["tags"] == {"doc-r": "retire"}
+    assert "chunks" not in writes["ObservationHistory"] and writes["ObservationHistory"]["tags"] == {"doc-s": "retire"}
 
 
 def test_staged_chunk_ids_read_the_latest_chunks_json(monkeypatch, tmp_path):
@@ -337,16 +362,25 @@ class Graph:
     """A tiny stateful graph: each step's pending count, and a write that converts
     `per_call` rows per statement (raising once mid-way when `fail_once`)."""
 
+    STEPS = ("document_dates", "partial_dates", "supersession_records", "supersession_ends", "record_time",
+             "old_indexes")
+
     def __init__(self, left, fail_once=False):
-        self.left, self.fail_once, self.calls = dict(left), fail_once, []
+        self.left = {k: 0 for k in self.STEPS}
+        self.left.update(left)
+        self.fail_once, self.calls = fail_once, []
 
     def _kind(self, cypher):
         if cypher.startswith("SHOW INDEXES"):
             return "old_indexes"
-        if "SUPERSEDES {scope: 'document'}" in cypher and "older" in cypher:
+        if "s.record_id IS NULL" in cypher:
+            return "supersession_records"
+        if "SUPERSEDES {scope: 'document'}]->(older)" in cypher:
             return "supersession_ends"
         if "d.valid_from IS NOT NULL" in cypher:
             return "document_dates"
+        if "=~ '[0-9]{4}(-(0[1-9]|1[0-2]))?'" in cypher or "$readable" in cypher:
+            return "partial_dates"
         return "record_time"
 
     def run(self, cypher, **params):
@@ -366,9 +400,12 @@ class Graph:
         if cypher.startswith("DROP INDEX"):
             self.left["old_indexes"] -= 1
             return FakeResult([])
+        if kind == "partial_dates" and "AS values" in cypher:
+            return FakeResult([{"values": ["2026-03"] if self.left[kind] else []}])
         if "AS n" in cypher:
-            n = self.left[kind] if "d.ingested_at IS NULL" not in cypher else 0
-            return FakeResult([{"n": n}])
+            # rows with no `ingested_at`, and partial values parse_valid cannot read: none here
+            quiet = "d.ingested_at IS NULL" in cypher or (kind == "partial_dates" and "AND NOT" in cypher)
+            return FakeResult([{"n": 0 if quiet else self.left[kind]}])
         if kind == "old_indexes":
             return FakeResult([{"name": "chunk_valid_to"}] if self.left[kind] else [])
         return FakeResult([])
@@ -414,7 +451,13 @@ def _invoke(*args):
 
 
 def test_dry_run_over_the_real_steps_sends_only_reads(runner):
-    rec = WritableRecorder(lambda c, p: [{"n": 3}] if "AS n" in c else [{"name": "chunk_valid_to"}])
+    def respond(cypher, params):
+        if "AS n" in cypher:
+            return [{"n": 3}]
+        if "AS values" in cypher:
+            return [{"values": ["2026"]}]
+        return [{"name": "chunk_valid_to"}]
+    rec = WritableRecorder(respond)
     runner["graph"] = rec
     result = _invoke("--dryRun")
     assert result.exit_code == 0, result.output
@@ -424,6 +467,10 @@ def test_dry_run_over_the_real_steps_sends_only_reads(runner):
         "old_indexes"]
     ends = next(s for s in out["steps"] if s["name"] == "supersession_ends")
     assert ends["pending"] == {"documents": 3}  # the estimate equals the count here
+    effect = out["effect"]
+    assert effect["travels"] is False and effect["reversible"] is False
+    assert "not reversible by git" in effect["undo"] and "delete them" in effect["undo"]
+    assert "_valid_to_by" in effect["undo"] and "ingest unsupersede" in effect["undo"]
     assert_no_write_cypher(rec)
     assert not [c for c, _ in rec.calls if "IN TRANSACTIONS" in c or c.startswith("DROP")]
 
@@ -507,56 +554,90 @@ def test_a_cross_domain_supersession_under_domain_reaches_done(runner, monkeypat
 
 # ── partial_dates ─────────────────────────────────────────────────────────────
 
-def test_partial_map_uses_parse_valid(monkeypatch):
+def test_partial_map_uses_parse_valid_over_strings(monkeypatch):
     from artmind import temporal
 
     seen = []
     real = temporal.parse_valid
     monkeypatch.setattr(temporal, "parse_valid", lambda v: seen.append(v) or real(v))
-    assert graph.partial_map(["2026", "2026-03", "2026", "9999"]) == {
+    assert graph.partial_map(["2026", "2026-03", 2026, "9999", "0000"]) == {
         "2026": {"start": "2026-01-01", "end": "2027-01-01", "precision": "year"},
         "2026-03": {"start": "2026-03-01", "end": "2026-04-01", "precision": "month"},
         "9999": {"start": "9999-01-01", "end": None, "precision": "year"},  # an open end
     }
-    assert seen == ["2026", "2026-03", "9999"]
+    assert seen == ["0000", "2026", "2026-03", "9999"]  # an integer year is read as its string
 
 
-def test_partial_dates_pending_covers_every_label_and_key():
-    rec = _rec(n=2)
-    out = graph.partial_dates_pending(_ctx(rec))
-    assert set(out) == set(graph.PARTIAL_LABELS) and "Entity" in out
-    cypher = rec.calls[0][0]
-    for key in ("_valid_from", "_valid_to", "_doc_valid_from", "_doc_valid_to"):
-        assert f"toString(x.{key}) =~ '[0-9]{{4}}(-(0[1-9]|1[0-2]))?'" in cypher
-
-
-def test_partial_dates_apply_normalises_with_the_map_bumping_first():
+def _partial_rec(values, todo=2, bad=0, label="Observation"):
     def respond(cypher, params):
-        if "collect(DISTINCT v)" in cypher:
-            return [{"n": 1, "values": ["2026-03"], "domains": ["notes"]}] if "(x:Observation)" in cypher else [
-                {"n": 0, "values": [], "domains": []}]
+        here = f"(x:{label})" in cypher
+        if "AS values" in cypher:
+            return [{"values": values if here else []}]
+        if "AS n" in cypher:
+            if not here:
+                return [{"n": 0}]
+            return [{"n": bad if "AND NOT" in cypher else todo}]
+        if "AS domain" in cypher:
+            return [{"domain": "notes"}] if here else []
         return []
-    rec = WritableRecorder(respond)
+    return WritableRecorder(respond)
+
+
+def test_partial_dates_pending_reads_strings_and_reports_unparseable_apart():
+    rec = _partial_rec(["2026", "0000"], todo=2, bad=1)
+    assert graph.partial_dates_pending(_ctx(rec)) == {"Observation": 2, "unparseable": {"Observation": 1}}
+    values_q = next(c for c, _ in rec.calls if "AS values" in c and "(x:Observation)" in c)
+    for key in ("_valid_from", "_valid_to", "_doc_valid_from", "_doc_valid_to"):
+        assert f"toString(x.{key}) =~ '[0-9]{{4}}(-(0[1-9]|1[0-2]))?'" in values_q
+    todo_q, params = next((c, p) for c, p in rec.calls if "AS n" in c and "IN $readable" in c and "AND NOT" not in c)
+    assert params["readable"] == ["2026"]
+    assert steps_mod.is_done({"unparseable": {"Observation": 1}})  # it never blocks done
+
+
+def test_partial_dates_apply_normalises_with_a_string_keyed_map_bumping_first():
+    rec = _partial_rec(["2026-03"], todo=1)
     assert graph.partial_dates_apply(_ctx(rec)) == {"Observation": 1}
     (cypher, params), = _writes(rec)
     assert params["map"] == {"2026-03": {"start": "2026-03-01", "end": "2026-04-01", "precision": "month"}}
+    assert "$map[toString(x._valid_from)]" in cypher and "$map[toString(x._doc_valid_to)]" in cypher
     assert "coalesce(x._valid_precision, valid_from.precision)" in cypher
     assert "x._valid_from = CASE WHEN valid_from IS NULL THEN x._valid_from ELSE valid_from.start END" in cypher
     assert "x._valid_to = CASE WHEN valid_to IS NULL THEN x._valid_to ELSE valid_to.end END" in cypher
-    assert "x._doc_valid_to = CASE WHEN doc_valid_to IS NULL THEN x._doc_valid_to ELSE doc_valid_to.end END" in cypher
+    # only rows holding a readable value: an unparseable one is never touched
+    assert "toString(x._valid_from) IN $readable" in cypher.split("CALL")[0]
     bump = next(i for i, (c, _) in enumerate(rec.calls) if "MERGE (s:DomainState" in c)
     assert bump < rec.calls.index((cypher, params))
 
 
+def test_legacy_edge_effective_takes_its_start():
+    rec = _partial_rec(["2020"], todo=1, label="never")
+
+    def respond(cypher, params):
+        edge = "MATCH ()-[s:SUPERSEDES]->(older)" in cypher
+        if "AS values" in cypher:
+            return [{"values": ["2020"] if edge else []}]
+        if "AS n" in cypher:
+            return [{"n": 1 if edge and "AND NOT" not in cypher else 0}]
+        return [{"domain": "notes"}] if edge else []
+    rec = WritableRecorder(respond)
+    assert graph.partial_dates_pending(_ctx(rec)) == {"SUPERSEDES": 1}
+    values_q = next(c for c, _ in rec.calls if "AS values" in c and "SUPERSEDES" in c)
+    assert "(NOT s.effective IS :: STRING OR toString(s.effective) =~" in values_q
+    assert graph.partial_dates_apply(_ctx(rec)) == {"SUPERSEDES": 1}
+    (cypher, params), = _writes(rec)
+    assert "SET s.effective = e.start" in cypher and "$map[toString(s.effective)]" in cypher
+    assert params["map"]["2020"]["start"] == "2020-01-01"
+
+
 def test_partial_dates_second_run_sends_no_writes():
-    rec = WritableRecorder(lambda c, p: [{"n": 0, "values": [], "domains": []}] if "collect" in c else [{"n": 0}])
+    rec = _partial_rec([], todo=0)
     assert graph.partial_dates_pending(_ctx(rec)) == {}
     assert graph.partial_dates_apply(_ctx(rec)) == {}
     assert_no_write_cypher(rec)
 
 
 def test_partial_dates_dry_run_sends_only_reads():
-    rec = _rec(n=4)
+    rec = _partial_rec(["2026"], todo=4)
     ctx = _ctx(rec)
     ctx.dry_run = True
     assert graph.partial_dates_pending(ctx)
@@ -564,17 +645,136 @@ def test_partial_dates_dry_run_sends_only_reads():
     assert_no_write_cypher(rec)
 
 
-# ── the dry run's estimate of supersession ends ───────────────────────────────
+def test_partial_dates_killed_mid_batch_resume(runner):
+    g = Graph({"partial_dates": 5}, fail_once=True)
+    runner["graph"] = g
+    first = _invoke()
+    out = json.loads(first.stdout)
+    row = next(s for s in out["steps"] if s["name"] == "partial_dates")
+    assert first.exit_code == 1 and "mid-batch" in row["error"]
+    assert row["remaining"]["Document"] == 3  # committed batches stay
+    second = _invoke()
+    assert second.exit_code == 0, second.output
+    g.calls.clear()
+    assert _invoke().exit_code == 0
+    assert not [c for c, _ in g.calls if "IN TRANSACTIONS" in c]
 
-def test_the_dry_run_estimates_ends_the_earlier_steps_will_open_up():
+
+# ── supersession ends: string ends, and the estimate ──────────────────────────
+
+def test_open_ends_use_the_string_check_restate_uses():
+    rec = _rec(n=0)
+    graph.supersession_ends_pending(_ctx(rec))
+    open_q = rec.calls[0][0]
+    assert "AS e WHERE e IS :: STRING AND e <> ''" in open_q
+    estimate_q = rec.calls[1][0]
+    assert "WHEN s.effective IS :: STRING THEN s.effective" in estimate_q
+    assert "THEN toString(s.effective) END AS e" in estimate_q and "e IS :: STRING AND e <> ''" in estimate_q
+
+
+def test_the_estimate_shows_ends_the_earlier_steps_will_open_up():
     def respond(cypher, params):
         if "s.record_id IS NOT NULL" in cypher:
             return [{"n": 0}]  # nothing yet: dates unfolded, records not minted
         return [{"n": 2}]
     rec = WritableRecorder(respond)
     ctx = _ctx(rec)
-    assert graph.supersession_ends_pending(ctx) == {}  # a real run's pending is the real count
-    ctx.dry_run = True
-    assert graph.supersession_ends_pending(ctx) == {"documents (after earlier steps)": 2}
+    assert graph.supersession_ends_pending(ctx) == {"documents (after earlier steps)": 2}  # real run too
     estimate = rec.calls[-1][0]
     assert "coalesce(newer._valid_from, newer.valid_from)" in estimate and "record_id" not in estimate
+
+
+def test_the_real_run_effect_names_supersession_ends_from_the_estimate(runner):
+    g = Graph({"document_dates": 1})
+    runner["graph"] = g
+    real = Graph.run
+
+    def run(self, cypher, **params):
+        if "SUPERSEDES {scope: 'document'}]->(older)" in cypher and "AS n" in cypher \
+                and "record_id IS NOT NULL" not in cypher and self.left["document_dates"]:
+            from _neo4j_recorder import FakeResult
+            return FakeResult([{"n": 1}])  # the estimate, before the fold
+        return real(self, cypher, **params)
+    g.run = run.__get__(g)
+    out = json.loads(_invoke().stdout)
+    assert "supersession_ends" in out["effect"]["changes"][0]["sample"]
+
+
+# ── supersession_records: a killed run resumes over its own record file ───────
+
+class RecordsGraph:
+    """One legacy edge doc-new -> doc-old; the tie fails once when `fail_tie`."""
+
+    def __init__(self, fail_tie=True):
+        self.tied, self.fail_tie, self.calls = False, fail_tie, []
+
+    def run(self, cypher, **params):
+        from _neo4j_recorder import FakeResult
+
+        self.calls.append((cypher, params))
+        if "SET s.record_id = $id" in cypher:
+            if self.fail_tie:
+                self.fail_tie = False
+                raise RuntimeError("connection lost before the tie")
+            self.tied = True
+            return FakeResult([{"n": 1}])
+        if "s.record_id IS NULL" in cypher:
+            if "RETURN count(s)" in cypher:
+                return FakeResult([{"n": 0 if self.tied else 1}])
+            return FakeResult([] if self.tied else [
+                {"newer": "doc-new", "older": "doc-old", "effective": "2025-03-01", "detected_by": None}])
+        if "RETURN DISTINCT d._domain AS domain" in cypher:
+            return FakeResult([{"domain": "notes"}])
+        if "AS values" in cypher:
+            return FakeResult([{"values": []}])
+        if "AS n" in cypher:
+            return FakeResult([{"n": 0}])
+        return FakeResult([])
+
+    def execute_write(self, fn):
+        return fn(self)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+
+def test_a_record_written_before_a_failed_tie_does_not_block_the_resume(runner, curation, monkeypatch, tmp_path):
+    from artmind import supersession_records
+    from artmind.migrations.temporal_v1 import cli as pack_cli
+
+    g = RecordsGraph()
+    runner["graph"] = g
+    monkeypatch.setattr(pack_cli, "_vault_root", lambda: tmp_path)
+
+    class Out:
+        def __init__(self, out=""):
+            self.returncode, self.stdout = 0, out
+
+    def git(root, *args):
+        if args[0] != "status":
+            return Out()
+        # the record file is untracked once written
+        found = [p for p in args[2:] if p.endswith(".json") and __import__("pathlib").Path(p).is_file()]
+        return Out("".join(f"?? {__import__('os').path.relpath(p, tmp_path)}\n" for p in found))
+    monkeypatch.setattr(pack_cli, "_git", git)
+
+    first = _invoke()
+    assert first.exit_code == 1, first.output
+    row = next(s for s in json.loads(first.stdout)["steps"] if s["name"] == "supersession_records")
+    assert "before the tie" in row["error"]
+    rid = supersession_records.record_id("doc-new", "doc-old", "document")
+    path = curation / "supersessions" / f"{rid}.json"
+    assert path.is_file() and not g.tied
+
+    second = _invoke()
+    assert second.exit_code == 0, second.output  # its own file does not block
+    assert g.tied
+
+    # a file someone changed is not this step's work: it blocks
+    g.tied, g.fail_tie = False, False
+    path.write_text(path.read_text().replace("2025-03-01", "2025-04-01"))
+    third = _invoke()
+    assert third.exit_code == 1 and "uncommitted changes" in third.output

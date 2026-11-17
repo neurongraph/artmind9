@@ -93,9 +93,10 @@ def _blocked(ctx: MigrationContext) -> list[str]:
     elif _git(root, "rev-parse", "--is-inside-work-tree").returncode != 0:
         reasons.append("the vault is not a git repository (its files must be committed before a migration)")
     else:
-        paths = [data_model.MODEL_FILE]
+        paths, own = [data_model.MODEL_FILE], set()
         for step in steps_mod.STEPS:
             paths.extend(step.writes(ctx))
+            own |= {Path(p).resolve() for p in step.own_work(ctx)}
         # Exactly the paths the run declares, never their parents: an unrelated dirty
         # file beside them must not block the migration.
         declared = sorted({str(p) for p in paths})
@@ -104,7 +105,9 @@ def _blocked(ctx: MigrationContext) -> list[str]:
             status = _git(root, "status", "--porcelain", "--", *declared[i:i + GIT_BATCH])
             if status.returncode != 0:
                 dirty.append("(git status failed)")
-            dirty.extend(line[3:] for line in status.stdout.splitlines() if line.strip())
+            # A dirty file that is a step's own half-done work (an interrupted run) does not block.
+            dirty.extend(line[3:] for line in status.stdout.splitlines()
+                         if line.strip() and (root / line[3:].strip().strip('"')).resolve() not in own)
         if dirty:
             reasons.append("uncommitted changes (commit or restore them first): " + ", ".join(sorted(set(dirty))))
     if backfill.worker_is_running():
@@ -118,19 +121,28 @@ def _blocked(ctx: MigrationContext) -> list[str]:
 
 
 def _rows(pending: list[tuple[Step, dict | None]]) -> list[dict]:
-    return [{"name": s.name, "pending": p, "done": p == {}, **({"error": "could not be read"} if p is None else {})}
+    return [{"name": s.name, "pending": p, "done": steps_mod.is_done(p),
+             **({"error": "could not be read"} if p is None else {})}
             for s, p in pending]
 
 
+UNDO = ("Graph changes are not reversible by git (restore a Neo4j backup taken before the run). "
+        "Supersession records the run created are new, untracked files under the curation folder: "
+        "delete them (git restore has nothing to restore). Validity ends the run closed carry "
+        "`_valid_to_by`; `artmind ingest unsupersede` reopens them")
+
+
 def _effect(pending: list[tuple[Step, dict | None]]) -> Effect:
-    todo = [s.name for s, p in pending if p]
+    todo = [s for s, p in pending if not steps_mod.is_done(p)]
     if not todo:
-        return Effect(summary="Nothing to migrate: every step is done", travels=True)
+        return Effect(summary="Nothing to migrate: every step is done", travels=False)
+    names = [s.name for s in todo]
     return Effect(
-        summary=f"Migrate {len(todo)} step(s) to data model {data_model.CURRENT}: {', '.join(todo)}",
-        changes=[Change("data_migration", len(todo), todo)],
-        reversible=False, undo="git restore the committed files; the graph has no undo",
-        travels=True, records=[str(data_model.MODEL_FILE.name)],
+        summary=f"Migrate {len(names)} step(s) to data model {data_model.CURRENT}: {', '.join(names)}",
+        changes=[Change("data_migration", len(names), names)],
+        reversible=False, undo=UNDO,
+        # Each machine migrates its own graph: graph steps do not travel.
+        travels=all(s.travels for s in todo), records=[str(data_model.MODEL_FILE.name)],
     )
 
 
@@ -154,7 +166,7 @@ def migrate_status(domain: tuple, compact: bool) -> None:
         "steps": _rows(pending),
         "blocked": _blocked(ctx),
         "warnings": warnings,
-        "next": NEXT_DRY if any(p or p is None for _, p in pending) else None,
+        "next": NEXT_DRY if any(not steps_mod.is_done(p) for _, p in pending) else None,
     }, compact)
 
 
@@ -192,14 +204,14 @@ def migrate_temporal(domain: tuple, dry_run: bool, compact: bool) -> None:
     for step, counts in before:
         row = {"name": step.name, "pending": counts, "applied": {}}
         results.append(row)
-        if not counts and applied_any and failure is None:
+        if not steps_mod.work(counts) and applied_any and failure is None:
             # An earlier step's apply may have made work for this one (a folded date is
             # the end a supersession writes): judge it again now.
             try:
                 counts = row["pending"] = step.pending(ctx) or {}
             except Exception as exc:  # noqa: BLE001 - report it on the step's row and stop
                 row["error"], failure = _err(exc), exc
-        if counts and failure is None:
+        if steps_mod.work(counts) and failure is None:
             applied_any = True
             try:
                 row["applied"] = step.apply(ctx, False)
@@ -207,7 +219,7 @@ def migrate_temporal(domain: tuple, dry_run: bool, compact: bool) -> None:
                 row["error"], failure = _err(exc), exc
     after, after_warnings = _pending(ctx)
     for row, (_, left) in zip(results, after):
-        row["remaining"], row["done"] = left, left == {}
+        row["remaining"], row["done"] = left, steps_mod.is_done(left)
     done = failure is None and all(r["done"] for r in results)
     stamped = False
     if failure is None:

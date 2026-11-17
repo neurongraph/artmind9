@@ -29,6 +29,25 @@ class Step:
     apply: Callable[[MigrationContext, bool], dict]
     #: Files the step will write, so the run can require them git-clean first.
     writes: Callable[[MigrationContext], list[Path]] = field(default=lambda ctx: [])
+    #: Of those, the dirty ones that are this step's own half-done work (bytes equal to
+    #: what it would write): an interrupted run resumes instead of being blocked.
+    own_work: Callable[[MigrationContext], list[Path]] = field(default=lambda ctx: [])
+    #: Whether what the step changes travels with the vault (committed files). A graph
+    #: step does not: each machine migrates its own graph.
+    travels: bool = False
+
+
+#: Pending keys that inform but never block `done` (and never make a step run).
+INFO_KEYS = frozenset({"unparseable"})
+
+
+def work(pending: dict | None) -> dict:
+    """The part of a step's pending counts that is work to do."""
+    return {k: v for k, v in (pending or {}).items() if k not in INFO_KEYS}
+
+
+def is_done(pending: dict | None) -> bool:
+    return pending is not None and not work(pending)
 
 
 def _graph_steps() -> list[Step]:
@@ -42,8 +61,9 @@ def _graph_steps() -> list[Step]:
         Step("partial_dates", graph.partial_dates_pending, graph.partial_dates_apply),
         # Legacy edges get records before ends are restated: `restate_validity` skips an
         # edge with no `record_id`.
+        # Its record files are committed with the vault; its edge ties are this graph's.
         Step("supersession_records", graph.supersession_records_pending, graph.supersession_records_apply,
-             graph.supersession_records_writes),
+             graph.supersession_records_writes, graph.supersession_records_own_work),
         Step("supersession_ends", graph.supersession_ends_pending, graph.supersession_ends_apply),
         Step("record_time", graph.record_time_pending, graph.record_time_apply),
         Step("old_indexes", graph.old_indexes_pending, graph.old_indexes_apply),

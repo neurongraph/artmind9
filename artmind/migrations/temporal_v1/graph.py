@@ -10,6 +10,11 @@ resumes. A run with `--domain` scopes every query to `ctx.domains`
 covered, whatever its `_domain`. Catalogue generations are bumped before each
 batched write.
 
+Between a killed run's `document_dates` (which removes the unprefixed `valid_to`, the
+old supersession end) and its `supersession_ends`, superseded documents read as open
+until the run resumes. Graph changes are not reversible by git; the steps do not
+travel (each machine migrates its own graph).
+
 - `document_dates`: a document's unprefixed `valid_from` folds into `_valid_from`
   where that is empty. An unprefixed `valid_to` is NOT folded: before this model it
   was written only by a supersession (`supersession_records._RECOMPUTE`), never a
@@ -23,12 +28,18 @@ batched write.
 - `partial_dates`: a partial date string (`YYYY`, `YYYY-MM`; old `parse_iso` kept them)
   in `_valid_from`/`_valid_to`/`_doc_valid_from`/`_doc_valid_to` on documents, their
   rows and entities is normalised with core `parse_valid`: a start to its first day
-  (`_valid_precision` year/month when unset), an end to the period's exclusive end.
+  (`_valid_precision` year/month when unset), an end to the period's exclusive end. A
+  legacy `SUPERSEDES.effective` that is partial or not a string (an integer year, a
+  Cypher date) becomes the string of its start (a supersession end is the newer
+  document's start). Values are read as strings (`toString`); one `parse_valid` cannot
+  read is never pending: it is counted under `unparseable`, which does not block done.
   Runs after `document_dates` (which then sets only `none` or `day` precision).
 - `supersession_records`: a document-scope edge with no `record_id` (asserted
   before supersession records) gets its record minted by core `record_for`,
   written as a curation file (declared in `writes`, so the run needs it
-  git-clean), then the edge is tied to it (`record_id`, `record_fingerprint`).
+  git-clean), then the edge is tied to it (`record_id`, `record_fingerprint`). A file
+  a killed run wrote before tying its edge holds the same bytes this step would write
+  (`own_work`), so it does not block the run that finishes the job.
 - `supersession_ends`: `supersession_records.restate_validity` for every document
   with an incoming document-scope `SUPERSEDES` edge that yields an end and has a
   node (document, observations, chunks, passages, summaries) still open: they are
@@ -114,6 +125,8 @@ def _distinct_domains(session, cypher: str, **params) -> set:
 #: `parse_iso` returned them unchanged); `partial_dates` normalises them. Cypher's `=~`
 #: matches the whole string.
 PARTIAL = "[0-9]{4}(-(0[1-9]|1[0-2]))?"
+#: A date `partial_dates` can make a string of (a partial date, or a full one).
+DATE_SHAPE = "[0-9]{4}(-(0[1-9]|1[0-2])(-[0-9]{2})?)?"
 
 _DATES_PENDING = ("(d.valid_from IS NOT NULL OR d.valid_to IS NOT NULL "
                   "OR (d._valid_precision IS NULL AND d._valid_from IS NOT NULL "
@@ -202,21 +215,43 @@ _DATE_KEYS = ("_valid_from", "_valid_to", "_doc_valid_from", "_doc_valid_to")
 
 
 def _partial(var: str, key: str) -> str:
+    # `toString`: an old YAML date can be an integer (2020); a Cypher date or datetime
+    # renders as a full date and does not match.
     return f"toString({var}.{key}) =~ '{PARTIAL}'"
 
 
-def _partial_match(label: str, domains: list[str] | None) -> str:
-    any_partial = " OR ".join(_partial("x", k) for k in _DATE_KEYS)
-    return f"MATCH (x:{label}) WHERE ({any_partial}){_scope('x', domains)} "
+def _any_partial(var: str = "x") -> str:
+    return "(" + " OR ".join(_partial(var, k) for k in _DATE_KEYS) + ")"
+
+
+def _readable(var: str = "x") -> str:
+    """A row holding a partial value `parse_valid` reads (`$readable`)."""
+    return "(" + " OR ".join(f"toString({var}.{k}) IN $readable" for k in _DATE_KEYS) + ")"
+
+
+def _partial_match(label: str, domains: list[str] | None, where: str | None = None) -> str:
+    return f"MATCH (x:{label}) WHERE {where or _any_partial()}{_scope('x', domains)} "
+
+
+# A legacy `SUPERSEDES.effective`: a partial date, or not a string at all (an integer
+# year, a Cypher date). Core reads only a string end (`restate_validity`).
+_EDGE_EFFECTIVE = (f"s.effective IS NOT NULL AND (NOT s.effective IS :: STRING "
+                   f"OR toString(s.effective) =~ '{PARTIAL}')")
+
+
+def _edge_match(domains: list[str] | None, where: str | None = None) -> str:
+    return ("MATCH ()-[s:SUPERSEDES]->(older) "
+            f"WHERE {where or _EDGE_EFFECTIVE}{_scope('older', domains)} ")
 
 
 def partial_map(values) -> dict[str, dict]:
-    """Core `parse_valid` over each partial value: its first day (`start`), the exclusive
-    end of its period (`end`; None when open) and its precision."""
+    """Core `parse_valid` over each partial value (as a string): its first day (`start`),
+    the exclusive end of its period (`end`; None when open) and its precision. Values it
+    cannot read are left out."""
     from artmind import temporal
 
     out: dict[str, dict] = {}
-    for value in sorted({v for v in values if isinstance(v, str)}):
+    for value in sorted({str(v) for v in values if v is not None}):
         parsed = temporal.parse_valid(value)
         if parsed is not None:
             out[value] = {"start": parsed.start, "end": parsed.implied_end, "precision": parsed.precision}
@@ -226,7 +261,8 @@ def partial_map(values) -> dict[str, dict]:
 def _normalise() -> str:
     """Pad a partial start to its first day, turn a partial end into the period's exclusive
     end (None = open: removed), and keep the precision a partial `_valid_from` stated."""
-    lookups = ", ".join(f"CASE WHEN {_partial('x', k)} THEN $map[x.{k}] END AS {k.strip('_')}" for k in _DATE_KEYS)
+    lookups = ", ".join(f"CASE WHEN {_partial('x', k)} THEN $map[toString(x.{k})] END AS {k.strip('_')}"
+                        for k in _DATE_KEYS)
     return (
         f"CALL (x) {{ WITH x, {lookups} "
         "SET x._valid_precision = CASE WHEN valid_from IS NULL THEN x._valid_precision "
@@ -239,40 +275,87 @@ def _normalise() -> str:
     )
 
 
+# A supersession's end is the newer document's start: a partial `effective` takes its first day.
+_NORMALISE_EDGE = ("CALL (s) { WITH s, $map[toString(s.effective)] AS e "
+                   f"SET s.effective = e.start }} IN TRANSACTIONS OF {BATCH_ROWS} ROWS")
+
+
+def _values(session, label: str | None, domains) -> set[str]:
+    """The distinct partial values (as strings) still on `label`'s rows, or on edges."""
+    if label is None:
+        cypher = _edge_match(domains) + "RETURN collect(DISTINCT toString(s.effective)) AS values"
+    else:
+        cypher = (_partial_match(label, domains)
+                  + "UNWIND [" + ", ".join(f"toString(x.{k})" for k in _DATE_KEYS) + "] AS v "
+                  f"WITH v WHERE v =~ '{PARTIAL}' RETURN collect(DISTINCT v) AS values")
+    rows = session.run(cypher, domains=domains).data()
+    return {str(v) for v in ((rows[0] if rows else {}).get("values") or []) if v is not None}
+
+
+def _partial_plan(session, domains) -> dict:
+    """Per label (`SUPERSEDES` for edges): `(readable values, rows to do, unparseable rows)`.
+    A row whose partial values `parse_valid` cannot read is never pending: it is reported
+    under `unparseable` and left as it is."""
+    plan = {}
+    for label in (*PARTIAL_LABELS, None):
+        values = _values(session, label, domains)
+        if not values:
+            continue
+        readable = sorted(partial_map(values))
+        unreadable = sorted(values - set(readable))
+        name = label or "SUPERSEDES"
+        if label is None:
+            todo = _count(session, _edge_match(domains, f"{_EDGE_EFFECTIVE} AND toString(s.effective) IN $readable")
+                          + "RETURN count(s) AS n", domains=domains, readable=readable) if readable else 0
+            bad = _count(session, _edge_match(domains, f"{_EDGE_EFFECTIVE} AND NOT toString(s.effective) IN $readable")
+                         + "RETURN count(s) AS n", domains=domains, readable=readable) if unreadable else 0
+        else:
+            todo = _count(session, _partial_match(label, domains, _readable()) + "RETURN count(x) AS n",
+                          domains=domains, readable=readable) if readable else 0
+            bad = _count(session, _partial_match(label, domains, f"{_any_partial()} AND NOT {_readable()}")
+                         + "RETURN count(x) AS n", domains=domains, readable=readable) if unreadable else 0
+        plan[name] = (readable, todo, bad)
+    return plan
+
+
 def partial_dates_pending(ctx: MigrationContext) -> dict:
     with ctx.session_factory() as session:
-        counts = {label: _count(session, _partial_match(label, ctx.domains) + "RETURN count(x) AS n",
-                                domains=ctx.domains)
-                  for label in PARTIAL_LABELS}
-    return {k: v for k, v in counts.items() if v}
+        plan = _partial_plan(session, ctx.domains)
+    out: dict = {name: todo for name, (_, todo, _) in plan.items() if todo}
+    unparseable = {name: bad for name, (_, _, bad) in plan.items() if bad}
+    if unparseable:
+        out["unparseable"] = unparseable  # informs; never blocks done (steps.INFO_KEYS)
+    return out
 
 
 def partial_dates_apply(ctx: MigrationContext, dry_run: bool = False) -> dict:
     if dry_run:
         return {}
-    applied: dict = {}
-    values: set = set()
-    domains: set = set()
     with ctx.session_factory() as session:
-        for label in PARTIAL_LABELS:
-            rows = session.run(
-                _partial_match(label, ctx.domains)
-                + "UNWIND [" + ", ".join(f"x.{k}" for k in _DATE_KEYS) + "] AS v "
-                f"WITH x, v WHERE toString(v) =~ '{PARTIAL}' "
-                "RETURN count(DISTINCT x) AS n, collect(DISTINCT v) AS values, collect(DISTINCT x._domain) AS domains",
-                domains=ctx.domains).data()
-            row = rows[0] if rows else {}
-            if row.get("n"):
-                applied[label] = int(row["n"])
-                values |= set(row.get("values") or [])
-                domains |= set(row.get("domains") or [])
-        if not applied:
+        plan = {name: p for name, p in _partial_plan(session, ctx.domains).items() if p[1]}
+        if not plan:
             return {}
-        mapping = partial_map(values)
+        readable = sorted({v for values, _, _ in plan.values() for v in values})
+        mapping = partial_map(readable)
+        domains: set = set()
+        for name in plan:
+            if name == "SUPERSEDES":
+                domains |= {r.get("domain") for r in session.run(
+                    _edge_match(ctx.domains, f"{_EDGE_EFFECTIVE} AND toString(s.effective) IN $readable")
+                    + "RETURN DISTINCT older._domain AS domain", domains=ctx.domains, readable=readable).data()}
+            else:
+                domains |= {r.get("domain") for r in session.run(
+                    _partial_match(name, ctx.domains, _readable()) + "RETURN DISTINCT x._domain AS domain",
+                    domains=ctx.domains, readable=readable).data()}
         _bump(session, domains)
-        for label in applied:
-            session.run(_partial_match(label, ctx.domains) + _normalise(), domains=ctx.domains, map=mapping).consume()
-    return applied
+        for name in plan:
+            if name == "SUPERSEDES":
+                session.run(_edge_match(ctx.domains, f"{_EDGE_EFFECTIVE} AND toString(s.effective) IN $readable")
+                            + _NORMALISE_EDGE, domains=ctx.domains, readable=readable, map=mapping).consume()
+            else:
+                session.run(_partial_match(name, ctx.domains, _readable()) + _normalise(),
+                            domains=ctx.domains, readable=readable, map=mapping).consume()
+    return {name: todo for name, (_, todo, _) in plan.items()}
 
 
 # ── supersession_records ──────────────────────────────────────────────────────
@@ -323,6 +406,35 @@ def supersession_records_writes(ctx: MigrationContext) -> list:
             for e in edges]
 
 
+def _mint(session, edge: dict) -> dict:
+    from artmind import supersession_records
+
+    effective = edge.get("effective")
+    return supersession_records.record_for(
+        session, edge["newer"], edge["older"], "document", effective if isinstance(effective, str) else None,
+        edge.get("detected_by") if isinstance(edge.get("detected_by"), str) else "migration",
+    )
+
+
+def supersession_records_own_work(ctx: MigrationContext) -> list:
+    """Declared record files already holding exactly what this step would write: an
+    interrupted run wrote them and died before tying the edge. They stay untracked, and
+    must not block the run that finishes the job."""
+    from artmind import curation_records, supersession_records
+
+    own = []
+    try:
+        with ctx.session_factory() as session:
+            for edge in _legacy_edges(session, ctx.domains):
+                record = _mint(session, edge)
+                path = curation_records.record_path(supersession_records.NAME, record["id"])
+                if path.is_file() and path.read_bytes() == curation_records.serialize(record):
+                    own.append(path)
+    except Exception:  # noqa: BLE001 - an unreachable graph is its own blocker
+        return []
+    return own
+
+
 def supersession_records_apply(ctx: MigrationContext, dry_run: bool = False) -> dict:
     """Mint each legacy edge's record with core `record_for`, write its file, then tie the
     edge to it (`record_id`, `record_fingerprint`). The file is written first, so an
@@ -334,10 +446,7 @@ def supersession_records_apply(ctx: MigrationContext, dry_run: bool = False) -> 
     written = 0
     with ctx.session_factory() as session:
         for edge in _legacy_edges(session, ctx.domains):
-            record = supersession_records.record_for(
-                session, edge["newer"], edge["older"], "document", edge.get("effective"),
-                edge.get("detected_by") or "migration",
-            )
+            record = _mint(session, edge)
             fingerprint = curation_records.write_record(supersession_records.NAME, record)
             session.execute_write(lambda tx, r=record, f=fingerprint: tx.run(
                 _TIE_EDGE, newer=r["newer_doc_id"], older=r["older_doc_id"], id=r["id"], fingerprint=f,
@@ -359,16 +468,22 @@ def _open_node() -> str:
     return "(" + " OR ".join(parts) + ")"
 
 
+# Core `restate_validity` closes from an edge only when its end is a non-empty string.
+_STRING_END = "e IS :: STRING AND e <> ''"
+
+
 def _superseded_open(domains: list[str] | None) -> str:
     # The end a document-scope edge writes: as `supersession_records._DOCUMENT_EDGES`, which
-    # skips an edge with no `record_id` (`supersession_records` step mints them first). Only
-    # prefixed dates count: `document_dates` folds the newer side of every edge first.
+    # skips an edge with no `record_id` (`supersession_records` step mints them first) and an
+    # end that is not a string. Only prefixed dates count: `document_dates` folds the newer
+    # side of every edge first, `partial_dates` makes a legacy `effective` a full date.
     return (
         "MATCH (newer)-[s:SUPERSEDES {scope: 'document'}]->(older) "
         f"WHERE (older:Document OR older:DocumentHistory){_scope('older', domains)} "
         "AND s.record_id IS NOT NULL "
-        "AND coalesce(s.effective, CASE WHEN newer._valid_precision = 'none' THEN null "
-        "ELSE newer._valid_from END) IS NOT NULL "
+        "WITH older, coalesce(s.effective, CASE WHEN newer._valid_precision = 'none' THEN null "
+        "ELSE newer._valid_from END) AS e "
+        f"WHERE {_STRING_END} "
         f"WITH DISTINCT older WHERE {_open_node()} "
     )
 
@@ -378,24 +493,28 @@ ESTIMATE = "documents (after earlier steps)"
 
 def _superseded_estimate(domains: list[str] | None) -> str:
     """As `_superseded_open`, but read before the earlier steps ran: any document-scope
-    edge (record or not) whose end resolves from the unprefixed date too."""
+    edge (record or not) whose end resolves from the unprefixed date too, an integer or
+    date `effective` read as the string `partial_dates` will make it."""
     return (
         "MATCH (newer)-[s:SUPERSEDES {scope: 'document'}]->(older) "
         f"WHERE (older:Document OR older:DocumentHistory){_scope('older', domains)} "
-        "AND coalesce(s.effective, CASE WHEN newer._valid_precision = 'none' THEN null "
-        "ELSE coalesce(newer._valid_from, newer.valid_from) END) IS NOT NULL "
+        "WITH older, CASE WHEN s.effective IS NULL THEN CASE WHEN newer._valid_precision = 'none' THEN null "
+        "ELSE coalesce(newer._valid_from, newer.valid_from) END "
+        "WHEN s.effective IS :: STRING THEN s.effective "
+        f"WHEN toString(s.effective) =~ '{DATE_SHAPE}' THEN toString(s.effective) END AS e "
+        f"WHERE {_STRING_END} "
         f"WITH DISTINCT older WHERE {_open_node()} "
     )
 
 
 def supersession_ends_pending(ctx: MigrationContext) -> dict:
-    """What `restate_validity` would close now. A dry run also estimates what it will close
-    once the earlier steps have folded dates and minted records (on an unmigrated graph the
-    first count is often 0)."""
+    """What `restate_validity` would close now, and an estimate of what it will close once
+    the earlier steps have folded dates and minted records (on an unmigrated graph the
+    first count is often 0). Both the dry run and the real run's effect show the estimate."""
     with ctx.session_factory() as session:
         n = _count(session, _superseded_open(ctx.domains) + "RETURN count(older) AS n", domains=ctx.domains)
-        estimate = (_count(session, _superseded_estimate(ctx.domains) + "RETURN count(older) AS n",
-                           domains=ctx.domains) if ctx.dry_run else 0)
+        estimate = _count(session, _superseded_estimate(ctx.domains) + "RETURN count(older) AS n",
+                          domains=ctx.domains)
     out = {"documents": n} if n else {}
     if estimate and estimate != n:
         out[ESTIMATE] = estimate
@@ -583,20 +702,33 @@ def record_time_apply(ctx: MigrationContext, dry_run: bool = False) -> dict:
     applied: dict = {}
     with ctx.session_factory() as session:
         tags, doc_domains = retirement_tags(session, ctx.domains)
-        chunks = staged_chunk_ids(doc_domains)
         domains: set = set()
+        docs: dict[str, set] = {}  # History label -> retired documents with rows still to do
         for label in (*CURRENT_LABELS, *HISTORY_LABELS):
             n = _count(session, _match(label, ctx.domains) + "RETURN count(x) AS n", domains=ctx.domains)
-            if n:
-                applied[label] = n
-                domains |= {r.get("domain") for r in session.run(
-                    _match(label, ctx.domains) + "RETURN DISTINCT x._domain AS domain", domains=ctx.domains).data()}
+            if not n:
+                continue
+            applied[label] = n
+            domains |= {r.get("domain") for r in session.run(
+                _match(label, ctx.domains) + "RETURN DISTINCT x._domain AS domain", domains=ctx.domains).data()}
+            if label in HISTORY_LABELS and tags:
+                docs[label] = {r.get("doc") for r in session.run(
+                    _match(label, ctx.domains) + "RETURN DISTINCT coalesce(x.doc_id, x.id) AS doc",
+                    domains=ctx.domains).data()} & set(tags)
+        # Staging is read only for the documents whose chunk-family rows are still to do.
+        chunk_docs = set().union(*(docs.get(label, set()) for label in _CHUNK_OF))
+        chunks = staged_chunk_ids({d: doc_domains.get(d) for d in chunk_docs})
         _bump(session, domains)
         for label in applied:
+            params: dict = {"domains": ctx.domains, "epoch": EPOCH}
+            if label in HISTORY_LABELS:
+                params["tags"] = {d: tags[d] for d in docs.get(label, set())}
+            if label in _CHUNK_OF:
+                params["chunks"] = {d: chunks[d] for d in docs.get(label, set()) if d in chunks}
             session.run(
                 _match(label, ctx.domains) + _join_doc("x", label)
                 + "CALL (x, d) { " + _set(label) + " } IN TRANSACTIONS OF %d ROWS" % BATCH_ROWS,
-                domains=ctx.domains, epoch=EPOCH, tags=tags, chunks=chunks,
+                **params,
             ).consume()
     return applied
 
