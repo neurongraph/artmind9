@@ -38,7 +38,7 @@ WHERE trim(coalesce(c.text, '')) <> ''
   AND NOT c.id IN $skip_ids{scope}
 OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
 RETURN c.id AS id, c.doc_id AS doc_id, c._domain AS _domain, c.text AS chunk_text,
-       c.header_path AS header_path, c._valid_from AS _valid_from, c._valid_to AS _valid_to,
+       c.header_path AS header_path, c._valid_from AS _valid_from, c._valid_to AS _valid_to, c._valid_to_by AS _valid_to_by,
        c._valid_precision AS _valid_precision, c._doc_valid_from AS _doc_valid_from,
        c._doc_valid_to AS _doc_valid_to,
        coalesce(d.title, d.name) AS title

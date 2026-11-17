@@ -5016,7 +5016,13 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     #    duplicate under :Document (see _merge_relabeled); when the working
     #    tree holds a lifecycle record for it, step 5b re-retires the node in
     #    this same transaction.
-    _merge_relabeled(tx, source_label, f"{source_label}History", doc_id, _flatten_props(document), replace=False,
+    document_props = _flatten_props(document)
+    if source_label == "Document":
+        # The merge is additive, so the document's end is set from staging every time: a stated
+        # end, else none. A supersession's end is not staged; step 5c derives it again.
+        document_props.setdefault("_valid_to", None)
+        document_props["_valid_to_by"] = None
+    _merge_relabeled(tx, source_label, f"{source_label}History", doc_id, document_props, replace=False,
                      recorded_at=recorded_at, keep_retired=keep_retired)
     # 3b. The staging folder's fingerprint (spec 2026-09-26 §6 A3): `vault
     #     sync` skips a committed folder whose fingerprint the graph already
@@ -5026,6 +5032,13 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     #     sync) reaches this line through `_write_to_neo4j`/`_load_staged`.
     sync_state.set_document_fingerprint(tx, doc_id, staged.get("fingerprint"), label=source_label)
     title = document.get("title") or document.get("name")
+    # The ids this version writes, by History label (step 5b's restamp of a retired document).
+    written: dict[str, list] = {
+        "ObservationHistory": [o["id"] for o in staged["observations"] if o.get("id")],
+        "DocChunkHistory": [c["id"] for c in staged["chunks"]],
+        "DocPassageHistory": [],
+        "DocSummaryHistory": [],
+    }
     for chunk in staged["chunks"]:
         # Chunks carry no vector any more (spec 2026-10-31 §1): every text-retrieval
         # vector lives on the chunk's passages, written right below without one and
@@ -5034,6 +5047,7 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
         # The merge is additive, so a date the chunk no longer carries is removed explicitly
         # (`SET n += {k: null}` removes `k`).
         chunk_props.update({k: None for k in (*CHUNK_DATE_KEYS, "_valid_to") if k not in chunk_props})
+        chunk_props["_valid_to_by"] = None  # a supersession's end: step 5c derives it again
         # additive (replace=False): a chunk's filing metadata / char offsets
         # accrete the way they always have — see _merge_relabeled for why the
         # label-pair match is needed at all (a same-doc_id re-ingest reuses
@@ -5051,7 +5065,9 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
             id=chunk["id"],
             doc_id=chunk["doc_id"],
         )
-        passage_store.write_chunk_passages(tx, chunk["id"], passages.passage_rows(chunk, title),
+        passage_rows = passages.passage_rows(chunk, title)
+        written["DocPassageHistory"] += [row["id"] for row in passage_rows]
+        passage_store.write_chunk_passages(tx, chunk["id"], passage_rows,
                                            recorded_at=recorded_at, retired_by=retired_by,
                                            keep_retired=keep_retired)
     summary["chunks"] = len(staged["chunks"])
@@ -5060,10 +5076,12 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     # 3c. The summary tree (spec 2026-11-01 §1.4). A Document only: an update
     #     folder (UserChat) has no chunks and no summaries.
     if source_label == "Document":
+        summary_rows = summary_store.summary_rows(
+            staged.get("summaries"), {**document, "_domain": domain}, chunks=staged["chunks"],
+        )
+        written["DocSummaryHistory"] = [row["id"] for row in summary_rows]
         summary["summaries"] = summary_store.write_document_summaries(
-            tx, doc_id, summary_store.summary_rows(
-                staged.get("summaries"), {**document, "_domain": domain}, chunks=staged["chunks"],
-            ),
+            tx, doc_id, summary_rows,
             recorded_at=recorded_at, retired_by=retired_by, keep_retired=keep_retired,
         )
 
@@ -5114,7 +5132,19 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
         # by whatever the lifecycle record says retired the document.
         _transition(tx, doc_id, to_history=True, rebuild=False, at=recorded_at,
                     retired_by=staged.get("retired_by") or "retire", keep_retired=True)
+        # The prior version's rows this version did not write again were already in history,
+        # so step 2 never demoted them: they still carry the retirement's stamp, and a restore
+        # would revive them. They are this version's predecessors.
+        _restamp_prior_version(tx, doc_id, written, retired_by)
         summary["retired"] = True
+
+    # 5c. Ends of validity (spec 2026-11-15 §7.2): the rewrites above cleared any supersession
+    #     end on this document's nodes (staging never carries one), so they are derived again
+    #     from the SUPERSEDES edges into it, in this transaction, before the rebuild reads them.
+    if source_label == "Document":
+        from artmind import supersession_records
+
+        supersession_records.restate_validity(tx, doc_id)
 
     # 6. The affected-key union, then the rebuild — which now also aggregates
     #    RELATES_TO edges for every key it touches.
@@ -5141,6 +5171,21 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     catalogue_state.bump(tx, [domain])
 
     return summary
+
+
+def _restamp_prior_version(tx, doc_id: str, written: dict[str, list], retired_by: str) -> None:
+    """A retired document's commit: History rows of `doc_id` that a retirement moved
+    (`lifecycle.REVIVABLE`) and that this version did not write (`written`, ids by
+    History label) are an earlier version's, so they take `retired_by` (`version:<n>`)
+    and a restore leaves them where they are. `_retired_at` is kept."""
+    from artmind.lifecycle import REVIVABLE
+
+    for label, ids in written.items():
+        tx.run(
+            f"MATCH (x:{label} {{doc_id: $doc_id}}) WHERE NOT x.id IN $ids AND {REVIVABLE.format(v='x')} "
+            "SET x._retired_by = $by",
+            doc_id=doc_id, ids=ids, by=retired_by,
+        )
 
 
 def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:

@@ -118,8 +118,10 @@ def embedding_text(text: str) -> str:
     return text
 
 
-# The chunk's date fields every passage copies (spec 2026-11-15 §5.1).
-PASSAGE_DATE_KEYS = ("_valid_from", "_valid_to", "_valid_precision", "_doc_valid_from", "_doc_valid_to")
+# The chunk's date fields every passage copies (spec 2026-11-15 §5.1), with `_valid_to_by`:
+# a passage re-split from a chunk a supersession closed is closed by the same record (§7.2).
+PASSAGE_DATE_KEYS = ("_valid_from", "_valid_to", "_valid_to_by", "_valid_precision", "_doc_valid_from",
+                     "_doc_valid_to")
 
 
 def passage_rows(chunk: dict, title: str | None) -> list[dict]:

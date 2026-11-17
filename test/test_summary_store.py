@@ -76,7 +76,8 @@ def test_retract_and_lifecycle_swap_summaries():
                    "s._retired_at = $now, s._retired_by = $by" in c for c, _ in tx.calls)
         tx.calls.clear()
         lifecycle._transition(tx, "d1", to_history=False, rebuild=False)
-        assert any("MATCH (s:DocSummaryHistory {doc_id: $doc_id}) REMOVE s:DocSummaryHistory SET s:DocSummary, "
+        assert any("MATCH (s:DocSummaryHistory {doc_id: $doc_id}) WHERE (s._retired_by = 'retire' OR "
+                   "s._retired_by STARTS WITH 'supersede:') REMOVE s:DocSummaryHistory SET s:DocSummary, "
                    "s._revived_at = $now REMOVE s._retired_at, s._retired_by" in c for c, _ in tx.calls)
     finally:
         projection.keys_for_document = lifecycle_keys

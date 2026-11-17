@@ -1,12 +1,13 @@
 """Ends of validity (spec 2026-11-15 §7.2): superseding closes, retiring does not,
 un-asserting reopens only what a supersession closed. Recorder-based, plus a tiny
 in-memory graph that runs the close/reopen statements to check what they leave."""
+import json
 import re
 
 import pytest
 from _neo4j_recorder import FakeResult, Recorder
 
-from artmind import lifecycle, projection, supersession_records as sr
+from artmind import ingest, lifecycle, projection, supersession_records as sr
 
 RID = "r1"
 
@@ -104,6 +105,23 @@ def test_retire_leaves_valid_to_alone():
     assert not [c for c, p in rec.calls if "_valid_to" in c]
 
 
+def test_restore_moves_back_only_what_a_retirement_moved():
+    rec = Recorder(lambda c, p: [{"n": 1}])
+    lifecycle._transition(rec, "A", to_history=False, rebuild=False)
+    moves = [c for c, _ in rec.calls if "History" in c and "REMOVE" in c]
+    assert len(moves) == 5
+    for cypher in moves:
+        var = re.search(r"MATCH \((\w):", cypher).group(1)
+        assert f"WHERE ({var}._retired_by = 'retire' OR {var}._retired_by STARTS WITH 'supersede:')" in cypher
+    assert not [c for c, p in rec.calls if "_valid_to" in c]
+
+
+def test_retire_moves_everything_whatever_its_stamp():
+    rec = Recorder(lambda c, p: [{"n": 1}])
+    lifecycle._transition(rec, "A", to_history=True, rebuild=False)
+    assert not [c for c, _ in rec.calls if "_retired_by = 'retire' OR" in c]
+
+
 # ── what the statements leave (an in-memory graph) ──────────────────────────
 
 
@@ -197,3 +215,101 @@ def test_supersede_with_no_end_date_leaves_everything_open():
     sr.apply(graph, _record(None), "fp")
     assert {i: v for i, v in _by_id(graph).items() if v != (None, None)} == {
         "A": ("2026-06-30", None), "o2": ("2026-01-15", None)}
+
+
+# ── a re-commit of the older document keeps the supersession's end ─────────
+
+
+def _stage(tmp_path, *, stated_end=None):
+    folder = tmp_path / "doc"
+    folder.mkdir()
+    document = {"id": "A", "name": "a.md", "_valid_from": "2026-01-07", "version": 2}
+    if stated_end:
+        document["_valid_to"] = stated_end
+    (folder / "document.json").write_text(json.dumps(document))
+    (folder / "chunks.json").write_text(json.dumps([
+        {"id": "A_000", "doc_id": "A", "text": "Alpha met Beta at the harbour.", "_domain": "pj"}]))
+    (folder / "observations.json").write_text(json.dumps([
+        {"id": "o1", "key": "alpha|PERSON|pj", "chunk_id": "A_000", "doc_id": "A", "name": "Alpha",
+         "canonical_name": "Alpha", "_domain": "pj"}]))
+    (folder / "relationships.json").write_text(json.dumps([]))
+    return folder
+
+
+def _commit(tmp_path, *, stated_end=None, retired=False, edges=()):
+    def respond(cypher, params):
+        if "RETURN s.record_id AS record_id" in cypher:
+            return list(edges)
+        return []
+    tx = Recorder(respond)
+    staged = ingest._load_staged(_stage(tmp_path, stated_end=stated_end), "pj")
+    staged["retired"], staged["retired_by"] = retired, f"supersede:{RID}" if retired else None
+    ingest._commit_document_tx(tx, staged, True)
+    return tx
+
+
+def test_a_commit_clears_the_staged_nodes_supersession_marker_then_derives_the_end_again(tmp_path):
+    tx = _commit(tmp_path, retired=True, edges=[{"record_id": RID, "newer": "B", "e": "2026-02-01"}])
+
+    (doc_merge, doc_params), = [(c, p) for c, p in tx.calls if "CREATE (n:Document " in c]
+    assert doc_params["props"]["_valid_to"] is None and doc_params["props"]["_valid_to_by"] is None
+    (chunk_merge, chunk_params), = [(c, p) for c, p in tx.calls if "CREATE (n:DocChunk " in c]
+    assert chunk_params["props"]["_valid_to"] is None and chunk_params["props"]["_valid_to_by"] is None
+
+    reopens = tx.queries_containing("REMOVE x._valid_to, x._valid_to_by")
+    closes = tx.queries_containing("SET x._valid_to = $effective")
+    assert reopens and {(p["older"], p["effective"], p["record_id"]) for _, p in closes} == {("A", "2026-02-01", RID)}
+    # after every write of this document's nodes, including the re-retirement
+    last_write = max(i for i, (c, _) in enumerate(tx.calls)
+                     if "MERGE_PASSAGES" in c or "CREATE (n:" in c or "SET o:ObservationHistory" in c
+                     or "SET d:DocumentHistory" in c)
+    assert tx.calls.index(reopens[0]) > last_write
+
+
+def test_a_commit_keeps_a_stated_document_end(tmp_path):
+    tx = _commit(tmp_path, stated_end="2026-06-30")
+    (_, doc_params), = [(c, p) for c, p in tx.calls if "CREATE (n:Document " in c]
+    assert doc_params["props"]["_valid_to"] == "2026-06-30" and doc_params["props"]["_valid_to_by"] is None
+
+
+def test_a_commit_with_no_supersession_closes_nothing(tmp_path):
+    tx = _commit(tmp_path)
+    assert tx.queries_containing("RETURN s.record_id AS record_id")
+    assert not tx.queries_containing("SET x._valid_to = $effective")
+
+
+def test_recommit_end_to_end_the_supersession_end_survives(tmp_path):
+    """The commit clears the marker on the nodes it rewrites (as the props above show);
+    the restate then writes the end again from the edge."""
+    graph = _Graph([{"label": "DocumentHistory", "id": "A"}, {"label": "DocChunkHistory", "doc_id": "A", "id": "c1"}],
+                   [{"record_id": RID, "newer": "B", "e": "2026-02-01"}])
+    sr.apply(graph, _record(), "fp")
+    for n in graph.nodes:                     # what the commit's rewrite leaves
+        n["_valid_to"] = n["_valid_to_by"] = None
+    sr.restate_validity(graph, "A")
+    assert _by_id(graph) == {"A": ("2026-02-01", RID), "c1": ("2026-02-01", RID)}
+
+
+def test_a_retired_documents_commit_restamps_the_prior_versions_rows(tmp_path):
+    tx = _commit(tmp_path, retired=True)
+    restamps = tx.queries_containing("WHERE NOT x.id IN $ids")
+    by_label = {re.search(r"MATCH \(x:(\w+)", c).group(1): p for c, p in restamps}
+    assert set(by_label) == {"ObservationHistory", "DocChunkHistory", "DocPassageHistory", "DocSummaryHistory"}
+    assert by_label["ObservationHistory"]["ids"] == ["o1"] and by_label["DocChunkHistory"]["ids"] == ["A_000"]
+    assert by_label["DocPassageHistory"]["ids"], "the passages this version wrote"
+    assert all(p["by"] == "version:2" and p["doc_id"] == "A" for p in by_label.values())
+    assert all("x._retired_by = 'retire' OR x._retired_by STARTS WITH 'supersede:'" in c for c, _ in restamps)
+
+
+def test_a_live_documents_commit_restamps_nothing(tmp_path):
+    assert not _commit(tmp_path).queries_containing("WHERE NOT x.id IN $ids")
+
+
+def test_a_passage_re_split_from_a_closed_chunk_is_closed_by_the_same_record():
+    from artmind import embed_sweep, passages
+
+    rows = passages.passage_rows({"id": "A_000", "doc_id": "A", "text": "Alpha met Beta.",
+                                  "_valid_to": "2026-02-01", "_valid_to_by": RID}, "a")
+    assert rows and all(r["props"]["_valid_to"] == "2026-02-01" and r["props"]["_valid_to_by"] == RID
+                        for r in rows)
+    assert "c._valid_to_by AS _valid_to_by" in embed_sweep._CHUNKS_NEEDING_PASSAGES

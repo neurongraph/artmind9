@@ -29,6 +29,11 @@ from loguru import logger
 from artmind.graph_query import neo4j_session
 
 
+# What a restore moves back (`_retired_by` of a History node): a `docs retire` or a
+# supersession. Never `version:<n>`, `retract:<id>`, `resplit` or `removed`.
+REVIVABLE = "({v}._retired_by = 'retire' OR {v}._retired_by STARTS WITH 'supersede:')"
+
+
 def _transition(
     tx, doc_id: str, *, to_history: bool, rebuild: bool = True, retired_by: str = "retire", at: str | None = None,
     keep_retired: bool = False,
@@ -51,7 +56,10 @@ def _transition(
     Record time (spec 2026-11-15 §6.1): a move to history sets `_retired_at`
     (`at`, UTC; default now) and `_retired_by` (`retire` from `docs retire`,
     `supersede:<record id>` from a supersession); a move back sets
-    `_revived_at` and removes both. No valid-time date is written.
+    `_revived_at` and removes both, and moves back only nodes a retirement
+    moved (`REVIVABLE`): an earlier version's rows and other demotions stay in
+    history. No valid-time date is written (a retirement leaves `_valid_to`
+    alone; spec 2026-11-15 §7.2).
     `keep_retired` (a commit re-retiring a retired document) stamps only nodes
     that carry no `_retired_at` yet, so earlier retirements stay as they were.
     """
@@ -80,6 +88,11 @@ def _transition(
     now = at or datetime.now(timezone.utc).isoformat()
     params = {"doc_id": doc_id, "now": now, **({"by": retired_by} if to_history else {})}
 
+    def _only(v: str) -> str:
+        # A restore brings back only what a retirement moved (G4): an earlier version's rows
+        # (`version:<n>`), a retracted observation, a re-split passage and a removed note stay.
+        return "" if to_history else f" WHERE {REVIVABLE.format(v=v)}"
+
     def _stamp(v: str) -> str:
         if to_history and keep_retired:
             return (f", {v}._retired_at = coalesce({v}._retired_at, $now),"
@@ -90,7 +103,7 @@ def _transition(
 
     observations = tx.run(
         f"""
-        MATCH (o:{from_obs} {{doc_id: $doc_id}})
+        MATCH (o:{from_obs} {{doc_id: $doc_id}}){_only("o")}
         REMOVE o:{from_obs} SET o:{to_obs}{_stamp("o")}
         RETURN count(o) AS n
         """,
@@ -98,19 +111,19 @@ def _transition(
     ).single()
 
     tx.run(
-        f"MATCH (d:{from_doc} {{id: $doc_id}}) REMOVE d:{from_doc} SET d:{to_doc}{_stamp('d')}",
+        f"MATCH (d:{from_doc} {{id: $doc_id}}){_only('d')} REMOVE d:{from_doc} SET d:{to_doc}{_stamp('d')}",
         **params,
     )
     tx.run(
-        f"MATCH (c:{from_chunk} {{doc_id: $doc_id}}) REMOVE c:{from_chunk} SET c:{to_chunk}{_stamp('c')}",
+        f"MATCH (c:{from_chunk} {{doc_id: $doc_id}}){_only('c')} REMOVE c:{from_chunk} SET c:{to_chunk}{_stamp('c')}",
         **params,
     )
     tx.run(
-        f"MATCH (p:{from_passage} {{doc_id: $doc_id}}) REMOVE p:{from_passage} SET p:{to_passage}{_stamp('p')}",
+        f"MATCH (p:{from_passage} {{doc_id: $doc_id}}){_only('p')} REMOVE p:{from_passage} SET p:{to_passage}{_stamp('p')}",
         **params,
     )
     tx.run(
-        f"MATCH (s:{from_summary} {{doc_id: $doc_id}}) REMOVE s:{from_summary} SET s:{to_summary}{_stamp('s')}",
+        f"MATCH (s:{from_summary} {{doc_id: $doc_id}}){_only('s')} REMOVE s:{from_summary} SET s:{to_summary}{_stamp('s')}",
         **params,
     )
 
@@ -139,9 +152,10 @@ def plan_transition(doc_id: str, *, to_history: bool) -> dict:
     from artmind.graph_query import read_session
 
     label = "Observation" if to_history else "ObservationHistory"
+    only = "" if to_history else f" WHERE {REVIVABLE.format(v='o')}"
     with read_session() as session:
         keys = projection.keys_for_document(session, doc_id)
-        n = session.run(f"MATCH (o:{label} {{doc_id: $doc_id}}) RETURN count(o) AS n", doc_id=doc_id).single()
+        n = session.run(f"MATCH (o:{label} {{doc_id: $doc_id}}){only} RETURN count(o) AS n", doc_id=doc_id).single()
         doc = session.run(
             "MATCH (d) WHERE (d:Document OR d:DocumentHistory) AND d.id = $doc_id RETURN d.name AS name LIMIT 1",
             doc_id=doc_id,
