@@ -56,9 +56,10 @@ def sanitize_lucene_query(text: str, *, drop_stopwords: bool = False, all_terms:
         # stays one phrase: split into separate OR'd terms, a date matches
         # every other date sharing a day or month number.
         term = f'"{" ".join(parts)}"' if len(parts) > 1 else "".join(parts)
-        # A bare AND / OR / NOT is a Lucene operator (`--match "AND"` is a parse error);
-        # lowercased it is a plain term, and the analyzer lowercases terms anyway.
-        terms.append(term.lower() if term in _LUCENE_OPERATORS else term)
+        # With all_terms a bare AND / OR / NOT would be a Lucene operator after `+`
+        # (`--match "AND"` is a parse error); lowercased it is a plain term, and the analyzer
+        # lowercases terms anyway. Default callers keep their output as it was.
+        terms.append(term.lower() if all_terms and term in _LUCENE_OPERATORS else term)
     terms = [t for t in terms if t]
     if drop_stopwords:
         terms = [t for t in terms if t.lower() not in _STOPWORDS] or terms
@@ -2508,8 +2509,8 @@ def happenings(
            "undated": int(record.get("undated") or 0), "coverage": coverage}
     if int(record.get("scanned") or 0) >= HAPPENING_HIT_LIMIT:
         out["rows_total_capped"] = True
-        out["warnings"] = [f"{HAPPENING_HIT_LIMIT} name matches read: more happenings may match; "
-                           "narrow --match or add --entityClass"]
+        out["warnings"] = [f"the name index returned {HAPPENING_HIT_LIMIT} hits (all domains, before the "
+                           "domain filter): the happenings may be incomplete; narrow --match"]
     if by:
         counts: dict[str, int] = {}
         for key in record.get("period_keys") or []:

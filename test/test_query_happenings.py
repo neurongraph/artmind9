@@ -183,6 +183,13 @@ def test_cli_envelope_and_brief_shape(monkeypatch):
     assert (params["from_"], params["to"]) == ("2024-01-01", "2025-04-30")
 
 
+def test_match_and_is_a_plain_required_term(monkeypatch):
+    rec = _patch(monkeypatch)
+    gq.happenings(["pj"], "AND")
+    (_, params), = rec.queries_containing("entity_name_ft")
+    assert params["ft_query"] == "name:(+and) OR aliases:(+and)"
+
+
 def test_cli_rejects_a_bad_from(monkeypatch):
     _patch(monkeypatch)
     result = CliRunner().invoke(cli, ["query", "happenings", "--domain", "pj", "--match", "tennis",
@@ -191,8 +198,9 @@ def test_cli_rejects_a_bad_from(monkeypatch):
 
 
 def test_lucene_operators_become_plain_terms():
-    assert gq.sanitize_lucene_query("AND") == "and"
-    assert gq.sanitize_lucene_query("salt OR pepper NOT") == "salt or pepper not"
+    assert gq.sanitize_lucene_query("AND", all_terms=True) == "+and"
+    assert gq.sanitize_lucene_query("salt OR pepper", all_terms=True) == "+salt +or +pepper"
+    assert gq.sanitize_lucene_query("salt OR pepper") == "salt OR pepper"   # default output unchanged
     assert gq.sanitize_lucene_query("Andover Nottingham") == "Andover Nottingham"
     assert gq.sanitize_lucene_query("the lake and trip", drop_stopwords=True, all_terms=True) == "+lake +trip"
     assert gq.sanitize_lucene_query("lake trip") == "lake trip"   # default still ORs
