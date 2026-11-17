@@ -126,18 +126,38 @@ def test_retire_moves_everything_whatever_its_stamp():
 
 
 class _Graph:
-    """Runs `supersession_records`' edge read, reopen and close statements over
-    in-memory nodes; every other statement is recorded and ignored."""
+    """Runs `supersession_records`' edge reads, reopen and close statements over
+    in-memory nodes; every other statement is recorded and ignored. The edge read
+    computes each end date and the close order itself, as `_DOCUMENT_EDGES` does:
+    `coalesce(effective, newer's _valid_from unless its precision is none)`,
+    ordered by `coalesce(effective, '')` then newer id, both descending."""
 
-    def __init__(self, nodes, edges):
+    def __init__(self, nodes, edges, newer_docs=None):
         self.nodes = nodes        # [{"label": ..., "id"/"doc_id": ..., props}]
-        self.edges = edges        # [{"record_id", "newer", "e"}], already in close order
+        self.edges = edges        # [{"record_id", "newer", "effective", "older"?}] in any order
+        self.newer_docs = newer_docs or {}   # newer id -> {"_valid_from", "_valid_precision"}
         self.calls = []
+
+    def _edge_rows(self, older):
+        rows = []
+        for edge in self.edges:
+            if edge.get("older", "A") != older:
+                continue
+            doc = self.newer_docs.get(edge["newer"], {})
+            fallback = None if doc.get("_valid_precision") == "none" else doc.get("_valid_from")
+            rows.append({"record_id": edge["record_id"], "newer": edge["newer"],
+                         "e": edge.get("effective") or fallback, "_sort": (edge.get("effective") or "", edge["newer"])})
+        rows.sort(key=lambda r: r.pop("_sort"), reverse=True)
+        return rows
 
     def run(self, cypher, **params):
         self.calls.append((cypher, params))
         if "RETURN s.record_id AS record_id" in cypher:
-            return FakeResult(list(self.edges))
+            assert "ORDER BY coalesce(s.effective, '') DESC, newer.id DESC" in cypher
+            return FakeResult(self._edge_rows(params["older"]))
+        if "RETURN DISTINCT older.id AS older" in cypher:
+            return FakeResult([{"older": o} for o in sorted({e.get("older", "A") for e in self.edges
+                                                               if e["newer"] == params["newer"]})])
         m = re.search(r"MATCH \(x:(\w+) \{(\w+): \$older\}\)", cypher)
         if not m:
             return FakeResult([{"oid": "A"}] if "RETURN oid" in cypher else [])
@@ -173,7 +193,7 @@ def _by_id(graph):
 
 
 def test_supersede_then_unsupersede_restores_every_stated_end():
-    graph = _Graph(_nodes(), [{"record_id": RID, "newer": "B", "e": "2026-02-01"}])
+    graph = _Graph(_nodes(), [{"record_id": RID, "newer": "B", "effective": "2026-02-01"}])
     sr.apply(graph, _record(), "fp")
     assert _by_id(graph) == {
         "A": ("2026-06-30", None), "o1": ("2026-02-01", RID), "o2": ("2026-01-15", None),
@@ -192,7 +212,7 @@ def test_supersede_then_unsupersede_restores_every_stated_end():
 
 def test_an_open_document_gets_the_end_and_loses_it_on_unsupersede():
     nodes = [{"label": "DocumentHistory", "id": "A"}]
-    graph = _Graph(nodes, [{"record_id": RID, "newer": "B", "e": "2026-02-01"}])
+    graph = _Graph(nodes, [{"record_id": RID, "newer": "B", "effective": "2026-02-01"}])
     sr.apply(graph, _record(), "fp")
     assert _by_id(graph) == {"A": ("2026-02-01", RID)}
     graph.edges = []
@@ -201,8 +221,9 @@ def test_an_open_document_gets_the_end_and_loses_it_on_unsupersede():
 
 
 def test_two_supersessions_close_with_the_latest_and_removing_it_hands_over_to_the_other():
-    later, earlier = {"record_id": "r2", "newer": "C", "e": "2026-05-01"}, {"record_id": RID, "newer": "B", "e": "2026-02-01"}
-    graph = _Graph([{"label": "DocChunkHistory", "doc_id": "A", "id": "c1"}], [later, earlier])
+    later = {"record_id": "r2", "newer": "C", "effective": "2026-05-01"}
+    earlier = {"record_id": RID, "newer": "B", "effective": "2026-02-01"}
+    graph = _Graph([{"label": "DocChunkHistory", "doc_id": "A", "id": "c1"}], [earlier, later])
     sr.apply(graph, _record(), "fp")
     assert _by_id(graph) == {"c1": ("2026-05-01", "r2")}, "the same result whichever record applied last"
     graph.edges = [earlier]
@@ -211,7 +232,7 @@ def test_two_supersessions_close_with_the_latest_and_removing_it_hands_over_to_t
 
 
 def test_supersede_with_no_end_date_leaves_everything_open():
-    graph = _Graph(_nodes(), [{"record_id": RID, "newer": "B", "e": None}])
+    graph = _Graph(_nodes(), [{"record_id": RID, "newer": "B", "effective": None}])
     sr.apply(graph, _record(None), "fp")
     assert {i: v for i, v in _by_id(graph).items() if v != (None, None)} == {
         "A": ("2026-06-30", None), "o2": ("2026-01-15", None)}
@@ -282,7 +303,7 @@ def test_recommit_end_to_end_the_supersession_end_survives(tmp_path):
     """The commit clears the marker on the nodes it rewrites (as the props above show);
     the restate then writes the end again from the edge."""
     graph = _Graph([{"label": "DocumentHistory", "id": "A"}, {"label": "DocChunkHistory", "doc_id": "A", "id": "c1"}],
-                   [{"record_id": RID, "newer": "B", "e": "2026-02-01"}])
+                   [{"record_id": RID, "newer": "B", "effective": "2026-02-01"}])
     sr.apply(graph, _record(), "fp")
     for n in graph.nodes:                     # what the commit's rewrite leaves
         n["_valid_to"] = n["_valid_to_by"] = None
@@ -313,3 +334,136 @@ def test_a_passage_re_split_from_a_closed_chunk_is_closed_by_the_same_record():
     assert rows and all(r["props"]["_valid_to"] == "2026-02-01" and r["props"]["_valid_to_by"] == RID
                         for r in rows)
     assert "c._valid_to_by AS _valid_to_by" in embed_sweep._CHUNKS_NEEDING_PASSAGES
+
+
+
+def test_with_no_effective_the_end_is_the_newer_documents_stated_date():
+    graph = _Graph([{"label": "DocChunkHistory", "doc_id": "A", "id": "c1"}],
+                   [{"record_id": RID, "newer": "B", "effective": None}],
+                   newer_docs={"B": {"_valid_from": "2026-03-10", "_valid_precision": "day"}})
+    sr.restate_validity(graph, "A")
+    assert _by_id(graph) == {"c1": ("2026-03-10", RID)}
+    graph.newer_docs["B"]["_valid_precision"] = "none"
+    sr.restate_validity(graph, "A")
+    assert _by_id(graph) == {"c1": (None, None)}, "a default date ends nothing"
+
+
+def test_a_dated_edge_closes_before_an_undated_one():
+    graph = _Graph([{"label": "DocChunkHistory", "doc_id": "A", "id": "c1"}],
+                   [{"record_id": "r9", "newer": "Z", "effective": None},
+                    {"record_id": RID, "newer": "B", "effective": "2026-02-01"}],
+                   newer_docs={"Z": {"_valid_from": "2027-01-01", "_valid_precision": "day"}})
+    sr.restate_validity(graph, "A")
+    assert _by_id(graph) == {"c1": ("2026-02-01", RID)}
+
+
+def test_recommitting_the_newer_document_with_a_new_date_moves_the_olders_end():
+    graph = _Graph([{"label": "DocChunkHistory", "doc_id": "A", "id": "c1"}],
+                   [{"record_id": RID, "newer": "B", "effective": None}],
+                   newer_docs={"B": {"_valid_from": "2026-03-10", "_valid_precision": "day"}})
+    sr.restate_validity(graph, "A")
+    graph.newer_docs["B"]["_valid_from"] = "2026-04-01"      # B committed again with a new stated date
+    assert sr.restate_superseded(graph, "B") == ["A"]
+    assert _by_id(graph) == {"c1": ("2026-04-01", RID)}
+
+
+def test_a_commit_restates_the_documents_it_supersedes_and_rebuilds_their_keys(tmp_path, monkeypatch):
+    monkeypatch.setattr(projection, "keys_for_document", lambda tx, doc_id, **kw: {(doc_id, "C", "d")})
+
+    def respond(cypher, params):
+        if "RETURN DISTINCT older.id AS older" in cypher:
+            return [{"older": "Z"}]
+        if "RETURN s.record_id AS record_id" in cypher and params["older"] == "Z":
+            return [{"record_id": "rz", "newer": "A", "e": "2026-01-07"}]
+        return []
+    tx = Recorder(respond)
+    staged = ingest._load_staged(_stage(tmp_path), "pj")
+    summary = ingest._commit_document_tx(tx, staged, True)
+
+    (_, params), = tx.queries_containing("RETURN DISTINCT older.id AS older")
+    assert params == {"newer": "A"}
+    closes = tx.queries_containing("SET x._valid_to = $effective")
+    assert {(p["older"], p["effective"], p["record_id"]) for _, p in closes} == {("Z", "2026-01-07", "rz")}
+    assert any("MERGE (s:DomainState" in c and p.get("doc_id") == "Z" for c, p in tx.calls)
+    assert "Z|C|d" in {"|".join(k) for k in summary["deferred_keys"]}
+
+
+# ── apply_supersession / unapply_supersession ──────────────────────────────
+
+
+class _Session(Recorder):
+    """A session: `run` outside a transaction is recorded as such."""
+
+    def __init__(self, respond=None):
+        super().__init__(respond)
+        self.writes = 0
+        self.in_tx = False
+        self.outside = []
+
+    def run(self, cypher, **params):
+        if not self.in_tx:
+            self.outside.append(cypher)
+        return super().run(cypher, **params)
+
+    def execute_write(self, fn, *args, **kwargs):
+        self.writes += 1
+        self.in_tx = True
+        try:
+            return fn(self, *args, **kwargs)
+        finally:
+            self.in_tx = False
+
+
+@pytest.fixture()
+def world(tmp_path, monkeypatch):
+    from contextlib import contextmanager
+
+    import paths
+    from artmind import temporal
+
+    monkeypatch.setattr(paths, "CURATION_DIR", tmp_path / "curation")
+    session = _Session(lambda c, p: [{"record_id": RID, "newer": "B", "e": "2026-02-01"}]
+                       if "RETURN s.record_id AS record_id" in c else [])
+
+    @contextmanager
+    def _fake(*a, **k):
+        yield session
+
+    monkeypatch.setattr(temporal, "neo4j_session", _fake)
+    calls = {"retire": [], "restore": [], "rebuild": []}
+    monkeypatch.setattr("artmind.lifecycle.retire_document", lambda d, *a, **k: calls["retire"].append(d))
+    monkeypatch.setattr("artmind.lifecycle.restore_document", lambda d, *a, **k: calls["restore"].append(d))
+    monkeypatch.setattr(projection, "rebuild", lambda tx, keys, **kw: calls["rebuild"].append(set(keys)) or {})
+    return session, calls
+
+
+def test_apply_supersession_writes_the_graph_in_one_transaction(world):
+    from artmind import temporal
+
+    session, calls = world
+    temporal.apply_supersession("B", "A", "document", "2026-02-01")
+
+    assert session.writes == 1
+    assert not [c for c in session.outside if re.search(r"\b(MERGE|SET|REMOVE|DELETE)\b", c)], \
+        "every write inside the one transaction"
+    assert session.queries_containing("SET x._valid_to = $effective")
+    assert any("MERGE (s:DomainState" in c for c, _ in session.calls)
+    assert calls["retire"] == ["A"], "the retirement rebuilds the older document's keys"
+
+
+def test_unsupersede_of_a_restored_document_rebuilds_the_reopened_keys(world, monkeypatch):
+    """supersede -> docs restore -> unsupersede: the document is live, nothing restores it,
+    so the unsupersede transaction itself rebuilds the keys whose ends it removed."""
+    from artmind import temporal
+
+    session, calls = world
+    session._respond = lambda c, p: []          # no edge remains after the delete
+    monkeypatch.setattr(temporal, "_unsupersede_state", lambda *a: {
+        "edge": True, "others": 0, "retired": False, "names": {}, "domains": ["pj"]})
+
+    out = temporal.unapply_supersession("B", "A", "document")
+
+    assert out["removed"] is True and out["restored"] is False and calls["restore"] == []
+    assert session.writes == 1
+    assert calls["rebuild"] == [{("a", "C", "d")}]
+    assert session.queries_containing("REMOVE x._valid_to, x._valid_to_by")

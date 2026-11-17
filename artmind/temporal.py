@@ -853,7 +853,10 @@ def apply_supersession(
         # The record file is written BEFORE the graph apply: if the apply
         # fails, the file stays and the next `vault sync` applies it (benign).
         fingerprint = curation_records.write_record(supersession_records.NAME, record)
-        supersession_records.apply(session, record, fingerprint)
+        # One transaction: the edge, `superseded_by`, every end and the bump land together.
+        # The keys it returns are rebuilt by the retirement below (scope document);
+        # any other scope changes no observation.
+        session.execute_write(supersession_records.apply, record, fingerprint)
     if scope == "document":
         # Retirement is document-granular by nature: a whole document's
         # assertions stop being the current record at once.
@@ -985,7 +988,13 @@ def unapply_supersession(newer_doc_id: str, older_doc_id: str, scope: str = "doc
 
     def _tx(tx):
         record = supersession_records.record_for(tx, newer_doc_id, older_doc_id, scope, None, "manual")
-        supersession_records.remove(tx, record)
+        keys = supersession_records.remove(tx, record)
+        if keys:
+            # The reopened observations' `_valid_to` reaches their entities now, also when the
+            # older document stays live (restored by `docs restore` before this unsupersede).
+            from artmind import projection
+
+            projection.rebuild(tx, keys, synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks))
         catalogue_state.bump(tx, record["domains"])
         return record["domains"]
 

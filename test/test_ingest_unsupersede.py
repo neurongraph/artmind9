@@ -75,7 +75,8 @@ def test_real_run_removes_edge_recomputes_bumps_deletes_record_and_restores(worl
     recompute = [(c, p) for c, p in recorder.calls if "SET older.superseded_by" in c]
     assert recompute and recompute[0][1] == {"older": "old-1"}
     bumps = [p for c, p in recorder.calls if "MERGE (s:DomainState" in c]
-    assert [b["domains"] for b in bumps] == [["demo.one"]]
+    assert [b["domains"] for b in bumps if "domains" in b] == [["demo.one"]]
+    assert [b["doc_id"] for b in bumps if "doc_id" in b] == ["old-1"], "the older document's own bump (remove)"
     assert restored == [(("old-1", "demo.one"), {})]
 
 

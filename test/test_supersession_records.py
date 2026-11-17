@@ -35,6 +35,9 @@ class _Session:
         self._domains = domains
         self._older_ids = older_ids
 
+    def execute_write(self, fn, *args, **kwargs):
+        return fn(self, *args, **kwargs)
+
     def run(self, cypher, **params):
         self.calls.append((cypher, params))
         if "RETURN DISTINCT d._domain AS domain" in cypher:

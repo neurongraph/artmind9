@@ -119,6 +119,15 @@ RETURN s.record_id AS record_id, newer.id AS newer,
 ORDER BY coalesce(s.effective, '') DESC, newer.id DESC
 """
 
+# The documents `$newer` supersedes (document scope): their ends fall back to its `_valid_from`.
+_SUPERSEDED_BY_NEWER = """
+OPTIONAL MATCH (n1:Document {id: $newer}) OPTIONAL MATCH (n2:DocumentHistory {id: $newer})
+WITH coalesce(n1, n2) AS newer
+WHERE newer IS NOT NULL
+MATCH (newer)-[:SUPERSEDES {scope: 'document'}]->(older)
+RETURN DISTINCT older.id AS older
+"""
+
 _REOPEN = """
 MATCH (x:{label} {{{key}: $older}}) WHERE x._valid_to_by IS NOT NULL
 REMOVE x._valid_to, x._valid_to_by
@@ -238,9 +247,20 @@ def count_validity(session, older: str, *, closed_by: str | None = None) -> int:
                for label, key in VALIDITY_TARGETS)
 
 
+def restate_superseded(tx, newer: str) -> list[str]:
+    """`restate_validity` for every document `newer` supersedes (a commit of
+    `newer` may have changed the `_valid_from` their ends fall back to).
+    Returns those documents' ids."""
+    olders = sorted({row["older"] for row in tx.run(_SUPERSEDED_BY_NEWER, newer=newer).data()
+                     if isinstance(row, dict) and row.get("older")})
+    for older in olders:
+        restate_validity(tx, older)
+    return olders
+
+
 def apply(tx, record: dict, fingerprint: str) -> set:
     """MERGE the `SUPERSEDES` edge (both documents must exist, live or
-    retired), recompute the older document's `superseded_by` from its edges
+    retired), bump the older document's catalogue generation, recompute the older document's `superseded_by` from its edges
     and, for `scope: document`, its ends of validity (`restate_validity`).
     Returns the older document's aggregate keys: its observations' `_valid_to`
     may have changed, so the caller rebuilds them."""
@@ -260,7 +280,11 @@ def apply(tx, record: dict, fingerprint: str) -> set:
             "document {} is not in this graph (neither live nor retired), so no SUPERSEDES edge was written",
             record["id"], record["newer_doc_id"], record["older_doc_id"],
         )
+    from artmind.catalogue import state as catalogue_state
+
     tx.run(_RECOMPUTE, older=record["older_doc_id"])
+    # `superseded_by` and the ends are catalogue reads (spec 2026-11-02 §3).
+    catalogue_state.bump_for_document(tx, record["older_doc_id"])
     if record["scope"] != "document":
         return set()
     restate_validity(tx, record["older_doc_id"])
@@ -281,9 +305,12 @@ def remove(tx, record: dict) -> set:
     else:
         rows = tx.run(_REMOVE_BY_ID, id=record["id"]).data()
         olders = sorted({row["oid"] for row in rows if row.get("oid")})
+    from artmind.catalogue import state as catalogue_state
+
     keys: set = set()
     for older in olders:
         tx.run(_RECOMPUTE, older=older)
+        catalogue_state.bump_for_document(tx, older)
         # Reopening everything and closing again from the remaining edges reopens
         # exactly what this record closed (or hands it to another supersession).
         restate_validity(tx, older)

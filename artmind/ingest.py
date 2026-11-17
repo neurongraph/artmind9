@@ -5141,10 +5141,16 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     # 5c. Ends of validity (spec 2026-11-15 §7.2): the rewrites above cleared any supersession
     #     end on this document's nodes (staging never carries one), so they are derived again
     #     from the SUPERSEDES edges into it, in this transaction, before the rebuild reads them.
+    #     The documents this one supersedes are restated too: their ends fall back to this
+    #     document's `_valid_from`, which this commit may have changed. Their keys join the
+    #     rebuild, and their domains are bumped.
     if source_label == "Document":
         from artmind import supersession_records
 
         supersession_records.restate_validity(tx, doc_id)
+        for older in supersession_records.restate_superseded(tx, doc_id):
+            incoming_keys |= set(projection.keys_for_document(tx, older))
+            catalogue_state.bump_for_document(tx, older)
 
     # 6. The affected-key union, then the rebuild — which now also aggregates
     #    RELATES_TO edges for every key it touches.

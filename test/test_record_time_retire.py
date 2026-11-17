@@ -2,6 +2,7 @@
 import json
 
 import pytest
+from _dry_run import WritableRecorder
 from _neo4j_recorder import Recorder
 
 from artmind import ingest, lifecycle, passage_store, projection, summary_store
@@ -116,7 +117,7 @@ def test_apply_supersession_retires_by_its_record(monkeypatch, tmp_path):
 
     @contextmanager
     def _fake(*a, **k):
-        yield Recorder()
+        yield WritableRecorder()
 
     seen = {}
     monkeypatch.setattr(temporal, "neo4j_session", _fake)
