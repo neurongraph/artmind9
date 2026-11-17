@@ -89,14 +89,64 @@ def test_no_meta_file_is_nothing_to_do(meta):
     assert not meta.exists()
 
 
-def test_failed_edit_restores_original_bytes(meta, monkeypatch):
-    meta.write_text(HEAD + TAIL)
+def _refuses(meta, text, match, raw=None):
+    meta.write_bytes(raw if raw is not None else text.encode())
     before = meta.read_bytes()
-    monkeypatch.setattr(meta_rule, "_edited", lambda text: "a: [unclosed\n")
-    with pytest.raises(meta_rule.MetaRuleError):
+    with pytest.raises(meta_rule.MetaRuleError, match=match):
         meta_rule.apply(_ctx())
     assert meta.read_bytes() == before
     assert not list(meta.parent.glob(".meta.*"))
+
+
+def test_quoted_key_is_refused_not_duplicated(meta):
+    _refuses(meta, HEAD + '"identity_naming_rules":\n  other: x\n' + TAIL, "quoted")
+
+
+def test_crlf_and_cr_endings_are_kept(meta):
+    for eol in ("\r\n", "\r"):
+        text = (HEAD + "identity_naming_rules: ~ # keep\n" + TAIL).replace("\n", eol)
+        meta.write_bytes(text.encode())
+        meta_rule.apply(_ctx())
+        out = meta.read_bytes().decode()
+        assert "# keep" in out and "NEVER add a date" in _rule(meta)
+        assert out.replace("\r\n", "").replace("\r", "").count("\n") == 0 if eol == "\r" else "\n" not in out.replace("\r\n", "")
+
+
+def test_mixed_endings_keep_every_other_rule(meta):
+    meta.write_bytes(b"kind_naming_rules:\r\n  recurrent: x\nidentity_naming_rules:\n  other: keep\r\n")
+    meta_rule.apply(_ctx())
+    data = yaml.safe_load(meta.read_text())
+    assert data["identity_naming_rules"]["other"] == "keep" and data["kind_naming_rules"]["recurrent"] == "x"
+    assert "NEVER add a date" in data["identity_naming_rules"]["occasion"]
+
+
+def test_empty_occasion_is_refused_by_hand(meta):
+    _refuses(meta, HEAD + "identity_naming_rules:\n  occasion:\n" + TAIL, "empty; fill it by hand")
+
+
+def test_tabs_unparseable_and_non_utf8_are_named(meta):
+    _refuses(meta, HEAD + "identity_naming_rules:\n\tother: x\n" + TAIL, "tab|does not parse")
+    _refuses(meta, "a: [unclosed\n", "does not parse")
+    _refuses(meta, "", "not UTF-8", raw=b"a: \xff\xfe\n")
+    assert meta_rule.writes(_ctx()) == [meta]
+
+
+def test_file_mode_is_preserved(meta):
+    meta.write_text(HEAD + TAIL)
+    meta.chmod(0o640)
+    meta_rule.apply(_ctx())
+    assert meta.stat().st_mode & 0o777 == 0o640
+
+
+def test_symlink_stays_a_symlink(meta, tmp_path, monkeypatch):
+    real = tmp_path / "real.yaml"
+    real.write_text(HEAD + TAIL)
+    link = tmp_path / "link.yaml"
+    link.symlink_to(real)
+    monkeypatch.setattr(meta_rule, "DOMAIN_META_PATH", link)
+    meta_rule.apply(_ctx())
+    assert link.is_symlink()
+    assert "NEVER add a date" in yaml.safe_load(real.read_text())["identity_naming_rules"]["occasion"]
 
 
 def test_prompt_builder_no_longer_raises_after_the_step(meta):
