@@ -7573,3 +7573,13 @@ def setup(compact: bool):
         "topic_page_graph_copy": (result["topic_page_graph_copy"]["report"].removeprefix("topic page graph copy: ")
                                   if result.get("topic_page_graph_copy") else None),
     }, compact)
+
+
+# Data-model gate (spec 2026-11-15 §8.1): every WRITE_COMMANDS entry refuses an
+# unmigrated vault; every other command warns once. Must stay last, after every
+# command is registered.
+from artmind import data_model as _data_model  # noqa: E402
+
+from artmind.cli_conventions import WRITE_COMMANDS  # noqa: E402
+
+_data_model.gate_commands(cli, WRITE_COMMANDS)

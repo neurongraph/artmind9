@@ -162,6 +162,16 @@ def _process_job(
     job_id: str, domain: str, env: dict, force: bool = False, stage_only: bool = False,
     reextract: bool = False,
 ) -> None:
+    from artmind import data_model
+
+    try:
+        data_model.require_current("ingest worker")
+    except data_model.DataModelBehind as exc:
+        logger.error("Job {} refused: {}", job_id, exc.message)
+        _update_job_status(job_id, status="failed", completed_at=datetime.now().isoformat(),
+                           error_message=exc.message)
+        return
+
     image_model = env.get("ARTMIND_IMAGE_MODEL", "gemma4:e4b")
     text_model = resolve_llm_model(env)
     embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
