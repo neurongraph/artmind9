@@ -24,6 +24,7 @@ from typing import Any
 import yaml
 
 from artmind.prompt_builder import (
+    MetaIncomplete,
     assemble_entities_prompt,
     assemble_properties_prompt,
     assemble_relationships_prompt,
@@ -71,12 +72,16 @@ def build_schema_dict(schema_path: Path) -> dict[str, Any]:
     ]
 
     assembled_prompts = {}
+    prompt_error = None
     if entity_types:
-        assembled_prompts = {
-            "entities": assemble_entities_prompt(data),
-            "properties": assemble_properties_prompt(data),
-            "relationships": assemble_relationships_prompt(data),
-        }
+        try:
+            assembled_prompts = {
+                "entities": assemble_entities_prompt(data),
+                "properties": assemble_properties_prompt(data),
+                "relationships": assemble_relationships_prompt(data),
+            }
+        except MetaIncomplete as exc:  # a vault whose meta.yaml predates the model: say so, no prompts
+            prompt_error = exc.message
 
     return {
         "file": schema_path.name,
@@ -87,6 +92,7 @@ def build_schema_dict(schema_path: Path) -> dict[str, Any]:
         "entities": entities,
         "relationships": relationships,
         "assembled_prompts": assembled_prompts,
+        "prompt_error": prompt_error,
     }
 
 
@@ -212,6 +218,12 @@ def _render_temporal(t: dict[str, Any] | None) -> str:
     return f'<div class="sr-temporal">{"".join(parts)}</div>' if parts else ""
 
 
+def _render_prompt_error(message: str | None) -> str:
+    if not message:
+        return ""
+    return f'<div class="sr-raw-prompts"><div class="sr-subhead">Assembled prompts</div><p>{_esc(message)}</p></div>'
+
+
 def _render_assembled_prompts(assembled: dict[str, str]) -> str:
     if not assembled:
         return ""
@@ -269,6 +281,7 @@ def render_fragment(schemas: list[dict[str, Any]], prefix: str = "") -> str:
             </tbody>
           </table>
         </div>
+        {_render_prompt_error(s.get("prompt_error"))}
         {_render_assembled_prompts(s.get("assembled_prompts") or {})}
       </div>
     </section>

@@ -73,12 +73,15 @@ def test_an_undeclared_class_is_an_occasion():
     assert _obs("Fall", "HEALTH_INCIDENT", None)["key"] == "fall~2024-03-30|HEALTH_INCIDENT|pj"
 
 
-def test_the_observation_id_carries_no_day():
-    """The id stays chunk-scoped, so a re-key moves the node in place. Known limit: a chunk
-    mentioning the same occasion name on two days keeps the first (ingest dedups on the id)."""
+def test_the_observation_id_carries_the_day():
+    """One chunk naming an occasion on two days yields two observations (ingest dedups on
+    the id); a name class's id carries none. retime keeps staged ids as they are."""
     from artmind.observations import observation_id
 
-    assert _obs("Tennis", "ACTIVITY", "2024-03-30")["id"] == observation_id("c1", "Tennis", "ACTIVITY", "pj")
+    assert _obs("Tennis", "ACTIVITY", "2024-03-30")["id"] == observation_id(
+        "c1", "Tennis", "ACTIVITY", "pj", occurs_on="2024-03-30")
+    assert _obs("Tennis", "ACTIVITY", "2024-03-30")["id"] != _obs("Tennis", "ACTIVITY", "2024-03-31")["id"]
+    assert _obs("Alex", "PERSON", None)["id"] == observation_id("c1", "Alex", "PERSON", "pj")
 
 
 @pytest.mark.parametrize("day_prop, doc_date, source", [

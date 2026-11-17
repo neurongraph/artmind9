@@ -38,11 +38,38 @@ def _parse_key(value: str) -> tuple[str, str, str] | None:
     return tuple(parts) if len(parts) == 3 else None  # type: ignore[return-value]
 
 
+_SCHEMA_CACHE: dict[tuple, dict] = {}
+
+
 def _schema_for(domain: str) -> dict:
-    """The schema an entity of `domain` was keyed under, a family root's children merged in."""
+    """The schema an entity of `domain` was keyed under, a family root's children merged in.
+
+    Cached per process, keyed by the schemas directory and the name, size and mtime of every
+    schema file in the domain's family, so an edited schema is read again and an unchanged
+    one is parsed once however many proposals are checked."""
+    if not domain:
+        return {}
+    from pathlib import Path
+
+    import paths
     from artmind.schema_validate import family_schema
 
-    return family_schema(domain) if domain else {}
+    directory = Path(paths.DOMAIN_SCHEMAS_DIR)
+    root = domain.split(".", 1)[0]
+    try:
+        files = tuple(sorted(
+            (f.name, st.st_mtime_ns, st.st_size)
+            for f in directory.glob(f"{root}*_schema.yaml") for st in [f.stat()]
+        ))
+    except OSError:
+        files = None
+    key = (str(directory), domain, files)
+    if files is None or key not in _SCHEMA_CACHE:
+        schema = family_schema(domain, schemas_dir=directory)
+        if files is None:
+            return schema
+        _SCHEMA_CACHE[key] = schema
+    return _SCHEMA_CACHE[key]
 
 
 def identity_refusal(

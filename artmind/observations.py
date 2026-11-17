@@ -215,17 +215,24 @@ _FULL_DATE = (rf"(?:{_WEEKDAY},?\s+)?(?:\d{{4}}-\d{{2}}-\d{{2}}|\d{{1,2}}/\d{{1,
 # year, "the 30th", a weekday, "today". A bare space introduces only a whole date or "today",
 # so "Easter Sunday" and "Black Friday sale" keep their weekday.
 _DAY_TOKEN = (rf"(?:{_FULL_DATE}|(?:{_WEEKDAY},?\s+)?(?:{_ORDINAL_DAY}\s+(?:of\s+)?{_MONTH}|{_MONTH}\s+{_ORDINAL_DAY}"
-              rf"|(?:the\s+)?\d{{1,2}}(?:st|nd|rd|th)(?:\s+of\s+{_MONTH})?)|{_WEEKDAY}|{_RELATIVE_DAY})")
-# Lookarounds keep a token whole: "28-30 March 2024" is a range, not a tail.
+              rf"|the\s+\d{{1,2}}(?:st|nd|rd|th)(?:\s+of\s+{_MONTH})?)|{_WEEKDAY}|{_RELATIVE_DAY})")
+# A bare ordinal is a day only after "on" ("on the 30th", "on 30th"): "Grand Prix - 1st" and
+# "Match, 2nd" are places in a series.
+_ON_TOKEN = rf"(?:{_DAY_TOKEN}|\d{{1,2}}(?:st|nd|rd|th))"
+# No digit before the separator: "28-30 March 2024" is a range, not a tail; "Tennis-2024-03-30"
+# is a tail.
 _OCCASION_TAIL_RE = re.compile(
-    rf"(?:\s*[-–—:,]\s*(?:on\s+)?(?<![\w-]){_DAY_TOKEN}"
-    rf"|\s+on\s+{_DAY_TOKEN}"
-    rf"|\s*\(\s*(?:on\s+)?{_DAY_TOKEN}\s*\)"
+    rf"(?:(?<!\d)\s*[-–—:,]\s*(?:on\s+{_ON_TOKEN}|{_DAY_TOKEN})"
+    rf"|\s+on\s+{_ON_TOKEN}"
+    rf"|\s*\(\s*(?:on\s+{_ON_TOKEN}|{_DAY_TOKEN})\s*\)"
     rf"|\s+(?<![\w-])(?:{_FULL_DATE}|{_RELATIVE_DAY}))\W*$",
     re.IGNORECASE,
 )
 _OCCASION_HEAD_RE = re.compile(rf"^\W*{_FULL_DATE}(?![\w-])\s*[-–—:,]?\s*", re.IGNORECASE)
 _WORD_RE = re.compile(r"\w")
+#: Longer names are kept as they are: no happening's name is this long, and the patterns'
+#: cost grows with length.
+OCCASION_NAME_MAX = 200
 
 
 def strip_occasion_date(name: str | None) -> str:
@@ -236,11 +243,14 @@ def strip_occasion_date(name: str | None) -> str:
     names. Strips a trailing one -- after a dash, colon, comma, "on", in brackets, or, for a
     whole date or "today", after a bare space -- and a leading whole date. Numbers that are
     not dates stay ("Flight AI 302", "Room 101", "Q3 review"), as does a weekday that is
-    part of a name ("Easter Sunday"). Idempotent; a name that is only a date is returned
-    unchanged, never emptied.
+    part of a name ("Easter Sunday"), and a bare ordinal ("Grand Prix - 1st"). Whitespace
+    runs become one space. Idempotent; a name that is only a date, or longer than
+    `OCCASION_NAME_MAX`, is returned unchanged, never emptied.
     """
     original = (name or "").strip()
-    text = original
+    if len(original) > OCCASION_NAME_MAX:
+        return original
+    text = " ".join(original.split())
     for _ in range(8):
         before = text
         text = _OCCASION_TAIL_RE.sub("", text).strip()
@@ -266,16 +276,24 @@ def entity_id(key: tuple[str, str, str]) -> str:
 
 
 def observation_id(
-    chunk_id: str, canonical_name: str | None, entity_class: str, domain: str, *, identity: str | None = None
+    chunk_id: str, canonical_name: str | None, entity_class: str, domain: str, *,
+    identity: str | None = None, occurs_on: str | None = None,
 ) -> str:
     """`sha256(chunk_id | canonical_name | entity_class | domain)`.
 
     Scoped to the chunk, so one document version asserting the same thing in
     three chunks yields three observations -- each testifying to its own
     passage -- while re-writing the same chunk cannot duplicate. `identity`
-    replaces the name part exactly as in `aggregate_key`.
+    replaces the name part exactly as in `aggregate_key`; `occurs_on` joins it
+    as in `aggregate_key`, so one chunk's "Tennis" on two days is two
+    observations, not one (spec 2026-11-15 §5.2).
     """
-    name_part = normalize_identity(identity) if identity else normalize_name(canonical_name)
+    if identity:
+        name_part = normalize_identity(identity)
+    else:
+        name_part = normalize_name(canonical_name)
+        if occurs_on and name_part:
+            name_part = f"{name_part}{OCCASION_SEP}{str(occurs_on)[:10]}"
     payload = "|".join([chunk_id or "", name_part, entity_class or "", domain or ""])
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
@@ -552,7 +570,8 @@ def build_observation(
     key = aggregate_key(canonical_name, entity_class, obs_domain, identity=identity, occurs_on=occurs_on)
 
     props: dict = {
-        "id": observation_id(chunk_id, canonical_name, entity_class, obs_domain, identity=identity),
+        "id": observation_id(chunk_id, canonical_name, entity_class, obs_domain, identity=identity,
+                             occurs_on=occurs_on),
         # Verbatim what the chunk said. Never overwritten by canonicalisation.
         "name": entity.get("name") or "",
         "canonical_name": canonical_name,

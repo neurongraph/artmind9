@@ -151,3 +151,17 @@ def test_chunks_only_schema_is_flagged_and_a_graph_schema_is_not(tmp_path):
 
     assert "Chunks only" in chunks_only and "graph_extraction: false" in chunks_only
     assert "Chunks only" not in graph and "graph_extraction" not in graph
+
+
+def test_a_meta_without_the_occasion_rule_renders_the_message_not_prompts(monkeypatch, tmp_path):
+    """Spec 2026-11-15 §8: the Schemas tab says why, rather than a bare 500."""
+    import artmind.prompt_builder as prompt_builder
+
+    schema = tmp_path / "outings_schema.yaml"
+    schema.write_text("name: outings\nentity_types:\n  OUTING:\n    kind: occurrent\n    identity: occasion\n")
+    monkeypatch.setattr(prompt_builder, "load_meta", lambda: {"kind_naming_rules": {}})
+    data = build_schema_dict(schema)
+    assert data["assembled_prompts"] == {}
+    assert "artmind migrate status" in data["prompt_error"]
+    html = render_fragment([data])
+    assert "artmind migrate status" in html and "Assembled prompts (as sent" not in html

@@ -202,6 +202,25 @@ def propose_merges(
 
         for canonical, aliases in by_canonical.items():
             canonical_keys = key_map.get(canonical, set())
+            day_groups = _occasion_day_groups(canonical_keys, [key_map.get(a, set()) for a in aliases])
+            if day_groups is not None:
+                # An occasion's name has one key per day: one group per day that the canonical
+                # and at least one alias share (spec 2026-11-15 §5.3).
+                grouped = {m for group in day_groups for m in group[1:]}
+                stats["skipped_identity"] += sum(
+                    1 for a in aliases if not (key_map.get(a, set()) and
+                                               {_parse_key(k) for k in key_map[a]} & grouped))
+                for group in day_groups:
+                    pid = sameas.propose(
+                        session, group[0], group,
+                        source="refine_graph", reason="name-similarity clustering", model=model,
+                    )
+                    if pid is None:
+                        stats["skipped_identity"] += len(group) - 1
+                        continue
+                    proposal_ids.append(pid)
+                    stats["proposed"] += 1
+                continue
             if len(canonical_keys) != 1:
                 stats["skipped_ambiguous"] += len(aliases)
                 logger.warning(
@@ -233,6 +252,37 @@ def propose_merges(
             proposal_ids.append(pid)
             stats["proposed"] += 1
     return {"stats": stats, "proposal_ids": proposal_ids}
+
+
+def _occasion_day_groups(
+    canonical_keys: set[str], alias_keys: list[set[str]]
+) -> list[list[tuple[str, str, str]]] | None:
+    """Groups `[canonical day key, alias day key, ...]`, one per day on which the canonical name
+    and at least one alias both have an occasion key; None unless every canonical key is a
+    dated occasion key (then the plain one-key rule applies). An alias key that is not a dated
+    occasion key of the same class and domain joins no group."""
+    from artmind.observations import split_occasion
+    from artmind.schema_validate import class_identity
+
+    def dated(key: str):
+        parsed = _parse_key(key)
+        name, cls, dom = parsed
+        if not cls or class_identity(sameas._schema_for(dom), cls) != "occasion":
+            return None
+        day = split_occasion(name)[1]
+        return (day, cls, dom, parsed) if day else None
+
+    canon = [dated(k) for k in sorted(canonical_keys)]
+    if not canon or any(c is None for c in canon):
+        return None
+    by_slot = {(day, cls, dom): parsed for day, cls, dom, parsed in canon}
+    members: dict[tuple, list] = {slot: [] for slot in by_slot}
+    for keys in alias_keys:
+        for k in sorted(keys):
+            d = dated(k)
+            if d and d[:3] in members and d[3] not in members[d[:3]]:
+                members[d[:3]].append(d[3])
+    return [[by_slot[slot], *found] for slot, found in sorted(members.items()) if found]
 
 
 def _mergeable(rows: list[tuple[str, str, str | None]]) -> list[tuple[str, str]]:

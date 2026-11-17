@@ -189,3 +189,58 @@ def test_detector_pairs_occasions_only_on_one_day():
     ctx = make_ctx(ents, schema=SCHEMA, docs_per_period={"2023": 100})
     found = SAME_AS_CANDIDATES.run(ctx, "ACTIVITY")
     assert [sorted(s["_id"] for s in f.subjects) for f in found] == [["a1", "a2"]]
+
+
+def test_twins_still_fire_for_a_class_the_schema_does_not_declare():
+    rows = [{"entity": {"_id": i, "name": "Kestrel", "entity_class": "VESSEL"}} for i in ("a", "b")]
+    assert [g["entity_class"] for g in identity.twin_groups(rows, schema=SCHEMA)] == ["VESSEL"]
+    assert [g["entity_class"] for g in identity.twin_groups(rows, schema={})] == ["VESSEL"]
+
+
+def test_refine_graph_proposes_each_shared_day_of_an_occasion(schema, monkeypatch):
+    keys = {"Tennis": ["tennis~2024-03-30|ACTIVITY|pj", "tennis~2024-04-02|ACTIVITY|pj",
+                       "tennis~2024-04-09|ACTIVITY|pj"],
+            "Tennis match": ["tennis match~2024-03-30|ACTIVITY|pj", "tennis match~2024-04-09|ACTIVITY|pj"],
+            "Tennis game": ["tennis game~2024-05-01|ACTIVITY|pj"]}
+
+    def respond(cypher, params):
+        if "collect(DISTINCT e.entity_class)" in cypher:
+            return [{"name": n, "classes": ["ACTIVITY"]} for n in params["names"]]
+        if "collect(DISTINCT e.key)" in cypher:
+            return [{"name": n, "keys": keys[n]} for n in params["names"]]
+        return []
+
+    rec = Recorder(respond)
+    monkeypatch.setattr(refine_graph, "neo4j_session", lambda: rec)
+    result = refine_graph.propose_merges({"Tennis match": "Tennis", "Tennis game": "Tennis"}, "pj", "m")
+    sent = [(p["canonical"], p["members"]) for _, p in rec.queries_containing("MERGE (p:SameAsProposal")]
+    assert sent == [
+        ("tennis~2024-03-30|ACTIVITY|pj", ["tennis match~2024-03-30|ACTIVITY|pj", "tennis~2024-03-30|ACTIVITY|pj"]),
+        ("tennis~2024-04-09|ACTIVITY|pj", ["tennis match~2024-04-09|ACTIVITY|pj", "tennis~2024-04-09|ACTIVITY|pj"]),
+    ]
+    assert result["stats"]["proposed"] == 2
+    assert result["stats"]["skipped_identity"] == 1  # "Tennis game" shares no day
+    assert result["stats"]["skipped_ambiguous"] == 0
+
+
+def test_schema_for_parses_a_schema_once_until_it_changes(tmp_path, monkeypatch):
+    import os
+
+    import paths
+    import artmind.schema_validate as schema_validate
+
+    (tmp_path / "pj_schema.yaml").write_text("name: pj\nentity_types:\n  PERSON: {kind: recurrent}\n")
+    monkeypatch.setattr(paths, "DOMAIN_SCHEMAS_DIR", tmp_path)
+    monkeypatch.setattr(sameas, "_SCHEMA_CACHE", {})
+    reads = []
+    real = schema_validate.family_schema
+    monkeypatch.setattr(schema_validate, "family_schema", lambda d, schemas_dir=None: reads.append(d) or real(
+        d, schemas_dir=schemas_dir))
+    for _ in range(3):
+        sameas.identity_refusal(("a", "PERSON", "pj"), [("b", "PERSON", "pj")])
+    assert reads == ["pj"]
+    path = tmp_path / "pj_schema.yaml"
+    path.write_text("name: pj\nentity_types:\n  PERSON: {kind: recurrent, identity: category}\n")
+    os.utime(path, ns=(path.stat().st_atime_ns, path.stat().st_mtime_ns + 10**9))
+    assert sameas.identity_refusal(("a", "PERSON", "pj"), [("b", "PERSON", "pj")]) == "identity:category (PERSON)"
+    assert reads == ["pj", "pj"]

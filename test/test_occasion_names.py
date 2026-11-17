@@ -25,6 +25,15 @@ from artmind.observations import normalize_name, strip_occasion_date
     ("Dinner, on the 3rd of May", "Dinner"),
     ("Tennis 30/03/2024", "Tennis"),
     ("Flight AI 302 on 2024-03-30", "Flight AI 302"),
+    ("Tennis-2024-03-30", "Tennis"),
+    ("Tennis on 30th", "Tennis"),
+    ("Race, 1st of May", "Race"),
+    ("Tennis   on   2024-03-30", "Tennis"),
+    # A bare ordinal after a separator is a place in a series, not a day.
+    ("Grand Prix - 1st", "Grand Prix - 1st"),
+    ("Match, 2nd", "Match, 2nd"),
+    ("Formula 1 - 1st", "Formula 1 - 1st"),
+    ("Tennis (1st)", "Tennis (1st)"),
     # Not dates, or a weekday that is part of the name: kept.
     ("Lantern festival lights", "Lantern festival lights"),
     ("Q3 review", "Q3 review"),
@@ -51,6 +60,23 @@ def test_strip(raw, expected):
 @pytest.mark.parametrize("raw", ["2024-03-30", "today", "Saturday", "2024-03-30 - today", "", None])
 def test_a_name_that_is_only_a_date_is_never_emptied(raw):
     assert strip_occasion_date(raw) == (raw or "")
+
+
+@pytest.mark.parametrize("name", ["x" + " " * 20000 + "y", "-" * 20000, "a " * 10000, " -" * 10000 + "x",
+                                  "Tennis" + " " * 190 + "on 2024-03-30"])
+def test_stripping_stays_cheap_on_long_names(name):
+    import time
+
+    start = time.perf_counter()
+    strip_occasion_date(name)
+    assert time.perf_counter() - start < 0.2
+
+
+def test_a_name_longer_than_the_cap_is_kept():
+    from artmind.observations import OCCASION_NAME_MAX
+
+    long_name = "Tennis " + "x" * OCCASION_NAME_MAX + " on 2024-03-30"
+    assert strip_occasion_date(long_name) == long_name
 
 
 def test_stripped_variants_share_one_normalised_name():
@@ -83,7 +109,7 @@ def test_ingest_strips_the_canonical_name_of_an_occasion_and_keeps_the_raw_name(
     obs = _ingest("Tennis on 2024-03-30", "ACTIVITY")
     assert (obs["name"], obs["canonical_name"], obs["key"]) == (
         "Tennis on 2024-03-30", "Tennis", "tennis~2024-03-30|ACTIVITY|pj")
-    assert obs["id"] == observation_id("c1", "Tennis", "ACTIVITY", "pj")
+    assert obs["id"] == observation_id("c1", "Tennis", "ACTIVITY", "pj", occurs_on="2024-03-30")
     # The canonicalisation pass's name is the one stripped.
     assert _ingest("tennis", "ACTIVITY", canonical="Tennis - Saturday")["canonical_name"] == "Tennis"
 
@@ -153,3 +179,59 @@ def test_update_confirm_names_an_occasion_without_its_date(tmp_path, monkeypatch
     (props,) = [kw["props"] for c, kw in calls if "CREATE (n:Observation {id: $id})" in c and "props" in kw]
     assert (props["key"], props["canonical_name"], props["name"]) == (
         "hill walk~2025-04-03|OUTING|testchat", "Hill walk", "Hill walk on 2025-04-03")
+
+
+def test_one_chunk_naming_an_occasion_on_two_days_keeps_both():
+    """The day is in the observation id too: ingest's dedup on the id keeps both days, and a
+    relationship naming either raw variant resolves to its own observation."""
+    from _neo4j_recorder import Recorder
+
+    from artmind import ingest as ing
+
+    entities = [
+        {"id": "e1", "name": "Tennis on 2024-03-30", "entity_class": "ACTIVITY", "chunk_id": "c1", "_domain": "pj"},
+        {"id": "e2", "name": "Tennis on 2024-03-31", "entity_class": "ACTIVITY", "chunk_id": "c1", "_domain": "pj"},
+        {"id": "e3", "name": "Tennis today", "entity_class": "ACTIVITY", "chunk_id": "c2", "_domain": "pj"},
+        {"id": "e4", "name": "Tennis", "entity_class": "ACTIVITY", "chunk_id": "c2", "_domain": "pj"},
+        {"id": "e5", "name": "Alex", "entity_class": "PERSON", "chunk_id": "c1", "_domain": "pj"},
+        {"id": "e6", "name": "Alex", "entity_class": "PERSON", "chunk_id": "c2", "_domain": "pj"},
+    ]
+    props = [{"id": "e1", "properties": {"date_or_time": "2024-03-30"}},
+             {"id": "e2", "properties": {"date_or_time": "2024-03-31"}}]
+    observations, _ = ing._build_observations(entities, props, {}, SCHEMA, DOCUMENT)
+    by_name = {o["name"]: o for o in observations}
+    assert sorted(by_name) == ["Alex", "Tennis on 2024-03-30", "Tennis on 2024-03-31", "Tennis today"]
+    assert by_name["Tennis on 2024-03-30"]["key"] == "tennis~2024-03-30|ACTIVITY|pj"
+    assert by_name["Tennis on 2024-03-31"]["key"] == "tennis~2024-03-31|ACTIVITY|pj"
+    assert by_name["Tennis on 2024-03-30"]["id"] != by_name["Tennis on 2024-03-31"]["id"]
+    alex = {o["chunk_id"]: o["id"] for o in observations if o["entity_class"] == "PERSON"}
+
+    rels = [{"source_name": "Alex", "target_name": "Tennis on 2024-03-31", "rel_type": "PLAYED", "chunk_id": "c1"},
+            {"source_name": "Alex", "target_name": "Tennis on 2024-03-30", "rel_type": "PLAYED", "chunk_id": "c1"},
+            # "Tennis" folded onto "Tennis today" (same day, chunk c2): resolved by its undated name.
+            {"source_name": "Alex", "target_name": "Tennis", "rel_type": "PLAYED", "chunk_id": "c2"}]
+    tx = Recorder()
+    assert ing._write_relation_observations(tx, rels, DOCUMENT, observations) == 3
+    sent = [(p["src"], p["tgt"]) for _, p in tx.queries_containing("ASSERTS_RELATION")]
+    assert sent == [(alex["c1"], by_name["Tennis on 2024-03-31"]["id"]),
+                    (alex["c1"], by_name["Tennis on 2024-03-30"]["id"]),
+                    (alex["c2"], by_name["Tennis today"]["id"])]
+
+
+def test_an_undated_name_naming_two_days_is_not_guessed():
+    from _neo4j_recorder import Recorder
+
+    from artmind import ingest as ing
+
+    entities = [
+        {"id": "e1", "name": "Tennis on 2024-03-30", "entity_class": "ACTIVITY", "chunk_id": "c1", "_domain": "pj"},
+        {"id": "e2", "name": "Tennis on 2024-03-31", "entity_class": "ACTIVITY", "chunk_id": "c1", "_domain": "pj"},
+        {"id": "e5", "name": "Alex", "entity_class": "PERSON", "chunk_id": "c1", "_domain": "pj"},
+    ]
+    props = [{"id": "e1", "properties": {"date_or_time": "2024-03-30"}},
+             {"id": "e2", "properties": {"date_or_time": "2024-03-31"}}]
+    observations, _ = ing._build_observations(entities, props, {}, SCHEMA, DOCUMENT)
+    tx = Recorder()
+    rels = [{"source_name": "Alex", "target_name": "Tennis on Saturday", "rel_type": "PLAYED", "chunk_id": "c1"}]
+    assert ing._write_relation_observations(tx, rels, DOCUMENT, observations) == 0
+    assert tx.calls == []

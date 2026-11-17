@@ -3924,6 +3924,17 @@ def extract_kg(
     # `graph_extraction: false` (spec 2026-10-30-chunks-only-domains-design.md):
     # chunks + embeddings only, no LLM step of any kind.
     chunks_only = not graph_extraction_enabled(schema)
+    if not chunks_only:
+        # Once per file, not once per chunk: a meta.yaml that predates the model fails every
+        # entities prompt the same way (spec 2026-11-15 §8).
+        from artmind.prompt_builder import MetaIncomplete, assemble_entities_prompt
+
+        try:
+            assemble_entities_prompt(schema)
+        except MetaIncomplete as exc:
+            file_result["kg_error"] = exc.message
+            logger.error("{}: {}", registered_path.name, exc.message)
+            return None
 
     # A note's id is in `file_result` already; a binary's folder is named by
     # its key and needs no id, so this stays above the identity block below.
@@ -4713,6 +4724,12 @@ def _write_observations(tx, observations: list[dict], doc_id: str, *, source_lab
     return len(observations)
 
 
+def _undated_name(value: str) -> str:
+    from artmind.observations import normalize_name, strip_occasion_date
+
+    return normalize_name(strip_occasion_date(value))
+
+
 def _observation_lookup(observations: list[dict]) -> tuple[dict, dict]:
     """Two ways to resolve a relationship endpoint's raw extracted name back to
     one of this document's own `:Observation` ids.
@@ -4737,6 +4754,23 @@ def _observation_lookup(observations: list[dict]) -> tuple[dict, dict]:
                 by_chunk.setdefault((chunk_id, value), o["id"])
             by_name.setdefault(value, o["id"])
     return by_chunk, by_name
+
+
+def _undated_lookup(observations: list[dict]) -> dict[tuple[str, str], set[str]]:
+    """`(chunk_id, undated normalised name) -> observation ids`: the fallback for a raw name
+    that is no observation's own -- a same-day variant of an occasion ("Tennis today" beside
+    "Tennis") folds onto one observation and keeps only the first raw name. Used only when it
+    names exactly one observation of the chunk; two days of "Tennis" stay unresolved rather
+    than guessed (spec 2026-11-15 §5.2)."""
+    out: dict[tuple[str, str], set[str]] = {}
+    for o in observations:
+        chunk_id = o.get("chunk_id")
+        if not chunk_id:
+            continue
+        for field in ("name", "canonical_name"):
+            if o.get(field):
+                out.setdefault((chunk_id, _undated_name(o[field])), set()).add(o["id"])
+    return out
 
 
 def _observation_keys(observations: list[dict]) -> dict[str, str]:
@@ -4797,6 +4831,7 @@ def _write_relation_observations(tx, relationships: list[dict], document: dict, 
     from artmind.observations import relation_observation_id
 
     by_chunk, by_name = _observation_lookup(observations)
+    undated = _undated_lookup(observations)
     obs_keys = _observation_keys(observations)
 
     def _resolve(name: str | None, chunk_id: str | None) -> str | None:
@@ -4804,6 +4839,9 @@ def _write_relation_observations(tx, relationships: list[dict], document: dict, 
             return None
         if chunk_id and (chunk_id, name) in by_chunk:
             return by_chunk[(chunk_id, name)]
+        ids = undated.get((chunk_id, _undated_name(name))) if chunk_id else None
+        if ids and len(ids) == 1:  # a same-day variant folded onto one observation of this chunk
+            return next(iter(ids))
         return by_name.get(name)
 
     def _endpoint(rel: dict, side: str, chunk_id: str | None) -> str | None:
