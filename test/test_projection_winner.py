@@ -70,3 +70,15 @@ def test_a_full_tie_is_decided_by_id_whatever_the_input_order():
         random.Random(seed).shuffle(shuffled)
         winners.add(merge_observations(shuffled)["props"]["rate"])
     assert winners == {"v5"}
+
+
+def test_two_default_dated_values_conflict_rather_than_vary():
+    merged = merge_observations([_o(1, "4.5", "2026-11-15", "2026-11-15", precision="none"),
+                                 _o(2, "4.7", "2026-11-16", "2026-11-16", precision="none")])
+    assert merged["temporal_props"] == [] and [c["property"] for c in merged["conflicts"]] == ["rate"]
+
+
+def test_a_default_dated_value_against_a_real_date_still_varies():
+    merged = merge_observations([_o(1, "4.5", "2026-11-15", "2026-11-15", precision="none"),
+                                 _o(2, "4.7", "2026-02-01", "2026-02-01")])
+    assert merged["temporal_props"] == ["rate"] and merged["conflicts"] == []

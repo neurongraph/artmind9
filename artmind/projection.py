@@ -381,7 +381,9 @@ def merge_observations(
         if len(distinct) > 1:
             by_valid_from: dict[str, list] = defaultdict(list)
             for observation in contributing:
-                by_valid_from[observation.get("_valid_from") or ""].append(observation)
+                # A default (precision `none`) date is not an instant: such
+                # observations share the undated bucket (spec §2, question 10).
+                by_valid_from[_fact_date(observation)].append(observation)
 
             # Temporal variation and conflict are INDEPENDENT facts, and with
             # three or more observations a property can be both. `rate_value`
