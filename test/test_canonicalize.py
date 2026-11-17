@@ -9,7 +9,7 @@ from artmind.canonicalize import (
     build_canonicalization_prompt,
     canonicalize_document,
     collect_names,
-    recurrent_classes,
+    named_classes,
     retrieve_vocabulary,
 )
 
@@ -22,14 +22,23 @@ SCHEMA = {
 }
 
 
-def test_recurrent_classes_excludes_occurrent_ones():
-    assert recurrent_classes(SCHEMA) == {"RATE_ENTRY", "PRODUCT"}
+def test_named_classes_follow_identity_not_kind():
+    """Spec 2026-11-15 §5.3: `name` and `category` get the vocabulary, `occasion` does not."""
+    assert named_classes(SCHEMA) == {"RATE_ENTRY", "PRODUCT"}
+    schema = {"entity_types": {
+        "PERSON": {"kind": "recurrent"},
+        "MOOD": {"kind": "recurrent", "identity": "category"},
+        "OUTING": {"kind": "occurrent"},
+        "STAY": {"kind": "recurrent", "identity": "occasion"},
+        "AMENDMENT": {"kind": "occurrent", "identity": "name"},
+    }}
+    assert named_classes(schema) == {"PERSON", "MOOD", "AMENDMENT"}
 
 
 # ── vocabulary retrieval ────────────────────────────────────────────────────
 
 
-def test_vocabulary_query_is_restricted_to_recurrent_classes():
+def test_vocabulary_query_is_restricted_to_named_classes():
     """Asserted on the PARAMETERS ACTUALLY SENT. A MagicMock session answers
     any Cypher truthily, so the only real check is what we handed it."""
     session = MagicMock()
@@ -51,7 +60,7 @@ def test_vocabulary_query_is_restricted_to_recurrent_classes():
 
     assert result == [{"name": "SmartSaver Account Tier 2 Rate", "entity_class": "RATE_ENTRY", "aliases": []}]
     _cypher, kwargs = session.run.call_args[0][0], session.run.call_args[1]
-    assert kwargs["classes"] == ["PRODUCT", "RATE_ENTRY"], "occurrent classes must not be offered"
+    assert kwargs["classes"] == ["PRODUCT", "RATE_ENTRY"], "occasion classes must not be offered"
     assert kwargs["domain"] == "banking.reference"
     assert kwargs["limit"] == 25
     assert "entity_embedding" in _cypher
@@ -81,7 +90,7 @@ def test_a_down_embedding_service_degrades_to_no_vocabulary_and_never_raises():
     session.run.assert_not_called()
 
 
-def test_a_schema_with_no_recurrent_classes_skips_the_query_entirely():
+def test_a_schema_with_no_named_classes_skips_the_query_entirely():
     session = MagicMock()
     occurrent_only = {"entity_types": {"INCIDENT": {"kind": "occurrent"}}}
     assert retrieve_vocabulary(

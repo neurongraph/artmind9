@@ -32,7 +32,9 @@ def make_ctx(entities, *, schema=None, effective=None, docs_per_period=None, con
              entity_props=None, anchor_relations=(), entity_edges=()):
     from artmind.insights.detectors import RunContext
 
-    schema = schema or {}
+    # Without a schema every class reads as recurrent, so it declares them so: identity
+    # (`RunContext.identity`) then reads `name`, as `summarise_class` reads `recurrent`.
+    schema = schema or {"entity_types": {c: {"kind": "recurrent"} for c in sorted({e.cls for e in entities})}}
     decl = schema.get("entity_types") or {}
     classes = {}
     for cls in sorted({e.cls for e in entities} | set(properties or {})):

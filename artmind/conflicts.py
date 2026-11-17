@@ -53,18 +53,29 @@ def candidate_pairs(
     # `domains` arrives already expanded by detect_conflicts (see
     # expand_domain_family), so a parent like `banking` reaches its concrete
     # children here and cross-child pairing works as intended.
+    #
+    # Identity (spec 2026-11-15 §5.3): a `category` class is never a candidate on either
+    # side (`$categories`: domain -> its category classes), and two occasions pair only on
+    # the same day (`sameas.identity_refusal`, the rule `sameas.propose` applies).
+    from artmind import sameas
+    from artmind.schema_validate import classes_with_identity
+
+    schemas = {d: sameas._schema_for(d) for d in domains}
+    categories = {d: sorted(classes_with_identity(schemas[d], "category")) for d in domains}
+    categories = {d: c for d, c in categories.items() if c}
     seen: set[tuple[str, str]] = set()
     scored: list[tuple[float, float, dict]] = []
     with neo4j_session() as session:
         fetch = """
         MATCH (e:Entity)
         WHERE e._domain IN $domains AND e.embedding IS NOT NULL AND e.name IS NOT NULL
+          AND NOT e.entity_class IN coalesce($categories[e._domain], [])
           AND ($nameFilter IS NULL OR toLower(e.name) CONTAINS toLower($nameFilter))
         RETURN e._id AS id, e.name AS name, e.entity_class AS entity_class,
                e._domain AS domain, e.embedding AS embedding, e.key AS key
         """
         sources = session.run(
-            fetch, domains=domains, nameFilter=name_filter
+            fetch, domains=domains, nameFilter=name_filter, categories=categories
         ).data()
         for src in sources:
             others = [d for d in domains if d != src["domain"]] or domains
@@ -79,16 +90,20 @@ def candidate_pairs(
                   )
                 WHERE node._domain IN $others
                   AND node.entity_class = $cls
+                  AND NOT node.entity_class IN coalesce($categories[node._domain], [])
                   AND node._id <> $srcId
                 WITH node, vector.similarity.cosine(node.embedding, $embedding) AS score
                 RETURN node._id AS id, node.name AS name, node._domain AS domain,
                        node.key AS key, score
                 """,
                 k=top_k, embedding=src["embedding"], others=others,
-                cls=src["entity_class"], srcId=src["id"],
+                cls=src["entity_class"], srcId=src["id"], categories=categories,
             ).data()
             for nb in neighbors:
                 if nb["score"] < sim_threshold:
+                    continue
+                key_a, key_b = sameas._parse_key(src.get("key") or ""), sameas._parse_key(nb.get("key") or "")
+                if key_a and key_b and sameas.identity_refusal(key_a, [key_b], schema_for=schemas.get):
                     continue
                 key = tuple(sorted([src["id"], nb["id"]]))
                 if key in seen:
@@ -351,6 +366,18 @@ def detect_conflicts(
         else:
             report["conflicts"].append(materialized_id)
 
+    def _refused(item: dict) -> bool:
+        """A same-entity verdict `sameas.propose` refused on identity (spec 2026-11-15 §5.3)."""
+        pair = item["pair"]
+        return (item["verdict"]["verdict"] == "same_entity_consistent"
+                and bool(pair.get("key_a")) and bool(pair.get("key_b")))
+
+    def _stats() -> dict:
+        stats = {"materialized": len(report["conflicts"]) + len(report["same_as_proposals"])}
+        if report.get("skipped_identity"):
+            stats["skipped_identity"] = report.pop("skipped_identity")
+        return stats
+
     if from_file:
         data = json.loads(Path(from_file).read_text(encoding="utf-8"))
         with neo4j_session() as session:
@@ -359,7 +386,9 @@ def detect_conflicts(
                                   item["evidence_a"], item["evidence_b"], item.get("model", model))
                 if cid:
                     _record(item, cid)
-        report["stats"] = {"materialized": len(report["conflicts"]) + len(report["same_as_proposals"])}
+                elif _refused(item):
+                    report["skipped_identity"] = report.get("skipped_identity", 0) + 1
+        report["stats"] = _stats()
         return report
 
     import time
@@ -399,7 +428,9 @@ def detect_conflicts(
                                   item["evidence_a"], item["evidence_b"], model)
                 if cid:
                     _record(item, cid)
-        report["stats"] = {"materialized": len(report["conflicts"]) + len(report["same_as_proposals"])}
+                elif _refused(item):
+                    report["skipped_identity"] = report.get("skipped_identity", 0) + 1
+        report["stats"] = _stats()
 
     logger.info(
         "detect-conflicts: candidates={} llm_calls={} conflicts={} same_as_proposals={} (cand={}s llm={}s)",

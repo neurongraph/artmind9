@@ -3988,9 +3988,9 @@ def extract_kg(
     # ── name vocabulary, retrieved ONCE before any chunk extracts ─────────
     # Cross-document drift control: showing the extractor names already in use
     # stops a new document coining a fresh one for something the graph knows.
-    # Restricted to recurrent classes — an occurrent entity is a completed
-    # event, and offering existing event names invites folding two distinct
-    # incidents into one. Never fatal: no vocabulary is the pre-redesign
+    # Restricted to `canonicalize.named_classes` (identity `name` or `category`)
+    # — an occasion is keyed by its day, and offering existing happening names
+    # invites folding two distinct days into one. Never fatal: no vocabulary is the pre-redesign
     # behaviour, so a down embed service costs quality, not the ingest.
     vocabulary: list = []
     try:

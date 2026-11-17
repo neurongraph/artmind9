@@ -45,6 +45,12 @@ class RunContext:
     def classes_of_kind(self, kind: str) -> list[str]:
         return [name for name, cp in sorted(self.profile.classes.items()) if cp.effective_kind == kind]
 
+    def identity(self, cls: str) -> str:
+        """The class's declared identity (`schema_validate.class_identity`, spec 2026-11-15 §5.3)."""
+        from artmind.schema_validate import class_identity
+
+        return class_identity(self.schema or {}, cls)
+
     def members(self, cls: str, floor: int | None = None) -> list[EntityRow]:
         floor = self.config.min_evidence_days if floor is None else floor
         return [e for e in self.entities if e.cls == cls and e._id not in self.anchors and len(e.days) >= floor]

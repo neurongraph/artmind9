@@ -175,7 +175,8 @@ def propose_merges(
     be hand-edited or predate that constraint, and a same-as group spanning
     two classes is exactly what groups (vs. pairs) exist to prevent.
     """
-    stats = {"proposed": 0, "skipped": 0, "errors": 0, "skipped_cross_class": 0, "skipped_ambiguous": 0}
+    stats = {"proposed": 0, "skipped": 0, "errors": 0, "skipped_cross_class": 0, "skipped_ambiguous": 0,
+             "skipped_identity": 0}
     proposal_ids: list[str] = []
     with neo4j_session() as session:
         names = list({*proposed_merges.keys(), *proposed_merges.values()})
@@ -226,9 +227,29 @@ def propose_merges(
                 session, canonical_key, member_keys,
                 source="refine_graph", reason="name-similarity clustering", model=model,
             )
+            if pid is None:  # a category member, or occasions on different days (spec 2026-11-15 §5.3)
+                stats["skipped_identity"] += len(member_keys) - 1
+                continue
             proposal_ids.append(pid)
             stats["proposed"] += 1
     return {"stats": stats, "proposal_ids": proposal_ids}
+
+
+def _mergeable(rows: list[tuple[str, str, str | None]]) -> list[tuple[str, str]]:
+    """Distinct `(name, entity_class)` of the rows whose class may be folded by same-as:
+    identity `name` or `occasion` in the row's own domain schema, never `category`
+    (spec 2026-11-15 §5.3). Occasions are clustered by name; `sameas.propose` refuses a
+    pair whose days differ."""
+    from artmind.schema_validate import class_identity
+
+    schemas: dict[str | None, dict] = {}
+    out: dict[tuple[str, str], None] = {}
+    for name, cls, dom in rows:
+        if dom not in schemas:
+            schemas[dom] = sameas._schema_for(dom) if dom else {}
+        if class_identity(schemas[dom], cls) in ("name", "occasion"):
+            out[(name, cls)] = None
+    return list(out)
 
 
 def _parse_key(value: str) -> tuple[str, str, str]:
@@ -237,7 +258,7 @@ def _parse_key(value: str) -> tuple[str, str, str]:
 
 
 def _document_entity_names(session, document_name: str, domain: str | None, name_filters: list[str]):
-    """Distinct `(name, entity_class)` of the observations ONE document asserted.
+    """Distinct `(name, entity_class, domain)` of the observations ONE document asserted.
 
     A document is matched as `query document-history` does: by name (ignoring
     case), path or id. These are the names its chunks gave things -- the place a
@@ -251,11 +272,11 @@ def _document_entity_names(session, document_name: str, domain: str | None, name
         MATCH (o:Observation) WHERE o.doc_id = d.id
           AND (size($nameFilters) = 0
                OR any(f IN $nameFilters WHERE toLower(o.name) CONTAINS toLower(f)))
-        RETURN DISTINCT o.name AS name, o.entity_class AS entity_class
+        RETURN DISTINCT o.name AS name, o.entity_class AS entity_class, o._domain AS domain
         """,
         domain=domain, documentName=document_name, nameFilters=name_filters,
     )
-    return [(r["name"], r["entity_class"]) for r in res if r["name"]]
+    return [(r["name"], r["entity_class"], r.get("domain")) for r in res if r["name"]]
 
 
 def count_within_document_merges(session, proposed_merges: dict[str, str], domain: str | None) -> int:
@@ -336,7 +357,7 @@ def refine_graph(
                 res = session.run(
                     f"""MATCH (e:{ENTITY_NODE_LABEL} {{_domain: $domain}})
                     WHERE any(name IN $name_filters WHERE toLower(e.name) CONTAINS toLower(name))
-                    RETURN DISTINCT e.name AS name, e.entity_class AS entity_class""",
+                    RETURN DISTINCT e.name AS name, e.entity_class AS entity_class, e._domain AS domain""",
                     domain=domain,
                     name_filters=name_filters,
                 )
@@ -344,22 +365,23 @@ def refine_graph(
                 res = session.run(
                     """MATCH (e:Entity)
                     WHERE any(name IN $name_filters WHERE toLower(e.name) CONTAINS toLower(name))
-                    RETURN DISTINCT e.name AS name, e.entity_class AS entity_class""",
+                    RETURN DISTINCT e.name AS name, e.entity_class AS entity_class, e._domain AS domain""",
                     name_filters=name_filters,
                 )
         elif domain:
             res = session.run(
                 f"MATCH (e:{ENTITY_NODE_LABEL} {{_domain: $domain}}) "
-                "RETURN DISTINCT e.name AS name, e.entity_class AS entity_class",
+                "RETURN DISTINCT e.name AS name, e.entity_class AS entity_class, e._domain AS domain",
                 domain=domain,
             )
         else:
             res = session.run(
                 f"MATCH (e:{ENTITY_NODE_LABEL}) "
-                "RETURN DISTINCT e.name AS name, e.entity_class AS entity_class"
+                "RETURN DISTINCT e.name AS name, e.entity_class AS entity_class, e._domain AS domain"
             )
         if not document_name:
-            all_entities = [(r["name"], r["entity_class"]) for r in res if r["name"]]
+            all_entities = [(r["name"], r["entity_class"], r.get("domain")) for r in res if r["name"]]
+    all_entities = _mergeable(all_entities)
 
     logger.info(
         "Fetched {} unique (name, class) pair(s) from {}", len(all_entities),

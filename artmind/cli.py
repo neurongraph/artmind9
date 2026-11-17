@@ -4162,6 +4162,18 @@ def _plans_in_scope(domains) -> list:
     return [(p.spec.slug, p.spec.topic, list(p.spec.subjects)) for p in plans]
 
 
+def _identity_schema(domains) -> dict:
+    """The queried domains' classes, merged (the first declaration wins), for the identity
+    gates (spec 2026-11-15 §5.3)."""
+    from artmind.schema_validate import family_schema
+
+    types: dict = {}
+    for name in domains:
+        for cls, decl in (family_schema(name, schemas_dir=DOMAIN_SCHEMAS_DIR).get("entity_types") or {}).items():
+            types.setdefault(cls, decl)
+    return {"entity_types": types}
+
+
 @query.command("entity-resolve")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--topK", "top_k", type=int, default=5, show_default=True)
@@ -4187,7 +4199,7 @@ def query_entity_resolve(domain: tuple, top_k: int, compact: bool, reference: st
             for row in result.get("rows", []):
                 if identity.normalise((row.get("entity") or {}).get("name")) in names:
                     row["matched_by"] = [*(row.get("matched_by") or []), "narrator"]
-    twins = identity.twin_groups(result.get("rows", []))
+    twins = identity.twin_groups(result.get("rows", []), schema=_identity_schema(domains))
     if twins:
         result["twins"] = twins
         warnings += [identity.twin_warning(g) for g in twins]
