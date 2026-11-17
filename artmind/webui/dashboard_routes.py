@@ -20,7 +20,7 @@ from fastapi.responses import FileResponse, HTMLResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 
-from artmind.webui.data_model_gate import data_model_gate
+from artmind.webui.data_model_gate import data_model_gate, data_model_gate_no_stamp
 from artmind.atomic_dir import is_scratch, write_dir_atomic
 from artmind.cli import _ensure_worker_running, _get_available_domains
 from artmind.graph_query import structural_metadata
@@ -419,7 +419,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
             headers={"Content-Disposition": f'attachment; filename="{safe_name}"'},
         )
 
-    @app.post("/api/artifacts/import", dependencies=[Depends(data_model_gate)])
+    @app.post("/api/artifacts/import", dependencies=[Depends(data_model_gate_no_stamp)])
     async def api_artifact_import(domain: str = Form(...), doc: str = Form(...), file: UploadFile = File(...)):
         _validate_artifact_segment(domain)
         _validate_artifact_segment(doc)
@@ -470,7 +470,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
             raise HTTPException(status_code=400, detail="commit_to_graph failed — check logs for Neo4j errors")
         return {"domain": domain, "doc": doc, "written": True}
 
-    @app.post("/api/artifacts/pull", dependencies=[Depends(data_model_gate)])
+    @app.post("/api/artifacts/pull", dependencies=[Depends(data_model_gate_no_stamp)])
     async def api_artifacts_pull(payload: PullKgRequest):
         _validate_artifact_segment(payload.domain)
         try:
@@ -571,7 +571,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         while they wait."""
         return _camelize(_restore_progress.get(name, {"phase": None, "detail": None}))
 
-    @app.post("/api/snapshots/{name}/restore", dependencies=[Depends(data_model_gate)])
+    @app.post("/api/snapshots/{name}/restore", dependencies=[Depends(data_model_gate_no_stamp)])
     async def api_restore_snapshot(name: str, payload: RestoreRequest):
         """Restore selected components from a snapshot."""
         if not payload.confirm:
@@ -594,7 +594,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         finally:
             _restore_progress.pop(name, None)
 
-    @app.post("/api/snapshots/import", dependencies=[Depends(data_model_gate)])
+    @app.post("/api/snapshots/import", dependencies=[Depends(data_model_gate_no_stamp)])
     async def api_import_snapshot(
         file: UploadFile = File(...),
         components: str = ",".join(sorted(DEFAULT_COMPONENTS)),

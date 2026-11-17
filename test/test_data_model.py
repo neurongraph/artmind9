@@ -202,6 +202,84 @@ def test_a_marked_graph_at_current_passes_and_is_cached(model, monkeypatch):
     assert len(sess.sent) == 1  # one read per process
 
 
+def test_a_behind_graph_is_reread_after_the_ttl_and_a_current_one_never(model, monkeypatch):
+    now = [1000.0]
+    monkeypatch.setattr(dm, "_clock", lambda: now[0])
+    sess = _FakeSession(populated=True)  # behind
+    _use_graph(monkeypatch, sess)
+    dm.stamp(dm.CURRENT)
+    for _ in range(2):
+        with pytest.raises(dm.DataModelBehind):
+            dm.require_current("ingest sync")
+    reads = len([1 for q, _ in sess.sent if "RETURN m.version" in q])
+    assert reads == 1  # inside the TTL: cached
+    now[0] += dm.GRAPH_RETRY_S + 1
+    sess.marker = dm.CURRENT  # another process migrated it
+    dm.require_current("ingest sync")
+    now[0] += 10 * dm.GRAPH_RETRY_S
+    dm.require_current("ingest sync")
+    assert len([1 for q, _ in sess.sent if "RETURN m.version" in q]) == 2  # current: cached for good
+
+
+def test_an_unreachable_graph_is_retried_after_the_ttl(model, monkeypatch):
+    now = [0.0]
+    monkeypatch.setattr(dm, "_clock", lambda: now[0])
+    monkeypatch.setattr(dm, "read_graph_version", _REAL_READ)
+    calls = []
+
+    def opener():
+        calls.append(1)
+        raise OSError("down")
+
+    monkeypatch.setattr(dm, "_open_session", opener)
+    dm.stamp(dm.CURRENT)
+    dm.require_current("views save")
+    dm.require_current("views save")
+    assert len(calls) == 1
+    now[0] += dm.GRAPH_RETRY_S + 1
+    dm.require_current("views save")
+    assert len(calls) == 2
+
+
+def test_stamp_fresh_false_never_marks_an_empty_graph(model, monkeypatch):
+    sess = _FakeSession(populated=False)
+    _use_graph(monkeypatch, sess)
+    dm.stamp(dm.CURRENT)
+    dm.require_current("snapshot restore", stamp_fresh=False)
+    assert not any("MERGE" in q for q, _ in sess.sent)
+
+
+def test_a_curate_dry_run_on_a_fresh_vault_writes_no_file_and_no_marker(model, monkeypatch):
+    from fastapi import FastAPI
+    from fastapi.testclient import TestClient
+
+    from artmind.webui import curate_routes
+
+    sess = _FakeSession(populated=False)
+    _use_graph(monkeypatch, sess)
+    app = FastAPI()
+    curate_routes.register_curate_routes(app)
+    monkeypatch.setattr(curate_routes, "_plan_sweep", lambda: {})
+    resp = TestClient(app).post("/api/curate/sweep", json={"dry_run": True})
+    assert resp.status_code == 200
+    assert not (model / "data_model.yaml").exists()
+    assert not any("MERGE" in q for q, _ in sess.sent)
+
+
+def test_a_restore_route_never_marks_an_empty_graph(model, monkeypatch):
+    from fastapi import FastAPI
+    from fastapi.testclient import TestClient
+
+    from artmind.webui import dashboard_routes
+
+    sess = _FakeSession(populated=False)
+    _use_graph(monkeypatch, sess)
+    app = FastAPI()
+    dashboard_routes.register_dashboard_routes(app, None)
+    TestClient(app).post("/api/snapshots/none/restore", json={})
+    assert not any("MERGE" in q for q, _ in sess.sent)
+
+
 def test_an_unreachable_graph_does_not_block_a_write(model, monkeypatch):
     def boom():
         raise OSError("no route")
@@ -212,11 +290,12 @@ def test_an_unreachable_graph_does_not_block_a_write(model, monkeypatch):
     dm.require_current("views save")
 
 
-def test_a_read_warns_when_only_the_graph_is_behind(model, monkeypatch, capsys):
-    _use_graph(monkeypatch, _FakeSession(populated=True))
+def test_a_read_never_opens_the_graph(model, monkeypatch, capsys):
+    sess = _FakeSession(populated=True)
+    _use_graph(monkeypatch, sess)
     dm.stamp(dm.CURRENT)
     dm.warn_if_behind()
-    assert "this graph's data is at model 0" in capsys.readouterr().err
+    assert sess.sent == [] and capsys.readouterr().err == ""
 
 
 def test_stamp_graph_sends_the_marker_cypher(model):
@@ -269,12 +348,12 @@ def test_the_other_web_write_routes_are_gated():
     from fastapi import FastAPI
 
     from artmind.webui import dashboard_routes, insights_routes
-    from artmind.webui.data_model_gate import data_model_gate
+    from artmind.webui.data_model_gate import data_model_gate, data_model_gate_no_stamp
 
     app = FastAPI()
     dashboard_routes.register_dashboard_routes(app, None)
     insights_routes.register_insights_routes(app)
-    gated = {r.path for r in app.routes if hasattr(r, "dependant") and any(d.call is data_model_gate for d in r.dependant.dependencies)}
+    gated = {r.path for r in app.routes if hasattr(r, "dependant") and any(d.call in (data_model_gate, data_model_gate_no_stamp) for d in r.dependant.dependencies)}
     gated = {p for p in gated}
     for path in ("/api/ingest", "/api/artifacts/pull", "/api/snapshots/{name}/restore", "/api/embed-entities",
                  "/api/structured/ingest", "/api/insights/same-as/propose",

@@ -17,6 +17,7 @@ import functools
 import os
 import sys
 import tempfile
+import time
 from pathlib import Path
 
 import click
@@ -30,6 +31,9 @@ SAME_AS_FILE: Path = ARTMIND_HOME / "same_as.yaml"
 #: Key on the root click context's meta: the behind-message a read carries into its JSON `warnings`.
 WARNING_META = "artmind.data_model_warning"
 GRAPH_TIMEOUT_S = 2.0
+#: A graph that is not known to be current (behind, or unreachable) is re-read after this long.
+GRAPH_RETRY_S = 30.0
+_clock = time.monotonic
 
 _warned = False
 _graph_cache: dict = {}
@@ -116,7 +120,7 @@ _WRITE_MARKER = "MERGE (m:DataModel {id: 'artmind'}) SET m.version = $version"
 def stamp_graph(session, version: int) -> None:
     """Record `version` as this graph's model (the pack's stamp step calls this)."""
     session.run(_WRITE_MARKER, version=int(version)).consume()
-    _graph_cache["version"] = int(version)
+    _graph_cache.update(version=int(version), at=_clock())
 
 
 def _open_session():
@@ -129,13 +133,17 @@ def read_graph_version(stamp_fresh: bool = False) -> int | None:
     """The graph's model: the marker's version; `CURRENT` for a graph with no
     Document/DocumentHistory/Entity nodes (marked at once when `stamp_fresh`); 0 for a
     populated graph without a marker; None when the graph cannot be reached (the command's
-    own store check reports that). Cached for the process."""
-    if "version" in _graph_cache:
-        return _graph_cache["version"]
+    own store check reports that). Only a current graph is cached for the process; 0 and
+    None are re-read after `GRAPH_RETRY_S`, so a migration done by another process, or a
+    Neo4j that comes back, is picked up by a long-lived daemon."""
+    cached = _graph_cache.get("version", "unset")
+    if cached == CURRENT or (cached != "unset" and _clock() - _graph_cache["at"] < GRAPH_RETRY_S):
+        return cached
     try:
         with _open_session() as session:
             row = session.run(_READ_MARKER).single()
-            if row is not None and row["version"] is not None:
+            marked = row is not None and row["version"] is not None
+            if marked:
                 version = int(row["version"])
             elif session.run(_POPULATED).single()["populated"]:
                 version = 0
@@ -143,11 +151,12 @@ def read_graph_version(stamp_fresh: bool = False) -> int | None:
                 version = CURRENT
                 if stamp_fresh:
                     stamp_graph(session, CURRENT)
+                    marked = True
     except Exception:  # noqa: BLE001 - unreachable store: unknown, not behind
-        _graph_cache["version"] = None
+        _graph_cache.update(version=None, at=_clock())
         return None
-    if version != CURRENT or stamp_fresh:
-        _graph_cache["version"] = version
+    if version != CURRENT or marked:  # an unmarked fresh graph is not remembered as current
+        _graph_cache.update(version=version, at=_clock())
     return version
 
 
@@ -182,25 +191,28 @@ def _dry_run() -> bool:
     return bool(ctx is not None and ctx.params.get("dry_run"))
 
 
-def require_current(command: str) -> None:
+def require_current(command: str, *, stamp_fresh: bool = True, dry_run: bool | None = None) -> None:
     """Refuse a write when the committed data or this graph predates the code. A first
-    write on a truly fresh vault (or graph) records `CURRENT`; a dry run stamps nothing."""
+    write on a truly fresh vault (or graph) records `CURRENT`; a dry run stamps nothing,
+    and neither does `stamp_fresh=False` (a restore or import brings data of unknown model)."""
     problem = _file_problem(command)
     if problem:
         raise DataModelBehind(problem)
-    dry = _dry_run()
-    if not dry and _file_state()[0] == "absent":
+    quiet = _dry_run() if dry_run is None else dry_run
+    quiet = quiet or not stamp_fresh
+    if not quiet and _file_state()[0] == "absent":
         stamp(CURRENT)  # is_fresh held above
-    problem = _graph_problem(command, read_graph_version(stamp_fresh=not dry))
+    problem = _graph_problem(command, read_graph_version(stamp_fresh=not quiet))
     if problem:
         raise DataModelBehind(problem)
 
 
 def warn_if_behind() -> None:
-    """A read: say once on stderr (and in the command's JSON `warnings`) that a record is
-    behind. Never fails, never writes."""
+    """A read: say once on stderr (and in the command's JSON `warnings`) that the committed
+    record is behind. Checks the file only (a read opens no Neo4j connection for this);
+    never fails, never writes."""
     try:
-        text = _file_problem("this command") or _graph_problem("this command", read_graph_version())
+        text = _file_problem("this command")
     except Exception:  # noqa: BLE001 - a warning must not break a read
         return
     if not text:
