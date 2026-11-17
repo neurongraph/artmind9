@@ -30,7 +30,20 @@ class Step:
     writes: Callable[[MigrationContext], list[Path]] = field(default=lambda ctx: [])
 
 
-STEPS: list[Step] = []
+def _graph_steps() -> list[Step]:
+    from artmind.migrations.temporal_v1 import graph
+
+    return [
+        # Dates fold before supersession ends are restated: a newer document's
+        # `_valid_from` is the end an undated edge writes.
+        Step("document_dates", graph.document_dates_pending, graph.document_dates_apply),
+        Step("supersession_ends", graph.supersession_ends_pending, graph.supersession_ends_apply),
+        Step("record_time", graph.record_time_pending, graph.record_time_apply),
+        Step("old_indexes", graph.old_indexes_pending, graph.old_indexes_apply),
+    ]
+
+
+STEPS: list[Step] = _graph_steps()
 
 
 def stamp_if_done(ctx: MigrationContext) -> bool:

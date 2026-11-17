@@ -107,6 +107,9 @@ _SITES = [
     ("artmind.temporal", "unapply_supersession"),
     ("artmind.supersession_records", "apply"),
     ("artmind.supersession_records", "remove"),
+    # the temporal_v1 migration pack's graph steps (temporary; removed with the pack)
+    ("artmind.migrations.temporal_v1.graph", "_bump"),
+    ("artmind.migrations.temporal_v1.graph", "_restate_batch"),
 ]
 
 
