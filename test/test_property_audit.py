@@ -365,3 +365,11 @@ def test_no_row_field_carries_a_staged_value(tmp_path):
     dumped = json.dumps(pa.audit("d", SCHEMA, kg_dir=kg, depended_on={}))
     for word in ("zanzibar", "accord", "melancholy", "98765", "quokka", "wombat", "platypus", "inner"):
         assert word not in dumped
+
+
+def test_temporal_key_rows_carry_date_audit_columns(tmp_path):
+    kg = _stage(tmp_path, [_obs(1, date_or_time="2026-01-07", _valid_time_source="property", _valid_precision="day"),
+                           _obs(2, date_or_time="soon")], "Some text.")
+    rows = {r["key"]: r for r in pa.audit("d", SCHEMA, kg_dir=kg, depended_on={})["rows"]}
+    assert rows["date_or_time"]["dates"] == {"dated_by_property": 1, "precision": {"day": 1}, "ranges": 0, "unparsed": 1}
+    assert "dates" not in rows["outcome"]

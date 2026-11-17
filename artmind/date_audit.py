@@ -18,9 +18,9 @@ from artmind.temporal import _entity_temporal_mapping, load_schema, parse_valid
 def staging_folders(domain: str) -> list[Path]:
     """The document staging folders of `domain` and its dotted children (as property-audit)."""
     from artmind import ingest
-    from artmind.property_audit import _folders
+    from artmind.property_audit import document_folders
 
-    return _folders(ingest.KG_DIR, domain)
+    return document_folders(ingest.KG_DIR, domain)
 
 
 def audit_folders(folders: list[Path], schema: dict | Callable[[str], dict]) -> list[dict]:
@@ -31,9 +31,8 @@ def audit_folders(folders: list[Path], schema: dict | Callable[[str], dict]) -> 
     An unreadable file is skipped.
 
     A range is an end the fact's own value gave (`ingest._fact_valid_time`), counted as
-    `ingest`'s per-document `date_counts` count it; a `_valid_to` the fact took from its
-    document (spec 2026-11-15 §7.2: facts gain their document's end where they have none)
-    is not one.
+    `ingest`'s per-document `date_counts` count it; a `_valid_to` the observation took from
+    its document (`_build_observations`) is not one.
     """
     from artmind.ingest import _fact_valid_time
 
