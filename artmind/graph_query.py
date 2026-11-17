@@ -173,9 +173,11 @@ def resolve_as_of(value: str | None) -> str | None:
 
     Accepts 'today'/'now' (resolved to the current local date: query time is
     local) and ISO dates at year/month/day precision; a year or month is widened
-    to its last day, so a date inside that period compares <= it. Anything else raises ValueError: asof_predicate
-    compares strings lexically, so an unresolved value like the literal
-    'today' would silently hide every node that carries a valid_to.
+    to its last day, so a date inside that period compares <= it. Anything else
+    raises ValueError: asof_predicate compares strings lexically, so an
+    unresolved value like the literal 'today' would silently hide every node
+    that carries a valid_to. (A node whose valid_to falls inside a widened
+    period, e.g. 2026-06-30 for `--asOf 2026`, is hidden: valid_to is exclusive.)
     """
     if value is None:
         return None

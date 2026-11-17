@@ -626,3 +626,4 @@ def test_unreadable_frontmatter_valid_from_falls_through(tmp_path):
     md.write_text("---\n_valid_from: sometime soon\n---\nBody\n", encoding="utf-8")
     out = ing._document_valid_time(md, {"_valid_from": "sometime soon"}, {"temporal": {}}, filename="n.md")
     assert "_valid_from" not in out
+    assert "_valid_time_source" not in out

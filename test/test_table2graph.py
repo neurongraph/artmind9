@@ -763,3 +763,13 @@ def test_resolve_table_row_stem_cross_domain_requires_domain_flag(tmp_path, monk
 
     with pytest.raises(click.ClickException, match="ambiguous across domains"):
         cli._resolve_table_row("hr", (), allow_mapping_stem=True)
+
+
+@pytest.mark.parametrize("value", ["2026", "2026-07"])
+def test_table2graph_refuses_a_period_as_of(value):
+    from click.testing import CliRunner
+    from artmind.cli import cli
+
+    result = CliRunner().invoke(cli, ["ingest", "table2graph", "t", "--asOf", value])
+    assert result.exit_code == 1
+    assert "full ISO date" in result.output

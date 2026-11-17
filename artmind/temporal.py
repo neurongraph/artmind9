@@ -76,7 +76,6 @@ def find_date(text: str | None) -> str | None:
     return None
 
 
-
 def widen_as_of(value: str) -> str:
     """A year or month `--asOf` as its last day, so `'2026-05-01' <= asOf` holds for 2026.
 
@@ -88,8 +87,13 @@ def widen_as_of(value: str) -> str:
     m = re.fullmatch(r"(\d{4})-(\d{2})", value)
     if m:
         year, month = int(m.group(1)), int(m.group(2))
+        if not 1 <= month <= 12:
+            raise ValueError(
+                f"--asOf must be an ISO date (YYYY[-MM[-DD]]) or 'today'/'now'; got {value!r}"
+            )
         return f"{value}-{calendar.monthrange(year, month)[1]:02d}"
     return value
+
 
 def _find_header_date(md_text: str, labels: list[str]) -> str | None:
     """A document date from its header: for each label in order, every line that

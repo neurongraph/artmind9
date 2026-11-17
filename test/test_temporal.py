@@ -19,6 +19,7 @@ from artmind.temporal import (
     canonical_entity_dates,
     parse_iso,
     lift_document_dates,
+    widen_as_of,
 )
 
 
@@ -388,9 +389,6 @@ def test_a_defined_term_gives_a_header_date_and_a_dateless_definition_does_not()
     assert _find_header_date("'Amendment Date' means the date of this Amendment\n", labels) is None
 
 
-from artmind.temporal import widen_as_of
-
-
 @pytest.mark.parametrize("value, expected", [
     ("2026", "2026-12-31"),
     ("2026-02", "2026-02-28"),
@@ -400,6 +398,12 @@ from artmind.temporal import widen_as_of
 ])
 def test_widen_as_of_reaches_the_last_day(value, expected):
     assert widen_as_of(value) == expected
+
+
+@pytest.mark.parametrize("value", ["2026-13", "2026-00"])
+def test_widen_as_of_refuses_a_bad_month(value):
+    with pytest.raises(ValueError, match="--asOf must be an ISO date"):
+        widen_as_of(value)
 
 
 def test_unreadable_header_date_is_not_stored_as_valid_from():

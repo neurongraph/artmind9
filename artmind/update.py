@@ -322,6 +322,11 @@ def _update_effect(summary: dict, observations: list[dict], session_id: str, dra
     ).to_json()
 
 
+def _clocks() -> tuple[str, str]:
+    """(record time, document date): record time is UTC, the document date is local."""
+    return datetime.now(timezone.utc).isoformat(), date.today().isoformat()
+
+
 def write_user_chat(
     session_id: str,
     raw_text: str,
@@ -377,8 +382,7 @@ def write_user_chat(
     embedding_dim = int(env.get("ARTMIND_KG_EMBEDDING_DIMENSIONS", "768"))
     # Clocks (spec 2026-11-15 §6.1): record time (`created_at`) is UTC, the
     # document date (`today`) is local.
-    now = datetime.now(timezone.utc).isoformat()
-    today = date.today().isoformat()
+    now, today = _clocks()
     draft_part = draft_id if draft_id is not None else uuid.uuid4().hex[:12]
     chat_id = user_chat_id(session_id, draft_part)
     embedding = None if dry_run else embed_document(embed_model, raw_text)

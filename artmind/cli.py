@@ -1,5 +1,6 @@
 import glob
 import os
+import re
 import shlex
 import shutil
 import subprocess
@@ -2081,6 +2082,8 @@ def ingest_table2graph(
         except table2graph.MappingError as e:
             raise click.ClickException(str(e))
     if as_of:
+        if re.fullmatch(r"\d{4}(-\d{2})?", as_of.strip()):
+            raise click.ClickException("--asOf needs a full ISO date (YYYY-MM-DD) or 'today'")
         try:
             as_of = graph_query.resolve_as_of(as_of)
         except ValueError as e:
