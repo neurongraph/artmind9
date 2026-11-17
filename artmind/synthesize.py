@@ -230,6 +230,8 @@ def synthesize_key(
 
     def _write(tx):
         synthesis_records.apply(tx, record, fingerprint)
+        # No recorded_at passed: an entity this rebuild creates is stamped with the rebuild's own
+        # UTC now (spec 2026-11-15 §6.1) -- it is first recorded here, not at any commit.
         outcome = projection.rebuild_key(tx, key, member_keys=member_keys, unit_of=unit_of, synthesis=record)
         # rebuild_key already wrote description = synthesis["text"] and
         # flagged embedding_stale = true (the description changed). Overwrite

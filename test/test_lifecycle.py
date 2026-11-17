@@ -109,3 +109,19 @@ def test_retire_document_passes_its_cause_to_the_transition(monkeypatch):
     monkeypatch.setattr(lifecycle, "neo4j_session", lambda: _S())
     lifecycle.retire_document("d1", retired_by="supersede:r1")
     assert seen == [("d1", None, "supersede:r1")]
+
+
+def test_a_fresh_retire_shares_one_timestamp_with_its_record(monkeypatch, tmp_path):
+    import paths
+    from _neo4j_recorder import Recorder
+    from artmind import lifecycle, lifecycle_records, projection
+
+    monkeypatch.setattr(paths, "CURATION_DIR", tmp_path / "curation")
+    monkeypatch.setattr(projection, "keys_for_document", lambda tx, doc_id: set())
+    monkeypatch.setattr(projection, "rebuild", lambda tx, keys, **kw: {})
+    tx = Recorder(lambda c, p: [{"n": 1, "domain": "pj"}])
+    lifecycle._retire_tx(tx, "d1", "pj", "supersede:r1")
+    record = lifecycle_records.record_for(tx, "d1", "pj")
+    moves = [p for c, p in tx.calls if "REMOVE" in c and "_retired_by = $by" in c]
+    assert len(moves) == 5 and {p["now"] for p in moves} == {record["recorded_at"]}
+    assert {p["by"] for p in moves} == {"supersede:r1"}

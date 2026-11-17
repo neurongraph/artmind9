@@ -1631,6 +1631,8 @@ def rebuild_in_batches(keys, groups: list | None = None, *, size: int | None = N
     with neo4j_session() as session:
         for number, batch in enumerate(batches, start=1):
             try:
+                # A deferred rebuild (after N commits) stamps entities it creates with its own
+                # UTC now, not any commit's timestamp: the entity first exists in this pass.
                 summary = session.execute_write(
                     lambda tx: rebuild(
                         tx, batch, same_as_groups=groups,

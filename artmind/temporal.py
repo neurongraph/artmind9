@@ -765,6 +765,10 @@ def supersession_effect(newer_doc_id: str, older_doc_id: str, scope: str = "docu
                 "RETURN d.id AS id, d.name AS name", ids=[newer_doc_id, older_doc_id],
             ).data()
         }
+        if effective is None:
+            # The date the record will carry (read-only: the file and the newer document).
+            effective = supersession_records.record_for(
+                session, newer_doc_id, older_doc_id, scope, None, "manual")["effective"]
     already = bool(existing and existing.get("n"))
     changes = [Change("document_supersede", 0 if already else 1, [{
         "newer": names.get(newer_doc_id, newer_doc_id), "older": names.get(older_doc_id, older_doc_id),
@@ -847,6 +851,7 @@ def apply_supersession(
         from artmind.lifecycle import retire_document
 
         retire_document(older_doc_id, retired_by=f"supersede:{record['id']}")
+    effective = record["effective"]
     logger.info("supersession: {} supersedes {} (scope={}, effective={})", newer_doc_id, older_doc_id, scope, effective)
     return {"newer": newer_doc_id, "older": older_doc_id, "scope": scope, "effective": effective}
 

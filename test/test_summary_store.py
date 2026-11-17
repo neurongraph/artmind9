@@ -36,11 +36,12 @@ def test_missing_or_malformed_data_writes_nothing():
 
 def test_write_retires_then_merges_and_links_each_level():
     tx = Recorder()
-    n = summary_store.write_document_summaries(tx, "d1", summary_store.summary_rows(DATA, DOC))
+    n = summary_store.write_document_summaries(tx, "d1", summary_store.summary_rows(DATA, DOC),
+                                               recorded_at="2026-11-16T00:00:00+00:00", retired_by="version:2")
     assert n == 3
     retire, merge_doc, merge_chunk = tx.calls
     assert "MATCH (s:DocSummary {doc_id: $doc_id})" in retire[0] and "SET s:DocSummaryHistory" in retire[0]
-    assert retire[1] == {"doc_id": "d1", "now": None, "by": None}
+    assert retire[1] == {"doc_id": "d1", "now": "2026-11-16T00:00:00+00:00", "by": "version:2"}
     assert "MATCH (t:Document {id: row.target})" in merge_doc[0]
     assert [r["id"] for r in merge_doc[1]["rows"]] == ["d1:summary"]
     assert "MATCH (t:DocChunk {id: row.target})" in merge_chunk[0]
@@ -52,7 +53,7 @@ def test_write_retires_then_merges_and_links_each_level():
 
 def test_write_with_no_rows_only_retires():
     tx = Recorder()
-    assert summary_store.write_document_summaries(tx, "d1", []) == 0
+    assert summary_store.write_document_summaries(tx, "d1", [], recorded_at="2026-11-16T00:00:00+00:00", retired_by="version:2") == 0
     assert len(tx.calls) == 1
 
 

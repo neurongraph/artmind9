@@ -31,6 +31,7 @@ from artmind.graph_query import neo4j_session
 
 def _transition(
     tx, doc_id: str, *, to_history: bool, rebuild: bool = True, retired_by: str = "retire", at: str | None = None,
+    keep_retired: bool = False,
 ) -> dict:
     """Move one document's node, chunks and observations between the base
     label and its History counterpart, then rebuild the keys it touched --
@@ -51,6 +52,8 @@ def _transition(
     (`at`, UTC; default now) and `_retired_by` (`retire` from `docs retire`,
     `supersede:<record id>` from a supersession); a move back sets
     `_revived_at` and removes both. No valid-time date is written.
+    `keep_retired` (a commit re-retiring a retired document) stamps only nodes
+    that carry no `_retired_at` yet, so earlier retirements stay as they were.
     """
     from datetime import datetime, timezone
 
@@ -78,6 +81,9 @@ def _transition(
     params = {"doc_id": doc_id, "now": now, **({"by": retired_by} if to_history else {})}
 
     def _stamp(v: str) -> str:
+        if to_history and keep_retired:
+            return (f", {v}._retired_at = coalesce({v}._retired_at, $now),"
+                    f" {v}._retired_by = coalesce({v}._retired_by, $by)")
         if to_history:
             return f", {v}._retired_at = $now, {v}._retired_by = $by"
         return f", {v}._revived_at = $now REMOVE {v}._retired_at, {v}._retired_by"
@@ -246,7 +252,8 @@ def _retire_tx(tx, doc_id: str, domain: str | None, retired_by: str = "retire") 
 
     record = lifecycle_records.record_for(tx, doc_id, domain, retired_by=retired_by)
     fingerprint = curation_records.write_record(lifecycle_records.NAME, record)
-    result = _transition(tx, doc_id, to_history=True, retired_by=record["retired_by"])
+    # One timestamp for the record and the graph (a re-retirement moves nothing).
+    result = _transition(tx, doc_id, to_history=True, retired_by=record["retired_by"], at=record["recorded_at"])
     lifecycle_records.mark(tx, record, fingerprint)
     return result
 

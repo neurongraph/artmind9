@@ -246,3 +246,45 @@ def test_re_asserting_keeps_the_first_recorded_at(curation_dir):
     first["recorded_at"] = "2026-01-01T00:00:00+00:00"
     curation_records.write_record(supersession_records.NAME, first)
     assert _record()["recorded_at"] == "2026-01-01T00:00:00+00:00"
+
+
+def test_re_asserting_keeps_the_first_derived_effective(curation_dir):
+    first = supersession_records.record_for(
+        _DatedSession("2026-02-01", "day"), "new-doc", "old-doc", "document", None, "manual")
+    curation_records.write_record(supersession_records.NAME, first)
+    path = curation_dir / "supersessions" / f"{first['id']}.json"
+    before = path.read_bytes()
+    again = supersession_records.record_for(
+        _DatedSession("2026-05-09", "day"), "new-doc", "old-doc", "document", None, "manual")
+    assert again["effective"] == "2026-02-01"
+    curation_records.write_record(supersession_records.NAME, again)
+    assert path.read_bytes() == before
+
+
+def test_apply_supersession_reports_the_records_effective(monkeypatch, curation_dir):
+    from contextlib import contextmanager
+
+    import artmind.temporal as temporal
+
+    @contextmanager
+    def _fake(*a, **k):
+        yield _DatedSession("2026-02-01", "day")
+
+    monkeypatch.setattr(temporal, "neo4j_session", _fake)
+    monkeypatch.setattr("artmind.lifecycle.retire_document", lambda *a, **k: None)
+    assert temporal.apply_supersession("new-doc", "old-doc", "node", None)["effective"] == "2026-02-01"
+
+
+def test_the_dry_run_effect_reports_the_derived_effective(monkeypatch):
+    from contextlib import contextmanager
+
+    import artmind.temporal as temporal
+
+    @contextmanager
+    def _fake(*a, **k):
+        yield _DatedSession("2026-02-01", "day")
+
+    monkeypatch.setattr("artmind.graph_query.read_session", _fake)
+    effect = temporal.supersession_effect("new-doc", "old-doc", "node", None)
+    (change,) = [c for c in effect["changes"] if c["kind"] == "document_supersede"]
+    assert change["sample"][0]["effective"] == "2026-02-01"

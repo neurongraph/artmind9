@@ -12,18 +12,18 @@ ROWS = [{"id": "d1_001_p01", "chunk_id": "d1_001", "props": {"id": "d1_001_p01",
 
 def test_write_chunk_passages_retires_old_then_merges_new():
     tx = Recorder()
-    passage_store.write_chunk_passages(tx, "d1_001", ROWS)
+    passage_store.write_chunk_passages(tx, "d1_001", ROWS, recorded_at="2026-11-16T00:00:00+00:00", retired_by="version:2")
     (retire, p1), (merge, p2) = tx.calls
     assert "MATCH (p:DocPassage {chunk_id: $chunk_id})" in retire and "SET p:DocPassageHistory" in retire
-    assert p1 == {"chunk_id": "d1_001", "now": None, "by": None}
+    assert p1 == {"chunk_id": "d1_001", "now": "2026-11-16T00:00:00+00:00", "by": "version:2"}
     assert "UNWIND $rows AS row" in merge and "OPTIONAL MATCH (o2:DocPassageHistory {id: row.id})" in merge
     assert "SET n = row.props" in merge and "MERGE (n)-[:PART_OF]->(c)" in merge
-    assert p2 == {"rows": ROWS, "recorded_at": None}
+    assert p2 == {"rows": ROWS, "recorded_at": "2026-11-16T00:00:00+00:00", "keep_retired": False}
 
 
 def test_write_chunk_passages_with_no_rows_only_retires():
     tx = Recorder()
-    passage_store.write_chunk_passages(tx, "d1_001", [])
+    passage_store.write_chunk_passages(tx, "d1_001", [], recorded_at="2026-11-16T00:00:00+00:00", retired_by="version:2")
     assert len(tx.calls) == 1
 
 

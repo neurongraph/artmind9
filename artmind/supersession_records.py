@@ -13,8 +13,8 @@ to live only in the graph. Each assertion is now also a file,
 The id is sha1 of `newer|older|scope`, so re-asserting the same supersession
 on any machine names the same record. `recorded_at` (UTC) is when it was first
 asserted, kept from the file on a re-assertion, so re-running detection
-rewrites nothing. With no `effective` given, it is the newer document's own
-`_valid_from` when the document states one (precision other than `none`;
+rewrites nothing. With no `effective` given, it is the one already in the file,
+else the newer document's own `_valid_from` when the document states one (precision other than `none`;
 spec 2026-11-15 §6.1, §7.2).
 
 **`older._valid_to` and `older.superseded_by` are derived from the edges.**
@@ -118,9 +118,11 @@ def record_for(
 
     rows = session.run(_DOMAINS, ids=[newer_doc_id, older_doc_id]).data()
     domains = sorted({row.get("domain") for row in rows if isinstance(row, dict) and isinstance(row.get("domain"), str)})
-    if effective is None:
-        effective = _stated_valid_from(session, newer_doc_id)
     rid = record_id(newer_doc_id, older_doc_id, scope)
+    if effective is None:
+        # Kept from the file once derived, so a later change to the newer document's
+        # date does not rewrite a re-asserted record.
+        effective = curation_records.first_value(NAME, rid, "effective", _stated_valid_from(session, newer_doc_id))
     return {
         "id": rid,
         "newer_doc_id": newer_doc_id,

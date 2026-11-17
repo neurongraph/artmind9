@@ -4636,7 +4636,7 @@ def extract_kg(
 
 def _merge_relabeled(
     tx, base_label: str, history_label: str, id_value: str, props: dict, *, replace: bool = True,
-    recorded_at: str | None = None,
+    recorded_at: str | None = None, keep_retired: bool = False,
 ) -> None:
     """`MERGE` a node by `id`, whichever of `base_label` / `history_label` it
     currently carries (or neither, if this id is new), and leave it under
@@ -4669,11 +4669,16 @@ def _merge_relabeled(
 
     Record time (spec 2026-11-15 §6.1): `recorded_at` (UTC, one per commit) is
     stamped as `_recorded_at` on a new node. A node found under either label
-    keeps its first `_recorded_at` -- read before `SET n = $props` wipes it --
-    and loses `_retired_at` / `_retired_by`. Only a node that was in
-    `history_label` before this commit gains `_revived_at`: one this same
-    commit demoted (step 2 of `_commit_document_tx`) carries `_retired_at =
-    $recorded_at` and is a re-write, not a revive.
+    keeps its first `_recorded_at` and its `_revived_at` -- both read before
+    `SET n = $props` wipes them -- and loses `_retired_at` / `_retired_by`.
+    Only a node that was in `history_label` before this commit is revived (gains
+    `_revived_at`): one this same commit demoted (step 2 of
+    `_commit_document_tx`) carries `_retired_at = $recorded_at` and is a
+    re-write, not a revive.
+
+    `keep_retired` (a commit of a document a lifecycle record keeps retired):
+    nothing is revived and every node keeps its `_retired_at` / `_retired_by`,
+    so step 5b's re-retirement leaves the original retirement in place.
     """
     set_clause = "SET n = $props" if replace else "SET n += $props"
     tx.run(
@@ -4681,8 +4686,9 @@ def _merge_relabeled(
         OPTIONAL MATCH (o1:{base_label} {{id: $id}})
         OPTIONAL MATCH (o2:{history_label} {{id: $id}})
         WITH coalesce(o1, o2) AS existing,
-             o1 IS NULL AND o2 IS NOT NULL AND o2._retired_at <> $recorded_at AS revived
-        WITH existing, revived, existing._recorded_at AS old_recorded
+             o1 IS NULL AND o2 IS NOT NULL AND o2._retired_at <> $recorded_at AND NOT $keep_retired AS revived
+        WITH existing, revived, existing._recorded_at AS old_recorded, existing._revived_at AS old_revived,
+             existing._retired_at AS old_retired_at, existing._retired_by AS old_retired_by
         FOREACH (_ IN CASE WHEN existing IS NULL THEN [1] ELSE [] END |
             CREATE (n:{base_label} {{id: $id}})
             {set_clause}
@@ -4690,15 +4696,15 @@ def _merge_relabeled(
         )
         FOREACH (n IN CASE WHEN existing IS NOT NULL THEN [existing] ELSE [] END |
             {set_clause}
-            SET n._recorded_at = coalesce(old_recorded, $recorded_at)
+            SET n._recorded_at = coalesce(old_recorded, $recorded_at),
+                n._revived_at = CASE WHEN revived THEN $recorded_at ELSE old_revived END,
+                n._retired_at = CASE WHEN $keep_retired THEN old_retired_at END,
+                n._retired_by = CASE WHEN $keep_retired THEN old_retired_by END
             SET n:{base_label}
-            REMOVE n:{history_label}, n._retired_at, n._retired_by
-        )
-        FOREACH (n IN CASE WHEN revived THEN [existing] ELSE [] END |
-            SET n._revived_at = $recorded_at
+            REMOVE n:{history_label}
         )
         """,
-        id=id_value, props=props, recorded_at=recorded_at,
+        id=id_value, props=props, recorded_at=recorded_at, keep_retired=keep_retired,
     )
 
 
@@ -4712,6 +4718,7 @@ UPDATE_FOLDER_PREFIX = "update__"
 
 def _write_observations(
     tx, observations: list[dict], doc_id: str, *, source_label: str = "DocChunk", recorded_at: str | None = None,
+    keep_retired: bool = False,
 ) -> int:
     """Write this document version's observations.
 
@@ -4730,7 +4737,7 @@ def _write_observations(
     """
     for observation in observations:
         _merge_relabeled(tx, "Observation", "ObservationHistory", observation["id"], observation,
-                         recorded_at=recorded_at)
+                         recorded_at=recorded_at, keep_retired=keep_retired)
         chunk_id = observation.get("chunk_id")
         if source_label == "UserChat":
             tx.run(
@@ -5000,6 +5007,9 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     # 2. Demote the prior version.
     retired_by = f"version:{document.get('version') or 1}"
     summary["retracted"] = _retract_prior_version(tx, domain, doc_id, retired_by=retired_by, retired_at=recorded_at)
+    # A document a lifecycle record keeps retired (step 5b): its nodes are written without being
+    # revived and keep their original `_retired_at` / `_retired_by` (spec 2026-11-15 §6.1).
+    keep_retired = bool(staged.get("retired")) and source_label == "Document"
 
     # 3. Document + chunks. A re-ingest of a document `docs retire` had moved
     #    to :DocumentHistory revives that same node rather than creating a
@@ -5007,7 +5017,7 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     #    tree holds a lifecycle record for it, step 5b re-retires the node in
     #    this same transaction.
     _merge_relabeled(tx, source_label, f"{source_label}History", doc_id, _flatten_props(document), replace=False,
-                     recorded_at=recorded_at)
+                     recorded_at=recorded_at, keep_retired=keep_retired)
     # 3b. The staging folder's fingerprint (spec 2026-09-26 §6 A3): `vault
     #     sync` skips a committed folder whose fingerprint the graph already
     #     carries -- on a shared graph, the machine that ingested it wrote it.
@@ -5031,7 +5041,7 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
         # prior version's chunk to :DocChunkHistory earlier in this same
         # transaction).
         _merge_relabeled(tx, "DocChunk", "DocChunkHistory", chunk["id"], chunk_props, replace=False,
-                         recorded_at=recorded_at)
+                         recorded_at=recorded_at, keep_retired=keep_retired)
         tx.run(
             """
             MATCH (c:DocChunk {id: $id})
@@ -5042,7 +5052,8 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
             doc_id=chunk["doc_id"],
         )
         passage_store.write_chunk_passages(tx, chunk["id"], passages.passage_rows(chunk, title),
-                                           recorded_at=recorded_at, retired_by=retired_by)
+                                           recorded_at=recorded_at, retired_by=retired_by,
+                                           keep_retired=keep_retired)
     summary["chunks"] = len(staged["chunks"])
     summary["passage_chunk_ids"] = [chunk["id"] for chunk in staged["chunks"]]
 
@@ -5053,7 +5064,7 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
             tx, doc_id, summary_store.summary_rows(
                 staged.get("summaries"), {**document, "_domain": domain}, chunks=staged["chunks"],
             ),
-            recorded_at=recorded_at, retired_by=retired_by,
+            recorded_at=recorded_at, retired_by=retired_by, keep_retired=keep_retired,
         )
 
     # 4. Observations.
@@ -5062,7 +5073,8 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
         summary["observations"] = _write_observations(
             tx, observations, doc_id, source_label="UserChat", recorded_at=recorded_at)
     else:
-        summary["observations"] = _write_observations(tx, observations, doc_id, recorded_at=recorded_at)
+        summary["observations"] = _write_observations(
+            tx, observations, doc_id, recorded_at=recorded_at, keep_retired=keep_retired)
 
     incoming_keys = {
         (o["key"].split("|")[0], o["key"].split("|")[1], o["key"].split("|")[2])
@@ -5091,15 +5103,17 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     )
 
     # 5b. A retired document stays retired (spec 2026-09-26 §15 A10): step 3
-    #     revived its node, so a lifecycle record for it moves the version
+    #     moved its node back under :Document, so a lifecycle record for it moves the version
     #     just written straight back to history. `affected_keys` below already
     #     holds its keys, so the rebuild drops what only it asserted.
     if staged.get("retired") and source_label == "Document":
         from artmind.lifecycle import _transition
 
-        # Re-retired at this commit's timestamp, by whatever its record says retired it.
+        # Nodes that were retired keep their `_retired_at` / `_retired_by` (`keep_retired`
+        # above); only nodes new in this version are stamped, at this commit's timestamp,
+        # by whatever the lifecycle record says retired the document.
         _transition(tx, doc_id, to_history=True, rebuild=False, at=recorded_at,
-                    retired_by=staged.get("retired_by") or "retire")
+                    retired_by=staged.get("retired_by") or "retire", keep_retired=True)
         summary["retired"] = True
 
     # 6. The affected-key union, then the rebuild — which now also aggregates

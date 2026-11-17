@@ -20,18 +20,21 @@ UNWIND $rows AS row
 OPTIONAL MATCH (o1:DocSummary {{id: row.id}})
 OPTIONAL MATCH (o2:DocSummaryHistory {{id: row.id}})
 WITH row, coalesce(o1, o2) AS existing,
-     o1 IS NULL AND o2 IS NOT NULL AND o2._retired_at <> $recorded_at AS revived
+     o1 IS NULL AND o2 IS NOT NULL AND o2._retired_at <> $recorded_at AND NOT $keep_retired AS revived
 FOREACH (_ IN CASE WHEN existing IS NULL THEN [1] ELSE [] END |
     CREATE (n:DocSummary) SET n = row.props SET n._recorded_at = $recorded_at)
 WITH row, existing, revived, existing.key AS old_key, existing.embedding AS old_embedding,
-     existing._embed_key AS old_embed_key, existing._recorded_at AS old_recorded
+     existing._embed_key AS old_embed_key, existing._recorded_at AS old_recorded,
+     existing._revived_at AS old_revived, existing._retired_at AS old_retired_at,
+     existing._retired_by AS old_retired_by
 FOREACH (_ IN CASE WHEN existing IS NULL THEN [] ELSE [1] END |
     REMOVE existing:DocSummaryHistory SET existing:DocSummary SET existing = row.props
     SET existing.embedding = CASE WHEN old_key = row.props.key THEN old_embedding END,
         existing._embed_key = CASE WHEN old_key = row.props.key THEN old_embed_key END,
-        existing._recorded_at = coalesce(old_recorded, $recorded_at))
-FOREACH (_ IN CASE WHEN revived THEN [1] ELSE [] END |
-    SET existing._revived_at = $recorded_at)
+        existing._recorded_at = coalesce(old_recorded, $recorded_at),
+        existing._revived_at = CASE WHEN revived THEN $recorded_at ELSE old_revived END,
+        existing._retired_at = CASE WHEN $keep_retired THEN old_retired_at END,
+        existing._retired_by = CASE WHEN $keep_retired THEN old_retired_by END)
 WITH row
 MATCH (n:DocSummary {{id: row.id}})
 MATCH (t:{label} {{id: row.target}})
@@ -79,12 +82,12 @@ def summary_rows(data: dict | None, document: dict, chunks: list[dict] | None = 
 
 
 def write_document_summaries(
-    tx, doc_id: str, rows: list[dict], *, recorded_at: str | None = None, retired_by: str | None = None,
+    tx, doc_id: str, rows: list[dict], *, recorded_at: str, retired_by: str, keep_retired: bool = False,
 ) -> int:
     """Record time as `passage_store.write_chunk_passages` (spec 2026-11-15 §6.1)."""
     tx.run(RETIRE, doc_id=doc_id, now=recorded_at, by=retired_by)
     for label in ("Document", "DocChunk"):
         batch = [r for r in rows if r["target_label"] == label]
         if batch:
-            tx.run(_MERGE.format(label=label), rows=batch, recorded_at=recorded_at)
+            tx.run(_MERGE.format(label=label), rows=batch, recorded_at=recorded_at, keep_retired=keep_retired)
     return len(rows)

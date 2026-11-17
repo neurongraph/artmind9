@@ -61,11 +61,15 @@ def test_revive_keeps_the_first_recorded_at_and_sets_revived_at():
     # read before `SET n = $props` wipes it
     assert cypher.index("existing._recorded_at AS old_recorded") < cypher.index("SET n = $props")
     assert "SET n._recorded_at = coalesce(old_recorded, $recorded_at)" in cypher
-    assert "o1 IS NULL AND o2 IS NOT NULL AND o2._retired_at <> $recorded_at AS revived" in cypher
-    assert "SET n._revived_at = $recorded_at" in cypher
-    # every node leaving History loses its retirement stamps, revived or re-written
+    assert "o1 IS NULL AND o2 IS NOT NULL AND o2._retired_at <> $recorded_at AND NOT $keep_retired AS revived" in cypher
+    assert params["keep_retired"] is False
+    # a re-write keeps the node's `_revived_at`; a revive sets it
+    assert cypher.index("existing._revived_at AS old_revived") < cypher.index("SET n = $props")
+    assert "n._revived_at = CASE WHEN revived THEN $recorded_at ELSE old_revived END" in cypher
+    # every node leaving History loses its retirement stamps unless the document stays retired
     existing_branch = cypher.split("FOREACH")[2]
-    assert "REMOVE n:ObservationHistory, n._retired_at, n._retired_by" in existing_branch
+    assert "n._retired_at = CASE WHEN $keep_retired THEN old_retired_at END" in existing_branch
+    assert "n._retired_by = CASE WHEN $keep_retired THEN old_retired_by END" in existing_branch
     create_branch = cypher.split("FOREACH")[1]
     assert "SET n._recorded_at = $recorded_at" in create_branch
 
@@ -73,18 +77,21 @@ def test_revive_keeps_the_first_recorded_at_and_sets_revived_at():
 def test_passages_and_summaries_keep_the_first_recorded_at():
     tx = Recorder()
     passage_store.write_chunk_passages(tx, "c1", [{"id": "p1", "chunk_id": "c1", "props": {}}],
-                                       recorded_at="2026-11-16T00:00:00+00:00")
+                                       recorded_at="2026-11-16T00:00:00+00:00", retired_by="version:2")
     tx2 = Recorder()
     summary_store.write_document_summaries(
         tx2, "d1", [{"id": "d1:summary", "target": "d1", "target_label": "Document", "props": {}}],
-        recorded_at="2026-11-16T00:00:00+00:00")
+        recorded_at="2026-11-16T00:00:00+00:00", retired_by="version:2")
     for rec in (tx, tx2):
         cypher, params = rec.calls[-1]
         assert params["recorded_at"] == "2026-11-16T00:00:00+00:00"
         assert "SET n._recorded_at = $recorded_at" in cypher
         assert "existing._recorded_at = coalesce(old_recorded, $recorded_at)" in cypher
-        assert "SET existing._revived_at = $recorded_at" in cypher
-        assert "o2._retired_at <> $recorded_at AS revived" in cypher
+        assert "existing._revived_at = CASE WHEN revived THEN $recorded_at ELSE old_revived END" in cypher
+        assert "existing._revived_at AS old_revived" in cypher
+        assert "o2._retired_at <> $recorded_at AND NOT $keep_retired AS revived" in cypher
+        assert "existing._retired_at = CASE WHEN $keep_retired THEN old_retired_at END" in cypher
+        assert params["keep_retired"] is False
 
 
 def test_entities_are_stamped_on_create_only():
@@ -122,5 +129,28 @@ def test_a_recommit_is_not_a_revive_but_an_earlier_retirement_is(tmp_path, monke
         lbl for c, _ in merges for lbl in ("Observation", "DocChunk", "Document", "DocPassage")
         if f"OPTIONAL MATCH (o2:{lbl}History" in c}
     for cypher, params in merges:
-        assert "o2._retired_at <> $recorded_at AS revived" in cypher
-        assert params["recorded_at"] == demote[0]["now"]
+        assert "o2._retired_at <> $recorded_at AND NOT $keep_retired AS revived" in cypher
+        assert params["recorded_at"] == demote[0]["now"] and params["keep_retired"] is False
+
+
+def test_committing_a_retired_document_keeps_its_retirement(tmp_path, monkeypatch):
+    """A lifecycle record keeps the document retired: its nodes are written without a revive,
+    keep their earlier `_retired_at` / `_retired_by`, and step 5b stamps only new ones."""
+    from artmind import lifecycle_records
+
+    monkeypatch.setattr(lifecycle_records, "retired_in_working_tree", lambda doc_id: True)
+    monkeypatch.setattr(lifecycle_records, "retired_by_in_working_tree", lambda doc_id: "retire")
+    monkeypatch.setattr(ingest, "_record_now", lambda: "2026-11-17T09:00:00+00:00")
+    tx = _commit(tmp_path, monkeypatch)
+    merges = [(c, p) for c, p in tx.calls if "AS revived" in c]
+    assert merges and all(p["keep_retired"] is True for _, p in merges)
+    for cypher, _ in merges:
+        assert "AND NOT $keep_retired AS revived" in cypher
+        assert "_retired_at = CASE WHEN $keep_retired THEN old_retired_at END" in cypher
+    rebound = [(c, p) for c, p in tx.calls if "MATCH (d:Document {id: $doc_id}) REMOVE d:Document" in c]
+    assert len(rebound) == 1
+    cypher, params = rebound[0]
+    assert "d._retired_at = coalesce(d._retired_at, $now)" in cypher
+    assert "d._retired_by = coalesce(d._retired_by, $by)" in cypher
+    assert params["now"] == "2026-11-17T09:00:00+00:00" and params["by"] == "retire"
+    assert not [c for c, p in tx.calls if "_revived_at = $now" in c]
