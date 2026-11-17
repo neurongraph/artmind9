@@ -391,7 +391,7 @@ click.rich_click.COMMAND_GROUPS = {
         },
         {
             "name": "Graph building",
-            "commands": ["extract-kg", "classify-reingest", "empty-extractions", "write-to-graph", "retime", "backfill-properties", "table2graph", "pull-kg", "embed-entities", "embed-passages", "summarise"],
+            "commands": ["extract-kg", "classify-reingest", "empty-extractions", "date-audit", "write-to-graph", "retime", "backfill-properties", "table2graph", "pull-kg", "embed-entities", "embed-passages", "summarise"],
         },
         {
             "name": "Refinement",
@@ -1503,6 +1503,23 @@ def ingest_empty_extractions(domain: tuple, min_chars: int, compact: bool) -> No
 
     _echo_json(empty_extractions(paths.KG_DIR, domains=_parse_repeatable(domain) or None,
                                  min_chars=min_chars), compact)
+
+
+@ingest.command("date-audit")
+@click.option("--domain", required=True, help="Domain whose staged facts to audit")
+@compact_option
+def ingest_date_audit(domain: str, compact: bool) -> None:
+    """Per class: share of facts dated by their own property, precision mix, ranges, unparsed dates.
+
+    \b
+    Read-only: staging only, no LLM, no Neo4j. Counts only; no value is printed.
+    One row per class with a temporal: property: observations, dated_by_property,
+    share, precision, ranges, unparsed. When a value is unparsed, `next` is the
+    `ingest retime` dry run.
+    """
+    from artmind import date_audit
+
+    _echo_json(date_audit.audit_domain(domain), compact)
 
 
 @ingest.command("jobs")
