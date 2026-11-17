@@ -376,6 +376,31 @@ def test_temporal_versions_all_keeps_every_version():
     assert bands == ["6", "7"]
 
 
+def _closed(row, valid_from, valid_to):
+    return {**_version(row, valid_from, valid_to is None), "_valid_to": valid_to and date.fromisoformat(valid_to)}
+
+
+def test_a_closed_scd2_version_ends_in_the_graph_and_the_open_one_does_not():
+    mapping = json.loads(json.dumps(MAPPING))
+    mapping["entities"]["person"]["versions"] = "all"
+    rows = [
+        _closed(_row("001", "Jain, Pooja", "Kothari, Anubhav", band="6"), "2025-11-01", "2026-02-01"),
+        _closed(_row("001", "Jain, Pooja", "Kothari, Anubhav", band="7"), "2026-02-01", None),
+    ]
+    staged, _ = _build(rows=rows, table=TEMPORAL, mapping=t2g.parse_mapping(mapping))
+    by_band = {o["band"]: o for o in staged["observations"] if o["name"] == "Pooja Jain (001)"}
+    assert by_band["6"]["_valid_to"] == "2026-02-01" and by_band["6"]["_valid_from"] == "2025-11-01"
+    assert "_valid_to" not in by_band["7"]
+
+
+def test_an_scd2_far_future_end_is_an_open_end():
+    mapping = json.loads(json.dumps(MAPPING))
+    mapping["entities"]["person"]["versions"] = "all"
+    rows = [_closed(_row("001", "Jain, Pooja", "Kothari, Anubhav", band="6"), "2025-11-01", "9999-12-31")]
+    staged, _ = _build(rows=rows, table=TEMPORAL, mapping=t2g.parse_mapping(mapping))
+    assert all("_valid_to" not in o for o in staged["observations"] if o["name"] == "Pooja Jain (001)")
+
+
 # ── transforms ───────────────────────────────────────────────────────────────
 
 

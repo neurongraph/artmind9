@@ -765,6 +765,7 @@ class _Row:
     valid_from: str | None
     chunk_id: str
     row_key: str
+    valid_to: str | None = None   # an SCD2 version's closed end (exclusive); None while open
 
 
 @dataclass
@@ -894,6 +895,18 @@ def _iso(value) -> str | None:
     return _to_date(text) or (text[:4] if _YEAR_RE.match(text) else None)
 
 
+def _row_end(value, valid_from: str | None) -> str | None:
+    """An SCD2 version's `_valid_to` as a day: None while the version is open (no value, a
+    far-future sentinel such as 9999-12-31, or an end not after its own start)."""
+    from artmind.temporal import OPEN_END, parse_valid
+
+    parsed = parse_valid(_iso(value))
+    end = parsed.start if parsed else None
+    if end is None or end >= OPEN_END or (valid_from and end <= valid_from):
+        return None
+    return end
+
+
 def row_text(mapping: TableMapping, table_name: str, row: _Row, columns: list[str]) -> str:
     """A row rendered as `Column: value` lines -- the DocChunk's text, which is
     what vector/fulltext search and every provenance citation show."""
@@ -962,7 +975,8 @@ def build_staged(
             chunk_id = f"{chunk_id}~{seen_chunks[chunk_id]}"
         else:
             seen_chunks[chunk_id] = 1
-        parsed_rows.append(_Row(index, values, valid_from, chunk_id, row_key))
+        valid_to = _row_end(values.get("_valid_to"), valid_from) if temporal else None
+        parsed_rows.append(_Row(index, values, valid_from, chunk_id, row_key, valid_to))
 
     report: dict = {
         "table": table_name,
@@ -1105,7 +1119,7 @@ def build_staged(
             kind=class_kind(schema, built.entity_class),
             doc_valid_from=built.row.valid_from,
             valid_from=fact.valid_from,
-            valid_to=fact.valid_to,
+            valid_to=fact.valid_to or built.row.valid_to,
             valid_time_source="property" if fact.valid_from else ("table_row" if temporal else "table"),
             # A row's own date (its SCD2 batch) is a day.
             valid_precision=fact.precision or ("day" if built.row.valid_from else None),
