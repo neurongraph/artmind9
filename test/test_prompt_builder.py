@@ -125,11 +125,11 @@ _DATED_SCHEMA = {
 }
 
 
-def test_assemble_properties_prompt_without_anchor_is_unchanged():
-    assert "DATES" not in assemble_properties_prompt(_DATED_SCHEMA)
-    assert assemble_properties_prompt(_DATED_SCHEMA) == assemble_properties_prompt(
-        _DATED_SCHEMA, anchor_date=None
-    )
+def test_assemble_properties_prompt_without_anchor_lists_the_forms_only():
+    prompt = assemble_properties_prompt(_DATED_SCHEMA)
+    assert prompt == assemble_properties_prompt(_DATED_SCHEMA, anchor_date=None)
+    assert "DATES" in prompt and "YYYY-Qn" in prompt
+    assert "document dated" not in prompt
 
 
 def test_assemble_properties_prompt_anchors_relative_dates_to_the_document_date():
@@ -228,3 +228,43 @@ def test_an_old_template_token_is_blanked():
     old = {**meta, "prompt_templates": {**meta["prompt_templates"],
                                         "properties": "{{PROPERTY_BLOCKS}}\n{{PROPERTY_VOCABULARY}}\n{entities_list}{text}"}}
     assert "{{PROPERTY_VOCABULARY}}" not in assemble_properties_prompt(SCHEMA, meta=old)
+
+
+# ── the DATES section states the accepted forms (spec 2026-11-15 §3.3) ────────
+
+_TYPES = {"EVENT": {"properties": {"date_or_time": {"temporal": "valid_from"}}}}
+
+
+def test_dates_section_lists_ranges_months_and_quarters():
+    from artmind.prompt_builder import _render_anchor_date_section
+
+    text = _render_anchor_date_section(_TYPES, "2026-01-07")
+    for form in ("YYYY-MM-DD to YYYY-MM-DD", "YYYY-MM", "YYYY-Qn"):
+        assert form in text
+    assert "whenever the text gives one" in text and "2026-01-07" in text
+
+
+def test_dates_section_without_an_anchor_still_lists_the_forms():
+    from artmind.prompt_builder import _render_anchor_date_section
+
+    text = _render_anchor_date_section(_TYPES, None)
+    assert "YYYY-Qn" in text and "document dated" not in text
+
+
+def test_every_form_the_section_names_is_one_parse_valid_reads():
+    import re
+
+    from artmind.prompt_builder import _render_anchor_date_section
+    from artmind.temporal import parse_valid
+
+    text = _render_anchor_date_section(_TYPES, None)
+    forms = re.findall(r"^  - [a-z ]+: (.+?)(?: -- .*)?$", text, re.MULTILINE)
+    assert len(forms) == 5
+    fill = {"YYYY": "2026", "MM": "03", "DD": "14", "Qn": "Q2"}
+    for form in forms:
+        value = re.sub(r"YYYY|MM|DD|Qn", lambda m: fill[m.group(0)], form)
+        assert parse_valid(value) is not None, form
+        assert parse_valid(value + " (evening)") is not None, form
+    example = re.search(r'e\.g\. "([^"]+)"', text).group(1)
+    parsed = parse_valid(example)
+    assert (parsed.start, parsed.time_of_day) == ("2026-01-07", "evening")

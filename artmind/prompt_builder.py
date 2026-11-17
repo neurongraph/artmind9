@@ -160,18 +160,17 @@ def _render_property_block(cls: str, decl: dict) -> str:
 
 
 def _render_anchor_date_section(entity_types: dict, anchor_date: str | None) -> str:
-    """The DATES instruction for a document with a known date, or ''.
+    """The DATES instruction, or '' when no class in `entity_types` has a `temporal:` property.
 
-    Without it the extractor only ever sees a chunk, never the document's
-    date, so a temporal property comes back as the phrase the diarist wrote
-    ("today", "evening") -- which `parse_iso` cannot read, so the fact never
-    gets a date of its own. Lists the exact `temporal:`-tagged properties so
-    the instruction cannot bleed into free-text ones. Rendered into
-    PROPERTY_BLOCKS rather than as a template token: a vault's `meta.yaml`
-    is the user's own file and may predate any new token.
+    Lists the exact `temporal:`-tagged properties so the instruction cannot bleed into
+    free-text ones, and the value forms `temporal.parse_valid` reads (spec 2026-11-15 §3.3):
+    a day, a range (whenever the text gives one), a month, a quarter, a year, each optionally
+    followed by the original wording in parentheses. With the document's own date
+    (`anchor_date`) it also anchors relative phrases ("today", "evening") to it; without one
+    (fiction has `temporal:` properties but no `relative_anchor`) the forms are still listed.
+    Rendered into PROPERTY_BLOCKS rather than as a template token: a vault's `meta.yaml` is
+    the user's own file and may predate any new token.
     """
-    if not anchor_date:
-        return ""
     names = [
         f"{cls}.{prop}"
         for cls, decl in entity_types.items()
@@ -180,21 +179,28 @@ def _render_anchor_date_section(entity_types: dict, anchor_date: str | None) -> 
     ]
     if not names:
         return ""
+    anchor = (
+        f"This passage is from a document dated {anchor_date}. Relative time\n"
+        'expressions in it ("today", "this evening", "yesterday", "last Tuesday")\n'
+        "are relative to that date.\n"
+    ) if anchor_date else ""
     return (
         "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
         "DATES:\n"
         "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-        f"This passage is from a document dated {anchor_date}. Relative time\n"
-        f'expressions in it ("today", "this evening", "yesterday", "last Tuesday")\n'
-        "are relative to that date.\n"
+        f"{anchor}"
         f"Only these properties take a date: {', '.join(names)}.\n"
         "Do not add a date property to any other entity or class -- a person,\n"
         "place or object is not dated by appearing in this passage.\n"
-        "For each of them:\n"
-        "  - Start the value with the resolved calendar date as YYYY-MM-DD, then\n"
-        '    the original wording if it adds anything, e.g. "2026-01-07 (evening)".\n'
-        "  - Use a date the passage states or implies; never invent one.\n"
-        "  - Omit the property when the passage gives no time reference at all."
+        "Start each value with one of these, then the original wording in\n"
+        'parentheses if it adds anything, e.g. "2026-01-07 (evening)":\n'
+        "  - a date: YYYY-MM-DD\n"
+        "  - a range: YYYY-MM-DD to YYYY-MM-DD -- use it whenever the text gives one\n"
+        "  - a month: YYYY-MM\n"
+        "  - a quarter: YYYY-Qn\n"
+        "  - a year: YYYY\n"
+        "Use a date the passage states or implies; never invent one. Omit the\n"
+        "property when the passage gives no time reference at all."
     )
 
 
@@ -205,7 +211,8 @@ def assemble_properties_prompt(
     classes: "set[str] | None" = None,
 ) -> str:
     """`anchor_date` is the document's own date (`temporal.relative_anchor`, see
-    `artmind.temporal.relative_anchor_date`) -- omitted, no DATES section. `classes` limits the
+    `artmind.temporal.relative_anchor_date`) -- omitted, the DATES section lists the value
+    forms without anchoring relative phrases. `classes` limits the
     class blocks and the DATES section to these classes -- the classes of the chunk's entities
     (`extraction.build_properties_prompt`, spec 2026-11-15 §2.1); None renders every class (the
     `domains properties-prompt` command)."""
