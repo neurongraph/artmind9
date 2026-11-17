@@ -76,6 +76,7 @@ from paths import (
 from utils.functions import load_env, resolve_llm_model
 from artmind.traces.span import TracedDbGroup, TracedGroup, observe_output
 from artmind.reviews.dossier import STAGES, STATUSES
+from artmind import data_model as _data_model
 from artmind.cli_conventions import (
     LIST_KEY, Change, Effect, _command_path, aliased_option, compact_option, dry_run_option, envelope, exit_on_store_failure,
     shape_option, unbuilt_dry_run_option, with_effect,
@@ -490,6 +491,9 @@ def cli():
 def _echo_json(payload: dict, compact: bool = False) -> None:
     ctx = click.get_current_context(silent=True)
     flagged = ctx.find_root().meta.pop(_UNKNOWN_DOMAIN_META, None) if ctx is not None else None
+    behind = ctx.find_root().meta.pop(_data_model.WARNING_META, None) if ctx is not None else None
+    if behind:
+        flagged = [*(flagged or []), behind]
     if flagged and isinstance(payload, dict):
         existing = payload.get("warnings")
         payload = {**payload, "warnings": [*(existing if isinstance(existing, list) else []), *flagged]}
@@ -2864,6 +2868,8 @@ def db_mappings(ctx, table, domain, accept_proposed, compact):
     ctx.obj = {"table": table, "domain": domain}
     if ctx.invoked_subcommand is not None:
         return
+    if accept_proposed:
+        _data_model.require_current("db mappings --acceptProposed")
     table_id = _ctx_table_id(ctx)
     if accept_proposed:
         for m in structured_registry.list_mappings(table_id):
@@ -7578,8 +7584,6 @@ def setup(compact: bool):
 # Data-model gate (spec 2026-11-15 §8.1): every WRITE_COMMANDS entry refuses an
 # unmigrated vault; every other command warns once. Must stay last, after every
 # command is registered.
-from artmind import data_model as _data_model  # noqa: E402
-
 from artmind.cli_conventions import WRITE_COMMANDS  # noqa: E402
 
 _data_model.gate_commands(cli, WRITE_COMMANDS)

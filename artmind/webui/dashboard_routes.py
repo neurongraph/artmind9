@@ -15,11 +15,12 @@ from pathlib import Path
 from typing import Literal
 
 import click
-from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
+from fastapi import Depends, FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, HTMLResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 
+from artmind.webui.data_model_gate import data_model_gate
 from artmind.atomic_dir import is_scratch, write_dir_atomic
 from artmind.cli import _ensure_worker_running, _get_available_domains
 from artmind.graph_query import structural_metadata
@@ -265,7 +266,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
             raise HTTPException(status_code=404, detail=f"Job '{job_id}' not found")
         return _camelize(result)
 
-    @app.post("/api/jobs/{job_id}/retry")
+    @app.post("/api/jobs/{job_id}/retry", dependencies=[Depends(data_model_gate)])
     async def api_retry_job(job_id: str, payload: RetryRequest):
         try:
             result = _retry_job(job_id, include_skipped=payload.include_skipped)
@@ -275,7 +276,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
             _ensure_worker_running()
         return _camelize(result)
 
-    @app.post("/api/ingest")
+    @app.post("/api/ingest", dependencies=[Depends(data_model_gate)])
     async def api_ingest(payload: IngestRequest):
         _validate_artifact_segment(payload.domain)
         if payload.domain not in _get_available_domains():
@@ -335,7 +336,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         # read per-chunk counts from the KG cache files.
         return _camelize(_fetch_chunks(sha, domain=file_domain, doc_stem=Path(doc).stem))
 
-    @app.post("/api/documents/{doc}/resume-extract")
+    @app.post("/api/documents/{doc}/resume-extract", dependencies=[Depends(data_model_gate)])
     async def api_resume_extract(doc: str, payload: ResumeExtractRequest):
         _validate_artifact_segment(doc)
         _validate_artifact_segment(payload.domain)
@@ -418,7 +419,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
             headers={"Content-Disposition": f'attachment; filename="{safe_name}"'},
         )
 
-    @app.post("/api/artifacts/import")
+    @app.post("/api/artifacts/import", dependencies=[Depends(data_model_gate)])
     async def api_artifact_import(domain: str = Form(...), doc: str = Form(...), file: UploadFile = File(...)):
         _validate_artifact_segment(domain)
         _validate_artifact_segment(doc)
@@ -457,7 +458,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
             raise HTTPException(status_code=400, detail="write_to_graph failed — check logs for Neo4j errors")
         return {"domain": domain, "doc": doc, "written": True}
 
-    @app.post("/api/artifacts/{domain}/{doc}/write-to-graph")
+    @app.post("/api/artifacts/{domain}/{doc}/write-to-graph", dependencies=[Depends(data_model_gate)])
     async def api_artifact_commit(domain: str, doc: str):
         _validate_artifact_segment(domain)
         _validate_artifact_segment(doc)
@@ -469,7 +470,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
             raise HTTPException(status_code=400, detail="commit_to_graph failed — check logs for Neo4j errors")
         return {"domain": domain, "doc": doc, "written": True}
 
-    @app.post("/api/artifacts/pull")
+    @app.post("/api/artifacts/pull", dependencies=[Depends(data_model_gate)])
     async def api_artifacts_pull(payload: PullKgRequest):
         _validate_artifact_segment(payload.domain)
         try:
@@ -570,7 +571,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         while they wait."""
         return _camelize(_restore_progress.get(name, {"phase": None, "detail": None}))
 
-    @app.post("/api/snapshots/{name}/restore")
+    @app.post("/api/snapshots/{name}/restore", dependencies=[Depends(data_model_gate)])
     async def api_restore_snapshot(name: str, payload: RestoreRequest):
         """Restore selected components from a snapshot."""
         if not payload.confirm:
@@ -593,7 +594,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         finally:
             _restore_progress.pop(name, None)
 
-    @app.post("/api/snapshots/import")
+    @app.post("/api/snapshots/import", dependencies=[Depends(data_model_gate)])
     async def api_import_snapshot(
         file: UploadFile = File(...),
         components: str = ",".join(sorted(DEFAULT_COMPONENTS)),
@@ -641,7 +642,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         domains = [d.strip() for d in domain.split(",") if d.strip()]
         return _camelize(structural_metadata(domains))
 
-    @app.post("/api/embed-entities")
+    @app.post("/api/embed-entities", dependencies=[Depends(data_model_gate)])
     async def api_embed_entities(payload: EmbedEntitiesRequest):
         return _camelize(embed_entities_backfill(payload.domain))
 
@@ -670,7 +671,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
     # locking.
     _bulk_classify_progress: dict[str, dict] = {}
 
-    @app.post("/api/structured/tables/{table}/propose")
+    @app.post("/api/structured/tables/{table}/propose", dependencies=[Depends(data_model_gate)])
     async def api_structured_propose(table: str, payload: StructuredProposeRequest):
         _validate_artifact_segment(table)
         _validate_artifact_segment(payload.domain)
@@ -686,7 +687,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
             raise HTTPException(status_code=400, detail=str(exc)) from exc
         return _camelize(result)
 
-    @app.post("/api/structured/propose-all")
+    @app.post("/api/structured/propose-all", dependencies=[Depends(data_model_gate)])
     async def api_structured_propose_all(payload: StructuredProposeAllRequest):
         _validate_artifact_segment(payload.domain)
         tables = structured_registry.list_tables([payload.domain])
@@ -724,7 +725,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
     async def api_structured_propose_all_progress(domain: str):
         return _camelize(_bulk_classify_progress.get(domain, {"done": 0, "total": 0}))
 
-    @app.post("/api/structured/ingest")
+    @app.post("/api/structured/ingest", dependencies=[Depends(data_model_gate)])
     async def api_structured_ingest(
         domain: str = Form(...),
         file: UploadFile = File(...),

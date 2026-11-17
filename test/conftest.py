@@ -266,6 +266,8 @@ def _data_model_current(request, tmp_path_factory, monkeypatch):
     model_file.write_text(f"version: {dm.CURRENT}\n")
     monkeypatch.setattr(dm, "MODEL_FILE", model_file)
     monkeypatch.setattr(dm, "_warned", False)
+    # The graph marker: hermetic tests have no Neo4j, and a graph is "current" here.
+    monkeypatch.setattr(dm, "read_graph_version", lambda stamp_fresh=False: dm.CURRENT)
 
 
 @pytest.fixture(autouse=True)

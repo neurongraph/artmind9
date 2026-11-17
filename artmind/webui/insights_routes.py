@@ -12,8 +12,10 @@ from __future__ import annotations
 import threading
 from datetime import datetime, timezone
 
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 from pydantic import BaseModel
+
+from artmind.webui.data_model_gate import data_model_gate
 
 _progress: dict[str, dict] = {}
 _threads: dict[str, threading.Thread] = {}
@@ -97,7 +99,7 @@ def register_insights_routes(app: FastAPI) -> FastAPI:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
         return {"domain": domain, "runs": list(reversed(rows))}
 
-    @app.post("/api/insights/refresh", status_code=202)
+    @app.post("/api/insights/refresh", status_code=202, dependencies=[Depends(data_model_gate)])
     async def api_insights_refresh(payload: RefreshRequest):
         from artmind.insights import store
         from artmind.insights.model import InsightsError
@@ -130,7 +132,7 @@ def register_insights_routes(app: FastAPI) -> FastAPI:
     async def api_insights_refresh_progress(domain: str):
         return _progress.get(domain, {"state": "idle"})
 
-    @app.post("/api/insights/same-as/propose")
+    @app.post("/api/insights/same-as/propose", dependencies=[Depends(data_model_gate)])
     async def api_insights_propose(payload: ProposeRequest):
         from artmind.insights.sameas_merges import build_merges
 

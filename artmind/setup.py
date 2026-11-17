@@ -529,8 +529,11 @@ def scaffold_vault(
     # A vault with no registry DB is fresh: its data starts at the current model.
     from artmind import data_model
 
-    data_model.stamp_if_fresh(layout.artmind_dir / "data_model.yaml",
-                              layout.data_dir / "document_registry.db")
+    data_model.stamp_if_fresh(
+        layout.artmind_dir / "data_model.yaml", layout.data_dir / "document_registry.db",
+        kg_dir=layout.kg_dir, same_as=layout.artmind_dir / "same_as.yaml",
+        curation_dir=layout.data_dir / "curation",
+    )
 
     if not layout.config_env.exists():
         layout.config_env.write_text(
