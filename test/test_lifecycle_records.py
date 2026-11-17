@@ -388,6 +388,24 @@ def test_apply_stamps_the_records_retired_by(no_rebuild):
     assert len(moves) == 5 and {p["by"] for p in moves} == {"supersede:r1"}
 
 
+def test_apply_stamps_the_records_retirement_time(no_rebuild):
+    tx = _Tx()
+    record = lifecycle_records.record_for(tx, "doc-1")
+    record["recorded_at"] = "2026-02-03T04:05:06+00:00"
+    lifecycle_records.apply(tx, record, "fp")
+    moves = [p for c, p in tx.calls if "REMOVE" in c and "History" in c and "_retired_at = $now" in c]
+    assert len(moves) == 5 and {p["now"] for p in moves} == {"2026-02-03T04:05:06+00:00"}
+
+
+def test_apply_without_a_recorded_at_stamps_now(no_rebuild):
+    tx = _Tx()
+    record = lifecycle_records.record_for(tx, "doc-1")
+    record.pop("recorded_at")
+    lifecycle_records.apply(tx, record, "fp")
+    moves = [p for c, p in tx.calls if "REMOVE" in c and "History" in c and "_retired_at = $now" in c]
+    assert len(moves) == 5 and all(p["now"].endswith("+00:00") for p in moves)
+
+
 def test_a_commit_of_a_retired_document_re_retires_by_its_record(tmp_path, monkeypatch):
     import artmind.projection as projection
 

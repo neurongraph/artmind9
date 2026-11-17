@@ -120,8 +120,11 @@ def apply(tx, record: dict, fingerprint: str) -> set:
     mark) and return the keys its observations feed, for the rebuild."""
     from artmind.lifecycle import _transition
 
+    # The retirement time is the record's, not this sync's (as `_retire_tx`
+    # does); a record without one falls back to now inside `_transition`.
     result = _transition(tx, record["doc_id"], to_history=True, rebuild=False,
-                         retired_by=record.get("retired_by") or "retire")
+                         retired_by=record.get("retired_by") or "retire",
+                         at=record.get("recorded_at"))
     if mark(tx, record, fingerprint) == 0:
         # Not an error -- the document may not have reached this graph yet,
         # and a later sync (or its replay) applies the record again -- but
