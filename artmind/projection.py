@@ -56,10 +56,21 @@ _OBSERVATION_SYSTEM_KEYS = frozenset(
         "_review",
         "_revised_at",
         "_retracts",
+        # Record time (spec 2026-11-15 §6.1): when the graph held the observation, never content.
+        "_recorded_at",
+        "_revived_at",
+        "_retired_at",
+        "_retired_by",
+        "_record_time_approx",
     }
 )
 # Merged by their own named policy rather than by shape.
 _SPECIAL_KEYS = frozenset({"name", "entity_class", "_domain", "type", "description", "context", "aliases"})
+
+
+def _record_now() -> str:
+    """Record time is UTC (spec 2026-11-15 §6.1)."""
+    return datetime.now(timezone.utc).isoformat()
 
 
 # ── ordering ─────────────────────────────────────────────────────────────────
@@ -506,7 +517,10 @@ import re  # noqa: E402  (kept beside the I/O half it serves)
 # `:Entity` is projection-owned and is recomputed from observations on every
 # rebuild, so a property no longer asserted by any observation disappears
 # rather than lingering.
-_PRESERVED_ENTITY_KEYS = ("embedding", "embedding_stale", "_embed_key", "name_embedding", "_name_embed_key")
+# `_recorded_at` is set once, when the entity is first created (spec 2026-11-15 §6.1).
+_PRESERVED_ENTITY_KEYS = (
+    "embedding", "embedding_stale", "_embed_key", "name_embedding", "_name_embed_key", "_recorded_at",
+)
 
 
 def _sanitize_label(value: str) -> str:
@@ -623,7 +637,7 @@ def _clear_same_as_batch(tx, ids: list[str]) -> None:
     )
 
 
-def _merge_entities_batch(tx, rows: list[dict]) -> None:
+def _merge_entities_batch(tx, rows: list[dict], recorded_at: str | None = None) -> None:
     """Batched sibling of `rebuild_key`'s Entity MERGE/label/property-sweep
     Cypher. One statement covering every entity in `rows`, each carrying its
     own `label` -- Neo4j 5.24+'s dynamic-label syntax accepts a per-row
@@ -631,16 +645,18 @@ def _merge_entities_batch(tx, rows: list[dict]) -> None:
     single top-level parameter.
 
     `rows`: `[{"id": eid, "label": str, "keep": [str, ...], "props": dict,
-    "description": str | None}, ...]`.
+    "description": str | None}, ...]`. A new entity gets `_recorded_at`
+    (UTC); a rebuilt one keeps its first.
     """
     if not rows:
         return
+    recorded_at = recorded_at or _record_now()
     tx.run(
         """
         CYPHER 25
         UNWIND $rows AS row
         MERGE (e:Entity {_id: row.id})
-        ON CREATE SET e.embedding_stale = true
+        ON CREATE SET e.embedding_stale = true, e._recorded_at = $recorded_at
         WITH e, row, e.description AS prior_description
         SET e:$(row.label)
         WITH e AS node, row, prior_description
@@ -653,7 +669,7 @@ def _merge_entities_batch(tx, rows: list[dict]) -> None:
               ELSE coalesce(node.embedding_stale, false)
             END
         """,
-        rows=rows,
+        rows=rows, recorded_at=recorded_at,
     )
 
 
@@ -974,6 +990,7 @@ def rebuild_key(
     member_keys: list[tuple[str, str, str]] | None = None,
     unit_of: dict[tuple[str, str, str], tuple[str, str, str]] | None = None,
     synthesis: dict | None = None,
+    recorded_at: str | None = None,
 ) -> str:
     """Rebuild one aggregate key. Returns `rebuilt`, `deleted`, or `absent`.
 
@@ -982,6 +999,8 @@ def rebuild_key(
     canonical (see `rebuild`'s group planning); otherwise just `[key]`.
     `unit_of` resolves a `RELATES_TO` edge's other endpoint the same way, for
     entities merged away by the same groups.
+
+    `recorded_at` (UTC) stamps a newly created entity only (default: now).
 
     Runs inside the caller's transaction — a raise here fails the commit that
     dirtied the projection, by design.
@@ -1031,7 +1050,7 @@ def rebuild_key(
         """
         CYPHER 25
         MERGE (e:Entity {_id: $id})
-        ON CREATE SET e.embedding_stale = true
+        ON CREATE SET e.embedding_stale = true, e._recorded_at = $recorded_at
         WITH e, e.description AS prior_description
         SET e:$($label)
         WITH e AS node, prior_description
@@ -1050,6 +1069,7 @@ def rebuild_key(
         keep=keep,
         props=props,
         description=props.get("description"),
+        recorded_at=recorded_at or _record_now(),
     )
 
     # Rewire provenance: the Entity aggregates exactly its current observations.
@@ -1257,14 +1277,19 @@ def apply_retractions(tx, observations: list[dict]) -> set[tuple[str, str, str]]
     return keys
 
 
-def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None = None, synthesis_loader=None) -> dict:
+def rebuild(
+    tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None = None, synthesis_loader=None,
+    recorded_at: str | None = None,
+) -> dict:
     """Rebuild the given aggregate keys inside the caller's transaction.
 
     `same_as_groups` defaults to `same_as.load_groups()` — pass an explicit
     (possibly filtered) list only when the caller has one in hand already.
     `synthesis_loader(keys) -> dict[key, dict]` is the synthesize seam, called
     once for the whole batch -- absent, every description falls back to the
-    winner observation's.
+    winner observation's. `recorded_at` (UTC; default now) stamps entities
+    this pass creates -- a document commit passes its own, so one commit has
+    one record time.
 
     Batched: each phase below issues a small, fixed number of Cypher
     statements (most just one; a few are a clear-then-write or delete-then-
@@ -1350,7 +1375,7 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
             })
         relates_to_context.append((eid, member_keys))
 
-    _merge_entities_batch(tx, merge_rows)
+    _merge_entities_batch(tx, merge_rows, recorded_at)
     _rewire_aggregates_batch(tx, aggregates_rows)
     _write_conflicts_batch(tx, [r["id"] for r in merge_rows], conflict_rows)
 

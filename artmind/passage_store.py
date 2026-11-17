@@ -6,6 +6,9 @@ rows under whichever label each id carries (`ingest._merge_relabeled`'s rule:
 passage ids are deterministic, so a stable passage reuses its node) and leaves
 them under :DocPassage holding exactly `row.props` -- no `embedding`: the sweep
 fills it from the embedding cache or the model. Runs in the caller's transaction.
+
+Record time (spec 2026-11-15 §6.1): a new passage gets `_recorded_at`; a reused one
+keeps its first, and one revived from :DocPassageHistory gains `_revived_at`.
 """
 from __future__ import annotations
 
@@ -18,11 +21,15 @@ MERGE_PASSAGES = """
 UNWIND $rows AS row
 OPTIONAL MATCH (o1:DocPassage {id: row.id})
 OPTIONAL MATCH (o2:DocPassageHistory {id: row.id})
-WITH row, coalesce(o1, o2) AS existing
+WITH row, coalesce(o1, o2) AS existing, o1 IS NULL AND o2 IS NOT NULL AS revived
+WITH row, existing, revived, existing._recorded_at AS old_recorded
 FOREACH (_ IN CASE WHEN existing IS NULL THEN [1] ELSE [] END |
-    CREATE (n:DocPassage) SET n = row.props)
+    CREATE (n:DocPassage) SET n = row.props SET n._recorded_at = $recorded_at)
 FOREACH (_ IN CASE WHEN existing IS NULL THEN [] ELSE [1] END |
-    REMOVE existing:DocPassageHistory SET existing:DocPassage SET existing = row.props)
+    REMOVE existing:DocPassageHistory SET existing:DocPassage SET existing = row.props
+    SET existing._recorded_at = coalesce(old_recorded, $recorded_at))
+FOREACH (_ IN CASE WHEN revived THEN [1] ELSE [] END |
+    SET existing._revived_at = $recorded_at)
 WITH row
 MATCH (n:DocPassage {id: row.id})
 MATCH (c:DocChunk {id: row.chunk_id})
@@ -30,8 +37,8 @@ MERGE (n)-[:PART_OF]->(c)
 """
 
 
-def write_chunk_passages(tx, chunk_id: str, rows: list[dict]) -> int:
+def write_chunk_passages(tx, chunk_id: str, rows: list[dict], *, recorded_at: str | None = None) -> int:
     tx.run(RETIRE_CHUNK_PASSAGES, chunk_id=chunk_id)
     if rows:
-        tx.run(MERGE_PASSAGES, rows=rows)
+        tx.run(MERGE_PASSAGES, rows=rows, recorded_at=recorded_at)
     return len(rows)

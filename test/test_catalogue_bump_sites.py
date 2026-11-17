@@ -21,7 +21,7 @@ def _bumps(calls):
 
 
 def test_document_commit_bumps_the_document_domain(tmp_path, monkeypatch):
-    monkeypatch.setattr(passage_store, "write_chunk_passages", lambda tx, cid, rows: len(rows))
+    monkeypatch.setattr(passage_store, "write_chunk_passages", lambda tx, cid, rows, **kw: len(rows))
     folder = tmp_path / "doc"
     folder.mkdir()
     (folder / "document.json").write_text(json.dumps({"id": "doc-1", "name": "a.md"}))

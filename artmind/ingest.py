@@ -4624,7 +4624,8 @@ def extract_kg(
 
 
 def _merge_relabeled(
-    tx, base_label: str, history_label: str, id_value: str, props: dict, *, replace: bool = True
+    tx, base_label: str, history_label: str, id_value: str, props: dict, *, replace: bool = True,
+    recorded_at: str | None = None,
 ) -> None:
     """`MERGE` a node by `id`, whichever of `base_label` / `history_label` it
     currently carries (or neither, if this id is new), and leave it under
@@ -4654,24 +4655,37 @@ def _merge_relabeled(
     previous write must not survive) vs `SET n += $props` (additive — a
     DocChunk's filing metadata / char offsets accrete the way they always
     have).
+
+    Record time (spec 2026-11-15 §6.1): `recorded_at` (UTC, one per commit) is
+    stamped as `_recorded_at` on a new node. A node found under either label
+    keeps its first `_recorded_at` -- read before `SET n = $props` wipes it --
+    and one revived from `history_label` gains `_revived_at` and loses
+    `_retired_at` / `_retired_by`.
     """
     set_clause = "SET n = $props" if replace else "SET n += $props"
     tx.run(
         f"""
         OPTIONAL MATCH (o1:{base_label} {{id: $id}})
         OPTIONAL MATCH (o2:{history_label} {{id: $id}})
-        WITH coalesce(o1, o2) AS existing
+        WITH coalesce(o1, o2) AS existing, o1 IS NULL AND o2 IS NOT NULL AS revived
+        WITH existing, revived, existing._recorded_at AS old_recorded
         FOREACH (_ IN CASE WHEN existing IS NULL THEN [1] ELSE [] END |
             CREATE (n:{base_label} {{id: $id}})
             {set_clause}
+            SET n._recorded_at = $recorded_at
         )
         FOREACH (n IN CASE WHEN existing IS NOT NULL THEN [existing] ELSE [] END |
             {set_clause}
+            SET n._recorded_at = coalesce(old_recorded, $recorded_at)
             SET n:{base_label}
             REMOVE n:{history_label}
         )
+        FOREACH (n IN CASE WHEN revived THEN [existing] ELSE [] END |
+            SET n._revived_at = $recorded_at
+            REMOVE n._retired_at, n._retired_by
+        )
         """,
-        id=id_value, props=props,
+        id=id_value, props=props, recorded_at=recorded_at,
     )
 
 
@@ -4683,7 +4697,9 @@ USER_CHAT_SOURCE_KIND = "user_chat"
 UPDATE_FOLDER_PREFIX = "update__"
 
 
-def _write_observations(tx, observations: list[dict], doc_id: str, *, source_label: str = "DocChunk") -> int:
+def _write_observations(
+    tx, observations: list[dict], doc_id: str, *, source_label: str = "DocChunk", recorded_at: str | None = None,
+) -> int:
     """Write this document version's observations.
 
     Immutable records: written whole, never merged into and never patched. The
@@ -4700,7 +4716,8 @@ def _write_observations(tx, observations: list[dict], doc_id: str, *, source_lab
     `EXTRACTED_FROM` the `:UserChat` whose id is `doc_id`, not a chunk.
     """
     for observation in observations:
-        _merge_relabeled(tx, "Observation", "ObservationHistory", observation["id"], observation)
+        _merge_relabeled(tx, "Observation", "ObservationHistory", observation["id"], observation,
+                         recorded_at=recorded_at)
         chunk_id = observation.get("chunk_id")
         if source_label == "UserChat":
             tx.run(
@@ -4792,7 +4809,9 @@ _RELATION_STRUCTURAL_KEYS = frozenset({
 })
 
 
-def _write_relation_observations(tx, relationships: list[dict], document: dict, observations: list[dict]) -> int:
+def _write_relation_observations(
+    tx, relationships: list[dict], document: dict, observations: list[dict], *, recorded_at: str | None = None,
+) -> int:
     """The immutable, chunk-scoped record of one extracted relationship:
     `(:Observation)-[:ASSERTS_RELATION {rel_type, doc_id, chunk_id, ...}]->(:Observation)`.
 
@@ -4830,6 +4849,9 @@ def _write_relation_observations(tx, relationships: list[dict], document: dict, 
     does: its endpoints are known by construction, and resolving them by
     name would be ambiguous whenever two rows render the same name). An id
     that isn't one of this document's observations is dropped the same way.
+
+    An edge keeps the `_recorded_at` of the commit that created it (spec
+    2026-11-15 §6.1); `SET r = $props` would wipe it, so it is read first.
     """
     from artmind.observations import relation_observation_id
 
@@ -4897,15 +4919,22 @@ def _write_relation_observations(tx, relationships: list[dict], document: dict, 
                 MATCH (s:Observation {id: $src})
                 MATCH (t:Observation {id: $tgt})
                 MERGE (s)-[r:ASSERTS_RELATION {id: $id}]->(t)
+                WITH r, r._recorded_at AS old_recorded
                 SET r = $props
-                SET r.id = $id, r.rel_type = $rel_type, r.doc_id = $doc_id, r.chunk_id = $chunk_id
+                SET r.id = $id, r.rel_type = $rel_type, r.doc_id = $doc_id, r.chunk_id = $chunk_id,
+                    r._recorded_at = coalesce(old_recorded, $recorded_at)
                 """,
                 src=src_obs, tgt=tgt_obs, id=edge_id,
                 rel_type=rel_type, doc_id=rel_doc_id, chunk_id=chunk_id or "",
-                props=rel_props,
+                props=rel_props, recorded_at=recorded_at,
             )
             written += 1
     return written
+
+
+def _record_now() -> str:
+    """Record time is UTC (spec 2026-11-15 §6.1). A seam: tests pin it."""
+    return datetime.now(_datetime.timezone.utc).isoformat()
 
 
 def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
@@ -4947,6 +4976,8 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
         # mis-linking.
         assert not staged["chunks"], "a UserChat staging folder must not carry chunks (its provenance is raw_text, not DocChunks)"
     summary: dict = {}
+    # Record time (spec 2026-11-15 §6.1): one UTC timestamp for everything this commit writes.
+    recorded_at = _record_now()
 
     # 1. The prior version's keys — set 2 of the affected-key union. Captured
     #    BEFORE anything changes, because a rename between versions strands the
@@ -4961,7 +4992,8 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     #    duplicate under :Document (see _merge_relabeled); when the working
     #    tree holds a lifecycle record for it, step 5b re-retires the node in
     #    this same transaction.
-    _merge_relabeled(tx, source_label, f"{source_label}History", doc_id, _flatten_props(document), replace=False)
+    _merge_relabeled(tx, source_label, f"{source_label}History", doc_id, _flatten_props(document), replace=False,
+                     recorded_at=recorded_at)
     # 3b. The staging folder's fingerprint (spec 2026-09-26 §6 A3): `vault
     #     sync` skips a committed folder whose fingerprint the graph already
     #     carries -- on a shared graph, the machine that ingested it wrote it.
@@ -4984,7 +5016,8 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
         # this same deterministic chunk id, and step 2 just relabelled the
         # prior version's chunk to :DocChunkHistory earlier in this same
         # transaction).
-        _merge_relabeled(tx, "DocChunk", "DocChunkHistory", chunk["id"], chunk_props, replace=False)
+        _merge_relabeled(tx, "DocChunk", "DocChunkHistory", chunk["id"], chunk_props, replace=False,
+                         recorded_at=recorded_at)
         tx.run(
             """
             MATCH (c:DocChunk {id: $id})
@@ -4994,7 +5027,8 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
             id=chunk["id"],
             doc_id=chunk["doc_id"],
         )
-        passage_store.write_chunk_passages(tx, chunk["id"], passages.passage_rows(chunk, title))
+        passage_store.write_chunk_passages(tx, chunk["id"], passages.passage_rows(chunk, title),
+                                           recorded_at=recorded_at)
     summary["chunks"] = len(staged["chunks"])
     summary["passage_chunk_ids"] = [chunk["id"] for chunk in staged["chunks"]]
 
@@ -5005,14 +5039,16 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
             tx, doc_id, summary_store.summary_rows(
                 staged.get("summaries"), {**document, "_domain": domain}, chunks=staged["chunks"],
             ),
+            recorded_at=recorded_at,
         )
 
     # 4. Observations.
     observations = staged["observations"]
     if source_label == "UserChat":
-        summary["observations"] = _write_observations(tx, observations, doc_id, source_label="UserChat")
+        summary["observations"] = _write_observations(
+            tx, observations, doc_id, source_label="UserChat", recorded_at=recorded_at)
     else:
-        summary["observations"] = _write_observations(tx, observations, doc_id)
+        summary["observations"] = _write_observations(tx, observations, doc_id, recorded_at=recorded_at)
 
     incoming_keys = {
         (o["key"].split("|")[0], o["key"].split("|")[1], o["key"].split("|")[2])
@@ -5037,7 +5073,7 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     #    in `incoming_keys` (a relationship's endpoints are always entities
     #    extracted in this same document) — no separate key-tracking needed.
     summary["relationships"] = _write_relation_observations(
-        tx, staged["relationships"], document, observations
+        tx, staged["relationships"], document, observations, recorded_at=recorded_at,
     )
 
     # 5b. A retired document stays retired (spec 2026-09-26 §15 A10): step 3
@@ -5065,7 +5101,7 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
         summary["projection"] = {"deferred": True}
     else:
         summary["projection"] = projection.rebuild(
-            tx, keys, synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks)
+            tx, keys, synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks), recorded_at=recorded_at,
         )
         summary["deferred_keys"] = []
     summary["affected_keys"] = sorted(keys)

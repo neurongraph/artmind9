@@ -16,6 +16,8 @@ later pages (`skip_ids`) so a dead embedding service cannot loop it.
 """
 from __future__ import annotations
 
+from datetime import datetime, timezone
+
 from loguru import logger
 
 from artmind import passage_store, passages
@@ -139,6 +141,7 @@ def reconcile_passages(
     # 1. passages for chunks that have none, or were cut under another split key
     scope, params = _scope("c", "id", chunk_ids, domain, doc_ids)
     split_key = passages.split_key()
+    recorded_at = datetime.now(timezone.utc).isoformat()   # record time is UTC (spec 2026-11-15 §6.1)
     skipped: set[str] = set()
     while True:
         rows = session.run(_CHUNKS_NEEDING_PASSAGES.format(scope=scope), split_key=split_key,
@@ -153,7 +156,7 @@ def reconcile_passages(
             if not built:          # nothing to split (cannot happen past the trim filter)
                 skipped.add(row["id"])
                 continue
-            passage_store.write_chunk_passages(session, row["id"], built)
+            passage_store.write_chunk_passages(session, row["id"], built, recorded_at=recorded_at)
             result["chunks_split"] += 1
         if len(rows) < batch_size:
             break

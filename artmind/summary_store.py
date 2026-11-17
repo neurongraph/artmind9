@@ -19,15 +19,18 @@ _MERGE = """
 UNWIND $rows AS row
 OPTIONAL MATCH (o1:DocSummary {{id: row.id}})
 OPTIONAL MATCH (o2:DocSummaryHistory {{id: row.id}})
-WITH row, coalesce(o1, o2) AS existing
+WITH row, coalesce(o1, o2) AS existing, o1 IS NULL AND o2 IS NOT NULL AS revived
 FOREACH (_ IN CASE WHEN existing IS NULL THEN [1] ELSE [] END |
-    CREATE (n:DocSummary) SET n = row.props)
-WITH row, existing, existing.key AS old_key, existing.embedding AS old_embedding,
-     existing._embed_key AS old_embed_key
+    CREATE (n:DocSummary) SET n = row.props SET n._recorded_at = $recorded_at)
+WITH row, existing, revived, existing.key AS old_key, existing.embedding AS old_embedding,
+     existing._embed_key AS old_embed_key, existing._recorded_at AS old_recorded
 FOREACH (_ IN CASE WHEN existing IS NULL THEN [] ELSE [1] END |
     REMOVE existing:DocSummaryHistory SET existing:DocSummary SET existing = row.props
     SET existing.embedding = CASE WHEN old_key = row.props.key THEN old_embedding END,
-        existing._embed_key = CASE WHEN old_key = row.props.key THEN old_embed_key END)
+        existing._embed_key = CASE WHEN old_key = row.props.key THEN old_embed_key END,
+        existing._recorded_at = coalesce(old_recorded, $recorded_at))
+FOREACH (_ IN CASE WHEN revived THEN [1] ELSE [] END |
+    SET existing._revived_at = $recorded_at)
 WITH row
 MATCH (n:DocSummary {{id: row.id}})
 MATCH (t:{label} {{id: row.target}})
@@ -74,10 +77,11 @@ def summary_rows(data: dict | None, document: dict, chunks: list[dict] | None = 
     return rows
 
 
-def write_document_summaries(tx, doc_id: str, rows: list[dict]) -> int:
+def write_document_summaries(tx, doc_id: str, rows: list[dict], *, recorded_at: str | None = None) -> int:
+    """Record time as `passage_store.write_chunk_passages` (spec 2026-11-15 §6.1)."""
     tx.run(RETIRE, doc_id=doc_id)
     for label in ("Document", "DocChunk"):
         batch = [r for r in rows if r["target_label"] == label]
         if batch:
-            tx.run(_MERGE.format(label=label), rows=batch)
+            tx.run(_MERGE.format(label=label), rows=batch, recorded_at=recorded_at)
     return len(rows)

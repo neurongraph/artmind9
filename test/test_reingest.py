@@ -227,11 +227,11 @@ def test_the_prior_version_is_demoted_before_the_new_observations_land(tmp_path,
     monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
     monkeypatch.setattr(
         ing, "_retract_prior_version",
-        lambda tx, domain, doc_id: order.append(f"retract:{domain}:{doc_id}") or {},
+        lambda tx, domain, doc_id, **kw: order.append(f"retract:{domain}:{doc_id}") or {},
     )
     monkeypatch.setattr(
         ing, "_write_observations",
-        lambda tx, observations, doc_id: order.append("observations") or 0,
+        lambda tx, observations, doc_id, **kw: order.append("observations") or 0,
     )
 
     ing._write_to_neo4j(_stage(tmp_path), "banking")

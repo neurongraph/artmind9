@@ -75,7 +75,7 @@ def test_the_passage_sweep_reads_and_copies_the_chunks_prefixed_dates(monkeypatc
     s = Recorder(respond=respond)
     written = []
     monkeypatch.setattr(passage_store, "write_chunk_passages",
-                        lambda tx, chunk_id, rows: written.extend(rows) or len(rows))
+                        lambda tx, chunk_id, rows, **kw: written.extend(rows) or len(rows))
     embed_sweep.reconcile_passages(s, embed=lambda t: [1.0], embed_key="K", cache=None)
     query = s.queries_containing("RETURN c.id AS id")[0][0]
     assert "c._valid_from AS _valid_from" in query and "c._doc_valid_from AS _doc_valid_from" in query

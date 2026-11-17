@@ -18,7 +18,7 @@ def test_write_chunk_passages_retires_old_then_merges_new():
     assert p1 == {"chunk_id": "d1_001"}
     assert "UNWIND $rows AS row" in merge and "OPTIONAL MATCH (o2:DocPassageHistory {id: row.id})" in merge
     assert "SET n = row.props" in merge and "MERGE (n)-[:PART_OF]->(c)" in merge
-    assert p2 == {"rows": ROWS}
+    assert p2 == {"rows": ROWS, "recorded_at": None}
 
 
 def test_write_chunk_passages_with_no_rows_only_retires():
@@ -92,7 +92,7 @@ def _stage(folder, document):
 def _commit(tmp_path, session, monkeypatch, document):
     written = []
     monkeypatch.setattr(passage_store, "write_chunk_passages",
-                        lambda tx, chunk_id, rows: written.append((chunk_id, rows)) or len(rows))
+                        lambda tx, chunk_id, rows, **kw: written.append((chunk_id, rows)) or len(rows))
     chunks = _stage(tmp_path / "doc", document)
     summary = ingest._commit_document_tx(session, ingest._load_staged(tmp_path / "doc", "general"), True)
     return chunks, written, summary
@@ -137,9 +137,9 @@ def test_commit_carries_chunk_dates_to_chunks_passages_and_summaries(tmp_path, s
         {"document": {"summary": "S"}, "chunks": [{"chunk_id": "doc-1_001", "summary": "C"}]}))
     written, summaries = [], []
     monkeypatch.setattr(passage_store, "write_chunk_passages",
-                        lambda tx, chunk_id, rows: written.append(rows) or len(rows))
+                        lambda tx, chunk_id, rows, **kw: written.append(rows) or len(rows))
     monkeypatch.setattr(summary_store, "write_document_summaries",
-                        lambda tx, doc_id, rows: summaries.extend(rows) or len(rows))
+                        lambda tx, doc_id, rows, **kw: summaries.extend(rows) or len(rows))
 
     ingest._commit_document_tx(session, ingest._load_staged(folder, "general"), True)
 
