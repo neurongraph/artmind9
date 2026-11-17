@@ -73,7 +73,14 @@ def _graph_steps() -> list[Step]:
     ]
 
 
-STEPS: list[Step] = _graph_steps()
+def _file_steps() -> list[Step]:
+    from artmind.migrations.temporal_v1 import meta_rule
+
+    # A committed file, independent of the graph steps: it goes after them.
+    return [Step("meta_rule", meta_rule.pending, meta_rule.apply, meta_rule.writes, travels=True)]
+
+
+STEPS: list[Step] = _graph_steps() + _file_steps()
 
 
 def stamp_if_done(ctx: MigrationContext) -> bool:
