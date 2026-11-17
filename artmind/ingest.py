@@ -4670,15 +4670,18 @@ def _merge_relabeled(
     Record time (spec 2026-11-15 §6.1): `recorded_at` (UTC, one per commit) is
     stamped as `_recorded_at` on a new node. A node found under either label
     keeps its first `_recorded_at` -- read before `SET n = $props` wipes it --
-    and one revived from `history_label` gains `_revived_at` and loses
-    `_retired_at` / `_retired_by`.
+    and loses `_retired_at` / `_retired_by`. Only a node that was in
+    `history_label` before this commit gains `_revived_at`: one this same
+    commit demoted (step 2 of `_commit_document_tx`) carries `_retired_at =
+    $recorded_at` and is a re-write, not a revive.
     """
     set_clause = "SET n = $props" if replace else "SET n += $props"
     tx.run(
         f"""
         OPTIONAL MATCH (o1:{base_label} {{id: $id}})
         OPTIONAL MATCH (o2:{history_label} {{id: $id}})
-        WITH coalesce(o1, o2) AS existing, o1 IS NULL AND o2 IS NOT NULL AS revived
+        WITH coalesce(o1, o2) AS existing,
+             o1 IS NULL AND o2 IS NOT NULL AND o2._retired_at <> $recorded_at AS revived
         WITH existing, revived, existing._recorded_at AS old_recorded
         FOREACH (_ IN CASE WHEN existing IS NULL THEN [1] ELSE [] END |
             CREATE (n:{base_label} {{id: $id}})
@@ -4689,11 +4692,10 @@ def _merge_relabeled(
             {set_clause}
             SET n._recorded_at = coalesce(old_recorded, $recorded_at)
             SET n:{base_label}
-            REMOVE n:{history_label}
+            REMOVE n:{history_label}, n._retired_at, n._retired_by
         )
         FOREACH (n IN CASE WHEN revived THEN [existing] ELSE [] END |
             SET n._revived_at = $recorded_at
-            REMOVE n._retired_at, n._retired_by
         )
         """,
         id=id_value, props=props, recorded_at=recorded_at,
@@ -5095,7 +5097,9 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     if staged.get("retired") and source_label == "Document":
         from artmind.lifecycle import _transition
 
-        _transition(tx, doc_id, to_history=True, rebuild=False, at=recorded_at)
+        # Re-retired at this commit's timestamp, by whatever its record says retired it.
+        _transition(tx, doc_id, to_history=True, rebuild=False, at=recorded_at,
+                    retired_by=staged.get("retired_by") or "retire")
         summary["retired"] = True
 
     # 6. The affected-key union, then the rebuild — which now also aggregates
@@ -5159,6 +5163,9 @@ def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
             "summaries": _load(summary_tree.SUMMARIES_FILE),
             "fingerprint": sync_state.folder_fingerprint(doc_kg_dir),
             "retired": lifecycle_records.retired_in_working_tree(
+                document.get("id") if isinstance(document, dict) else None
+            ),
+            "retired_by": lifecycle_records.retired_by_in_working_tree(
                 document.get("id") if isinstance(document, dict) else None
             ),
         }

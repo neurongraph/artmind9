@@ -76,6 +76,7 @@ def test_a_lifecycle_record_is_keyed_by_a_hash_of_the_document_id():
     record = lifecycle_records.record_for(_Tx(), "table:banking:accounts")
 
     assert record.pop("recorded_at").endswith("+00:00")
+    assert record.pop("retired_by") == "retire"
     assert record == {
         "id": hashlib.sha1(b"table:banking:accounts").hexdigest(),
         "doc_id": "table:banking:accounts", "domain": "banking", "status": "retired",
@@ -369,3 +370,36 @@ def test_a_lifecycle_record_keeps_its_first_recorded_at():
     record["recorded_at"] = "2026-01-01T00:00:00+00:00"
     curation_records.write_record("lifecycle", record)
     assert lifecycle_records.record_for(_Tx(), "doc-1")["recorded_at"] == "2026-01-01T00:00:00+00:00"
+
+
+def test_a_lifecycle_record_carries_and_keeps_who_retired(monkeypatch):
+    record = lifecycle_records.record_for(_Tx(), "doc-1", retired_by="supersede:r1")
+    assert record["retired_by"] == "supersede:r1"
+    curation_records.write_record("lifecycle", record)
+    assert lifecycle_records.record_for(_Tx(), "doc-1")["retired_by"] == "supersede:r1"
+    assert lifecycle_records.retired_by_in_working_tree("doc-1") == "supersede:r1"
+
+
+def test_apply_stamps_the_records_retired_by(no_rebuild):
+    tx = _Tx()
+    record = lifecycle_records.record_for(tx, "doc-1", retired_by="supersede:r1")
+    lifecycle_records.apply(tx, record, "fp")
+    moves = [p for c, p in tx.calls if "REMOVE" in c and "History" in c and "_retired_by = $by" in c]
+    assert len(moves) == 5 and {p["by"] for p in moves} == {"supersede:r1"}
+
+
+def test_a_commit_of_a_retired_document_re_retires_by_its_record(tmp_path, monkeypatch):
+    import artmind.projection as projection
+
+    monkeypatch.setattr(projection, "keys_for_document", lambda tx, doc_id, **kw: set())
+    curation_records.write_record(
+        "lifecycle", lifecycle_records.record_for(_Tx(), "doc-1", retired_by="supersede:r1"))
+    folder = tmp_path / "doc"
+    folder.mkdir()
+    (folder / "document.json").write_text(json.dumps({"id": "doc-1", "name": "a.md"}))
+    for name in ("chunks.json", "observations.json", "relationships.json"):
+        (folder / name).write_text("[]")
+    tx = _Tx()
+    ing._commit_document_tx(tx, ing._load_staged(folder, "banking"), True)
+    rebound = [p for c, p in tx.calls if "MATCH (d:Document {id: $doc_id}) REMOVE d:Document" in c]
+    assert rebound and rebound[0]["by"] == "supersede:r1"

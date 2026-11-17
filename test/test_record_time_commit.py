@@ -61,8 +61,11 @@ def test_revive_keeps_the_first_recorded_at_and_sets_revived_at():
     # read before `SET n = $props` wipes it
     assert cypher.index("existing._recorded_at AS old_recorded") < cypher.index("SET n = $props")
     assert "SET n._recorded_at = coalesce(old_recorded, $recorded_at)" in cypher
-    assert "o1 IS NULL AND o2 IS NOT NULL AS revived" in cypher
-    assert "SET n._revived_at = $recorded_at" in cypher and "REMOVE n._retired_at, n._retired_by" in cypher
+    assert "o1 IS NULL AND o2 IS NOT NULL AND o2._retired_at <> $recorded_at AS revived" in cypher
+    assert "SET n._revived_at = $recorded_at" in cypher
+    # every node leaving History loses its retirement stamps, revived or re-written
+    existing_branch = cypher.split("FOREACH")[2]
+    assert "REMOVE n:ObservationHistory, n._retired_at, n._retired_by" in existing_branch
     create_branch = cypher.split("FOREACH")[1]
     assert "SET n._recorded_at = $recorded_at" in create_branch
 
@@ -81,6 +84,7 @@ def test_passages_and_summaries_keep_the_first_recorded_at():
         assert "SET n._recorded_at = $recorded_at" in cypher
         assert "existing._recorded_at = coalesce(old_recorded, $recorded_at)" in cypher
         assert "SET existing._revived_at = $recorded_at" in cypher
+        assert "o2._retired_at <> $recorded_at AS revived" in cypher
 
 
 def test_entities_are_stamped_on_create_only():
@@ -104,3 +108,19 @@ def test_a_rebuild_with_no_timestamp_stamps_utc_now():
 def test_record_time_keys_are_never_merged_as_content():
     for key in ("_recorded_at", "_revived_at", "_retired_at", "_retired_by", "_record_time_approx"):
         assert key in projection._OBSERVATION_SYSTEM_KEYS
+
+
+def test_a_recommit_is_not_a_revive_but_an_earlier_retirement_is(tmp_path, monkeypatch):
+    """Step 2 demotes the prior version at this commit's timestamp; the merges that follow
+    treat only a node retired at another time as revived (spec 2026-11-15 §6.1)."""
+    monkeypatch.setattr(ingest, "_record_now", lambda: "2026-11-17T09:00:00+00:00")
+    tx = _commit(tmp_path, monkeypatch)
+    demote = [p for c, p in tx.calls if "SET o:ObservationHistory" in c and "_retired_at = $now" in c]
+    assert demote and demote[0]["now"] == "2026-11-17T09:00:00+00:00"
+    merges = [(c, p) for c, p in tx.calls if "AS revived" in c]
+    assert {"Observation", "DocChunk", "Document", "DocPassage"} <= {
+        lbl for c, _ in merges for lbl in ("Observation", "DocChunk", "Document", "DocPassage")
+        if f"OPTIONAL MATCH (o2:{lbl}History" in c}
+    for cypher, params in merges:
+        assert "o2._retired_at <> $recorded_at AS revived" in cypher
+        assert params["recorded_at"] == demote[0]["now"]

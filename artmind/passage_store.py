@@ -8,7 +8,8 @@ them under :DocPassage holding exactly `row.props` -- no `embedding`: the sweep
 fills it from the embedding cache or the model. Runs in the caller's transaction.
 
 Record time (spec 2026-11-15 §6.1): a new passage gets `_recorded_at`; a reused one
-keeps its first, and one revived from :DocPassageHistory gains `_revived_at`; a retired
+keeps its first, and one revived from :DocPassageHistory gains `_revived_at` -- unless this
+same commit retired it (`_retired_at = $recorded_at`): that is a re-write; a retired
 one gets `_retired_at` / `_retired_by`.
 """
 from __future__ import annotations
@@ -22,7 +23,8 @@ MERGE_PASSAGES = """
 UNWIND $rows AS row
 OPTIONAL MATCH (o1:DocPassage {id: row.id})
 OPTIONAL MATCH (o2:DocPassageHistory {id: row.id})
-WITH row, coalesce(o1, o2) AS existing, o1 IS NULL AND o2 IS NOT NULL AS revived
+WITH row, coalesce(o1, o2) AS existing,
+     o1 IS NULL AND o2 IS NOT NULL AND o2._retired_at <> $recorded_at AS revived
 WITH row, existing, revived, existing._recorded_at AS old_recorded
 FOREACH (_ IN CASE WHEN existing IS NULL THEN [1] ELSE [] END |
     CREATE (n:DocPassage) SET n = row.props SET n._recorded_at = $recorded_at)

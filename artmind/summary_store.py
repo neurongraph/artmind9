@@ -19,7 +19,8 @@ _MERGE = """
 UNWIND $rows AS row
 OPTIONAL MATCH (o1:DocSummary {{id: row.id}})
 OPTIONAL MATCH (o2:DocSummaryHistory {{id: row.id}})
-WITH row, coalesce(o1, o2) AS existing, o1 IS NULL AND o2 IS NOT NULL AS revived
+WITH row, coalesce(o1, o2) AS existing,
+     o1 IS NULL AND o2 IS NOT NULL AND o2._retired_at <> $recorded_at AS revived
 FOREACH (_ IN CASE WHEN existing IS NULL THEN [1] ELSE [] END |
     CREATE (n:DocSummary) SET n = row.props SET n._recorded_at = $recorded_at)
 WITH row, existing, revived, existing.key AS old_key, existing.embedding AS old_embedding,

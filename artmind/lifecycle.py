@@ -244,9 +244,9 @@ def _retire_tx(tx, doc_id: str, domain: str | None, retired_by: str = "retire") 
     and rebuild, then the mark tying the document to its record."""
     from artmind import curation_records, lifecycle_records
 
-    record = lifecycle_records.record_for(tx, doc_id, domain)
+    record = lifecycle_records.record_for(tx, doc_id, domain, retired_by=retired_by)
     fingerprint = curation_records.write_record(lifecycle_records.NAME, record)
-    result = _transition(tx, doc_id, to_history=True, retired_by=retired_by)
+    result = _transition(tx, doc_id, to_history=True, retired_by=record["retired_by"])
     lifecycle_records.mark(tx, record, fingerprint)
     return result
 
