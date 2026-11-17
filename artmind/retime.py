@@ -74,8 +74,16 @@ def retime_observations(observations: list[dict], document: dict, schema: dict) 
     `_doc_valid_from` is always the document's. Property keys are normalized
     (`observations.normalize_property_keys`) and a key the observation's class does not declare
     is dropped (spec 2026-11-15 §2.4). A table row's observation (`source_kind: table`) keeps its
-    mapping's keys (table2graph is out of scope, spec 2026-11-15)."""
-    from artmind.observations import declared_property_keys, filter_declared
+    mapping's keys (table2graph is out of scope, spec 2026-11-15).
+
+    A non-table observation's `_kind` is re-derived from the schema (`class_kind`) and its
+    `key` rebuilt as ingest builds it: an `identity: occasion` class keys on its name and day
+    (spec 2026-11-15 §5.2). A table row keeps its mapping's declared key (plan question 21).
+    Observation ids never change, so the rebuild moves a node's key in place."""
+    from artmind.observations import (
+        aggregate_key, class_kind, declared_property_keys, filter_declared, key_string, occasion_day,
+    )
+    from artmind.schema_validate import class_identity
     from artmind.temporal import _entity_temporal_mapping
 
     entity_dates = _entity_temporal_mapping(schema)
@@ -107,6 +115,12 @@ def retime_observations(observations: list[dict], document: dict, schema: dict) 
             "_review": fact.review,
         }
         new.update({k: v for k, v in times.items() if v})
+        name_part = obs.get("canonical_name") or obs.get("name")
+        if obs.get("source_kind") != "table" and name_part:
+            new["_kind"] = class_kind(schema, cls)
+            occurs_on = (occasion_day(new.get("_valid_from"), new.get("_valid_precision"))
+                         if class_identity(schema, cls) == "occasion" else None)
+            new["key"] = key_string(aggregate_key(name_part, cls, obs.get("_domain") or "", occurs_on=occurs_on))
         out.append(new)
     return out, dropped
 

@@ -147,8 +147,15 @@ def normalize_identity(value: str | None) -> str:
     return " ".join(text.split())
 
 
+#: Joins an occasion's name and day inside the key's name part: `tennis~2024-03-30`.
+#: Never a fourth `|` part -- every key parser expects three (spec 2026-11-15 question 1).
+OCCASION_SEP = "~"
+_DAY_RE = re.compile(r"\d{4}-\d{2}-\d{2}")
+
+
 def aggregate_key(
-    canonical_name: str | None, entity_class: str, domain: str, *, identity: str | None = None
+    canonical_name: str | None, entity_class: str, domain: str, *,
+    identity: str | None = None, occurs_on: str | None = None,
 ) -> tuple[str, str, str]:
     """The aggregate key: normalized canonical name, class, domain.
 
@@ -159,11 +166,36 @@ def aggregate_key(
     `identity`, when given, replaces the name part and is normalized with
     `normalize_identity` rather than `normalize_name` -- for sources whose
     identity is declared (`ingest table2graph`) or already stored (an existing
-    Entity's `key`), not inferred from free text.
+    Entity's `key`), not inferred from free text. It is used as is: `occurs_on`
+    is ignored (a stored key already carries its day).
+
+    `occurs_on`, a `YYYY-MM-DD` day (`occasion_day`), is appended to the name part
+    for an `identity: occasion` class (spec 2026-11-15 §5.2): the same happening on
+    two days is two entities.
     """
     if identity:
         return (normalize_identity(identity), entity_class or "", domain or "")
-    return (normalize_name(canonical_name), entity_class or "", domain or "")
+    name = normalize_name(canonical_name)
+    if occurs_on:
+        name = f"{name}{OCCASION_SEP}{str(occurs_on)[:10]}"
+    return (name, entity_class or "", domain or "")
+
+
+def split_occasion(name_part: str | None) -> tuple[str, str | None]:
+    """`("tennis", "2024-03-30")` for `tennis~2024-03-30`; `(name_part, None)` otherwise."""
+    head, sep, day = (name_part or "").rpartition(OCCASION_SEP)
+    if sep and _DAY_RE.fullmatch(day):
+        return head, day
+    return name_part or "", None
+
+
+def occasion_day(valid_from: str | None, precision: str | None) -> str | None:
+    """The day an occasion keys on: the first day of its `_valid_from`, unless that is only
+    a default date (precision `none`, plan question 2) or not a dated day at all."""
+    if not valid_from or precision == "none":
+        return None
+    day = str(valid_from)[:10]
+    return day if _DAY_RE.fullmatch(day) else None
 
 
 def key_string(key: tuple[str, str, str]) -> str:
@@ -419,6 +451,7 @@ def build_observation(
     identity: str | None = None,
     valid_precision: str | None = None,
     valid_time_of_day: str | None = None,
+    identity_kind: str | None = None,
 ) -> dict:
     """Build one Observation's property map. Pure -- no session, no I/O.
 
@@ -446,6 +479,10 @@ def build_observation(
     `_valid_time_of_day` (the time or qualifier text, never compared) travel with the
     fact-level window (spec 2026-11-15 §2).
 
+    `identity_kind` -- the class's `schema_validate.class_identity`. For `occasion`, the
+    key's name part carries the fact's day (`occasion_day` of the effective `_valid_from`
+    and precision; spec 2026-11-15 §5.2). Ignored when `identity` is given.
+
     `_kind` is likewise denormalized from the class's schema declaration at
     ingest time, for the same reason.
 
@@ -458,7 +495,9 @@ def build_observation(
     """
     entity_class = entity.get("entity_class") or ""
     obs_domain = entity.get("_domain") or ""
-    key = aggregate_key(canonical_name, entity_class, obs_domain, identity=identity)
+    effective_from = valid_from or doc_valid_from
+    occurs_on = occasion_day(effective_from, valid_precision) if identity_kind == "occasion" else None
+    key = aggregate_key(canonical_name, entity_class, obs_domain, identity=identity, occurs_on=occurs_on)
 
     props: dict = {
         "id": observation_id(chunk_id, canonical_name, entity_class, obs_domain, identity=identity),

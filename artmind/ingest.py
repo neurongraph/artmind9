@@ -3740,6 +3740,7 @@ def _build_observations(
         LLM_BAG_OWN_KEYS, build_observation, class_kind, declared_property_keys, filter_declared,
         normalize_property_keys, property_key_rules,
     )
+    from artmind.schema_validate import class_identity
     from artmind.temporal import _entity_temporal_mapping
 
     props_by_id = {p["id"]: p.get("properties", {}) for p in properties}
@@ -3790,6 +3791,7 @@ def _build_observations(
             valid_time_source=("property" if fact.valid_from else document.get("_valid_time_source")),
             valid_precision=fact.precision if fact.valid_from else _document_precision(document, schema),
             valid_time_of_day=fact.time_of_day,
+            identity_kind=class_identity(schema, cls),
         )
         # A deadline or review date is its own field, never the fact's valid time (spec §4).
         if fact.due:

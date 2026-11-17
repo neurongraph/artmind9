@@ -2441,6 +2441,7 @@ def entity_history(
     WHERE (o:Observation OR o:ObservationHistory)
       AND {domain_predicate("o")}
       AND (split(o.key, '|')[0] = $nameKey
+           OR split(o.key, '|')[0] STARTS WITH $nameKey + '~'
            OR toLower(o.name) = $nameLower
            OR toLower(o.canonical_name) = $nameLower){class_clause}"""
 

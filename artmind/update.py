@@ -213,12 +213,13 @@ def _ensure_user_chat_schema(session, embedding_dim: int = 768) -> None:
 
 
 def _find_existing_entity(
-    session, name: str, entity_class: str, domain: str
+    session, name: str, entity_class: str, domain: str, occurs_on: str | None = None
 ) -> dict | None:
-    """The projected entity already holding this identity, if any."""
+    """The projected entity already holding this identity, if any. `occurs_on` is the
+    fact's day for an `identity: occasion` class (`_occasion_day`), part of its key."""
     from artmind.observations import aggregate_key, entity_id
 
-    eid = entity_id(aggregate_key(name, entity_class, domain))
+    eid = entity_id(aggregate_key(name, entity_class, domain, occurs_on=occurs_on))
     rec = session.run(
         "MATCH (e:Entity {_id: $id}) RETURN e._id AS id, e.name AS name, e.key AS key LIMIT 1", id=eid
     ).single()
@@ -226,7 +227,8 @@ def _find_existing_entity(
 
 
 def _resolve_target_identity(
-    session, node_ref: str | None, name: str, entity_class: str, domain: str
+    session, node_ref: str | None, name: str, entity_class: str, domain: str,
+    occurs_on: str | None = None,
 ) -> dict | None:
     """The identity a resolution should be recorded AGAINST — not a write.
 
@@ -266,7 +268,7 @@ def _resolve_target_identity(
             }
         return None
 
-    existing = _find_existing_entity(session, name, entity_class, domain)
+    existing = _find_existing_entity(session, name, entity_class, domain, occurs_on)
     if existing:
         return {**existing, "entity_class": entity_class, "_domain": domain}
     return None
@@ -376,6 +378,7 @@ def write_user_chat(
         key_string,
         normalize_property_keys, property_key_rules,
     )
+    from artmind.schema_validate import class_identity
 
     env = load_env()
     embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
@@ -397,6 +400,7 @@ def write_user_chat(
     entity_dates = _entity_temporal_mapping(schema)
     declared = declared_property_keys(schema)
     key_rules = property_key_rules(schema)
+    rules = (entity_dates, declared, key_rules)
     dropped_property_values = 0
 
     observations: list[dict] = []
@@ -423,9 +427,11 @@ def write_user_chat(
             target_domain = domain
             identity = None
 
+            # An occasion keys on its fact's day, as ingest keys it (spec 2026-11-15 §5.2).
+            occurs_on = _occasion_day(entity_data.get("properties"), entity_class, schema, today, rules)
             if action == "link":
                 target = _resolve_target_identity(
-                    session, res.get("node_id"), entity_data["name"], entity_class, domain
+                    session, res.get("node_id"), entity_data["name"], entity_class, domain, occurs_on
                 )
                 if not target:
                     # Counting a link that matched nothing would report a write
@@ -447,14 +453,14 @@ def write_user_chat(
                 identity = _stored_identity(target.get("key"))
                 nodes_updated += 1
             elif action == "create":
-                if _find_existing_entity(session, canonical_name, entity_class, domain):
+                if _find_existing_entity(session, canonical_name, entity_class, domain, occurs_on):
                     nodes_updated += 1
                 else:
                     nodes_created += 1
             else:
                 continue
 
-            key = aggregate_key(canonical_name, entity_class, target_domain, identity=identity)
+            key = aggregate_key(canonical_name, entity_class, target_domain, identity=identity, occurs_on=occurs_on)
             # Spec 2026-11-15 §2.2: only the class's declared keys, as extraction keeps.
             domain_props, gone = filter_declared(
                 normalize_property_keys(dict(entity_data.get("properties") or {}), *key_rules),
@@ -486,6 +492,7 @@ def write_user_chat(
                 valid_precision=fact.precision or "day",
                 valid_time_of_day=fact.time_of_day,
                 identity=identity,
+                identity_kind=class_identity(schema, entity_class),
             )
             observation["source_kind"] = "user_chat"
             observation["created_by"] = user_id
@@ -517,6 +524,8 @@ def write_user_chat(
                     retracts=target_id,
                     identity=identity,
                 )
+                # Under the fact's own key: an occasion's day comes from the fact, not the chat.
+                retraction["key"] = observation["key"]
                 retraction["source_kind"] = "user_chat"
                 retraction["created_by"] = user_id
                 observations.append(retraction)
@@ -616,6 +625,22 @@ def _stored_identity(key: str | None) -> str | None:
     if not key or key.count("|") < 2:
         return None
     return key.rsplit("|", 2)[0] or None
+
+
+def _occasion_day(raw_props, entity_class: str, schema: dict, today: str, rules) -> str | None:
+    """The day an `identity: occasion` fact keys on -- `build_observation`'s rule over the
+    values `confirm` passes it (the fact's own date, else today); None for other classes."""
+    from artmind.ingest import _fact_valid_time
+    from artmind.observations import LLM_BAG_OWN_KEYS, filter_declared, normalize_property_keys, occasion_day
+    from artmind.schema_validate import class_identity
+
+    if class_identity(schema, entity_class) != "occasion":
+        return None
+    entity_dates, declared, key_rules = rules
+    props, _ = filter_declared(normalize_property_keys(dict(raw_props or {}), *key_rules),
+                               entity_class, declared, own=LLM_BAG_OWN_KEYS)
+    fact = _fact_valid_time(entity_dates, entity_class, props)
+    return occasion_day(fact.valid_from or today, fact.precision or "day")
 
 
 def _entity_id_for(key) -> str:

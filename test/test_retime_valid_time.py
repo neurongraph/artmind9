@@ -31,3 +31,20 @@ def test_retime_drops_a_stale_time_of_day():
                "date_or_time": "2023-09-07", "_valid_time_of_day": "evening"}]
     new = _obs(retime_observations(staged, {"_valid_from": "2023-09-01", "_valid_time_source": "filename"}, SCHEMA))
     assert "_valid_time_of_day" not in new[0]
+
+
+def test_retime_rekeys_an_occasion_and_rederives_kind():
+    schema = {"entity_types": {"ACTIVITY": {"kind": "occurrent", "identity": "occasion",
+                                            "properties": {"date_or_time": {"temporal": "valid_from"}}}}}
+    staged = [{"id": "o1", "key": "tennis|ACTIVITY|pj", "entity_class": "ACTIVITY", "_domain": "pj", "_kind": "recurrent",
+               "canonical_name": "Tennis", "name": "tennis", "date_or_time": "2024-03-30"}]
+    new = _obs(retime_observations(staged, {"_valid_from": "2024-03-30", "_valid_time_source": "filename"}, schema))
+    assert (new[0]["key"], new[0]["_kind"]) == ("tennis~2024-03-30|ACTIVITY|pj", "occurrent")
+    assert new[0]["id"] == "o1"      # observation ids never change
+
+
+def test_retime_leaves_table_observations_keys_alone():
+    schema = {"entity_types": {"ACTIVITY": {"kind": "occurrent", "identity": "occasion"}}}
+    staged = [{"id": "o1", "key": "row 1|ACTIVITY|pj", "entity_class": "ACTIVITY", "_domain": "pj", "source_kind": "table"}]
+    new = _obs(retime_observations(staged, {"_valid_from": "2024-03-30", "_valid_time_source": "filename"}, schema))
+    assert new[0]["key"] == "row 1|ACTIVITY|pj"
