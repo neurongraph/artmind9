@@ -142,3 +142,16 @@ def test_fragments_reports_small_cut_off_groups():
     assert f.key == "fragments:all" and f.stats["count"] == 1 and f.stats["main_component"] == 8
     assert f.stats["sizes"] == {"3": 1}
     assert FRAGMENTS.plan(make_ctx(ents)).reason == "no entity relations"
+
+
+def test_a_closed_type_list_alarms_only_on_a_value_outside_it():
+    schema = {"entity_types": {"OBJECT": {"kind": "recurrent", "types": ["device", "household_item"]}}}
+
+    def found(sample):
+        props = {"OBJECT": {"type": {"filled": 10, "distinct": len(sample), "sample": sample}}}
+        ctx = make_ctx([ent("o1", "OBJECT", ["2024-01-01"])], schema=schema, properties=props)
+        return list(VOCABULARY_SPRAWL.run(ctx, "all"))
+
+    assert found(["device", "Device", "household item", "Household-Item"]) == []
+    (f,) = found(["device", "vehicle_part"])
+    assert f.stats["outside"] == 1 and f.stats["basis"] == "types (closed list)"

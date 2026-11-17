@@ -165,3 +165,11 @@ def test_a_meta_without_the_occasion_rule_renders_the_message_not_prompts(monkey
     assert "artmind migrate status" in data["prompt_error"]
     html = render_fragment([data])
     assert "artmind migrate status" in html and "Assembled prompts (as sent" not in html
+
+
+def test_a_closed_types_list_is_shown_as_the_class_types(tmp_path):
+    path = tmp_path / "things_schema.yaml"
+    path.write_text("name: things\ndescription: Things.\nentity_types:\n  OBJECT:\n    kind: recurrent\n"
+                    "    description: A thing.\n    types:\n    - device\n    - food\n")
+    data = build_schema_dict(path)
+    assert next(e for e in data["entities"] if e["class"] == "OBJECT")["types"] == ["device", "food"]

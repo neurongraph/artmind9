@@ -219,14 +219,19 @@ _DAY_TOKEN = (rf"(?:{_FULL_DATE}|(?:{_WEEKDAY},?\s+)?(?:{_ORDINAL_DAY}\s+(?:of\s
 # A bare ordinal is a day only after "on" ("on the 30th", "on 30th"): "Grand Prix - 1st" and
 # "Match, 2nd" are places in a series.
 _ON_TOKEN = rf"(?:{_DAY_TOKEN}|\d{{1,2}}(?:st|nd|rd|th))"
-# No digit before the separator (or before a space then the separator): "28-30 March 2024" and
-# "28 - 30 March 2024" are ranges, not a tail; "Tennis-2024-03-30"
-# is a tail.
+# A day number before the separator makes "28-30 March 2024" / "28 - 30 March 2024" a range, not
+# a tail: no digit directly before the separator, and after "<1-2 digit number> <separator> " no
+# bare day number that starts the next token. Longer numbers ("Room 101 - 2024-03-30") and other
+# tokens ("Match 3 - 2024-03-30", "Gig 5 - Saturday 30 March 2024") still strip.
+# "Tennis-2024-03-30" is a tail.
+_RANGE_NEXT = r"\d{1,2}(?:st|nd|rd|th)?\s"
+_AFTER_DAY_NUMBER = r"(?<![^\d]\d\s)(?<![^\d]\d\d\s)"
+_AFTER_DAY_RANGE_OPEN = r"(?<![^\d]\d\s[-–—:,]\s)(?<![^\d]\d\d\s[-–—:,]\s)"
 _OCCASION_TAIL_RE = re.compile(
-    rf"(?:(?<!\d)(?<!\d\s)\s*[-–—:,]\s*(?:on\s+{_ON_TOKEN}|{_DAY_TOKEN})"
+    rf"(?:(?<!\d)(?:{_AFTER_DAY_NUMBER}|(?!\s*[-–—:,]\s*{_RANGE_NEXT}))\s*[-–—:,]\s*(?:on\s+{_ON_TOKEN}|{_DAY_TOKEN})"
     rf"|\s+on\s+{_ON_TOKEN}"
     rf"|\s*\(\s*(?:on\s+{_ON_TOKEN}|{_DAY_TOKEN})\s*\)"
-    rf"|\s+(?<![\w-])(?:(?<![-–—:,]\s){_FULL_DATE}|{_RELATIVE_DAY}))\W*$",
+    rf"|\s+(?<![\w-])(?:(?:{_AFTER_DAY_RANGE_OPEN}|(?!{_RANGE_NEXT})){_FULL_DATE}|{_RELATIVE_DAY}))\W*$",
     re.IGNORECASE,
 )
 _OCCASION_HEAD_RE = re.compile(rf"^\W*{_FULL_DATE}(?![\w-])\s*[-–—:,]?\s*", re.IGNORECASE)

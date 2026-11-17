@@ -66,3 +66,15 @@ def test_property_audit_counts_types_outside_the_list(tmp_path):
     row = {(r["class"], r["key"]): r for r in audit["rows"]}[("OBJECT", "type")]
     assert row["outside_types"] == 2 and row["outside_distinct"] == 2 and row["fill"] == 1.0
     assert "vehicle_part" not in json.dumps(audit)  # counts, never values
+
+
+def test_a_declared_type_property_row_gains_the_counts(tmp_path):
+    folder = tmp_path / "kg" / "d" / "doc1"
+    folder.mkdir(parents=True)
+    (folder / "document.json").write_text(json.dumps({"id": "doc1", "name": "doc1.md"}))
+    (folder / "chunks.json").write_text(json.dumps([{"id": "c1", "text": "x"}]))
+    (folder / "observations.json").write_text(json.dumps(
+        [{"id": f"o{i}", "entity_class": "OBJECT", "chunk_id": "c1", "type": t} for i, t in enumerate(["device", "odd"])]))
+    schema = {"entity_types": {"OBJECT": {"kind": "recurrent", "types": ["device"], "properties": {"type": {}}}}}
+    rows = [r for r in pa.audit("d", schema, kg_dir=tmp_path / "kg", depended_on={})["rows"] if r["key"] == "type"]
+    assert len(rows) == 1 and rows[0]["outside_types"] == 1

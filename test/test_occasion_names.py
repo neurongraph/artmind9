@@ -29,6 +29,11 @@ from artmind.observations import normalize_name, strip_occasion_date
     ("Tennis on 30th", "Tennis"),
     ("Race, 1st of May", "Race"),
     ("Tennis   on   2024-03-30", "Tennis"),
+    ("Room 101 - 2024-03-30", "Room 101"),
+    ("Flight BA117 - 2024-03-30", "Flight BA117"),
+    ("Match 3 - 2024-03-30", "Match 3"),
+    ("Room 101 - 30 March 2024", "Room 101"),
+    ("Gig 5 - Saturday 30 March 2024", "Gig 5"),
     ("Trip 28 - 30 March 2024", "Trip 28 - 30 March 2024"),
     ("Festival 1 – 3 May", "Festival 1 – 3 May"),
     # A bare ordinal after a separator is a place in a series, not a day.

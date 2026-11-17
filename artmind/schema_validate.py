@@ -206,6 +206,12 @@ def class_types(decl: dict | None) -> list[str]:
     return []
 
 
+def type_key(value) -> str:
+    """A `type` value as compared with a declared `types:` list: case, whitespace and hyphen
+    runs folded to one underscore."""
+    return re.sub(r"[\s-]+", "_", str(value).strip().lower())
+
+
 def _types_errors(decl: dict, where: str) -> list[str]:
     """`types:` is a closed list: non-empty, of names, and not beside `type_examples:`."""
     errors = []
