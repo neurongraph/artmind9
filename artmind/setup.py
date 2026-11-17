@@ -215,6 +215,10 @@ def scaffold_run_folder() -> dict:
     for directory in directories:
         directory.mkdir(parents=True, exist_ok=True)
 
+    from artmind import data_model
+
+    data_model.stamp_if_fresh(data_model.MODEL_FILE, data_model.DB_PATH)
+
     machine_config = ensure_machine_config()
 
     # Package assets: always refreshed — the package is their source of truth.
@@ -521,6 +525,12 @@ def scaffold_vault(
         directory.mkdir(parents=True, exist_ok=True)
 
     seeded_schemas, _, _ = _seed_vault_domains(layout.schemas_dir, layout.meta_yaml)
+
+    # A vault with no registry DB is fresh: its data starts at the current model.
+    from artmind import data_model
+
+    data_model.stamp_if_fresh(layout.artmind_dir / "data_model.yaml",
+                              layout.data_dir / "document_registry.db")
 
     if not layout.config_env.exists():
         layout.config_env.write_text(

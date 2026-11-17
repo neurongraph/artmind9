@@ -44,9 +44,19 @@ def test_warn_is_once_per_process(model, capsys):
     assert capsys.readouterr().err.count("artmind migrate status") == 1
 
 
-def test_warn_never_writes_the_file(model):
-    dm.warn_if_behind()
-    assert not (model / "data_model.yaml").exists()
+def test_a_read_on_a_fresh_vault_stamps_it_so_a_later_write_passes(model):
+    dm.warn_if_behind()  # a read command, before any registry exists
+    (model / "document_registry.db").write_bytes(b"")  # something then creates the DB
+    dm.require_current("ingest sync")
+
+
+def test_stamp_if_fresh_stamps_only_a_vault_without_a_registry(tmp_path):
+    fresh, old = tmp_path / "fresh.yaml", tmp_path / "old.yaml"
+    dm.stamp_if_fresh(fresh, tmp_path / "none.db")
+    assert yaml.safe_load(fresh.read_text())["version"] == dm.CURRENT
+    (tmp_path / "r.db").write_bytes(b"")
+    dm.stamp_if_fresh(old, tmp_path / "r.db")
+    assert not old.exists()
 
 
 def test_a_malformed_file_is_behind(model):

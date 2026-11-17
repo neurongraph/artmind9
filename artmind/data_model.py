@@ -28,24 +28,27 @@ class DataModelBehind(click.ClickException):
 
 def stamp(version: int) -> None:
     """Record `version` as the data's model, atomically."""
-    MODEL_FILE.parent.mkdir(parents=True, exist_ok=True)
+    stamp_to(MODEL_FILE, version)
+
+
+def stamp_to(model_file: Path, version: int) -> None:
+    model_file.parent.mkdir(parents=True, exist_ok=True)
     LOGS_DIR.mkdir(parents=True, exist_ok=True)
     fd, tmp = tempfile.mkstemp(dir=LOGS_DIR, prefix="data_model.", suffix=".tmp")
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as fh:
             yaml.safe_dump({"version": int(version)}, fh)
-        os.replace(tmp, MODEL_FILE)
+        os.replace(tmp, model_file)
     except BaseException:
         Path(tmp).unlink(missing_ok=True)
         raise
 
 
-def recorded(write: bool = True) -> int:
+def recorded() -> int:
     """The model version the data is at.
 
     An absent file means 0 when the data dir already holds a registry DB, and
-    ``CURRENT`` otherwise (written at once unless ``write`` is False): a fresh
-    vault starts current.
+    ``CURRENT`` otherwise (written at once, by any caller): a fresh vault starts current.
     """
     if MODEL_FILE.exists():
         try:
@@ -55,8 +58,9 @@ def recorded(write: bool = True) -> int:
             return 0
     if Path(DB_PATH).exists():
         return 0
-    if write:
-        stamp(CURRENT)
+    # No registry yet: the vault is fresh, so stamping is correct before anything
+    # (even a read-only command) creates the DB.
+    stamp(CURRENT)
     return CURRENT
 
 
@@ -73,12 +77,12 @@ def require_current(command: str) -> None:
 
 
 def warn_if_behind() -> None:
-    """Print the gate's text once per process on stderr; never fails, never writes."""
+    """Print the gate's text once per process on stderr; never fails."""
     global _warned
     if _warned:
         return
     try:
-        have = recorded(write=False)
+        have = recorded()
     except Exception:  # noqa: BLE001 - a warning must not break a read
         return
     if have != CURRENT:
@@ -123,3 +127,10 @@ def gate_commands(root: click.Group, write_paths) -> None:
             cmd.callback = run
 
     walk(root, "")
+
+
+def stamp_if_fresh(model_file: Path, db_path: Path) -> None:
+    """Stamp `model_file` current when it is absent and no registry DB exists yet."""
+    if model_file.exists() or Path(db_path).exists():
+        return
+    stamp_to(model_file, CURRENT)
