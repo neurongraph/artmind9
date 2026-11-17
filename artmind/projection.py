@@ -77,27 +77,52 @@ def _record_now() -> str:
 # ── ordering ─────────────────────────────────────────────────────────────────
 
 
-def _winner_sort_key(observation: dict) -> tuple:
-    """Order observations so the last one is the winner.
+def _fact_date(observation: dict) -> str:
+    """The observation's own `_valid_from`, or "" when it is only the document's
+    default date (precision `none`): an ingestion day must never beat a real date
+    (plan question 10)."""
+    if observation.get("_valid_precision") == "none":
+        return ""
+    return observation.get("_valid_from") or ""
 
-    **The winner is the observation with the latest source-document
-    `valid_from` -- NOT the highest `doc_version`.** Cross-document aggregates
-    are the common case and in a healthy vault every document sits at version
-    1, so `doc_version` supplies no ordering at all: sorting by it would leave
-    three rate schedules tied and the "winner" decided by dict iteration order.
 
-    `doc_version` and `id` are tiebreakers only, and `id` is there purely so
-    the order is total and therefore reproducible.
+def _winner_sort_key(observation: dict, kind: str = "occurrent") -> tuple:
+    """Order observations so the last one is the winner (spec 2026-11-15 §6.2).
+
+    **Recurrent** classes: the latest *fact* wins, then the latest document --
+    `(_valid_from, _doc_valid_from, doc_version, id)`, a `_valid_from` with
+    precision `none` counting as empty. A later rate stated in an older document
+    is the rate in force; choosing on the document date alone showed the fact's
+    date beside an older fact's value.
+
+    **Occurrent** classes keep the document order, `(_doc_valid_from,
+    doc_version, id)`: a completed event's attributes do not drift, so a
+    disagreement is a conflict and the latest document answers meanwhile.
+
+    The winner is NOT the highest `doc_version`: in a healthy vault every
+    document sits at version 1, so it supplies no ordering. `doc_version` and
+    `id` are tiebreakers only, `id` purely so the order is total and therefore
+    reproducible.
     """
-    return (
+    tail = (
         observation.get("_doc_valid_from") or "",
         observation.get("doc_version") or 0,
         observation.get("id") or "",
     )
+    if kind == "recurrent":
+        return (_fact_date(observation), *tail)
+    return tail
 
 
-def _winner(observations: list[dict]) -> dict:
-    return max(observations, key=_winner_sort_key)
+def _winner(observations: list[dict], kind: str = "occurrent") -> dict:
+    return max(observations, key=lambda o: _winner_sort_key(o, kind))
+
+
+def _merge_kind(observations: list[dict]) -> str:
+    """The class's kind, read independently of the winner (which depends on it):
+    the `_kind` of the latest document's observation, so the choice is total."""
+    latest = max(observations, key=_winner_sort_key)
+    return latest.get("_kind") or "occurrent"
 
 
 # ── merge by shape ───────────────────────────────────────────────────────────
@@ -248,7 +273,7 @@ def merge_observations(
 
     | shape                    | policy                                  |
     |--------------------------|-----------------------------------------|
-    | scalar domain property   | winner (latest document `valid_from`)   |
+    | scalar domain property   | winner (`_winner_sort_key` by kind)     |
     | `type`                   | winner                                  |
     | list domain property     | union                                   |
     | `context`                | union, capped                           |
@@ -269,11 +294,11 @@ def merge_observations(
     if not observations:
         raise ValueError("merge_observations called with no observations")
 
-    ordered = sorted(observations, key=_winner_sort_key)
+    kind = _merge_kind(observations)
+    ordered = sorted(observations, key=lambda o: _winner_sort_key(o, kind))
     winner = ordered[-1]
     entity_class = winner.get("entity_class") or ""
     domain = winner.get("_domain") or ""
-    kind = winner.get("_kind") or "occurrent"
     name = _choose_name(ordered)
     key = override_key if override_key is not None else aggregate_key(name, entity_class, domain)
 
@@ -378,7 +403,7 @@ def merge_observations(
             # it now" -- so that is what "did it change?" must compare.
             varies_across_instants = (
                 len({
-                    _hashable(_winner(obs_at_instant)[prop_key])
+                    _hashable(_winner(obs_at_instant, kind)[prop_key])
                     for obs_at_instant in by_valid_from.values()
                 }) > 1
             )
