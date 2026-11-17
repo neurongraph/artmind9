@@ -540,7 +540,9 @@ HAPPENING_CHUNK_IDS = 3
 
 def happening_row(row: dict) -> dict:
     """A brief `query happenings` row: id, name, class, date, precision, type, up to 5
-    participants, 3 places and 3 chunk ids (the ids `query chunks --idList` reads)."""
+    participants, 3 places and 3 chunk ids (the ids `query chunks --idList` reads). The full
+    row's `time_of_day` and `doc_ids` are dropped: the chunk ids lead to the text, and through
+    it to the document."""
     row = row or {}
     return {"id": row.get("id"), "name": row.get("name"), "class": row.get("entity_class"),
             "date": row.get("date"), "precision": row.get("precision"), "type": row.get("type"),

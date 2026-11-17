@@ -22,6 +22,9 @@ LABEL_RE = re.compile(r"^[A-Z_][A-Z0-9_]*$")
 _LUCENE_SPECIALS_RE = re.compile(r'[+\-&|!(){}\[\]^"~*?:\\/]')
 
 
+_LUCENE_OPERATORS = frozenset({"AND", "OR", "NOT"})
+
+
 _STOPWORDS = frozenset({
     "the", "a", "an", "of", "or", "and", "to", "in", "on", "for", "which", "what",
     "who", "how", "is", "are", "was", "were", "be", "by", "with", "from", "that",
@@ -30,7 +33,7 @@ _STOPWORDS = frozenset({
 })
 
 
-def sanitize_lucene_query(text: str, *, drop_stopwords: bool = False) -> str:
+def sanitize_lucene_query(text: str, *, drop_stopwords: bool = False, all_terms: bool = False) -> str:
     """Reduce free text to plain Lucene terms safe for db.index.fulltext.queryNodes.
 
     Returns an empty string when nothing searchable remains; callers should
@@ -42,6 +45,9 @@ def sanitize_lucene_query(text: str, *, drop_stopwords: bool = False) -> str:
     query is never reduced to nothing.  Pass ``True`` only for survey legs;
     keep the default ``False`` for vector-text so its eval baseline is
     unchanged.
+
+    With `all_terms=True` every kept term (or phrase) is required (`+lake +trip`);
+    the default ORs them.
     """
     terms = []
     for token in text.split():
@@ -49,12 +55,14 @@ def sanitize_lucene_query(text: str, *, drop_stopwords: bool = False) -> str:
         # A token joined by specials (`2025-12-31`, `back-to-back`, `g/h`)
         # stays one phrase: split into separate OR'd terms, a date matches
         # every other date sharing a day or month number.
-        terms.append(f'"{" ".join(parts)}"' if len(parts) > 1 else "".join(parts))
-    sanitized = " ".join(t for t in terms if t)
-    if not drop_stopwords or not sanitized:
-        return sanitized
-    kept = [t for t in terms if t and t.lower() not in _STOPWORDS]
-    return " ".join(kept) if kept else sanitized
+        term = f'"{" ".join(parts)}"' if len(parts) > 1 else "".join(parts)
+        # A bare AND / OR / NOT is a Lucene operator (`--match "AND"` is a parse error);
+        # lowercased it is a plain term, and the analyzer lowercases terms anyway.
+        terms.append(term.lower() if term in _LUCENE_OPERATORS else term)
+    terms = [t for t in terms if t]
+    if drop_stopwords:
+        terms = [t for t in terms if t.lower() not in _STOPWORDS] or terms
+    return " ".join(f"+{t}" if all_terms else t for t in terms)
 
 
 def normalize_domains(value: "str | Sequence[str]") -> list[str]:
@@ -2350,48 +2358,63 @@ def timeline(
 #: Participant / place classes one hop from a happening, kept when the schema declares them.
 HAPPENING_PEOPLE_CLASSES = ("PERSON",)
 HAPPENING_PLACE_CLASSES = ("LOCATION", "PLACE")
-#: Names / ids a full happening row lists at most per list (deduplicated in Python).
+#: Names / ids a full happening row lists at most per list (distinct, sorted).
 _HAPPENING_LIST_CAP = 20
+#: Full-text hits read from `entity_name_ft`; at this many the rows may be incomplete.
+HAPPENING_HIT_LIMIT = 5000
+
+_UNDATED = "({v}._valid_from IS NULL OR coalesce({v}._valid_precision, '') = 'none')"
 
 #: `query happenings` (spec 2026-11-15 §5.2, plan question 16): occasion-class entities whose
-#: name or aliases match (field-scoped Lucene on `entity_name_ft`; `description` is left out,
-#: it pulls in every happening that merely mentions the word), their same-as group, and those
-#: whose `type` equals the term. A default date (`_valid_precision` 'none') is undated: never
-#: inside a --from/--to window, sorted last.
+#: name or aliases hold every term (field-scoped Lucene on `entity_name_ft`; `description` is
+#: left out, it pulls in every happening that merely mentions the word), their same-as group,
+#: and those whose `type` equals the term. A default date (`_valid_precision` 'none') is
+#: undated: never inside a --from/--to window, sorted last. `rows_total`, `undated`,
+#: `periods` and `documents_in_rows` are over every match; `rows` is the first `$limit`.
 _HAPPENINGS = """
-CALL db.index.fulltext.queryNodes('entity_name_ft', $ft_query) YIELD node AS hit
-WHERE {scope_hit} AND hit.entity_class IN $classes
-WITH collect(DISTINCT hit) AS hits
+CALL db.index.fulltext.queryNodes('entity_name_ft', $ft_query, {{limit: $hit_limit}}) YIELD node
+WITH collect(node) AS raw
+WITH size(raw) AS scanned, [h IN raw WHERE {scope_h} AND h.entity_class IN $classes] AS hits
 CALL (hits) {{
-  UNWIND hits AS h RETURN h AS e
-  UNION
-  UNWIND hits AS h MATCH (h)-[:SAME_AS]-(e:Entity) WHERE {scope_e} AND e.entity_class IN $classes RETURN e
-  UNION
-  MATCH (e:Entity) WHERE {scope_e} AND e.entity_class IN $classes AND toLower(e.type) = toLower($term) RETURN e
+  CALL (hits) {{
+    UNWIND hits AS h RETURN h AS e
+    UNION
+    UNWIND hits AS h MATCH (h)-[:SAME_AS]-(e:Entity) WHERE {scope_e} AND e.entity_class IN $classes RETURN e
+    UNION
+    // `type` has no index: this reads every in-scope entity of the occasion classes (the
+    // `_domain` index narrows it to the domains). Fine at journal sizes (thousands).
+    MATCH (e:Entity) WHERE {scope_e} AND e.entity_class IN $classes AND toLower(e.type) = toLower($term) RETURN e
+  }}
+  RETURN collect(DISTINCT e) AS found
 }}
-WITH DISTINCT e
-WITH e, (e._valid_from IS NULL OR coalesce(e._valid_precision, '') = 'none') AS undated
-WHERE ($from_ IS NULL OR (NOT undated AND e._valid_from >= $from_))
-  AND ($to IS NULL OR (NOT undated AND e._valid_from <= $to))
-  AND ($withId IS NULL OR EXISTS {{ MATCH (e)-[:RELATES_TO]-(:Entity {{_id: $withId}}) }})
-WITH e, undated ORDER BY undated, e._valid_from, e._valid_time_of_day, e.name
-WITH collect(e) AS matched
-RETURN size(matched) AS rows_total, [e IN matched[..$limit] | {{
-  id: e._id, name: e.name, entity_class: e.entity_class, type: e.type,
-  date: CASE WHEN e._valid_from IS NULL OR coalesce(e._valid_precision, '') = 'none' THEN null ELSE e._valid_from END,
-  precision: coalesce(e._valid_precision, 'day'), time_of_day: e._valid_time_of_day,
-  participants: [(e)-[:RELATES_TO]-(n:Entity) WHERE n.entity_class IN $people | n.name][..{cap}],
-  places: [(e)-[:RELATES_TO]-(n:Entity) WHERE n.entity_class IN $places | n.name][..{cap}],
-  chunk_ids: [(e)-[:AGGREGATES]->(o:Observation) WHERE o.chunk_id IS NOT NULL | o.chunk_id][..{cap}],
-  doc_ids: [(e)-[:AGGREGATES]->(o:Observation) WHERE o.doc_id IS NOT NULL | o.doc_id][..{cap}]
-}}] AS rows
+WITH scanned, COLLECT {{
+  UNWIND found AS e
+  WITH e, {undated_e} AS undated
+  WHERE ($from_ IS NULL OR (NOT undated AND e._valid_from >= $from_))
+    AND ($to IS NULL OR (NOT undated AND e._valid_from <= $to))
+    AND ($withId IS NULL OR EXISTS {{ MATCH (e)-[:RELATES_TO]-(:Entity {{_id: $withId}}) }})
+  RETURN e ORDER BY undated, e._valid_from, e._valid_time_of_day, e.name
+}} AS matched
+RETURN scanned, size(matched) AS rows_total,
+  size([m IN matched WHERE {undated_m}]) AS undated,
+  [m IN matched WHERE NOT {undated_m} | left(m._valid_from, $width)] AS period_keys,
+  COUNT {{ UNWIND matched AS m MATCH (m)-[:AGGREGATES]->(o:Observation) WHERE o.doc_id IS NOT NULL
+          RETURN DISTINCT o.doc_id }} AS documents_in_rows,
+  [e IN matched[..$limit] | {{
+    id: e._id, name: e.name, entity_class: e.entity_class, type: e.type,
+    date: CASE WHEN {undated_e} THEN null ELSE e._valid_from END,
+    precision: CASE WHEN {undated_e} THEN 'none' ELSE coalesce(e._valid_precision, 'day') END,
+    time_of_day: e._valid_time_of_day,
+    participants: COLLECT {{ MATCH (e)-[:RELATES_TO]-(n:Entity) WHERE n.entity_class IN $people AND {scope_n}
+                            RETURN DISTINCT n.name AS v ORDER BY v LIMIT {cap} }},
+    places: COLLECT {{ MATCH (e)-[:RELATES_TO]-(n:Entity) WHERE n.entity_class IN $places AND {scope_n}
+                      RETURN DISTINCT n.name AS v ORDER BY v LIMIT {cap} }},
+    chunk_ids: COLLECT {{ MATCH (e)-[:AGGREGATES]->(o:Observation) WHERE o.chunk_id IS NOT NULL
+                         RETURN DISTINCT o.chunk_id AS v ORDER BY v LIMIT {cap} }},
+    doc_ids: COLLECT {{ MATCH (e)-[:AGGREGATES]->(o:Observation) WHERE o.doc_id IS NOT NULL
+                       RETURN DISTINCT o.doc_id AS v ORDER BY v LIMIT {cap} }}
+  }}] AS rows
 """
-
-
-def _distinct(values, cap: int | None = None, *, sort: bool = False) -> list:
-    out = list(dict.fromkeys(v for v in values or [] if v))
-    out = sorted(out, key=str.casefold) if sort else out
-    return out[:cap] if cap is not None else out
 
 
 def happenings(
@@ -2407,11 +2430,14 @@ def happenings(
 ) -> dict:
     """Every dated happening (an `identity: occasion` class) matching `match` (spec 2026-11-15 §5.2).
 
-    `from_` / `to` are ISO dates already resolved by the caller (`to` widened). Returns one row
-    per happening ordered by date (undated last), `rows_total` / `truncated`, `undated`,
-    `periods` with `by`, and `coverage`: documents whose passage text matches the term in the
-    window (`topics.grid.count_subject`) against the documents the rows come from; when text
-    matches more documents, `next` names a survey (`hints.happenings_survey`).
+    `from_` / `to` are ISO dates already resolved by the caller (`to` widened). Every term of
+    `match` must appear (`+lake +trip`), in the name/aliases match and in the coverage count.
+    Returns one row per happening ordered by date (undated last), `rows_total` / `truncated`,
+    `undated`, `periods` with `by` (all three over every match, not just the rows shown), and
+    `coverage`: documents whose passage text matches in the window (`topics.grid.count_subject`)
+    against the documents every matched happening comes from; when text matches more documents,
+    `next` names a survey (`hints.happenings_survey`). At `HAPPENING_HIT_LIMIT` name hits
+    `rows_total_capped` says the match may be incomplete.
     """
     from artmind import hints
     from artmind.schema_validate import classes_with_identity
@@ -2421,8 +2447,8 @@ def happenings(
 
     domains = normalize_domains(domains)
     term = (match or "").strip()
-    escaped = sanitize_lucene_query(term)
-    if not escaped:
+    required = sanitize_lucene_query(term, drop_stopwords=True, all_terms=True)
+    if not required:
         raise ValueError("--match contains no searchable text")
     occasion: set[str] = set()
     declared: set[str] = set()
@@ -2449,26 +2475,21 @@ def happenings(
 
     params = {
         "domains": domains, "classes": classes, "term": term,
-        "ft_query": f"name:({escaped}) OR aliases:({escaped})",
-        "from_": from_, "to": to, "withId": with_id, "limit": limit,
+        "ft_query": f"name:({required}) OR aliases:({required})", "hit_limit": HAPPENING_HIT_LIMIT,
+        "from_": from_, "to": to, "withId": with_id, "limit": limit, "width": 7 if by == "month" else 4,
         "people": [c for c in HAPPENING_PEOPLE_CLASSES if c in declared],
         "places": [c for c in HAPPENING_PLACE_CLASSES if c in declared],
     }
-    cypher = _HAPPENINGS.format(scope_hit=domain_predicate("hit"), scope_e=domain_predicate("e"),
-                                cap=_HAPPENING_LIST_CAP)
+    cypher = _HAPPENINGS.format(scope_h=domain_predicate("h"), scope_e=domain_predicate("e"),
+                                scope_n=domain_predicate("n"), undated_e=_UNDATED.format(v="e"),
+                                undated_m=_UNDATED.format(v="m"), cap=_HAPPENING_LIST_CAP)
     scoped = _expand(domains)
     with read_session() as session:
         rec = session.run(cypher, **params).single()
-        matching, at_least = count_subject(session, term, scoped)
+        matching, at_least = count_subject(session, term, scoped, all_terms=True)
     record = serialize_record(rec) if rec is not None else {}
-    rows = []
-    for row in record.get("rows") or []:
-        rows.append({**row,
-                     "participants": _distinct(row.get("participants"), sort=True),
-                     "places": _distinct(row.get("places"), sort=True),
-                     "chunk_ids": _distinct(row.get("chunk_ids"), sort=True),
-                     "doc_ids": _distinct(row.get("doc_ids"), sort=True)})
-    rows_total = int(record.get("rows_total") or len(rows))
+    rows = list(record.get("rows") or [])
+    rows_total = int(record.get("rows_total") or 0)
 
     def in_window(day) -> bool:
         if not (from_ or to):
@@ -2479,18 +2500,20 @@ def happenings(
         return (not from_ or day >= from_) and (not to or day <= to)
 
     in_text = {d["doc_id"] for d in matching if in_window(d.get("date"))}
-    in_rows = {doc for row in rows for doc in row["doc_ids"]}
-    coverage: dict = {"matching_documents": len(in_text), "documents_in_rows": len(in_rows)}
+    coverage: dict = {"matching_documents": len(in_text),
+                      "documents_in_rows": int(record.get("documents_in_rows") or 0)}
     if at_least:
         coverage["at_least"] = True
     out = {**base, "rows_total": rows_total, "truncated": rows_total > len(rows),
-           "undated": sum(1 for row in rows if not row.get("date")), "coverage": coverage}
+           "undated": int(record.get("undated") or 0), "coverage": coverage}
+    if int(record.get("scanned") or 0) >= HAPPENING_HIT_LIMIT:
+        out["rows_total_capped"] = True
+        out["warnings"] = [f"{HAPPENING_HIT_LIMIT} name matches read: more happenings may match; "
+                           "narrow --match or add --entityClass"]
     if by:
-        width = 4 if by == "year" else 7
         counts: dict[str, int] = {}
-        for row in rows:
-            if row.get("date"):
-                key = str(row["date"])[:width]
+        for key in record.get("period_keys") or []:
+            if key:
                 counts[key] = counts.get(key, 0) + 1
         out["periods"] = [{"period": p, "count": n} for p, n in sorted(counts.items())]
     out["rows"] = rows

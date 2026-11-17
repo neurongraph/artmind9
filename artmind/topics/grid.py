@@ -100,11 +100,13 @@ def _period_sort(p) -> tuple:
     return (p is None, p == "undated", p or "")
 
 
-def count_subject(session, subject: str, domains: list[str]) -> tuple[list[dict], bool]:
-    """(matching documents [{doc_id, date, domain}], at_least) for one subject."""
+def count_subject(session, subject: str, domains: list[str], *, all_terms: bool = False
+                  ) -> tuple[list[dict], bool]:
+    """(matching documents [{doc_id, date, domain}], at_least) for one subject. `all_terms`
+    requires every word of the subject (`query happenings`); topics OR them."""
     from artmind.graph_query import sanitize_lucene_query, serialize_record
 
-    ft_query = sanitize_lucene_query(subject, drop_stopwords=True)
+    ft_query = sanitize_lucene_query(subject, drop_stopwords=True, all_terms=all_terms)
     if not ft_query:
         return [], False
     rec = session.run(_MATCHING, ft_query=ft_query, domains=domains, hit_limit=HIT_LIMIT).single()
