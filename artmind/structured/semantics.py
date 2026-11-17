@@ -350,7 +350,7 @@ def propose_mapping(
         )
     entity_types = schema.get("entity_types") or {}
     classes = [
-        {"class": cls, "description": decl.get("description", ""), "types": decl.get("type_examples", [])}
+        {"class": cls, "description": decl.get("description", ""), "types": class_types(decl)}
         for cls, decl in entity_types.items()
     ]
     if not classes:
