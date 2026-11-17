@@ -286,7 +286,7 @@ def test_lift_document_dates_pattern_without_label_mapping():
         "Body.", {}, {}, None,
         patterns={"valid_from": [{"filename": r"(\d{4}-\d{2}-\d{2})"}]}, filename="log 2026-03-04.md",
     )
-    assert out == {"valid_from": "2026-03-04", "time_source": "filename"}
+    assert out == {"valid_from": "2026-03-04", "valid_precision": "day", "time_source": "filename"}
 
 
 def test_lift_document_dates_ignores_malformed_pattern_entries():

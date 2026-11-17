@@ -143,6 +143,28 @@ def test_an_undated_note_keeps_its_first_ingestion_date_and_gets_no_anchor(tmp_p
     assert obs["_valid_from"] == "2026-10-02"
 
 
+def test_a_month_header_gives_the_document_and_its_undated_facts_month_precision(tmp_path, monkeypatch):
+    """Spec 2026-11-15 §2: a partial document date is stored as its first day with its precision."""
+    doc = _vault(tmp_path, monkeypatch, "plans.md", "| Date | 2026-03 |\n\nPlans for the spring.\n")
+    _stub_llm(monkeypatch)
+
+    document, (obs,) = _extract(doc)
+
+    assert (document["_valid_from"], document["_valid_precision"], document["_valid_time_source"]) == (
+        "2026-03-01", "month", "header")
+    assert (obs["_valid_from"], obs["_valid_precision"]) == ("2026-03-01", "month")
+
+
+def test_a_default_dated_document_has_precision_none(tmp_path, monkeypatch):
+    doc = _vault(tmp_path, monkeypatch, "musings.md", "No date anywhere.\n")
+    _stub_llm(monkeypatch)
+
+    document, (obs,) = _extract(doc)
+
+    assert (document["_valid_time_source"], document["_valid_precision"]) == ("default_ingestion", "none")
+    assert obs["_valid_precision"] == "none"
+
+
 def _context_prompts(monkeypatch):
     """Entities prompts as the model sees them (the passage carries the context block)."""
     prompts: list = []
@@ -236,6 +258,19 @@ def test_retime_folder_redates_the_document_and_its_observations(tmp_path, monke
     assert (folder / "chunks.json").read_bytes() == chunks_before, "only the time fields move"
     # Idempotent.
     assert retime_folder(folder, _schema())["changed"] is False
+
+
+def test_retime_folder_rederives_the_documents_precision(tmp_path, monkeypatch):
+    from artmind.retime import retime_folder
+
+    folder, _ = _ingested_under_the_old_schema(tmp_path, monkeypatch)
+    assert json.loads((folder / "document.json").read_text())["_valid_precision"] == "none"
+
+    retime_folder(folder, _schema())
+
+    document = json.loads((folder / "document.json").read_text())
+    (obs,) = json.loads((folder / "observations.json").read_text())
+    assert (document["_valid_precision"], obs["_valid_precision"]) == ("day", "day")
 
 
 def test_retime_folder_keeps_a_facts_own_date(tmp_path, monkeypatch):

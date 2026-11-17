@@ -3535,23 +3535,29 @@ def _document_valid_time(
     extraction gave one batch four different "ingestion dates" and churned
     the committed staging.
 
+    `_valid_precision` says how much of `_valid_from` the source stated (`parse_valid`),
+    `none` when it is the `ingestion_date` default (spec 2026-11-15 §2).
+
     Emitted with `_`-prefixed names because artmind owns them — the underscore
     IS the rule, and an LLM-extracted `status` colliding with the system's own
     is exactly what row 9 of the scorecard counts.
     """
-    from artmind.temporal import lift_document_dates, parse_iso
+    from artmind.temporal import lift_document_dates, parse_valid
 
     out: dict = {}
     for key in ("_valid_from", "_valid_to"):
         if frontmatter.get(key):
-            iso = parse_iso(str(frontmatter[key]))
-            if iso:
-                out[key] = iso
+            parsed = parse_valid(str(frontmatter[key]))
+            if parsed:
+                out[key] = parsed.start
+                if key == "_valid_from":
+                    out["_valid_precision"] = parsed.precision
     if frontmatter.get("_valid_time_source") and out:
         out["_valid_time_source"] = str(frontmatter["_valid_time_source"])
     if out.get("_valid_from"):
         out.setdefault("_valid_time_source", "frontmatter")
         return out
+    out.pop("_valid_precision", None)
 
     temporal = schema.get("temporal") or {}
     mapping = temporal.get("document") or {}
@@ -3580,6 +3586,8 @@ def _document_valid_time(
         lifted["valid_from"] = str(prior["_valid_from"])
     if lifted.get("valid_from"):
         out["_valid_from"] = lifted["valid_from"]
+        # How much of the date was stated; `none` for the ingestion-date default (spec §2).
+        out["_valid_precision"] = lifted.get("valid_precision") or "day"
     if lifted.get("valid_to"):
         out["_valid_to"] = lifted["valid_to"]
     if lifted.get("time_source"):

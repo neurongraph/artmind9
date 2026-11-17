@@ -256,11 +256,17 @@ def widen_as_of(value: str) -> str:
 
 
 def _find_header_date(md_text: str, labels: list[str]) -> str | None:
-    """A document date from its header: for each label in order, every line that
-    gives it -- a table row "| Label | value |", "Label: value", the label
-    and its value on one line ("Dated 01/01/2026"), or a defined term
-    ("'Amendment Date' means 1 August 2025") -- and the first value that
-    holds a readable date (`find_date`). A label whose values hold none (a
+    """`_find_header_date_text`'s date as ISO-8601 (a partial date's first day)."""
+    return parse_iso(_find_header_date_text(md_text, labels))
+
+
+def _find_header_date_text(md_text: str, labels: list[str]) -> str | None:
+    """The text of a document date from its header, readable by `parse_valid`: for each
+    label in order, every line that gives it -- a table row "| Label | value |",
+    "Label: value", the label and its value on one line ("Dated 01/01/2026"), or a
+    defined term ("'Amendment Date' means 1 August 2025") -- and the first value that
+    holds a readable date (a day by `find_date`, else a partial date `parse_valid`
+    reads, such as "2026-03", kept as text). A label whose values hold none (a
     signature block's empty "Date:") does not answer; the next label, then the
     schema's patterns and default, are tried instead."""
     for label in labels:
@@ -273,9 +279,14 @@ def _find_header_date(md_text: str, labels: list[str]) -> str | None:
             r"^[^\n]*?['\"\u2018\u201c]" + escaped + r"['\"\u2019\u201d][ \t]+means[ \t]+(.+?)[ \t]*$",
         ):
             for m in re.finditer(pattern, md_text, re.IGNORECASE | re.MULTILINE):
-                iso = find_date(m.group(1).strip().strip("*"))
+                value = m.group(1).strip().strip("*")
+                # The first day-precision date inside the value; else a partial date
+                # ("2026-03"), returned as text so `parse_valid` keeps its precision.
+                iso = find_date(value)
                 if iso:
                     return iso
+                if parse_valid(value):
+                    return value
     return None
 
 
@@ -315,7 +326,8 @@ _PATTERN_SOURCES = ("filename", "first_line")
 def _match_document_pattern(
     patterns: list, md_text: str, filename: str | None
 ) -> tuple[str, str] | None:
-    """The first `document_patterns` entry whose regex finds a date: (iso, source).
+    """The first `document_patterns` entry whose regex finds a date: (matched text, source),
+    the text readable by `parse_valid` (so its precision survives).
 
     Each entry is a one-key map, `{filename: <regex>}` (matched against the
     filename without its extension) or `{first_line: <regex>}` (the body's
@@ -340,9 +352,9 @@ def _match_document_pattern(
         m = re.search(str(regex), subjects[source])
         if not m:
             continue
-        iso = parse_iso(m.group(1) if m.groups() else m.group(0))
-        if iso:
-            return iso, source
+        text = m.group(1) if m.groups() else m.group(0)
+        if parse_valid(text):
+            return text, source
     return None
 
 
@@ -361,7 +373,9 @@ def lift_document_dates(
     patterns example: {"valid_from": [{"filename": r"^(\\d{4}-\\d{2}-\\d{2})$"}]}
     Labels are tried first; `patterns` (the schema's `temporal.document_patterns`)
     only when no label answers -- see `_match_document_pattern`.
-    Records time_source: 'header' | 'frontmatter' | 'filename' | 'first_line'.
+    Records time_source: 'header' | 'frontmatter' | 'filename' | 'first_line', and
+    `valid_precision`, how much of `valid_from` was stated (`parse_valid`; `none` for the
+    `ingestion_date` default).
     """
     out: dict = {}
     source = None
@@ -369,7 +383,8 @@ def lift_document_dates(
     for canon in [*mapping, *(k for k in patterns if k not in mapping)]:
         labels = mapping.get(canon) or []
         # A date is taken only where the header holds one; a version is any value.
-        raw = _find_header_value(md_text, labels) if canon == "version" else _find_header_date(md_text, labels)
+        raw = (_find_header_value(md_text, labels) if canon == "version"
+               else _find_header_date_text(md_text, labels))
         if raw is not None:
             source = source or "header"
         else:
@@ -396,9 +411,11 @@ def lift_document_dates(
             m = re.match(r"\s*(\d+(?:\.\d+)*)", raw)
             out["version"] = m.group(1) if m else raw.strip()
         else:
-            iso = parse_iso(raw)
-            if iso:
-                out[canon] = iso
+            parsed = parse_valid(raw)
+            if parsed:
+                out[canon] = parsed.start
+                if canon == "valid_from":
+                    out["valid_precision"] = parsed.precision
             else:
                 # Never store text as a date: it sorts wrongly against ISO dates (spec 1.5).
                 out.setdefault("unparsed", []).append(canon)
@@ -406,6 +423,7 @@ def lift_document_dates(
         out["time_source"] = source or "header"
     elif defaults and defaults.get("valid_from") == "ingestion_date":
         out["valid_from"] = date.today().isoformat()      # document time is local
+        out["valid_precision"] = "none"                    # a default date is not a date (spec §2)
         out["time_source"] = defaults.get("time_source", "default_ingestion")
         out["valid_from_inferred"] = defaults.get("valid_from_inferred", True)
     return out
