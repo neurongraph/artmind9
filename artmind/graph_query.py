@@ -2290,8 +2290,8 @@ def timeline(
     from_: str | None = None,
     to: str | None = None,
 ) -> dict:
-    """Domain-scoped: every entity of a `kind: occurrent` class, ordered by
-    `valid_from`, windowed by `--from`/`--to`.
+    """Domain-scoped: every entity of an `occasion` class (`schema_validate.classes_with_identity`),
+    ordered by `_valid_from` (undated rows last), windowed by `--from`/`--to`.
 
     Re-specified (Phase 4) from a per-entity two-hop relationship traversal
     that pulled `event_at`/`valid_from` off *neighbouring* entities and their
@@ -2305,36 +2305,38 @@ def timeline(
     uses (domain-scoped, no `--asOf` — the same reasoning applies: the
     projection is current by construction).
     """
+    from artmind.schema_validate import classes_with_identity
     from artmind.temporal import load_schema
 
     domains = normalize_domains(domains)
     occurrent_labels: set[str] = set()
     for domain in domains:
         schema = load_schema(domain)
-        for cls, decl in (schema.get("entity_types") or {}).items():
-            if (decl or {}).get("kind") == "occurrent":
-                try:
-                    occurrent_labels.add(normalize_entity_class(cls))
-                except ValueError:
-                    continue
+        for cls in classes_with_identity(schema, "occasion"):
+            try:
+                occurrent_labels.add(normalize_entity_class(cls))
+            except ValueError:
+                continue
 
     if not occurrent_labels:
         return {**_domain_output(domains), "query_type": "graph", "command": "timeline", "rows": []}
 
     params: dict = {"domains": domains, "labels": sorted(occurrent_labels)}
     window = ""
+    undated = "(e._valid_from IS NULL OR coalesce(e._valid_precision, '') = 'none')"
     if from_:
         params["from_"] = from_
-        window += "\n      AND (e._valid_from IS NULL OR e._valid_from >= $from_)"
+        window += f"\n      AND ({undated} OR e._valid_from >= $from_)"
     if to:
         params["to"] = to
-        window += "\n      AND (e._valid_from IS NULL OR e._valid_from <= $to)"
+        window += f"\n      AND ({undated} OR e._valid_from <= $to)"
     cypher = f"""
     MATCH (e:Entity)
     WHERE {domain_predicate("e")}
       AND any(l IN labels(e) WHERE l IN $labels){window}
-    RETURN e {{ ._id, .name, .entity_class, label: labels(e), valid_from: e._valid_from, valid_to: e._valid_to }} AS entity
-    ORDER BY e._valid_from
+    RETURN e {{ ._id, .name, .entity_class, label: labels(e), valid_from: e._valid_from, valid_to: e._valid_to,
+      valid_precision: e._valid_precision, valid_time_of_day: e._valid_time_of_day }} AS entity
+    ORDER BY CASE WHEN {undated} THEN 1 ELSE 0 END, e._valid_from, e._valid_time_of_day
     """
     return {
         **_domain_output(domains),

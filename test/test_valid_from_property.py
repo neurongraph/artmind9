@@ -32,11 +32,11 @@ def test_chunks_query_document_projection():
 
 def test_timeline_window_reads_underscore_date(monkeypatch):
     seen = {}
-    monkeypatch.setattr("artmind.temporal.load_schema", lambda d: {"entity_types": {"EVENT": {"kind": "occurrent"}}})
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda d: {"entity_types": {"EVENT": {"kind": "occurrent", "identity": "occasion"}}})
     monkeypatch.setattr(graph_query, "_run_read_query", lambda c, p: seen.setdefault("c", c) and [])
     graph_query.timeline(["d"], from_="2020-01-01", to="2021-01-01")
     cypher = seen["c"]
     assert "e._valid_from >= $from_" in cypher
     assert "e._valid_from <= $to" in cypher
-    assert "ORDER BY e._valid_from" in cypher and "e.valid_from" not in cypher
+    assert "e._valid_from, e._valid_time_of_day" in cypher and "e.valid_from" not in cypher
     assert "valid_to: e._valid_to" in cypher
