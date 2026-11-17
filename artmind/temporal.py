@@ -265,8 +265,8 @@ def _find_header_date_text(md_text: str, labels: list[str]) -> str | None:
     label in order, every line that gives it -- a table row "| Label | value |",
     "Label: value", the label and its value on one line ("Dated 01/01/2026"), or a
     defined term ("'Amendment Date' means 1 August 2025") -- and the first value that
-    holds a readable date (a day by `find_date`, else a partial date `parse_valid`
-    reads, such as "2026-03", kept as text). A label whose values hold none (a
+    holds a readable date (a day by `find_date`, else a value that is a partial date on
+    its own, such as "2026-03", kept as text so `parse_valid` keeps its precision). A label whose values hold none (a
     signature block's empty "Date:") does not answer; the next label, then the
     schema's patterns and default, are tried instead."""
     for label in labels:
@@ -285,9 +285,17 @@ def _find_header_date_text(md_text: str, labels: list[str]) -> str | None:
                 iso = find_date(value)
                 if iso:
                     return iso
-                if parse_valid(value):
+                if _is_partial_date(value):
                     return value
     return None
+
+
+def _is_partial_date(value: str) -> bool:
+    """Whether `value` is one partial date on its own ("2026-03", "Q1 2026", "March 2026"),
+    allowing only a trailing parenthesised qualifier ("2026 (draft)"). Prose after a
+    number ("2024 budget", "1500 units") is not a date, so a header label holding it does
+    not answer."""
+    return _one_date(_QUALIFIER_RE.sub("", value).strip()) is not None
 
 
 def _find_header_value(md_text: str, labels: list[str]) -> str | None:
