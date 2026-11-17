@@ -769,6 +769,9 @@ def supersession_effect(newer_doc_id: str, older_doc_id: str, scope: str = "docu
             # The date the record will carry (read-only: the file and the newer document).
             effective = supersession_records.record_for(
                 session, newer_doc_id, older_doc_id, scope, None, "manual")["effective"]
+        # Ends of validity (spec 2026-11-15 §7.2): with no effective date nothing is closed.
+        closing = (supersession_records.count_validity(session, older_doc_id)
+                   if scope == "document" and effective else 0)
     already = bool(existing and existing.get("n"))
     changes = [Change("document_supersede", 0 if already else 1, [{
         "newer": names.get(newer_doc_id, newer_doc_id), "older": names.get(older_doc_id, older_doc_id),
@@ -788,11 +791,15 @@ def supersession_effect(newer_doc_id: str, older_doc_id: str, scope: str = "docu
             from artmind import lifecycle_records
 
             records.append(f".artmind/data/curation/lifecycle/{lifecycle_records.record_id(older_doc_id)}.json")
+        changes.append(Change("validity_closed", closing, [{"doc_id": older_doc_id, "valid_to": effective}]
+                              if closing else []))
     older = names.get(older_doc_id, older_doc_id)
     return Effect(
         summary=(
             f"{'Re-assert' if already else 'Assert'} that {names.get(newer_doc_id, newer_doc_id)!r} supersedes "
-            f"{older!r}" + (f": {observations} observation(s) move to history; {len(keys)} aggregate key(s) are rebuilt."
+            f"{older!r}" + (f": {observations} observation(s) move to history; {len(keys)} aggregate key(s) are rebuilt"
+                            + (f"; {closing} node(s) without an end are valid to {effective}." if closing else
+                               "; no end of validity is written (no effective date)." if not effective else ".")
                             if scope == "document" else ".")
         ),
         changes=changes,
@@ -830,8 +837,10 @@ def apply_supersession(
     record file, `.artmind/data/curation/supersessions/<id>.json`, and the
     graph is written from that record -- the same path `vault sync` applies
     on every other machine (`artmind.supersession_records`). The older
-    document's `valid_to`/`superseded_by` are recomputed from all of its
-    `SUPERSEDES` edges.
+    document's `superseded_by` is recomputed from all of its `SUPERSEDES`
+    edges, and (`scope: document`) it and its facts gain `_valid_to = effective`
+    where they have none (spec 2026-11-15 §7.2); the returned `effective` is
+    the record's, the date that close used.
 
     Idempotent.
     """
@@ -914,6 +923,15 @@ def unsupersede_effect(newer_doc_id: str, older_doc_id: str, scope: str = "docum
         from artmind import lifecycle_records
 
         records.append(f".artmind/data/curation/lifecycle/{lifecycle_records.record_id(older_doc_id)}.json")
+    # The ends this record wrote are removed unless another supersession still closes them.
+    reopening = 0
+    if scope == "document" and state["edge"] and state["others"] == 0:
+        from artmind.graph_query import read_session
+
+        with read_session() as session:
+            reopening = supersession_records.count_validity(session, older_doc_id, closed_by=rid)
+    if scope == "document":
+        changes.append(Change("validity_reopened", reopening, [{"doc_id": older_doc_id}] if reopening else []))
     domains = state.get("domains") or []
     if not state["edge"] and restores:
         summary = (f"No supersession of {older!r} by {newer!r} to remove; {older!r} is still retired and nothing "
@@ -926,6 +944,8 @@ def unsupersede_effect(newer_doc_id: str, older_doc_id: str, scope: str = "docum
             f"; {older!r} is restored: {observations} observation(s) move to latest, {len(keys)} aggregate key(s) are rebuilt."
             if restores else
             ("; it stays retired because another supersession still points at it." if state["retired"] and state["others"] else "."))
+    if reopening:
+        summary += f" {reopening} node(s) this supersession ended are valid again."
     if len(domains) > 1 and restores:
         summary += (f" Warning: the documents span several domains ({', '.join(domains)}), so the embedding "
                     "sweep after the restore is skipped; run `artmind ingest embed-passages` afterwards.")
@@ -944,7 +964,8 @@ def unsupersede_effect(newer_doc_id: str, older_doc_id: str, scope: str = "docum
 
 def unapply_supersession(newer_doc_id: str, older_doc_id: str, scope: str = "document") -> dict:
     """Reverse `apply_supersession`: delete the record file, delete the edge and
-    recompute the older document's `valid_to`/`superseded_by` in one transaction
+    recompute the older document's `superseded_by` and ends of validity
+    (reopening what this supersession closed) in one transaction
     that also bumps the catalogue generation, then restore the older document
     when nothing else supersedes it. Idempotent."""
     from artmind import curation_records, supersession_records

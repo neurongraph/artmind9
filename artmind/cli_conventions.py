@@ -336,6 +336,7 @@ EFFECT_KINDS = frozenset({
     "topic_delete", "table_change", "trace_delete", "fact_write", "fact_retract",
     "proposal_reject", "projection_rebuild", "document_archive", "catalogue_refresh",
     "mart_record", "mart_build", "property_values_dropped", "property_backfill",
+    "validity_closed", "validity_reopened",
 })
 
 SAMPLE_CAP = 10

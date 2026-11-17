@@ -87,7 +87,7 @@ def _is_client_error(exc: Exception) -> bool:
 # internals; it is small and stable.
 _SKIP_PROPS = frozenset({
     "id", "key", "canonical_name", "doc_id", "doc_version", "chunk_id",
-    "_kind", "_valid_from", "_valid_to", "_doc_valid_from", "_valid_time_source",
+    "_kind", "_valid_from", "_valid_to", "_valid_to_by", "_doc_valid_from", "_valid_time_source",
     "_retracts", "name", "entity_class", "domain", "description",
     "source_kind", "created_by",
 })

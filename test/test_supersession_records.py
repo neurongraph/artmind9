@@ -62,13 +62,26 @@ def test_a_supersession_record_is_keyed_by_newer_older_and_scope():
     assert supersession_records.record_id("new-doc", "old-doc", "node") != record["id"]
 
 
-def test_apply_merges_the_edge_then_derives_valid_to_from_every_edge():
+@pytest.fixture(autouse=True)
+def _keys(monkeypatch):
+    monkeypatch.setattr("artmind.projection.keys_for_document", lambda tx, doc_id, **kw: {(doc_id, "C", "d")})
+
+
+def _recomputes(tx):
+    return [(c, p) for c, p in tx.calls if "older.superseded_by = CASE" in c]
+
+
+def _restates(tx):
+    return [p["older"] for c, p in tx.calls if "RETURN s.record_id AS record_id" in c]
+
+
+def test_apply_merges_the_edge_then_derives_superseded_by_and_validity_from_every_edge():
     tx = _Session()
     record = _record()
 
-    assert supersession_records.apply(tx, record, "fp") == set()
+    assert supersession_records.apply(tx, record, "fp") == {("old-doc", "C", "d")}
 
-    (merge, merge_params), (recompute, recompute_params) = tx.calls
+    (merge, merge_params), (recompute, recompute_params), *rest = tx.calls
     assert "MERGE (newer)-[s:SUPERSEDES {scope: $scope}]->(older)" in merge
     assert "OPTIONAL MATCH (o2:DocumentHistory {id: $older})" in merge, "a retired older document still gets its edge"
     assert merge_params == {
@@ -76,22 +89,24 @@ def test_apply_merges_the_edge_then_derives_valid_to_from_every_edge():
         "detected_by": "manual", "id": record["id"], "fingerprint": "fp",
     }
     assert "ORDER BY coalesce(s.effective, '') DESC, newer.id DESC" in recompute
-    assert "older._valid_to = head([e IN edges WHERE e.effective IS NOT NULL | e.effective])" in recompute
+    assert "older._valid_to" not in recompute, "the end is closed like the facts', only where none is stated"
     assert "REMOVE older.valid_to" in recompute, "one name (spec 2026-11-15 §7.1)"
     assert "SET older.valid_to" not in recompute and "older.valid_to =" not in recompute
     assert "older.superseded_by = CASE WHEN size(edges) = 0 THEN null" in recompute
     assert recompute_params == {"older": "old-doc"}
+    assert _restates(tx) == ["old-doc"]
 
 
-def test_remove_deletes_the_edge_and_re_derives_valid_to_from_what_remains():
+def test_remove_deletes_the_edge_and_re_derives_from_what_remains():
     tx = _Session()
 
-    supersession_records.remove(tx, _record())
+    assert supersession_records.remove(tx, _record()) == {("old-doc", "C", "d")}
 
-    (delete, params), (recompute, recompute_params) = tx.calls
+    (delete, params), (recompute, recompute_params), *rest = tx.calls
     assert "MATCH (newer)-[s:SUPERSEDES {scope: $scope}]->(older)" in delete and "DELETE s" in delete
     assert params == {"newer": "new-doc", "older": "old-doc", "scope": "document"}
     assert recompute_params == {"older": "old-doc"}
+    assert _restates(tx) == ["old-doc"]
 
 
 def test_remove_of_an_unreadable_record_matches_the_edge_by_record_id_then_recomputes_each_older_doc():
@@ -99,19 +114,20 @@ def test_remove_of_an_unreadable_record_matches_the_edge_by_record_id_then_recom
 
     supersession_records.remove(tx, {"id": "abc"})
 
-    (delete, params), *recomputes = tx.calls
+    (delete, params), *rest = tx.calls
     assert "MATCH ()-[s:SUPERSEDES {record_id: $id}]->(o)" in delete
     assert "WITH s, o.id AS oid" in delete and "DELETE s" in delete and "RETURN oid" in delete
     assert params == {"id": "abc"}
-    assert all("older.superseded_by = CASE" in c for c, _ in recomputes)
+    recomputes = _recomputes(tx)
     assert sorted(p["older"] for _, p in recomputes) == ["old-a", "old-b"], "each distinct older document, once"
     assert all(set(p) == {"older"} for _, p in recomputes)
+    assert sorted(_restates(tx)) == ["old-a", "old-b"]
 
 
 def test_remove_of_an_unreadable_record_that_matches_no_edge_recomputes_nothing():
     tx = _Session(older_ids=[])
 
-    supersession_records.remove(tx, {"id": "abc"})
+    assert supersession_records.remove(tx, {"id": "abc"}) == set()
 
     assert [p for _, p in tx.calls] == [{"id": "abc"}]
 
@@ -124,10 +140,11 @@ def test_remove_of_a_record_missing_a_content_field_falls_back_to_the_record_id(
 
     supersession_records.remove(tx, record)
 
-    (delete, params), (recompute, recompute_params) = tx.calls
+    (delete, params), *rest = tx.calls
     assert "SUPERSEDES {record_id: $id}" in delete and "scope" not in params
     assert params == {"id": record["id"]}
-    assert recompute_params == {"older": "old-doc"}
+    assert [p for _, p in _recomputes(tx)] == [{"older": "old-doc"}]
+    assert _restates(tx) == ["old-doc"]
 
 
 def test_the_supersessions_kind_runs_before_the_rebuild():

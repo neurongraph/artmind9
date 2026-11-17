@@ -13,10 +13,12 @@ travels with the vault (travel.md).
 
 ## Supersession
 
-A supersession records `SUPERSEDES` from the newer to the older document, sets the older one's
-`valid_to`, and retires it. Its facts move to history but stay reachable: dated questions ("what was
-the rate in March?") are answered from that history. **Prefer it to a bare retire whenever a newer
-document exists.**
+A supersession records `SUPERSEDES` from the newer to the older document, ends the older one's
+validity (`_valid_to` = the effective date, else the newer document's stated date) on it and on its
+facts, chunks, passages and summaries wherever no end was stated, and retires it. Its facts move to
+history but stay reachable: dated questions ("what was the rate in March?") are answered from that
+history. A bare retire ends no validity. `ingest unsupersede` removes only the ends the supersession
+wrote. **Prefer it to a bare retire whenever a newer document exists.**
 
 Find the supersessions the documents declare:
 
