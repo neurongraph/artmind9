@@ -895,26 +895,37 @@ def _iso(value) -> str | None:
     return _to_date(text) or (text[:4] if _YEAR_RE.match(text) else None)
 
 
+_NO_END = frozenset({"", "NaT", "None", "nan", "NaN"})
+
+
 def _row_end(value, valid_from: str | None) -> str | None:
     """An SCD2 version's `_valid_to` as a day: None while the version is open (no value, a
     non-day value, a far-future sentinel such as 9999-12-31, or an end not after its own
     start)."""
     from artmind.temporal import OPEN_END
 
-    end = _to_date(value) if value not in (None, "") else None
+    # pandas/DuckDB spell a missing timestamp as NaT/None/nan: an open version, not a date.
+    if value is None or str(value).strip() in _NO_END:
+        return None
+    end = _to_date(value)
     if end is None or end >= OPEN_END or (valid_from and end <= valid_from):
         return None
     return end
 
 
 def _subject_aliases(mapping: TableMapping, key_columns: list[str]) -> set[str]:
-    """The non-lookup entities that are a row's own subject: those with a property read
-    from one of the row's key columns. Only they inherit the row's end; stubs and shared
-    entities (a department) outlive the row version."""
+    """The non-lookup entities that are a row's own subject: those whose properties read
+    every one of the row's key columns (a composite key needs all of them: an entity
+    carrying only `product` of `product,tier` is shared across tiers). Only they inherit
+    the row's end; stubs and shared entities (a department) outlive the row version. No
+    key columns, no subject."""
     keys = set(key_columns)
+    if not keys:
+        return set()
     return {
         alias for alias, spec in mapping.entities.items()
-        if spec.lookup is None and any(f.columns() & keys for f in spec.properties.values())
+        if spec.lookup is None
+        and keys <= set().union(*(f.columns() for f in spec.properties.values()))
     }
 
 

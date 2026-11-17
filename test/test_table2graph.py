@@ -410,6 +410,38 @@ def test_only_the_rows_own_subject_inherits_the_end():
     assert ends["2025 Performance Segment - Pooja Jain (001)"] is None
 
 
+def _composite_mapping():
+    return t2g.parse_mapping({
+        "table": "rates_*", "domain": "perf",
+        "entities": {
+            "line": {"class": "PERSON", "name": "{product}", "properties": {"product": "Product"}},
+            "offer": {"class": "PERSON", "name": "{product} {tier}",
+                      "properties": {"product": "Product", "tier": "Tier"}},
+        },
+    })
+
+
+def test_a_composite_keys_subject_carries_every_key_column():
+    mapping = _composite_mapping()
+    assert t2g._subject_aliases(mapping, ["Product", "Tier"]) == {"offer"}
+    assert t2g._subject_aliases(mapping, ["Product"]) == {"line", "offer"}
+
+
+def test_a_table_with_no_key_ends_no_entity():
+    assert t2g._subject_aliases(_composite_mapping(), []) == set()
+
+
+@pytest.mark.parametrize("missing", [None, "", "NaT", "None", "nan"])
+def test_a_missing_row_end_is_open(missing):
+    assert t2g._row_end(missing, "2025-11-01") is None
+
+
+def test_a_nat_row_end_leaves_the_version_open():
+    rows = [{**_version(_row("001", "Jain, Pooja", "Kothari, Anubhav"), "2025-11-01", True), "_valid_to": "NaT"}]
+    staged, _ = _build(rows=rows, table=TEMPORAL)
+    assert "_valid_to" not in _obs(staged, "Pooja Jain (001)")
+
+
 def _with_person_dates(started=None, left=None):
     mapping = json.loads(json.dumps(MAPPING))
     schema = json.loads(json.dumps(SCHEMA))
