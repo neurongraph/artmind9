@@ -45,7 +45,7 @@ a `reason`. For each, judge:
 
 - **One real-world thing?** For anything not obvious, read a source passage:
   `artmind query vector-text --domain <d> --topK 3 --compact "<member>"`.
-- **Declared identity limits proposals.** `sameas propose` never pairs occasions of one class on different days (`tennis~2024-03-01` and `tennis~2024-03-08` are two happenings) or `identity: category` entities (an emotion is one shared label). A proposal the rule refuses is closed with a reason starting `identity:` (`identity:occasion (different days)`, `identity:category (<class>)`). If you see two same-day occasions with different names, they may be one happening: merge them.
+- **Declared identity limits proposals.** `sameas propose` writes nothing for a pair that breaks declared identity (it logs and skips): occasions of one class on different days (`tennis~2024-03-01` and `tennis~2024-03-08` are two happenings) or `identity: category` entities (an emotion is one shared label). Approving an older open proposal that breaks identity is refused with `identity:occasion (different days)` or `identity:category (<class>)`; only the migration pack closes old open proposals with an `identity:` reason. If you see two same-day occasions with different names, they may be one happening: merge them.
 - **Versions are not identities.** "Policy v2" and "Policy v3" may be one document at two times: a
   supersession (documents.md), not a merge.
 - **A large cluster means extraction fragmented one concept**, not that every member belongs:

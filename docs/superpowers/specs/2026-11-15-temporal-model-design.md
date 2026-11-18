@@ -789,7 +789,7 @@ Notes recorded while implementing; the sections above are left as written.
   Open question: whether chunks should take the document's stated end instead.
   A newer document's commit restates the validity of every document it
   supersedes, so the `_valid_from` fallback for E is the same on every machine.
-- **§8.1 gate has two markers.** `<run folder>/data_model.yaml` (committed; staging,
+- **§8.1 gate has two markers (beyond §8.1 — needs the user's confirmation).** `<run folder>/data_model.yaml` (committed; staging,
   `same_as.yaml`, curation) and a `(:DataModel {id:'artmind', version})` node in
   each machine's Neo4j (each graph is migrated separately). A write needs both
   current; reads check the file only and warn. "Fresh" means no model file, no
@@ -809,14 +809,28 @@ Notes recorded while implementing; the sections above are left as written.
   projection's temporal grouping. A document's ranged `_valid_from` sets its
   `_valid_to` when none is explicit. A fact with no end of its own inherits its
   document's `_valid_to` at build time (pre-existing; `date-audit` counts only a
-  fact's own ranges). `parse_valid` never raises; an end at or after 9999-12-31 is
+  fact's own ranges). **Open question Q1 — needs the user's decision:** a single-day
+  fact in a document with an end therefore reads as a range; §7.2's inheritance
+  covers supersession only. `parse_valid` never raises; an end at or after 9999-12-31 is
   open. `ingest table2graph --asOf` still refuses a year or month.
 - **Identity.** Occasion observation ids include the day (a chunk may hold two
   days of one stripped name). `retime` keeps existing ids, so a re-extract after
   a retime replaces occasion observations instead of moving them. Twins skip only
   classes declared `occasion` or `category`. Banking IMPACT_ASSESSMENT,
-  RETENTION_DECISION and REGULATORY_UPDATE are `occasion`, not `name`. A coarse
-  date keys on its start day (`tennis~2024-03-01`), as §5.2 says; precision `none`
-  is excluded.
+  RETENTION_DECISION and REGULATORY_UPDATE are `occasion`, not `name` (they are
+  occurrent with a valid_from property, so `name` trips the Q20 warning).
+  **Open question Q2 — needs the user's decision:** one REGULATORY_UPDATE cited
+  undated across many documents keys on each document's date and splits;
+  the alternative is `kind: recurrent` + `identity: name`, which changes
+  conflict-vs-history semantics. **Open question Q3 — needs the user's
+  decision:** a coarse date keys on its start day (`tennis~2024-03-01`, as §5.2
+  says; precision `none` is excluded), so a month mention merges with a real
+  mention on the 1st and claims a day the text never gave; the alternative is
+  precision-shaped tokens (`~2024-03`, `~2024-Q1`, `~2024`) with a wider
+  `_DAY_RE` / `split_occasion`.
+- **Conflicts.** Default-dated observations no longer form temporal instants in
+  the projection, so disagreeing recurrent scalars across default-dated notes
+  become conflicts: expect more open conflicts in vaults with many default-dated
+  notes (measure in Task 30 alongside Q11).
 - **Known limits.** `graph timeline` keeps undated rows under `--from/--to` (survey
   and happenings drop them) and has no cap.

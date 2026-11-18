@@ -17,7 +17,7 @@ before it changed", "what happened in order" — or when an entity carries
   to filter out. None of the ten `pattern*` commands, `entity-listing`, `entity-resolve`,
   `entity-context`, or `graph metadata` accept it — don't pass it.
 - **`--asOf` is a point in valid time** on the graph commands that keep it:
-  `vector-text`, `chunks`, `docs list`, `entity-history` (on the structured-store
+  `vector-text`, `chunks`, `graph filing-listing`, `entity-history` (on the structured-store
   commands `db timeline` and `text2sql` it is a floor; `db sql` takes no `--asOf`; see their help). A row is kept when
   its own date window contains the date (`_valid_from <= asOf < _valid_to`; a year or
   month means its last day); undated rows are always shown. Where no `_valid_to` is set
@@ -32,17 +32,17 @@ before it changed", "what happened in order" — or when an entity carries
   otherwise. (`--asOf` still works on `pattern10` as an alias, but it is a switch, not a
   date filter.)
 - **Two time axes, one set of fields.** Valid time (when a thing was true):
-  `_valid_from`, `_valid_to`, `_valid_precision` (`day|month|quarter|year`, or `none` =
+  `_valid_from`, `_valid_to`, `_valid_precision` (`day|half|month|quarter|year`, or `none` =
   undated: the ingestion default, shown by every date filter and never grouped as an
   instant), `_valid_time_of_day`, `_valid_to_by` (what set an end: a stated end carries
   none, a supersession `supersede:<id>`), `_due`, `_review`, `_revised_at` (a document's
   "last updated", not its effective date); chunks, passages and summaries also carry
   `_doc_valid_from` / `_doc_valid_to` (their document's own stated dates). Record time
   (when artmind learned it, UTC): `_recorded_at`, `_retired_at`, `_retired_by`
-  (`version:<n>` = an edited note re-ingested, `retire`, `supersede:<id>`, `removed` = the note left the vault, `resplit` = a
+  (`version:<n>` = an edited note re-ingested, `retire`, `supersede:<id>`, `removed` = the note left the vault, `retract:<observation id>` = a fact the projection retracted, `resplit` = a
   chunk dropped by re-chunking), `_revived_at`, `_record_time_approx` (backfilled).
   Superseding a document ends its facts' validity at the effective date (`_valid_to`);
-  retiring one closes nothing; `docs unsupersede` reopens what the supersession closed.
+  retiring one closes nothing; `ingest unsupersede` reopens what the supersession closed.
 - **`--knownAsOf T` reads what the graph held at T** (record time, not valid time) on
   `entity-history`, `document-history` and `graph pattern10`: only content recorded by
   T and not yet retired then, from both current and history nodes, with each row's
