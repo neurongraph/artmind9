@@ -33,7 +33,8 @@ end comes back untouched.
 
 `restate_validity` is the one writer: it reopens every node a supersession
 closed (`_valid_to_by` set) and closes again from the `SUPERSEDES` edges that
-remain, latest `effective` first -- the same result on every machine whatever
+remain, earliest `effective` first (an undated edge last), so a document superseded
+twice ends at its first replacement -- the same result on every machine whatever
 order records are applied in. A document commit runs it too
 (`ingest._commit_document_tx`): the commit rewrites nodes from staging, which
 carries no supersession end, so the end is derived again from the edges in
@@ -107,7 +108,8 @@ VALIDITY_TARGETS = (
 )
 
 # The document-scope edges into the older document, in the order they close
-# (latest effective first, ties by newer id); `e` is the end each one writes.
+# (earliest effective first, ties by newer id, an undated edge last: the end is the first
+# replacement's); `e` is the end each one writes.
 _DOCUMENT_EDGES = """
 OPTIONAL MATCH (o1:Document {id: $older}) OPTIONAL MATCH (o2:DocumentHistory {id: $older})
 WITH coalesce(o1, o2) AS older
@@ -115,7 +117,7 @@ WHERE older IS NOT NULL
 MATCH (newer)-[s:SUPERSEDES {scope: 'document'}]->(older)
 RETURN s.record_id AS record_id, newer.id AS newer,
        coalesce(s.effective, CASE WHEN newer._valid_precision = 'none' THEN null ELSE newer._valid_from END) AS e
-ORDER BY coalesce(s.effective, '') DESC, newer.id DESC
+ORDER BY s.effective IS NULL, s.effective ASC, newer.id ASC
 """
 
 # The documents `$newer` supersedes through an undated edge (document scope): only their
@@ -225,7 +227,7 @@ def close_validity(tx, older: str, effective: str, record_id: str) -> int:
 def restate_validity(tx, older: str) -> int:
     """Derive the older document's supersession ends from its document-scope
     `SUPERSEDES` edges: reopen what any supersession closed, then close from
-    each edge with an end date, latest first. Returns how many nodes are closed."""
+    each edge with an end date, earliest first (a node keeps the first replacement's end). Returns how many nodes are closed."""
     edges = [row for row in tx.run(_DOCUMENT_EDGES, older=older).data()
              if isinstance(row, dict) and row.get("record_id")]
     reopen_validity(tx, older)

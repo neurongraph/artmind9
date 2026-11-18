@@ -130,7 +130,7 @@ class _Graph:
     in-memory nodes; every other statement is recorded and ignored. The edge read
     computes each end date and the close order itself, as `_DOCUMENT_EDGES` does:
     `coalesce(effective, newer's _valid_from unless its precision is none)`,
-    ordered by `coalesce(effective, '')` then newer id, both descending."""
+    ordered earliest effective first (an undated edge last), then newer id."""
 
     def __init__(self, nodes, edges, newer_docs=None):
         self.nodes = nodes        # [{"label": ..., "id"/"doc_id": ..., props}]
@@ -146,14 +146,14 @@ class _Graph:
             doc = self.newer_docs.get(edge["newer"], {})
             fallback = None if doc.get("_valid_precision") == "none" else doc.get("_valid_from")
             rows.append({"record_id": edge["record_id"], "newer": edge["newer"],
-                         "e": edge.get("effective") or fallback, "_sort": (edge.get("effective") or "", edge["newer"])})
-        rows.sort(key=lambda r: r.pop("_sort"), reverse=True)
+                         "e": edge.get("effective") or fallback, "_sort": (edge.get("effective") is None, edge.get("effective") or "", edge["newer"])})
+        rows.sort(key=lambda r: r.pop("_sort"))
         return rows
 
     def run(self, cypher, **params):
         self.calls.append((cypher, params))
         if "RETURN s.record_id AS record_id" in cypher:
-            assert "ORDER BY coalesce(s.effective, '') DESC, newer.id DESC" in cypher
+            assert "ORDER BY s.effective IS NULL, s.effective ASC, newer.id ASC" in cypher
             return FakeResult(self._edge_rows(params["older"]))
         if "RETURN DISTINCT older.id AS older" in cypher:
             assert "WHERE s.effective IS NULL" in cypher
@@ -222,15 +222,15 @@ def test_an_open_document_gets_the_end_and_loses_it_on_unsupersede():
     assert _by_id(graph) == {"A": (None, None)}
 
 
-def test_two_supersessions_close_with_the_latest_and_removing_it_hands_over_to_the_other():
+def test_two_supersessions_close_with_the_earliest_and_removing_it_hands_over_to_the_other():
     later = {"record_id": "r2", "newer": "C", "effective": "2026-05-01"}
     earlier = {"record_id": RID, "newer": "B", "effective": "2026-02-01"}
     graph = _Graph([{"label": "DocChunkHistory", "doc_id": "A", "id": "c1"}], [earlier, later])
     sr.apply(graph, _record(), "fp")
-    assert _by_id(graph) == {"c1": ("2026-05-01", "r2")}, "the same result whichever record applied last"
-    graph.edges = [earlier]
-    sr.remove(graph, _record(rid="r2", newer="C"))
-    assert _by_id(graph) == {"c1": ("2026-02-01", RID)}
+    assert _by_id(graph) == {"c1": ("2026-02-01", RID)}, "the first replacement ends it, whichever applied last"
+    graph.edges = [later]
+    sr.remove(graph, _record())
+    assert _by_id(graph) == {"c1": ("2026-05-01", "r2")}, "removing the first hands over to the second"
 
 
 def test_supersede_with_no_end_date_leaves_everything_open():
@@ -528,3 +528,13 @@ def test_a_recommit_leaves_a_chunks_stated_end_and_restate_closes_only_open_ones
     assert chunk_params["props"]["_valid_to"] == "2026-01-20" and chunk_params["props"]["_valid_to_by"] is None
     closes = tx.queries_containing("SET x._valid_to = $effective")
     assert closes and all("WHERE x._valid_to IS NULL" in c for c, _ in closes)
+
+
+def test_a_dated_edge_closes_before_an_undated_one_even_when_the_undated_is_earlier():
+    graph = _Graph([{"label": "DocChunkHistory", "doc_id": "A", "id": "c1"}],
+                   [{"record_id": "r9", "newer": "Z", "effective": None},
+                    {"record_id": "r2", "newer": "C", "effective": "2026-05-01"},
+                    {"record_id": RID, "newer": "B", "effective": "2026-02-01"}],
+                   newer_docs={"Z": {"_valid_from": "2025-01-01", "_valid_precision": "day"}})
+    sr.restate_validity(graph, "A")
+    assert _by_id(graph) == {"c1": ("2026-02-01", RID)}
