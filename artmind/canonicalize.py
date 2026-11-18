@@ -5,9 +5,9 @@ They attack different problems and neither substitutes for the other:
 - **Retrieved name vocabulary** (before extraction) stops a *new document*
   inventing a fresh name for something already in the graph. It is an ANN
   search over `entity_embedding` for names already in use, restricted to
-  **recurrent** classes — an occurrent entity is a completed point event, so
-  showing the extractor existing event names invites it to fold two distinct
-  incidents into one.
+  `named_classes` (identity `name` or `category`) — an `occasion` is keyed by
+  its day, so showing the extractor existing happening names invites it to
+  fold two distinct days into one, or to date the name to tell them apart.
 - **Per-document canonicalization** (after extraction) stops *one document*
   producing nine names for one thing. Chunks extract in parallel and cannot
   see each other, which is exactly the problem: 9 of the 11 spurious
@@ -33,7 +33,7 @@ from loguru import logger
 # subject area, small enough that the list does not crowd out the passage
 # itself in the prompt.
 VOCABULARY_LIMIT = 25
-# The ANN is over-fetched and then filtered down to recurrent classes, since
+# The ANN is over-fetched and then filtered down to `named_classes`, since
 # the vector index cannot express the class predicate itself.
 _OVERFETCH = 6
 
@@ -50,13 +50,13 @@ NAME_LOOKUP_MIN_SIM = 0.80
 # ANN pool per name before the class/domain filter (the index cannot filter).
 NAME_LOOKUP_POOL = 50
 
-def recurrent_classes(schema: dict) -> set[str]:
-    """The classes a schema declares `kind: recurrent`."""
-    return {
-        cls
-        for cls, decl in (schema.get("entity_types") or {}).items()
-        if (decl or {}).get("kind") == "recurrent"
-    }
+def named_classes(schema: dict) -> set[str]:
+    """The classes the name vocabulary and name lookup serve: identity `name` or `category`
+    (spec 2026-11-15 §5.3). An `occasion` is keyed by its day, so offering its earlier names
+    would only invite dated variants; a `category` is offered so its label keeps one spelling."""
+    from artmind.schema_validate import classes_with_identity
+
+    return classes_with_identity(schema, "name", "category")
 
 
 def retrieve_vocabulary(
@@ -68,13 +68,13 @@ def retrieve_vocabulary(
     embed_model: str,
     limit: int = VOCABULARY_LIMIT,
 ) -> list[dict]:
-    """Names already in use near this document, for recurrent classes only.
+    """Names already in use near this document, for `named_classes` only.
 
     Returns `[{"name": ..., "entity_class": ...}, ...]`, empty on any failure
     — an empty vocabulary is the pre-redesign behaviour, so a down embedding
     service degrades extraction quality rather than blocking ingest.
     """
-    classes = recurrent_classes(schema)
+    classes = named_classes(schema)
     if not classes or not seed_text.strip():
         return []
 
@@ -119,7 +119,7 @@ def retrieve_vocabulary(
         for r in rows if r.get("name")
     ]
     logger.info(
-        "Name vocabulary: {} existing name(s) across {} recurrent class(es)",
+        "Name vocabulary: {} existing name(s) across {} named class(es)",
         len(vocabulary), len(classes),
     )
     return vocabulary
@@ -337,7 +337,7 @@ def canonicalize_document(
 #
 # The vocabulary above is chosen from the document's opening text, so a name
 # that first appears in a later chunk gets no existing name to fold onto. Once
-# every chunk has extracted, each recurrent-class name is looked up on its own:
+# every chunk has extracted, each `named_classes` name is looked up on its own:
 # an exact leg (key or alias equal to the name) and a vector leg over
 # `entity_name_embedding` (name + short aliases). The results only reach the
 # canonicalization prompt; the LLM still decides, and no call is added.
@@ -404,7 +404,7 @@ def lookup_name_candidates(
     max_names: int = NAME_LOOKUP_MAX_NAMES,
     min_sim: float | None = None,
 ) -> dict[tuple[str, str], list[str]]:
-    """`{(entity_class, extracted name): [existing name, ...]}` for recurrent classes.
+    """`{(entity_class, extracted name): [existing name, ...]}` for `named_classes`.
 
     Alias hits first, then vector hits by score, at most `top` per name, all of
     the same class in the document's own domain. A candidate whose key is the
@@ -413,7 +413,7 @@ def lookup_name_candidates(
     """
     from artmind.observations import aggregate_key, key_string
 
-    classes = recurrent_classes(schema)
+    classes = named_classes(schema)
     if not classes:
         return {}
     wanted: list[tuple[str, str]] = []
@@ -426,6 +426,7 @@ def lookup_name_candidates(
         logger.info("Name lookup: {} names, looking up the first {}", len(wanted), max_names)
         wanted = wanted[:max_names]
 
+    # No `occurs_on` in these keys: `named_classes` excludes occasion classes, so none is looked up.
     own_keys = [key_string(aggregate_key(n, cls, domain)) for cls, n in wanted]
     found: dict[int, list[tuple[float, int, str, str]]] = {}
 

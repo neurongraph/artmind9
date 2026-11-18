@@ -101,7 +101,7 @@ def test_the_prior_versions_observations_are_demoted_not_deleted():
     valid-time window it always had and stays in storage."""
     session = _RetractSession(counts={"demote_observations": 4})
 
-    result = ing._retract_prior_version(session, "banking", "docA")
+    result = ing._retract_prior_version(session, "banking", "docA", retired_by="version:2")
 
     cypher, kw = session.call("demote_observations")
     assert kw["doc_id"] == "docA"
@@ -114,7 +114,7 @@ def test_the_transition_never_deletes_entities_itself():
     GC mechanisms is exactly how 235 entities stayed live."""
     session = _RetractSession()
 
-    ing._retract_prior_version(session, "banking", "docA")
+    ing._retract_prior_version(session, "banking", "docA", retired_by="version:2")
 
     assert not session.ran("entity_delete"), "entity GC belongs to the projection rebuild"
 
@@ -127,7 +127,7 @@ def test_edge_provenance_is_no_longer_retracted_here():
     retract."""
     session = _RetractSession()
 
-    ing._retract_prior_version(session, "banking", "docA")
+    ing._retract_prior_version(session, "banking", "docA", retired_by="version:2")
 
     for cypher, _ in session.calls:
         assert "doc_ids" not in cypher
@@ -138,7 +138,7 @@ def test_edge_provenance_is_no_longer_retracted_here():
 def test_the_documents_chunks_are_relabelled_not_deleted():
     session = _RetractSession(counts={"relabel_chunks": 3})
 
-    result = ing._retract_prior_version(session, "banking", "docA")
+    result = ing._retract_prior_version(session, "banking", "docA", retired_by="version:2")
 
     cypher, kw = session.call("relabel_chunks")
     assert kw["doc_id"] == "docA"
@@ -227,11 +227,11 @@ def test_the_prior_version_is_demoted_before_the_new_observations_land(tmp_path,
     monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
     monkeypatch.setattr(
         ing, "_retract_prior_version",
-        lambda tx, domain, doc_id: order.append(f"retract:{domain}:{doc_id}") or {},
+        lambda tx, domain, doc_id, **kw: order.append(f"retract:{domain}:{doc_id}") or {},
     )
     monkeypatch.setattr(
         ing, "_write_observations",
-        lambda tx, observations, doc_id: order.append("observations") or 0,
+        lambda tx, observations, doc_id, **kw: order.append("observations") or 0,
     )
 
     ing._write_to_neo4j(_stage(tmp_path), "banking")
@@ -623,9 +623,9 @@ def test_retract_document_captures_keys_before_demoting(monkeypatch):
     )
     original_retract = ing._retract_prior_version
 
-    def _wrapped_retract(tx, domain, doc_id):
+    def _wrapped_retract(tx, domain, doc_id, **kw):
         call_order.append("_retract_prior_version")
-        return original_retract(tx, domain, doc_id)
+        return original_retract(tx, domain, doc_id, **kw)
 
     monkeypatch.setattr(ing, "_retract_prior_version", _wrapped_retract)
 

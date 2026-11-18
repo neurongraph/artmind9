@@ -59,4 +59,69 @@ def test_transition_swaps_passages_both_ways():
             projection.keys_for_document = orig
         swaps = tx.queries_containing(f"MATCH (p:{frm} {{doc_id: $doc_id}})")
         assert swaps and f"REMOVE p:{frm} SET p:{to}" in swaps[0][0]
-        assert swaps[0][1] == {"doc_id": "d1"}
+        assert swaps[0][1]["doc_id"] == "d1" and swaps[0][1]["now"].endswith("+00:00")
+        assert swaps[0][1].get("by") == ("retire" if to_history else None)
+
+
+def test_transition_records_when_and_why_a_document_moved():
+    from _neo4j_recorder import Recorder
+    from artmind import lifecycle, projection
+
+    orig = projection.keys_for_document
+    projection.keys_for_document = lambda tx, doc_id: set()
+    try:
+        tx = Recorder(lambda c, p: [{"n": 0}])
+        lifecycle._transition(tx, "d1", to_history=True, rebuild=False, retired_by="supersede:r1",
+                              at="2026-11-16T00:00:00+00:00")
+        back = Recorder(lambda c, p: [{"n": 0}])
+        lifecycle._transition(back, "d1", to_history=False, rebuild=False, at="2026-11-17T00:00:00+00:00")
+    finally:
+        projection.keys_for_document = orig
+    retires = [(c, p) for c, p in tx.calls if "REMOVE" in c and "History" in c]
+    assert len(retires) == 5
+    assert all(f"._retired_at = $now" in c and "._retired_by = $by" in c for c, _ in retires)
+    assert all(p == {"doc_id": "d1", "now": "2026-11-16T00:00:00+00:00", "by": "supersede:r1"} for _, p in retires)
+    restores = [(c, p) for c, p in back.calls if "REMOVE" in c and "History" in c]
+    assert len(restores) == 5
+    assert all("._revived_at = $now REMOVE" in c and "._retired_by" in c for c, _ in restores)
+    assert all(p == {"doc_id": "d1", "now": "2026-11-17T00:00:00+00:00"} for _, p in restores)
+
+
+def test_retire_document_passes_its_cause_to_the_transition(monkeypatch):
+    from artmind import lifecycle
+
+    seen = []
+    monkeypatch.setattr(lifecycle, "plan_transition",
+                        lambda doc_id, to_history: {"doc_id": doc_id, "name": None, "observations": 0, "keys": []})
+    monkeypatch.setattr(lifecycle, "transition_effect", lambda plan, **kw: {})
+
+    class _S:
+        def execute_write(self, fn, *args):
+            seen.append(args)
+            return {"observations": 0, "projection": None, "keys": []}
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *exc):
+            return False
+
+    monkeypatch.setattr(lifecycle, "neo4j_session", lambda: _S())
+    lifecycle.retire_document("d1", retired_by="supersede:r1")
+    assert seen == [("d1", None, "supersede:r1")]
+
+
+def test_a_fresh_retire_shares_one_timestamp_with_its_record(monkeypatch, tmp_path):
+    import paths
+    from _neo4j_recorder import Recorder
+    from artmind import lifecycle, lifecycle_records, projection
+
+    monkeypatch.setattr(paths, "CURATION_DIR", tmp_path / "curation")
+    monkeypatch.setattr(projection, "keys_for_document", lambda tx, doc_id: set())
+    monkeypatch.setattr(projection, "rebuild", lambda tx, keys, **kw: {})
+    tx = Recorder(lambda c, p: [{"n": 1, "domain": "pj"}])
+    lifecycle._retire_tx(tx, "d1", "pj", "supersede:r1")
+    record = lifecycle_records.record_for(tx, "d1", "pj")
+    moves = [p for c, p in tx.calls if "REMOVE" in c and "_retired_by = $by" in c]
+    assert len(moves) == 5 and {p["now"] for p in moves} == {record["recorded_at"]}
+    assert {p["by"] for p in moves} == {"supersede:r1"}

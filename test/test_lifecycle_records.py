@@ -75,6 +75,8 @@ def no_rebuild(monkeypatch):
 def test_a_lifecycle_record_is_keyed_by_a_hash_of_the_document_id():
     record = lifecycle_records.record_for(_Tx(), "table:banking:accounts")
 
+    assert record.pop("recorded_at").endswith("+00:00")
+    assert record.pop("retired_by") == "retire"
     assert record == {
         "id": hashlib.sha1(b"table:banking:accounts").hexdigest(),
         "doc_id": "table:banking:accounts", "domain": "banking", "status": "retired",
@@ -361,3 +363,74 @@ def test_remove_of_an_already_restored_document_restores_nothing(no_rebuild):
 
     assert [c for c in restored.texts() if "SET d:Document" in c or "lifecycle_fingerprint" in c] == []
     assert len([1 for c in restored.texts() if "RETURN count(d) AS n" in c]) == 2
+
+
+def test_a_lifecycle_record_keeps_its_first_recorded_at():
+    record = lifecycle_records.record_for(_Tx(), "doc-1")
+    record["recorded_at"] = "2026-01-01T00:00:00+00:00"
+    curation_records.write_record("lifecycle", record)
+    assert lifecycle_records.record_for(_Tx(), "doc-1")["recorded_at"] == "2026-01-01T00:00:00+00:00"
+
+
+def test_a_lifecycle_record_carries_and_keeps_who_retired(monkeypatch):
+    record = lifecycle_records.record_for(_Tx(), "doc-1", retired_by="supersede:r1")
+    assert record["retired_by"] == "supersede:r1"
+    curation_records.write_record("lifecycle", record)
+    assert lifecycle_records.record_for(_Tx(), "doc-1")["retired_by"] == "supersede:r1"
+    assert lifecycle_records.retired_by_in_working_tree("doc-1") == "supersede:r1"
+
+
+def test_apply_stamps_the_records_retired_by(no_rebuild):
+    tx = _Tx()
+    record = lifecycle_records.record_for(tx, "doc-1", retired_by="supersede:r1")
+    lifecycle_records.apply(tx, record, "fp")
+    moves = [p for c, p in tx.calls if "REMOVE" in c and "History" in c and "_retired_by = $by" in c]
+    assert len(moves) == 5 and {p["by"] for p in moves} == {"supersede:r1"}
+
+
+def test_apply_stamps_the_records_retirement_time(no_rebuild):
+    tx = _Tx()
+    record = lifecycle_records.record_for(tx, "doc-1")
+    record["recorded_at"] = "2026-02-03T04:05:06+00:00"
+    lifecycle_records.apply(tx, record, "fp")
+    moves = [p for c, p in tx.calls if "REMOVE" in c and "History" in c and "_retired_at = $now" in c]
+    assert len(moves) == 5 and {p["now"] for p in moves} == {"2026-02-03T04:05:06+00:00"}
+
+
+@pytest.mark.parametrize("stored, expected", [
+    ("2026-02-03T04:05:06Z", "2026-02-03T04:05:06+00:00"),
+    ("2026-02-03T09:35:06+05:30", "2026-02-03T04:05:06+00:00"),
+])
+def test_apply_normalises_the_records_time_to_utc(no_rebuild, stored, expected):
+    tx = _Tx()
+    record = lifecycle_records.record_for(tx, "doc-1")
+    record["recorded_at"] = stored
+    lifecycle_records.apply(tx, record, "fp")
+    moves = [p for c, p in tx.calls if "REMOVE" in c and "History" in c and "_retired_at = $now" in c]
+    assert len(moves) == 5 and {p["now"] for p in moves} == {expected}
+
+
+def test_apply_without_a_recorded_at_stamps_now(no_rebuild):
+    tx = _Tx()
+    record = lifecycle_records.record_for(tx, "doc-1")
+    record.pop("recorded_at")
+    lifecycle_records.apply(tx, record, "fp")
+    moves = [p for c, p in tx.calls if "REMOVE" in c and "History" in c and "_retired_at = $now" in c]
+    assert len(moves) == 5 and all(p["now"].endswith("+00:00") for p in moves)
+
+
+def test_a_commit_of_a_retired_document_re_retires_by_its_record(tmp_path, monkeypatch):
+    import artmind.projection as projection
+
+    monkeypatch.setattr(projection, "keys_for_document", lambda tx, doc_id, **kw: set())
+    curation_records.write_record(
+        "lifecycle", lifecycle_records.record_for(_Tx(), "doc-1", retired_by="supersede:r1"))
+    folder = tmp_path / "doc"
+    folder.mkdir()
+    (folder / "document.json").write_text(json.dumps({"id": "doc-1", "name": "a.md"}))
+    for name in ("chunks.json", "observations.json", "relationships.json"):
+        (folder / name).write_text("[]")
+    tx = _Tx()
+    ing._commit_document_tx(tx, ing._load_staged(folder, "banking"), True)
+    rebound = [p for c, p in tx.calls if "MATCH (d:Document {id: $doc_id}) REMOVE d:Document" in c]
+    assert rebound and rebound[0]["by"] == "supersede:r1"

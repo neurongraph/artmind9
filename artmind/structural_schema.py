@@ -47,11 +47,11 @@ class Relationship:
 NODES: tuple[NodeLabel, ...] = (
     NodeLabel(
         "Document",
-        ("id", "name", "path", "_domain", "valid_from", "valid_to", "superseded_by"),
+        ("id", "name", "path", "_domain", "_valid_from", "_valid_to", "_valid_precision", "superseded_by"),
     ),
     NodeLabel(
         "DocChunk",
-        ("id", "name", "doc_id", "text", "_domain", "embedding"),
+        ("id", "name", "doc_id", "text", "_domain", "_valid_from", "_doc_valid_from", "embedding"),
     ),
     NodeLabel(
         "UserChat",
@@ -223,7 +223,7 @@ def render_prompt_block() -> str:
         "    question — the base labels are current by construction. Only match a History label"
     )
     lines.append("    when the question is explicitly about retired/superseded/historical content.")
-    lines.append("  Timed nodes carry valid_from/valid_to; superseded docs also carry superseded_by.")
+    lines.append("  Timed nodes carry _valid_from/_valid_to (_valid_precision 'none' = a default date, not a real one); superseded docs also carry superseded_by.")
 
     return "\n".join(lines)
 

@@ -50,11 +50,22 @@ LIST_KEY: dict[str, str] = {
     "query graph pattern2": "rows",
     "query graph pattern7": "rows",
     "query entity-context": "rows",
+    "query happenings": "rows",
 }
 
 SERVER_COMMANDS = frozenset({"serve", "chat-ui", "admin-ui"})
 #: Hands the terminal to a SQL shell: exempt from C1.
 INTERACTIVE_COMMANDS = frozenset({"db connect"})
+
+#: Commands that write the graph or staging but are not in WRITE_COMMANDS (no tier-1 dry run
+#: built or planned). The data-model gate refuses these on a vault behind, like a write command.
+#: Membership rule: a command whose real run writes graph nodes/edges or staging/curation files
+#: belongs in WRITE_COMMANDS (tier semantics: it has or owes a `--dryRun`) or here; a pure reader
+#: belongs in neither. Gate = WRITE_COMMANDS | GATED_EXTRA.
+GATED_EXTRA: frozenset[str] = frozenset({
+    "ingest detect-supersession", "ingest refine-graph", "ingest detect-conflicts",
+    "ingest extract-kg", "sameas propose",
+})
 
 #: Command path (space-separated) -> tier. Tier 1 has a real `--dryRun` with an
 #: `effect` block (this spec); tier 2 is listed so a later spec builds it, and
@@ -71,6 +82,7 @@ WRITE_COMMANDS: dict[str, int] = {
         "topic build", "topic refresh", "topic delete",
         "vault sync", "traces prune", "catalogue refresh", "db metadata init", "db metadata describe",
         "mart enrich", "mart review set", "mart calendar set", "mart build",
+        "migrate temporal",
     )},
     **{p: 2 for p in (
         "db grain", "db mappings set", "db mappings confirm", "db mappings clear",
@@ -335,6 +347,8 @@ EFFECT_KINDS = frozenset({
     "topic_delete", "table_change", "trace_delete", "fact_write", "fact_retract",
     "proposal_reject", "projection_rebuild", "document_archive", "catalogue_refresh",
     "mart_record", "mart_build", "property_values_dropped", "property_backfill",
+    "validity_closed", "validity_reopened", "data_migration",
+    "objects_reclassified", "entity_rekey", "same_as_groups", "sameas_proposals_closed", "curation_records",
 })
 
 SAMPLE_CAP = 10

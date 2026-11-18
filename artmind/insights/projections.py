@@ -25,7 +25,8 @@ PROJECTIONS: dict[str, str] = {
 MATCH (e:Entity)-[:AGGREGATES]->(o:Observation)
 WHERE e._domain IN $domains
 WITH e, collect(DISTINCT o._doc_valid_from) AS days, count(DISTINCT o.doc_id) AS docs
-RETURN e._id AS _id, e.name AS name, e.entity_class AS cls, e.type AS type, days AS days, docs AS docs
+RETURN e._id AS _id, e.name AS name, e.entity_class AS cls, e.type AS type, days AS days, docs AS docs,
+       e.key AS key
 ORDER BY _id
 """,
     "documents": """

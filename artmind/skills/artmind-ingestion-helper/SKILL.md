@@ -26,6 +26,26 @@ undone and with what, whether the change travels to other machines). Read `effec
 run, which prints the same block. On a command that does not support it yet, `--dryRun` fails with
 "not available ... yet; nothing was changed" and does nothing.
 
+## Upgrading a vault
+
+A write command refuses with "this vault's data is at model N, the code needs M. Run: artmind migrate status" (or "this graph's data ...") when the vault's committed files or this machine's graph predate the code. Reads still work and carry a warning. Run the migration from inside the vault:
+
+```bash
+artmind migrate status                  # file version, graph version, per-step pending counts, blockers
+artmind migrate temporal --dryRun       # the plan; nothing is written
+artmind migrate temporal                # the real run
+artmind insights refresh --domain DOMAIN   # then rebuild what derives from the graph
+artmind mart build --domain DOMAIN      # only if the domain has a mart declaration
+```
+
+- The vault must be git-clean for the files the run writes (commit or restore them first), the ingest worker stopped and Neo4j reachable; the dry run lists any of these under `blocked`.
+- After a successful run, commit `.artmind/data_model.yaml` with the other files the run wrote (Obsidian Git or `git commit`) so other machines see the stamp.
+- A run is resumable and a second run is a no-op. It stamps `<vault>/.artmind/data_model.yaml` and this graph's marker only once every step is done; a run with `--domain` stamps only when it was the last pending work.
+- The file stamp travels by git, the graph stamp does not. On **every other machine** of the vault: pull, then run `artmind migrate temporal` for that machine's own graph (it re-commits the re-keyed staging there). `migrate status` says so when the files are current but the graph is not.
+- Graph changes are not reversible by git: take a Neo4j backup before the real run.
+
+---
+
 ## Situation Map
 
 ### A. Ingest new documents for the first time
@@ -227,7 +247,9 @@ artmind ingest retime --domain YOUR_DOMAIN --redoProperties --limit 5   # LLM: r
 artmind ingest retime --domain YOUR_DOMAIN --redoProperties --document 2026-01-18.md   # one chosen entry
 ```
 
-With no flags it is deterministic and cheap. It also applies the schema's property-key rules (`property_aliases`, singular/plural folding) to existing observations and drops every key the observation's class does not declare (the dropped values are kept under `logs/retime-dropped/<domain>/<folder>.json`), so run it after changing either; `--dryRun` shows what it would drop. Table folders (`table2graph`) are skipped. `--redoProperties` re-asks, from the staged chunk text, only the `temporal:` properties of classes that declare one, with the document's date in the prompt (it is `ingest backfill-properties` over those classes in one pass). `date_or_time`-style properties become ISO dates instead of "today". Every other entity is never shown to the model, and a key the model does not answer keeps its value. It costs one LLM call per staged chunk that has a dated entity, keeps every entity's existing canonical name (identity is not re-decided), needs no chunk cache, and keeps each changed `observations.json` under `logs/backfill-stash/`. Run it with `--limit` first.
+With no flags it is deterministic and cheap. It also applies the schema's property-key rules (`property_aliases`, singular/plural folding) to existing observations and drops every key the observation's class does not declare (the dropped values are kept under `logs/retime-dropped/<domain>/<folder>.json`), so run it after changing either; `--dryRun` shows what it would drop. It also re-derives chunk dates and occasion day keys (`name~YYYY-MM-DD`) and strips dates a model put in an occasion's name, always keeping existing observation ids: after a retime, a later `--reextract` replaces occasion observations rather than moving them in place. Table folders (`table2graph`) are skipped. `--redoProperties` re-asks, from the staged chunk text, only the `temporal:` properties of classes that declare one, with the document's date in the prompt (it is `ingest backfill-properties` over those classes in one pass). `date_or_time`-style properties become ISO dates instead of "today". Every other entity is never shown to the model, and a key the model does not answer keeps its value. It costs one LLM call per staged chunk that has a dated entity, keeps every entity's existing canonical name (identity is not re-decided), needs no chunk cache, and keeps each changed `observations.json` under `logs/backfill-stash/`. Run it with `--limit` first.
+
+To see how each class of a domain is dated before or after a retime (read-only, no LLM): `artmind ingest date-audit --domain YOUR_DOMAIN` (or `just ingest-date-audit YOUR_DOMAIN`) reports, per class, the share dated by each date property, the precision mix (`day|half|month|quarter|year|none`), ranges, `unparsed` values that could not be read as a date, and `unknown` (property-dated observations stored without a precision, e.g. not yet retimed). A class with many `unparsed` values or a high `none` share needs a schema `temporal:` fix or a better `DATES` hint; a family root scans its children.
 
 ### C.2 — Fill a newly declared property on documents already ingested (`backfill-properties`)
 

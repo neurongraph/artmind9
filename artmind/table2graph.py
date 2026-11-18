@@ -132,10 +132,11 @@ def _to_date(value):
     match = _ISO_DATE_RE.match(str(value))
     if match:
         return match.group(1)
-    from artmind.temporal import parse_iso
+    from artmind.temporal import parse_valid
 
-    parsed = parse_iso(str(value))
-    return parsed if parsed and len(parsed) == 10 else None
+    # A `date` column holds days: a partial date ("2026") is not one.
+    parsed = parse_valid(str(value))
+    return parsed.start if parsed and parsed.precision == "day" else None
 
 
 def _to_year(value):
@@ -645,6 +646,7 @@ def validate_mapping(mapping: TableMapping, schema: dict, columns: list[str]) ->
     """
     from artmind.ingest import RESERVED_REL_TYPES
     from artmind.observations import RESERVED_PREFIX, _STRUCTURAL_KEYS
+    from artmind.schema_validate import class_identity
 
     errors: list[str] = []
     warnings: list[str] = []
@@ -676,6 +678,11 @@ def validate_mapping(mapping: TableMapping, schema: dict, columns: list[str]) ->
             errors.append(f"{where}: class {spec.entity_class!r} is not declared in the schema")
             declared = {}
         declared_props = set((declared.get("properties") or {}).keys())
+        if declared and class_identity(schema, spec.entity_class) == "occasion":
+            warnings.append(
+                f"{where}: {spec.entity_class} is an occasion class; rows of an occasion class keep the "
+                "mapping's identity; different days merge into one entity unless the identity template "
+                "includes the date")
         _check_conditions(spec.when, f"{where}.when")
 
         available = set()   # own properties computed so far
@@ -764,6 +771,7 @@ class _Row:
     valid_from: str | None
     chunk_id: str
     row_key: str
+    valid_to: str | None = None   # an SCD2 version's closed end (exclusive); None while open
 
 
 @dataclass
@@ -893,6 +901,40 @@ def _iso(value) -> str | None:
     return _to_date(text) or (text[:4] if _YEAR_RE.match(text) else None)
 
 
+_NO_END = frozenset({"", "NaT", "None", "nan", "NaN"})
+
+
+def _row_end(value, valid_from: str | None) -> str | None:
+    """An SCD2 version's `_valid_to` as a day: None while the version is open (no value, a
+    non-day value, a far-future sentinel such as 9999-12-31, or an end not after its own
+    start)."""
+    from artmind.temporal import OPEN_END
+
+    # pandas/DuckDB spell a missing timestamp as NaT/None/nan: an open version, not a date.
+    if value is None or str(value).strip() in _NO_END:
+        return None
+    end = _to_date(value)
+    if end is None or end >= OPEN_END or (valid_from and end <= valid_from):
+        return None
+    return end
+
+
+def _subject_aliases(mapping: TableMapping, key_columns: list[str]) -> set[str]:
+    """The non-lookup entities that are a row's own subject: those whose properties read
+    every one of the row's key columns (a composite key needs all of them: an entity
+    carrying only `product` of `product,tier` is shared across tiers). Only they inherit
+    the row's end; stubs and shared entities (a department) outlive the row version. No
+    key columns, no subject."""
+    keys = set(key_columns)
+    if not keys:
+        return set()
+    return {
+        alias for alias, spec in mapping.entities.items()
+        if spec.lookup is None
+        and keys <= set().union(*(f.columns() for f in spec.properties.values()))
+    }
+
+
 def row_text(mapping: TableMapping, table_name: str, row: _Row, columns: list[str]) -> str:
     """A row rendered as `Column: value` lines -- the DocChunk's text, which is
     what vector/fulltext search and every provenance citation show."""
@@ -923,7 +965,8 @@ def build_staged(
     `refresh_mode`, `business_key`, `ingested_at`, `source_file`).
     """
     from artmind.observations import build_observation, class_kind
-    from artmind.temporal import _entity_temporal_mapping, parse_iso
+    from artmind.ingest import _fact_valid_time
+    from artmind.temporal import _entity_temporal_mapping
 
     domain = table["domain"]
     table_name = table["table_name"]
@@ -960,7 +1003,8 @@ def build_staged(
             chunk_id = f"{chunk_id}~{seen_chunks[chunk_id]}"
         else:
             seen_chunks[chunk_id] = 1
-        parsed_rows.append(_Row(index, values, valid_from, chunk_id, row_key))
+        valid_to = _row_end(values.get("_valid_to"), valid_from) if temporal else None
+        parsed_rows.append(_Row(index, values, valid_from, chunk_id, row_key, valid_to))
 
     report: dict = {
         "table": table_name,
@@ -1078,24 +1122,25 @@ def build_staged(
         survivors = ordered[-1:] if policy == "latest" else ordered
         keep_ids.update(id(b) for b in survivors)
 
+    subjects = _subject_aliases(mapping, key_columns)
     observations: list[dict] = []
     obs_by_built: dict[int, str] = {}
     for built in all_built:
         if id(built) not in keep_ids:
             continue
-        fact_from, fact_to = None, None
-        for canon, prop in (entity_dates.get(built.entity_class) or {}).items():
-            raw = built.props.get(prop)
-            parsed = parse_iso(_display(raw)) if raw is not None else None
-            if canon == "valid_from":
-                fact_from = parsed
-            elif canon == "valid_to":
-                fact_to = parsed
+        tagged = (entity_dates.get(built.entity_class) or {}).values()
+        fact = _fact_valid_time(
+            entity_dates, built.entity_class,
+            {p: _display(built.props[p]) for p in tagged if built.props.get(p) is not None},
+        )
         entity = {"name": built.name, "entity_class": built.entity_class, "_domain": domain}
         if built.type:
             entity["type"] = built.type
         if built.description:
             entity["description"] = built.description
+        row_end = built.row.valid_to if built.alias in subjects else None
+        if row_end and fact.valid_from and row_end <= fact.valid_from:
+            row_end = None
         observation = build_observation(
             entity,
             canonical_name=built.name,
@@ -1105,9 +1150,12 @@ def build_staged(
             chunk_id=built.row.chunk_id,
             kind=class_kind(schema, built.entity_class),
             doc_valid_from=built.row.valid_from,
-            valid_from=fact_from,
-            valid_to=fact_to,
-            valid_time_source="property" if fact_from else ("table_row" if temporal else "table"),
+            valid_from=fact.valid_from,
+            valid_to=fact.valid_to or row_end,
+            valid_time_source="property" if fact.valid_from else ("table_row" if temporal else "table"),
+            # A row's own date (its SCD2 batch) is a day.
+            valid_precision=fact.precision or ("day" if built.row.valid_from else None),
+            valid_time_of_day=fact.time_of_day,
             identity=built.name,
         )
         # Same provenance marker `update confirm` sets ("user_chat"). Which

@@ -22,9 +22,9 @@ def year_days(year: int, n: int) -> list[str]:
     return [(date(year, 1, 1) + timedelta(days=i * step)).isoformat() for i in range(n)]
 
 
-def ent(_id, cls, days, name=None, type=None) -> EntityRow:
+def ent(_id, cls, days, name=None, type=None, key="") -> EntityRow:
     days = tuple(sorted(set(days)))
-    return EntityRow(_id=_id, name=name or _id, cls=cls, type=type, days=days, docs=len(days))
+    return EntityRow(_id=_id, name=name or _id, cls=cls, type=type, days=days, docs=len(days), key=key)
 
 
 def make_ctx(entities, *, schema=None, effective=None, docs_per_period=None, config=None, anchors=(),
@@ -32,7 +32,9 @@ def make_ctx(entities, *, schema=None, effective=None, docs_per_period=None, con
              entity_props=None, anchor_relations=(), entity_edges=()):
     from artmind.insights.detectors import RunContext
 
-    schema = schema or {}
+    # Without a schema every class reads as recurrent, so it declares them so: identity
+    # (`RunContext.identity`) then reads `name`, as `summarise_class` reads `recurrent`.
+    schema = schema or {"entity_types": {c: {"kind": "recurrent"} for c in sorted({e.cls for e in entities})}}
     decl = schema.get("entity_types") or {}
     classes = {}
     for cls in sorted({e.cls for e in entities} | set(properties or {})):

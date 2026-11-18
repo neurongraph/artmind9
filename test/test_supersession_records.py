@@ -35,6 +35,9 @@ class _Session:
         self._domains = domains
         self._older_ids = older_ids
 
+    def execute_write(self, fn, *args, **kwargs):
+        return fn(self, *args, **kwargs)
+
     def run(self, cypher, **params):
         self.calls.append((cypher, params))
         if "RETURN DISTINCT d._domain AS domain" in cypher:
@@ -53,6 +56,7 @@ def _record(**overrides):
 def test_a_supersession_record_is_keyed_by_newer_older_and_scope():
     record = _record()
 
+    assert record.pop("recorded_at").endswith("+00:00")
     assert record == {
         "id": hashlib.sha1(b"new-doc|old-doc|document").hexdigest(),
         "newer_doc_id": "new-doc", "older_doc_id": "old-doc", "scope": "document",
@@ -61,13 +65,26 @@ def test_a_supersession_record_is_keyed_by_newer_older_and_scope():
     assert supersession_records.record_id("new-doc", "old-doc", "node") != record["id"]
 
 
-def test_apply_merges_the_edge_then_derives_valid_to_from_every_edge():
+@pytest.fixture(autouse=True)
+def _keys(monkeypatch):
+    monkeypatch.setattr("artmind.projection.keys_for_document", lambda tx, doc_id, **kw: {(doc_id, "C", "d")})
+
+
+def _recomputes(tx):
+    return [(c, p) for c, p in tx.calls if "older.superseded_by = CASE" in c]
+
+
+def _restates(tx):
+    return [p["older"] for c, p in tx.calls if "RETURN s.record_id AS record_id" in c]
+
+
+def test_apply_merges_the_edge_then_derives_superseded_by_and_validity_from_every_edge():
     tx = _Session()
     record = _record()
 
-    assert supersession_records.apply(tx, record, "fp") == set()
+    assert supersession_records.apply(tx, record, "fp") == {("old-doc", "C", "d")}
 
-    (merge, merge_params), (recompute, recompute_params) = tx.calls
+    (merge, merge_params), (recompute, recompute_params), *rest = tx.calls
     assert "MERGE (newer)-[s:SUPERSEDES {scope: $scope}]->(older)" in merge
     assert "OPTIONAL MATCH (o2:DocumentHistory {id: $older})" in merge, "a retired older document still gets its edge"
     assert merge_params == {
@@ -75,20 +92,24 @@ def test_apply_merges_the_edge_then_derives_valid_to_from_every_edge():
         "detected_by": "manual", "id": record["id"], "fingerprint": "fp",
     }
     assert "ORDER BY coalesce(s.effective, '') DESC, newer.id DESC" in recompute
-    assert "older.valid_to = head([e IN edges WHERE e.effective IS NOT NULL | e.effective])" in recompute
+    assert "older._valid_to" not in recompute, "the end is closed like the facts', only where none is stated"
+    assert "valid_to" not in recompute, "core never cleans up the old key; the migration pack does"
+    assert "SET older.valid_to" not in recompute and "older.valid_to =" not in recompute
     assert "older.superseded_by = CASE WHEN size(edges) = 0 THEN null" in recompute
     assert recompute_params == {"older": "old-doc"}
+    assert _restates(tx) == ["old-doc"]
 
 
-def test_remove_deletes_the_edge_and_re_derives_valid_to_from_what_remains():
+def test_remove_deletes_the_edge_and_re_derives_from_what_remains():
     tx = _Session()
 
-    supersession_records.remove(tx, _record())
+    assert supersession_records.remove(tx, _record()) == {("old-doc", "C", "d")}
 
-    (delete, params), (recompute, recompute_params) = tx.calls
+    (delete, params), (recompute, recompute_params), *rest = tx.calls
     assert "MATCH (newer)-[s:SUPERSEDES {scope: $scope}]->(older)" in delete and "DELETE s" in delete
     assert params == {"newer": "new-doc", "older": "old-doc", "scope": "document"}
     assert recompute_params == {"older": "old-doc"}
+    assert _restates(tx) == ["old-doc"]
 
 
 def test_remove_of_an_unreadable_record_matches_the_edge_by_record_id_then_recomputes_each_older_doc():
@@ -96,19 +117,20 @@ def test_remove_of_an_unreadable_record_matches_the_edge_by_record_id_then_recom
 
     supersession_records.remove(tx, {"id": "abc"})
 
-    (delete, params), *recomputes = tx.calls
+    (delete, params), *rest = tx.calls
     assert "MATCH ()-[s:SUPERSEDES {record_id: $id}]->(o)" in delete
     assert "WITH s, o.id AS oid" in delete and "DELETE s" in delete and "RETURN oid" in delete
     assert params == {"id": "abc"}
-    assert all("older.superseded_by = CASE" in c for c, _ in recomputes)
+    recomputes = _recomputes(tx)
     assert sorted(p["older"] for _, p in recomputes) == ["old-a", "old-b"], "each distinct older document, once"
     assert all(set(p) == {"older"} for _, p in recomputes)
+    assert sorted(_restates(tx)) == ["old-a", "old-b"]
 
 
 def test_remove_of_an_unreadable_record_that_matches_no_edge_recomputes_nothing():
     tx = _Session(older_ids=[])
 
-    supersession_records.remove(tx, {"id": "abc"})
+    assert supersession_records.remove(tx, {"id": "abc"}) == set()
 
     assert [p for _, p in tx.calls] == [{"id": "abc"}]
 
@@ -121,10 +143,11 @@ def test_remove_of_a_record_missing_a_content_field_falls_back_to_the_record_id(
 
     supersession_records.remove(tx, record)
 
-    (delete, params), (recompute, recompute_params) = tx.calls
+    (delete, params), *rest = tx.calls
     assert "SUPERSEDES {record_id: $id}" in delete and "scope" not in params
     assert params == {"id": record["id"]}
-    assert recompute_params == {"older": "old-doc"}
+    assert [p for _, p in _recomputes(tx)] == [{"older": "old-doc"}]
+    assert _restates(tx) == ["old-doc"]
 
 
 def test_the_supersessions_kind_runs_before_the_rebuild():
@@ -202,3 +225,86 @@ def test_a_node_scope_supersession_does_not_retire_the_older_document(monkeypatc
 
     assert any("MERGE (newer)-[s:SUPERSEDES" in c for c, _ in session.calls), "the edge is still asserted"
     assert retired == []
+
+
+class _DatedSession(_Session):
+    def __init__(self, valid_from, precision):
+        super().__init__()
+        self._dated = {"valid_from": valid_from, "precision": precision}
+
+    def run(self, cypher, **params):
+        if "d._valid_precision AS precision" in cypher:
+            self.calls.append((cypher, params))
+            return _Result([self._dated])
+        return super().run(cypher, **params)
+
+
+def test_a_record_with_no_effective_takes_the_newer_documents_stated_date():
+    session = _DatedSession("2026-02-01", "day")
+    record = supersession_records.record_for(session, "new-doc", "old-doc", "document", None, "manual")
+    assert record["effective"] == "2026-02-01"
+    (cypher, params), = [(c, p) for c, p in session.calls if "_valid_precision" in c]
+    assert params == {"id": "new-doc"} and "(d:Document OR d:DocumentHistory)" in cypher
+    assert record["recorded_at"].endswith("+00:00")
+
+
+def test_a_default_date_is_not_an_effective_date():
+    record = supersession_records.record_for(
+        _DatedSession("2026-11-17", "none"), "new-doc", "old-doc", "document", None, "manual")
+    assert record["effective"] is None
+
+
+def test_a_given_effective_wins_and_reads_no_date():
+    session = _DatedSession("2026-02-01", "day")
+    record = supersession_records.record_for(session, "new-doc", "old-doc", "document", "2026-03-01", "manual")
+    assert record["effective"] == "2026-03-01"
+    assert not [c for c, _ in session.calls if "_valid_precision" in c]
+
+
+def test_re_asserting_keeps_the_first_recorded_at(curation_dir):
+    first = _record()
+    first["recorded_at"] = "2026-01-01T00:00:00+00:00"
+    curation_records.write_record(supersession_records.NAME, first)
+    assert _record()["recorded_at"] == "2026-01-01T00:00:00+00:00"
+
+
+def test_re_asserting_keeps_the_first_derived_effective(curation_dir):
+    first = supersession_records.record_for(
+        _DatedSession("2026-02-01", "day"), "new-doc", "old-doc", "document", None, "manual")
+    curation_records.write_record(supersession_records.NAME, first)
+    path = curation_dir / "supersessions" / f"{first['id']}.json"
+    before = path.read_bytes()
+    again = supersession_records.record_for(
+        _DatedSession("2026-05-09", "day"), "new-doc", "old-doc", "document", None, "manual")
+    assert again["effective"] == "2026-02-01"
+    curation_records.write_record(supersession_records.NAME, again)
+    assert path.read_bytes() == before
+
+
+def test_apply_supersession_reports_the_records_effective(monkeypatch, curation_dir):
+    from contextlib import contextmanager
+
+    import artmind.temporal as temporal
+
+    @contextmanager
+    def _fake(*a, **k):
+        yield _DatedSession("2026-02-01", "day")
+
+    monkeypatch.setattr(temporal, "neo4j_session", _fake)
+    monkeypatch.setattr("artmind.lifecycle.retire_document", lambda *a, **k: None)
+    assert temporal.apply_supersession("new-doc", "old-doc", "node", None)["effective"] == "2026-02-01"
+
+
+def test_the_dry_run_effect_reports_the_derived_effective(monkeypatch):
+    from contextlib import contextmanager
+
+    import artmind.temporal as temporal
+
+    @contextmanager
+    def _fake(*a, **k):
+        yield _DatedSession("2026-02-01", "day")
+
+    monkeypatch.setattr("artmind.graph_query.read_session", _fake)
+    effect = temporal.supersession_effect("new-doc", "old-doc", "node", None)
+    (change,) = [c for c in effect["changes"] if c["kind"] == "document_supersede"]
+    assert change["sample"][0]["effective"] == "2026-02-01"

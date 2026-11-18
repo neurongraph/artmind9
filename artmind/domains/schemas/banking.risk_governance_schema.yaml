@@ -11,6 +11,7 @@ temporal:
     - Issued Date
     - Reporting Date
     - Meeting Date
+    revised:
     - Last Updated
     version:
     - Version
@@ -24,6 +25,7 @@ temporal:
 entity_types:
   AUDIT_FINDING:
     kind: occurrent
+    identity: occasion
     description: A specific observation, issue, gap, strength, or recommendation identified in an internal
       audit — a finding with severity, affected process or area, evidence, and resolution status. Each
       finding is a separate entity. Include both weaknesses (issues requiring remediation) and strengths
@@ -127,6 +129,7 @@ entity_types:
       AUDIT_FINDING entities include severity, affected_area, resolution_status.
   RISK:
     kind: recurrent
+    identity: name
     description: A named risk category with a defined appetite, tolerance threshold, or stated management
       approach. Also extract specific risk scenarios or risk events when described. Each distinct risk
       type or scenario is a separate entity.
@@ -207,6 +210,7 @@ entity_types:
       RISK entities include appetite_level, tolerance_thresholds.
   GOVERNANCE_DECISION:
     kind: occurrent
+    identity: occasion
     description: A formal decision, approval, rejection, or resolution made by a board committee, audit
       committee, or governance body — documented in meeting minutes or governance reports. Each distinct
       decision or resolution is a separate entity.
@@ -274,6 +278,7 @@ entity_types:
       Naming: include the decision outcome and topic. RIGHT:   { "name": "Board Approval of 2026 Risk Appetite Statement" }
   ACTION_ITEM:
     kind: recurrent
+    identity: name
     description: A specific task assigned to a named role or team with a defined deadline, arising from
       a governance meeting, audit report, or regulatory update. Each action item with an owner and deadline
       is a separate entity.
@@ -295,7 +300,7 @@ entity_types:
         hint: role or name responsible
       deadline:
         hint: date by which it must be completed
-        temporal: valid_from
+        temporal: due
       priority:
         hint: critical | high | medium | low
       triggered_by:
@@ -336,6 +341,7 @@ entity_types:
       ACTION_ITEM entities include action_description, owner, deadline.
   RISK_METRIC:
     kind: recurrent
+    identity: name
     description: A quantitative risk indicator, appetite threshold, tolerance level, KRI value, capital
       ratio, or performance metric stated in a risk management or governance document. Capture both the
       threshold/target and the actual value when both are stated.
@@ -394,7 +400,8 @@ entity_types:
         RIGHT:   { "name": "Capital Ratio", "target_threshold": ">15%", "actual_value": "18.2%" }
         WRONG:   { "name": "Capital Ratio -- Target >15%, Actual 18.2%" }
   REGULATORY_UPDATE:
-    kind: occurrent
+    kind: recurrent
+    identity: name
     description: A new regulation, amended regulation, FCA/PRA circular, compliance bulletin, enforcement
       action, or regulatory deadline that requires the bank to take action. Each distinct regulatory change
       or circular is a separate entity.
@@ -442,6 +449,7 @@ entity_types:
     guidance: Each regulatory change or FCA/PRA circular captured as REGULATORY_UPDATE.
   PRODUCT:
     kind: recurrent
+    identity: name
     description: A banking product referenced in risk assessments, audit scope definitions, or governance
       decisions. Extract when a product's risk profile or controls are under review.
     type_examples:
@@ -458,6 +466,7 @@ entity_types:
         hint: whether this product was explicitly in scope
   EMPLOYEE:
     kind: recurrent
+    identity: name
     description: A bank employee or staff category referenced in governance findings — training gaps,
       misconduct, or accountability concerns.
     type_examples:
@@ -475,6 +484,7 @@ entity_types:
         hint: what they are responsible for under the finding
   DEPARTMENT:
     kind: recurrent
+    identity: name
     description: An organisational department referenced as responsible for, or implicated in, a finding,
       risk, or governance decision.
     type_examples:
@@ -494,6 +504,7 @@ entity_types:
         hint: what risk or process they own
   ACCOUNT:
     kind: recurrent
+    identity: name
     description: A customer account opened, held, modified, or closed under a banking product — savings,
       current, or joint. Extract when the document defines rules, state, or events that apply to the account
       itself.
@@ -551,6 +562,7 @@ entity_types:
       - deducts_from
   ACCOUNT_HOLDER:
     kind: recurrent
+    identity: name
     description: A person with legal rights and obligations over an account — primary, joint, or secondary
       holder — including their liability, authority, and due-diligence obligations.
     type_examples:
@@ -572,6 +584,7 @@ entity_types:
       - liable_under
   AML_SCREENING:
     kind: recurrent
+    identity: name
     description: Anti-Money Laundering screening — sanctions/PEP list checks, transaction monitoring,
       or ongoing screening — as mandated, executed, or reviewed by the document.
     type_examples:
@@ -595,6 +608,7 @@ entity_types:
       - leads_to_filing_of
   CARD:
     kind: recurrent
+    identity: name
     description: A payment card issued to, or referenced in connection with, a customer account — its
       issuance, use, blocking, or replacement.
     type_examples:
@@ -613,6 +627,7 @@ entity_types:
       daily_or_contactless_limit: {}
   CUSTOMER:
     kind: recurrent
+    identity: name
     description: A natural person who holds, applies for, or is otherwise the subject of a banking relationship
       — an account, product, transaction, or compliance process. Extract as a first-class entity whenever
       the customer is a defined party in the document, not merely mentioned in passing.
@@ -665,6 +680,7 @@ entity_types:
       - belongs_to
   DIRECT_DEBIT:
     kind: recurrent
+    identity: name
     description: A direct debit mandate on a customer account — its setup, the Direct Debit Guarantee,
       amendment, cancellation, or dispute.
     type_examples:
@@ -679,6 +695,7 @@ entity_types:
       cancellation_or_dispute_process: {}
   FRAUD_ALERT:
     kind: recurrent
+    identity: name
     description: A fraud detection alert or fraud response — its generation, investigation, escalation,
       or the customer-facing action it triggers.
     type_examples:
@@ -701,6 +718,7 @@ entity_types:
       - raised_on
   JOINT_ACCOUNT:
     kind: recurrent
+    identity: name
     description: An account arrangement held jointly by two or more customers with shared rights, liabilities,
       and consent requirements.
     type_examples:
@@ -715,6 +733,7 @@ entity_types:
       closure_consent: {}
   KYC_VERIFICATION:
     kind: recurrent
+    identity: name
     description: The Know Your Customer identity/address verification process — as a compliance obligation,
       an operational procedure, or an audited control. Extract when the document defines, executes, or
       evaluates KYC requirements.
@@ -736,6 +755,7 @@ entity_types:
       - applied_to
   SAR:
     kind: occurrent
+    identity: occasion
     description: A Suspicious Activity Report — the obligation, preparation, filing, or tracking of a
       SAR to the relevant authority (e.g. the NCA).
     type_examples:
@@ -749,12 +769,16 @@ entity_types:
       filing_deadline: {}
       confidentiality_rule: {}
       consequence_of_non_filing: {}
+      filed_on:
+        hint: date the SAR was filed
+        temporal: valid_from
     relates_to:
       TRANSACTION:
       - triggered_by
       - based_on_evidence_from
   STANDING_ORDER:
     kind: recurrent
+    identity: name
     description: A standing order payment instruction on a customer account — its setup, amendment, cancellation,
       or failure handling.
     type_examples:
@@ -769,6 +793,7 @@ entity_types:
       failure_handling: {}
   TRANSACTION:
     kind: occurrent
+    identity: occasion
     description: A financial event on a customer account — a deposit, withdrawal, transfer, payment, or
       fee charge — referenced because it is monitored, disputed, reported, or otherwise governed by the
       document.
@@ -788,6 +813,9 @@ entity_types:
       threshold_value:
         hint: numeric, no currency symbol or thousands separators, e.g., 10000
       dispute_or_reversal_rules: {}
+      transaction_date:
+        hint: date of the transaction, YYYY-MM-DD
+        temporal: valid_from
 guidance:
   relationships: |-
     All AUDIT_FINDING → ACTION_ITEM remediation links captured.

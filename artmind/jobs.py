@@ -124,11 +124,13 @@ def _update_job_file_status(
     domain: str | None = None,
     failed_chunks: list[int] | None = None,
     page_check: dict | None = None,
+    date_counts: dict | None = None,
 ) -> None:
     """Update per-file status in ingestion_job_files. `failed_chunks` is what a
     finished extraction reported ([] for none); `page_check` the counts the
-    conversion's page check found (flagged / repaired / unrepaired); None leaves
-    either column as is."""
+    conversion's page check found (flagged / repaired / unrepaired); `date_counts`
+    how a staged extraction's facts were dated (dated / ranges / unparsed, spec
+    2026-11-15 §3.4); None leaves each column as is."""
     conn = _get_db()
     cursor = conn.cursor()
     try:
@@ -163,6 +165,9 @@ def _update_job_file_status(
         if page_check is not None:
             updates.append("page_check = ?")
             params.append(json.dumps(page_check))
+        if date_counts is not None:
+            updates.append("date_counts = ?")
+            params.append(json.dumps(date_counts))
         if not updates:
             return
         params.extend([job_id, filename])
@@ -286,7 +291,7 @@ def _fetch_active_jobs() -> list[dict]:
             job_id = row[0]
             files = conn.execute(
                 "SELECT filename, status, current_step, doc_sha256, entity_count, relationship_count, domain,"
-                " failed_chunks, error_message, page_check FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
+                " failed_chunks, error_message, page_check, date_counts FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
                 (job_id,),
             ).fetchall()
             file_entries = []
@@ -307,6 +312,8 @@ def _fetch_active_jobs() -> list[dict]:
                     entry["domain"] = f[6]
                 if counts := _json_object(f[9]):
                     entry["page_check"] = counts
+                if (dates := _json_object(f[10])) is not None:
+                    entry["date_counts"] = dates
                 file_entries.append(entry)
             result.append({
                 "job_id": job_id,
@@ -517,7 +524,7 @@ def _get_job_status(job_id: str) -> dict | None:
             return None
         cursor.execute(
             "SELECT filename, status, current_step, doc_sha256, entity_count, relationship_count, domain,"
-            " failed_chunks, error_message, page_check FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
+            " failed_chunks, error_message, page_check, date_counts FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
             (job_id,),
         )
         files = []
@@ -534,6 +541,8 @@ def _get_job_status(job_id: str) -> dict | None:
                 entry["domain"] = r[6]
             if counts := _json_object(r[9]):
                 entry["page_check"] = counts
+            if (dates := _json_object(r[10])) is not None:
+                entry["date_counts"] = dates
             files.append(entry)
         return {
             "job_id": row[0],
@@ -676,7 +685,7 @@ def _retry_job(job_id: str, include_skipped: bool = False) -> dict:
                 f"UPDATE ingestion_job_files"
                 f" SET status='queued', current_step=NULL, doc_sha256=NULL,"
                 f"     started_at=NULL, completed_at=NULL, error_message=NULL,"
-                f"     entity_count=NULL, relationship_count=NULL, failed_chunks=NULL, page_check=NULL"
+                f"     entity_count=NULL, relationship_count=NULL, failed_chunks=NULL, page_check=NULL, date_counts=NULL"
                 f" WHERE job_id = ? AND filename IN ({fn_placeholders})",
                 (job_id, *filenames),
             )

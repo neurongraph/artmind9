@@ -1,5 +1,6 @@
 import glob
 import os
+import re
 import shlex
 import shutil
 import subprocess
@@ -75,6 +76,7 @@ from paths import (
 from utils.functions import load_env, resolve_llm_model
 from artmind.traces.span import TracedDbGroup, TracedGroup, observe_output
 from artmind.reviews.dossier import STAGES, STATUSES
+from artmind import data_model as _data_model
 from artmind.cli_conventions import (
     LIST_KEY, Change, Effect, _command_path, aliased_option, compact_option, dry_run_option, envelope, exit_on_store_failure,
     shape_option, unbuilt_dry_run_option, with_effect,
@@ -378,6 +380,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Curation", "commands": ["sameas"]},
         {"name": "Updates", "commands": ["update"]},
         {"name": "Sessions", "commands": ["session", "snapshot"]},
+        {"name": "Maintenance", "commands": ["migrate"]},
         {"name": "Setup & tools", "commands": ["vault", "setup", "init", "serve", "chat-ui", "admin-ui"]},
     ],
     "artmind ingest": [
@@ -390,7 +393,7 @@ click.rich_click.COMMAND_GROUPS = {
         },
         {
             "name": "Graph building",
-            "commands": ["extract-kg", "classify-reingest", "empty-extractions", "write-to-graph", "retime", "backfill-properties", "table2graph", "pull-kg", "embed-entities", "embed-passages", "summarise"],
+            "commands": ["extract-kg", "classify-reingest", "empty-extractions", "date-audit", "write-to-graph", "retime", "backfill-properties", "table2graph", "pull-kg", "embed-entities", "embed-passages", "summarise"],
         },
         {
             "name": "Refinement",
@@ -410,6 +413,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Query", "commands": ["sql", "timeline"]},
         {"name": "Maintenance", "commands": ["refresh", "connect", "backup", "restore", "export-text", "restore-text"]},
     ],
+    "artmind migrate": [{"name": "Migrate", "commands": ["status", "temporal"]}],
     "artmind mart": [{"name": "Mart", "commands": ["build", "enrich", "status", "review", "calendar"]}],
     "artmind mart review": [{"name": "Review", "commands": ["list", "set"]}],
     "artmind mart calendar": [{"name": "Calendar", "commands": ["set"]}],
@@ -451,6 +455,7 @@ click.rich_click.COMMAND_GROUPS = {
                 "chunks",
                 "entity-context",
                 "entity-history",
+                "happenings",
                 "document-history",
                 "text2sql",
                 "resolve-key",
@@ -488,6 +493,9 @@ def cli():
 def _echo_json(payload: dict, compact: bool = False) -> None:
     ctx = click.get_current_context(silent=True)
     flagged = ctx.find_root().meta.pop(_UNKNOWN_DOMAIN_META, None) if ctx is not None else None
+    behind = ctx.find_root().meta.pop(_data_model.WARNING_META, None) if ctx is not None else None
+    if behind:
+        flagged = [*(flagged or []), behind]
     if flagged and isinstance(payload, dict):
         existing = payload.get("warnings")
         payload = {**payload, "warnings": [*(existing if isinstance(existing, list) else []), *flagged]}
@@ -750,9 +758,10 @@ def domains_validate(domain: str | None, compact: bool):
     is never written, so the schema should use another name.
     """
     from artmind.schema_validate import (
-        exclusive_property_warnings, graph_extraction_warnings, guidance_property_warnings, load_meta,
+        graph_extraction_warnings, guidance_property_warnings, load_meta,
         meta_template_warnings, own_key_property_warnings, property_alias_warnings, property_reference_report,
-        reserved_relationship_warnings, validate_all, validate_schema, warn_all,
+        reserved_relationship_warnings, temporal_warnings, validate_all, validate_schema, warn_all,
+        identity_warnings,
     )
 
     if domain:
@@ -770,7 +779,8 @@ def domains_validate(domain: str | None, compact: bool):
             violations = {domain: errors} if errors else {}
             warnings = {domain: reserved_relationship_warnings(data, domain) + graph_extraction_warnings(data, domain)
                         + property_alias_warnings(data, domain) + guidance_property_warnings(data, domain)
-                        + own_key_property_warnings(data, domain) + exclusive_property_warnings(data, domain)}
+                        + own_key_property_warnings(data, domain) + temporal_warnings(data, domain)
+                        + identity_warnings(data, domain)}
     else:
         violations = validate_all()
         warnings = warn_all()
@@ -927,7 +937,7 @@ def domains_harmonize(domain: str | None, dry_run: bool, compact: bool):
 
 @cli.group()
 def ingest():
-    """Manage document ingestion (sync, async, pending, status, results,...), table -> graph projection (table2graph; table2graph --pending lists the tables waiting), summary backfill (summarise [--domain] [--match] [--dryRun]), and property backfill (backfill-properties --domain D --entityClass C --property P [--undo RUN_ID | --retryCommit RUN_ID] [--dryRun]). Writes take --dryRun: `sync --dryRun` lists files by tier with an LLM-call estimate; every dry run returns an `effect` block."""
+    """Manage document ingestion (sync, async, pending, status, results,...), table -> graph projection (table2graph; table2graph --pending lists the tables waiting), summary backfill (summarise [--domain] [--match] [--dryRun]), property backfill (backfill-properties --domain D --entityClass C --property P [--undo RUN_ID | --retryCommit RUN_ID] [--dryRun]), re-dating from the current schema (retime), and a read-only date audit (date-audit --domain D: how each class is dated). Writes take --dryRun: `sync --dryRun` lists files by tier with an LLM-call estimate; every dry run returns an `effect` block."""
     pass
 
 
@@ -1502,6 +1512,23 @@ def ingest_empty_extractions(domain: tuple, min_chars: int, compact: bool) -> No
 
     _echo_json(empty_extractions(paths.KG_DIR, domains=_parse_repeatable(domain) or None,
                                  min_chars=min_chars), compact)
+
+
+@ingest.command("date-audit")
+@click.option("--domain", required=True, help="Domain whose staged facts to audit")
+@compact_option
+def ingest_date_audit(domain: str, compact: bool) -> None:
+    """Per class: share of facts dated by their own property, precision mix, ranges, unparsed dates.
+
+    \b
+    Read-only: staging only, no LLM, no Neo4j. Counts only; no value is printed.
+    One row per class with a temporal: property: observations, dated_by_property,
+    share, precision, ranges, unparsed. When a value is unparsed, `next` is the
+    `ingest retime` dry run.
+    """
+    from artmind import date_audit
+
+    _echo_json(date_audit.audit_domain(domain), compact)
 
 
 @ingest.command("jobs")
@@ -2081,6 +2108,8 @@ def ingest_table2graph(
         except table2graph.MappingError as e:
             raise click.ClickException(str(e))
     if as_of:
+        if re.fullmatch(r"\d{4}(-\d{2})?", as_of.strip()):
+            raise click.ClickException("--asOf needs a full ISO date (YYYY-MM-DD) or 'today'")
         try:
             as_of = graph_query.resolve_as_of(as_of)
         except ValueError as e:
@@ -2390,7 +2419,7 @@ def ingest_unsupersede(
 
     Deletes the SUPERSEDES edge and its vault file
     (.artmind/data/curation/supersessions/), recomputes the older document's
-    valid_to / superseded_by from the edges that remain, and restores the older
+    _valid_to / superseded_by from the edges that remain, and restores the older
     document when no other supersession points at it. Use it to correct an edge
     written the wrong way round, then assert the right one with `ingest supersede`.
     """
@@ -2841,6 +2870,8 @@ def db_mappings(ctx, table, domain, accept_proposed, compact):
     ctx.obj = {"table": table, "domain": domain}
     if ctx.invoked_subcommand is not None:
         return
+    if accept_proposed:
+        _data_model.require_current("db mappings --acceptProposed")
     table_id = _ctx_table_id(ctx)
     if accept_proposed:
         for m in structured_registry.list_mappings(table_id):
@@ -3271,7 +3302,8 @@ def query():
     parameterised queries: list / show / run), `insights` (the latest
     unprompted findings: list / show), and `topics` (saved topic plans:
     plan / run). `survey` ranks documents for cross-document questions
-    (summaries + passages). `catalogue` says what the system knows about a domain
+    (summaries + passages). `happenings` lists the dated occasions matching a term, by period.
+    `catalogue` says what the system knows about a domain
     (classes, relations, documents, stores, time, health) and `assets` what it
     already answers (views, topic plans, insights, summaries). `page` reads the rest of a result
     that ARTMIND_OUTPUT_BUDGET cut (by its handle). The rest are lookup commands.
@@ -3409,7 +3441,7 @@ def graph_entity_listing_cmd(
 @click.option("--project", "project", default=None, help="Filter by project (ADR 0010 filing metadata)")
 @click.option("--area", "area", default=None, help="Filter by area (ADR 0010 filing metadata)")
 @click.option("--tag", "tag", multiple=True, help="Filter by tag (repeatable; matches ANY listed tag)")
-@click.option("--asOf", "as_of", default=None, help="Only docs in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; docs without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Only docs in force on this date (_valid_from <= asOf < _valid_to; a year or month means its last day). ISO date or 'today'; docs without a real date always shown")
 @compact_option
 def graph_filing_listing_cmd(domain: tuple, project: str | None, area: str | None, tag: tuple, as_of: str | None, compact: bool) -> None:
     """List Documents filtered by filing taxonomy (project, area, tags, domain)."""
@@ -3710,23 +3742,25 @@ def graph_pattern9(
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--documentName", "document_name", required=True, help="Document name (substring match)")
 @click.option("--includeHistory", "include_history", is_flag=True, help="Also reach retired/superseded documents and chunks (:DocumentHistory / :DocChunkHistory). Omit for current content only")
-@click.option("--asOf", "as_of", default=None, help="Alias of --includeHistory kept for old callers: any value turns history on. It is NOT a date filter here (chunks carry no date of their own)")
+@click.option("--asOf", "as_of", default=None, help="Alias of --includeHistory kept for old callers: any value turns history on. It is not a date filter here (--knownAsOf is the point in time this pattern honours)")
+@click.option("--knownAsOf", "known_as_of", default=None, help="Read what the graph held at this point in record time: content recorded by then and not yet retired (an ISO date means the end of that local day; a datetime without a zone is local; or 'today'/'now'). Reaches both current and history chunks")
 @click.option("--limit", type=int, default=graph_query.PATTERN10_DEFAULT_LIMIT, show_default=True, help="Max chunks; rows_total carries the full count")
 @click.option("--offset", type=int, default=0, show_default=True, help="Skip this many chunks (ordered by chunk id) before --limit; page past a truncated result with offset += limit")
 @compact_option
 @click.argument("question", required=False)
 def graph_pattern10(
-    domain: tuple, document_name: str, include_history: bool, as_of: str | None, limit: int, offset: int,
-    compact: bool, question: str | None,
+    domain: tuple, document_name: str, include_history: bool, as_of: str | None, known_as_of: str | None,
+    limit: int, offset: int, compact: bool, question: str | None,
 ) -> None:
-    """Retrieve all text chunks for a named document (current only, or with history)."""
+    """Retrieve all text chunks for a named document (current only, with history, or as the graph held them at --knownAsOf)."""
     domains = _parse_domains(domain)
-    history = include_history or as_of is not None
+    history = include_history or as_of is not None or bool((known_as_of or "").strip())
     try:
         # as_of=None on purpose: resolve_as_of would reject the non-ISO values the old presence flag accepted.
         result = graph_query.execute_pattern(
             domains=domains, pattern="pattern10", question=question, as_of=None,
             documentName=document_name, includeHistory=True if history else None, limit=limit, offset=offset,
+            knownAsOf=known_as_of,
         )
         # First page only: an empty page past the end of a current document is not a retired-only match.
         if not history and offset == 0 and not result.get("rows"):
@@ -3799,7 +3833,7 @@ def graph_conflicts(domain: tuple, entity_id: tuple, entity_name: str | None, st
 @click.option("--to", "to", default=None, help="ISO date: only entities with valid_from on or before this")
 @compact_option
 def graph_timeline(domain: tuple, from_: str | None, to: str | None, compact: bool) -> None:
-    """Every entity of a `kind: occurrent` class in these domains, ordered by valid_from.
+    """Every entity of an `identity: occasion` class in these domains, ordered by valid_from (undated last).
 
     Domain-scoped, not entity-scoped (--entityId is gone) — an entity-scoped
     fact history now lives in `query entity-history`.
@@ -3952,7 +3986,7 @@ def query_orient(domain: tuple, compact: bool) -> None:
 @click.option("--topK", "top_k", type=int, default=5, show_default=True, help="Results to return (1-50)")
 @click.option("--context", type=click.Choice(["chunk", "passage"]), default="chunk", show_default=True,
               help="Return each hit's parent chunk text, or only the matching passage")
-@click.option("--asOf", "as_of", default=None, help="Only rows in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; nodes without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Only rows valid at this date (_valid_from <= asOf < _valid_to; a year or month means its last day). ISO date or 'today'; rows without a real date always shown")
 @shape_option
 @compact_option
 @click.argument("question")
@@ -4140,6 +4174,18 @@ def _plans_in_scope(domains) -> list:
     return [(p.spec.slug, p.spec.topic, list(p.spec.subjects)) for p in plans]
 
 
+def _identity_schema(domains) -> dict:
+    """The queried domains' classes, merged (the first declaration wins), for the identity
+    gates (spec 2026-11-15 §5.3)."""
+    from artmind.schema_validate import family_schema
+
+    types: dict = {}
+    for name in domains:
+        for cls, decl in (family_schema(name, schemas_dir=DOMAIN_SCHEMAS_DIR).get("entity_types") or {}).items():
+            types.setdefault(cls, decl)
+    return {"entity_types": types}
+
+
 @query.command("entity-resolve")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--topK", "top_k", type=int, default=5, show_default=True)
@@ -4165,7 +4211,7 @@ def query_entity_resolve(domain: tuple, top_k: int, compact: bool, reference: st
             for row in result.get("rows", []):
                 if identity.normalise((row.get("entity") or {}).get("name")) in names:
                     row["matched_by"] = [*(row.get("matched_by") or []), "narrator"]
-    twins = identity.twin_groups(result.get("rows", []))
+    twins = identity.twin_groups(result.get("rows", []), schema=_identity_schema(domains))
     if twins:
         result["twins"] = twins
         warnings += [identity.twin_warning(g) for g in twins]
@@ -4178,7 +4224,7 @@ def query_entity_resolve(domain: tuple, top_k: int, compact: bool, reference: st
 @click.option("--domain", "domain", multiple=True, help="Scope the lookup to this domain (repeatable; comma-splittable). Optional: without it the ids are looked up in every domain and the output's domains come from the chunks")
 @click.option("--idList", "id_list", multiple=True, required=True, help="Exact chunk id (repeatable; comma-splittable)")
 @click.option("--expand", type=int, default=0, show_default=True, help="Also return up to N adjacent chunks per hit (same document)")
-@click.option("--asOf", "as_of", default=None, help="Only rows in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; nodes without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Only rows valid at this date (_valid_from <= asOf < _valid_to; a year or month means its last day). ISO date or 'today'; rows without a real date always shown")
 @shape_option
 @compact_option
 def query_chunks(domain: tuple, id_list: tuple, expand: int, as_of: str | None, shape: str, compact: bool) -> None:
@@ -4280,7 +4326,8 @@ def query_entity_context(
 @click.option("--key", "key", default=None, help="Aggregate key name|CLASS|domain (as entity-resolve and history rows show it); works whether or not the entity still exists")
 @click.option("--name", "name", default=None, help="Entity name, matched against the key's normalized name part and the extracted name; works whether or not the entity still exists")
 @click.option("--entityClass", "entity_class", default=None, help="With --name: only observations of this entity class")
-@click.option("--asOf", "as_of", default=None, help="Only facts in force by this date (_valid_from <= asOf; _valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'")
+@click.option("--asOf", "as_of", default=None, help="A point in valid time: facts whose own date window contains this date (_valid_from <= asOf < _valid_to; a year or month means its last day). ISO date or 'today'; facts without a real date always shown")
+@click.option("--knownAsOf", "known_as_of", default=None, help="Read what the graph held at this point in record time: content recorded by then and not yet retired (an ISO date means the end of that local day; a datetime without a zone is local; or 'today'/'now'). Each row's status is as of that moment")
 @click.option("--property", "property_", default=None, help="Narrow to one property's value at each point instead of the full observation")
 @compact_option
 def query_entity_history(
@@ -4290,6 +4337,7 @@ def query_entity_history(
     name: str | None,
     entity_class: str | None,
     as_of: str | None,
+    known_as_of: str | None,
     property_: str | None,
     compact: bool,
 ) -> None:
@@ -4307,18 +4355,61 @@ def query_entity_history(
     try:
         result = graph_query.entity_history(
             domains, entity_id, as_of=as_of, property=property_,
-            key=key, name=name, entity_class=entity_class,
+            key=key, name=name, entity_class=entity_class, known_as_of=known_as_of,
         )
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
 
 
+@query.command("happenings")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
+@click.option("--match", "match", required=True, help="What happened, in the corpus's words (name, alias or type)")
+@click.option("--entityClass", "entity_class", default=None, help="Only this occasion class")
+@click.option("--from", "from_", default=None, help="On or after this date (YYYY[-MM[-DD]])")
+@click.option("--to", "to", default=None,
+              help="On or before this date (YYYY[-MM[-DD]]; a year or month means its last day)")
+@click.option("--by", type=click.Choice(["year", "month"]), default=None, help="Group rows by period")
+@click.option("--with", "with_id", default=None, help="Only happenings linked to this entity id")
+@click.option("--limit", type=click.IntRange(1, 1000), default=200, show_default=True)
+@shape_option
+@compact_option
+def query_happenings(domain: tuple, match: str, entity_class: str | None, from_: str | None, to: str | None,
+                     by: str | None, with_id: str | None, limit: int, shape: str, compact: bool) -> None:
+    """Every dated happening (an `identity: occasion` class) matching a term: one row per
+    occasion with its date, class, type, participants, places and chunk ids.
+
+    Answers "every year", "how many times", "when did X happen". Matches the term against
+    happening names and aliases (and an equal `type`), plus their same-as group. Undated
+    happenings sort last and never fall inside a --from/--to window. `coverage` counts
+    documents whose text matches; when it exceeds the documents in the rows, `next` names a survey.
+    """
+    from artmind import brief
+    from artmind.temporal import parse_iso
+
+    domains = _parse_domains(domain)
+    try:
+        start = None
+        if from_:
+            start = parse_iso(from_) if graph_query._ASOF_RE.match(from_.strip()) else None
+            if start is None:
+                raise ValueError(f"--from must be an ISO date (YYYY[-MM[-DD]]); got {from_!r}")
+        end = graph_query.resolve_as_of(to)
+        result = graph_query.happenings(domains, match, entity_class=entity_class, from_=start, to=end,
+                                        by=by, with_id=with_id, limit=limit)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    if shape == "brief":
+        result["rows"] = [brief.happening_row(row) for row in result.get("rows") or []]
+    _echo_json(result, compact)
+
+
 @query.command("document-history")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--documentName", "document_name", required=True, help="Document name (case-insensitive; a missing extension is matched when exactly one document fits), vault path, or document id")
+@click.option("--knownAsOf", "known_as_of", default=None, help="Read what the graph held at this point in record time: content recorded by then and not yet retired (an ISO date means the end of that local day; a datetime without a zone is local; or 'today'/'now'). Status and retired are as of that moment")
 @compact_option
-def query_document_history(domain: tuple, document_name: str, compact: bool) -> None:
+def query_document_history(domain: tuple, document_name: str, known_as_of: str | None, compact: bool) -> None:
     """What a document's ingested versions asserted: current vs history observations.
 
     A re-ingest demotes facts the new version no longer states to history
@@ -4332,7 +4423,7 @@ def query_document_history(domain: tuple, document_name: str, compact: bool) -> 
     """
     domains = _parse_domains(domain)
     try:
-        result = graph_query.document_history(domains, document_name)
+        result = graph_query.document_history(domains, document_name, known_as_of=known_as_of)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
@@ -7490,3 +7581,13 @@ def setup(compact: bool):
         "topic_page_graph_copy": (result["topic_page_graph_copy"]["report"].removeprefix("topic page graph copy: ")
                                   if result.get("topic_page_graph_copy") else None),
     }, compact)
+
+
+from artmind.migrations.temporal_v1.cli import migrate_group; cli.add_command(migrate_group)  # noqa: E402,E702 - temporary pack; sunset in its __init__
+
+# Data-model gate (spec 2026-11-15 §8.1): every WRITE_COMMANDS entry refuses an
+# unmigrated vault; every other command warns once. Must stay last, after every
+# command is registered.
+from artmind.cli_conventions import GATED_EXTRA, WRITE_COMMANDS  # noqa: E402
+
+_data_model.gate_commands(cli, set(WRITE_COMMANDS) | GATED_EXTRA)

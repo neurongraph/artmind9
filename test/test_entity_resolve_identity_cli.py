@@ -14,8 +14,16 @@ def ent(i, name, cls="Person"):
             "score": 0.5, "matched_by": ["fulltext"]}
 
 
+SCHEMA = {"entity_types": {"Person": {"kind": "recurrent"},
+                           "Outing": {"kind": "occurrent", "identity": "occasion"},
+                           "Mood": {"kind": "recurrent", "identity": "category"}}}
+
+
 def run(monkeypatch, rows, ref, narrator=NARRATOR, domains=("d",)):
+    import artmind.schema_validate as schema_validate
+
     calls = []
+    monkeypatch.setattr(schema_validate, "family_schema", lambda name, schemas_dir=None: SCHEMA)
 
     def fake(doms, reference, top_k):
         calls.append(reference)
@@ -92,3 +100,12 @@ def test_twins_grouped_rows_untouched(monkeypatch):
 def test_no_twins_no_key(monkeypatch):
     _, out = run(monkeypatch, [ent("1", "A"), ent("2", "B")], "x", narrator=None)
     assert "twins" not in out and "warnings" not in out
+
+
+def test_twins_skip_occasion_and_category_classes(monkeypatch):
+    """Spec 2026-11-15 §5.3: an occasion is one entity per day and a category a shared label."""
+    rows = [ent("1", "Tennis", "Outing"), ent("2", "tennis", "Outing"),
+            ent("3", "Calm", "Mood"), ent("4", "calm", "Mood"),
+            ent("5", "Acme Corp"), ent("6", "acme corp")]
+    _, out = run(monkeypatch, rows, "x", narrator=None)
+    assert out["twins"] == [{"name": "Acme Corp", "entity_class": "Person", "ids": ["5", "6"]}]

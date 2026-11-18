@@ -19,6 +19,9 @@ class FakeResult:
     def __iter__(self):
         return iter(self._rows)
 
+    def consume(self):
+        return None
+
 
 class Recorder:
     def __init__(self, respond=None):

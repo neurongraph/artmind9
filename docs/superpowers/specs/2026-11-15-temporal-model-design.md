@@ -1,6 +1,7 @@
 # Temporal model: dated extraction, valid intervals and record time
 
-Status: design, 2026-11-15. Companion to
+Status: design, 2026-11-15; revised 2026-11-17 (one-time changes to existing
+data and vault files moved into a migration pack, §8). Companion to
 `2026-11-15-schema-bound-properties-design.md` (shared rollout, §9).
 
 ## Goal
@@ -118,8 +119,10 @@ the date model; F1 covers recall per period.
 - **Default date treated as real.** The `default_ingestion` date (today) is
   counted as a real date by survey, timeline, mart and the projection winner.
   Only the anchor, catalogue and insights exclude it.
-- **Mixed clocks.** `update.py` and the SCD2 batch date use local `date.today()`;
-  everything else uses UTC.
+- **Mixed clocks.** `update.py` writes its record timestamp (`created_at`) in local
+  time, and the `ingestion_date` default is a UTC date while `update.py`'s document
+  date is local. The rule (decided 2026-11-17): query time is local, record time is
+  UTC, document time is local.
 - **Winner and displayed date disagree.** The projection winner is chosen on
   `_doc_valid_from` but shows the fact's `_valid_from`, so a later fact stated in
   an older document can never win.
@@ -199,7 +202,8 @@ Rules:
     retired, superseded). It is the time artmind stopped holding it, not the
     time it stopped being true.
   - `_retired_by` names why: `version:<n>`, `retire`, `supersede:<record id>`,
-    or `sameas:<id>`.
+    or `retract:<observation id>`. A same-as fold relabels nothing (members stay
+    current), so it has no reason of its own.
 - **The document's date stays distinct.** `_doc_valid_from` is kept on
   observations. The unprefixed `valid_from` / `valid_to` on documents are folded
   into the prefixed names (§7.1).
@@ -350,9 +354,8 @@ questions one route to them.
   name on two days is two entities.
 - An undated mention keys on its document's date, as today's observations
   already carry it.
-- This changes ids for those entities. Same-as records keyed on old ids are
-  migrated by the §8 rebuild (`same_as` maps by key string, which the migration
-  rewrites).
+- This changes ids for those entities. The migration pack (§8) rewrites
+  same-as and curation records for existing vaults.
 - A multi-day range (§3.1) keys on its start day and keeps its `_valid_to`.
 - **Accepted limit:** two different happenings written with the same name on
   the same day merge (two people's "Tennis" on one day). In brain01 one day of
@@ -366,9 +369,11 @@ questions one route to them.
   happening as the text does ("Tennis", "Lantern festival lights", "Lake trip").
   Never add a date, weekday or "today"; the date goes in the class's
   `temporal:` property.
-- `canonicalize` strips a trailing date, weekday or ordinal from an `occasion`
-  name before keying, so existing staged names fold (`retime` applies it with
-  no LLM).
+- Where keys are built (`_build_observations`, `retime`), a trailing or
+  leading date, weekday or ordinal is stripped from an `occasion` name before
+  keying (pure code, no LLM). New extractions can still write one, so this is
+  permanent behaviour; existing staged names fold the first time `retime` runs
+  (through the migration pack, §8).
 - Mentions of one recurring happening then share a name across days, so
   grouping them is a name match at query time. Variant names on one day
   ("Tennis" and "Tennis match") are linked by same-as review (§5.3).
@@ -452,8 +457,12 @@ fold occasions as well as things:
 **Defaults and validation.**
 
 - Absent `identity`: `name` for `kind: recurrent`, `occasion` for
-  `kind: occurrent`. That keeps every schema's behaviour except the change from
-  §5.2: occurrent classes gain day keys.
+  `kind: occurrent`. This is a permanent rule of the schema language, not a
+  migration aid. Shipped schemas declare it on every class anyway (contracts
+  AMENDMENT, a document-entity class, is `name`). An upgraded vault cannot mix
+  old and new keys under the default, because the data-model gate (§8.1) stops
+  writes until the migration pack has run.
+- A class the schema does not declare (extractor drift) is `occasion`.
 - One reader: `schema_validate.class_identity(schema, cls)`. These read it:
   - `aggregate_key`;
   - `canonicalize.recurrent_classes`, renamed `named_classes` (`name` +
@@ -526,10 +535,11 @@ medicine and some happenings.
     list, which today number over 20 ad-hoc ones (`medical_specimen`,
     `vehicle_part` and so on).
   - Queries filter on `type` ("which medicines", "what devices").
-- **Existing data.** `retime` cannot re-classify, so one rule in the §8
-  migration moves OBJECT observations whose name names a trip, flight, ride or
-  booking to ACTIVITY. Their `type` values (`flight`, `travel_ticket`) are
-  dropped with them.
+- **Existing data.** `retime` does not re-classify. A one-time step in the
+  migration pack (§8) moves OBJECT observations whose name names a trip,
+  flight, ride or booking to ACTIVITY, dropping their `type` values (`flight`,
+  `travel_ticket`). The word list lives in the pack, not in schemas or core
+  code.
 - **Kept in reserve, not built.** An `identity` override per `type` value
   (`food: category`), if same-as noise on food or medicine proves a burden.
 
@@ -544,12 +554,20 @@ medicine and some happenings.
   - version supersession (`_retract_prior_version`);
   - `docs retire`;
   - supersession;
-  - same-as folds.
+  - retractions (`projection.apply_retractions`).
 - **Curation records.** Supersession and lifecycle records gain `recorded_at`.
   Supersession records gain the `effective` date derived from §4 labels where
   the documents state one.
-- **Clock.** All record time is UTC (`update.py` and the SCD2 batch date move
-  off local `date.today()`).
+- **Clocks** (decided 2026-11-17):
+  - **record time is UTC:** `_recorded_at`, `_retired_at`, `ingested_at`,
+    `created_at` (`update.py` moves its `datetime.now()` to UTC);
+  - **document time is local:** a date artmind assigns as valid time when the
+    source gives none — the `ingestion_date` default, `update.py`'s document date,
+    the SCD2 batch date — is the machine's local date (the `ingestion_date`
+    default moves off UTC);
+  - **query time is local:** `--asOf today` is the local date, and a
+    `--knownAsOf` date means the end of that local day, converted to UTC before it
+    is compared with record time.
 
 ### 6.2 Reads
 
@@ -558,14 +576,16 @@ medicine and some happenings.
   - It compares against `_valid_from` and `_valid_to` only.
   - A year or month `--asOf` is widened to its last day, which fixes §1.5.
   - It treats precision `none` as undated.
-- **Record-time filter.** `--knownAsOf <date|datetime>` on `entity-history`,
+- **Record-time filter.** `--knownAsOf <date|datetime>` (a date is the end of that
+  local day; a datetime without a zone is local; both converted to UTC) on `entity-history`,
   `document-history` and `pattern10` reads record time: a node counts when
   `_recorded_at <= T` and (`_retired_at` IS NULL OR `_retired_at > T`).
   - Both labels are searched (current and History), so this answers "what did
     the graph say on T".
-  - Nodes written before this change have no `_recorded_at`. A backfill (§8)
-    sets it from `Document.ingested_at` where that is the only evidence, and the
-    payload warns that record time before the backfill date is approximate.
+  - Nodes written before this change get approximate record time from the
+    migration pack (§8), flagged `_record_time_approx`. Core never meets a
+    node without `_recorded_at`; the payload warns when a row's record time
+    is approximate.
 - **`entity-history --asOf` keeps its meaning,** now a proper valid-time point
   that honours `_valid_to`. Its skill text is corrected.
 - **Projection winner** becomes max of (`_valid_from`, `_doc_valid_from`,
@@ -579,10 +599,9 @@ medicine and some happenings.
 
 ### 7.1 One name
 
-`valid_to` / `valid_from` (unprefixed) on documents are folded into
-`_valid_to` / `_valid_from` by a migration (`artmind/migrations/`, run by
-`setup`). Every reader then uses the prefixed names; `coalesce(…)` reads are
-removed.
+Every writer uses `_valid_to` / `_valid_from` and every reader reads only
+them; `coalesce(…)` reads are removed. Existing documents' unprefixed
+`valid_to` / `valid_from` are folded once by the migration pack (§8).
 
 ### 7.2 Supersession and retirement
 
@@ -599,30 +618,91 @@ removed.
 `table2graph` passes an SCD2 row's `_valid_to` to the observation, so a closed
 row version ends in the graph too.
 
-## 8. Existing data
+## 8. Existing data: the migration pack
 
-No re-extraction is needed for most of this:
+Core code knows only the new model. Everything that converts what a vault
+already holds lives in one pack, `artmind/migrations/temporal_v1/`, run once per
+vault and deleted when every vault has run it (§8.3).
 
-- **Dates.** `ingest retime` (no LLM) re-reads every staged observation's raw
-  temporal property with `parse_valid`. That fills `_valid_to`, `_valid_precision`
-  and `_valid_time_of_day` from values already stored.
-- **Happenings.** The journal schema's identity declarations (§5.3), ACTIVITY's
-  and PLAN's `kind` change, the OBJECT happenings move (§5.3) and the name stripping (§5.2)
-  apply to staged observations through `ingest retime` (no LLM), then one
-  `projection rebuild` re-keys `occasion` entities and migrates same-as
-  records. Open same-as proposals that pair `occasion` entities on different
-  days, or `category` entities, are closed as `rejected` with reason
-  `identity:<value>`.
-- **Chunk, passage and summary dates** come from their documents through a
-  `retime`-driven commit.
-- **Record time** is backfilled once from `Document.ingested_at` (approximate,
-  flagged) by the same migration as §7.1.
-- **Nothing needs re-extraction.** Names and dates of happenings are already
-  staged.
+### 8.1 What stays in core
+
+These are permanent behaviour, not migration, even though their first run also
+fixes old data:
+
+- `ingest retime` re-derives staged observations from the current schema: dates
+  through `parse_valid`, chunk dates, occasion day keys and name stripping.
+- `sameas.propose` refuses cross-day `occasion` pairs and `category` pairs.
+- `meta.yaml` must carry `identity_naming_rules.occasion`; there is no copy of
+  the rule in code. The pack adds it to a vault's `meta.yaml`.
+- **One generic gate, `artmind/data_model.py`.** `CURRENT = 1`; the run folder's
+  `data_model.yaml` records the version its data is at (committed with the
+  vault). An absent file means 0 when the data dir already holds a registry DB,
+  and `CURRENT` (written at once) when it holds nothing. `require_current()` is
+  called by every write path (`ingest sync|async|retime|…`, `projection
+  rebuild`, `vault sync`, `update`, same-as and curation writes) and raises one
+  error: "this vault's data is at model 0; run `artmind migrate status`". Read
+  paths warn once per process and proceed. The gate is not temporal-specific:
+  a later migration pack bumps `CURRENT` and reuses it. An unmigrated vault
+  therefore stops instead of mixing old and new keys.
+
+### 8.2 What the pack does
+
+`artmind migrate temporal [--domain d] [--dryRun]` (tier-1 write, no LLM, git-clean
+vault required, ingest worker stopped). The dry run reports the whole plan; the
+real run applies the steps in this order, each idempotent:
+
+1. **Vault files.** Add `identity_naming_rules.occasion` to the vault's
+   `meta.yaml` when absent, as a textual block at the end, so comments and order
+   survive. Undo: `git restore`. Vault schemas are not edited: the kind default
+   applies, and content changes to shipped schemas arrive through `init --force`.
+2. **Graph.** Fold documents' unprefixed `valid_to` / `valid_from` into the
+   prefixed names (§7.1). Backfill record time: current nodes get
+   `_recorded_at = Document.ingested_at`; History nodes get
+   `_retired_at = ingested_at` and `_recorded_at` set to the epoch
+   (`1970-01-01T00:00:00+00:00`, "known before the backfill"). Both are flagged
+   `_record_time_approx`. Only nodes without the field are touched.
+3. **Staging and curation.** Plan `retime` in memory under the migrated
+   schemas, then:
+   - move OBJECT trips and rides to ACTIVITY (the pack's word list, shown in the
+     dry run with a sample of class counts);
+   - compute the old→new key map;
+   - rewrite `same_as.yaml` (one group per day on which two or more members
+     have observations; `category` groups dropped);
+   - close open same-as proposals that pair different days or `category`
+     entities as `rejected` with reason `identity:<value>`;
+   - re-point synthesis, conflict and mart dimension records;
+   - write and commit the staging, then one `projection rebuild`.
+   Undo: `git restore` of the listed files, then `ingest retime`.
+
+4. **Stamp.** Write `data_model.yaml` `version: 1`. A run with `--domain`
+   stamps only when no other domain is pending.
+
+`artmind migrate status` (read-only) reports the recorded version and, per step
+and domain, done or pending from facts (schemas lacking `identity`, documents
+with unprefixed dates, nodes without `_recorded_at`, staging whose keys would
+move, `meta.yaml` lacking the rule). Because each step is idempotent and judged by facts, an interrupted run
+is resumed by running it again.
+
+Content changes to shipped schemas (journal ACTIVITY/PLAN/OBJECT, banking
+deadlines) reach a vault through `artmind init --force --schema NAME` before the
+pack runs.
+
+### 8.3 Sunset
+
+The pack is self-contained: no core module imports it, and a test enforces this.
+It may import core (staging readers, `retime_observations`, the same-as writer,
+`rebuild_projection`). The only core references to it are one `cli.add_command`
+line. Once `migrate status` reports done in every vault, delete the folder and
+that line; `data_model.py` and its gate stay.
+
+A later change of a class's `identity` in a vault that has already migrated is
+not this pack's job: `retime` re-keys it, and catalogue health
+(`same_as_dangling`) lists the same-as members left behind.
 
 ## 9. Rollout
 
-Shared order with the schema-bound properties spec:
+The code lands in this order (one branch, merged once). Shared order with the
+schema-bound properties spec:
 
 1. Defect fixes:
    - year-only `--asOf`;
@@ -638,10 +718,15 @@ Shared order with the schema-bound properties spec:
    - day keys for `occasion` classes;
    - the naming rule and name stripping;
    - same-as and twins gated by identity;
-   - journal OBJECT: happenings to ACTIVITY, and a declared `type` list;
+   - journal OBJECT: a declared `type` list;
    - `query happenings` and the skill route.
-6. Record time (§6.1), its backfill and `--knownAsOf`.
+6. Record time (§6.1) and `--knownAsOf`.
 7. Ends of validity (§7) and the projection winner change.
+8. The migration pack (§8).
+
+Per vault, after the upgrade: `init --force` for shipped schemas whose content
+changed (re-apply the vault's own edits), `migrate temporal --dryRun`, then the
+real run, then `insights refresh` and `mart build`.
 
 ## 10. Acceptance
 
@@ -673,6 +758,12 @@ Shared order with the schema-bound properties spec:
 
 ## 11. Follow-ups
 
+- **F4. Deadlines in queries.** `_due` and `_review` are stored (§4) but no query
+  filters on them. A TASK or TODO class (`kind: recurrent`, `identity: name`, a
+  `temporal: due` property, a completion date tagged `temporal: valid_to`) works
+  with this design as it stands; "what is due before X" would need a `--dueBefore`
+  filter on `entity-listing`/`pattern7` or a saved view.
+
 - **F1. Per-period recall.** A dated `survey --by year|month` should guarantee a
   minimum of ranked documents per period that has keyword hits (today 2 of 5
   entries in one year).
@@ -680,3 +771,98 @@ Shared order with the schema-bound properties spec:
   date property, backfill it with the schema-bound spec's `backfill-properties`.
 - **F3.** A `--knownAsOf` on `vector-text`/`survey`, which needs record time on
   passages through their history labels.
+
+---
+
+## Amendment (implementation, 2026-11-18)
+
+Notes recorded while implementing; the sections above are left as written.
+
+- **§5.1 last bullet vs §7.2.** "Supersession and retirement update these fields"
+  is narrowed to supersession, as §7.2 says (retiring closes nothing).
+  `_doc_valid_to` is the document's *stated* end, copied at commit (onto the Document
+  too) and not touched by supersession; a chunk, its passages and its summaries also
+  carry it as `_valid_to`. A supersession end lives in `_valid_to`, marked
+  `_valid_to_by` (the record id), and is reopened only where that marker is set.
+  **Chunk-end question — decided 2026-11-18:** chunks, passages and summaries take the
+  document's stated end as their own `_valid_to` at stage/commit time.
+  **Stated end vs supersession — decided 2026-11-18:** on the document-level nodes
+  (Document, DocChunk, DocPassage, DocSummary, and their History labels) the *earlier*
+  end wins: a supersession at E sets `_valid_to = E` where it is empty or later than E
+  (ISO strings compared as strings), so a document stating D ends at min(D, E), and so
+  do its chunks, passages and summaries; a document without a stated end takes E.
+  `unsupersede` restores `_valid_to = _doc_valid_to` (none when no end is stated). An
+  observation dated by its document (no date of its own; it inherits the document's stated
+  end under Q1) is the document's fact: it is staged with `_doc_valid_to` too
+  (`_build_observations`, `retime`) and closed and restored the same way. An observation
+  dated by its own property carries no `_doc_valid_to`; its `_valid_to` is the fact's own
+  end and is never overwritten: the close fills only a missing one, and reopening removes
+  only a marked end. Table rows' observations carry no copy either. A re-commit writes
+  the stated end unmarked and `restate_validity` closes it at min(D, E) again in the
+  same transaction.
+  **Q5 — decided 2026-11-18:** a document
+  superseded twice ends at its *first* replacement: `restate_validity` closes from the
+  edges by the end each one writes, earliest first: the edge's `effective`, else the
+  newer document's stated `_valid_from` (an edge with no end last; ties by newer id).
+  A newer document's commit restates the validity of every document it
+  supersedes, so the `_valid_from` fallback for E is the same on every machine.
+  **Successor vs end.** `superseded_by` names the *latest* (current) successor (the
+  edge with the latest `effective`, ties by id), while `_valid_to` / `_valid_to_by`
+  come from the *first* replacement: a document superseded by B in February and C in
+  May ends in February and reads `superseded_by: C`.
+- **§8.1 gate has two markers (beyond §8.1 — needs the user's confirmation).** `<run folder>/data_model.yaml` (committed; staging,
+  `same_as.yaml`, curation) and a `(:DataModel {id:'artmind', version})` node in
+  each machine's Neo4j (each graph is migrated separately). A write needs both
+  current; reads check the file only and warn. "Fresh" means no model file, no
+  registry DB, no staged folders, no `same_as.yaml`, no curation records; a graph
+  with no Document or Entity nodes is fresh. The pack's last step stamps both.
+  Reason: a vault cloned to a second machine would otherwise be stamped current
+  over old graph data, and a migrated file pulled by git would pass the gate over
+  an unmigrated local graph.
+- **Record time.** `_retired_by` has two values beyond §6.1's list: `removed` (a
+  note vanished from the vault, `retract_document`) and `resplit` (a chunk
+  dropped by a re-chunking). A re-commit keeps a chunk's first `_recorded_at` but
+  takes the new text, and a retire-then-revive window is invisible to
+  `--knownAsOf` (a revive clears `_retired_at`). `document-history --knownAsOf`
+  does not filter Document nodes.
+- **Dates.** A document stores `_valid_precision` (`none` for the ingestion
+  default); a default-dated document counts as undated in filters and in the
+  projection's temporal grouping. A document's ranged `_valid_from` sets its
+  `_valid_to` when none is explicit. **Q1 — decided 2026-11-18:** a fact dated
+  by its own property keeps only its own end (possibly none); a fact dated by its document
+  (no own date) inherits the document's `_valid_to` at build time and in `retime`.
+  A single-day fact in a document with an end is therefore open-ended, not a range;
+  `date-audit` counts only a fact's own ranges. table2graph's row end for the row's
+  own subject is a separate rule. `parse_valid` never raises; an end at or after 9999-12-31 is
+  open. `ingest table2graph --asOf` still refuses a year or month.
+- **Identity.** Occasion observation ids include the day (a chunk may hold two
+  days of one stripped name). `retime` keeps existing ids, so a re-extract after
+  a retime replaces occasion observations instead of moving them. Twins skip only
+  classes declared `occasion` or `category`. Banking IMPACT_ASSESSMENT and
+  RETENTION_DECISION are `occasion`, not `name` (they are occurrent with a
+  valid_from property, so `name` trips the Q20 warning). **Q2 — decided 2026-11-18:**
+  REGULATORY_UPDATE is `kind: recurrent`, `identity: name`. **Q3 — decided 2026-11-18: precision-shaped
+  tokens.** An occasion keys on its date at the date's own precision, not on the
+  period's first day (which merged a month mention with a real mention on the 1st
+  and claimed a day the text never gave): day `tennis~2024-03-30`, month
+  `~2024-03`, quarter `~2024-Q1`, half `~2024-H1`, year `~2024`
+  (`observations.occasion_token`; the spellings `parse_valid` reads; precision
+  `none` still gets no token). This amends §5.2's `YYYY-MM-DD` and "a coarse date
+  keys on its start day". `split_occasion` and `entity_history --name` read all
+  five shapes (`OCCASION_TOKEN_PATTERN`). Two occasion members are one occasion
+  only when their tokens are equal: a month token and a day token in that month
+  are different occasions, and `sameas` refuses the pair (`identity:occasion
+  (different dates)`); the insights same-as detector and `refine_graph` group by
+  token likewise. Tokens begin with the year, so they sort by year as strings,
+  but not chronologically within a year across shapes.
+- **Conflicts.** Default-dated observations no longer form temporal instants in
+  the projection, so disagreeing recurrent scalars across default-dated notes
+  become conflicts: expect more open conflicts in vaults with many default-dated
+  notes (measure in Task 30 alongside Q11).
+- **Known limits.** `graph timeline` keeps undated rows under `--from/--to` (survey
+  and happenings drop them) and has no cap.
+- **Migration pack: chunk ends.** A `chunk_ends` step (after `record_effective`, before
+  `supersession_records` and `supersession_ends`) gives an old chunk, passage or summary
+  (and their History rows) with no end its document's stated end, so core's rule (a
+  stated end is the node's own) holds for migrated data before supersession ends are
+  restated. Core has no old-data handling.

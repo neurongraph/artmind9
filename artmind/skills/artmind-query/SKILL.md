@@ -217,6 +217,7 @@ survey only when `find` warns that nothing contains the part's words. A `truncat
 | A fact (who, when, a figure, a quote) | the graph steps below, or `vector-text --topK 10` in a chunks-only domain |
 | One document ("summarise X", "what does X say about Y") | `query graph pattern10 --documentName X`: its `summaries` holds the stored summary; read chunks only for detail |
 | One entity broadly ("tell me about Acme") | `entity-context` (graph domains) |
+| Each time / every year / how many times / when did … happen | `artmind query happenings --domain d --match "<term>" [--by year] [--with <id>] --shape brief`; then `query chunks --shape brief --idList <chunk_ids>` for detail; `survey` only for what the happenings miss (`coverage` larger than the rows) |
 | A topic across documents | a fitting topic plan (`query topics run`), else `query survey`, then `query chunks --shape brief --idList <chunk_id>` for the passages you cite |
 | Patterns over time | insights |
 
@@ -337,8 +338,9 @@ covers is answered by `artmind query views run <name>` (see Views), not by a row
 |---|---|
 | Any question matching a saved view's `summary`/`examples` | `artmind query views run <name> --param <p>=<value> --render markdown` — see Views |
 | "Tell me about X / X's role / why did X…" / any question anchored on one entity — facts + relationships + source text in ONE call | `artmind query entity-context --shape brief --entityId <id> --query "<the question>" [--includeChunks 5] [--relType <REL>]` |
-| Domain-wide history / sequence of events for a class of things, ordered by date | `artmind query graph timeline --domain <d> [--from <date>] [--to <date>]` — every entity of a `kind: occurrent` class, ordered by `valid_from`. Domain-scoped, NOT entity-scoped — there is no `--entityId` |
-| "What was property P of X before it changed" / X's value at a past date | `artmind query entity-history --entityId <id> [--property P] [--asOf <date>]` — every observation behind X, ordered by fact-level valid time (`_valid_from`), spanning both current and history sources; each row's `status` is `current` or `history` |
+| Domain-wide history / sequence of events for a class of things, ordered by date | `artmind query graph timeline --domain <d> [--from <date>] [--to <date>]` — every entity of an `identity: occasion` class, ordered by `valid_from` (undated last). Domain-scoped, NOT entity-scoped — there is no `--entityId` |
+| "Each time / every year / how many times / when did X happen" — dated happenings of an `identity: occasion` class | `artmind query happenings --domain <d> --match "<term>" [--entityClass C] [--from <date>] [--to <date>] [--by year|month] [--with <id>] --shape brief` — one row per happening (date, class, `type`, participants, places, `chunk_ids`), matched on name or aliases holding every word of the term, or an equal `type`, plus its same-as group; undated rows sort last and never fall inside a window. Then `query chunks --shape brief --idList <chunk_ids>` for detail; `survey` only for what the happenings miss (`coverage.matching_documents` larger than `documents_in_rows`; `next` names it) |
+| "What was property P of X before it changed" / X's value at a past date | `artmind query entity-history --entityId <id> [--property P] [--asOf <date>]` (a point in valid time: facts whose own window contains it; `--knownAsOf <date>` instead reads what the graph held then) — every observation behind X, ordered by fact-level valid time (`_valid_from`), spanning both current and history sources; each row's `status` is `current` or `history` |
 | An entity entity-resolve no longer finds (a misspelling a corrected note dropped, a retired document's entity) | `artmind query entity-history --name "<name>" [--entityClass <LABEL>]` or `--key "<name>\|<CLASS>\|<domain>"` — matches observations directly, so it works after the entity is gone; `keys` lists every key the name matched |
 | "What changed when document D was edited / re-ingested" / earlier version of a note | `artmind query document-history --documentName "<name or path>"` — current vs history observations with the `doc_version` that last asserted each; `dropped_keys` = entities an earlier version stated and the current one no longer does. A name missing its extension is matched when exactly one document fits (`matched_name` + a warning); a miss returns `closest` names and a `next` command. See `references/temporal.md` |
 | List entities of a class | `artmind query graph pattern1 --shape brief --entityClass <LABEL> [--limit N]` |
@@ -389,7 +391,7 @@ Routing notes:
   `entity-resolve`, `entity-context`, or `graph metadata` accept it. For a temporal
   question ("as of <date>", "history of…", "what changed"), or an entity carrying
   `_temporal_props`, read `references/temporal.md` — it covers `--asOf`'s narrower
-  per-command meaning, `timeline` vs `entity-history`, `_temporal_props`, and what a
+  per-command meaning, `--knownAsOf` (what the graph held at a moment), `timeline` vs `entity-history`, `_temporal_props`, and what a
   re-ingested document keeps of its earlier versions (`document-history`).
 - **History questions go to `entity-history` / `document-history`, not text2cypher.**
   History observations hang off *current* chunks (chunk ids are reused across

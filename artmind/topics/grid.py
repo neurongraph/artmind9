@@ -18,14 +18,16 @@ HIT_LIMIT = 5000
 
 #: Distinct documents with a keyword hit for one subject, with their date and domain.
 #: `scanned` is the passages the index returned before the domain filter: at HIT_LIMIT
-#: the counts are a floor.
+#: the counts are a floor. A default date (`_valid_precision` `none`) is no date: the
+#: document counts as undated (spec 2026-11-15 §2).
 _MATCHING = """
 CALL db.index.fulltext.queryNodes('passage_text_ft', $ft_query, {limit: $hit_limit})
 YIELD node AS p
 WITH count(p) AS scanned, collect(DISTINCT CASE WHEN p._domain IN $domains THEN p.doc_id END) AS ids
 OPTIONAL MATCH (d:Document) WHERE d.id IN ids
 RETURN scanned, collect(CASE WHEN d IS NULL THEN NULL ELSE
-       {doc_id: d.id, date: coalesce(d._valid_from, d.valid_from), domain: d._domain} END) AS docs
+       {doc_id: d.id, date: CASE WHEN coalesce(d._valid_precision, 'day') = 'none' THEN null ELSE d._valid_from END,
+        domain: d._domain} END) AS docs
 """
 
 
@@ -98,11 +100,13 @@ def _period_sort(p) -> tuple:
     return (p is None, p == "undated", p or "")
 
 
-def count_subject(session, subject: str, domains: list[str]) -> tuple[list[dict], bool]:
-    """(matching documents [{doc_id, date, domain}], at_least) for one subject."""
+def count_subject(session, subject: str, domains: list[str], *, all_terms: bool = False
+                  ) -> tuple[list[dict], bool]:
+    """(matching documents [{doc_id, date, domain}], at_least) for one subject. `all_terms`
+    requires every word of the subject (`query happenings`); topics OR them."""
     from artmind.graph_query import sanitize_lucene_query, serialize_record
 
-    ft_query = sanitize_lucene_query(subject, drop_stopwords=True)
+    ft_query = sanitize_lucene_query(subject, drop_stopwords=True, all_terms=all_terms)
     if not ft_query:
         return [], False
     rec = session.run(_MATCHING, ft_query=ft_query, domains=domains, hit_limit=HIT_LIMIT).single()

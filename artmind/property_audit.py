@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Callable
 
 from artmind.atomic_dir import is_scratch
+from artmind.schema_validate import type_key
 from artmind.observations import OBSERVATION_OWN_KEYS, RESERVED_PREFIX, declared_property_keys
 
 REQUIRED_FILL = 0.95
@@ -64,8 +65,8 @@ def _load(path: Path, default):
         return default
 
 
-def _folders(kg_dir: Path, domain: str) -> list[Path]:
-    """Document staging folders of `domain` and its dotted children."""
+def document_folders(kg_dir: Path, domain: str) -> list[Path]:
+    """Document staging folders of `domain` and its dotted children (also `ingest date-audit`'s)."""
     kg = Path(kg_dir)
     roots = [kg / domain, *sorted(kg.glob(f"{domain}.*"))] if kg.is_dir() else []
     return [d for root in roots if root.is_dir()
@@ -85,6 +86,9 @@ class _Tally:
     undeclared_in: dict = field(default_factory=lambda: defaultdict(set))
     #: {(class, key): {leaf domain}} -- folders whose own schema declares it.
     declared_in: dict = field(default_factory=lambda: defaultdict(set))
+    #: {class: Counter of normalised `type` values} -- `type` is an observation field, so the
+    #: key scan skips it; this reads it for a class's declared `types:` list.
+    type_values: dict = field(default_factory=lambda: defaultdict(Counter))
 
 
 def _is_domain_key(key, value) -> bool:
@@ -98,6 +102,8 @@ def _scan_observation(obs: dict, chunk: set[str] | None, tally: _Tally,
     records a key that domain's own schema does not declare."""
     cls = str(obs["entity_class"])
     tally.per_class[cls] += 1
+    if obs.get("type") not in (None, "", []):
+        tally.type_values[cls][_normalised(obs["type"])] += 1
     context = obs.get("context") or []
     described = set(_words([obs.get("description") or "", *(context if isinstance(context, list) else [context])]))
     for key, value in obs.items():
@@ -116,10 +122,10 @@ def _scan_observation(obs: dict, chunk: set[str] | None, tally: _Tally,
             tally.distinct[(cls, key)].add(_normalised(value))
 
 
-def _scan(kg_dir: Path, domain: str, leaf_schema: Callable[[str], dict] | None = None) -> _Tally:
+def _scan(folders: list[Path], leaf_schema: Callable[[str], dict] | None = None) -> _Tally:
     tally = _Tally()
     leaves: dict[str, dict[str, set[str]]] = {}
-    for folder in _folders(kg_dir, domain):
+    for folder in folders:
         leaf = None
         if leaf_schema is not None:
             name = folder.parent.name
@@ -154,9 +160,8 @@ def _row(cls: str, key: str, decl: dict | None, tally: _Tally, depended_on: dict
     total = (a + b + c) or 1
     flags: dict = {}
     if decl is not None:
-        for flag in ("temporal", "exclusive"):
-            if decl.get(flag):
-                flags[flag] = decl[flag]
+        if decl.get("temporal"):
+            flags["temporal"] = decl["temporal"]
         if decl.get("required") is True:
             flags["required"] = True
         if key in OBSERVATION_OWN_KEYS:
@@ -191,6 +196,34 @@ def _row(cls: str, key: str, decl: dict | None, tally: _Tally, depended_on: dict
     return row
 
 
+#: The `ingest date-audit` columns a `temporal: valid_from` key's row carries under `dates`.
+DATE_COLUMNS = ("dated_by_property", "precision", "ranges", "unparsed")
+
+
+def _type_rows(schema: dict, tally: _Tally) -> list[dict]:
+    """One `type` row per class that declares a closed `types:` list (spec 2026-11-15 §5.3):
+    `outside_types` is how many observations carry a `type` outside it, `outside_distinct` how
+    many different values those are (counts only, never the values), `fill` the share of the
+    class's observations with a `type` at all. Always `keep`: it is an observation field."""
+    types = schema.get("entity_types") if isinstance(schema, dict) else None
+    out = []
+    for cls, decl in (types.items() if isinstance(types, dict) else []):
+        listed = {type_key(t) for t in (decl.get("types") or [])} if isinstance(decl, dict) \
+            and isinstance(decl.get("types"), list) else set()
+        if not listed or not tally.per_class.get(cls):
+            continue
+        values = tally.type_values.get(cls, Counter())
+        outside = {v: n for v, n in values.items() if type_key(v) not in listed}
+        out.append({"class": cls, "key": "type", "declared": True,
+                    "fill": round(sum(values.values()) / tally.per_class[cls], 3),
+                    "distinct_values": min(len(values), DISTINCT_CAP), "outside_types": sum(outside.values()),
+                    "outside_distinct": len(outside), "flags": {"reserved": True},
+                    "proposal": "keep", "reason": "the class's declared type list"})
+        if len(values) >= DISTINCT_CAP:
+            out[-1]["distinct_capped"] = True
+    return out
+
+
 def audit(domain: str, schema: dict, *, kg_dir: Path, depended_on: dict, conflicts: dict | None = None,
           leaf_schema: Callable[[str], dict] | None = None) -> dict:
     """One row per (class, key) declared by `schema` (the domain's `family_schema`) or found in
@@ -201,12 +234,31 @@ def audit(domain: str, schema: dict, *, kg_dir: Path, depended_on: dict, conflic
     (`temporal.load_schema`). A key `schema` declares but an observation's own leaf schema does
     not is `declared: false` with `undeclared_in: [domains]`, and `proposal: drop` (or `review`
     when another observing domain does declare it). None judges every observation against
-    `schema`."""
+    `schema`.
+
+    Each `temporal: valid_from` key's row carries `dates`, its class's `ingest date-audit` counts
+    (`DATE_COLUMNS`): class-level, so a class with two such keys shows the same counts on both,
+    and `unparsed` counts every tagged key of the class."""
+    from artmind.date_audit import audit_folders
+
     decls = _declarations(schema)
-    tally = _scan(kg_dir, domain, leaf_schema)
+    folders = document_folders(kg_dir, domain)
+    tally = _scan(folders, leaf_schema)
     keys = {(c, k) for c, ks in decls.items() for k in ks} | set(tally.filled)
     rows = [_row(cls, key, (decls.get(cls) or {}).get(key), tally, depended_on, conflicts)
             for cls, key in sorted(keys)]
+    have = {(r["class"], r["key"]): r for r in rows}
+    for extra in _type_rows(schema, tally):
+        row = have.get((extra["class"], extra["key"]))
+        if row is None:
+            rows.append(extra)
+        else:  # the schema also declares a `type` property: its row gains the counts
+            row.update({k: extra[k] for k in ("outside_types", "outside_distinct")})
+    dated = {r["class"]: r for r in audit_folders(folders, leaf_schema or schema)}
+    for row in rows:
+        # The class's date fill (`ingest date-audit`'s row) on the key that dates it.
+        if row["flags"].get("temporal") == "valid_from" and row["class"] in dated:
+            row["dates"] = {k: v for k, v in dated[row["class"]].items() if k in DATE_COLUMNS}
     return {"domain": domain, "warnings": _warnings(domain, tally), "rows": rows,
             "observations": dict(tally.per_class),
             "rules": {"required_fill": REQUIRED_FILL, "inferred_drop": INFERRED_DROP,

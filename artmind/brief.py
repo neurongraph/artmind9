@@ -529,3 +529,23 @@ def finding_row(f: dict) -> dict:
                          for s in subjects[:FINDING_SUBJECTS]],
             "subjects_total": len(subjects), "stats": scalars, "stats_counts": counts,
             "card_counts": {k: len(v) if isinstance(v, (list, dict)) else 1 for k, v in card.items()}}
+
+
+# --- happenings (spec 2026-11-15 §5.2) -----------------------------------------------
+
+HAPPENING_PARTICIPANTS = 5
+HAPPENING_PLACES = 3
+HAPPENING_CHUNK_IDS = 3
+
+
+def happening_row(row: dict) -> dict:
+    """A brief `query happenings` row: id, name, class, date, precision, type, up to 5
+    participants, 3 places and 3 chunk ids (the ids `query chunks --idList` reads). The full
+    row's `time_of_day` and `doc_ids` are dropped: the chunk ids lead to the text, and through
+    it to the document."""
+    row = row or {}
+    return {"id": row.get("id"), "name": row.get("name"), "class": row.get("entity_class"),
+            "date": row.get("date"), "precision": row.get("precision"), "type": row.get("type"),
+            "participants": list(row.get("participants") or [])[:HAPPENING_PARTICIPANTS],
+            "places": list(row.get("places") or [])[:HAPPENING_PLACES],
+            "chunk_ids": list(row.get("chunk_ids") or [])[:HAPPENING_CHUNK_IDS]}

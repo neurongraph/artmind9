@@ -46,11 +46,21 @@ def narrator_names(narrator: dict) -> set[str]:
     return {normalise(n) for n in [narrator["name"], *narrator.get("aliases", [])]}
 
 
-def twin_groups(rows: list[dict]) -> list[dict]:
+def twin_groups(rows: list[dict], schema: dict | None = None) -> list[dict]:
     """Groups of >= 2 rows with the same entity_class and normalised name but different ids.
 
     Also groups same-class rows where one row's name equals another's alias (`alias_of` names
-    the shared alias). Rows are never merged or reordered."""
+    the shared alias). Rows are never merged or reordered.
+
+    With `schema`, rows whose class it declares an `occasion` (one entity per day by design)
+    or a `category` (a shared label) are left out (spec 2026-11-15 §5.3). A class the schema
+    does not declare, or a domain without a schema, still twins: a warning is cheap, a
+    missed duplicate is not."""
+    if schema is not None:
+        from artmind.schema_validate import classes_with_identity
+
+        gated = classes_with_identity(schema, "occasion", "category")
+        rows = [r for r in rows if (r.get("entity") or {}).get("entity_class") not in gated]
     groups: dict[tuple, dict] = {}
     for row in rows:
         entity = row.get("entity") or {}

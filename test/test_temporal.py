@@ -19,6 +19,7 @@ from artmind.temporal import (
     canonical_entity_dates,
     parse_iso,
     lift_document_dates,
+    widen_as_of,
 )
 
 
@@ -30,8 +31,8 @@ def test_parse_iso_human_date():
     assert parse_iso("15 March 2026") == "2026-03-15"
 
 
-def test_parse_iso_partial_year():
-    assert parse_iso("2026") == "2026"
+def test_parse_iso_partial_year_is_its_first_day():
+    assert parse_iso("2026") == "2026-01-01"
 
 
 def test_parse_iso_unparseable_returns_none():
@@ -179,12 +180,12 @@ def test_canonical_entity_dates_no_mapping_returns_empty():
 
 
 
-def test_asof_predicate_shape():
-    from artmind.graph_query import asof_predicate
-    pred = asof_predicate("e")
+def test_valid_predicate_shape():
+    from artmind.graph_query import valid_predicate
+    pred = valid_predicate("e")
     assert "$asOf IS NULL" in pred
-    assert "coalesce(e._valid_from, e.valid_from) IS NULL OR coalesce(e._valid_from, e.valid_from) <= $asOf" in pred
-    assert "coalesce(e.valid_to, e._valid_to) IS NULL OR coalesce(e.valid_to, e._valid_to) > $asOf" in pred
+    assert "(e._valid_from IS NULL OR coalesce(e._valid_precision, '') = 'none')" in pred
+    assert "e._valid_from <= $asOf AND (e._valid_to IS NULL OR e._valid_to > $asOf)" in pred
 
 
 def test_pattern1_cypher_never_references_asof():
@@ -285,7 +286,7 @@ def test_lift_document_dates_pattern_without_label_mapping():
         "Body.", {}, {}, None,
         patterns={"valid_from": [{"filename": r"(\d{4}-\d{2}-\d{2})"}]}, filename="log 2026-03-04.md",
     )
-    assert out == {"valid_from": "2026-03-04", "time_source": "filename"}
+    assert out == {"valid_from": "2026-03-04", "valid_precision": "day", "time_source": "filename"}
 
 
 def test_lift_document_dates_ignores_malformed_pattern_entries():
@@ -386,3 +387,88 @@ def test_a_defined_term_gives_a_header_date_and_a_dateless_definition_does_not()
     assert _find_header_date("- 'Amendment Date' means 1 August 2025.\n", labels) == "2025-08-01"
     assert _find_header_date("“Effective Date” means 01/04/2026;\n", labels) == "2026-04-01"
     assert _find_header_date("'Amendment Date' means the date of this Amendment\n", labels) is None
+
+
+@pytest.mark.parametrize("value, expected", [
+    ("2026", "2026-12-31"),
+    ("2026-02", "2026-02-28"),
+    ("2024-02", "2024-02-29"),
+    ("2026-05-01", "2026-05-01"),
+    ("2026-05-01T10:00", "2026-05-01T10:00"),
+])
+def test_widen_as_of_reaches_the_last_day(value, expected):
+    assert widen_as_of(value) == expected
+
+
+@pytest.mark.parametrize("value", ["2026-13", "2026-00"])
+def test_widen_as_of_refuses_a_bad_month(value):
+    with pytest.raises(ValueError, match="--asOf must be an ISO date"):
+        widen_as_of(value)
+
+
+def test_unreadable_header_date_is_not_stored_as_valid_from():
+    # The header scan already refuses unreadable values; frontmatter is the branch that kept raw text.
+    out = lift_document_dates("Body\n", {"effective_date": "next review"}, {"valid_from": ["Effective Date"]})
+    assert "valid_from" not in out
+    assert out.get("unparsed") == ["valid_from"]
+    assert "time_source" not in out
+
+
+@pytest.mark.parametrize("value", ["2026-03", "Q1 2026", "March 2026", "2026 (draft)"])
+def test_a_header_partial_date_on_its_own_answers(value):
+    from artmind.temporal import _find_header_date_text
+
+    assert _find_header_date_text(f"| Date | {value} |\n", ["Date"]) == value
+
+
+@pytest.mark.parametrize("value", ["2024 budget", "1500 units"])
+def test_a_header_number_followed_by_prose_is_no_date(value):
+    from artmind.temporal import _find_header_date_text
+
+    assert _find_header_date_text(f"| Date | {value} |\n", ["Date"]) is None
+
+
+def test_prose_in_the_date_label_falls_through_to_the_filename_pattern():
+    out = lift_document_dates(
+        "| Date | 2024 budget |\n\nBody.", {}, {"valid_from": ["Date"]}, None,
+        patterns={"valid_from": [{"filename": r"(\d{4}-\d{2}-\d{2})"}]}, filename="log 2026-03-04.md",
+    )
+    assert (out["valid_from"], out["valid_precision"], out["time_source"]) == ("2026-03-04", "day", "filename")
+
+
+def test_a_partial_header_date_answers_before_a_filename_pattern():
+    """Labels are tried before patterns: a `2026-03` header wins over a filename day, at month precision."""
+    out = lift_document_dates(
+        "| Date | 2026-03 |\n\nBody.", {}, {"valid_from": ["Date"]}, None,
+        patterns={"valid_from": [{"filename": r"(\d{4}-\d{2}-\d{2})"}]}, filename="log 2026-03-04.md",
+    )
+    assert (out["valid_from"], out["valid_precision"], out["time_source"]) == ("2026-03-01", "month", "header")
+
+
+@pytest.mark.parametrize("value", ["Q1 2026 to Q2 2026", "2026-01 to 2026-03"])
+def test_a_header_range_under_a_date_label_answers(value):
+    from artmind.temporal import _find_header_date_text
+
+    assert _find_header_date_text(f"Date: {value}\n", ["Date"]) == value
+
+
+def test_a_ranged_header_date_sets_the_documents_valid_to():
+    out = lift_document_dates("| Date | 2026-01 to 2026-03 |\n", {}, {"valid_from": ["Date"]}, None)
+    assert (out["valid_from"], out["valid_to"], out["valid_precision"]) == ("2026-01-01", "2026-04-01", "month")
+
+
+def test_an_explicit_valid_to_label_wins_over_the_range_end():
+    out = lift_document_dates(
+        "| Date | 2026-01 to 2026-03 |\n| Ends | 2026-02-15 |\n", {},
+        {"valid_from": ["Date"], "valid_to": ["Ends"]}, None,
+    )
+    assert out["valid_to"] == "2026-02-15"
+
+
+def test_a_ranged_frontmatter_valid_from_sets_valid_to(tmp_path):
+    from artmind.ingest import _document_valid_time
+
+    md = tmp_path / "n.md"
+    md.write_text("Body\n", encoding="utf-8")
+    out = _document_valid_time(md, {"_valid_from": "2026-03-01 to 2026-03-05"}, {"temporal": {}}, filename="n.md")
+    assert (out["_valid_from"], out["_valid_to"], out["_valid_precision"]) == ("2026-03-01", "2026-03-06", "day")

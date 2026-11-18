@@ -21,7 +21,7 @@ def _bumps(calls):
 
 
 def test_document_commit_bumps_the_document_domain(tmp_path, monkeypatch):
-    monkeypatch.setattr(passage_store, "write_chunk_passages", lambda tx, cid, rows: len(rows))
+    monkeypatch.setattr(passage_store, "write_chunk_passages", lambda tx, cid, rows, **kw: len(rows))
     folder = tmp_path / "doc"
     folder.mkdir()
     (folder / "document.json").write_text(json.dumps({"id": "doc-1", "name": "a.md"}))
@@ -84,6 +84,18 @@ def test_synthesis_write_bumps_the_entity_domain(monkeypatch):
         next(i for i, c in enumerate(texts) if "MERGE (s:DomainState" in c)
 
 
+@pytest.mark.parametrize("action", ["apply", "remove"])
+def test_supersession_apply_and_remove_bump_the_older_documents_domain(monkeypatch, action):
+    from artmind import supersession_records as sr
+
+    monkeypatch.setattr(projection, "keys_for_document", lambda tx, doc_id: set())
+    tx = Recorder(lambda c, p: [])
+    record = {"id": "r1", "newer_doc_id": "B", "older_doc_id": "A", "scope": "document", "effective": "2026-02-01"}
+    sr.apply(tx, record, "fp") if action == "apply" else sr.remove(tx, record)
+    bumps = [(c, p) for c, p in tx.calls if "MERGE (s:DomainState" in c]
+    assert len(bumps) == 1 and "d.id = $doc_id" in bumps[0][0] and bumps[0][1]["doc_id"] == "A"
+
+
 # The functions that own a write path. If one of these stops naming the helper,
 # the catalogue goes stale silently -- so this fails instead.
 _SITES = [
@@ -93,6 +105,11 @@ _SITES = [
     (synthesize, "synthesize_key"),
     ("artmind.conflicts", "resolve_conflict"),
     ("artmind.temporal", "unapply_supersession"),
+    ("artmind.supersession_records", "apply"),
+    ("artmind.supersession_records", "remove"),
+    # the temporal_v1 migration pack's graph steps (temporary; removed with the pack)
+    ("artmind.migrations.temporal_v1.graph", "_bump"),
+    ("artmind.migrations.temporal_v1.graph", "_restate_batch"),
 ]
 
 

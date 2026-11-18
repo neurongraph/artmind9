@@ -22,7 +22,8 @@ MATCH (c)<-[:EXTRACTED_FROM]-(:Observation)<-[:AGGREGATES]-(e:Entity)
 WHERE e.entity_class = $entityClass AND NOT e IN anchors AND e._domain IN $domains
 OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
 WITH e, count(DISTINCT c) AS mentions,
-     min(coalesce(d._valid_from, d.valid_from)) AS first, max(coalesce(d._valid_from, d.valid_from)) AS last
+     min(CASE WHEN coalesce(d._valid_precision, 'day') = 'none' THEN null ELSE d._valid_from END) AS first,
+     max(CASE WHEN coalesce(d._valid_precision, 'day') = 'none' THEN null ELSE d._valid_from END) AS last
 RETURN e._id AS id, e.key AS key, e.name AS name, coalesce(e.aliases, []) AS aliases, e._domain AS domain,
        mentions, first, last
 ORDER BY mentions DESC, name

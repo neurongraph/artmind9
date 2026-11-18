@@ -22,6 +22,9 @@ LABEL_RE = re.compile(r"^[A-Z_][A-Z0-9_]*$")
 _LUCENE_SPECIALS_RE = re.compile(r'[+\-&|!(){}\[\]^"~*?:\\/]')
 
 
+_LUCENE_OPERATORS = frozenset({"AND", "OR", "NOT"})
+
+
 _STOPWORDS = frozenset({
     "the", "a", "an", "of", "or", "and", "to", "in", "on", "for", "which", "what",
     "who", "how", "is", "are", "was", "were", "be", "by", "with", "from", "that",
@@ -30,7 +33,7 @@ _STOPWORDS = frozenset({
 })
 
 
-def sanitize_lucene_query(text: str, *, drop_stopwords: bool = False) -> str:
+def sanitize_lucene_query(text: str, *, drop_stopwords: bool = False, all_terms: bool = False) -> str:
     """Reduce free text to plain Lucene terms safe for db.index.fulltext.queryNodes.
 
     Returns an empty string when nothing searchable remains; callers should
@@ -42,6 +45,9 @@ def sanitize_lucene_query(text: str, *, drop_stopwords: bool = False) -> str:
     query is never reduced to nothing.  Pass ``True`` only for survey legs;
     keep the default ``False`` for vector-text so its eval baseline is
     unchanged.
+
+    With `all_terms=True` every kept term (or phrase) is required (`+lake +trip`);
+    the default ORs them.
     """
     terms = []
     for token in text.split():
@@ -49,12 +55,15 @@ def sanitize_lucene_query(text: str, *, drop_stopwords: bool = False) -> str:
         # A token joined by specials (`2025-12-31`, `back-to-back`, `g/h`)
         # stays one phrase: split into separate OR'd terms, a date matches
         # every other date sharing a day or month number.
-        terms.append(f'"{" ".join(parts)}"' if len(parts) > 1 else "".join(parts))
-    sanitized = " ".join(t for t in terms if t)
-    if not drop_stopwords or not sanitized:
-        return sanitized
-    kept = [t for t in terms if t and t.lower() not in _STOPWORDS]
-    return " ".join(kept) if kept else sanitized
+        term = f'"{" ".join(parts)}"' if len(parts) > 1 else "".join(parts)
+        # With all_terms a bare AND / OR / NOT would be a Lucene operator after `+`
+        # (`--match "AND"` is a parse error); lowercased it is a plain term, and the analyzer
+        # lowercases terms anyway. Default callers keep their output as it was.
+        terms.append(term.lower() if all_terms and term in _LUCENE_OPERATORS else term)
+    terms = [t for t in terms if t]
+    if drop_stopwords:
+        terms = [t for t in terms if t.lower() not in _STOPWORDS] or terms
+    return " ".join(f"+{t}" if all_terms else t for t in terms)
 
 
 def normalize_domains(value: "str | Sequence[str]") -> list[str]:
@@ -135,25 +144,53 @@ def expand_domain_family(domain: str) -> list[str]:
     return [domain] + sorted({r["dom"] for r in rows if r.get("dom")})
 
 
-def asof_predicate(var: str, param: str = "asOf") -> str:
-    """NULL-safe valid-time filter. Untimed nodes are always visible.
+def valid_predicate(var: str, param: str = "asOf", *, include_undated: bool = True) -> str:
+    """Valid-time filter over `_valid_from` / `_valid_to` only (spec 2026-11-15 §6.2).
 
-    Emitted only when the caller requests as-of filtering.
+    `_valid_to` is exclusive. A node with no `_valid_from`, or with `_valid_precision = 'none'`
+    (a default date, not a real one), is undated: shown when `include_undated`, else hidden.
+    `$asOf` is already widened by `resolve_as_of` (a year means its last day).
     """
-    return (
-        f"(${param} IS NULL OR "
-        f"((coalesce({var}._valid_from, {var}.valid_from) IS NULL "
-        f"OR coalesce({var}._valid_from, {var}.valid_from) <= ${param}) "
-        f"AND (coalesce({var}.valid_to, {var}._valid_to) IS NULL "
-        f"OR coalesce({var}.valid_to, {var}._valid_to) > ${param})))"
-    )
+    # coalesce: a null precision must not make the negated (include_undated=False) form null.
+    undated = f"({var}._valid_from IS NULL OR coalesce({var}._valid_precision, '') = 'none')"
+    dated = (f"({var}._valid_from <= ${param} "
+             f"AND ({var}._valid_to IS NULL OR {var}._valid_to > ${param}))")
+    body = f"({undated} OR {dated})" if include_undated else f"(NOT {undated} AND {dated})"
+    return f"(${param} IS NULL OR {body})"
+
+
+def known_predicate(var: str, param: str = "knownAsOf") -> str:
+    """Record-time filter: what the graph held at `$knownAsOf` (spec 2026-11-15 §6.2).
+
+    A node was known at T when it had been recorded by then and had not yet been
+    moved to History (`_retired_at`, set only on History nodes, is after T). Both
+    sides are UTC ISO strings (`resolve_known_as_of`), compared lexically. Every
+    node carries `_recorded_at`; the migration pack backfills older ones, flagged
+    `_record_time_approx`.
+    """
+    return (f"(${param} IS NULL OR ({var}._recorded_at <= ${param} "
+            f"AND ({var}._retired_at IS NULL OR {var}._retired_at > ${param})))")
+
+
+def known_status(var: str, param: str = "knownAsOf") -> str:
+    """`current`/`history` as of `$knownAsOf`: retired after T counts as current then."""
+    return (f"CASE WHEN {var}._retired_at IS NULL OR {var}._retired_at > ${param} "
+            f"THEN 'current' ELSE 'history' END")
+
+
+def approximate_record_time_warning(count: int) -> str | None:
+    """The warning for rows whose record time the migration pack backfilled."""
+    if not count:
+        return None
+    return (f"{count} row(s) carry approximate record time (_record_time_approx: backfilled by "
+            "the migration, not recorded at ingest), so --knownAsOf is approximate for them")
 
 
 def supersedes_list(var: str) -> str:
     """Cypher list expression naming the documents `var` replaced, with each one's date
-    (`valid_from`: the stored `_valid_from`, else `valid_from`)."""
+    (`valid_from`: the stored `_valid_from`)."""
     return (f"[({var})-[:SUPERSEDES]->(older) | older {{ .id, .name, .path, "
-            f"valid_from: coalesce(older._valid_from, older.valid_from) }}]")
+            f"valid_from: older._valid_from }}]")
 
 
 def supersedes_field(var: str) -> str:
@@ -171,10 +208,13 @@ _ASOF_RE = re.compile(r"^\d{4}(-\d{2}){0,2}(T[0-9:.+-]+)?$")
 def resolve_as_of(value: str | None) -> str | None:
     """Resolve an --asOf value to an ISO date string.
 
-    Accepts 'today'/'now' (resolved to the current date) and ISO dates at
-    year/month/day precision. Anything else raises ValueError: asof_predicate
-    compares strings lexically, so an unresolved value like the literal
-    'today' would silently hide every node that carries a valid_to.
+    Accepts 'today'/'now' (resolved to the current local date: query time is
+    local) and ISO dates at year/month/day precision; a year or month is widened
+    to its last day, so a date inside that period compares <= it. Anything else
+    raises ValueError: valid_predicate compares strings lexically, so an
+    unresolved value like the literal 'today' would silently hide every node
+    that carries a valid_to. (A node whose valid_to falls inside a widened
+    period, e.g. 2026-06-30 for `--asOf 2026`, is hidden: valid_to is exclusive.)
     """
     if value is None:
         return None
@@ -187,7 +227,58 @@ def resolve_as_of(value: str | None) -> str | None:
         raise ValueError(
             f"--asOf must be an ISO date (YYYY[-MM[-DD]]) or 'today'/'now'; got {value!r}"
         )
-    return v
+    from artmind.temporal import widen_as_of
+
+    return widen_as_of(v)
+
+
+def resolve_known_as_of(value: str | None) -> str | None:
+    """Resolve a --knownAsOf value to a UTC ISO timestamp (record time is UTC).
+
+    'now' is this instant; 'today' or a date (YYYY[-MM[-DD]]; a year or month
+    means its last day) is the end of that **local** day (question 18); a
+    datetime without a zone is local; one with a zone is taken as given. Each is
+    converted to UTC, in the format record time is written in
+    (`datetime.isoformat()`, `+00:00`).
+    """
+    from datetime import datetime, time, timezone
+
+    if value is None:
+        return None
+    v = value.strip()
+    if not v:
+        return None
+    low = v.lower()
+    if low == "now":
+        return datetime.now(timezone.utc).isoformat()
+    bad = ValueError(
+        "--knownAsOf must be YYYY[-MM[-DD]], an ISO datetime (YYYY-MM-DDThh:mm[:ss][zone]) "
+        f"or 'today'/'now'; got {value!r}"
+    )
+    is_date = re.fullmatch(r"\d{4}(-\d{2}){0,2}", v)
+    # Only an extended-format day before the time: fromisoformat also reads
+    # compact (20260308) and week (2026-W10) dates, which are not accepted here.
+    is_datetime = re.fullmatch(r"\d{4}-\d{2}-\d{2}[T ]\S+", v)
+    if low != "today" and not is_date and not is_datetime:
+        raise bad
+    if low != "today" and not 1 < int(v[:4]) < 9999:
+        raise ValueError(f"--knownAsOf is out of range (years 2-9998); got {value!r}")
+    try:
+        if low == "today" or is_date:
+            from artmind.temporal import widen_as_of
+
+            day = date.today() if low == "today" else date.fromisoformat(widen_as_of(v))
+            # astimezone() on a naive datetime reads it as local time.
+            moment = datetime.combine(day, time(23, 59, 59, 999999)).astimezone()
+        else:
+            moment = datetime.fromisoformat(v)
+            if moment.tzinfo is None:
+                moment = moment.astimezone()
+        return moment.astimezone(timezone.utc).isoformat()
+    except ValueError:
+        raise bad from None
+    except OverflowError:
+        raise ValueError(f"--knownAsOf is out of range; got {value!r}") from None
 
 
 PATTERN_REQUIRED_OPTIONS = {
@@ -272,7 +363,7 @@ def _connection_settings() -> dict[str, str]:
 
 
 @contextmanager
-def neo4j_session(access_mode: str | None = None, *, timeout: float | None = None):
+def neo4j_session(access_mode: str | None = None, *, timeout: float | None = None, quiet: bool = False):
     """A session on this vault's graph. `timeout` (seconds), when given, caps
     how long connecting may take -- for advisory reads (the `vault sync`
     staleness check) that must never hold up the command they ride along
@@ -288,7 +379,7 @@ def neo4j_session(access_mode: str | None = None, *, timeout: float | None = Non
         session_kwargs: dict = {"database": settings["database"]}
         if access_mode is not None:
             session_kwargs["default_access_mode"] = access_mode
-        if access_mode == READ_ACCESS:
+        if access_mode == READ_ACCESS or quiet:
             # Query-layer reads project properties a domain may never have
             # written (superseded_by, ...): the server's "property key does not
             # exist" warnings are expected there, and they land on stderr --
@@ -557,7 +648,7 @@ def filing_listing(
     as_of_resolved = resolve_as_of(as_of)
     if as_of_resolved:
         params["asOf"] = as_of_resolved
-        filters.append(asof_predicate("d"))
+        filters.append(valid_predicate("d"))
 
     where_clause = " AND ".join(filters) if filters else "true"
 
@@ -1202,12 +1293,17 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         # document and its retired/superseded chunks become visible too.
         # Coarser than "in force by T" elsewhere, and said so in the CLI help
         # rather than implied.
-        include_history = bool(parameters.get("includeHistory") or parameters.get("asOf"))
+        # `--knownAsOf` is the one point in time this pattern honours: record
+        # time, so it reaches both labels and keeps the chunks the graph held then.
+        known_as_of = parameters.get("knownAsOf")
+        include_history = bool(parameters.get("includeHistory") or parameters.get("asOf") or known_as_of)
+        chunk_known = f" AND {known_predicate('c')}" if known_as_of else ""
+        approx_return = ", c._record_time_approx AS _approx" if known_as_of else ""
         doc_return = (
-            "d { .id, .name, .path, .source_path, ._domain, valid_from: coalesce(d._valid_from, d.valid_from), valid_to: coalesce(d.valid_to, d._valid_to), .superseded_by, "
+            "d { .id, .name, .path, .source_path, ._domain, valid_from: d._valid_from, valid_to: d._valid_to, .superseded_by, "
             + supersedes_field("d") + " } AS document"
         )
-        chunk_return = "c { .id, .name, .doc_id, ._domain, .valid_to, .text } AS chunk"
+        chunk_return = "c { .id, .name, .doc_id, ._domain, valid_to: c._valid_to, .text } AS chunk"
         # A long document can hold hundreds of chunks, each carrying its own
         # `.text` -- unlike structural_metadata/entity_listing's short names,
         # not something to pull across the wire in full just to slice it in
@@ -1228,14 +1324,14 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             }}
             WITH d
             MATCH (c)-[:PART_OF]->(d)
-            WHERE c:DocChunk OR c:DocChunkHistory
+            WHERE (c:DocChunk OR c:DocChunkHistory){chunk_known}
             WITH d, c
             ORDER BY c.id
             WITH collect({{d: d, c: c}}) AS pairs
             WITH pairs, size(pairs) AS _rowsTotal
             UNWIND pairs[$offset..$offset + $limit] AS pair
             WITH pair.d AS d, pair.c AS c, _rowsTotal
-            RETURN {doc_return}, {chunk_return}, _rowsTotal
+            RETURN {doc_return}, {chunk_return}, _rowsTotal{approx_return}
             """
         else:
             cypher = f"""
@@ -1257,6 +1353,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
                 "documentName": parameters["documentName"],
                 "limit": parameters.get("limit", PATTERN10_DEFAULT_LIMIT),
                 "offset": parameters.get("offset", 0),
+                **({"knownAsOf": known_as_of} if known_as_of else {}),
             },
         )
     raise ValueError(f"Unsupported graph query pattern: {pattern}")
@@ -1280,6 +1377,10 @@ def execute_pattern(
         raise ValueError(f"--shape brief is not available for {pattern}")
     domains = normalize_domains(domains)
     as_of = resolve_as_of(as_of)
+    if parameters.get("knownAsOf") is not None:
+        if pattern != "pattern10":
+            raise ValueError(f"--knownAsOf is not available for {pattern}")
+        parameters["knownAsOf"] = resolve_known_as_of(parameters["knownAsOf"])
     params = normalize_pattern_parameters(pattern, {"domains": domains, "asOf": as_of, **parameters})
     validate_pattern_parameters(pattern, params)
     cypher, cypher_params = _pattern_query(pattern, params)
@@ -1306,7 +1407,10 @@ def execute_pattern(
     raw_hits = None
     anchors_matched = None
     chunks_total = None
+    approx_count = 0
     for row in rows:
+        if isinstance(row, dict) and "_approx" in row:
+            approx_count += bool(row.pop("_approx"))
         if isinstance(row, dict) and "_rowsTotal" in row:
             rows_total = row.pop("_rowsTotal")
         if isinstance(row, dict) and "_rawHits" in row:
@@ -1356,6 +1460,9 @@ def execute_pattern(
     }
     if schema_warnings:
         result["warnings"] = [*(result.get("warnings") or []), *schema_warnings]
+    approx_warning = approximate_record_time_warning(approx_count)
+    if approx_warning:
+        result["warnings"] = [*(result.get("warnings") or []), approx_warning]
     if summaries is not None:
         result["summaries"] = summaries
     if rows_total is not None:
@@ -1454,7 +1561,7 @@ def _chunks_query(expand: int, as_of: str | None, scoped: bool = True) -> str:
 
     scoped=False (no --domain) drops the domain predicate: the lookup is by chunk id.
     """
-    asof_c = f"\n      AND {asof_predicate('c')}" if as_of else ""
+    asof_c = f"\n      AND {valid_predicate('c')}" if as_of else ""
     domain_c = f"\n      AND {domain_predicate('c')}" if scoped else ""
     neighbor_call = ""
     neighbor_return = ""
@@ -1472,16 +1579,16 @@ def _chunks_query(expand: int, as_of: str | None, scoped: bool = True) -> str:
       WITH sibs, coalesce([i IN range(0, size(sibs)-1) WHERE sibs[i].id = c.id][0], -1) AS idx
       RETURN [j IN range(idx - $expand, idx + $expand)
               WHERE idx >= 0 AND j >= 0 AND j < size(sibs) AND j <> idx
-              | {{id: sibs[j].id, name: sibs[j].name, valid_to: sibs[j].valid_to, text: sibs[j].text}}] AS neighbors
+              | {{id: sibs[j].id, name: sibs[j].name, valid_to: sibs[j]._valid_to, text: sibs[j].text}}] AS neighbors
     }}"""
         neighbor_return = ",\n           neighbors"
     return f"""
     MATCH (c:DocChunk)
     WHERE c.id IN $chunkIds{domain_c}{asof_c}
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document){neighbor_call}
-    RETURN c {{ .id, .name, .doc_id, ._domain, .header_path, .valid_from, .valid_to, .text }} AS chunk,
-           d {{ .id, .name, .path, .source_path, ._domain, valid_from: coalesce(d._valid_from, d.valid_from), valid_to: coalesce(d.valid_to, d._valid_to), .superseded_by, {supersedes_field("d")},
-                title: coalesce(d.title, d.name), date: coalesce(d._valid_from, d.valid_from),
+    RETURN c {{ .id, .name, .doc_id, ._domain, .header_path, valid_from: c._valid_from, valid_to: c._valid_to, .text }} AS chunk,
+           d {{ .id, .name, .path, .source_path, ._domain, valid_from: d._valid_from, valid_to: d._valid_to, .superseded_by, {supersedes_field("d")},
+                title: coalesce(d.title, d.name), date: d._valid_from,
                 superseded: EXISTS {{ MATCH (:Document)-[:SUPERSEDES]->(d) }} }} AS document{neighbor_return}
     ORDER BY c.id
     """
@@ -1661,7 +1768,8 @@ def _entity_context_queries() -> dict[str, str]:
     OPTIONAL MATCH (p:DocPassage)-[:PART_OF]->(c)
     WITH c, d, max({_query_score("p")}) AS score
     RETURN c.id AS id, c.name AS name, c.doc_id AS doc_id,
-           c.valid_to IS NULL AS current, d.valid_from AS doc_valid_from,
+           c._valid_to IS NULL AS current,
+           CASE WHEN coalesce(d._valid_precision, 'day') = 'none' THEN null ELSE d._valid_from END AS doc_valid_from,
            score
     """,
         "chunk_keyword": """
@@ -1677,9 +1785,9 @@ def _entity_context_queries() -> dict[str, str]:
     MATCH (c:DocChunk {id: cid})
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
     RETURN c {
-      .id, .name, .doc_id, ._domain, .header_path, .valid_to, .text,
-      document: d { .id, .name, .path, .source_path, ._domain, valid_from: coalesce(d._valid_from, d.valid_from), valid_to: coalesce(d.valid_to, d._valid_to), .superseded_by,
-                    title: coalesce(d.title, d.name), date: coalesce(d._valid_from, d.valid_from),
+      .id, .name, .doc_id, ._domain, .header_path, valid_to: c._valid_to, .text,
+      document: d { .id, .name, .path, .source_path, ._domain, valid_from: d._valid_from, valid_to: d._valid_to, .superseded_by,
+                    title: coalesce(d.title, d.name), date: d._valid_from,
                     superseded: EXISTS { MATCH (:Document)-[:SUPERSEDES]->(d) } }
     } AS chunk
     """,
@@ -1688,7 +1796,7 @@ def _entity_context_queries() -> dict[str, str]:
     MATCH (e)-[:AGGREGATES]->(so:Observation)
     WITH DISTINCT so.doc_id AS did
     MATCH (sd:Document {{id: did}})
-    RETURN sd {{ .id, .name, .path, .source_path, ._domain, valid_from: coalesce(sd._valid_from, sd.valid_from) }} AS document
+    RETURN sd {{ .id, .name, .path, .source_path, ._domain, valid_from: sd._valid_from }} AS document
     """,
     }
 
@@ -2283,8 +2391,8 @@ def timeline(
     from_: str | None = None,
     to: str | None = None,
 ) -> dict:
-    """Domain-scoped: every entity of a `kind: occurrent` class, ordered by
-    `valid_from`, windowed by `--from`/`--to`.
+    """Domain-scoped: every entity of an `occasion` class (`schema_validate.classes_with_identity`),
+    ordered by `_valid_from` (undated rows last), windowed by `--from`/`--to`.
 
     Re-specified (Phase 4) from a per-entity two-hop relationship traversal
     that pulled `event_at`/`valid_from` off *neighbouring* entities and their
@@ -2298,36 +2406,37 @@ def timeline(
     uses (domain-scoped, no `--asOf` — the same reasoning applies: the
     projection is current by construction).
     """
-    from artmind.temporal import load_schema
+    from artmind.schema_validate import classes_with_identity, family_schema
 
     domains = normalize_domains(domains)
     occurrent_labels: set[str] = set()
     for domain in domains:
-        schema = load_schema(domain)
-        for cls, decl in (schema.get("entity_types") or {}).items():
-            if (decl or {}).get("kind") == "occurrent":
-                try:
-                    occurrent_labels.add(normalize_entity_class(cls))
-                except ValueError:
-                    continue
+        schema = family_schema(domain)  # a family root carries its children's classes
+        for cls in classes_with_identity(schema, "occasion"):
+            try:
+                occurrent_labels.add(normalize_entity_class(cls))
+            except ValueError:
+                continue
 
     if not occurrent_labels:
         return {**_domain_output(domains), "query_type": "graph", "command": "timeline", "rows": []}
 
     params: dict = {"domains": domains, "labels": sorted(occurrent_labels)}
     window = ""
+    undated = "(e._valid_from IS NULL OR coalesce(e._valid_precision, '') = 'none')"
     if from_:
         params["from_"] = from_
-        window += "\n      AND (coalesce(e._valid_from, e.valid_from) IS NULL OR coalesce(e._valid_from, e.valid_from) >= $from_)"
+        window += f"\n      AND ({undated} OR e._valid_from >= $from_)"
     if to:
         params["to"] = to
-        window += "\n      AND (coalesce(e._valid_from, e.valid_from) IS NULL OR coalesce(e._valid_from, e.valid_from) <= $to)"
+        window += f"\n      AND ({undated} OR e._valid_from <= $to)"
     cypher = f"""
     MATCH (e:Entity)
     WHERE {domain_predicate("e")}
       AND any(l IN labels(e) WHERE l IN $labels){window}
-    RETURN e {{ ._id, .name, .entity_class, label: labels(e), valid_from: coalesce(e._valid_from, e.valid_from), valid_to: coalesce(e.valid_to, e._valid_to) }} AS entity
-    ORDER BY coalesce(e._valid_from, e.valid_from)
+    RETURN e {{ ._id, .name, .entity_class, label: labels(e), valid_from: e._valid_from, valid_to: e._valid_to,
+      valid_precision: e._valid_precision, valid_time_of_day: e._valid_time_of_day }} AS entity
+    ORDER BY CASE WHEN {undated} THEN 1 ELSE 0 END, e._valid_from, e._valid_time_of_day
     """
     return {
         **_domain_output(domains),
@@ -2336,6 +2445,171 @@ def timeline(
         "window": {"from": from_, "to": to},
         "rows": _run_read_query(cypher, params),
     }
+
+
+#: Participant / place classes one hop from a happening, kept when the schema declares them.
+HAPPENING_PEOPLE_CLASSES = ("PERSON",)
+HAPPENING_PLACE_CLASSES = ("LOCATION", "PLACE")
+#: Names / ids a full happening row lists at most per list (distinct, sorted).
+_HAPPENING_LIST_CAP = 20
+#: Full-text hits read from `entity_name_ft`; at this many the rows may be incomplete.
+HAPPENING_HIT_LIMIT = 5000
+
+_UNDATED = "({v}._valid_from IS NULL OR coalesce({v}._valid_precision, '') = 'none')"
+
+#: `query happenings` (spec 2026-11-15 §5.2, plan question 16): occasion-class entities whose
+#: name or aliases hold every term (field-scoped Lucene on `entity_name_ft`; `description` is
+#: left out, it pulls in every happening that merely mentions the word), their same-as group,
+#: and those whose `type` equals the term. A default date (`_valid_precision` 'none') is
+#: undated: never inside a --from/--to window, sorted last. `rows_total`, `undated`,
+#: `periods` and `documents_in_rows` are over every match; `rows` is the first `$limit`.
+_HAPPENINGS = """
+CALL db.index.fulltext.queryNodes('entity_name_ft', $ft_query, {{limit: $hit_limit}}) YIELD node
+WITH collect(node) AS raw
+WITH size(raw) AS scanned, [h IN raw WHERE {scope_h} AND h.entity_class IN $classes] AS hits
+CALL (hits) {{
+  CALL (hits) {{
+    UNWIND hits AS h RETURN h AS e
+    UNION
+    UNWIND hits AS h MATCH (h)-[:SAME_AS]-(e:Entity) WHERE {scope_e} AND e.entity_class IN $classes RETURN e
+    UNION
+    // `type` has no index: this reads every in-scope entity of the occasion classes (the
+    // `_domain` index narrows it to the domains). Fine at journal sizes (thousands).
+    MATCH (e:Entity) WHERE {scope_e} AND e.entity_class IN $classes AND toLower(e.type) = toLower($term) RETURN e
+  }}
+  RETURN collect(DISTINCT e) AS found
+}}
+WITH scanned, COLLECT {{
+  UNWIND found AS e
+  WITH e, {undated_e} AS undated
+  WHERE ($from_ IS NULL OR (NOT undated AND e._valid_from >= $from_))
+    AND ($to IS NULL OR (NOT undated AND e._valid_from <= $to))
+    AND ($withId IS NULL OR EXISTS {{ MATCH (e)-[:RELATES_TO]-(:Entity {{_id: $withId}}) }})
+  RETURN e ORDER BY undated, e._valid_from, e._valid_time_of_day, e.name
+}} AS matched
+RETURN scanned, size(matched) AS rows_total,
+  size([m IN matched WHERE {undated_m}]) AS undated,
+  [m IN matched WHERE NOT {undated_m} | left(m._valid_from, $width)] AS period_keys,
+  COUNT {{ UNWIND matched AS m MATCH (m)-[:AGGREGATES]->(o:Observation) WHERE o.doc_id IS NOT NULL
+          RETURN DISTINCT o.doc_id }} AS documents_in_rows,
+  [e IN matched[..$limit] | {{
+    id: e._id, name: e.name, entity_class: e.entity_class, type: e.type,
+    date: CASE WHEN {undated_e} THEN null ELSE e._valid_from END,
+    precision: CASE WHEN {undated_e} THEN 'none' ELSE coalesce(e._valid_precision, 'day') END,
+    time_of_day: e._valid_time_of_day,
+    participants: COLLECT {{ MATCH (e)-[:RELATES_TO]-(n:Entity) WHERE n.entity_class IN $people AND {scope_n}
+                            RETURN DISTINCT n.name AS v ORDER BY v LIMIT {cap} }},
+    places: COLLECT {{ MATCH (e)-[:RELATES_TO]-(n:Entity) WHERE n.entity_class IN $places AND {scope_n}
+                      RETURN DISTINCT n.name AS v ORDER BY v LIMIT {cap} }},
+    chunk_ids: COLLECT {{ MATCH (e)-[:AGGREGATES]->(o:Observation) WHERE o.chunk_id IS NOT NULL
+                         RETURN DISTINCT o.chunk_id AS v ORDER BY v LIMIT {cap} }},
+    doc_ids: COLLECT {{ MATCH (e)-[:AGGREGATES]->(o:Observation) WHERE o.doc_id IS NOT NULL
+                       RETURN DISTINCT o.doc_id AS v ORDER BY v LIMIT {cap} }}
+  }}] AS rows
+"""
+
+
+def happenings(
+    domains: "str | Sequence[str]",
+    match: str,
+    *,
+    entity_class: str | None = None,
+    from_: str | None = None,
+    to: str | None = None,
+    by: str | None = None,
+    with_id: str | None = None,
+    limit: int = 200,
+) -> dict:
+    """Every dated happening (an `identity: occasion` class) matching `match` (spec 2026-11-15 §5.2).
+
+    `from_` / `to` are ISO dates already resolved by the caller (`to` widened). Every term of
+    `match` must appear (`+lake +trip`), in the name/aliases match and in the coverage count.
+    Returns one row per happening ordered by date (undated last), `rows_total` / `truncated`,
+    `undated`, `periods` with `by` (all three over every match, not just the rows shown), and
+    `coverage`: documents whose passage text matches in the window (`topics.grid.count_subject`)
+    against the documents every matched happening comes from; when text matches more documents,
+    `next` names a survey (`hints.happenings_survey`). At `HAPPENING_HIT_LIMIT` name hits
+    `rows_total_capped` says the match may be incomplete.
+    """
+    from artmind import hints
+    from artmind.schema_validate import classes_with_identity, family_schema
+    from artmind.topics.grid import count_subject
+    from artmind.vector_query import _expand
+
+    domains = normalize_domains(domains)
+    term = (match or "").strip()
+    required = sanitize_lucene_query(term, drop_stopwords=True, all_terms=True)
+    if not required:
+        raise ValueError("--match contains no searchable text")
+    occasion: set[str] = set()
+    declared: set[str] = set()
+    for domain in domains:
+        schema = family_schema(domain)  # a family root carries its children's classes
+        declared.update((schema.get("entity_types") or {}) if isinstance(schema, dict) else {})
+        for cls in classes_with_identity(schema, "occasion"):
+            try:
+                occasion.add(normalize_entity_class(cls))
+            except ValueError:
+                continue
+    classes = sorted(occasion)
+    if entity_class:
+        wanted = normalize_entity_class(entity_class)
+        if wanted not in occasion:
+            raise ValueError(f"--entityClass {wanted} is not an `identity: occasion` class here; "
+                             f"occasion classes: {', '.join(classes) or 'none'}")
+        classes = [wanted]
+    base = {**_domain_output(domains), "query_type": "graph", "command": "happenings", "match": term,
+            "classes": classes, "window": {"from": from_, "to": to}, "by": by}
+    if not classes:
+        return {**base, "warnings": [f"no `identity: occasion` class in {', '.join(domains)}"],
+                "rows_total": 0, "truncated": False, "undated": 0, "rows": []}
+
+    params = {
+        "domains": domains, "classes": classes, "term": term,
+        "ft_query": f"name:({required}) OR aliases:({required})", "hit_limit": HAPPENING_HIT_LIMIT,
+        "from_": from_, "to": to, "withId": with_id, "limit": limit, "width": 7 if by == "month" else 4,
+        "people": [c for c in HAPPENING_PEOPLE_CLASSES if c in declared],
+        "places": [c for c in HAPPENING_PLACE_CLASSES if c in declared],
+    }
+    cypher = _HAPPENINGS.format(scope_h=domain_predicate("h"), scope_e=domain_predicate("e"),
+                                scope_n=domain_predicate("n"), undated_e=_UNDATED.format(v="e"),
+                                undated_m=_UNDATED.format(v="m"), cap=_HAPPENING_LIST_CAP)
+    scoped = _expand(domains)
+    with read_session() as session:
+        rec = session.run(cypher, **params).single()
+        matching, at_least = count_subject(session, term, scoped, all_terms=True)
+    record = serialize_record(rec) if rec is not None else {}
+    rows = list(record.get("rows") or [])
+    rows_total = int(record.get("rows_total") or 0)
+
+    def in_window(day) -> bool:
+        if not (from_ or to):
+            return True
+        if not day:
+            return False
+        day = str(day)[:10]
+        return (not from_ or day >= from_) and (not to or day <= to)
+
+    in_text = {d["doc_id"] for d in matching if in_window(d.get("date"))}
+    coverage: dict = {"matching_documents": len(in_text),
+                      "documents_in_rows": int(record.get("documents_in_rows") or 0)}
+    if at_least:
+        coverage["at_least"] = True
+    out = {**base, "rows_total": rows_total, "truncated": rows_total > len(rows),
+           "undated": int(record.get("undated") or 0), "coverage": coverage}
+    if int(record.get("scanned") or 0) >= HAPPENING_HIT_LIMIT:
+        out["rows_total_capped"] = True
+        out["warnings"] = [f"the name index returned {HAPPENING_HIT_LIMIT} hits (all domains, before the "
+                           "domain filter): the happenings may be incomplete; narrow --match"]
+    if by:
+        counts: dict[str, int] = {}
+        for key in record.get("period_keys") or []:
+            if key:
+                counts[key] = counts.get(key, 0) + 1
+        out["periods"] = [{"period": p, "count": n} for p, n in sorted(counts.items())]
+    out["rows"] = rows
+    out["next"] = hints.happenings_survey(out, domains, term, by=by, from_=from_, to=to)
+    return out
 
 
 _PROPERTY_NAME_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
@@ -2350,6 +2624,7 @@ def entity_history(
     key: str | None = None,
     name: str | None = None,
     entity_class: str | None = None,
+    known_as_of: str | None = None,
 ) -> dict:
     """Every observation behind one entity, ordered by the **fact-level**
     valid-time axis (`_valid_from`/`_valid_to`) — "what was this worth at
@@ -2377,14 +2652,17 @@ def entity_history(
       `entity_class` narrows it. Several keys can match — `keys` lists them.
 
     `--property` narrows to one property's value at each point rather than
-    the full observation. `--asOf` here means "every fact in force by this
-    date" (`_valid_from <= asOf`), the same floor-not-snapshot meaning as
-    everywhere else `--asOf` survives (see the option's own help text).
+    the full observation. `--asOf` is a point in valid time: facts whose own
+    window contains it (`valid_predicate`; undated facts always shown).
+    `--knownAsOf` is a point in record time: only observations the graph held
+    then (`known_predicate`, both labels), each row's `status` as of that
+    moment (retired after it counts as `current`).
     """
-    from artmind.observations import normalize_name
+    from artmind.observations import OCCASION_TOKEN_PATTERN, normalize_name
 
     domains = normalize_domains(domains)
     as_of = resolve_as_of(as_of)
+    known_as_of = resolve_known_as_of(known_as_of)
     entity_id = (entity_id or "").strip() or None
     key = (key or "").strip() or None
     name = (name or "").strip() or None
@@ -2400,7 +2678,10 @@ def entity_history(
     filters = []
     if as_of:
         params["asOf"] = as_of
-        filters.append("(o._valid_from IS NULL OR o._valid_from <= $asOf)")
+        filters.append(valid_predicate("o"))
+    if known_as_of:
+        params["knownAsOf"] = known_as_of
+        filters.append(known_predicate("o"))
     if property:
         params["property"] = property
         filters.append("o[$property] IS NOT NULL")
@@ -2424,6 +2705,11 @@ def entity_history(
       AND {domain_predicate("o")}"""
     else:
         params["nameKey"] = normalize_name(name)
+        # An occasion's name part is `<name>~<token>`, exactly, the token at its date's
+        # precision (`observations.OCCASION_TOKEN_PATTERN`); an empty name has no occasion key.
+        params["nameKeyRe"] = (
+            re.escape(params["nameKey"]) + "~" + OCCASION_TOKEN_PATTERN if params["nameKey"] else "(?!)"
+        )
         params["nameLower"] = name.casefold()
         class_clause = ""
         if entity_class:
@@ -2434,15 +2720,20 @@ def entity_history(
     WHERE (o:Observation OR o:ObservationHistory)
       AND {domain_predicate("o")}
       AND (split(o.key, '|')[0] = $nameKey
+           OR split(o.key, '|')[0] =~ $nameKeyRe
            OR toLower(o.name) = $nameLower
            OR toLower(o.canonical_name) = $nameLower){class_clause}"""
 
+    status = known_status("o") if known_as_of else "CASE WHEN o:Observation THEN 'current' ELSE 'history' END"
     cypher = f"""{match}{filter_clause}
     RETURN o {{.*}} AS observation,
-           CASE WHEN o:Observation THEN 'current' ELSE 'history' END AS status
+           {status} AS status
     ORDER BY o._valid_from, o.doc_id
     """
     rows = strip_internal_props(_run_read_query(cypher, params))
+    approx = approximate_record_time_warning(
+        sum(bool(row["observation"].get("_record_time_approx")) for row in rows)
+    ) if known_as_of else None
     keys = sorted({row["observation"].get("key") for row in rows if row["observation"].get("key")})
     if property:
         rows = [
@@ -2469,9 +2760,11 @@ def entity_history(
         "keys": keys,
         "parameters": {
             **({"asOf": as_of} if as_of else {}),
+            **({"knownAsOf": known_as_of} if known_as_of else {}),
             **({"property": property} if property else {}),
         },
         "rows": rows,
+        **({"warnings": [approx]} if approx else {}),
     }
 
 
@@ -2502,7 +2795,9 @@ def _document_names_like(domains: list[str], *, names: list[str] | None = None, 
     return [r["name"] for r in rows if r.get("name")]
 
 
-def document_history(domains: "str | Sequence[str]", document_name: str) -> dict:
+def document_history(
+    domains: "str | Sequence[str]", document_name: str, known_as_of: str | None = None,
+) -> dict:
     """What each ingested version of one document asserted: its current
     `:Observation`s next to the `:ObservationHistory` its earlier versions
     left behind.
@@ -2530,17 +2825,34 @@ def document_history(domains: "str | Sequence[str]", document_name: str) -> dict
     `.txt`, `.html`) is matched if exactly one document fits: the result
     carries `matched_name` and a warning. Otherwise the rows are empty and
     `closest` lists up to 5 similar document names, with a runnable `next`.
+
+    `known_as_of` reads record time: only observations the graph held then
+    (`known_predicate`), with `status` and the document's `retired` as of that
+    moment.
     """
     domains = normalize_domains(domains)
     document_name = (document_name or "").strip()
     if not document_name:
         raise ValueError("--documentName is required")
+    known_as_of = resolve_known_as_of(known_as_of)
+    if known_as_of:
+        obs_known = f" AND {known_predicate('o')}"
+        obs_status = known_status("o")
+        doc_retired = "NOT (d._retired_at IS NULL OR d._retired_at > $knownAsOf)"
+        approx_return = ",\n               sum(CASE WHEN o._record_time_approx THEN 1 ELSE 0 END) AS approx"
+    else:
+        obs_known = approx_return = ""
+        obs_status = "CASE WHEN o:Observation THEN 'current' ELSE 'history' END"
+        doc_retired = "d:DocumentHistory"
+    approx_count = 0
 
     def _rows_for(name: str) -> tuple[list[dict], bool]:
+        nonlocal approx_count
         params = {
             "domains": domains,
             "documentName": name,
             "limit": DOCUMENT_HISTORY_MAX_DOCUMENTS + 1,
+            **({"knownAsOf": known_as_of} if known_as_of else {}),
         }
         cypher = f"""
         MATCH (d)
@@ -2551,19 +2863,20 @@ def document_history(domains: "str | Sequence[str]", document_name: str) -> dict
                OR d.id = $documentName)
         WITH d ORDER BY d.path LIMIT $limit
         OPTIONAL MATCH (o)
-        WHERE (o:Observation OR o:ObservationHistory) AND o.doc_id = d.id
+        WHERE (o:Observation OR o:ObservationHistory) AND o.doc_id = d.id{obs_known}
         WITH d, o ORDER BY o.doc_version, o.key
         RETURN d {{.id, .name, .path, .version}} AS document,
-               d:DocumentHistory AS retired,
+               {doc_retired} AS retired,
                collect(CASE WHEN o IS NULL THEN null ELSE o {{
                    .id, .name, .entity_class, .key, .chunk_id, .doc_version,
                    .description, ._valid_from,
-                   status: CASE WHEN o:Observation THEN 'current' ELSE 'history' END
-               }} END) AS observations
+                   status: {obs_status}
+               }} END) AS observations{approx_return}
         """
         found = _run_read_query(cypher, params)
         rows = []
         for row in found[:DOCUMENT_HISTORY_MAX_DOCUMENTS]:
+            approx_count += row.get("approx") or 0
             observations = row.get("observations") or []
             current = {o.get("key") for o in observations if o.get("status") == "current"}
             history = {o.get("key") for o in observations if o.get("status") == "history"}
@@ -2585,17 +2898,24 @@ def document_history(domains: "str | Sequence[str]", document_name: str) -> dict
             })
         return rows, len(found) > DOCUMENT_HISTORY_MAX_DOCUMENTS
 
+    def _approx_warned(out: dict) -> dict:
+        warning = approximate_record_time_warning(approx_count)
+        if warning:
+            out["warnings"] = [*(out.get("warnings") or []), warning]
+        return out
+
     rows, truncated = _rows_for(document_name)
     out: dict = {
         **_domain_output(domains),
         "query_type": "graph",
         "command": "document_history",
         "document_name": document_name,
+        **({"known_as_of": known_as_of} if known_as_of else {}),
         "truncated": truncated,
         "rows": rows,
     }
     if rows:
-        return out
+        return _approx_warned(out)
     # Nothing by exact name, path or id (spec 2026-10-22 §5.4.4): a unique
     # suffixed name is used, with a warning; otherwise name the closest ones.
     low = document_name.casefold()
@@ -2608,7 +2928,7 @@ def document_history(domains: "str | Sequence[str]", document_name: str) -> dict
         rows, truncated = _rows_for(suffixed[0])
         out.update(rows=rows, truncated=truncated, matched_name=suffixed[0],
                    warnings=[f"no document named {document_name!r}; matched {suffixed[0]!r}"])
-        return out
+        return _approx_warned(out)
     stem = document_name
     for suffix in DOCUMENT_NAME_SUFFIXES:
         if low.endswith(suffix):

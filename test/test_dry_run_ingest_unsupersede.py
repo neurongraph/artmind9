@@ -13,6 +13,8 @@ KEY = "acme ltd|ORGANISATION|demo.one"
 
 def _respond(cypher, params):
     cy = " ".join(cypher.split())
+    if "x._valid_to_by = $record_id" in cy:
+        return [{"n": 2}]
     if "d.name IN [$n,$o]" in cy:
         return [{"name": "policy v2", "id": "new-1"}, {"name": "policy v1", "id": "old-1"}]
     if "RETURN count(s) AS n" in cy and "NOT (a.id" in cy:
@@ -66,8 +68,12 @@ def test_dry_run_sends_no_write_cypher_and_keeps_the_record(world):
     effect = payload["effect"]
     assert_effect_shape(effect)
     assert [c["kind"] for c in effect["changes"]] == [
-        "document_unsupersede", "document_restore", "observation_move", "entity_change"]
+        "document_unsupersede", "document_restore", "observation_move", "entity_change", "validity_reopened"]
     assert effect["changes"][0]["count"] == 1 and effect["changes"][2]["count"] == 5
+    # the ends this record closed (spec 2026-11-15 §7.2), counted per label: 10 labels x 2
+    assert effect["changes"][4]["count"] == 20 and "valid again" in effect["summary"]
+    counts = [p for c, p in recorder.calls if "x._valid_to_by = $record_id" in c]
+    assert len(counts) == 10 and all(p == {"older": "old-1", "record_id": rid} for p in counts)
     assert len(effect["records"]) == 2 and effect["travels"] is True
 
 
@@ -107,6 +113,27 @@ def test_dry_run_lists_the_restore_when_the_edge_is_gone_but_the_document_is_sti
     payload = _run("--dryRun")
 
     kinds = [c["kind"] for c in payload["effect"]["changes"]]
-    assert kinds == ["document_unsupersede", "document_restore", "observation_move", "entity_change"]
+    assert kinds == ["document_unsupersede", "document_restore", "observation_move", "entity_change",
+                     "validity_reopened"]
     assert payload["effect"]["changes"][0]["count"] == 0
+    assert payload["effect"]["changes"][4]["count"] == 0, "no edge, so no end of this record to remove"
+    assert_no_write_cypher(recorder)
+
+
+def test_dry_run_reopens_nothing_while_another_supersession_still_points_at_the_document(world):
+    recorder, _ = world
+    base = recorder._respond
+
+    def respond(cy, p):
+        c = " ".join(cy.split())
+        if "RETURN count(s) AS n" in c and "NOT (a.id" in c:
+            return [{"n": 1}]
+        return base(cy, p)
+    recorder._respond = respond
+
+    payload = _run("--dryRun")
+
+    (reopened,) = [c for c in payload["effect"]["changes"] if c["kind"] == "validity_reopened"]
+    assert reopened["count"] == 0
+    assert not [c for c, _ in recorder.calls if "x._valid_to_by = $record_id" in c]
     assert_no_write_cypher(recorder)

@@ -253,7 +253,7 @@ def _patch_chunk_cache(folder: Path, changed: list[dict], values: dict[str, dict
 
 # ── preconditions ─────────────────────────────────────────────────────────
 
-def _worker_running() -> bool:
+def worker_is_running() -> bool:
     """The ingest worker's check, as `vault sync` makes it."""
     import paths
     from artmind.worker_pid import live_pid
@@ -269,7 +269,7 @@ def _worker_running() -> bool:
 def refuse_while_worker_runs() -> None:
     """The worker writes the same staging folders and graph keys; a backfill beside it could write
     over its work or commit half of it."""
-    if _worker_running():
+    if worker_is_running():
         raise ValueError("the ingest worker is running -- wait for it to finish (`artmind ingest job-status`), "
                          "then re-run")
 

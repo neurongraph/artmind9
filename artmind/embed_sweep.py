@@ -16,6 +16,8 @@ later pages (`skip_ids`) so a dead embedding service cannot loop it.
 """
 from __future__ import annotations
 
+from datetime import datetime, timezone
+
 from loguru import logger
 
 from artmind import passage_store, passages
@@ -36,7 +38,9 @@ WHERE trim(coalesce(c.text, '')) <> ''
   AND NOT c.id IN $skip_ids{scope}
 OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
 RETURN c.id AS id, c.doc_id AS doc_id, c._domain AS _domain, c.text AS chunk_text,
-       c.header_path AS header_path, c.valid_from AS valid_from, c.valid_to AS valid_to,
+       c.header_path AS header_path, c._valid_from AS _valid_from, c._valid_to AS _valid_to, c._valid_to_by AS _valid_to_by,
+       c._valid_precision AS _valid_precision, c._doc_valid_from AS _doc_valid_from,
+       c._doc_valid_to AS _doc_valid_to,
        coalesce(d.title, d.name) AS title
 LIMIT $batch_size
 """
@@ -137,6 +141,7 @@ def reconcile_passages(
     # 1. passages for chunks that have none, or were cut under another split key
     scope, params = _scope("c", "id", chunk_ids, domain, doc_ids)
     split_key = passages.split_key()
+    recorded_at = datetime.now(timezone.utc).isoformat()   # record time is UTC (spec 2026-11-15 §6.1)
     skipped: set[str] = set()
     while True:
         rows = session.run(_CHUNKS_NEEDING_PASSAGES.format(scope=scope), split_key=split_key,
@@ -146,12 +151,13 @@ def reconcile_passages(
         for row in rows:
             chunk = {"id": row["id"], "doc_id": row.get("doc_id"), "_domain": row.get("_domain"),
                      "text": row.get("chunk_text") or "", "header_path": row.get("header_path"),
-                     "valid_from": row.get("valid_from"), "valid_to": row.get("valid_to")}
+                     **{k: row.get(k) for k in passages.PASSAGE_DATE_KEYS}}
             built = passages.passage_rows(chunk, row.get("title"))
             if not built:          # nothing to split (cannot happen past the trim filter)
                 skipped.add(row["id"])
                 continue
-            passage_store.write_chunk_passages(session, row["id"], built)
+            passage_store.write_chunk_passages(session, row["id"], built, recorded_at=recorded_at,
+                                               retired_by="resplit")
             result["chunks_split"] += 1
         if len(rows) < batch_size:
             break

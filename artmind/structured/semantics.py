@@ -43,6 +43,7 @@ mappings behind forever.
 
 import json
 
+from artmind.schema_validate import class_types
 from artmind.structured import registry
 
 #: Below this, a bridge-column or mapping proposal is not persisted. Shared by
@@ -349,7 +350,7 @@ def propose_mapping(
         )
     entity_types = schema.get("entity_types") or {}
     classes = [
-        {"class": cls, "description": decl.get("description", ""), "types": decl.get("type_examples", [])}
+        {"class": cls, "description": decl.get("description", ""), "types": class_types(decl)}
         for cls, decl in entity_types.items()
     ]
     if not classes:

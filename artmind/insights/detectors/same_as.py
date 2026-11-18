@@ -153,8 +153,24 @@ def _resolve_ambiguity(scored: list[tuple], by_id: dict) -> list[tuple]:
 
 
 def _plan(ctx: RunContext):
-    classes = [c for c in ctx.classes_of_kind("recurrent") if len(ctx.members(c, floor=1)) >= 2]
-    return classes or Skip("no recurrent class with two dated entities")
+    """Classes whose identity is `name` or `occasion` (spec 2026-11-15 §5.3); never `category`."""
+    classes = [c for c in sorted(ctx.profile.classes) if ctx.identity(c) in ("name", "occasion")
+               and len(ctx.members(c, floor=1)) >= 2]
+    return classes or Skip("no name or occasion class with two dated entities")
+
+
+def _same_date_pairs(rows, aliases, max_dist, kinship_ok) -> list[tuple[str, str, str, float]]:
+    """`candidate_pairs` within each occasion date token (`split_occasion` of the key: a day,
+    month, quarter, half or year): occasions are keyed by it, and `sameas.identity_refusal`
+    refuses unequal tokens, so only variants on one date may be one happening (spec
+    2026-11-15 §5.3; a month occasion never pairs with a day in that month)."""
+    from artmind.observations import split_occasion
+
+    by_token: dict[str | None, list] = defaultdict(list)
+    for e in rows:
+        by_token[split_occasion(e.key.split("|")[0])[1]].append(e)
+    return sorted(p for group in by_token.values() if len(group) >= 2
+                  for p in candidate_pairs(group, aliases, max_dist, kinship_ok))
 
 
 def _run(ctx: RunContext, cls: str) -> list[Finding]:
@@ -165,7 +181,8 @@ def _run(ctx: RunContext, cls: str) -> list[Finding]:
     by_id = {e._id: e for e in rows}
     props = [p for p in sorted(ctx.profile.classes[cls].properties) if p.startswith("relationship_to")]
     kinship_ok = cls == "PERSON" or bool(props)
-    pairs = candidate_pairs(rows, load_alias_groups(ctx.config), max_dist, kinship_ok)
+    occasion = ctx.identity(cls) == "occasion"
+    pairs = (_same_date_pairs if occasion else candidate_pairs)(rows, load_alias_groups(ctx.config), max_dist, kinship_ok)
     if not pairs:
         return []
     try:
@@ -176,7 +193,8 @@ def _run(ctx: RunContext, cls: str) -> list[Finding]:
     for a, b, rule, strength in pairs:
         ea, eb = by_id[a], by_id[b]
         nb = graphs.jaccard(set(g[a]) - {b}, set(g[b]) - {a}) if g is not None and a in g and b in g else 0.0
-        co = len(set(ea.days) & set(eb.days))
+        # Same-day variants of one occasion always share their day: not a sign of two things.
+        co = 0 if occasion else len(set(ea.days) & set(eb.days))
         overlap = _span_overlap(ea.days, eb.days)
         agree = disagree = 0
         pairs_to_compare = [(ea.type, eb.type)] + [

@@ -215,6 +215,10 @@ def scaffold_run_folder() -> dict:
     for directory in directories:
         directory.mkdir(parents=True, exist_ok=True)
 
+    from artmind import data_model
+
+    data_model.stamp_if_fresh(data_model.MODEL_FILE, data_model.DB_PATH)
+
     machine_config = ensure_machine_config()
 
     # Package assets: always refreshed — the package is their source of truth.
@@ -521,6 +525,15 @@ def scaffold_vault(
         directory.mkdir(parents=True, exist_ok=True)
 
     seeded_schemas, _, _ = _seed_vault_domains(layout.schemas_dir, layout.meta_yaml)
+
+    # A vault with no registry DB is fresh: its data starts at the current model.
+    from artmind import data_model
+
+    data_model.stamp_if_fresh(
+        layout.artmind_dir / "data_model.yaml", layout.data_dir / "document_registry.db",
+        kg_dir=layout.kg_dir, same_as=layout.artmind_dir / "same_as.yaml",
+        curation_dir=layout.data_dir / "curation",
+    )
 
     if not layout.config_env.exists():
         layout.config_env.write_text(
@@ -884,15 +897,17 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     )
 
     # ── Temporal range indexes (canonical valid-time) ─────────────────────────
-    # event_at (+ its index) is gone — for an occurrent entity valid_from IS
+    # event_at (+ its index) is gone — for an occurrent entity `_valid_from` IS
     # the event date, so a second axis was redundant; `timeline` (Phase 4) is
-    # re-specified as a preset over entity_listing ordered by valid_from.
-    session.run("CREATE INDEX entity_valid_from IF NOT EXISTS FOR (n:Entity) ON (n.valid_from)")
-    session.run("CREATE INDEX entity_valid_to IF NOT EXISTS FOR (n:Entity) ON (n.valid_to)")
-    session.run("CREATE INDEX chunk_valid_from IF NOT EXISTS FOR (n:DocChunk) ON (n.valid_from)")
-    session.run("CREATE INDEX chunk_valid_to IF NOT EXISTS FOR (n:DocChunk) ON (n.valid_to)")
-    session.run("CREATE INDEX document_valid_from IF NOT EXISTS FOR (n:Document) ON (n.valid_from)")
-    session.run("CREATE INDEX document_valid_to IF NOT EXISTS FOR (n:Document) ON (n.valid_to)")
+    # re-specified as a preset over entity_listing ordered by `_valid_from`.
+    # Valid time is stored only under the prefixed names (spec 2026-11-15 §7.1).
+    # The old indexes on unprefixed `valid_from`/`valid_to` are dropped by the
+    # migration pack, not here.
+    # New names: the old indexes hold `<stem>_valid_from` / `<stem>_valid_to`, and IF NOT EXISTS
+    # would skip a new index under an existing name.
+    for label, stem in (("Entity", "entity"), ("DocChunk", "chunk"), ("Document", "document")):
+        for prop in ("_valid_from", "_valid_to"):
+            session.run(f"CREATE INDEX {stem}_prefixed{prop} IF NOT EXISTS FOR (n:{label}) ON (n.{prop})")
     session.run("CREATE INDEX conflict_status IF NOT EXISTS FOR (n:Conflict) ON (n.status)")
 
     # ── 2-field composite for name+domain entity lookups (ingest/update writes) ─
@@ -1188,12 +1203,12 @@ def setup_all() -> dict:
             "observation_history_key",
             "observation_history_doc_id",
             "observation_history_domain",
-            "entity_valid_from",
-            "entity_valid_to",
-            "chunk_valid_from",
-            "chunk_valid_to",
-            "document_valid_from",
-            "document_valid_to",
+            "entity_prefixed_valid_from",
+            "entity_prefixed_valid_to",
+            "chunk_prefixed_valid_from",
+            "chunk_prefixed_valid_to",
+            "document_prefixed_valid_from",
+            "document_prefixed_valid_to",
             "conflict_status",
             "cat_table_domain",
             "relates_to_type",

@@ -147,8 +147,21 @@ def normalize_identity(value: str | None) -> str:
     return " ".join(text.split())
 
 
+#: Joins an occasion's name and date token inside the key's name part: `tennis~2024-03-30`.
+#: Never a fourth `|` part -- every key parser expects three (spec 2026-11-15 question 1).
+OCCASION_SEP = "~"
+#: An occasion's date token, at the date's own precision (spec amendment Q3, decided
+#: 2026-11-18): day `2024-03-30`, month `2024-03`, quarter `2024-Q1`, half `2024-H1`, year
+#: `2024` -- the spellings `temporal.parse_valid` reads. Plain regex syntax, so the graph's
+#: `=~` (Java) reads it as Python does (`graph_query.entity_history --name`).
+OCCASION_TOKEN_PATTERN = r"\d{4}(?:-\d{2}(?:-\d{2})?|-Q[1-4]|-H[12])?"
+_OCCASION_TOKEN_RE = re.compile(OCCASION_TOKEN_PATTERN)
+_ISO_DAY_RE = re.compile(r"\d{4}-\d{2}-\d{2}")
+
+
 def aggregate_key(
-    canonical_name: str | None, entity_class: str, domain: str, *, identity: str | None = None
+    canonical_name: str | None, entity_class: str, domain: str, *,
+    identity: str | None = None, occurs_on: str | None = None,
 ) -> tuple[str, str, str]:
     """The aggregate key: normalized canonical name, class, domain.
 
@@ -159,11 +172,122 @@ def aggregate_key(
     `identity`, when given, replaces the name part and is normalized with
     `normalize_identity` rather than `normalize_name` -- for sources whose
     identity is declared (`ingest table2graph`) or already stored (an existing
-    Entity's `key`), not inferred from free text.
+    Entity's `key`), not inferred from free text. It is used as is: `occurs_on`
+    is ignored (a stored key already carries its date).
+
+    `occurs_on`, an occasion's date token (`occasion_token`: `2024-03-30`, `2024-03`,
+    `2024-Q1`, `2024-H1` or `2024`), is appended to the name part for an
+    `identity: occasion` class (spec 2026-11-15 §5.2): the same happening on two dates is
+    two entities, and "March 2024" is not 1 March.
     """
     if identity:
         return (normalize_identity(identity), entity_class or "", domain or "")
-    return (normalize_name(canonical_name), entity_class or "", domain or "")
+    name = normalize_name(canonical_name)
+    if occurs_on and name:
+        name = f"{name}{OCCASION_SEP}{occurs_on}"
+    return (name, entity_class or "", domain or "")
+
+
+def split_occasion(name_part: str | None) -> tuple[str, str | None]:
+    """`("tennis", "2024-03-30")` for `tennis~2024-03-30`, `("tennis", "2024-Q1")` for
+    `tennis~2024-Q1` -- every `occasion_token` shape; `(name_part, None)` otherwise.
+
+    A name-identity name that itself ends in a literal `~` and token would be misread as
+    an occasion; callers apply this only to occasion classes."""
+    head, sep, token = (name_part or "").rpartition(OCCASION_SEP)
+    if sep and _OCCASION_TOKEN_RE.fullmatch(token):
+        return head, token
+    return name_part or "", None
+
+
+#: The token shape of each coarse precision; a day (or an unknown precision) keeps the whole day.
+_COARSE_TOKEN = {
+    "month": lambda y, m, d: f"{y}-{m:02d}",
+    "quarter": lambda y, m, d: f"{y}-Q{(m - 1) // 3 + 1}",
+    "half": lambda y, m, d: f"{y}-H{1 if m <= 6 else 2}",
+    "year": lambda y, m, d: y,
+}
+
+
+def occasion_token(valid_from: str | None, precision: str | None) -> str | None:
+    """The date an occasion keys on, at its own precision (spec amendment Q3, decided
+    2026-11-18): `2024-03-30` (day), `2024-03` (month), `2024-Q1` (quarter), `2024-H1`
+    (half), `2024` (year), read from the first day of `_valid_from`. None for only a
+    default date (precision `none`, plan question 2) or no dated day at all. A missing or
+    unknown precision is a day. Tokens begin with the year, so they sort by year as strings;
+    two tokens denote one occasion only when equal (a month is not a day in it)."""
+    if not valid_from or precision == "none":
+        return None
+    day = str(valid_from)[:10]
+    if not _ISO_DAY_RE.fullmatch(day):
+        return None
+    shape = _COARSE_TOKEN.get(precision or "day")
+    return shape(day[:4], int(day[5:7]), day[8:10]) if shape else day
+
+
+# ── occasion names carry no date (spec 2026-11-15 §5.2, plan question 5) ─────
+
+_MONTH = (r"(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?"
+          r"|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\.?")
+_ORDINAL_DAY = r"\d{1,2}(?:st|nd|rd|th)?"
+_WEEKDAY = r"(?:mon|tues|wednes|thurs|fri|satur|sun)day"
+_RELATIVE_DAY = r"(?:today|tonight|yesterday|tomorrow|last night|this (?:morning|afternoon|evening))"
+# A whole date, optionally after a weekday: ISO, dd/mm/yyyy, "30 March 2024", "March 30, 2024".
+_FULL_DATE = (rf"(?:{_WEEKDAY},?\s+)?(?:\d{{4}}-\d{{2}}-\d{{2}}|\d{{1,2}}/\d{{1,2}}/\d{{4}}"
+              rf"|{_ORDINAL_DAY}\s+(?:of\s+)?{_MONTH},?\s+\d{{4}}|{_MONTH}\s+{_ORDINAL_DAY},?\s+\d{{4}})")
+# What a separator, "on" or brackets may introduce besides a whole date: a day without a
+# year, "the 30th", a weekday, "today". A bare space introduces only a whole date or "today",
+# so "Easter Sunday" and "Black Friday sale" keep their weekday.
+_DAY_TOKEN = (rf"(?:{_FULL_DATE}|(?:{_WEEKDAY},?\s+)?(?:{_ORDINAL_DAY}\s+(?:of\s+)?{_MONTH}|{_MONTH}\s+{_ORDINAL_DAY}"
+              rf"|the\s+\d{{1,2}}(?:st|nd|rd|th)(?:\s+of\s+{_MONTH})?)|{_WEEKDAY}|{_RELATIVE_DAY})")
+# A bare ordinal is a day only after "on" ("on the 30th", "on 30th"): "Grand Prix - 1st" and
+# "Match, 2nd" are places in a series.
+_ON_TOKEN = rf"(?:{_DAY_TOKEN}|\d{{1,2}}(?:st|nd|rd|th))"
+# A day number before the separator makes "28-30 March 2024" / "28 - 30 March 2024" a range, not
+# a tail: no digit directly before the separator, and after "<1-2 digit number> <separator> " no
+# bare day number that starts the next token. Longer numbers ("Room 101 - 2024-03-30") and other
+# tokens ("Match 3 - 2024-03-30", "Gig 5 - Saturday 30 March 2024") still strip.
+# "Tennis-2024-03-30" is a tail.
+_RANGE_NEXT = r"\d{1,2}(?:st|nd|rd|th)?\s"
+_AFTER_DAY_NUMBER = r"(?<![^\d]\d\s)(?<![^\d]\d\d\s)"
+_AFTER_DAY_RANGE_OPEN = r"(?<![^\d]\d\s[-–—:,]\s)(?<![^\d]\d\d\s[-–—:,]\s)"
+_OCCASION_TAIL_RE = re.compile(
+    rf"(?:(?<!\d)(?:{_AFTER_DAY_NUMBER}|(?!\s*[-–—:,]\s*{_RANGE_NEXT}))\s*[-–—:,]\s*(?:on\s+{_ON_TOKEN}|{_DAY_TOKEN})"
+    rf"|\s+on\s+{_ON_TOKEN}"
+    rf"|\s*\(\s*(?:on\s+{_ON_TOKEN}|{_DAY_TOKEN})\s*\)"
+    rf"|\s+(?<![\w-])(?:(?:{_AFTER_DAY_RANGE_OPEN}|(?!{_RANGE_NEXT})){_FULL_DATE}|{_RELATIVE_DAY}))\W*$",
+    re.IGNORECASE,
+)
+_OCCASION_HEAD_RE = re.compile(rf"^\W*{_FULL_DATE}(?![\w-])\s*[-–—:,]?\s*", re.IGNORECASE)
+_WORD_RE = re.compile(r"\w")
+#: Longer names are kept as they are: no happening's name is this long, and the patterns'
+#: cost grows with length.
+OCCASION_NAME_MAX = 200
+
+
+def strip_occasion_date(name: str | None) -> str:
+    """An occasion's name without the date it happened on (spec 2026-11-15 §5.2). Pure.
+
+    The date is part of an occasion's key (`aggregate_key(occurs_on=)`), so a date, weekday,
+    ordinal ("on the 30th") or "today" in its name only splits one happening into several
+    names. Strips a trailing one -- after a dash, colon, comma, "on", in brackets, or, for a
+    whole date or "today", after a bare space -- and a leading whole date. Numbers that are
+    not dates stay ("Flight AI 302", "Room 101", "Q3 review"), as does a weekday that is
+    part of a name ("Easter Sunday"), and a bare ordinal ("Grand Prix - 1st"). Whitespace
+    runs become one space. Idempotent; a name that is only a date, or longer than
+    `OCCASION_NAME_MAX`, is returned unchanged, never emptied.
+    """
+    original = (name or "").strip()
+    if len(original) > OCCASION_NAME_MAX:
+        return original
+    text = " ".join(original.split())
+    for _ in range(8):
+        before = text
+        text = _OCCASION_TAIL_RE.sub("", text).strip()
+        text = _OCCASION_HEAD_RE.sub("", text).strip()
+        if text == before:
+            break
+    return text if _WORD_RE.search(text) else original
 
 
 def key_string(key: tuple[str, str, str]) -> str:
@@ -182,16 +306,24 @@ def entity_id(key: tuple[str, str, str]) -> str:
 
 
 def observation_id(
-    chunk_id: str, canonical_name: str | None, entity_class: str, domain: str, *, identity: str | None = None
+    chunk_id: str, canonical_name: str | None, entity_class: str, domain: str, *,
+    identity: str | None = None, occurs_on: str | None = None,
 ) -> str:
     """`sha256(chunk_id | canonical_name | entity_class | domain)`.
 
     Scoped to the chunk, so one document version asserting the same thing in
     three chunks yields three observations -- each testifying to its own
     passage -- while re-writing the same chunk cannot duplicate. `identity`
-    replaces the name part exactly as in `aggregate_key`.
+    replaces the name part exactly as in `aggregate_key`; `occurs_on` (the date token) joins
+    it as in `aggregate_key`, so one chunk's "Tennis" on two dates is two
+    observations, not one (spec 2026-11-15 §5.2).
     """
-    name_part = normalize_identity(identity) if identity else normalize_name(canonical_name)
+    if identity:
+        name_part = normalize_identity(identity)
+    else:
+        name_part = normalize_name(canonical_name)
+        if occurs_on and name_part:
+            name_part = f"{name_part}{OCCASION_SEP}{occurs_on}"
     payload = "|".join([chunk_id or "", name_part, entity_class or "", domain or ""])
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
@@ -417,6 +549,10 @@ def build_observation(
     valid_time_source: str | None = None,
     retracts: str | None = None,
     identity: str | None = None,
+    valid_precision: str | None = None,
+    valid_time_of_day: str | None = None,
+    identity_kind: str | None = None,
+    doc_valid_to: str | None = None,
 ) -> dict:
     """Build one Observation's property map. Pure -- no session, no I/O.
 
@@ -440,6 +576,14 @@ def build_observation(
       the winner. It is denormalized onto the observation so the rebuild needs
       no Document join and no schema access inside its transaction.
 
+    `_valid_precision` (`temporal.PRECISIONS`; `none` for a default document date) and
+    `_valid_time_of_day` (the time or qualifier text, never compared) travel with the
+    fact-level window (spec 2026-11-15 §2).
+
+    `identity_kind` -- the class's `schema_validate.class_identity`. For `occasion`, the
+    key's name part carries the fact's date token (`occasion_token` of the effective
+    `_valid_from` and precision; spec 2026-11-15 §5.2). Ignored when `identity` is given.
+
     `_kind` is likewise denormalized from the class's schema declaration at
     ingest time, for the same reason.
 
@@ -452,10 +596,13 @@ def build_observation(
     """
     entity_class = entity.get("entity_class") or ""
     obs_domain = entity.get("_domain") or ""
-    key = aggregate_key(canonical_name, entity_class, obs_domain, identity=identity)
+    effective_from = valid_from or doc_valid_from
+    occurs_on = occasion_token(effective_from, valid_precision) if identity_kind == "occasion" else None
+    key = aggregate_key(canonical_name, entity_class, obs_domain, identity=identity, occurs_on=occurs_on)
 
     props: dict = {
-        "id": observation_id(chunk_id, canonical_name, entity_class, obs_domain, identity=identity),
+        "id": observation_id(chunk_id, canonical_name, entity_class, obs_domain, identity=identity,
+                             occurs_on=occurs_on),
         # Verbatim what the chunk said. Never overwritten by canonicalisation.
         "name": entity.get("name") or "",
         "canonical_name": canonical_name,
@@ -492,8 +639,16 @@ def build_observation(
         props["_valid_to"] = valid_to
     if valid_time_source:
         props["_valid_time_source"] = valid_time_source
+    if valid_precision:
+        props["_valid_precision"] = valid_precision
+    if valid_time_of_day:
+        props["_valid_time_of_day"] = valid_time_of_day
     if doc_valid_from:
         props["_doc_valid_from"] = doc_valid_from
+    if doc_valid_to:
+        # Only on a fact dated by its document (the caller passes it then): the document's
+        # stated end, which a supersession cuts to the earlier end and `unsupersede` restores.
+        props["_doc_valid_to"] = doc_valid_to
     if retracts:
         props["_retracts"] = retracts
 

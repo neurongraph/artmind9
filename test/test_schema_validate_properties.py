@@ -226,14 +226,6 @@ def test_an_alias_onto_an_own_field_warns():
     assert "'notes' -> 'context'" in w and "own field" in w
 
 
-def test_exclusive_flag_warns_that_it_has_no_effect():
-    schema = {"entity_types": {"EVENT": {"properties": {
-        "date_or_time": {"temporal": "valid_from", "exclusive": True}, "outcome": {}}}}}
-    (w,) = sv.exclusive_property_warnings(schema, "d")
-    assert "EVENT.properties.date_or_time.exclusive" in w and "no effect" in w
-    assert sv.exclusive_property_warnings({"entity_types": ["EVENT"]}, "d") == []
-
-
 def test_the_teaching_journal_schema_carries_no_exclusive_flag():
     from pathlib import Path
 
@@ -241,4 +233,5 @@ def test_the_teaching_journal_schema_carries_no_exclusive_flag():
 
     asset = (Path(__file__).resolve().parent.parent / "artmind" / "skills" / "artmind-create-schema"
              / "assets" / "personal_journal_schema.yaml")
-    assert sv.exclusive_property_warnings(yaml.safe_load(asset.read_text(encoding="utf-8")), "j") == []
+    assert "exclusive:" not in asset.read_text(encoding="utf-8")
+    assert sv.temporal_warnings(yaml.safe_load(asset.read_text(encoding="utf-8")), "j") == []

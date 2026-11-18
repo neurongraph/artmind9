@@ -364,9 +364,9 @@ def _expand(domains: list[str]) -> list[str]:
 
 
 def _passage_vector_cypher(as_of) -> str:
-    from artmind.graph_query import asof_predicate
+    from artmind.graph_query import valid_predicate
 
-    asof = f"\n    WHERE {asof_predicate('p')}" if as_of else ""
+    asof = f"\n    WHERE {valid_predicate('p')}" if as_of else ""
     return f"""
     CYPHER 25
     MATCH (p:DocPassage)
@@ -383,9 +383,9 @@ def _passage_vector_cypher(as_of) -> str:
 
 
 def _passage_text_cypher(as_of) -> str:
-    from artmind.graph_query import asof_predicate
+    from artmind.graph_query import valid_predicate
 
-    asof = f" AND {asof_predicate('p')}" if as_of else ""
+    asof = f" AND {valid_predicate('p')}" if as_of else ""
     return f"""
     CALL db.index.fulltext.queryNodes('passage_text_ft', $ft_query)
     YIELD node AS p, score
@@ -430,7 +430,7 @@ def _chunk_fetch_cypher() -> str:
     OPTIONAL MATCH (c)-[:PART_OF]->(document:Document)
     RETURN c {{ .id, .name, .doc_id, .header_path, .text }} AS chunk,
            document {{ .id, .name, .path, .source_path, ._domain, {supersedes_field("document")},
-                      title: coalesce(document.title, document.name), date: coalesce(document._valid_from, document.valid_from),
+                      title: coalesce(document.title, document.name), date: document._valid_from,
                       superseded: EXISTS {{ MATCH (:Document)-[:SUPERSEDES]->(document) }} }} AS document
     """
 

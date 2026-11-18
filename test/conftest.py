@@ -252,6 +252,25 @@ def _no_live_insights_llm(monkeypatch):
 
 
 @pytest.fixture(autouse=True)
+def _data_model_current(request, tmp_path_factory, monkeypatch):
+    """The data-model gate (spec 2026-11-15 §8.1) sees a vault that is current.
+
+    ``artmind.data_model.MODEL_FILE`` would otherwise be the developer's real run
+    folder. ``test_data_model.py`` opts out and builds its own states.
+    """
+    if request.module.__name__.endswith("test_data_model"):
+        return
+    import artmind.data_model as dm
+
+    model_file = tmp_path_factory.mktemp("data_model") / "data_model.yaml"
+    model_file.write_text(f"version: {dm.CURRENT}\n")
+    monkeypatch.setattr(dm, "MODEL_FILE", model_file)
+    monkeypatch.setattr(dm, "_warned", False)
+    # The graph marker: hermetic tests have no Neo4j, and a graph is "current" here.
+    monkeypatch.setattr(dm, "read_graph_version", lambda stamp_fresh=False: dm.CURRENT)
+
+
+@pytest.fixture(autouse=True)
 def _no_live_registry_db(tmp_path, monkeypatch):
     """Same hazard as ``_no_live_neo4j`` below, for the SQLite registry.
 

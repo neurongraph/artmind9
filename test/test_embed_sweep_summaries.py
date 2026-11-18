@@ -55,3 +55,32 @@ def test_a_chunk_scope_reaches_chunk_and_document_summaries():
     # a pattern comprehension needs a relationship pattern; a lone node is a SyntaxError in Neo4j
     assert "[(c:DocChunk)" not in cypher
     assert params["chunk_ids"] == ["c1"]
+
+
+def test_the_passage_sweep_reads_and_copies_the_chunks_prefixed_dates(monkeypatch):
+    """Spec 2026-11-15 §5.1: a re-split chunk's passages keep its dates."""
+    from artmind import passage_store
+
+    served = {"done": False}
+    chunk = {"id": "c1", "doc_id": "d1", "_domain": "pj", "chunk_text": "Wind over the lake.",
+             "header_path": None, "title": "T", "_valid_from": "2026-01-14", "_valid_to": None,
+             "_valid_precision": "day", "_doc_valid_from": "2026-01-01", "_doc_valid_to": None}
+
+    def respond(cypher, params):
+        if "RETURN c.id AS id" in cypher and not served["done"]:
+            served["done"] = True
+            return [chunk]
+        return []
+
+    s = Recorder(respond=respond)
+    written = []
+    monkeypatch.setattr(passage_store, "write_chunk_passages",
+                        lambda tx, chunk_id, rows, **kw: written.extend(rows) or len(rows))
+    embed_sweep.reconcile_passages(s, embed=lambda t: [1.0], embed_key="K", cache=None)
+    query = s.queries_containing("RETURN c.id AS id")[0][0]
+    assert "c._valid_from AS _valid_from" in query and "c._doc_valid_from AS _doc_valid_from" in query
+    assert "c.valid_from" not in query and "c.valid_to" not in query
+    props = written[0]["props"]
+    assert (props["_valid_from"], props["_valid_precision"], props["_doc_valid_from"]) == (
+        "2026-01-14", "day", "2026-01-01")
+    assert "_doc_valid_to" not in props

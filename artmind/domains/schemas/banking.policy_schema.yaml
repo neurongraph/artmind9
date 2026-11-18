@@ -22,6 +22,7 @@ temporal:
 entity_types:
   POLICY:
     kind: recurrent
+    identity: name
     description: A named formal policy document — the policy itself as a governing instrument, with its
       scope, owner, regulatory basis, and version. Each distinct policy document is one POLICY entity.
       Also extract policy-level principles or statements that define the bank's stance on a domain.
@@ -122,6 +123,7 @@ entity_types:
       Direction is correct (POLICY mandated_by REGULATION, not reverse).
   POLICY_PROVISION:
     kind: recurrent
+    identity: name
     description: A specific rule, requirement, obligation, prohibition, or standard stated within a policy.
       Extract provisions that represent discrete, actionable mandates — things that staff must do, must
       not do, or must ensure. Each distinct provision is a separate entity. Do not collapse a set of requirements
@@ -218,6 +220,7 @@ entity_types:
       Naming: name it by what it requires, not just "Section 3.1". RIGHT:   { "name": "Mandatory AML Screening at Account Opening" } WRONG:   { "name": "Section 3.1 — Core Requirements" }
   REGULATORY_REFERENCE:
     kind: recurrent
+    identity: name
     description: A law, regulation, regulatory directive, external standard, sanctions list, or guidance
       document that the policy must comply with or is derived from. Include both the formal document name
       and the issuing authority when both are stated. Each distinct regulation is a separate entity.
@@ -265,6 +268,7 @@ entity_types:
       REGULATORY_REFERENCE entities include issuing_authority, jurisdiction, key_obligation.
   RISK_CATEGORY:
     kind: recurrent
+    identity: name
     description: A named type of risk, threat, or financial crime scenario that the policy is designed
       to address or mitigate. Capture how the policy defines or characterises each risk type.
     type_examples:
@@ -305,6 +309,7 @@ entity_types:
     guidance: Each type of risk or financial crime the policy addresses captured as RISK_CATEGORY.
   CONTROL_MEASURE:
     kind: recurrent
+    identity: name
     description: 'A specific operational safeguard, monitoring mechanism, or protective tool required
       by the policy — the "how" through which compliance obligations are implemented. Note: KYC_VERIFICATION
       and AML_SCREENING are first-class entities covering those processes; use CONTROL_MEASURE for the
@@ -356,6 +361,7 @@ entity_types:
       CONTROL_MEASURE entities include control_type, frequency, performed_by.
   ROLE_RESPONSIBILITY:
     kind: recurrent
+    identity: name
     description: 'An abstract role, committee, or staff collective with explicitly defined accountability,
       obligations, or authority under this policy. Extract the role title and the specific responsibilities
       assigned to it. Note: named individual employees (e.g., "Head of Financial Crime") are extracted
@@ -399,6 +405,7 @@ entity_types:
       All ROLE_RESPONSIBILITY accountability chains captured.
   PRODUCT:
     kind: recurrent
+    identity: name
     description: A banking product referenced as being subject to policy requirements — AML obligations,
       KYC requirements, or fraud controls that apply to specific products.
     type_examples:
@@ -417,6 +424,7 @@ entity_types:
         hint: product's risk level under the policy
   IDENTIFICATION_DOCUMENT:
     kind: recurrent
+    identity: name
     description: An official identity document required by policy for KYC purposes — the types accepted,
       validity requirements, and verification obligations. Extract when the policy specifies acceptable
       document types or document-handling obligations.
@@ -444,6 +452,7 @@ entity_types:
       - belongs_to
   ACCOUNT:
     kind: recurrent
+    identity: name
     description: A customer account opened, held, modified, or closed under a banking product — savings,
       current, or joint. Extract when the document defines rules, state, or events that apply to the account
       itself.
@@ -501,6 +510,7 @@ entity_types:
       - deducts_from
   ACCOUNT_HOLDER:
     kind: recurrent
+    identity: name
     description: A person with legal rights and obligations over an account — primary, joint, or secondary
       holder — including their liability, authority, and due-diligence obligations.
     type_examples:
@@ -522,6 +532,7 @@ entity_types:
       - liable_under
   AML_SCREENING:
     kind: recurrent
+    identity: name
     description: Anti-Money Laundering screening — sanctions/PEP list checks, transaction monitoring,
       or ongoing screening — as mandated, executed, or reviewed by the document.
     type_examples:
@@ -545,6 +556,7 @@ entity_types:
       - leads_to_filing_of
   CARD:
     kind: recurrent
+    identity: name
     description: A payment card issued to, or referenced in connection with, a customer account — its
       issuance, use, blocking, or replacement.
     type_examples:
@@ -563,6 +575,7 @@ entity_types:
       daily_or_contactless_limit: {}
   CUSTOMER:
     kind: recurrent
+    identity: name
     description: A natural person who holds, applies for, or is otherwise the subject of a banking relationship
       — an account, product, transaction, or compliance process. Extract as a first-class entity whenever
       the customer is a defined party in the document, not merely mentioned in passing.
@@ -615,6 +628,7 @@ entity_types:
       - belongs_to
   DIRECT_DEBIT:
     kind: recurrent
+    identity: name
     description: A direct debit mandate on a customer account — its setup, the Direct Debit Guarantee,
       amendment, cancellation, or dispute.
     type_examples:
@@ -629,6 +643,7 @@ entity_types:
       cancellation_or_dispute_process: {}
   FRAUD_ALERT:
     kind: recurrent
+    identity: name
     description: A fraud detection alert or fraud response — its generation, investigation, escalation,
       or the customer-facing action it triggers.
     type_examples:
@@ -651,6 +666,7 @@ entity_types:
       - raised_on
   JOINT_ACCOUNT:
     kind: recurrent
+    identity: name
     description: An account arrangement held jointly by two or more customers with shared rights, liabilities,
       and consent requirements.
     type_examples:
@@ -665,6 +681,7 @@ entity_types:
       closure_consent: {}
   KYC_VERIFICATION:
     kind: recurrent
+    identity: name
     description: The Know Your Customer identity/address verification process — as a compliance obligation,
       an operational procedure, or an audited control. Extract when the document defines, executes, or
       evaluates KYC requirements.
@@ -690,6 +707,7 @@ entity_types:
       - applied_to
   SAR:
     kind: occurrent
+    identity: occasion
     description: A Suspicious Activity Report — the obligation, preparation, filing, or tracking of a
       SAR to the relevant authority (e.g. the NCA).
     type_examples:
@@ -703,6 +721,9 @@ entity_types:
       filing_deadline: {}
       confidentiality_rule: {}
       consequence_of_non_filing: {}
+      filed_on:
+        hint: date the SAR was filed
+        temporal: valid_from
     relates_to:
       ROLE_RESPONSIBILITY:
       - filed_by
@@ -712,6 +733,7 @@ entity_types:
       - based_on_evidence_from
   STANDING_ORDER:
     kind: recurrent
+    identity: name
     description: A standing order payment instruction on a customer account — its setup, amendment, cancellation,
       or failure handling.
     type_examples:
@@ -726,6 +748,7 @@ entity_types:
       failure_handling: {}
   TRANSACTION:
     kind: occurrent
+    identity: occasion
     description: A financial event on a customer account — a deposit, withdrawal, transfer, payment, or
       fee charge — referenced because it is monitored, disputed, reported, or otherwise governed by the
       document.
@@ -745,6 +768,9 @@ entity_types:
       threshold_value:
         hint: numeric, no currency symbol or thousands separators, e.g., 10000
       dispute_or_reversal_rules: {}
+      transaction_date:
+        hint: date of the transaction, YYYY-MM-DD
+        temporal: valid_from
 guidance:
   relationships: |-
     All POLICY → REGULATORY_REFERENCE mandated_by links captured.

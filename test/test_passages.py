@@ -73,12 +73,24 @@ def test_embedding_text_is_the_text_alone():
 def test_passage_rows_carry_chunk_fields(monkeypatch):
     monkeypatch.setattr(P, "passage_chars", lambda: 1200)
     chunk = {"id": "d1_001", "doc_id": "d1", "_domain": "papers", "text": "Some text.",
-             "header_path": "Intro", "valid_from": "2026-01-01"}
+             "header_path": "Intro", "_valid_from": "2026-01-01"}
     rows = P.passage_rows(chunk, "My Paper")
     assert rows == [{
         "id": "d1_001_p01", "chunk_id": "d1_001",
         "props": {"id": "d1_001_p01", "chunk_id": "d1_001", "doc_id": "d1", "_domain": "papers",
                   "seq": 1, "char_start": 0, "char_end": 10, "text": "Some text.",
                   "context": "My Paper > Intro", "_split_key": f"{P.SPLIT_VERSION}:1200",
-                  "valid_from": "2026-01-01"},
+                  "_valid_from": "2026-01-01"},
     }]
+
+
+def test_passages_copy_the_chunks_prefixed_dates():
+    from artmind.passages import passage_rows
+
+    chunk = {"id": "c1", "doc_id": "d1", "_domain": "pj", "text": "A short passage of text.",
+             "_valid_from": "2026-01-14", "_valid_precision": "day",
+             "_doc_valid_from": "2026-01-01", "_doc_valid_to": None}
+    props = passage_rows(chunk, "T")[0]["props"]
+    assert (props["_valid_from"], props["_doc_valid_from"], props["_valid_precision"]) == (
+        "2026-01-14", "2026-01-01", "day")
+    assert "valid_from" not in props and "_doc_valid_to" not in props

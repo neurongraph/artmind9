@@ -305,6 +305,14 @@ ingest-write-to-graph document domain:
 ingest-retime domain *args:
     uv run artmind ingest retime --domain {{ domain }} {{ args }}
 
+# how each class of a domain is dated: share by property, precision, ranges, unparsed (read-only)  (usage: just ingest-date-audit <domain>)
+ingest-date-audit domain:
+    uv run artmind ingest date-audit --domain {{ domain }}
+
+# every dated happening matching a term, by year  (usage: just query-happenings <domain> "<term>" [--with <id>])
+query-happenings domain term *args:
+    uv run artmind query happenings --domain {{ domain }} --match "{{ term }}" --by year {{ args }}
+
 # fill a class's newly declared properties from staged chunks (LLM; --dryRun first)  (usage: just ingest-backfill-properties <domain> <CLASS> <prop[,prop]> [--dryRun|--match GLOB])
 ingest-backfill-properties domain cls props *args:
     uv run artmind ingest backfill-properties --domain {{ domain }} --entityClass {{ cls }} --property {{ props }} {{ args }}

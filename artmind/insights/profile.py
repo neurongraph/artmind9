@@ -30,6 +30,7 @@ class EntityRow:
     type: str | None
     days: tuple[str, ...]  # sorted distinct ISO dates
     docs: int
+    key: str = ""  # the stored `name|class|domain` key (an occasion's carries its date token)
 
 
 @dataclass
@@ -137,6 +138,7 @@ def build_profile(projector, schema: dict, config: InsightsConfig) -> tuple[Prof
                 _id=r["_id"], name=r.get("name") or r["_id"], cls=r.get("cls") or "UNKNOWN",
                 type=r.get("type") if isinstance(r.get("type"), str) else None,
                 days=iso_days(r.get("days")), docs=int(r.get("docs") or 0),
+                key=r.get("key") if isinstance(r.get("key"), str) else "",
             )
             for r in projector.rows("entity_evidence")
         ),

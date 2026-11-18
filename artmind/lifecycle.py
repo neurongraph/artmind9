@@ -4,7 +4,8 @@ time** axis.
 Retiring is an assertion-time act with no date semantics: it moves a document
 and everything it asserted from `latest` to `history`. A retired document's
 facts keep the valid-time window they always had. Confusing the two axes is
-the most common modelling error in this system, so nothing here writes a date.
+the most common modelling error in this system, so nothing here writes a valid-time
+date (only record time: `_retired_at`, `_retired_by`, `_revived_at`).
 
 This is the primitive that finally makes entity retirement work. The old code
 had *three* mechanisms trying to decide which entities a superseded document
@@ -28,7 +29,15 @@ from loguru import logger
 from artmind.graph_query import neo4j_session
 
 
-def _transition(tx, doc_id: str, *, to_history: bool, rebuild: bool = True) -> dict:
+# What a restore moves back (`_retired_by` of a History node): a `docs retire` or a
+# supersession. Never `version:<n>`, `retract:<id>`, `resplit` or `removed`.
+REVIVABLE = "({v}._retired_by = 'retire' OR {v}._retired_by STARTS WITH 'supersede:')"
+
+
+def _transition(
+    tx, doc_id: str, *, to_history: bool, rebuild: bool = True, retired_by: str = "retire", at: str | None = None,
+    keep_retired: bool = False,
+) -> dict:
     """Move one document's node, chunks and observations between the base
     label and its History counterpart, then rebuild the keys it touched --
     unless `rebuild=False`, for a caller that rebuilds them itself (a
@@ -43,7 +52,19 @@ def _transition(tx, doc_id: str, *, to_history: bool, rebuild: bool = True) -> d
     with no predicate anywhere that could be forgotten. A passage keeps its
     vector under the History label (outside every index), so a restore needs
     no sweep.
+
+    Record time (spec 2026-11-15 §6.1): a move to history sets `_retired_at`
+    (`at`, UTC; default now) and `_retired_by` (`retire` from `docs retire`,
+    `supersede:<record id>` from a supersession); a move back sets
+    `_revived_at` and removes both, and moves back only nodes a retirement
+    moved (`REVIVABLE`): an earlier version's rows and other demotions stay in
+    history. No valid-time date is written (a retirement leaves `_valid_to`
+    alone; spec 2026-11-15 §7.2).
+    `keep_retired` (a commit re-retiring a retired document) stamps only nodes
+    that carry no `_retired_at` yet, so earlier retirements stay as they were.
     """
+    from datetime import datetime, timezone
+
     from artmind import projection
     from artmind.catalogue import state as catalogue_state
 
@@ -64,30 +85,46 @@ def _transition(tx, doc_id: str, *, to_history: bool, rebuild: bool = True) -> d
         from_passage, to_passage = "DocPassageHistory", "DocPassage"
         from_summary, to_summary = "DocSummaryHistory", "DocSummary"
 
+    now = at or datetime.now(timezone.utc).isoformat()
+    params = {"doc_id": doc_id, "now": now, **({"by": retired_by} if to_history else {})}
+
+    def _only(v: str) -> str:
+        # A restore brings back only what a retirement moved (G4): an earlier version's rows
+        # (`version:<n>`), a retracted observation, a re-split passage and a removed note stay.
+        return "" if to_history else f" WHERE {REVIVABLE.format(v=v)}"
+
+    def _stamp(v: str) -> str:
+        if to_history and keep_retired:
+            return (f", {v}._retired_at = coalesce({v}._retired_at, $now),"
+                    f" {v}._retired_by = coalesce({v}._retired_by, $by)")
+        if to_history:
+            return f", {v}._retired_at = $now, {v}._retired_by = $by"
+        return f", {v}._revived_at = $now REMOVE {v}._retired_at, {v}._retired_by"
+
     observations = tx.run(
         f"""
-        MATCH (o:{from_obs} {{doc_id: $doc_id}})
-        REMOVE o:{from_obs} SET o:{to_obs}
+        MATCH (o:{from_obs} {{doc_id: $doc_id}}){_only("o")}
+        REMOVE o:{from_obs} SET o:{to_obs}{_stamp("o")}
         RETURN count(o) AS n
         """,
-        doc_id=doc_id,
+        **params,
     ).single()
 
     tx.run(
-        f"MATCH (d:{from_doc} {{id: $doc_id}}) REMOVE d:{from_doc} SET d:{to_doc}",
-        doc_id=doc_id,
+        f"MATCH (d:{from_doc} {{id: $doc_id}}){_only('d')} REMOVE d:{from_doc} SET d:{to_doc}{_stamp('d')}",
+        **params,
     )
     tx.run(
-        f"MATCH (c:{from_chunk} {{doc_id: $doc_id}}) REMOVE c:{from_chunk} SET c:{to_chunk}",
-        doc_id=doc_id,
+        f"MATCH (c:{from_chunk} {{doc_id: $doc_id}}){_only('c')} REMOVE c:{from_chunk} SET c:{to_chunk}{_stamp('c')}",
+        **params,
     )
     tx.run(
-        f"MATCH (p:{from_passage} {{doc_id: $doc_id}}) REMOVE p:{from_passage} SET p:{to_passage}",
-        doc_id=doc_id,
+        f"MATCH (p:{from_passage} {{doc_id: $doc_id}}){_only('p')} REMOVE p:{from_passage} SET p:{to_passage}{_stamp('p')}",
+        **params,
     )
     tx.run(
-        f"MATCH (s:{from_summary} {{doc_id: $doc_id}}) REMOVE s:{from_summary} SET s:{to_summary}",
-        doc_id=doc_id,
+        f"MATCH (s:{from_summary} {{doc_id: $doc_id}}){_only('s')} REMOVE s:{from_summary} SET s:{to_summary}{_stamp('s')}",
+        **params,
     )
 
     # The catalogue's change counter, same transaction (spec 2026-11-02 §3).
@@ -115,9 +152,10 @@ def plan_transition(doc_id: str, *, to_history: bool) -> dict:
     from artmind.graph_query import read_session
 
     label = "Observation" if to_history else "ObservationHistory"
+    only = "" if to_history else f" WHERE {REVIVABLE.format(v='o')}"
     with read_session() as session:
         keys = projection.keys_for_document(session, doc_id)
-        n = session.run(f"MATCH (o:{label} {{doc_id: $doc_id}}) RETURN count(o) AS n", doc_id=doc_id).single()
+        n = session.run(f"MATCH (o:{label} {{doc_id: $doc_id}}){only} RETURN count(o) AS n", doc_id=doc_id).single()
         doc = session.run(
             "MATCH (d) WHERE (d:Document OR d:DocumentHistory) AND d.id = $doc_id RETURN d.name AS name LIMIT 1",
             doc_id=doc_id,
@@ -159,7 +197,9 @@ def transition_effect(plan: dict, *, to_history: bool, domain: str | None) -> di
     ).to_json()
 
 
-def retire_document(doc_id: str, domain: str | None = None, *, dry_run: bool = False) -> dict:
+def retire_document(
+    doc_id: str, domain: str | None = None, *, dry_run: bool = False, retired_by: str = "retire",
+) -> dict:
     """Move a document and everything it asserted from `latest` to `history`.
 
     The document and its observations stay in storage and stay reachable by
@@ -174,13 +214,15 @@ def retire_document(doc_id: str, domain: str | None = None, *, dry_run: bool = F
     (`artmind.lifecycle_records`).
 
     `dry_run` reads what would move and writes nothing (no record, no label swap).
+    `retired_by` is stamped on every node moved (`supersede:<record id>` from
+    `temporal.apply_supersession`).
     """
     plan = plan_transition(doc_id, to_history=True)
     effect = transition_effect(plan, to_history=True, domain=domain)
     if dry_run:
         return {**plan, "projection": None, "effect": effect}
     with neo4j_session() as session:
-        result = session.execute_write(_retire_tx, doc_id, domain)
+        result = session.execute_write(_retire_tx, doc_id, domain, retired_by)
     logger.info(
         "Retired {}: {} observation(s) → history, projection {}",
         doc_id, result["observations"], result["projection"],
@@ -217,14 +259,15 @@ def restore_document(doc_id: str, domain: str | None = None, *, dry_run: bool = 
     return {**result, "effect": effect}
 
 
-def _retire_tx(tx, doc_id: str, domain: str | None) -> dict:
+def _retire_tx(tx, doc_id: str, domain: str | None, retired_by: str = "retire") -> dict:
     """`retire_document`'s transaction: the record file, then the label swap
     and rebuild, then the mark tying the document to its record."""
     from artmind import curation_records, lifecycle_records
 
-    record = lifecycle_records.record_for(tx, doc_id, domain)
+    record = lifecycle_records.record_for(tx, doc_id, domain, retired_by=retired_by)
     fingerprint = curation_records.write_record(lifecycle_records.NAME, record)
-    result = _transition(tx, doc_id, to_history=True)
+    # One timestamp for the record and the graph (a re-retirement moves nothing).
+    result = _transition(tx, doc_id, to_history=True, retired_by=record["retired_by"], at=record["recorded_at"])
     lifecycle_records.mark(tx, record, fingerprint)
     return result
 

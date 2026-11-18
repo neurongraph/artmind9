@@ -3199,7 +3199,9 @@ def _summarise_effect(pending: list[dict], model: str) -> dict:
     ).to_json()
 
 
-def _retract_prior_version(tx, domain: str, doc_id: str) -> dict:
+def _retract_prior_version(
+    tx, domain: str, doc_id: str, *, retired_by: str, retired_at: str | None = None,
+) -> dict:
     """Move everything the previous version of ``doc_id`` asserted out of
     ``latest`` — the version/status transition that replaces the old
     hard-retraction.
@@ -3227,47 +3229,53 @@ def _retract_prior_version(tx, domain: str, doc_id: str) -> dict:
     observations touch) recomputes the aggregate edges from scratch. Nothing
     here has to know an edge existed.
 
+    Record time (spec 2026-11-15 §6.1): every node moved gets `_retired_at`
+    (`retired_at`, UTC; default now) and `_retired_by` -- `version:<n>` from a
+    commit of version n, `removed` from `retract_document`. A node the commit
+    writes again is revived and loses both (`_merge_relabeled`).
+
     Runs inside the caller's transaction.
     """
     result = {"observations_demoted": 0, "chunks": 0, "passages": 0}
+    stamp = {"now": retired_at or _record_now(), "by": retired_by}
 
     rec = tx.run(
         """
         MATCH (o:Observation {doc_id: $doc_id})
-        REMOVE o:Observation SET o:ObservationHistory
+        REMOVE o:Observation SET o:ObservationHistory, o._retired_at = $now, o._retired_by = $by
         RETURN count(o) AS n
         """,
-        doc_id=doc_id,
+        doc_id=doc_id, **stamp,
     ).single()
     result["observations_demoted"] = int(rec["n"]) if rec else 0
 
     rec = tx.run(
         """
         MATCH (c:DocChunk {doc_id: $doc_id})
-        REMOVE c:DocChunk SET c:DocChunkHistory
+        REMOVE c:DocChunk SET c:DocChunkHistory, c._retired_at = $now, c._retired_by = $by
         RETURN count(c) AS n
         """,
-        doc_id=doc_id,
+        doc_id=doc_id, **stamp,
     ).single()
     result["chunks"] = int(rec["n"]) if rec else 0
 
     rec = tx.run(
         """
         MATCH (p:DocPassage {doc_id: $doc_id})
-        REMOVE p:DocPassage SET p:DocPassageHistory
+        REMOVE p:DocPassage SET p:DocPassageHistory, p._retired_at = $now, p._retired_by = $by
         RETURN count(p) AS n
         """,
-        doc_id=doc_id,
+        doc_id=doc_id, **stamp,
     ).single()
     result["passages"] = int(rec["n"]) if rec else 0
 
     rec = tx.run(
         """
         MATCH (s:DocSummary {doc_id: $doc_id})
-        REMOVE s:DocSummary SET s:DocSummaryHistory
+        REMOVE s:DocSummary SET s:DocSummaryHistory, s._retired_at = $now, s._retired_by = $by
         RETURN count(s) AS n
         """,
-        doc_id=doc_id,
+        doc_id=doc_id, **stamp,
     ).single()
     result["summaries"] = int(rec["n"]) if rec else 0
     return result
@@ -3300,15 +3308,18 @@ def retract_document(doc_id: str, domain: str) -> dict:
 
     def _tx(tx):
         keys = projection.keys_for_document(tx, doc_id)
-        retracted = _retract_prior_version(tx, domain, doc_id)
+        stamp = {"now": _record_now(), "by": "removed"}
+        retracted = _retract_prior_version(tx, domain, doc_id, retired_by=stamp["by"], retired_at=stamp["now"])
         tx.run(
-            "MATCH (d:Document {id: $doc_id}) REMOVE d:Document SET d:DocumentHistory",
-            doc_id=doc_id,
+            "MATCH (d:Document {id: $doc_id}) REMOVE d:Document "
+            "SET d:DocumentHistory, d._retired_at = $now, d._retired_by = $by",
+            doc_id=doc_id, **stamp,
         )
         # An `update__*` folder commits as a :UserChat (`_commit_document_tx`).
         tx.run(
-            "MATCH (c:UserChat {id: $doc_id}) REMOVE c:UserChat SET c:UserChatHistory",
-            doc_id=doc_id,
+            "MATCH (c:UserChat {id: $doc_id}) REMOVE c:UserChat "
+            "SET c:UserChatHistory, c._retired_at = $now, c._retired_by = $by",
+            doc_id=doc_id, **stamp,
         )
         # A retracted document is no longer "retired by a record": removing
         # that record later must not bring it back (`lifecycle_records.remove`).
@@ -3535,22 +3546,14 @@ def _document_valid_time(
     extraction gave one batch four different "ingestion dates" and churned
     the committed staging.
 
+    `_valid_precision` says how much of `_valid_from` the source stated (`parse_valid`),
+    `none` when it is the `ingestion_date` default (spec 2026-11-15 §2).
+
     Emitted with `_`-prefixed names because artmind owns them — the underscore
     IS the rule, and an LLM-extracted `status` colliding with the system's own
     is exactly what row 9 of the scorecard counts.
     """
-    from artmind.temporal import lift_document_dates
-
-    out: dict = {}
-    if frontmatter.get("_valid_from"):
-        out["_valid_from"] = str(frontmatter["_valid_from"])
-    if frontmatter.get("_valid_to"):
-        out["_valid_to"] = str(frontmatter["_valid_to"])
-    if frontmatter.get("_valid_time_source"):
-        out["_valid_time_source"] = str(frontmatter["_valid_time_source"])
-    if out.get("_valid_from"):
-        out.setdefault("_valid_time_source", "frontmatter")
-        return out
+    from artmind.temporal import lift_document_dates, parse_valid
 
     temporal = schema.get("temporal") or {}
     mapping = temporal.get("document") or {}
@@ -3562,6 +3565,28 @@ def _document_valid_time(
             _, body = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
         except Exception as e:
             logger.warning("Could not read {} for valid-time lifting: {}", md_file, e)
+
+    out: dict = {}
+    for key in ("_valid_from", "_valid_to"):
+        if frontmatter.get(key):
+            parsed = parse_valid(str(frontmatter[key]))
+            if parsed:
+                out[key] = parsed.start
+                if key == "_valid_from":
+                    out["_valid_precision"] = parsed.precision
+                    if parsed.end and not frontmatter.get("_valid_to"):
+                        out["_valid_to"] = parsed.end   # a range ends it (spec §3.2)
+    if frontmatter.get("_valid_time_source") and out:
+        out["_valid_time_source"] = str(frontmatter["_valid_time_source"])
+    if out.get("_valid_from"):
+        out.setdefault("_valid_time_source", "frontmatter")
+        # The system dates win, but a revision label still says when the document was revised.
+        if mapping.get("revised"):
+            revised = lift_document_dates(body, frontmatter, {"revised": mapping["revised"]}).get("revised")
+            if revised:
+                out["_revised_at"] = revised
+        return out
+    out.pop("_valid_precision", None)
 
     lifted = (
         lift_document_dates(
@@ -3579,8 +3604,13 @@ def _document_valid_time(
         lifted["valid_from"] = str(prior["_valid_from"])
     if lifted.get("valid_from"):
         out["_valid_from"] = lifted["valid_from"]
+        # How much of the date was stated; `none` for the ingestion-date default (spec §2).
+        out["_valid_precision"] = lifted.get("valid_precision") or "day"
     if lifted.get("valid_to"):
         out["_valid_to"] = lifted["valid_to"]
+    if lifted.get("revised"):
+        # "Last Updated": when the document was revised, never when it took effect (spec §4).
+        out["_revised_at"] = lifted["revised"]
     if lifted.get("time_source"):
         out["_valid_time_source"] = lifted["time_source"]
     if lifted.get("version"):
@@ -3591,26 +3621,110 @@ def _document_valid_time(
     return out
 
 
-def _fact_valid_time(entity_dates: dict, entity_class: str, props: dict) -> tuple[str | None, str | None]:
-    """A fact's own (valid_from, valid_to), from its class's `temporal:`-tagged
-    properties; None for a date absent or not readable as one ("today").
+@dataclass(frozen=True)
+class FactTime:
+    """A fact's valid time from its class's `temporal:` properties (spec 2026-11-15 §3.2).
+
+    `valid_to` is a tagged `valid_to` property's start, else the `valid_from` value's range
+    end (exclusive). `due` / `review` are the `temporal: due|review` tags' starts: a deadline
+    or a review date, never the fact's valid time (spec §4). `unparsed` counts tagged
+    values present but holding no date ("Ongoing"); they never become a date.
+    """
+
+    valid_from: str | None = None
+    valid_to: str | None = None
+    precision: str | None = None
+    time_of_day: str | None = None
+    due: str | None = None
+    review: str | None = None
+    unparsed: int = 0
+
+
+def _fact_valid_time(entity_dates: dict, entity_class: str, props: dict) -> FactTime:
+    """A fact's own valid time, from its class's `temporal:`-tagged properties, each read
+    with `temporal.parse_valid`; an absent or unreadable value gives no date.
 
     `entity_dates` is `temporal._entity_temporal_mapping(schema)`. Shared by
-    `_build_observations` and `artmind.retime`, which re-derives it from a
-    staged observation (its domain properties keep their names flattened).
+    `_build_observations`, `artmind.retime` (staged properties stay flattened, so it reads
+    a staged observation as is), `table2graph` and `update`. A tagged `valid_to` wins over
+    a range's end.
     """
-    from artmind.temporal import parse_iso
+    from artmind.temporal import parse_valid
 
-    fact_valid_from, fact_valid_to = None, None
+    found: dict = {}
+    unparsed = 0
     for canon_key, prop_name in (entity_dates.get(entity_class) or {}).items():
-        parsed = parse_iso(str(props.get(prop_name))) if props.get(prop_name) else None
-        if not parsed:
+        raw = props.get(prop_name)
+        if raw in (None, ""):
             continue
-        if canon_key == "valid_from":
-            fact_valid_from = parsed
-        elif canon_key == "valid_to":
-            fact_valid_to = parsed
-    return fact_valid_from, fact_valid_to
+        parsed = parse_valid(raw)
+        if parsed is None:
+            unparsed += 1
+        else:
+            found[canon_key] = parsed
+    start, end = found.get("valid_from"), found.get("valid_to")
+    return FactTime(
+        valid_from=start.start if start else None,
+        valid_to=end.start if end else (start.end if start else None),
+        precision=start.precision if start else None,
+        time_of_day=start.time_of_day if start else None,
+        due=found["due"].start if "due" in found else None,
+        review=found["review"].start if "review" in found else None,
+        unparsed=unparsed,
+    )
+
+
+def _document_precision(document: dict, schema: dict) -> str | None:
+    """The precision of a fact dated by its document: `none` for the schema's default date
+    (spec 2026-11-15 §2), the document's own `_valid_precision` else `day`; None when the
+    document has no date at all."""
+    from artmind.temporal import date_is_only_the_default
+
+    if not document.get("_valid_from"):
+        return None
+    if date_is_only_the_default(schema, document):
+        return "none"
+    return document.get("_valid_precision") or "day"
+
+
+# The date fields a staged chunk carries (`_chunk_valid_time`). A chunk's `_valid_to` is its
+# document's stated end (also kept as `_doc_valid_to`): a later supersession ends it at the
+# earlier of that and its own date, and un-asserting restores `_doc_valid_to`.
+CHUNK_DATE_KEYS = ("_valid_from", "_valid_to", "_valid_precision", "_doc_valid_from", "_doc_valid_to")
+
+
+def _chunk_valid_time(chunk: dict, document: dict) -> dict:
+    """A chunk's dates: its document's window, plus its own day when its last heading or its
+    first non-blank line is only a date, readable to the day (spec 2026-11-15 §5.1, plan
+    question 15). Otherwise the chunk takes the document's `_valid_from` and
+    `_valid_precision` (`none` for a default date, so the chunk reads as undated too)."""
+    from artmind.temporal import parse_valid
+
+    out = {"_doc_valid_from": document.get("_valid_from"), "_doc_valid_to": document.get("_valid_to"),
+           "_valid_to": document.get("_valid_to")}
+    own = None
+    heading = (chunk.get("header_path") or "").rsplit(">", 1)[-1].strip()
+    first_line = next((line.strip() for line in (chunk.get("text") or "").splitlines() if line.strip()), "")
+    for candidate in (heading, first_line.lstrip("#").strip()):
+        parsed = parse_valid(candidate) if candidate else None
+        if parsed and parsed.precision == "day" and parsed.end is None and not parsed.time_of_day:
+            own = parsed.start
+            break
+    if own:
+        out["_valid_from"], out["_valid_precision"] = own, "day"
+    else:
+        out["_valid_from"] = document.get("_valid_from")
+        out["_valid_precision"] = document.get("_valid_precision") if document.get("_valid_from") else None
+    return {k: v for k, v in out.items() if v}
+
+
+def _date_chunks(chunks: list[dict], document: dict) -> list[dict]:
+    """`chunks` with their date fields re-derived from `document` (stale ones dropped)."""
+    return [
+        {**{k: v for k, v in c.items() if k not in CHUNK_DATE_KEYS},
+         **_chunk_valid_time(c, document)}
+        for c in chunks
+    ]
 
 
 def _build_observations(
@@ -3619,11 +3733,15 @@ def _build_observations(
     canonical_names: dict[str, str],
     schema: dict,
     document: dict,
+    counts: dict | None = None,
 ) -> tuple[list[dict], dict[str, dict[str, int]]]:
     """Turn this document version's extraction output into Observation props.
 
     Returns (observations, dropped): a property key the entity's class does not declare is
     dropped (spec 2026-11-15 §2.2), counted in `dropped` as {class: {key: count}} (never values).
+    `counts`, when given, is reset and filled with how the facts were dated (spec 2026-11-15
+    §3.4): `dated` by their own property, `ranges` among those with an end, `unparsed` tagged
+    values that held no date. Numbers only.
 
     One observation per (chunk, extracted-entity-identity). The entity's own
     schema-declared date property (a property tagged `temporal: valid_from`)
@@ -3633,8 +3751,9 @@ def _build_observations(
     """
     from artmind.observations import (
         LLM_BAG_OWN_KEYS, build_observation, class_kind, declared_property_keys, filter_declared,
-        normalize_property_keys, property_key_rules,
+        normalize_property_keys, property_key_rules, strip_occasion_date,
     )
+    from artmind.schema_validate import class_identity
     from artmind.temporal import _entity_temporal_mapping
 
     props_by_id = {p["id"]: p.get("properties", {}) for p in properties}
@@ -3647,6 +3766,9 @@ def _build_observations(
     doc_id = document["id"]
     doc_version = document.get("version") or 1
 
+    if counts is not None:
+        counts.clear()
+        counts.update({"dated": 0, "ranges": 0, "unparsed": 0})
     observations: list[dict] = []
     seen: set[str] = set()
     for entity in entities:
@@ -3657,6 +3779,10 @@ def _build_observations(
             continue
 
         cls = entity.get("entity_class") or ""
+        identity_kind = class_identity(schema, cls)
+        if identity_kind == "occasion":
+            # Its day is in its key; a date in its name would only split it (spec 2026-11-15 §5.2).
+            canonical = strip_occasion_date(canonical)
         domain_props, gone = filter_declared(
             normalize_property_keys(dict(props_by_id.get(entity.get("id"), {})), *key_rules), cls, declared,
             own=LLM_BAG_OWN_KEYS,  # a raw LLM bag: a model-emitted `source_kind` is not an own field
@@ -3666,9 +3792,7 @@ def _build_observations(
             dropped[cls][key] += 1
 
         # A fact carrying its own dates overrides the document's.
-        fact_valid_from, fact_valid_to = _fact_valid_time(
-            entity_dates, entity.get("entity_class") or "", domain_props
-        )
+        fact = _fact_valid_time(entity_dates, cls, domain_props)
 
         observation = build_observation(
             entity,
@@ -3679,10 +3803,22 @@ def _build_observations(
             chunk_id=chunk_id,
             kind=class_kind(schema, entity.get("entity_class") or ""),
             doc_valid_from=doc_valid_from,
-            valid_from=fact_valid_from,
-            valid_to=fact_valid_to or doc_valid_to,
-            valid_time_source=("property" if fact_valid_from else document.get("_valid_time_source")),
+            valid_from=fact.valid_from,
+            # A fact dated by its own property keeps only its own end (maybe none); one dated by
+            # its document inherits the document's stated end.
+            valid_to=fact.valid_to if fact.valid_from else doc_valid_to,
+            # ... and keeps a copy of it, so a supersession ends it with its document.
+            doc_valid_to=None if fact.valid_from else doc_valid_to,
+            valid_time_source=("property" if fact.valid_from else document.get("_valid_time_source")),
+            valid_precision=fact.precision if fact.valid_from else _document_precision(document, schema),
+            valid_time_of_day=fact.time_of_day,
+            identity_kind=identity_kind,
         )
+        # A deadline or review date is its own field, never the fact's valid time (spec §4).
+        if fact.due:
+            observation["_due"] = fact.due
+        if fact.review:
+            observation["_review"] = fact.review
         # Two chunks asserting the same identity produce the same id only when
         # they ARE the same chunk; within one chunk, a repeated entity is one
         # observation, not several.
@@ -3690,7 +3826,18 @@ def _build_observations(
             continue
         seen.add(observation["id"])
         observations.append(observation)
+        if counts is not None:  # after the dedup: one count per staged observation
+            counts["dated"] += 1 if fact.valid_from else 0
+            counts["ranges"] += 1 if fact.valid_from and fact.valid_to else 0
+            counts["unparsed"] += fact.unparsed
     return observations, dropped
+
+
+def _date_counts_line(counts: dict) -> str:
+    """The per-document date counts as one log line: numbers only, never a value."""
+    n = counts.get("ranges", 0)
+    return (f"dates: {counts.get('dated', 0)} dated by property, {n} range{'s' if n != 1 else ''}, "
+            f"{counts.get('unparsed', 0)} unparsed")
 
 
 class _ChunksOnly(Exception):
@@ -3794,6 +3941,17 @@ def extract_kg(
     # `graph_extraction: false` (spec 2026-10-30-chunks-only-domains-design.md):
     # chunks + embeddings only, no LLM step of any kind.
     chunks_only = not graph_extraction_enabled(schema)
+    if not chunks_only:
+        # Once per file, not once per chunk: a meta.yaml that predates the model fails every
+        # entities prompt the same way (spec 2026-11-15 §8).
+        from artmind.prompt_builder import MetaIncomplete, assemble_entities_prompt
+
+        try:
+            assemble_entities_prompt(schema)
+        except MetaIncomplete as exc:
+            file_result["kg_error"] = exc.message
+            logger.error("{}: {}", registered_path.name, exc.message)
+            return None
 
     # A note's id is in `file_result` already; a binary's folder is named by
     # its key and needs no id, so this stays above the identity block below.
@@ -3858,9 +4016,9 @@ def extract_kg(
     # ── name vocabulary, retrieved ONCE before any chunk extracts ─────────
     # Cross-document drift control: showing the extractor names already in use
     # stops a new document coining a fresh one for something the graph knows.
-    # Restricted to recurrent classes — an occurrent entity is a completed
-    # event, and offering existing event names invites folding two distinct
-    # incidents into one. Never fatal: no vocabulary is the pre-redesign
+    # Restricted to `canonicalize.named_classes` (identity `name` or `category`)
+    # — an occasion is keyed by its day, and offering existing happening names
+    # invites folding two distinct days into one. Never fatal: no vocabulary is the pre-redesign
     # behaviour, so a down embed service costs quality, not the ingest.
     vocabulary: list = []
     try:
@@ -4339,6 +4497,8 @@ def extract_kg(
     # swallowed its own exceptions.
     # (`document_dates` was resolved before any chunk extracted -- see above.)
     document.update(document_dates)
+    # Every chunk carries its document's window and its own day when it has one (spec §5.1).
+    all_chunks = _date_chunks(all_chunks, document)
 
     # ── per-document canonicalization: ONE call, after ALL chunks ──────────
     # Intra-document drift control. Chunks extracted in parallel and could not
@@ -4394,8 +4554,9 @@ def extract_kg(
             for cls, name, prop in stamped:
                 logger.info("Document entity: {} {!r} {} = {} (from the document)", cls, name, prop, own_date)
 
+    date_counts: dict = {}
     all_observations, dropped_props = _build_observations(
-        all_entities, all_properties, canonical_names, schema, document,
+        all_entities, all_properties, canonical_names, schema, document, counts=date_counts,
     )
     if dropped_props:
         file_result["dropped_property_values"] = dropped_props
@@ -4450,6 +4611,8 @@ def extract_kg(
         # refused extraction leaves the staging folder as it was.
         staged_files[DOCUMENT_CONTEXT_FILE] = context_summary
     write_staging(doc_kg_dir, staged_files)
+    # Only a staged extraction reports its date counts (job-status `date_counts`).
+    file_result["date_counts"] = date_counts
     _drop_extraction_stash(stash)
     # The document now has its staging folder under this name and domain; the
     # one its baseline came from (a note moved or re-domained since) is stale.
@@ -4473,11 +4636,13 @@ def extract_kg(
         failed_count,
         sum(n for keys in dropped_props.values() for n in keys.values()),
     )
+    logger.info("{}: {}", registered_path.name, _date_counts_line(date_counts))
     return doc_kg_dir
 
 
 def _merge_relabeled(
-    tx, base_label: str, history_label: str, id_value: str, props: dict, *, replace: bool = True
+    tx, base_label: str, history_label: str, id_value: str, props: dict, *, replace: bool = True,
+    recorded_at: str | None = None, keep_retired: bool = False,
 ) -> None:
     """`MERGE` a node by `id`, whichever of `base_label` / `history_label` it
     currently carries (or neither, if this id is new), and leave it under
@@ -4507,24 +4672,45 @@ def _merge_relabeled(
     previous write must not survive) vs `SET n += $props` (additive — a
     DocChunk's filing metadata / char offsets accrete the way they always
     have).
+
+    Record time (spec 2026-11-15 §6.1): `recorded_at` (UTC, one per commit) is
+    stamped as `_recorded_at` on a new node. A node found under either label
+    keeps its first `_recorded_at` and its `_revived_at` -- both read before
+    `SET n = $props` wipes them -- and loses `_retired_at` / `_retired_by`.
+    Only a node that was in `history_label` before this commit is revived (gains
+    `_revived_at`): one this same commit demoted (step 2 of
+    `_commit_document_tx`) carries `_retired_at = $recorded_at` and is a
+    re-write, not a revive.
+
+    `keep_retired` (a commit of a document a lifecycle record keeps retired):
+    nothing is revived and every node keeps its `_retired_at` / `_retired_by`,
+    so step 5b's re-retirement leaves the original retirement in place.
     """
     set_clause = "SET n = $props" if replace else "SET n += $props"
     tx.run(
         f"""
         OPTIONAL MATCH (o1:{base_label} {{id: $id}})
         OPTIONAL MATCH (o2:{history_label} {{id: $id}})
-        WITH coalesce(o1, o2) AS existing
+        WITH coalesce(o1, o2) AS existing,
+             o1 IS NULL AND o2 IS NOT NULL AND o2._retired_at <> $recorded_at AND NOT $keep_retired AS revived
+        WITH existing, revived, existing._recorded_at AS old_recorded, existing._revived_at AS old_revived,
+             existing._retired_at AS old_retired_at, existing._retired_by AS old_retired_by
         FOREACH (_ IN CASE WHEN existing IS NULL THEN [1] ELSE [] END |
             CREATE (n:{base_label} {{id: $id}})
             {set_clause}
+            SET n._recorded_at = $recorded_at
         )
         FOREACH (n IN CASE WHEN existing IS NOT NULL THEN [existing] ELSE [] END |
             {set_clause}
+            SET n._recorded_at = coalesce(old_recorded, $recorded_at),
+                n._revived_at = CASE WHEN revived THEN $recorded_at ELSE old_revived END,
+                n._retired_at = CASE WHEN $keep_retired THEN old_retired_at END,
+                n._retired_by = CASE WHEN $keep_retired THEN old_retired_by END
             SET n:{base_label}
             REMOVE n:{history_label}
         )
         """,
-        id=id_value, props=props,
+        id=id_value, props=props, recorded_at=recorded_at, keep_retired=keep_retired,
     )
 
 
@@ -4536,7 +4722,10 @@ USER_CHAT_SOURCE_KIND = "user_chat"
 UPDATE_FOLDER_PREFIX = "update__"
 
 
-def _write_observations(tx, observations: list[dict], doc_id: str, *, source_label: str = "DocChunk") -> int:
+def _write_observations(
+    tx, observations: list[dict], doc_id: str, *, source_label: str = "DocChunk", recorded_at: str | None = None,
+    keep_retired: bool = False,
+) -> int:
     """Write this document version's observations.
 
     Immutable records: written whole, never merged into and never patched. The
@@ -4553,7 +4742,8 @@ def _write_observations(tx, observations: list[dict], doc_id: str, *, source_lab
     `EXTRACTED_FROM` the `:UserChat` whose id is `doc_id`, not a chunk.
     """
     for observation in observations:
-        _merge_relabeled(tx, "Observation", "ObservationHistory", observation["id"], observation)
+        _merge_relabeled(tx, "Observation", "ObservationHistory", observation["id"], observation,
+                         recorded_at=recorded_at, keep_retired=keep_retired)
         chunk_id = observation.get("chunk_id")
         if source_label == "UserChat":
             tx.run(
@@ -4575,6 +4765,12 @@ def _write_observations(tx, observations: list[dict], doc_id: str, *, source_lab
             )
     logger.debug("Neo4j: wrote {} observation(s) for {}", len(observations), doc_id)
     return len(observations)
+
+
+def _undated_name(value: str) -> str:
+    from artmind.observations import normalize_name, strip_occasion_date
+
+    return normalize_name(strip_occasion_date(value))
 
 
 def _observation_lookup(observations: list[dict]) -> tuple[dict, dict]:
@@ -4603,6 +4799,26 @@ def _observation_lookup(observations: list[dict]) -> tuple[dict, dict]:
     return by_chunk, by_name
 
 
+def _undated_lookup(observations: list[dict]) -> dict[tuple[str, str], set[str]]:
+    """`(chunk_id, undated normalised name) -> observation ids`: the fallback for a raw name
+    that is no observation's own -- a same-day variant of an occasion ("Tennis today" beside
+    "Tennis") folds onto one observation and keeps only the first raw name. Used only when it
+    names exactly one observation of the chunk; two days of "Tennis" stay unresolved rather
+    than guessed (spec 2026-11-15 §5.2). Only occasion observations (a key carrying
+    `OCCASION_SEP`) take part: a name-identity name is never matched through it."""
+    from artmind.observations import OCCASION_SEP
+
+    out: dict[tuple[str, str], set[str]] = {}
+    for o in observations:
+        chunk_id = o.get("chunk_id")
+        if not chunk_id or OCCASION_SEP not in (o.get("key") or ""):
+            continue
+        for field in ("name", "canonical_name"):
+            if o.get(field):
+                out.setdefault((chunk_id, _undated_name(o[field])), set()).add(o["id"])
+    return out
+
+
 def _observation_keys(observations: list[dict]) -> dict[str, str]:
     """Observation id -> its aggregate key string. Two *different* chunk-scoped
     observations (different ids) commonly share one key — canonicalization
@@ -4619,7 +4835,9 @@ _RELATION_STRUCTURAL_KEYS = frozenset({
 })
 
 
-def _write_relation_observations(tx, relationships: list[dict], document: dict, observations: list[dict]) -> int:
+def _write_relation_observations(
+    tx, relationships: list[dict], document: dict, observations: list[dict], *, recorded_at: str | None = None,
+) -> int:
     """The immutable, chunk-scoped record of one extracted relationship:
     `(:Observation)-[:ASSERTS_RELATION {rel_type, doc_id, chunk_id, ...}]->(:Observation)`.
 
@@ -4657,10 +4875,14 @@ def _write_relation_observations(tx, relationships: list[dict], document: dict, 
     does: its endpoints are known by construction, and resolving them by
     name would be ambiguous whenever two rows render the same name). An id
     that isn't one of this document's observations is dropped the same way.
+
+    An edge keeps the `_recorded_at` of the commit that created it (spec
+    2026-11-15 §6.1); `SET r = $props` would wipe it, so it is read first.
     """
     from artmind.observations import relation_observation_id
 
     by_chunk, by_name = _observation_lookup(observations)
+    undated = _undated_lookup(observations)
     obs_keys = _observation_keys(observations)
 
     def _resolve(name: str | None, chunk_id: str | None) -> str | None:
@@ -4668,6 +4890,9 @@ def _write_relation_observations(tx, relationships: list[dict], document: dict, 
             return None
         if chunk_id and (chunk_id, name) in by_chunk:
             return by_chunk[(chunk_id, name)]
+        ids = undated.get((chunk_id, _undated_name(name))) if chunk_id else None
+        if ids and len(ids) == 1:  # a same-day variant folded onto one observation of this chunk
+            return next(iter(ids))
         return by_name.get(name)
 
     def _endpoint(rel: dict, side: str, chunk_id: str | None) -> str | None:
@@ -4720,15 +4945,22 @@ def _write_relation_observations(tx, relationships: list[dict], document: dict, 
                 MATCH (s:Observation {id: $src})
                 MATCH (t:Observation {id: $tgt})
                 MERGE (s)-[r:ASSERTS_RELATION {id: $id}]->(t)
+                WITH r, r._recorded_at AS old_recorded
                 SET r = $props
-                SET r.id = $id, r.rel_type = $rel_type, r.doc_id = $doc_id, r.chunk_id = $chunk_id
+                SET r.id = $id, r.rel_type = $rel_type, r.doc_id = $doc_id, r.chunk_id = $chunk_id,
+                    r._recorded_at = coalesce(old_recorded, $recorded_at)
                 """,
                 src=src_obs, tgt=tgt_obs, id=edge_id,
                 rel_type=rel_type, doc_id=rel_doc_id, chunk_id=chunk_id or "",
-                props=rel_props,
+                props=rel_props, recorded_at=recorded_at,
             )
             written += 1
     return written
+
+
+def _record_now() -> str:
+    """Record time is UTC (spec 2026-11-15 §6.1). A seam: tests pin it."""
+    return datetime.now(_datetime.timezone.utc).isoformat()
 
 
 def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
@@ -4770,6 +5002,8 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
         # mis-linking.
         assert not staged["chunks"], "a UserChat staging folder must not carry chunks (its provenance is raw_text, not DocChunks)"
     summary: dict = {}
+    # Record time (spec 2026-11-15 §6.1): one UTC timestamp for everything this commit writes.
+    recorded_at = _record_now()
 
     # 1. The prior version's keys — set 2 of the affected-key union. Captured
     #    BEFORE anything changes, because a rename between versions strands the
@@ -4777,14 +5011,27 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     prior_keys = projection.keys_for_document(tx, doc_id)
 
     # 2. Demote the prior version.
-    summary["retracted"] = _retract_prior_version(tx, domain, doc_id)
+    retired_by = f"version:{document.get('version') or 1}"
+    summary["retracted"] = _retract_prior_version(tx, domain, doc_id, retired_by=retired_by, retired_at=recorded_at)
+    # A document a lifecycle record keeps retired (step 5b): its nodes are written without being
+    # revived and keep their original `_retired_at` / `_retired_by` (spec 2026-11-15 §6.1).
+    keep_retired = bool(staged.get("retired")) and source_label == "Document"
 
     # 3. Document + chunks. A re-ingest of a document `docs retire` had moved
     #    to :DocumentHistory revives that same node rather than creating a
     #    duplicate under :Document (see _merge_relabeled); when the working
     #    tree holds a lifecycle record for it, step 5b re-retires the node in
     #    this same transaction.
-    _merge_relabeled(tx, source_label, f"{source_label}History", doc_id, _flatten_props(document), replace=False)
+    document_props = _flatten_props(document)
+    if source_label == "Document":
+        # The merge is additive, so the document's end is set from staging every time: a stated
+        # end, else none, kept also as `_doc_valid_to` (what `unsupersede` restores). A
+        # supersession's end is not staged; step 5c derives it again (the earlier of the two).
+        document_props.setdefault("_valid_to", None)
+        document_props["_doc_valid_to"] = document_props["_valid_to"]
+        document_props["_valid_to_by"] = None
+    _merge_relabeled(tx, source_label, f"{source_label}History", doc_id, document_props, replace=False,
+                     recorded_at=recorded_at, keep_retired=keep_retired)
     # 3b. The staging folder's fingerprint (spec 2026-09-26 §6 A3): `vault
     #     sync` skips a committed folder whose fingerprint the graph already
     #     carries -- on a shared graph, the machine that ingested it wrote it.
@@ -4793,18 +5040,30 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     #     sync) reaches this line through `_write_to_neo4j`/`_load_staged`.
     sync_state.set_document_fingerprint(tx, doc_id, staged.get("fingerprint"), label=source_label)
     title = document.get("title") or document.get("name")
+    # The ids this version writes, by History label (step 5b's restamp of a retired document).
+    written: dict[str, list] = {
+        "ObservationHistory": [o["id"] for o in staged["observations"] if o.get("id")],
+        "DocChunkHistory": [c["id"] for c in staged["chunks"]],
+        "DocPassageHistory": [],
+        "DocSummaryHistory": [],
+    }
     for chunk in staged["chunks"]:
         # Chunks carry no vector any more (spec 2026-10-31 §1): every text-retrieval
         # vector lives on the chunk's passages, written right below without one and
         # filled by the post-commit passage sweep.
         chunk_props = _flatten_props({k: v for k, v in chunk.items() if k != "embedding"})
+        # The merge is additive, so a date the chunk no longer carries is removed explicitly
+        # (`SET n += {k: null}` removes `k`).
+        chunk_props.update({k: None for k in CHUNK_DATE_KEYS if k not in chunk_props})
+        chunk_props["_valid_to_by"] = None  # a supersession's end: step 5c derives it again
         # additive (replace=False): a chunk's filing metadata / char offsets
         # accrete the way they always have — see _merge_relabeled for why the
         # label-pair match is needed at all (a same-doc_id re-ingest reuses
         # this same deterministic chunk id, and step 2 just relabelled the
         # prior version's chunk to :DocChunkHistory earlier in this same
         # transaction).
-        _merge_relabeled(tx, "DocChunk", "DocChunkHistory", chunk["id"], chunk_props, replace=False)
+        _merge_relabeled(tx, "DocChunk", "DocChunkHistory", chunk["id"], chunk_props, replace=False,
+                         recorded_at=recorded_at, keep_retired=keep_retired)
         tx.run(
             """
             MATCH (c:DocChunk {id: $id})
@@ -4814,23 +5073,34 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
             id=chunk["id"],
             doc_id=chunk["doc_id"],
         )
-        passage_store.write_chunk_passages(tx, chunk["id"], passages.passage_rows(chunk, title))
+        passage_rows = passages.passage_rows(chunk, title)
+        written["DocPassageHistory"] += [row["id"] for row in passage_rows]
+        passage_store.write_chunk_passages(tx, chunk["id"], passage_rows,
+                                           recorded_at=recorded_at, retired_by=retired_by,
+                                           keep_retired=keep_retired)
     summary["chunks"] = len(staged["chunks"])
     summary["passage_chunk_ids"] = [chunk["id"] for chunk in staged["chunks"]]
 
     # 3c. The summary tree (spec 2026-11-01 §1.4). A Document only: an update
     #     folder (UserChat) has no chunks and no summaries.
     if source_label == "Document":
+        summary_rows = summary_store.summary_rows(
+            staged.get("summaries"), {**document, "_domain": domain}, chunks=staged["chunks"],
+        )
+        written["DocSummaryHistory"] = [row["id"] for row in summary_rows]
         summary["summaries"] = summary_store.write_document_summaries(
-            tx, doc_id, summary_store.summary_rows(staged.get("summaries"), {**document, "_domain": domain}),
+            tx, doc_id, summary_rows,
+            recorded_at=recorded_at, retired_by=retired_by, keep_retired=keep_retired,
         )
 
     # 4. Observations.
     observations = staged["observations"]
     if source_label == "UserChat":
-        summary["observations"] = _write_observations(tx, observations, doc_id, source_label="UserChat")
+        summary["observations"] = _write_observations(
+            tx, observations, doc_id, source_label="UserChat", recorded_at=recorded_at)
     else:
-        summary["observations"] = _write_observations(tx, observations, doc_id)
+        summary["observations"] = _write_observations(
+            tx, observations, doc_id, recorded_at=recorded_at, keep_retired=keep_retired)
 
     incoming_keys = {
         (o["key"].split("|")[0], o["key"].split("|")[1], o["key"].split("|")[2])
@@ -4843,7 +5113,7 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     #     anything else this document touched, so it joins `incoming_keys` —
     #     `affected_keys` doesn't distinguish why a key is in scope, only that
     #     it is.
-    retracted_keys = projection.apply_retractions(tx, observations)
+    retracted_keys = projection.apply_retractions(tx, observations, retired_at=recorded_at)
     incoming_keys |= retracted_keys
     summary["retracted_observations"] = sorted(key_string(k) for k in retracted_keys)
 
@@ -4855,18 +5125,41 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     #    in `incoming_keys` (a relationship's endpoints are always entities
     #    extracted in this same document) — no separate key-tracking needed.
     summary["relationships"] = _write_relation_observations(
-        tx, staged["relationships"], document, observations
+        tx, staged["relationships"], document, observations, recorded_at=recorded_at,
     )
 
     # 5b. A retired document stays retired (spec 2026-09-26 §15 A10): step 3
-    #     revived its node, so a lifecycle record for it moves the version
+    #     moved its node back under :Document, so a lifecycle record for it moves the version
     #     just written straight back to history. `affected_keys` below already
     #     holds its keys, so the rebuild drops what only it asserted.
     if staged.get("retired") and source_label == "Document":
         from artmind.lifecycle import _transition
 
-        _transition(tx, doc_id, to_history=True, rebuild=False)
+        # Nodes that were retired keep their `_retired_at` / `_retired_by` (`keep_retired`
+        # above); only nodes new in this version are stamped, at this commit's timestamp,
+        # by whatever the lifecycle record says retired the document.
+        _transition(tx, doc_id, to_history=True, rebuild=False, at=recorded_at,
+                    retired_by=staged.get("retired_by") or "retire", keep_retired=True)
+        # The prior version's rows this version did not write again were already in history,
+        # so step 2 never demoted them: they still carry the retirement's stamp, and a restore
+        # would revive them. They are this version's predecessors.
+        _restamp_prior_version(tx, doc_id, written, retired_by)
         summary["retired"] = True
+
+    # 5c. Ends of validity (spec 2026-11-15 §7.2): the rewrites above cleared any supersession
+    #     end on this document's nodes (staging never carries one), so they are derived again
+    #     from the SUPERSEDES edges into it, in this transaction, before the rebuild reads them
+    #     (a stated end later than the supersession's is closed again at the supersession's).
+    #     The documents this one supersedes are restated too: their ends fall back to this
+    #     document's `_valid_from`, which this commit may have changed. Their keys join the
+    #     rebuild, and their domains are bumped.
+    if source_label == "Document":
+        from artmind import supersession_records
+
+        supersession_records.restate_validity(tx, doc_id)
+        for older in supersession_records.restate_superseded(tx, doc_id):
+            incoming_keys |= set(projection.keys_for_document(tx, older))
+            catalogue_state.bump_for_document(tx, older)
 
     # 6. The affected-key union, then the rebuild — which now also aggregates
     #    RELATES_TO edges for every key it touches.
@@ -4883,7 +5176,7 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
         summary["projection"] = {"deferred": True}
     else:
         summary["projection"] = projection.rebuild(
-            tx, keys, synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks)
+            tx, keys, synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks), recorded_at=recorded_at,
         )
         summary["deferred_keys"] = []
     summary["affected_keys"] = sorted(keys)
@@ -4893,6 +5186,21 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     catalogue_state.bump(tx, [domain])
 
     return summary
+
+
+def _restamp_prior_version(tx, doc_id: str, written: dict[str, list], retired_by: str) -> None:
+    """A retired document's commit: History rows of `doc_id` that a retirement moved
+    (`lifecycle.REVIVABLE`) and that this version did not write (`written`, ids by
+    History label) are an earlier version's, so they take `retired_by` (`version:<n>`)
+    and a restore leaves them where they are. `_retired_at` is kept."""
+    from artmind.lifecycle import REVIVABLE
+
+    for label, ids in written.items():
+        tx.run(
+            f"MATCH (x:{label} {{doc_id: $doc_id}}) WHERE NOT x.id IN $ids AND {REVIVABLE.format(v='x')} "
+            "SET x._retired_by = $by",
+            doc_id=doc_id, ids=ids, by=retired_by,
+        )
 
 
 def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
@@ -4929,6 +5237,9 @@ def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
             "summaries": _load(summary_tree.SUMMARIES_FILE),
             "fingerprint": sync_state.folder_fingerprint(doc_kg_dir),
             "retired": lifecycle_records.retired_in_working_tree(
+                document.get("id") if isinstance(document, dict) else None
+            ),
+            "retired_by": lifecycle_records.retired_by_in_working_tree(
                 document.get("id") if isinstance(document, dict) else None
             ),
         }

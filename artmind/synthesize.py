@@ -87,7 +87,7 @@ def _is_client_error(exc: Exception) -> bool:
 # internals; it is small and stable.
 _SKIP_PROPS = frozenset({
     "id", "key", "canonical_name", "doc_id", "doc_version", "chunk_id",
-    "_kind", "_valid_from", "_valid_to", "_doc_valid_from", "_valid_time_source",
+    "_kind", "_valid_from", "_valid_to", "_valid_to_by", "_doc_valid_from", "_doc_valid_to", "_valid_time_source",
     "_retracts", "name", "entity_class", "domain", "description",
     "source_kind", "created_by",
 })
@@ -230,6 +230,8 @@ def synthesize_key(
 
     def _write(tx):
         synthesis_records.apply(tx, record, fingerprint)
+        # No recorded_at passed: an entity this rebuild creates is stamped with the rebuild's own
+        # UTC now (spec 2026-11-15 §6.1) -- it is first recorded here, not at any commit.
         outcome = projection.rebuild_key(tx, key, member_keys=member_keys, unit_of=unit_of, synthesis=record)
         # rebuild_key already wrote description = synthesis["text"] and
         # flagged embedding_stale = true (the description changed). Overwrite

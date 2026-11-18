@@ -6,7 +6,13 @@ a document and everything it asserted from `latest` to `history`; `docs
 restore` moves it back. That used to live only in the graph. A retired
 document now also has a file, `.artmind/data/curation/lifecycle/<id>.json`:
 
-    {"id": sha1(doc_id), "doc_id", "domain", "status": "retired"}
+    {"id": sha1(doc_id), "doc_id", "domain", "status": "retired", "recorded_at",
+     "retired_by"}
+
+`recorded_at` (UTC) is when the retirement was first recorded; `retired_by`
+what retired it (`retire`, or `supersede:<record id>`), stamped as
+`_retired_by` wherever the record is applied (`apply`, and a commit of the
+retired document). Retiring an already-retired document keeps both.
 
 **The file exists exactly while the document is retired**: `docs retire`
 writes it, `docs restore` deletes it. So `vault sync` retires a document when
@@ -30,7 +36,7 @@ import hashlib
 
 from loguru import logger
 
-from artmind.curation_records import Kind, matched_count
+from artmind.curation_records import Kind, matched_count, utc_iso
 
 NAME = "lifecycle"
 
@@ -66,7 +72,7 @@ def record_id(doc_id: str) -> str:
     return hashlib.sha1(doc_id.encode("utf-8")).hexdigest()
 
 
-def record_for(tx, doc_id: str, domain: str | None = None) -> dict:
+def record_for(tx, doc_id: str, domain: str | None = None, retired_by: str = "retire") -> dict:
     """The record retiring `doc_id`; its domain read from the graph when not
     given."""
     if domain is None:
@@ -75,7 +81,21 @@ def record_for(tx, doc_id: str, domain: str | None = None) -> dict:
         # not a dict: read it with `.get`, and check the value's type.
         value = rec.get("domain") if rec is not None else None
         domain = value if isinstance(value, str) else None
-    return {"id": record_id(doc_id), "doc_id": doc_id, "domain": domain, "status": "retired"}
+    from artmind import curation_records
+
+    rid = record_id(doc_id)
+    return {"id": rid, "doc_id": doc_id, "domain": domain, "status": "retired",
+            "recorded_at": curation_records.recorded_at(NAME, rid),
+            "retired_by": curation_records.first_value(NAME, rid, "retired_by", retired_by)}
+
+
+def retired_by_in_working_tree(doc_id: str | None) -> str | None:
+    """What this working tree's lifecycle record says retired `doc_id`."""
+    from artmind import curation_records
+
+    record = curation_records.read_record(NAME, record_id(doc_id)) if doc_id else None
+    value = (record or {}).get("retired_by")
+    return value if isinstance(value, str) and value else None
 
 
 def retired_in_working_tree(doc_id: str | None) -> bool:
@@ -100,7 +120,11 @@ def apply(tx, record: dict, fingerprint: str) -> set:
     mark) and return the keys its observations feed, for the rebuild."""
     from artmind.lifecycle import _transition
 
-    result = _transition(tx, record["doc_id"], to_history=True, rebuild=False)
+    # The retirement time is the record's, not this sync's (as `_retire_tx`
+    # does); a record without one falls back to now inside `_transition`.
+    result = _transition(tx, record["doc_id"], to_history=True, rebuild=False,
+                         retired_by=record.get("retired_by") or "retire",
+                         at=utc_iso(record.get("recorded_at")))
     if mark(tx, record, fingerprint) == 0:
         # Not an error -- the document may not have reached this graph yet,
         # and a later sync (or its replay) applies the record again -- but

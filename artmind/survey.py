@@ -58,25 +58,29 @@ UNWIND $docIds AS did
 MATCH (d:Document {id: did})
 OPTIONAL MATCH (s:DocSummary {id: did + ':summary'})
 RETURN d.id AS doc_id, coalesce(d.title, d.name) AS title, d.name AS name, d._domain AS domain,
-       s.text AS summary, coalesce(d._valid_from, d.valid_from) AS date,
+       s.text AS summary, d._valid_from AS date,
        EXISTS { MATCH (:Document)-[:SUPERSEDES]->(d) } AS superseded,
        """ + supersedes_list("d") + """ AS supersedes
 """
 
-#: `--by`: the date of every fused document (documents store `_valid_from`; `valid_from` is the fallback).
+#: `--by`: the date of every fused document (`_valid_from`); a default date (`_valid_precision`
+#: `none`, spec 2026-11-15 §2) is no date, so the document counts as undated.
 _PERIOD_DATES = """
 UNWIND $docIds AS did
 MATCH (d:Document {id: did})
-RETURN d.id AS doc_id, coalesce(d._valid_from, d.valid_from) AS date
+RETURN d.id AS doc_id,
+       CASE WHEN coalesce(d._valid_precision, 'day') = 'none' THEN null ELSE d._valid_from END AS date
 """
 
 #: `--by`: keyword hits per document date over the whole passage index, not just the ranked pool.
+#: A default-dated document counts as undated, as in `_PERIOD_DATES`.
 _PERIOD_HITS = """
 CALL db.index.fulltext.queryNodes('passage_text_ft', $ft_query, {limit: $hit_limit})
 YIELD node AS p
 WHERE p._domain IN $domains
 MATCH (d:Document {id: p.doc_id})
-RETURN coalesce(d._valid_from, d.valid_from) AS date, count(DISTINCT d) AS hits
+RETURN CASE WHEN coalesce(d._valid_precision, 'day') = 'none' THEN null ELSE d._valid_from END AS date,
+       count(DISTINCT d) AS hits
 """
 
 HIT_LIMIT = 5000
@@ -96,8 +100,9 @@ def _is_missing_summary_index(e: ClientError) -> bool:
 
 
 _WINDOW = ("MATCH (d:Document {{id: {var}.doc_id}}) "
-           "WHERE ($date_from IS NULL OR coalesce(d._valid_from, d.valid_from) >= $date_from) "
-           "AND ($date_to IS NULL OR coalesce(d._valid_from, d.valid_from) <= $date_to)\n    ")
+           "WHERE ($date_from IS NULL OR d._valid_from >= $date_from) "
+           "AND ($date_to IS NULL OR d._valid_from <= $date_to) "
+           "AND coalesce(d._valid_precision, 'day') <> 'none'\n    ")
 
 
 def _windowed(cypher: str, var: str, params: dict) -> str:

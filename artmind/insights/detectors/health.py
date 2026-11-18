@@ -13,6 +13,7 @@ import networkx as nx
 from artmind.insights.detectors import Detector, RunContext, Skip
 from artmind.insights.model import Finding
 from artmind.insights.profile import declared_triples
+from artmind.schema_validate import class_types, type_key
 
 
 def _all(ctx: RunContext) -> list[str]:
@@ -65,11 +66,16 @@ def _near_duplicates(sample: list[str]) -> list[list[str]]:
     return sorted(sorted(g) for g in groups.values() if len(g) > 1)[:10]
 
 
+CLOSED_TYPES = "types (closed list)"
+
+
 def _expected(schema: dict, cls: str, prop: str) -> tuple[int, str] | None:
     decl = (schema.get("entity_types") or {}).get(cls) or {}
     if prop == "type":
-        examples = decl.get("type_examples") or []
-        return (len(examples) * 5, "type_examples") if examples else (40, "no type_examples")
+        declared = class_types(decl)
+        if (decl.get("types") or []):
+            return len(declared), CLOSED_TYPES
+        return (len(declared) * 5, "type_examples") if declared else (40, "no type_examples")
     spec = (decl.get("properties") or {}).get(prop)
     options = hint_options(spec.get("hint") if isinstance(spec, dict) else None)
     return (max(10, len(options) * 5), "hint options") if options else None
@@ -85,13 +91,27 @@ def _run_sprawl(ctx: RunContext, _target: str) -> list[Finding]:
             limit, basis = expected
             dups = _near_duplicates(st.get("sample") or [])
             distinct = st.get("distinct", 0)
-            if distinct <= limit and not dups:
+            outside = None
+            if basis == CLOSED_TYPES:
+                # A closed list is breached by a value outside it, whatever its casing; read from
+                # the profile's sample (a lower bound when the sample is shorter than `distinct`).
+                listed = {type_key(t) for t in class_types((ctx.schema.get("entity_types") or {}).get(cls))}
+                outside = len({type_key(v) for v in st.get("sample") or []} - listed)
+                if not outside:
+                    continue
+                distinct = outside
+            if outside is None and distinct <= limit and not dups:
                 continue
-            score = min(1.0, distinct / (limit * 4)) if distinct > limit else 0.3
+            if outside is not None:
+                score = min(1.0, 0.3 + outside / 20)
+            else:
+                score = min(1.0, distinct / (limit * 4)) if distinct > limit else 0.3
             out.append(Finding(
                 key=f"vocabulary_sprawl:{cls}:{prop}", detector="vocabulary_sprawl", kind="health",
-                score=round(score, 4), title=f"{cls}.{prop} has {distinct} distinct values",
+                score=round(score, 4), title=(f"{cls}.{prop} has {outside} values outside its declared types" if outside is not None
+                       else f"{cls}.{prop} has {distinct} distinct values"),
                 stats={"distinct": distinct, "expected_max": limit, "basis": basis, "near_duplicates": dups,
+                       **({"outside": outside} if outside is not None else {}),
                        "sample": (st.get("sample") or [])[:20], "headline": distinct},
                 card={"type": "stat"}, action="schema",
             ))

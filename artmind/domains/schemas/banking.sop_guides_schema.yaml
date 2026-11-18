@@ -9,6 +9,7 @@ temporal:
     valid_from:
     - Effective Date
     - effective_date
+    revised:
     - Last Updated
     version:
     - Version
@@ -22,6 +23,7 @@ temporal:
 entity_types:
   PROCESS:
     kind: recurrent
+    identity: name
     description: A named end-to-end procedure, SOP, or operational workflow — the whole thing as a unit.
       Extract it once, including its purpose, scope, channel, and timeline. Each distinct named process
       is a separate entity (e.g., "Account Opening Process" and "KYC Verification Process" are separate).
@@ -130,6 +132,7 @@ entity_types:
       Direction is correct (PROCESS contains STEP, not STEP contains PROCESS).
   PROCESS_STEP:
     kind: recurrent
+    identity: name
     description: A discrete, named action or stage within a process — something that gets done by a specific
       actor at a specific point. Each numbered or bulleted step that represents a distinct action or review
       stage is a separate entity. Do not collapse multiple distinct steps into one.
@@ -250,6 +253,7 @@ entity_types:
       Name each step descriptively, not just by its step number.
   ROLE_ACTOR:
     kind: recurrent
+    identity: name
     description: A person, team, or system responsible for executing process steps, making decisions,
       or receiving notifications. Include both human roles (Branch Staff, Compliance Officer) and automated
       actors (Fraud Detection Engine, AML System) when they perform process actions. Name the role as
@@ -292,6 +296,7 @@ entity_types:
         WRONG:   { "name": "Role Actor" }
   DECISION_POINT:
     kind: recurrent
+    identity: name
     description: A branching condition in a process where different paths are taken depending on the outcome
       — an approve/reject gate, a risk level split, an escalation trigger, or a pass/fail check. Capture
       what is being decided and what each outcome path leads to.
@@ -347,6 +352,7 @@ entity_types:
       All DECISION_POINT → path relationships captured (both pass and fail paths).
   ESCALATION_LEVEL:
     kind: recurrent
+    identity: name
     description: A defined tier in an escalation matrix with specific authority, approval limits, response
       time, and ownership. Each numbered level (Level 1, Level 2, etc.) is a separate entity.
     type_examples:
@@ -388,6 +394,7 @@ entity_types:
       Naming: include the level number and authority in the name. RIGHT:   { "name": "Level 2 — Supervisor/Manager Resolution" }
   COMPLIANCE_CHECKPOINT:
     kind: recurrent
+    identity: name
     description: A mandatory regulatory or policy gate that must be formally passed before a process can
       proceed — the control point in a workflow where compliance is verified and the outcome recorded.
       Use this entity for the gate itself (was this obligation satisfied? what was the outcome?), not
@@ -452,6 +459,7 @@ entity_types:
       COMPLIANCE_CHECKPOINT entities include regulatory_basis, mandatory, evidence_required.
   PRODUCT:
     kind: recurrent
+    identity: name
     description: A banking product referenced as the context or outcome of a process — the product type
       that defines which account is being opened or which rules apply throughout the SOP.
     type_examples:
@@ -469,6 +477,7 @@ entity_types:
         hint: whether the product type changes which steps apply
   IDENTIFICATION_DOCUMENT:
     kind: recurrent
+    identity: name
     description: An official identity document collected and verified during a process — the document
       types accepted, the validation checks required, and the recording obligations. Extract when the
       SOP specifies document collection or verification steps.
@@ -496,6 +505,7 @@ entity_types:
       - belongs_to
   ADDRESS:
     kind: recurrent
+    identity: name
     description: A customer address collected, verified, or updated during a process — address verification
       steps, acceptable proof of address documents, or change of address procedures.
     type_examples:
@@ -521,6 +531,7 @@ entity_types:
       - belongs_to
   ACCOUNT:
     kind: recurrent
+    identity: name
     description: A customer account opened, held, modified, or closed under a banking product — savings,
       current, or joint. Extract when the document defines rules, state, or events that apply to the account
       itself.
@@ -578,6 +589,7 @@ entity_types:
       - deducts_from
   ACCOUNT_HOLDER:
     kind: recurrent
+    identity: name
     description: A person with legal rights and obligations over an account — primary, joint, or secondary
       holder — including their liability, authority, and due-diligence obligations.
     type_examples:
@@ -599,6 +611,7 @@ entity_types:
       - liable_under
   AML_SCREENING:
     kind: recurrent
+    identity: name
     description: Anti-Money Laundering screening — sanctions/PEP list checks, transaction monitoring,
       or ongoing screening — as mandated, executed, or reviewed by the document.
     type_examples:
@@ -622,6 +635,7 @@ entity_types:
       - leads_to_filing_of
   CARD:
     kind: recurrent
+    identity: name
     description: A payment card issued to, or referenced in connection with, a customer account — its
       issuance, use, blocking, or replacement.
     type_examples:
@@ -640,6 +654,7 @@ entity_types:
       daily_or_contactless_limit: {}
   CUSTOMER:
     kind: recurrent
+    identity: name
     description: A natural person who holds, applies for, or is otherwise the subject of a banking relationship
       — an account, product, transaction, or compliance process. Extract as a first-class entity whenever
       the customer is a defined party in the document, not merely mentioned in passing.
@@ -692,6 +707,7 @@ entity_types:
       - belongs_to
   DIRECT_DEBIT:
     kind: recurrent
+    identity: name
     description: A direct debit mandate on a customer account — its setup, the Direct Debit Guarantee,
       amendment, cancellation, or dispute.
     type_examples:
@@ -706,6 +722,7 @@ entity_types:
       cancellation_or_dispute_process: {}
   FRAUD_ALERT:
     kind: recurrent
+    identity: name
     description: A fraud detection alert or fraud response — its generation, investigation, escalation,
       or the customer-facing action it triggers.
     type_examples:
@@ -728,6 +745,7 @@ entity_types:
       - raised_on
   JOINT_ACCOUNT:
     kind: recurrent
+    identity: name
     description: An account arrangement held jointly by two or more customers with shared rights, liabilities,
       and consent requirements.
     type_examples:
@@ -742,6 +760,7 @@ entity_types:
       closure_consent: {}
   KYC_VERIFICATION:
     kind: recurrent
+    identity: name
     description: The Know Your Customer identity/address verification process — as a compliance obligation,
       an operational procedure, or an audited control. Extract when the document defines, executes, or
       evaluates KYC requirements.
@@ -769,6 +788,7 @@ entity_types:
       - applied_to
   SAR:
     kind: occurrent
+    identity: occasion
     description: A Suspicious Activity Report — the obligation, preparation, filing, or tracking of a
       SAR to the relevant authority (e.g. the NCA).
     type_examples:
@@ -782,12 +802,16 @@ entity_types:
       filing_deadline: {}
       confidentiality_rule: {}
       consequence_of_non_filing: {}
+      filed_on:
+        hint: date the SAR was filed
+        temporal: valid_from
     relates_to:
       TRANSACTION:
       - triggered_by
       - based_on_evidence_from
   STANDING_ORDER:
     kind: recurrent
+    identity: name
     description: A standing order payment instruction on a customer account — its setup, amendment, cancellation,
       or failure handling.
     type_examples:
@@ -802,6 +826,7 @@ entity_types:
       failure_handling: {}
   TRANSACTION:
     kind: occurrent
+    identity: occasion
     description: A financial event on a customer account — a deposit, withdrawal, transfer, payment, or
       fee charge — referenced because it is monitored, disputed, reported, or otherwise governed by the
       document.
@@ -821,6 +846,9 @@ entity_types:
       threshold_value:
         hint: numeric, no currency symbol or thousands separators, e.g., 10000
       dispute_or_reversal_rules: {}
+      transaction_date:
+        hint: date of the transaction, YYYY-MM-DD
+        temporal: valid_from
 guidance:
   relationships: |-
     All COMPLIANCE_CHECKPOINT → DECISION_POINT gate relationships captured.

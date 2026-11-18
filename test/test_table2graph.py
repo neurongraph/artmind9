@@ -166,7 +166,8 @@ def test_parse_mapping_rejects_malformed_documents(patch, message):
 
 def test_validate_mapping_accepts_the_reference_mapping():
     errors, warnings = t2g.validate_mapping(_mapping(), SCHEMA, COLUMNS)
-    assert errors == [] and warnings == []
+    assert errors == []
+    assert [w for w in warnings if "occasion class" not in w] == []   # the one occasion warning is expected
 
 
 def test_validate_mapping_reports_errors_and_schema_drift():
@@ -374,6 +375,114 @@ def test_temporal_versions_all_keeps_every_version():
     staged, _ = _build(rows=rows, table=TEMPORAL, mapping=t2g.parse_mapping(mapping))
     bands = sorted(o["band"] for o in staged["observations"] if o["name"] == "Pooja Jain (001)")
     assert bands == ["6", "7"]
+
+
+def _closed(row, valid_from, valid_to):
+    return {**_version(row, valid_from, valid_to is None), "_valid_to": valid_to and date.fromisoformat(valid_to)}
+
+
+def test_a_closed_scd2_version_ends_in_the_graph_and_the_open_one_does_not():
+    mapping = json.loads(json.dumps(MAPPING))
+    mapping["entities"]["person"]["versions"] = "all"
+    rows = [
+        _closed(_row("001", "Jain, Pooja", "Kothari, Anubhav", band="6"), "2025-11-01", "2026-02-01"),
+        _closed(_row("001", "Jain, Pooja", "Kothari, Anubhav", band="7"), "2026-02-01", None),
+    ]
+    staged, _ = _build(rows=rows, table=TEMPORAL, mapping=t2g.parse_mapping(mapping))
+    by_band = {o["band"]: o for o in staged["observations"] if o["name"] == "Pooja Jain (001)"}
+    assert by_band["6"]["_valid_to"] == "2026-02-01" and by_band["6"]["_valid_from"] == "2025-11-01"
+    assert "_valid_to" not in by_band["7"]
+
+
+def test_an_scd2_far_future_end_is_an_open_end():
+    mapping = json.loads(json.dumps(MAPPING))
+    mapping["entities"]["person"]["versions"] = "all"
+    rows = [_closed(_row("001", "Jain, Pooja", "Kothari, Anubhav", band="6"), "2025-11-01", "9999-12-31")]
+    staged, _ = _build(rows=rows, table=TEMPORAL, mapping=t2g.parse_mapping(mapping))
+    assert all("_valid_to" not in o for o in staged["observations"] if o["name"] == "Pooja Jain (001)")
+
+
+def test_only_the_rows_own_subject_inherits_the_end():
+    rows = [_closed(_row("001", "Jain, Pooja", "Nobody, Unknown"), "2025-11-01", "2026-02-01")]
+    staged, _ = _build(rows=rows, table=TEMPORAL)
+    ends = {o["name"]: o.get("_valid_to") for o in staged["observations"]}
+    assert ends["Pooja Jain (001)"] == "2026-02-01"
+    assert ends["Unknown Nobody"] is None, "a stubbed manager outlives the row version"
+    assert ends["2025 Performance Segment - Pooja Jain (001)"] is None
+
+
+def _composite_mapping():
+    return t2g.parse_mapping({
+        "table": "rates_*", "domain": "perf",
+        "entities": {
+            "line": {"class": "PERSON", "name": "{product}", "properties": {"product": "Product"}},
+            "offer": {"class": "PERSON", "name": "{product} {tier}",
+                      "properties": {"product": "Product", "tier": "Tier"}},
+        },
+    })
+
+
+def test_a_composite_keys_subject_carries_every_key_column():
+    mapping = _composite_mapping()
+    assert t2g._subject_aliases(mapping, ["Product", "Tier"]) == {"offer"}
+    assert t2g._subject_aliases(mapping, ["Product"]) == {"line", "offer"}
+
+
+def test_a_table_with_no_key_ends_no_entity():
+    assert t2g._subject_aliases(_composite_mapping(), []) == set()
+
+
+@pytest.mark.parametrize("missing", [None, "", "NaT", "None", "nan"])
+def test_a_missing_row_end_is_open(missing):
+    assert t2g._row_end(missing, "2025-11-01") is None
+
+
+def test_a_nat_row_end_leaves_the_version_open():
+    rows = [{**_version(_row("001", "Jain, Pooja", "Kothari, Anubhav"), "2025-11-01", True), "_valid_to": "NaT"}]
+    staged, _ = _build(rows=rows, table=TEMPORAL)
+    assert "_valid_to" not in _obs(staged, "Pooja Jain (001)")
+
+
+def _with_person_dates(started=None, left=None):
+    mapping = json.loads(json.dumps(MAPPING))
+    schema = json.loads(json.dumps(SCHEMA))
+    props = mapping["entities"]["person"]["properties"]
+    for key, column, tag, value in (("started_on", "Start", "valid_from", started), ("left_on", "Left", "valid_to", left)):
+        if value:
+            props[key] = {"column": column}
+            schema["entity_types"]["PERSON"]["properties"][key] = {"temporal": tag}
+    return t2g.parse_mapping(mapping), schema
+
+
+def test_a_valid_to_property_wins_over_the_row_end():
+    mapping, schema = _with_person_dates(left=True)
+    rows = [{**_closed(_row("001", "Jain, Pooja", "Kothari, Anubhav"), "2025-11-01", "2026-02-01"), "Left": "2026-01-15"}]
+    staged, _ = t2g.build_staged(TEMPORAL, rows, COLUMNS + ["Left"], mapping, schema)
+    assert _obs(staged, "Pooja Jain (001)")["_valid_to"] == "2026-01-15"
+
+
+def test_a_row_end_before_the_property_start_is_no_end():
+    mapping, schema = _with_person_dates(started=True)
+    rows = [{**_closed(_row("001", "Jain, Pooja", "Kothari, Anubhav"), "2025-11-01", "2026-02-01"), "Start": "2026-03-01"}]
+    staged, _ = t2g.build_staged(TEMPORAL, rows, COLUMNS + ["Start"], mapping, schema)
+    person = _obs(staged, "Pooja Jain (001)")
+    assert person["_valid_from"] == "2026-03-01" and "_valid_to" not in person
+
+
+def test_latest_keeps_the_end_of_a_closed_newest_row():
+    rows = [
+        _closed(_row("001", "Jain, Pooja", "Kothari, Anubhav", band="6"), "2025-11-01", "2026-02-01"),
+        _closed(_row("001", "Jain, Pooja", "Kothari, Anubhav", band="7"), "2026-02-01", "2026-06-01"),
+    ]
+    staged, _ = _build(rows=rows, table=TEMPORAL)
+    persons = [o for o in staged["observations"] if o["name"] == "Pooja Jain (001)"]
+    assert len(persons) == 1 and persons[0]["band"] == "7" and persons[0]["_valid_to"] == "2026-06-01"
+
+
+def test_a_row_end_not_after_its_start_is_no_end():
+    rows = [_closed(_row("001", "Jain, Pooja", "Kothari, Anubhav"), "2025-11-01", "2025-11-01")]
+    staged, _ = _build(rows=rows, table=TEMPORAL)
+    assert "_valid_to" not in _obs(staged, "Pooja Jain (001)")
 
 
 # ── transforms ───────────────────────────────────────────────────────────────
@@ -763,3 +872,30 @@ def test_resolve_table_row_stem_cross_domain_requires_domain_flag(tmp_path, monk
 
     with pytest.raises(click.ClickException, match="ambiguous across domains"):
         cli._resolve_table_row("hr", (), allow_mapping_stem=True)
+
+
+@pytest.mark.parametrize("value", ["2026", "2026-07"])
+def test_table2graph_refuses_a_period_as_of(value):
+    from click.testing import CliRunner
+    from artmind.cli import cli
+
+    result = CliRunner().invoke(cli, ["ingest", "table2graph", "t", "--asOf", value])
+    assert result.exit_code == 1
+    assert "full ISO date" in result.output
+
+
+def test_a_date_column_takes_only_a_whole_day():
+    """parse_iso now reads "2026" as its first day; a `date` column still takes days only."""
+    assert t2g._to_date("15/03/2026") == "2026-03-15"
+    assert t2g._to_date("2026") is None
+    assert t2g._to_date("2026-Q1") is None
+
+
+def test_validate_mapping_warns_on_an_occasion_class_target():
+    schema = {"entity_types": {"VISIT": {"kind": "occurrent", "properties": {}},
+                               "SITE": {"kind": "recurrent", "identity": "name"}}}
+    mapping = t2g.parse_mapping({"table": "t", "entities": {
+        "visit": {"class": "VISIT", "name": "{x}"}, "site": {"class": "SITE", "name": "{x}"}}})
+    _errors, warnings = t2g.validate_mapping(mapping, schema, ["x"])
+    hits = [w for w in warnings if "occasion class" in w]
+    assert len(hits) == 1 and hits[0].startswith("entities.visit") and "unless the identity template includes the date" in hits[0]

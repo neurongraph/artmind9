@@ -10,6 +10,7 @@ temporal:
     - Effective Date
     - Issued Date
     - Reporting Date
+    revised:
     - Last Updated
     version:
     - Version
@@ -23,6 +24,7 @@ temporal:
 entity_types:
   ORGANIZATIONAL_UNIT:
     kind: recurrent
+    identity: name
     description: Any department, business unit, committee, board, or governance body — internal or external
       — that plays a structural role. Include cross-functional committees, regulatory authorities, and
       external agencies as well as internal departments.
@@ -102,6 +104,7 @@ entity_types:
       - subject_to
   ROLE_PERSON:
     kind: recurrent
+    identity: name
     description: Named leadership roles (C-suite, directors, department heads, managers) and any individual
       employees specifically named. Focus on roles that carry defined accountability, authority, or reporting
       relationships. Include both the role title and the person when both are stated.
@@ -157,6 +160,7 @@ entity_types:
     guidance: All reporting lines captured (ROLE_PERSON reports_to ROLE_PERSON).
   SYSTEM_APPLICATION:
     kind: recurrent
+    identity: name
     description: Any technology system, platform, or digital application operated by or integrated with
       FirstUK Bank. Include core banking systems, customer-facing channels, supporting tools, and external
       infrastructure systems. Capture the system's purpose and technical identity.
@@ -223,6 +227,7 @@ entity_types:
     guidance: SYSTEM_APPLICATION entities include system_id, technology_stack, integrations.
   BANKING_CONCEPT:
     kind: recurrent
+    identity: name
     description: A core domain entity type as defined in the FirstUK Bank business ontology — conceptual
       building blocks such as Customer, Account, Transaction, Product, KYC Verification, AML Screening,
       SAR, Fraud Alert. Extract these when the text defines, describes, or specifies rules about the concept
@@ -289,6 +294,7 @@ entity_types:
       BANKING_CONCEPT entities include definition, key_attributes, business_rules.
   METRIC_TARGET:
     kind: recurrent
+    identity: name
     description: A quantitative performance target, SLA, risk threshold, budget figure, headcount, or
       operational KPI. Extract the figure and what it measures together. Include both targets and actuals
       when stated.
@@ -327,6 +333,7 @@ entity_types:
       METRIC_TARGET entities include value, unit, what_it_measures.
   BUSINESS_RULE:
     kind: recurrent
+    identity: name
     description: A constraint, decision authority, operational rule, regulatory obligation, or approval
       threshold that governs how the bank or its systems must behave. Include both hard constraints (cannot
       be violated) and governance rules (who must approve what).
@@ -362,6 +369,7 @@ entity_types:
     guidance: Key constraints and decision authorities captured as BUSINESS_RULE.
   ACCOUNT:
     kind: recurrent
+    identity: name
     description: A customer account opened, held, modified, or closed under a banking product — savings,
       current, or joint. Extract when the document defines rules, state, or events that apply to the account
       itself.
@@ -419,6 +427,7 @@ entity_types:
       - deducts_from
   ACCOUNT_HOLDER:
     kind: recurrent
+    identity: name
     description: A person with legal rights and obligations over an account — primary, joint, or secondary
       holder — including their liability, authority, and due-diligence obligations.
     type_examples:
@@ -440,6 +449,7 @@ entity_types:
       - liable_under
   AML_SCREENING:
     kind: recurrent
+    identity: name
     description: Anti-Money Laundering screening — sanctions/PEP list checks, transaction monitoring,
       or ongoing screening — as mandated, executed, or reviewed by the document.
     type_examples:
@@ -463,6 +473,7 @@ entity_types:
       - leads_to_filing_of
   CARD:
     kind: recurrent
+    identity: name
     description: A payment card issued to, or referenced in connection with, a customer account — its
       issuance, use, blocking, or replacement.
     type_examples:
@@ -481,6 +492,7 @@ entity_types:
       daily_or_contactless_limit: {}
   CUSTOMER:
     kind: recurrent
+    identity: name
     description: A natural person who holds, applies for, or is otherwise the subject of a banking relationship
       — an account, product, transaction, or compliance process. Extract as a first-class entity whenever
       the customer is a defined party in the document, not merely mentioned in passing.
@@ -533,6 +545,7 @@ entity_types:
       - belongs_to
   DIRECT_DEBIT:
     kind: recurrent
+    identity: name
     description: A direct debit mandate on a customer account — its setup, the Direct Debit Guarantee,
       amendment, cancellation, or dispute.
     type_examples:
@@ -547,6 +560,7 @@ entity_types:
       cancellation_or_dispute_process: {}
   FRAUD_ALERT:
     kind: recurrent
+    identity: name
     description: A fraud detection alert or fraud response — its generation, investigation, escalation,
       or the customer-facing action it triggers.
     type_examples:
@@ -569,6 +583,7 @@ entity_types:
       - raised_on
   JOINT_ACCOUNT:
     kind: recurrent
+    identity: name
     description: An account arrangement held jointly by two or more customers with shared rights, liabilities,
       and consent requirements.
     type_examples:
@@ -583,6 +598,7 @@ entity_types:
       closure_consent: {}
   KYC_VERIFICATION:
     kind: recurrent
+    identity: name
     description: The Know Your Customer identity/address verification process — as a compliance obligation,
       an operational procedure, or an audited control. Extract when the document defines, executes, or
       evaluates KYC requirements.
@@ -604,6 +620,7 @@ entity_types:
       - applied_to
   SAR:
     kind: occurrent
+    identity: occasion
     description: A Suspicious Activity Report — the obligation, preparation, filing, or tracking of a
       SAR to the relevant authority (e.g. the NCA).
     type_examples:
@@ -617,12 +634,16 @@ entity_types:
       filing_deadline: {}
       confidentiality_rule: {}
       consequence_of_non_filing: {}
+      filed_on:
+        hint: date the SAR was filed
+        temporal: valid_from
     relates_to:
       TRANSACTION:
       - triggered_by
       - based_on_evidence_from
   STANDING_ORDER:
     kind: recurrent
+    identity: name
     description: A standing order payment instruction on a customer account — its setup, amendment, cancellation,
       or failure handling.
     type_examples:
@@ -637,6 +658,7 @@ entity_types:
       failure_handling: {}
   TRANSACTION:
     kind: occurrent
+    identity: occasion
     description: A financial event on a customer account — a deposit, withdrawal, transfer, payment, or
       fee charge — referenced because it is monitored, disputed, reported, or otherwise governed by the
       document.
@@ -656,6 +678,9 @@ entity_types:
       threshold_value:
         hint: numeric, no currency symbol or thousands separators, e.g., 10000
       dispute_or_reversal_rules: {}
+      transaction_date:
+        hint: date of the transaction, YYYY-MM-DD
+        temporal: valid_from
 guidance:
   relationships: |-
     All BANKING_CONCEPT → BUSINESS_RULE governance links captured.

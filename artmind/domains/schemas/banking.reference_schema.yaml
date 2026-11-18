@@ -21,6 +21,7 @@ temporal:
 entity_types:
   RATE_ENTRY:
     kind: recurrent
+    identity: name
     naming_example:
       right: SmartSaver Account Tier 2 Rate
       wrong: SmartSaver Account Tier 2 Rate - 4.60% AER, effective 2026-02-01
@@ -98,6 +99,7 @@ entity_types:
         WRONG:   { "name": "SmartSaver Account Tier 1 Rate -- 4.50% AER (£0-£10,000), effective 2026-01-15" }
   INCIDENT_TYPE:
     kind: recurrent
+    identity: name
     description: 'A named category or scenario of operational incident, security event, or system failure
       with defining characteristics and examples. Each top-level incident category (Cybersecurity Incident,
       Data Breach, System Incident, etc.) is a separate entity. Also extract specific subtypes (e.g.,
@@ -176,6 +178,7 @@ entity_types:
       Naming: use the exact category name from the document. RIGHT:   { "name": "Cybersecurity Incident", "aliases": ["Malware", "Ransomware Attack"] }
   SEVERITY_LEVEL:
     kind: recurrent
+    identity: name
     description: A defined incident severity tier with quantified impact thresholds (financial, customer
       scope, system downtime), specific response time targets, and mandatory escalation requirements.
       Each severity level is a separate entity.
@@ -228,6 +231,7 @@ entity_types:
         WRONG:   { "name": "Severity 1 (Critical) -- >£100,000 impact or >4-hour system outage" }
   RESPONSE_ACTION:
     kind: recurrent
+    identity: name
     description: A specific action, procedure, or step required during incident response, business continuity,
       or production operations. Includes detection steps, containment actions, notifications to send,
       recovery procedures, and post-incident reviews. Each distinct named action or phase is a separate
@@ -292,6 +296,7 @@ entity_types:
       RESPONSE_ACTION entities include actor, timeline, mandatory_for_severities.
   NOTIFICATION_CONTACT:
     kind: recurrent
+    identity: name
     description: A named contact, team, regulator, or external party that must be notified under specific
       conditions — with contact details, trigger conditions, and required timeframes when stated. Extract
       from escalation lists, emergency contacts, and regulatory notification requirements.
@@ -328,6 +333,7 @@ entity_types:
     guidance: All notification contacts captured as NOTIFICATION_CONTACT.
   CUSTOMER_GUIDE_ITEM:
     kind: recurrent
+    identity: name
     description: A piece of customer-facing guidance from the welcome pack or customer reference materials
       — explaining how to use an account feature, how to contact the bank, what to expect during onboarding,
       or how a product works. Each distinct guidance point or section is a separate entity.
@@ -387,6 +393,7 @@ entity_types:
     guidance: All distinct customer guidance sections captured as CUSTOMER_GUIDE_ITEM.
   PRODUCT:
     kind: recurrent
+    identity: name
     description: A banking product referenced in a rate schedule, incident scope, or welcome pack. Extract
       when the product is the primary subject or the governing context of a reference document entry.
     type_examples:
@@ -403,6 +410,7 @@ entity_types:
         hint: which welcome pack section covers this product
   ACCOUNT:
     kind: recurrent
+    identity: name
     description: A customer account opened, held, modified, or closed under a banking product — savings,
       current, or joint. Extract when the document defines rules, state, or events that apply to the account
       itself.
@@ -460,6 +468,7 @@ entity_types:
       - deducts_from
   ACCOUNT_HOLDER:
     kind: recurrent
+    identity: name
     description: A person with legal rights and obligations over an account — primary, joint, or secondary
       holder — including their liability, authority, and due-diligence obligations.
     type_examples:
@@ -481,6 +490,7 @@ entity_types:
       - liable_under
   AML_SCREENING:
     kind: recurrent
+    identity: name
     description: Anti-Money Laundering screening — sanctions/PEP list checks, transaction monitoring,
       or ongoing screening — as mandated, executed, or reviewed by the document.
     type_examples:
@@ -504,6 +514,7 @@ entity_types:
       - leads_to_filing_of
   CARD:
     kind: recurrent
+    identity: name
     description: A payment card issued to, or referenced in connection with, a customer account — its
       issuance, use, blocking, or replacement.
     type_examples:
@@ -522,6 +533,7 @@ entity_types:
       daily_or_contactless_limit: {}
   CUSTOMER:
     kind: recurrent
+    identity: name
     description: A natural person who holds, applies for, or is otherwise the subject of a banking relationship
       — an account, product, transaction, or compliance process. Extract as a first-class entity whenever
       the customer is a defined party in the document, not merely mentioned in passing.
@@ -574,6 +586,7 @@ entity_types:
       - belongs_to
   DIRECT_DEBIT:
     kind: recurrent
+    identity: name
     description: A direct debit mandate on a customer account — its setup, the Direct Debit Guarantee,
       amendment, cancellation, or dispute.
     type_examples:
@@ -588,6 +601,7 @@ entity_types:
       cancellation_or_dispute_process: {}
   FRAUD_ALERT:
     kind: recurrent
+    identity: name
     description: A fraud detection alert or fraud response — its generation, investigation, escalation,
       or the customer-facing action it triggers.
     type_examples:
@@ -610,6 +624,7 @@ entity_types:
       - raised_on
   JOINT_ACCOUNT:
     kind: recurrent
+    identity: name
     description: An account arrangement held jointly by two or more customers with shared rights, liabilities,
       and consent requirements.
     type_examples:
@@ -624,6 +639,7 @@ entity_types:
       closure_consent: {}
   KYC_VERIFICATION:
     kind: recurrent
+    identity: name
     description: The Know Your Customer identity/address verification process — as a compliance obligation,
       an operational procedure, or an audited control. Extract when the document defines, executes, or
       evaluates KYC requirements.
@@ -645,6 +661,7 @@ entity_types:
       - applied_to
   SAR:
     kind: occurrent
+    identity: occasion
     description: A Suspicious Activity Report — the obligation, preparation, filing, or tracking of a
       SAR to the relevant authority (e.g. the NCA).
     type_examples:
@@ -658,12 +675,16 @@ entity_types:
       filing_deadline: {}
       confidentiality_rule: {}
       consequence_of_non_filing: {}
+      filed_on:
+        hint: date the SAR was filed
+        temporal: valid_from
     relates_to:
       TRANSACTION:
       - triggered_by
       - based_on_evidence_from
   STANDING_ORDER:
     kind: recurrent
+    identity: name
     description: A standing order payment instruction on a customer account — its setup, amendment, cancellation,
       or failure handling.
     type_examples:
@@ -678,6 +699,7 @@ entity_types:
       failure_handling: {}
   TRANSACTION:
     kind: occurrent
+    identity: occasion
     description: A financial event on a customer account — a deposit, withdrawal, transfer, payment, or
       fee charge — referenced because it is monitored, disputed, reported, or otherwise governed by the
       document.
@@ -697,6 +719,9 @@ entity_types:
       threshold_value:
         hint: numeric, no currency symbol or thousands separators, e.g., 10000
       dispute_or_reversal_rules: {}
+      transaction_date:
+        hint: date of the transaction, YYYY-MM-DD
+        temporal: valid_from
 guidance:
   relationships: |-
     All SEVERITY_LEVEL → RESPONSE_ACTION mandatory actions captured.

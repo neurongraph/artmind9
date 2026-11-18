@@ -6,6 +6,7 @@ persona: a knowledgeable literary analyst
 entity_types:
   PERSON:
     kind: recurrent
+    identity: name
     description: Any person who appears, is named, or is meaningfully referenced in the story. Include
       persons who are talked about but do not appear directly.
     type_examples:
@@ -78,6 +79,7 @@ entity_types:
     guidance: Include persons who are only talked about but never appear directly on the page.
   LOCATION:
     kind: recurrent
+    identity: name
     description: Any place where events occur or are meaningfully referenced. Include sub-locations (e.g.,
       a room within a house).
     type_examples:
@@ -107,6 +109,7 @@ entity_types:
         hint: real world vs fictional
   OBJECT:
     kind: recurrent
+    identity: name
     description: Any physical item, animal, document, or symbolic item that plays a role in the narrative.
       Extract only those that matter to character, plot, or theme — not mundane background objects.
     type_examples:
@@ -130,6 +133,7 @@ entity_types:
         hint: how it connects to plot or mystery
   EVENT:
     kind: occurrent
+    identity: occasion
     description: Any significant happening that advances the plot, reveals character, or changes the situation.
       Not every action — only those with narrative weight.
     type_examples:
@@ -168,6 +172,7 @@ entity_types:
       - occurs_at
   ORGANIZATION:
     kind: recurrent
+    identity: name
     description: Any group, institution, or collective entity that plays a role in the narrative. Includes
       formal organizations, informal factions, and named collectives that influence events, interact with
       characters
@@ -230,6 +235,7 @@ entity_types:
       - intercepts
   CONCEPT:
     kind: recurrent
+    identity: name
     description: Abstract ideas, mysteries, themes, organisations, deductions, or motives that are important
       to understanding the story.
     type_examples:
@@ -254,6 +260,7 @@ entity_types:
       want, and what they will do for it.'
   STATE_CHANGE:
     kind: occurrent
+    identity: occasion
     description: A change in an entity's state, status, or relationship over time — extract when the narrative
       marks that something became different from before (a character's allegiance shifting, a relationship
       breaking, a plan starting or ending). Carry the point in the story it happened.

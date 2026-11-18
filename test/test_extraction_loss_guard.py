@@ -384,3 +384,20 @@ def test_a_staged_extraction_writes_the_summary_sidecar_with_it(ingest_env, monk
 
     sidecar = json.loads((folder / ing.DOCUMENT_CONTEXT_FILE).read_text())
     assert sidecar["summary"] == "A note about four people." and sidecar["identifiers"] == ["Alpha"]
+
+
+def test_a_meta_without_the_occasion_rule_fails_the_file_once(ingest_env, monkeypatch, stash_root):
+    """Spec 2026-11-15 §8: one kg_error naming the migration, no chunk step and no LLM call."""
+    import artmind.prompt_builder as prompt_builder
+
+    vault, _ = ingest_env
+    _schemas(vault, monkeypatch)
+    result = ing.ingest_file(_note(vault), "m", "general")
+    monkeypatch.setattr(prompt_builder, "load_meta", lambda: {"kind_naming_rules": {}})
+    calls = []
+    monkeypatch.setattr(ing, "_llm_extract", lambda *a, **k: calls.append(a) or [])
+
+    assert ing.extract_kg(result, "general", max_workers=1) is None
+    assert "identity_naming_rules.occasion" in result["kg_error"]
+    assert "artmind migrate status" in result["kg_error"]
+    assert calls == []

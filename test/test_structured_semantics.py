@@ -748,3 +748,20 @@ def test_delete_unconfirmed_mapping_refuses_a_confirmed_row(tmp_path, monkeypatc
 
     assert registry.delete_unconfirmed_mapping(table_id, "customer_id", "PRODUCT") == 0
     assert _mapping_rows(table_id) == {("customer_id", "PRODUCT", True)}
+
+
+def test_mapping_prompt_shows_declared_types_and_type_examples(tmp_path, monkeypatch):
+    from artmind.structured import semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+    _stub_schema(monkeypatch, {
+        "GADGET": {"kind": "recurrent", "description": "A thing.", "types": ["kettle_like", "lamp_like"]},
+        "BRANCH": {"kind": "recurrent", "description": "A site.", "type_examples": ["outpost"]},
+    })
+    seen = _stub_llm(monkeypatch, {"mappings": []})
+
+    semantics.propose_mapping(table_id, "banking")
+
+    assert "(e.g. kettle_like, lamp_like)" in seen["prompt"]
+    assert "(e.g. outpost)" in seen["prompt"]

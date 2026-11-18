@@ -40,8 +40,11 @@ from artmind.observations import normalize_property_keys, property_key_rules
 
 #: The fields a retime owns -- everything else in a staging folder is left
 #: byte-for-byte alone.
-_DOCUMENT_TIME_KEYS = ("_valid_from", "_valid_to", "_valid_time_source")
-_OBSERVATION_TIME_KEYS = ("_valid_from", "_valid_to", "_valid_time_source", "_doc_valid_from")
+_DOCUMENT_TIME_KEYS = ("_valid_from", "_valid_to", "_valid_time_source", "_valid_precision", "_revised_at")
+_OBSERVATION_TIME_KEYS = (
+    "_valid_from", "_valid_to", "_valid_time_source", "_valid_precision", "_valid_time_of_day",
+    "_doc_valid_from", "_doc_valid_to", "_due", "_review",
+)
 
 
 def _load_json(path: Path, default=None):
@@ -68,11 +71,22 @@ def retime_observations(observations: list[dict], document: dict, schema: dict) 
     {dropped key: value}}): the decisions `ingest._build_observations` + `build_observation` make.
 
     A fact's own date (its class's `temporal:` property) wins, else the document's;
-    `_doc_valid_from` is always the document's. Property keys are normalized
+    `_doc_valid_from` is always the document's, and a document-dated fact also keeps the
+    document's stated end as `_doc_valid_to` (what `unsupersede` restores). Property keys are normalized
     (`observations.normalize_property_keys`) and a key the observation's class does not declare
     is dropped (spec 2026-11-15 §2.4). A table row's observation (`source_kind: table`) keeps its
-    mapping's keys (table2graph is out of scope, spec 2026-11-15)."""
-    from artmind.observations import declared_property_keys, filter_declared
+    mapping's keys (table2graph is out of scope, spec 2026-11-15).
+
+    A non-table observation's `_kind` is re-derived from the schema (`class_kind`) and its
+    `key` rebuilt as ingest builds it: an `identity: occasion` class keys on its name and day,
+    its `canonical_name` stripped of any date (`strip_occasion_date`; `name` stays verbatim)
+    (spec 2026-11-15 §5.2). A table row keeps its mapping's declared key (plan question 21).
+    Observation ids never change, so the rebuild moves a node's key in place."""
+    from artmind.observations import (
+        aggregate_key, class_kind, declared_property_keys, filter_declared, key_string, occasion_token,
+        strip_occasion_date,
+    )
+    from artmind.schema_validate import class_identity
     from artmind.temporal import _entity_temporal_mapping
 
     entity_dates = _entity_temporal_mapping(schema)
@@ -89,15 +103,33 @@ def retime_observations(observations: list[dict], document: dict, schema: dict) 
                 # An id-less observation is keyed by its key, else its position: never "" (two
                 # such observations would collide in the sidecar).
                 dropped[str(obs.get("id") or obs.get("key") or f"#{len(out)}")] = gone
-        fact_from, fact_to = ingest._fact_valid_time(entity_dates, cls, obs)
+        fact = ingest._fact_valid_time(entity_dates, cls, obs)
         new = {k: v for k, v in obs.items() if k not in _OBSERVATION_TIME_KEYS}
         times = {
-            "_valid_from": fact_from or doc_from,
-            "_valid_to": fact_to or doc_to,
-            "_valid_time_source": "property" if fact_from else document.get("_valid_time_source"),
+            "_valid_from": fact.valid_from or doc_from,
+            # a fact with its own date keeps only its own end; a document-dated one takes the document's
+            "_valid_to": fact.valid_to if fact.valid_from else doc_to,
+            "_valid_time_source": "property" if fact.valid_from else document.get("_valid_time_source"),
+            "_valid_precision": (
+                fact.precision if fact.valid_from else ingest._document_precision(document, schema)
+            ),
+            "_valid_time_of_day": fact.time_of_day,
             "_doc_valid_from": doc_from,
+            # a document-dated fact keeps the document's stated end (what `unsupersede` restores)
+            "_doc_valid_to": None if fact.valid_from else doc_to,
+            "_due": fact.due,
+            "_review": fact.review,
         }
         new.update({k: v for k, v in times.items() if v})
+        name_part = obs.get("canonical_name") or obs.get("name")
+        if obs.get("source_kind") != "table" and name_part:
+            new["_kind"] = class_kind(schema, cls)
+            occurs_on = None
+            if class_identity(schema, cls) == "occasion":
+                # As ingest names it: no date in the name, the date token in the key; `name` stays verbatim.
+                name_part = new["canonical_name"] = strip_occasion_date(name_part)
+                occurs_on = occasion_token(new.get("_valid_from"), new.get("_valid_precision"))
+            new["key"] = key_string(aggregate_key(name_part, cls, obs.get("_domain") or "", occurs_on=occurs_on))
         out.append(new)
     return out, dropped
 
@@ -160,14 +192,21 @@ def retime_folder(doc_kg_dir: Path, schema: dict, *, write: bool = True) -> dict
     new_observations, dropped = retime_observations(observations, new_document, schema)
     counts = Counter(k for d in dropped.values() for k in d)
 
-    changed = new_document != document or new_observations != observations
+    # Chunks carry the document's window and their own day (spec 2026-11-15 §5.1).
+    chunks = _load_json(doc_kg_dir / "chunks.json", None)
+    new_chunks = ingest._date_chunks(chunks, new_document) if isinstance(chunks, list) else chunks
+
+    changed = new_document != document or new_observations != observations or new_chunks != chunks
     if changed and write:
         if dropped:
             _keep_dropped(doc_kg_dir, name, dropped)
-        ingest.write_staging(doc_kg_dir, {
+        files = {
             "document.json": new_document,
             "observations.json": new_observations,
-        })
+        }
+        if new_chunks != chunks:
+            files["chunks.json"] = new_chunks
+        ingest.write_staging(doc_kg_dir, files)
     result = {
         "document": name,
         "before": document.get("_valid_from"),

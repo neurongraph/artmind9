@@ -1,5 +1,6 @@
 """`ingest supersede --dryRun`: resolves both documents and plans the retirement from reads alone."""
 import json
+import re
 from unittest.mock import patch
 
 import pytest
@@ -13,6 +14,10 @@ KEY = "acme ltd|ORGANISATION|demo.one"
 
 def _respond(cypher, params):
     cy = " ".join(cypher.split())
+    if "x._valid_to IS NULL OR x._valid_to_by IS NOT NULL" in cy:
+        return [{"n": 3}]
+    if "d._valid_precision AS precision" in cy:
+        return [{"valid_from": "2026-02-01", "precision": "day"}]
     if "WHERE d._domain=$domain AND d.name IN" in cy:
         return [{"name": "policy v2", "id": "new-1"}, {"name": "policy v1", "id": "old-1"}]
     if "SUPERSEDES {record_id: $id}]->() RETURN count(s)" in cy:
@@ -66,9 +71,22 @@ def test_dry_run_sends_no_write_cypher_and_writes_no_record(world):
     assert payload["dry_run"] is True and payload["newer"] == "new-1" and payload["older"] == "old-1"
     effect = payload["effect"]
     assert_effect_shape(effect)
-    assert [c["kind"] for c in effect["changes"]] == ["document_supersede", "observation_move", "entity_change"]
+    assert [c["kind"] for c in effect["changes"]] == [
+        "document_supersede", "observation_move", "entity_change", "validity_closed"]
     assert effect["changes"][0]["sample"][0]["older"] == "policy v1"
     assert effect["changes"][1]["count"] == 5 and effect["changes"][2]["count"] == 1
+    # ends of validity (spec 2026-11-15 §7.2): 10 labels x 3 open nodes, valid to the newer document's date
+    assert effect["changes"][3]["count"] == 30
+    assert effect["changes"][3]["sample"] == [{"doc_id": "old-1", "valid_to": "2026-02-01"}]
+    counts = [(c, p) for c, p in recorder.calls if "x._valid_to IS NULL OR x._valid_to_by IS NOT NULL" in c]
+    assert len(counts) == 10
+    # a document-level node with a later stated end is closed too (the earlier end wins)
+    assert all(p == {"older": "old-1", "effective": "2026-02-01"} for _, p in counts)
+    later = [c for c, _ in counts if "OR x._valid_to > $effective)" in c]
+    assert len(later) == 8
+    # an observation only when it is dated by its document (carries the document's end)
+    facts = [c for c, _ in counts if "(x._doc_valid_to IS NOT NULL AND x._valid_to > $effective)" in c]
+    assert {re.search(r"MATCH \(x:(\w+)", c).group(1) for c in facts} == {"Observation", "ObservationHistory"}
     assert effect["stale"]["topics"] == ["acme"]
     assert len(effect["records"]) == 2 and effect["travels"] is True
     # the retirement plan read the older document, not the newer one
@@ -95,3 +113,18 @@ def test_dry_run_still_refuses_an_unknown_document(world):
                                       "--dryRun"])
 
     assert result.exit_code == 1 and "Could not resolve" in result.output
+
+
+def test_dry_run_with_no_effective_date_closes_nothing(world):
+    recorder, _ = world
+    base = recorder._respond
+    recorder._respond = lambda cy, p: (
+        [{"valid_from": "2026-11-17", "precision": "none"}] if "d._valid_precision AS precision" in cy else base(cy, p))
+
+    payload = _run("--dryRun")
+
+    (closed,) = [c for c in payload["effect"]["changes"] if c["kind"] == "validity_closed"]
+    assert closed == {"kind": "validity_closed", "count": 0, "sample": []}
+    assert "no end of validity is written" in payload["effect"]["summary"]
+    assert not [c for c, _ in recorder.calls if "x._valid_to IS NULL OR" in c]
+    assert_no_write_cypher(recorder)

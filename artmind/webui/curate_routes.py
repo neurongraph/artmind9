@@ -9,8 +9,10 @@ from __future__ import annotations
 import asyncio
 import threading
 
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 from pydantic import BaseModel
+
+from artmind.webui.data_model_gate import data_model_gate
 
 _sweep: dict = {"state": "idle"}
 
@@ -172,7 +174,7 @@ def _closed_documents(doc_ids) -> set:
         return set()
     with neo4j_session() as session:
         rows = session.run(
-            "MATCH (d:Document) WHERE d.id IN $ids AND coalesce(d.valid_to, d._valid_to) IS NOT NULL "
+            "MATCH (d:Document) WHERE d.id IN $ids AND d._valid_to IS NOT NULL "
             "OR (d.id IN $ids AND EXISTS { MATCH (:Document)-[:SUPERSEDES]->(d) }) RETURN DISTINCT d.id AS id",
             ids=list(doc_ids),
         ).data()
@@ -377,7 +379,7 @@ def register_curate_routes(app: FastAPI) -> FastAPI:
             members.append(m)
         return {"id": pid, "members": members}
 
-    @app.post("/api/curate/sameas/approve")
+    @app.post("/api/curate/sameas/approve", dependencies=[Depends(data_model_gate)])
     async def sameas_approve(req: ApproveRequest):
         if not req.ids:
             raise HTTPException(status_code=400, detail="no proposals selected")
@@ -388,7 +390,7 @@ def register_curate_routes(app: FastAPI) -> FastAPI:
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
 
-    @app.post("/api/curate/sameas/reject")
+    @app.post("/api/curate/sameas/reject", dependencies=[Depends(data_model_gate)])
     async def sameas_reject(req: RejectRequest):
         if not req.reason.strip():
             raise HTTPException(status_code=400, detail="a reason is required")
@@ -400,7 +402,7 @@ def register_curate_routes(app: FastAPI) -> FastAPI:
                 results.append({"id": pid, "error": str(exc)})
         return {"dry_run": req.dry_run, "results": results}
 
-    @app.post("/api/curate/sweep", status_code=200)
+    @app.post("/api/curate/sweep", status_code=200, dependencies=[Depends(data_model_gate)])
     async def sweep(req: SweepRequest):
         if req.dry_run:
             return {"dry_run": True, "plan": await asyncio.to_thread(_plan_sweep)}
@@ -428,7 +430,7 @@ def register_curate_routes(app: FastAPI) -> FastAPI:
             groups.setdefault((r.get("conflict") or {}).get("aspect") or "", []).append(r)
         return {"status": status, "groups": [{"aspect": a, "rows": g} for a, g in groups.items()]}
 
-    @app.post("/api/curate/conflicts/{cid}/close")
+    @app.post("/api/curate/conflicts/{cid}/close", dependencies=[Depends(data_model_gate)])
     async def conflict_close(cid: str, req: CloseRequest):
         if not req.reason.strip():
             raise HTTPException(status_code=400, detail="a reason is required")
@@ -464,7 +466,7 @@ def register_curate_routes(app: FastAPI) -> FastAPI:
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
 
-    @app.post("/api/curate/tables/{table}/mapping")
+    @app.post("/api/curate/tables/{table}/mapping", dependencies=[Depends(data_model_gate)])
     async def table_mapping(table: str, req: MappingRequest):
         if req.action not in ("confirm", "clear", "set"):
             raise HTTPException(status_code=400, detail="action must be confirm, clear or set")
@@ -477,19 +479,19 @@ def register_curate_routes(app: FastAPI) -> FastAPI:
         }[req.action]
         return await _table_op("mapping", table, req.domain, req.action, req.column, req.entity_class, req.dry_run, words)
 
-    @app.post("/api/curate/tables/{table}/grain")
+    @app.post("/api/curate/tables/{table}/grain", dependencies=[Depends(data_model_gate)])
     async def table_grain(table: str, req: GrainRequest):
         words = f"Confirm {table}'s grain as {req.grain}."
         return await _table_op("grain", table, req.domain, "set", None, req.grain, req.dry_run, words)
 
-    @app.post("/api/curate/tables/{table}/bridge")
+    @app.post("/api/curate/tables/{table}/bridge", dependencies=[Depends(data_model_gate)])
     async def table_bridge(table: str, req: BridgeRequest):
         if req.action not in ("confirm", "clear"):
             raise HTTPException(status_code=400, detail="action must be confirm or clear")
         words = f"{req.action.capitalize()} the bridge role of column {req.column} on {table}."
         return await _table_op("bridge", table, req.domain, req.action, req.column, None, req.dry_run, words)
 
-    @app.post("/api/curate/tables/{table}/batch")
+    @app.post("/api/curate/tables/{table}/batch", dependencies=[Depends(data_model_gate)])
     async def table_batch(table: str, req: BatchRequest):
         if not req.ops:
             raise HTTPException(status_code=400, detail="nothing selected")
@@ -509,7 +511,7 @@ def register_curate_routes(app: FastAPI) -> FastAPI:
         return {"dry_run": False, "results": results,
                 "effect": _effect(f"{len(results)} change(s) on {table}: {_batch_words(req.ops)}.", reversible=False)}
 
-    @app.post("/api/curate/tables/{table}/describe")
+    @app.post("/api/curate/tables/{table}/describe", dependencies=[Depends(data_model_gate)])
     async def table_describe(table: str, req: DescribeRequest):
         what = f"{table}.{req.column}" if req.column else table
         try:
@@ -520,7 +522,7 @@ def register_curate_routes(app: FastAPI) -> FastAPI:
         return {**result, "dry_run": req.dry_run,
                 "effect": _effect(summary, reversible=True, undo=f"previous text: {result.get('before') or '(none)'}")}
 
-    @app.post("/api/curate/catalogue")
+    @app.post("/api/curate/catalogue", dependencies=[Depends(data_model_gate)])
     async def catalogue(req: DomainRequest):
         try:
             return await asyncio.to_thread(_cli, ["db", "catalogue", "--domain", req.domain])
@@ -537,7 +539,7 @@ def register_curate_routes(app: FastAPI) -> FastAPI:
             raise HTTPException(status_code=404, detail=str(exc)) from exc
         return {"status": status, "rows": review.get("rows", [])}
 
-    @app.post("/api/curate/mart/member")
+    @app.post("/api/curate/mart/member", dependencies=[Depends(data_model_gate)])
     async def mart_member(req: MartMemberRequest):
         args = ["mart", "review", "set", "--domain", req.domain, "--dimension", req.dimension, "--member", req.member]
         for k, v in req.levels.items():
@@ -549,7 +551,7 @@ def register_curate_routes(app: FastAPI) -> FastAPI:
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
 
-    @app.post("/api/curate/mart/build")
+    @app.post("/api/curate/mart/build", dependencies=[Depends(data_model_gate)])
     async def mart_build(req: MartBuildRequest):
         args = ["mart", "build", "--domain", req.domain] + (["--dryRun"] if req.dry_run else [])
         try:

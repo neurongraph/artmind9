@@ -229,3 +229,35 @@ def test_shape_brief_rows_carry_the_brief_keys(path: str, monkeypatch) -> None:
         doc = row.get("doc") if "doc" in row else row  # survey rows are flat, the rest nest `doc`
         assert {"title", "date", "status"} <= set(doc), (path, sorted(doc))
         assert "doc_id" in row or "id" in row.get("doc", {}), path
+
+
+# ── the data-model gate (spec 2026-11-15 §8.1) ──────────────────────────────
+
+
+@pytest.mark.parametrize("path", sorted((set(cc.WRITE_COMMANDS) | set(cc.GATED_EXTRA)) - {"migrate temporal"}))
+def test_every_write_command_is_refused_on_a_vault_behind(path: str, tmp_path, monkeypatch) -> None:
+    """Calling a write command's callback on data at model 0 raises the gate's error
+    before the command does anything (no arguments needed: the gate runs first).
+    A tier-1 `--dryRun` is refused too: it plans against data the code cannot read."""
+    from artmind import data_model as dm
+
+    model_file = tmp_path / "data_model.yaml"
+    model_file.write_text("version: 0\n")
+    monkeypatch.setattr(dm, "MODEL_FILE", model_file)
+    callback = _command(path).callback
+    with pytest.raises(dm.DataModelBehind, match=rf"{path}: .*model 0.*artmind migrate status"):
+        callback()
+
+
+def test_every_other_command_only_warns() -> None:
+    gated = {p for p, c in _leaves() if getattr(c.callback, "_data_model_gated", False)}
+    expected = {p for p, c in _leaves() if c.callback is not None and not p.startswith("migrate")}
+    _check(set(), expected - gated, "commands neither gated nor warning")
+
+
+def test_gated_extra_commands_exist_and_are_not_write_commands() -> None:
+    """GATED_EXTRA names real commands that write but carry no tier (membership: see its comment)."""
+    assert cc.GATED_EXTRA
+    assert not set(cc.GATED_EXTRA) & set(cc.WRITE_COMMANDS)
+    for path in cc.GATED_EXTRA:
+        assert getattr(_command(path).callback, "_data_model_gated", False), path

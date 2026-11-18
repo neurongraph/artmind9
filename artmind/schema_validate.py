@@ -172,16 +172,156 @@ def validate_schema(schema: dict, meta: dict, schema_name: str = "") -> list[str
         elif kind not in valid_kinds:
             errors.append(f"{where}: kind={kind!r} is not one of {sorted(valid_kinds)}")
 
-        for prop in (decl.get("properties") or {}):
+        identity = decl.get("identity")
+        if identity is not None and identity not in IDENTITIES:
+            errors.append(f"{where}: identity={identity!r} is not one of {list(IDENTITIES)}")
+
+        errors.extend(_types_errors(decl, where))
+
+        props = decl.get("properties") or {}
+        for prop in props:
             _check_reserved(prop, prefix, f"{where}.properties", errors)
+            tag = props[prop].get("temporal") if isinstance(props, dict) and isinstance(props[prop], dict) else None
+            if tag is not None and tag not in TEMPORAL_VALUES:
+                errors.append(f"{where}.properties.{prop}: temporal={tag!r} is not one of {list(TEMPORAL_VALUES)}")
 
         for target in (decl.get("relates_to") or {}):
             _check_reserved(target, prefix, f"{where}.relates_to", errors)
 
     errors.extend(_property_alias_errors(schema, entity_types, prefix, label))
+    errors.extend(_temporal_document_errors(schema, label))
     errors.extend(_document_entity_errors(schema, entity_types, label))
     errors.extend(_property_decl_errors(entity_types, label))
     return errors
+
+
+def class_types(decl: dict | None) -> list[str]:
+    """The class's declared `type` values (spec 2026-11-15 §5.3): the closed `types:` list, else
+    the illustrative `type_examples:`. The one reader; empty when neither is a list."""
+    decl = decl if isinstance(decl, dict) else {}
+    for key in ("types", "type_examples"):
+        value = decl.get(key)
+        if isinstance(value, list) and value:
+            return [str(v) for v in value]
+    return []
+
+
+def type_key(value) -> str:
+    """A `type` value as compared with a declared `types:` list: case, whitespace and hyphen
+    runs folded to one underscore."""
+    return re.sub(r"[\s-]+", "_", str(value).strip().lower())
+
+
+def _types_errors(decl: dict, where: str) -> list[str]:
+    """`types:` is a closed list: non-empty, of names, and not beside `type_examples:`."""
+    errors = []
+    if "types" in decl:
+        value = decl["types"]
+        if not isinstance(value, list) or not value or not all(isinstance(v, str) and v.strip() for v in value):
+            errors.append(f"{where}.types: must be a non-empty list of type names, e.g. [device, food]")
+        if "type_examples" in decl:
+            errors.append(f"{where}: declares both `types` and `type_examples`; keep `types` (the closed list)")
+    return errors
+
+
+#: What a property's `temporal:` tag may say (spec 2026-11-15 §4): the fact's valid time
+#: (`valid_from`, `valid_to`), a deadline (`due`) or a review date (`review`).
+TEMPORAL_VALUES = ("valid_from", "valid_to", "due", "review")
+#: The keys of a schema's `temporal.document` label mapping and `temporal.document_patterns`.
+DOCUMENT_TEMPORAL_KEYS = ("valid_from", "valid_to", "revised", "version")
+
+
+def _temporal_document_errors(schema: dict, label: str) -> list[str]:
+    """`temporal.document` / `document_patterns` keys outside DOCUMENT_TEMPORAL_KEYS, and a
+    `temporal.document` value that is not a list of label strings (a bare string would be read
+    one character at a time)."""
+    temporal = schema.get("temporal")
+    if not isinstance(temporal, dict):
+        return []
+    errors = []
+    for section in ("document", "document_patterns"):
+        block = temporal.get(section)
+        if not isinstance(block, dict):
+            continue
+        for key, value in block.items():
+            where = f"{label}.temporal.{section}.{key}"
+            if key not in DOCUMENT_TEMPORAL_KEYS:
+                errors.append(f"{where}: unknown key; expected one of {list(DOCUMENT_TEMPORAL_KEYS)}")
+            elif section == "document" and not (
+                    isinstance(value, list) and all(isinstance(v, str) for v in value)):
+                errors.append(f"{where}: must be a list of label strings, not {value!r}")
+    return errors
+
+
+#: What a class's `identity:` may say (spec 2026-11-15 §5.3): same name is one entity
+#: (`name`), one entity per day (`occasion`), or one shared label (`category`).
+IDENTITIES = ("name", "occasion", "category")
+
+
+def class_identity(schema: dict, entity_class: str) -> str:
+    """What makes two same-name mentions one entity (spec 2026-11-15 §5.3). The one reader.
+
+    Declared `identity`, else `name` for `kind: recurrent` and `occasion` otherwise -- an
+    undeclared class is occurrent by `observations.class_kind`'s rule, so it is an occasion.
+    """
+    types = schema.get("entity_types") if isinstance(schema, dict) else None
+    decl = types.get(entity_class) if isinstance(types, dict) else None
+    decl = decl if isinstance(decl, dict) else {}
+    declared = decl.get("identity")
+    if declared in IDENTITIES:
+        return declared
+    return "name" if decl.get("kind") == "recurrent" else "occasion"
+
+
+def classes_with_identity(schema: dict, *identities: str) -> set[str]:
+    """The schema's declared classes whose `class_identity` is one of `identities`."""
+    types = schema.get("entity_types") if isinstance(schema, dict) else None
+    return {c for c in (types if isinstance(types, dict) else {}) if class_identity(schema, c) in identities}
+
+
+def identity_warnings(schema: dict, schema_name: str = "") -> list[str]:
+    """WARNs for `identity` (spec 2026-11-15 §5.3, plan question 20): an `occasion` class
+    declared `kind: recurrent`, and a dated `kind: occurrent` class declared `identity: name`
+    (its days fold into one entity) unless it is a `document_entity` class."""
+    label = schema_name or schema.get("name", "<unnamed>")
+    types = schema.get("entity_types")
+    if not isinstance(types, dict):
+        return []
+    doc_setting = schema.get("document_entity")
+    doc_classes = set((doc_setting.get("classes") or []) if isinstance(doc_setting, dict) else [])
+    out = []
+    for cls, decl in types.items():
+        decl = decl if isinstance(decl, dict) else {}
+        ident = class_identity(schema, cls)
+        where = f"{label}.entity_types.{cls}"
+        if ident == "occasion" and decl.get("kind") == "recurrent":
+            out.append(f"{where}: identity: occasion with kind: recurrent -- its changes become "
+                       "separate entities, never history")
+        props = decl.get("properties")
+        dated = any(isinstance(p, dict) and p.get("temporal") == "valid_from"
+                    for p in (props.values() if isinstance(props, dict) else []))
+        if ident == "name" and decl.get("kind") == "occurrent" and dated and cls not in doc_classes:
+            out.append(f"{where}: a dated occurrent class with identity: name -- its mentions on "
+                       "different days fold into one entity; declare identity: occasion")
+    return out
+
+
+def temporal_warnings(schema: dict, schema_name: str = "") -> list[str]:
+    """WARNs for the temporal rules (spec 2026-11-15 §4, §5.3): an occasion class that
+    declares no `temporal: valid_from` property is dated by its document only."""
+    label = schema_name or schema.get("name", "<unnamed>")
+    types = schema.get("entity_types")
+    if not isinstance(types, dict):
+        return []
+    out = []
+    for cls, decl in types.items():
+        props = (decl or {}).get("properties") if isinstance(decl, dict) else None
+        props = props if isinstance(props, dict) else {}
+        tags = {p.get("temporal") for p in props.values() if isinstance(p, dict)}
+        if class_identity(schema, cls) == "occasion" and "valid_from" not in tags:
+            out.append(f"{label}.entity_types.{cls}: an occasion class declares no "
+                       "`temporal: valid_from` property; its facts are dated by their document only")
+    return out
 
 
 def _document_entity_errors(schema: dict, entity_types: dict, label: str) -> list[str]:
@@ -285,7 +425,8 @@ def warn_all(schemas_dir: Path = DOMAIN_SCHEMAS_DIR) -> dict[str, list[str]]:
         name = schema.get("name", schema_file.stem)
         warnings = (reserved_relationship_warnings(schema, name) + graph_extraction_warnings(schema, name)
                     + property_alias_warnings(schema, name) + guidance_property_warnings(schema, name)
-                    + own_key_property_warnings(schema, name) + exclusive_property_warnings(schema, name))
+                    + own_key_property_warnings(schema, name) + temporal_warnings(schema, name)
+                    + identity_warnings(schema, name))
         if warnings:
             found[name] = warnings
     return found
@@ -450,20 +591,6 @@ def property_alias_warnings(schema: dict, schema_name: str = "") -> list[str]:
             out.append(f"{label}.property_aliases: {a!r} -> {t!r}, but no class declares {t!r}, "
                        "so every value it renames is dropped")
     return out
-
-
-def exclusive_property_warnings(schema: dict, schema_name: str = "") -> list[str]:
-    """A property declared `exclusive:`: the flag has no effect any more -- the declared-key
-    filter keeps a key only on the classes that declare it (spec 2026-11-15 §2.2)."""
-    label = schema_name or schema.get("name", "<unnamed>")
-    types = schema.get("entity_types") or {}
-    if not isinstance(types, dict):
-        return []
-    return [f"{label}.entity_types.{cls}.properties.{prop}.exclusive: has no effect; "
-            "the declared-key filter does this (remove it)"
-            for cls, decl in types.items() if isinstance(decl, dict)
-            and isinstance(decl.get("properties"), dict)
-            for prop, pd in decl["properties"].items() if isinstance(pd, dict) and "exclusive" in pd]
 
 
 def guidance_property_warnings(schema: dict, schema_name: str = "") -> list[str]:

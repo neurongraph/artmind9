@@ -238,3 +238,14 @@ def outside_scope_next(payload: dict, command: str, question, *, shape: str = "f
     opts = f" {options.strip()}" if options.strip() else ""
     return (f"artmind query {command}{shape_part} {domain_flags(roots(domains))}{opts} --compact "
             f"{quote(question)}")
+
+
+def happenings_survey(payload: dict, domains, match, *, by=None, from_=None, to=None) -> str | None:
+    """`query happenings`: text matches more documents in the window than the rows come from
+    (`coverage`), so a survey by period finds what the happenings miss (spec 2026-11-15 §5.2)."""
+    cov = payload.get("coverage") or {}
+    if (cov.get("matching_documents") or 0) <= (cov.get("documents_in_rows") or 0):
+        return None
+    window = (f" --from {quote(from_)}" if from_ else "") + (f" --to {quote(to)}" if to else "")
+    return (f"artmind query survey {quote(match)} {domain_flags(domains)} --by {by or 'year'}{window} "
+            f"--shape brief --compact")

@@ -48,39 +48,82 @@ _OBSERVATION_SYSTEM_KEYS = frozenset(
         "_kind",
         "_valid_from",
         "_valid_to",
+        "_valid_to_by",
         "_doc_valid_from",
+        "_doc_valid_to",
         "_valid_time_source",
+        "_valid_precision",
+        "_valid_time_of_day",
+        "_due",
+        "_review",
+        "_revised_at",
         "_retracts",
+        # Record time (spec 2026-11-15 §6.1): when the graph held the observation, never content.
+        "_recorded_at",
+        "_revived_at",
+        "_retired_at",
+        "_retired_by",
+        "_record_time_approx",
     }
 )
 # Merged by their own named policy rather than by shape.
 _SPECIAL_KEYS = frozenset({"name", "entity_class", "_domain", "type", "description", "context", "aliases"})
 
 
+def _record_now() -> str:
+    """Record time is UTC (spec 2026-11-15 §6.1)."""
+    return datetime.now(timezone.utc).isoformat()
+
+
 # ── ordering ─────────────────────────────────────────────────────────────────
 
 
-def _winner_sort_key(observation: dict) -> tuple:
-    """Order observations so the last one is the winner.
+def _fact_date(observation: dict) -> str:
+    """The observation's own `_valid_from`, or "" when it is only the document's
+    default date (precision `none`): an ingestion day must never beat a real date
+    (plan question 10)."""
+    if observation.get("_valid_precision") == "none":
+        return ""
+    return observation.get("_valid_from") or ""
 
-    **The winner is the observation with the latest source-document
-    `valid_from` -- NOT the highest `doc_version`.** Cross-document aggregates
-    are the common case and in a healthy vault every document sits at version
-    1, so `doc_version` supplies no ordering at all: sorting by it would leave
-    three rate schedules tied and the "winner" decided by dict iteration order.
 
-    `doc_version` and `id` are tiebreakers only, and `id` is there purely so
-    the order is total and therefore reproducible.
+def _winner_sort_key(observation: dict, kind: str = "occurrent") -> tuple:
+    """Order observations so the last one is the winner (spec 2026-11-15 §6.2).
+
+    **Recurrent** classes: the latest *fact* wins, then the latest document --
+    `(_valid_from, _doc_valid_from, doc_version, id)`, a `_valid_from` with
+    precision `none` counting as empty. A later rate stated in an older document
+    is the rate in force; choosing on the document date alone showed the fact's
+    date beside an older fact's value.
+
+    **Occurrent** classes keep the document order, `(_doc_valid_from,
+    doc_version, id)`: a completed event's attributes do not drift, so a
+    disagreement is a conflict and the latest document answers meanwhile.
+
+    The winner is NOT the highest `doc_version`: in a healthy vault every
+    document sits at version 1, so it supplies no ordering. `doc_version` and
+    `id` are tiebreakers only, `id` purely so the order is total and therefore
+    reproducible.
     """
-    return (
+    tail = (
         observation.get("_doc_valid_from") or "",
         observation.get("doc_version") or 0,
         observation.get("id") or "",
     )
+    if kind == "recurrent":
+        return (_fact_date(observation), *tail)
+    return tail
 
 
-def _winner(observations: list[dict]) -> dict:
-    return max(observations, key=_winner_sort_key)
+def _winner(observations: list[dict], kind: str = "occurrent") -> dict:
+    return max(observations, key=lambda o: _winner_sort_key(o, kind))
+
+
+def _merge_kind(observations: list[dict]) -> str:
+    """The class's kind, read independently of the winner (which depends on it):
+    the `_kind` of the latest document's observation, so the choice is total."""
+    latest = max(observations, key=_winner_sort_key)
+    return latest.get("_kind") or "occurrent"
 
 
 # ── merge by shape ───────────────────────────────────────────────────────────
@@ -231,7 +274,7 @@ def merge_observations(
 
     | shape                    | policy                                  |
     |--------------------------|-----------------------------------------|
-    | scalar domain property   | winner (latest document `valid_from`)   |
+    | scalar domain property   | winner (`_winner_sort_key` by kind)     |
     | `type`                   | winner                                  |
     | list domain property     | union                                   |
     | `context`                | union, capped                           |
@@ -252,11 +295,11 @@ def merge_observations(
     if not observations:
         raise ValueError("merge_observations called with no observations")
 
-    ordered = sorted(observations, key=_winner_sort_key)
+    kind = _merge_kind(observations)
+    ordered = sorted(observations, key=lambda o: _winner_sort_key(o, kind))
     winner = ordered[-1]
     entity_class = winner.get("entity_class") or ""
     domain = winner.get("_domain") or ""
-    kind = winner.get("_kind") or "occurrent"
     name = _choose_name(ordered)
     key = override_key if override_key is not None else aggregate_key(name, entity_class, domain)
 
@@ -339,7 +382,9 @@ def merge_observations(
         if len(distinct) > 1:
             by_valid_from: dict[str, list] = defaultdict(list)
             for observation in contributing:
-                by_valid_from[observation.get("_valid_from") or ""].append(observation)
+                # A default (precision `none`) date is not an instant: such
+                # observations share the undated bucket (spec §2, question 10).
+                by_valid_from[_fact_date(observation)].append(observation)
 
             # Temporal variation and conflict are INDEPENDENT facts, and with
             # three or more observations a property can be both. `rate_value`
@@ -361,7 +406,7 @@ def merge_observations(
             # it now" -- so that is what "did it change?" must compare.
             varies_across_instants = (
                 len({
-                    _hashable(_winner(obs_at_instant)[prop_key])
+                    _hashable(_winner(obs_at_instant, kind)[prop_key])
                     for obs_at_instant in by_valid_from.values()
                 }) > 1
             )
@@ -409,6 +454,9 @@ def merge_observations(
         props["_valid_to"] = winner["_valid_to"]
     if winner.get("_valid_time_source"):
         props["_valid_time_source"] = winner["_valid_time_source"]
+    for field in ("_valid_precision", "_valid_time_of_day"):
+        if winner.get(field):
+            props[field] = winner[field]
 
     return {
         "props": props,
@@ -498,7 +546,10 @@ import re  # noqa: E402  (kept beside the I/O half it serves)
 # `:Entity` is projection-owned and is recomputed from observations on every
 # rebuild, so a property no longer asserted by any observation disappears
 # rather than lingering.
-_PRESERVED_ENTITY_KEYS = ("embedding", "embedding_stale", "_embed_key", "name_embedding", "_name_embed_key")
+# `_recorded_at` is set once, when the entity is first created (spec 2026-11-15 §6.1).
+_PRESERVED_ENTITY_KEYS = (
+    "embedding", "embedding_stale", "_embed_key", "name_embedding", "_name_embed_key", "_recorded_at",
+)
 
 
 def _sanitize_label(value: str) -> str:
@@ -615,7 +666,7 @@ def _clear_same_as_batch(tx, ids: list[str]) -> None:
     )
 
 
-def _merge_entities_batch(tx, rows: list[dict]) -> None:
+def _merge_entities_batch(tx, rows: list[dict], recorded_at: str | None = None) -> None:
     """Batched sibling of `rebuild_key`'s Entity MERGE/label/property-sweep
     Cypher. One statement covering every entity in `rows`, each carrying its
     own `label` -- Neo4j 5.24+'s dynamic-label syntax accepts a per-row
@@ -623,16 +674,18 @@ def _merge_entities_batch(tx, rows: list[dict]) -> None:
     single top-level parameter.
 
     `rows`: `[{"id": eid, "label": str, "keep": [str, ...], "props": dict,
-    "description": str | None}, ...]`.
+    "description": str | None}, ...]`. A new entity gets `_recorded_at`
+    (UTC); a rebuilt one keeps its first.
     """
     if not rows:
         return
+    recorded_at = recorded_at or _record_now()
     tx.run(
         """
         CYPHER 25
         UNWIND $rows AS row
         MERGE (e:Entity {_id: row.id})
-        ON CREATE SET e.embedding_stale = true
+        ON CREATE SET e.embedding_stale = true, e._recorded_at = $recorded_at
         WITH e, row, e.description AS prior_description
         SET e:$(row.label)
         WITH e AS node, row, prior_description
@@ -645,7 +698,7 @@ def _merge_entities_batch(tx, rows: list[dict]) -> None:
               ELSE coalesce(node.embedding_stale, false)
             END
         """,
-        rows=rows,
+        rows=rows, recorded_at=recorded_at,
     )
 
 
@@ -966,6 +1019,7 @@ def rebuild_key(
     member_keys: list[tuple[str, str, str]] | None = None,
     unit_of: dict[tuple[str, str, str], tuple[str, str, str]] | None = None,
     synthesis: dict | None = None,
+    recorded_at: str | None = None,
 ) -> str:
     """Rebuild one aggregate key. Returns `rebuilt`, `deleted`, or `absent`.
 
@@ -974,6 +1028,8 @@ def rebuild_key(
     canonical (see `rebuild`'s group planning); otherwise just `[key]`.
     `unit_of` resolves a `RELATES_TO` edge's other endpoint the same way, for
     entities merged away by the same groups.
+
+    `recorded_at` (UTC) stamps a newly created entity only (default: now).
 
     Runs inside the caller's transaction — a raise here fails the commit that
     dirtied the projection, by design.
@@ -1023,7 +1079,7 @@ def rebuild_key(
         """
         CYPHER 25
         MERGE (e:Entity {_id: $id})
-        ON CREATE SET e.embedding_stale = true
+        ON CREATE SET e.embedding_stale = true, e._recorded_at = $recorded_at
         WITH e, e.description AS prior_description
         SET e:$($label)
         WITH e AS node, prior_description
@@ -1042,6 +1098,7 @@ def rebuild_key(
         keep=keep,
         props=props,
         description=props.get("description"),
+        recorded_at=recorded_at or _record_now(),
     )
 
     # Rewire provenance: the Entity aggregates exactly its current observations.
@@ -1183,7 +1240,9 @@ def _sync_same_as_links_batch(tx, links: list[tuple[tuple[str, str, str], tuple[
     )
 
 
-def apply_retractions(tx, observations: list[dict]) -> set[tuple[str, str, str]]:
+def apply_retractions(
+    tx, observations: list[dict], *, retired_at: str | None = None,
+) -> set[tuple[str, str, str]]:
     """Apply every `_retracts` pointer among `observations`, before the keys
     they touch are rebuilt.
 
@@ -1196,7 +1255,9 @@ def apply_retractions(tx, observations: list[dict]) -> set[tuple[str, str, str]]
     - Retracting an **Observation** demotes it to `:ObservationHistory` — the
       same label swap `lifecycle._transition` uses for a whole document, here
       scoped to one fact. It is never deleted, only removed from the `latest`
-      pool that feeds the aggregate.
+      pool that feeds the aggregate. It records when and by what:
+      `_retired_at` (`retired_at`, UTC; default now) and `_retired_by =
+      'retract:<retracting observation id>'` (spec 2026-11-15 §6.1).
     - Retracting a **relationship** deletes the `ASSERTS_RELATION` edge
       outright. Edges carry no history label, and `RELATES_TO` is already
       recomputed from scratch on every rebuild (`rebuild`'s own batched
@@ -1215,6 +1276,7 @@ def apply_retractions(tx, observations: list[dict]) -> set[tuple[str, str, str]]
     unrebuilt.
     """
     keys: set[tuple[str, str, str]] = set()
+    now = retired_at or _record_now()
     for observation in observations:
         target = observation.get("_retracts")
         if not target:
@@ -1222,10 +1284,11 @@ def apply_retractions(tx, observations: list[dict]) -> set[tuple[str, str, str]]
         rec = tx.run(
             """
             MATCH (o:Observation {id: $id})
-            REMOVE o:Observation SET o:ObservationHistory
+            REMOVE o:Observation
+            SET o:ObservationHistory, o._retired_at = $now, o._retired_by = 'retract:' + $retractor
             RETURN o.key AS key
             """,
-            id=target,
+            id=target, retractor=observation.get("id"), now=now,
         ).single()
         if rec:
             parsed = _parse_key(rec["key"])
@@ -1249,14 +1312,19 @@ def apply_retractions(tx, observations: list[dict]) -> set[tuple[str, str, str]]
     return keys
 
 
-def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None = None, synthesis_loader=None) -> dict:
+def rebuild(
+    tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None = None, synthesis_loader=None,
+    recorded_at: str | None = None,
+) -> dict:
     """Rebuild the given aggregate keys inside the caller's transaction.
 
     `same_as_groups` defaults to `same_as.load_groups()` — pass an explicit
     (possibly filtered) list only when the caller has one in hand already.
     `synthesis_loader(keys) -> dict[key, dict]` is the synthesize seam, called
     once for the whole batch -- absent, every description falls back to the
-    winner observation's.
+    winner observation's. `recorded_at` (UTC; default now) stamps entities
+    this pass creates -- a document commit passes its own, so one commit has
+    one record time.
 
     Batched: each phase below issues a small, fixed number of Cypher
     statements (most just one; a few are a clear-then-write or delete-then-
@@ -1342,7 +1410,7 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
             })
         relates_to_context.append((eid, member_keys))
 
-    _merge_entities_batch(tx, merge_rows)
+    _merge_entities_batch(tx, merge_rows, recorded_at)
     _rewire_aggregates_batch(tx, aggregates_rows)
     _write_conflicts_batch(tx, [r["id"] for r in merge_rows], conflict_rows)
 
@@ -1592,6 +1660,8 @@ def rebuild_in_batches(keys, groups: list | None = None, *, size: int | None = N
     with neo4j_session() as session:
         for number, batch in enumerate(batches, start=1):
             try:
+                # A deferred rebuild (after N commits) stamps entities it creates with its own
+                # UTC now, not any commit's timestamp: the entity first exists in this pass.
                 summary = session.execute_write(
                     lambda tx: rebuild(
                         tx, batch, same_as_groups=groups,

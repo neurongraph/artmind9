@@ -38,6 +38,71 @@ def _parse_key(value: str) -> tuple[str, str, str] | None:
     return tuple(parts) if len(parts) == 3 else None  # type: ignore[return-value]
 
 
+_SCHEMA_CACHE: dict[tuple, dict] = {}
+
+
+def _schema_for(domain: str) -> dict:
+    """The schema an entity of `domain` was keyed under, a family root's children merged in.
+
+    Cached per process, keyed by the schemas directory and the name, size and mtime of every
+    schema file in the domain's family, so an edited schema is read again and an unchanged
+    one is parsed once however many proposals are checked."""
+    if not domain:
+        return {}
+    from pathlib import Path
+
+    import paths
+    from artmind.schema_validate import family_schema
+
+    directory = Path(paths.DOMAIN_SCHEMAS_DIR)
+    root = domain.split(".", 1)[0]
+    try:
+        files = tuple(sorted(
+            (f.name, st.st_mtime_ns, st.st_size)
+            for f in directory.glob(f"{root}*_schema.yaml") for st in [f.stat()]
+        ))
+    except OSError:
+        files = None
+    key = (str(directory), domain, files)
+    if files is None or key not in _SCHEMA_CACHE:
+        schema = family_schema(domain, schemas_dir=directory)
+        if files is None:
+            return schema
+        _SCHEMA_CACHE[key] = schema
+    return _SCHEMA_CACHE[key]
+
+
+def identity_refusal(
+    canonical: tuple[str, str, str], members: list[tuple[str, str, str]], schema_for=None,
+) -> str | None:
+    """Why this group may not be a same-as group, or None (spec 2026-11-15 §5.3).
+
+    A `category` member is a label many occasions share, never folded by review; `occasion`
+    members fold only on one date -- their keys' date tokens (`split_occasion`) must be
+    equal, so a month occasion (`~2024-03`) never folds with a day in that month.
+    Identity is `schema_validate.class_identity` of the member's own domain schema
+    (`schema_for`, default `_schema_for`, read once per domain here)."""
+    from artmind.observations import split_occasion
+    from artmind.schema_validate import class_identity
+
+    load = schema_for or _schema_for
+    schemas: dict[str, dict] = {}
+    tokens: set[str | None] = set()
+    has_occasion = False
+    for name, cls, domain in [canonical, *members]:
+        if domain not in schemas:
+            schemas[domain] = load(domain) or {}
+        ident = class_identity(schemas[domain], cls)
+        if ident == "category":
+            return f"identity:category ({cls})"
+        if ident == "occasion":
+            has_occasion = True
+            tokens.add(split_occasion(name)[1])
+    if has_occasion and len(tokens) > 1:
+        return "identity:occasion (different dates)"
+    return None
+
+
 def proposal_id(canonical: str, members: list[str]) -> str:
     """Deterministic id from (canonical, sorted members) — re-proposing the
     identical group updates it in place (`MERGE`) rather than duplicating."""
@@ -53,9 +118,17 @@ def propose(
     source: str,
     reason: str = "",
     model: str = "",
-) -> str:
+) -> str | None:
     """Write (`MERGE`) one same-as proposal. `members` need not already
-    include `canonical` — it is added if missing."""
+    include `canonical` — it is added if missing.
+
+    Returns None, writing nothing, when the group breaks its members' declared identity
+    (`identity_refusal`): every proposer, `--fromFile` included, goes through here."""
+    refusal = identity_refusal(canonical, list(members))
+    if refusal:
+        logger.info("sameas: not proposing {} <- {} ({}; source={})",
+                    key_string(canonical), [key_string(m) for m in members], refusal, source)
+        return None
     all_members = sorted({key_string(canonical)} | {key_string(m) for m in members})
     canonical_str = key_string(canonical)
     pid = proposal_id(canonical_str, all_members)
@@ -129,6 +202,10 @@ def _plan_group(
             "the proposal stays open"
         )
     others = [m for m in member_keys if m != canonical_key]
+    # Re-checked here: an open proposal may predate the identity rule (spec 2026-11-15 §5.3).
+    refusal = identity_refusal(canonical_key, others)
+    if refusal:
+        raise ValueError(f"Proposal {proposal_id_!r} breaks its members' identity: {refusal}")
     dropped = [key_string(m) for m in others if m in claimed]
     kept = [m for m in others if m not in claimed]
     if not kept:
