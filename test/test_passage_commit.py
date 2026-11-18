@@ -119,6 +119,14 @@ def test_commit_title_falls_back_to_name(tmp_path, session, monkeypatch):
     assert written[0][1] == passages.passage_rows(chunks[0], "a.md")
 
 
+def test_a_passage_copies_its_chunks_stated_end():
+    from artmind import passages
+
+    rows = passages.passage_rows({"id": "c1", "doc_id": "d1", "text": "Wind over the harbour.",
+                                  "_valid_to": "2026-02-01", "_doc_valid_to": "2026-02-01"}, "t")
+    assert rows and all(r["props"]["_valid_to"] == "2026-02-01" for r in rows)
+
+
 def test_commit_carries_chunk_dates_to_chunks_passages_and_summaries(tmp_path, session, monkeypatch):
     """Spec 2026-11-15 §5.1: the staged chunk dates reach the DocChunk merge (an absent one is
     removed, the merge being additive), its passages and its chunk summary."""

@@ -8,7 +8,7 @@ DOC = {"_valid_from": "2026-01-01", "_valid_to": "2026-02-01", "_valid_time_sour
 def test_a_chunk_under_a_dated_heading_has_its_own_date():
     chunk = {"id": "c", "header_path": "Notes > 2026-01-14", "text": "Planted the bulbs."}
     assert ing._chunk_valid_time(chunk, DOC) == {
-        "_valid_from": "2026-01-14", "_valid_precision": "day",
+        "_valid_from": "2026-01-14", "_valid_to": "2026-02-01", "_valid_precision": "day",
         "_doc_valid_from": "2026-01-01", "_doc_valid_to": "2026-02-01"}
 
 
@@ -59,3 +59,14 @@ def test_date_chunks_drops_stale_dates():
     out = ing._date_chunks(chunks, {"_valid_from": "2026-01-01", "_valid_precision": "day"})
     assert out == [{"id": "c", "text": "Plain.", "_valid_from": "2026-01-01", "_valid_precision": "day",
                     "_doc_valid_from": "2026-01-01"}]
+
+
+def test_a_chunk_carries_the_documents_stated_end_as_its_own():
+    out = ing._date_chunks([{"id": "c", "text": "Plain.", "_valid_to": "2019-01-01"}], DOC)
+    assert (out[0]["_valid_to"], out[0]["_doc_valid_to"]) == ("2026-02-01", "2026-02-01")
+
+
+def test_a_chunk_of_a_document_with_no_stated_end_has_none():
+    out = ing._date_chunks([{"id": "c", "text": "Plain.", "_valid_to": "2019-01-01"}],
+                           {"_valid_from": "2026-01-01", "_valid_precision": "day"})
+    assert "_valid_to" not in out[0] and "_doc_valid_to" not in out[0]

@@ -48,7 +48,8 @@ def summary_rows(data: dict | None, document: dict, chunks: list[dict] | None = 
     Every row carries its document's window (`_doc_valid_from` / `_doc_valid_to`); the document
     summary carries the document's `_valid_from` / `_valid_to` / `_valid_precision`, and a chunk
     summary its chunk's own `_valid_from` / `_valid_precision` (the document's when `chunks`, the
-    staged `chunks.json` rows, gives none) and no `_valid_to`, as its chunk (spec 2026-11-15 §5.1)."""
+    staged `chunks.json` rows, gives none) and, like its chunk and passages, the document's stated
+    end as `_valid_to` (spec 2026-11-15 §5.1; amendment, decided 2026-11-18)."""
     if not isinstance(data, dict) or not isinstance(data.get("chunks"), list):
         return []
     common = {"doc_id": document["id"], "_domain": document.get("_domain")}
@@ -56,11 +57,11 @@ def summary_rows(data: dict | None, document: dict, chunks: list[dict] | None = 
                      ("_valid_from", "_doc_valid_from"), ("_valid_to", "_doc_valid_to")):
         if document.get(src) is not None:
             common[dst] = document[src]
-    # The document's end is the document summary's own; a chunk summary, like its chunk and
-    # passages, carries it only as `_doc_valid_to`.
+    # The document's stated end is every summary's `_valid_to`, so a supersession (which fills only
+    # a missing end) cannot push it past that.
     doc_end = {"_valid_to": document["_valid_to"]} if document.get("_valid_to") is not None else {}
     chunk_dates = {
-        c["id"]: {k: c[k] for k in ("_valid_from", "_valid_precision") if c.get(k) is not None}
+        c["id"]: {k: c[k] for k in ("_valid_from", "_valid_to", "_valid_precision") if c.get(k) is not None}
         for c in chunks or [] if isinstance(c, dict) and c.get("id")
     }
     rows: list[dict] = []
@@ -75,7 +76,7 @@ def summary_rows(data: dict | None, document: dict, chunks: list[dict] | None = 
             continue
         sid = f"{entry['chunk_id']}:summary"
         rows.append({"id": sid, "target": entry["chunk_id"], "target_label": "DocChunk",
-                     "props": {"id": sid, "level": "chunk", "chunk_id": entry["chunk_id"], **common,
+                     "props": {"id": sid, "level": "chunk", "chunk_id": entry["chunk_id"], **common, **doc_end,
                                **chunk_dates.get(entry["chunk_id"], {}),
                                "text": entry["summary"], "key": entry.get("key")}})
     return rows

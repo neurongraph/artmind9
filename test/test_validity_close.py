@@ -479,3 +479,52 @@ def test_unsupersede_of_a_restored_document_rebuilds_the_reopened_keys(world, mo
     assert session.writes == 1
     assert calls["rebuild"] == [{("a", "C", "d")}]
     assert session.queries_containing("REMOVE x._valid_to, x._valid_to_by")
+
+
+# ── a document's stated end is every derived node's own (Q4, decided 2026-11-18) ──
+
+
+def test_a_stated_end_earlier_than_the_supersession_stays_on_every_node_and_unsupersede_keeps_it():
+    stated, other = "2026-01-15", "2026-02-01"
+    nodes = [
+        {"label": "DocChunkHistory", "doc_id": "A", "id": "c1", "_valid_to": stated},
+        {"label": "DocPassageHistory", "doc_id": "A", "id": "p1", "_valid_to": stated},
+        {"label": "DocSummaryHistory", "doc_id": "A", "id": "s1", "_valid_to": stated},
+        {"label": "DocChunkHistory", "doc_id": "A", "id": "c2"},   # an open one still closes
+    ]
+    graph = _Graph(nodes, [{"record_id": RID, "newer": "B", "effective": other}])
+    sr.apply(graph, _record(other), "fp")
+    assert _by_id(graph) == {"c1": (stated, None), "p1": (stated, None), "s1": (stated, None),
+                             "c2": (other, RID)}
+    graph.edges = []
+    sr.remove(graph, _record(other))
+    assert _by_id(graph) == {"c1": (stated, None), "p1": (stated, None), "s1": (stated, None),
+                             "c2": (None, None)}, "unsupersede reopens only the marker-closed node"
+
+
+def test_a_document_without_a_stated_end_takes_the_supersession_end_on_chunk_passage_summary():
+    nodes = [{"label": "DocChunkHistory", "doc_id": "A", "id": "c1"},
+             {"label": "DocPassageHistory", "doc_id": "A", "id": "p1"},
+             {"label": "DocSummaryHistory", "doc_id": "A", "id": "s1"}]
+    graph = _Graph(nodes, [{"record_id": RID, "newer": "B", "effective": "2026-02-01"}])
+    sr.apply(graph, _record(), "fp")
+    assert set(_by_id(graph).values()) == {("2026-02-01", RID)}
+
+
+def test_a_recommit_leaves_a_chunks_stated_end_and_restate_closes_only_open_ones(tmp_path):
+    folder = tmp_path / "doc"
+    folder.mkdir()
+    (folder / "document.json").write_text(json.dumps(
+        {"id": "A", "name": "a.md", "_valid_from": "2026-01-07", "_valid_to": "2026-01-20", "version": 2}))
+    chunks = [{"id": "A_000", "doc_id": "A", "text": "Alpha met Beta at the harbour.", "_domain": "pj"}]
+    (folder / "chunks.json").write_text(json.dumps(ingest._date_chunks(
+        chunks, {"id": "A", "_valid_from": "2026-01-07", "_valid_to": "2026-01-20"})))
+    for name in ("observations.json", "relationships.json"):
+        (folder / name).write_text("[]")
+    tx = Recorder(lambda c, p: [{"record_id": RID, "newer": "B", "e": "2026-02-01"}]
+                  if "RETURN s.record_id AS record_id" in c else [])
+    ingest._commit_document_tx(tx, ingest._load_staged(folder, "pj"), True)
+    (_, chunk_params), = [(c, p) for c, p in tx.calls if "CREATE (n:DocChunk " in c]
+    assert chunk_params["props"]["_valid_to"] == "2026-01-20" and chunk_params["props"]["_valid_to_by"] is None
+    closes = tx.queries_containing("SET x._valid_to = $effective")
+    assert closes and all("WHERE x._valid_to IS NULL" in c for c, _ in closes)

@@ -3687,9 +3687,10 @@ def _document_precision(document: dict, schema: dict) -> str | None:
     return document.get("_valid_precision") or "day"
 
 
-# The date fields a staged chunk carries (`_chunk_valid_time`); a chunk's `_valid_to` stays
-# unset, the document's end is `_doc_valid_to`.
-CHUNK_DATE_KEYS = ("_valid_from", "_valid_precision", "_doc_valid_from", "_doc_valid_to")
+# The date fields a staged chunk carries (`_chunk_valid_time`). A chunk's `_valid_to` is its
+# document's stated end (also kept as `_doc_valid_to`), so a later supersession, which fills only
+# a missing end, cannot push the chunk's end past the document's own.
+CHUNK_DATE_KEYS = ("_valid_from", "_valid_to", "_valid_precision", "_doc_valid_from", "_doc_valid_to")
 
 
 def _chunk_valid_time(chunk: dict, document: dict) -> dict:
@@ -3699,7 +3700,8 @@ def _chunk_valid_time(chunk: dict, document: dict) -> dict:
     `_valid_precision` (`none` for a default date, so the chunk reads as undated too)."""
     from artmind.temporal import parse_valid
 
-    out = {"_doc_valid_from": document.get("_valid_from"), "_doc_valid_to": document.get("_valid_to")}
+    out = {"_doc_valid_from": document.get("_valid_from"), "_doc_valid_to": document.get("_valid_to"),
+           "_valid_to": document.get("_valid_to")}
     own = None
     heading = (chunk.get("header_path") or "").rsplit(">", 1)[-1].strip()
     first_line = next((line.strip() for line in (chunk.get("text") or "").splitlines() if line.strip()), "")
@@ -3719,7 +3721,7 @@ def _chunk_valid_time(chunk: dict, document: dict) -> dict:
 def _date_chunks(chunks: list[dict], document: dict) -> list[dict]:
     """`chunks` with their date fields re-derived from `document` (stale ones dropped)."""
     return [
-        {**{k: v for k, v in c.items() if k not in CHUNK_DATE_KEYS and k != "_valid_to"},
+        {**{k: v for k, v in c.items() if k not in CHUNK_DATE_KEYS},
          **_chunk_valid_time(c, document)}
         for c in chunks
     ]
@@ -5048,7 +5050,7 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
         chunk_props = _flatten_props({k: v for k, v in chunk.items() if k != "embedding"})
         # The merge is additive, so a date the chunk no longer carries is removed explicitly
         # (`SET n += {k: null}` removes `k`).
-        chunk_props.update({k: None for k in (*CHUNK_DATE_KEYS, "_valid_to") if k not in chunk_props})
+        chunk_props.update({k: None for k in CHUNK_DATE_KEYS if k not in chunk_props})
         chunk_props["_valid_to_by"] = None  # a supersession's end: step 5c derives it again
         # additive (replace=False): a chunk's filing metadata / char offsets
         # accrete the way they always have — see _merge_relabeled for why the

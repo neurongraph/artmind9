@@ -109,11 +109,24 @@ def test_chunk_summaries_take_their_chunks_date():
     assert by_level["chunk"]["_doc_valid_from"] == by_level["document"]["_doc_valid_from"] == "2026-01-01"
 
 
-def test_only_the_document_summary_takes_the_documents_end():
+def test_every_summary_takes_the_documents_stated_end():
     from artmind.summary_store import summary_rows
 
     data = {"document": {"summary": "S"}, "chunks": [{"chunk_id": "c1", "summary": "C"}]}
     doc = {"id": "d1", "_domain": "pj", "_valid_from": "2026-01-01", "_valid_to": "2026-02-01"}
     by_level = {r["props"]["level"]: r["props"] for r in summary_rows(data, doc)}
     assert by_level["document"]["_valid_to"] == "2026-02-01"
-    assert "_valid_to" not in by_level["chunk"] and by_level["chunk"]["_doc_valid_to"] == "2026-02-01"
+    assert by_level["chunk"]["_valid_to"] == by_level["chunk"]["_doc_valid_to"] == "2026-02-01"
+    # the staged chunk's end, when it gives one, is the chunk summary's
+    staged = [{"id": "c1", "_valid_to": "2026-02-01"}]
+    rows = summary_rows(data, doc, chunks=staged)
+    assert {r["props"]["level"]: r["props"]["_valid_to"] for r in rows} == {"document": "2026-02-01",
+                                                                            "chunk": "2026-02-01"}
+
+
+def test_a_document_with_no_stated_end_gives_no_summary_an_end():
+    from artmind.summary_store import summary_rows
+
+    data = {"document": {"summary": "S"}, "chunks": [{"chunk_id": "c1", "summary": "C"}]}
+    rows = summary_rows(data, {"id": "d1", "_domain": "pj", "_valid_from": "2026-01-01"})
+    assert all("_valid_to" not in r["props"] for r in rows)

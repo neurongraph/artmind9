@@ -3986,7 +3986,7 @@ def query_orient(domain: tuple, compact: bool) -> None:
 @click.option("--topK", "top_k", type=int, default=5, show_default=True, help="Results to return (1-50)")
 @click.option("--context", type=click.Choice(["chunk", "passage"]), default="chunk", show_default=True,
               help="Return each hit's parent chunk text, or only the matching passage")
-@click.option("--asOf", "as_of", default=None, help="Only rows dated on or before this date (_valid_from <= asOf: a floor until chunks carry an end; a year or month means its last day). ISO date or 'today'; rows without a real date always shown")
+@click.option("--asOf", "as_of", default=None, help="Only rows dated on or before this date (a point in valid time: _valid_from <= asOf < _valid_to; a year or month means its last day). ISO date or 'today'; rows without a real date always shown")
 @shape_option
 @compact_option
 @click.argument("question")
@@ -4224,7 +4224,7 @@ def query_entity_resolve(domain: tuple, top_k: int, compact: bool, reference: st
 @click.option("--domain", "domain", multiple=True, help="Scope the lookup to this domain (repeatable; comma-splittable). Optional: without it the ids are looked up in every domain and the output's domains come from the chunks")
 @click.option("--idList", "id_list", multiple=True, required=True, help="Exact chunk id (repeatable; comma-splittable)")
 @click.option("--expand", type=int, default=0, show_default=True, help="Also return up to N adjacent chunks per hit (same document)")
-@click.option("--asOf", "as_of", default=None, help="Only rows dated on or before this date (_valid_from <= asOf: a floor until chunks carry an end; a year or month means its last day). ISO date or 'today'; rows without a real date always shown")
+@click.option("--asOf", "as_of", default=None, help="Only rows dated on or before this date (a point in valid time: _valid_from <= asOf < _valid_to; a year or month means its last day). ISO date or 'today'; rows without a real date always shown")
 @shape_option
 @compact_option
 def query_chunks(domain: tuple, id_list: tuple, expand: int, as_of: str | None, shape: str, compact: bool) -> None:
