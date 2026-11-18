@@ -35,7 +35,7 @@ before it changed", "what happened in order" — or when an entity carries
   `_valid_from`, `_valid_to`, `_valid_precision` (`day|half|month|quarter|year`, or `none` =
   undated: the ingestion default, shown by every date filter and never grouped as an
   instant), `_valid_time_of_day`, `_valid_to_by` (what set an end: a stated end carries
-  none, a supersession `supersede:<id>`), `_due`, `_review`, `_revised_at` (a document's
+  none, a supersession its record id), `_due`, `_review`, `_revised_at` (a document's
   "last updated", not its effective date); documents, chunks, passages and summaries also
   carry `_doc_valid_to` (the document's own stated end; chunks, passages and summaries
   `_doc_valid_from` too). Record time

@@ -802,6 +802,10 @@ Notes recorded while implementing; the sections above are left as written.
   newer document's stated `_valid_from` (an edge with no end last; ties by newer id).
   A newer document's commit restates the validity of every document it
   supersedes, so the `_valid_from` fallback for E is the same on every machine.
+  **Successor vs end.** `superseded_by` names the *latest* (current) successor (the
+  edge with the latest `effective`, ties by id), while `_valid_to` / `_valid_to_by`
+  come from the *first* replacement: a document superseded by B in February and C in
+  May ends in February and reads `superseded_by: C`.
 - **§8.1 gate has two markers (beyond §8.1 — needs the user's confirmation).** `<run folder>/data_model.yaml` (committed; staging,
   `same_as.yaml`, curation) and a `(:DataModel {id:'artmind', version})` node in
   each machine's Neo4j (each graph is migrated separately). A write needs both

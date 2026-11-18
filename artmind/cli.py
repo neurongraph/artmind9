@@ -3742,7 +3742,7 @@ def graph_pattern9(
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--documentName", "document_name", required=True, help="Document name (substring match)")
 @click.option("--includeHistory", "include_history", is_flag=True, help="Also reach retired/superseded documents and chunks (:DocumentHistory / :DocChunkHistory). Omit for current content only")
-@click.option("--asOf", "as_of", default=None, help="Alias of --includeHistory kept for old callers: any value turns history on. It is NOT a date filter here (chunks carry no date of their own; --knownAsOf is the point in time this pattern honours)")
+@click.option("--asOf", "as_of", default=None, help="Alias of --includeHistory kept for old callers: any value turns history on. It is not a date filter here (--knownAsOf is the point in time this pattern honours)")
 @click.option("--knownAsOf", "known_as_of", default=None, help="Read what the graph held at this point in record time: content recorded by then and not yet retired (an ISO date means the end of that local day; a datetime without a zone is local; or 'today'/'now'). Reaches both current and history chunks")
 @click.option("--limit", type=int, default=graph_query.PATTERN10_DEFAULT_LIMIT, show_default=True, help="Max chunks; rows_total carries the full count")
 @click.option("--offset", type=int, default=0, show_default=True, help="Skip this many chunks (ordered by chunk id) before --limit; page past a truncated result with offset += limit")
@@ -3986,7 +3986,7 @@ def query_orient(domain: tuple, compact: bool) -> None:
 @click.option("--topK", "top_k", type=int, default=5, show_default=True, help="Results to return (1-50)")
 @click.option("--context", type=click.Choice(["chunk", "passage"]), default="chunk", show_default=True,
               help="Return each hit's parent chunk text, or only the matching passage")
-@click.option("--asOf", "as_of", default=None, help="Only rows dated on or before this date (a point in valid time: _valid_from <= asOf < _valid_to; a year or month means its last day). ISO date or 'today'; rows without a real date always shown")
+@click.option("--asOf", "as_of", default=None, help="Only rows valid at this date (_valid_from <= asOf < _valid_to; a year or month means its last day). ISO date or 'today'; rows without a real date always shown")
 @shape_option
 @compact_option
 @click.argument("question")
@@ -4224,7 +4224,7 @@ def query_entity_resolve(domain: tuple, top_k: int, compact: bool, reference: st
 @click.option("--domain", "domain", multiple=True, help="Scope the lookup to this domain (repeatable; comma-splittable). Optional: without it the ids are looked up in every domain and the output's domains come from the chunks")
 @click.option("--idList", "id_list", multiple=True, required=True, help="Exact chunk id (repeatable; comma-splittable)")
 @click.option("--expand", type=int, default=0, show_default=True, help="Also return up to N adjacent chunks per hit (same document)")
-@click.option("--asOf", "as_of", default=None, help="Only rows dated on or before this date (a point in valid time: _valid_from <= asOf < _valid_to; a year or month means its last day). ISO date or 'today'; rows without a real date always shown")
+@click.option("--asOf", "as_of", default=None, help="Only rows valid at this date (_valid_from <= asOf < _valid_to; a year or month means its last day). ISO date or 'today'; rows without a real date always shown")
 @shape_option
 @compact_option
 def query_chunks(domain: tuple, id_list: tuple, expand: int, as_of: str | None, shape: str, compact: bool) -> None:
