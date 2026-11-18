@@ -135,16 +135,24 @@ UNDO = ("Graph changes are not reversible by git (restore a Neo4j backup taken b
 
 
 def _effect(pending: list[tuple[Step, dict | None]]) -> Effect:
-    todo = [s for s, p in pending if not steps_mod.is_done(p)]
+    todo = [(s, p) for s, p in pending if not steps_mod.is_done(p)]
     if not todo:
         return Effect(summary="Nothing to migrate: every step is done", travels=False)
-    names = [s.name for s in todo]
+    names = [s.name for s, _ in todo]
+    changes = [Change("data_migration", len(names), names)]
+    records, undo = [str(data_model.MODEL_FILE.name)], [UNDO]
+    for step, counts in todo:
+        if step.effect is not None and counts:
+            part = step.effect(counts)
+            changes.extend(part.get("changes") or [])
+            records.extend(part.get("records") or [])
+            undo.extend([part["undo"]] if part.get("undo") else [])
     return Effect(
         summary=f"Migrate {len(names)} step(s) to data model {data_model.CURRENT}: {', '.join(names)}",
-        changes=[Change("data_migration", len(names), names)],
-        reversible=False, undo=UNDO,
+        changes=changes,
+        reversible=False, undo=". ".join(undo),
         # Each machine migrates its own graph: graph steps do not travel.
-        travels=all(s.travels for s in todo), records=[str(data_model.MODEL_FILE.name)],
+        travels=all(s.travels for s, _ in todo), records=records,
     )
 
 

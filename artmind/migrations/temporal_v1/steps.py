@@ -35,10 +35,13 @@ class Step:
     #: Whether what the step changes travels with the vault (committed files). A graph
     #: step does not: each machine migrates its own graph.
     travels: bool = False
+    #: The step's part of the run's effect, from its pending counts:
+    #: `{"changes": [Change], "records": [str], "undo": str}`. None: the run's generic one.
+    effect: Callable[[dict], dict] | None = None
 
 
 #: Pending keys that inform but never block `done` (and never make a step run).
-INFO_KEYS = frozenset({"unparseable"})
+INFO_KEYS = frozenset({"unparseable", "by_domain", "classes", "files"})
 
 
 def work(pending: dict | None) -> dict:
@@ -80,7 +83,17 @@ def _file_steps() -> list[Step]:
     return [Step("meta_rule", meta_rule.pending, meta_rule.apply, meta_rule.writes, travels=True)]
 
 
-STEPS: list[Step] = _graph_steps() + _file_steps()
+def _rekey_steps() -> list[Step]:
+    from artmind.migrations.temporal_v1 import rekey
+
+    # Last: after the graph steps, so documents' dates and record time are current before
+    # its rebuild. Its files travel; its graph commit happens on each machine (a machine
+    # that pulls the re-keyed staging finds `documents_to_commit` pending).
+    return [Step(rekey.STEP, rekey.pending, rekey.apply, rekey.writes, rekey.own_work, travels=True,
+                 effect=rekey.effect)]
+
+
+STEPS: list[Step] = _graph_steps() + _file_steps() + _rekey_steps()
 
 
 def stamp_if_done(ctx: MigrationContext) -> bool:

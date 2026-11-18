@@ -338,6 +338,7 @@ EFFECT_KINDS = frozenset({
     "proposal_reject", "projection_rebuild", "document_archive", "catalogue_refresh",
     "mart_record", "mart_build", "property_values_dropped", "property_backfill",
     "validity_closed", "validity_reopened", "data_migration",
+    "objects_reclassified", "entity_rekey", "same_as_groups", "sameas_proposals_closed", "curation_records",
 })
 
 SAMPLE_CAP = 10
