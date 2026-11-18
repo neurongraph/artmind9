@@ -96,9 +96,33 @@ def _rekey_steps() -> list[Step]:
 STEPS: list[Step] = _graph_steps() + _file_steps() + _rekey_steps()
 
 
-def stamp_if_done(ctx: MigrationContext) -> bool:
-    """Stamp the file and this graph current once no step is pending.
+def stamp_if_done(ctx: MigrationContext) -> dict:
+    """Stamp both markers current once no step is pending; else say what is.
 
     Always called with an unscoped context (every domain): a run limited to one domain
-    must not bless the others. Filled in by Task 36."""
-    return False
+    must not bless the others. Returns `{"version": N}` when stamped, else
+    `{"pending": [{"step": name, "domains": [...]?}, ...]}` and stamps nothing. The file
+    stamp travels by git, the graph's does not, so a second machine that pulled a stamped
+    `data_model.yaml` still has its own graph steps pending here and gets its graph stamped
+    only when they are done."""
+    from artmind import data_model
+
+    left: list[dict] = []
+    for s in STEPS:
+        try:
+            counts = s.pending(ctx)
+        except Exception as exc:  # noqa: BLE001 - an unreadable step is not done
+            left.append({"step": s.name, "error": f"{type(exc).__name__}: {exc}"})
+            continue
+        if not is_done(counts):
+            row: dict = {"step": s.name}
+            domains = sorted((counts or {}).get("by_domain") or [])
+            if domains:
+                row["domains"] = domains
+            left.append(row)
+    if left:
+        return {"pending": left}
+    data_model.stamp(data_model.CURRENT)
+    with ctx.session_factory() as session:
+        data_model.stamp_graph(session, data_model.CURRENT)  # also refreshes the process cache
+    return {"version": data_model.CURRENT}

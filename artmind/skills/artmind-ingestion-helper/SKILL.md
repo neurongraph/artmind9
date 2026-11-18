@@ -26,6 +26,25 @@ undone and with what, whether the change travels to other machines). Read `effec
 run, which prints the same block. On a command that does not support it yet, `--dryRun` fails with
 "not available ... yet; nothing was changed" and does nothing.
 
+## Upgrading a vault
+
+A write command refuses with "this vault's data is at model N, the code needs M. Run: artmind migrate status" (or "this graph's data ...") when the vault's committed files or this machine's graph predate the code. Reads still work and carry a warning. Run the migration from inside the vault:
+
+```bash
+artmind migrate status                  # file version, graph version, per-step pending counts, blockers
+artmind migrate temporal --dryRun       # the plan; nothing is written
+artmind migrate temporal                # the real run
+artmind insights refresh --domain DOMAIN   # then rebuild what derives from the graph
+artmind mart build --domain DOMAIN
+```
+
+- The vault must be git-clean for the files the run writes (commit or restore them first), the ingest worker stopped and Neo4j reachable; the dry run lists any of these under `blocked`.
+- A run is resumable and a second run is a no-op. It stamps `<vault>/.artmind/data_model.yaml` and this graph's marker only once every step is done; a run with `--domain` stamps only when it was the last pending work.
+- The file stamp travels by git, the graph stamp does not. On **every other machine** of the vault: pull, then run `artmind migrate temporal` for that machine's own graph (it re-commits the re-keyed staging there). `migrate status` says so when the files are current but the graph is not.
+- Graph changes are not reversible by git: take a Neo4j backup before the real run.
+
+---
+
 ## Situation Map
 
 ### A. Ingest new documents for the first time

@@ -170,6 +170,9 @@ def migrate_status(domain: tuple, compact: bool) -> None:
     graph_version = data_model.read_graph_version()  # its own 2 s connect timeout
     if graph_version is None:
         warnings.append("the graph is unreachable: its model version is unknown")
+    elif version == data_model.CURRENT and graph_version < data_model.CURRENT:
+        warnings.append("the committed files are already at the current model (pulled from another machine) "
+                        "but this machine's graph is not: run `artmind migrate temporal` to migrate it")
     _echo_json({
         "version": version,
         "graph_version": graph_version,
@@ -236,7 +239,7 @@ def migrate_temporal(domain: tuple, dry_run: bool, compact: bool) -> None:
     if failure is None:
         # The stamp judges every domain: a run scoped to one must not bless the others.
         everything = MigrationContext(domains=None, session_factory=ctx.session_factory, dry_run=False)
-        stamped = bool(steps_mod.stamp_if_done(everything))
+        stamped = "version" in (steps_mod.stamp_if_done(everything) or {})
     _echo_json(with_effect({"steps": results, "done": done, "stamped": stamped, "blocked": [],
                             "warnings": warnings + after_warnings}, effect), compact)
     if failure is not None and store_failure(failure) is not None:

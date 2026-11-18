@@ -153,7 +153,7 @@ def _two_domain_steps(monkeypatch, log):
             left[d] = 0
         return {}
     monkeypatch.setattr(steps_mod, "STEPS", [Step("per", pending, apply)])
-    monkeypatch.setattr(steps_mod, "stamp_if_done", lambda ctx: log.append(ctx.domains) or False)
+    monkeypatch.setattr(steps_mod, "stamp_if_done", lambda ctx: log.append(ctx.domains) or {})
 
 
 def test_a_scoped_run_hands_the_stamp_an_unscoped_context(env, monkeypatch):
@@ -202,7 +202,7 @@ def test_a_failing_step_reports_and_stops(env, monkeypatch):
         raise RuntimeError("bad key")
     monkeypatch.setattr(steps_mod, "STEPS", [Fake("one", 1).step(log), Step("two", lambda c: {"n": 1}, boom),
                                               Fake("three", 1).step(log)])
-    monkeypatch.setattr(steps_mod, "stamp_if_done", lambda ctx: stamps.append(1) or True)
+    monkeypatch.setattr(steps_mod, "stamp_if_done", lambda ctx: stamps.append(1) or {"version": 1})
     result = _run("migrate", "temporal", ok=False)
     out = json.loads(result.stdout)
     assert result.exit_code == 1 and stamps == []
@@ -242,7 +242,7 @@ def test_status_writes_nothing(env, monkeypatch, tmp_path):
     stamps = []
     monkeypatch.setattr(data_model, "stamp", lambda v: stamps.append(v))
     monkeypatch.setattr(data_model, "stamp_graph", lambda s, v: stamps.append(v))
-    monkeypatch.setattr(steps_mod, "stamp_if_done", lambda ctx: stamps.append(1) or True)
+    monkeypatch.setattr(steps_mod, "stamp_if_done", lambda ctx: stamps.append(1) or {"version": 1})
     before = sorted(tmp_path.rglob("*"))
     _run("migrate", "status")
     assert stamps == [] and sorted(tmp_path.rglob("*")) == before
@@ -276,3 +276,9 @@ def test_a_store_failure_reading_pending_exits_3(env, monkeypatch):
         raise ServiceUnavailable("down")
     monkeypatch.setattr(steps_mod, "STEPS", [Step("g", down, lambda c, d: {})])
     assert _run("migrate", "temporal", ok=False).exit_code == 3
+
+
+def test_status_explains_a_pulled_stamp_over_an_unmigrated_graph(env, monkeypatch):
+    monkeypatch.setattr(data_model, "recorded", lambda: data_model.CURRENT)
+    out = json.loads(_run("migrate", "status").stdout)
+    assert out["current"] is False and any("this machine's graph" in w for w in out["warnings"])
