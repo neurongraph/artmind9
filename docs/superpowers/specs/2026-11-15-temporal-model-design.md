@@ -822,12 +822,20 @@ Notes recorded while implementing; the sections above are left as written.
   **Open question Q2 — needs the user's decision:** one REGULATORY_UPDATE cited
   undated across many documents keys on each document's date and splits;
   the alternative is `kind: recurrent` + `identity: name`, which changes
-  conflict-vs-history semantics. **Open question Q3 — needs the user's
-  decision:** a coarse date keys on its start day (`tennis~2024-03-01`, as §5.2
-  says; precision `none` is excluded), so a month mention merges with a real
-  mention on the 1st and claims a day the text never gave; the alternative is
-  precision-shaped tokens (`~2024-03`, `~2024-Q1`, `~2024`) with a wider
-  `_DAY_RE` / `split_occasion`.
+  conflict-vs-history semantics. **Q3 — decided 2026-11-18: precision-shaped
+  tokens.** An occasion keys on its date at the date's own precision, not on the
+  period's first day (which merged a month mention with a real mention on the 1st
+  and claimed a day the text never gave): day `tennis~2024-03-30`, month
+  `~2024-03`, quarter `~2024-Q1`, half `~2024-H1`, year `~2024`
+  (`observations.occasion_token`; the spellings `parse_valid` reads; precision
+  `none` still gets no token). This amends §5.2's `YYYY-MM-DD` and "a coarse date
+  keys on its start day". `split_occasion` and `entity_history --name` read all
+  five shapes (`OCCASION_TOKEN_PATTERN`). Two occasion members are one occasion
+  only when their tokens are equal: a month token and a day token in that month
+  are different occasions, and `sameas` refuses the pair (`identity:occasion
+  (different dates)`); the insights same-as detector and `refine_graph` group by
+  token likewise. Tokens begin with the year, so they sort by year as strings,
+  but not chronologically within a year across shapes.
 - **Conflicts.** Default-dated observations no longer form temporal instants in
   the projection, so disagreeing recurrent scalars across default-dated notes
   become conflicts: expect more open conflicts in vaults with many default-dated

@@ -31,6 +31,25 @@ def test_propose_refuses_occasions_on_different_days(schema):
     assert pid is None and not rec.queries_containing("MERGE (p:SameAsProposal")
 
 
+@pytest.mark.parametrize("coarse", ["tennis~2024-03", "tennis~2024-Q1", "tennis~2024-H1", "tennis~2024"])
+def test_propose_refuses_a_coarse_occasion_with_a_day_inside_it(schema, coarse):
+    """A month (quarter, half, year) occasion is not any day in it (amendment Q3, 2026-11-18)."""
+    rec = Recorder()
+    assert sameas.identity_refusal((coarse, "ACTIVITY", "pj"), [("tennis~2024-03-01", "ACTIVITY", "pj")],
+                                   schema_for=lambda d: SCHEMA) == "identity:occasion (different dates)"
+    assert sameas.propose(rec, (coarse, "ACTIVITY", "pj"), [("tennis~2024-03-01", "ACTIVITY", "pj")],
+                          source="test") is None
+    assert rec.calls == []
+
+
+def test_propose_accepts_variants_of_one_month(schema):
+    rec = Recorder()
+    assert sameas.propose(rec, ("tennis~2024-03", "ACTIVITY", "pj"), [("tennis match~2024-03", "ACTIVITY", "pj")],
+                          source="test")
+    (_, params), = rec.queries_containing("MERGE (p:SameAsProposal")
+    assert params["canonical"] == "tennis~2024-03|ACTIVITY|pj"
+
+
 def test_propose_refuses_a_dated_and_an_undated_occasion(schema):
     rec = Recorder()
     assert sameas.propose(rec, ("tennis~2024-03-30", "ACTIVITY", "pj"), [("tennis match", "ACTIVITY", "pj")],
@@ -81,7 +100,7 @@ def test_approve_rechecks_an_old_cross_day_proposal(schema):
                 "members": ["tennis match~2024-04-02|ACTIVITY|pj", "tennis~2024-03-30|ACTIVITY|pj"]}
     with patch("artmind.sameas.get_proposal", return_value=proposal), \
          patch("artmind.same_as.load_groups", return_value=[]):
-        with pytest.raises(ValueError, match="different days"):
+        with pytest.raises(ValueError, match="different dates"):
             sameas.approve("p1", dry_run=True)
 
 
@@ -182,13 +201,17 @@ def test_detector_plans_no_category_class():
     assert SAME_AS_CANDIDATES.plan(ctx) == ["ACTIVITY", "PERSON"]
 
 
-def test_detector_pairs_occasions_only_on_one_day():
-    ents = [ent("a1", "ACTIVITY", ["2023-01-01"], name="Tennis"),
-            ent("a2", "ACTIVITY", ["2023-01-01"], name="Tennis match"),
-            ent("a3", "ACTIVITY", ["2023-01-05"], name="Tennis")]
+def test_detector_pairs_occasions_only_on_one_date():
+    """Paired by the key's date token, as `sameas` refuses: a month occasion never pairs with
+    a day in it, though both are evidenced by one document date."""
+    ents = [ent("a1", "ACTIVITY", ["2023-01-01"], name="Tennis", key="tennis~2023-01-01|ACTIVITY|pj"),
+            ent("a2", "ACTIVITY", ["2023-01-01"], name="Tennis match", key="tennis match~2023-01-01|ACTIVITY|pj"),
+            ent("a3", "ACTIVITY", ["2023-01-05"], name="Tennis", key="tennis~2023-01-05|ACTIVITY|pj"),
+            ent("a4", "ACTIVITY", ["2023-01-01"], name="Tennis", key="tennis~2023-01|ACTIVITY|pj"),
+            ent("a5", "ACTIVITY", ["2023-01-01"], name="Tennis match", key="tennis match~2023-01|ACTIVITY|pj")]
     ctx = make_ctx(ents, schema=SCHEMA, docs_per_period={"2023": 100})
     found = SAME_AS_CANDIDATES.run(ctx, "ACTIVITY")
-    assert [sorted(s["_id"] for s in f.subjects) for f in found] == [["a1", "a2"]]
+    assert sorted(sorted(s["_id"] for s in f.subjects) for f in found) == [["a1", "a2"], ["a4", "a5"]]
 
 
 def test_twins_still_fire_for_a_class_the_schema_does_not_declare():
@@ -221,6 +244,24 @@ def test_refine_graph_proposes_each_shared_day_of_an_occasion(schema, monkeypatc
     assert result["stats"]["proposed"] == 2
     assert result["stats"]["skipped_identity"] == 1  # "Tennis game" shares no day
     assert result["stats"]["skipped_ambiguous"] == 0
+
+
+def test_refine_graph_never_groups_a_month_with_a_day_in_it(schema, monkeypatch):
+    keys = {"Tennis": ["tennis~2024-03-01|ACTIVITY|pj", "tennis~2024-04|ACTIVITY|pj"],
+            "Tennis match": ["tennis match~2024-03|ACTIVITY|pj", "tennis match~2024-04|ACTIVITY|pj"]}
+
+    def respond(cypher, params):
+        if "collect(DISTINCT e.entity_class)" in cypher:
+            return [{"name": n, "classes": ["ACTIVITY"]} for n in params["names"]]
+        if "collect(DISTINCT e.key)" in cypher:
+            return [{"name": n, "keys": keys[n]} for n in params["names"]]
+        return []
+
+    rec = Recorder(respond)
+    monkeypatch.setattr(refine_graph, "neo4j_session", lambda: rec)
+    refine_graph.propose_merges({"Tennis match": "Tennis"}, "pj", "m")
+    sent = [(p["canonical"], p["members"]) for _, p in rec.queries_containing("MERGE (p:SameAsProposal")]
+    assert sent == [("tennis~2024-04|ACTIVITY|pj", ["tennis match~2024-04|ACTIVITY|pj", "tennis~2024-04|ACTIVITY|pj"])]
 
 
 def test_schema_for_parses_a_schema_once_until_it_changes(tmp_path, monkeypatch):

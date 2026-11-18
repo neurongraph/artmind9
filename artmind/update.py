@@ -216,7 +216,7 @@ def _find_existing_entity(
     session, name: str, entity_class: str, domain: str, occurs_on: str | None = None
 ) -> dict | None:
     """The projected entity already holding this identity, if any. `occurs_on` is the
-    fact's day for an `identity: occasion` class (`_occasion_day`), part of its key."""
+    fact's date token for an `identity: occasion` class (`_occasion_token`), part of its key."""
     from artmind.observations import aggregate_key, entity_id
 
     eid = entity_id(aggregate_key(name, entity_class, domain, occurs_on=occurs_on))
@@ -427,9 +427,9 @@ def write_user_chat(
             target_domain = domain
             identity = None
 
-            # An occasion keys on its fact's day, and is named without it, as ingest
+            # An occasion keys on its fact's date token, and is named without it, as ingest
             # keys and names it (spec 2026-11-15 §5.2).
-            occurs_on = _occasion_day(entity_data.get("properties"), entity_class, schema, today, rules)
+            occurs_on = _occasion_token(entity_data.get("properties"), entity_class, schema, today, rules)
             if class_identity(schema, entity_class) == "occasion":
                 canonical_name = strip_occasion_date(canonical_name)
             if action == "link":
@@ -527,7 +527,7 @@ def write_user_chat(
                     retracts=target_id,
                     identity=identity,
                 )
-                # Under the fact's own key: an occasion's day comes from the fact, not the chat.
+                # Under the fact's own key: an occasion's date comes from the fact, not the chat.
                 retraction["key"] = observation["key"]
                 retraction["source_kind"] = "user_chat"
                 retraction["created_by"] = user_id
@@ -630,11 +630,11 @@ def _stored_identity(key: str | None) -> str | None:
     return key.rsplit("|", 2)[0] or None
 
 
-def _occasion_day(raw_props, entity_class: str, schema: dict, today: str, rules) -> str | None:
-    """The day an `identity: occasion` fact keys on -- `build_observation`'s rule over the
+def _occasion_token(raw_props, entity_class: str, schema: dict, today: str, rules) -> str | None:
+    """The date token an `identity: occasion` fact keys on -- `build_observation`'s rule over the
     values `confirm` passes it (the fact's own date, else today); None for other classes."""
     from artmind.ingest import _fact_valid_time
-    from artmind.observations import LLM_BAG_OWN_KEYS, filter_declared, normalize_property_keys, occasion_day
+    from artmind.observations import LLM_BAG_OWN_KEYS, filter_declared, normalize_property_keys, occasion_token
     from artmind.schema_validate import class_identity
 
     if class_identity(schema, entity_class) != "occasion":
@@ -643,7 +643,7 @@ def _occasion_day(raw_props, entity_class: str, schema: dict, today: str, rules)
     props, _ = filter_declared(normalize_property_keys(dict(raw_props or {}), *key_rules),
                                entity_class, declared, own=LLM_BAG_OWN_KEYS)
     fact = _fact_valid_time(entity_dates, entity_class, props)
-    return occasion_day(fact.valid_from or today, fact.precision or "day")
+    return occasion_token(fact.valid_from or today, fact.precision or "day")
 
 
 def _entity_id_for(key) -> str:

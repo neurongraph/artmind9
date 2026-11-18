@@ -62,8 +62,10 @@ before it changed", "what happened in order" — or when an entity carries
   gives one row per day (`type`, participants, places, `chunk_ids`) and per-year counts;
   `coverage` larger than the rows means `survey` for the rest. Undated rows sort last and
   never fall in a `--from/--to` window; `graph timeline` instead keeps undated rows in
-  windows and has no row cap. An occasion's key is `name~YYYY-MM-DD`: "tennis" on two
-  days is two entities, and a month-only mention keys on the 1st.
+  windows and has no row cap. An occasion's key is `name~<date>`, the date at its own
+  precision (`~2024-03-30`, `~2024-03`, `~2024-Q1`, `~2024-H1`, `~2024`): "tennis" on two
+  days is two entities, and a month-only mention ("tennis in March 2024") is its own entity,
+  not the one on 1 March. Its row's `precision` says which; an undated mention has no date.
 
 ## Edited documents: what a re-ingest keeps
 

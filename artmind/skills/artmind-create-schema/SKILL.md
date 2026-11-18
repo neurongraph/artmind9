@@ -142,9 +142,12 @@ one entity:
 
 - **`name`** — same name is one entity (people, places, products, policies). The
   default for `kind: recurrent`.
-- **`occasion`** — one entity per name and day (events, activities,
-  transactions): "tennis" on two days is two entities. The default for
-  `kind: occurrent`. Give such a class a `temporal: valid_from` property.
+- **`occasion`** — one entity per name and date (events, activities,
+  transactions): "tennis" on two days is two entities. The date is kept at the
+  precision the text gives it, so "tennis in March 2024" (`~2024-03`) is not the
+  tennis on 1 March (`~2024-03-01`); an undated mention keys on its name alone.
+  The default for `kind: occurrent`. Give such a class a `temporal: valid_from`
+  property.
 - **`category`** — one shared label many occasions carry (an emotion).
 
 `domains validate` errors on any other value and warns on `occasion` with
@@ -161,7 +164,7 @@ never be recognised as the same thing again in the next document. An
 distinguishing identifier belongs IN the name, because that's what tells one
 occurrence apart from another. An `identity: occasion` class (the default for
 `occurrent`) is named WITHOUT its date ("Tennis", not "Tennis on 2024-03-30"):
-its day is already part of its key, and ingest strips a date the model adds
+its date is already part of its key, and ingest strips a date the model adds
 anyway (`meta.yaml`'s `kind_naming_rules` and `identity_naming_rules` render
 these instructions into the actual extraction prompt, so this reaches the
 model, not just you).

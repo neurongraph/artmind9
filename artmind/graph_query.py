@@ -2660,7 +2660,7 @@ def entity_history(
     then (`known_predicate`, both labels), each row's `status` as of that
     moment (retired after it counts as `current`).
     """
-    from artmind.observations import normalize_name
+    from artmind.observations import OCCASION_TOKEN_PATTERN, normalize_name
 
     domains = normalize_domains(domains)
     as_of = resolve_as_of(as_of)
@@ -2707,9 +2707,10 @@ def entity_history(
       AND {domain_predicate("o")}"""
     else:
         params["nameKey"] = normalize_name(name)
-        # An occasion's name part is `<name>~YYYY-MM-DD`, exactly (an empty name has no day key).
+        # An occasion's name part is `<name>~<token>`, exactly, the token at its date's
+        # precision (`observations.OCCASION_TOKEN_PATTERN`); an empty name has no occasion key.
         params["nameKeyRe"] = (
-            re.escape(params["nameKey"]) + r"~\d{4}-\d{2}-\d{2}" if params["nameKey"] else "(?!)"
+            re.escape(params["nameKey"]) + "~" + OCCASION_TOKEN_PATTERN if params["nameKey"] else "(?!)"
         )
         params["nameLower"] = name.casefold()
         class_clause = ""

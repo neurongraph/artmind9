@@ -160,12 +160,16 @@ def _plan(ctx: RunContext):
 
 
 def _same_day_pairs(rows, aliases, max_dist, kinship_ok) -> list[tuple[str, str, str, float]]:
-    """`candidate_pairs` within each day: occasions are keyed by day, so only same-day
-    variants may be one happening (spec 2026-11-15 §5.3)."""
-    by_days: dict[tuple[str, ...], list] = defaultdict(list)
+    """`candidate_pairs` within each occasion date token (`split_occasion` of the key: a day,
+    month, quarter, half or year): occasions are keyed by it, and `sameas.identity_refusal`
+    refuses unequal tokens, so only variants on one date may be one happening (spec
+    2026-11-15 §5.3; a month occasion never pairs with a day in that month)."""
+    from artmind.observations import split_occasion
+
+    by_token: dict[str | None, list] = defaultdict(list)
     for e in rows:
-        by_days[e.days].append(e)
-    return sorted(p for group in by_days.values() if len(group) >= 2
+        by_token[split_occasion(e.key.split("|")[0])[1]].append(e)
+    return sorted(p for group in by_token.values() if len(group) >= 2
                   for p in candidate_pairs(group, aliases, max_dist, kinship_ok))
 
 

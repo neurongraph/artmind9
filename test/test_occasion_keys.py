@@ -1,10 +1,11 @@
-"""Day keys for occasion classes (spec 2026-11-15 §5.2, plan questions 1, 2, 21). Invented names."""
+"""Date keys for occasion classes (spec 2026-11-15 §5.2, plan questions 1, 2, 21; amendment Q3:
+precision-shaped tokens, decided 2026-11-18). Invented names."""
 from unittest.mock import MagicMock, patch
 
 import pytest
 
 from artmind import ingest as ing
-from artmind.observations import aggregate_key, key_string, occasion_day, split_occasion
+from artmind.observations import aggregate_key, key_string, occasion_token, split_occasion
 from artmind.retime import retime_observations
 
 SCHEMA = {"entity_types": {
@@ -26,13 +27,60 @@ def test_a_declared_identity_ignores_the_day():
     assert aggregate_key("x", "ACTIVITY", "pj", identity="Row 7", occurs_on="2024-03-30")[0] == "row 7"
 
 
-def test_occasion_day():
-    assert occasion_day("2024-03-30", "day") == "2024-03-30"
-    assert occasion_day("2024-03-30", "none") is None
-    assert occasion_day(None, "day") is None
-    # Coarse dates key on their start day (parse_valid always yields a full date); an open
-    # design question recorded for the user.
-    assert occasion_day("2024-03-01", "month") == "2024-03-01"
+TOKENS = [  # (stated date, token)
+    ("2024-03-30", "2024-03-30"),
+    ("March 2024", "2024-03"),
+    ("2024-Q1", "2024-Q1"),
+    ("Q3 2024", "2024-Q3"),
+    ("H1 2024", "2024-H1"),
+    ("2024-H2", "2024-H2"),
+    ("2024", "2024"),
+]
+
+
+def test_occasion_token():
+    assert occasion_token("2024-03-30", "day") == "2024-03-30"
+    assert occasion_token("2024-03-30", None) == "2024-03-30"  # no precision is a day
+    assert occasion_token("2024-03-30", "none") is None
+    assert occasion_token(None, "day") is None
+    assert occasion_token("someday", "day") is None
+    assert occasion_token("2024-03-01", "month") == "2024-03"
+    assert occasion_token("2024-11-01", "month") == "2024-11"
+    assert [occasion_token(f"2024-{m:02d}-01", "quarter") for m in (1, 3, 4, 6, 7, 9, 10, 12)] == [
+        "2024-Q1", "2024-Q1", "2024-Q2", "2024-Q2", "2024-Q3", "2024-Q3", "2024-Q4", "2024-Q4"]
+    assert [occasion_token(f"2024-{m:02d}-01", "half") for m in (1, 6, 7, 12)] == [
+        "2024-H1", "2024-H1", "2024-H2", "2024-H2"]
+    assert occasion_token("2024-01-01", "year") == "2024"
+
+
+@pytest.mark.parametrize("stated, token", TOKENS)
+def test_each_precision_keys_on_its_own_token_and_reads_back(stated, token):
+    from artmind.temporal import parse_valid
+
+    parsed = parse_valid(stated)
+    assert occasion_token(parsed.start, parsed.precision) == token
+    key = aggregate_key("Tennis", "ACTIVITY", "pj", occurs_on=token)
+    assert key[0] == f"tennis~{token}"
+    assert split_occasion(key[0]) == ("tennis", token)
+    # The token is itself a date `parse_valid` reads back to the same token.
+    again = parse_valid(token)
+    assert occasion_token(again.start, again.precision) == token
+
+
+def test_split_occasion_rejects_what_is_not_a_token():
+    for name in ("tennis~2024-3", "tennis~2024-Q5", "tennis~2024-H3", "tennis~24", "tennis~2024-03x",
+                 "tennis~q1-2024", "tennis~"):
+        assert split_occasion(name) == (name, None)
+
+
+def test_a_month_mention_is_not_a_day_in_that_month():
+    month, first = _obs("Tennis", "ACTIVITY", "March 2024"), _obs("Tennis", "ACTIVITY", "2024-03-01")
+    assert month["key"] == "tennis~2024-03|ACTIVITY|pj"
+    assert first["key"] == "tennis~2024-03-01|ACTIVITY|pj"
+    assert month["id"] != first["id"]
+    assert _obs("Tennis", "ACTIVITY", "2024-Q1")["key"] == "tennis~2024-Q1|ACTIVITY|pj"
+    assert _obs("Tennis", "ACTIVITY", "H2 2024")["key"] == "tennis~2024-H2|ACTIVITY|pj"
+    assert _obs("Tennis", "ACTIVITY", "2024")["key"] == "tennis~2024|ACTIVITY|pj"
 
 
 def _document(doc_date="2024-03-30", source="filename"):
@@ -89,6 +137,10 @@ def test_the_observation_id_carries_the_day():
     (None, "2024-05-01", "filename"),
     (None, "2026-11-15", "default_ingestion"),
     ("2023-09-07 to 2023-09-08", "2023-09-01", "filename"),
+    ("March 2024", "2024-03-29", "filename"),
+    ("2024-Q1", "2024-03-29", "filename"),
+    ("H2 2024", "2024-03-29", "filename"),
+    ("2024", "2024-03-29", "filename"),
 ])
 @pytest.mark.parametrize("name, cls", [("Tennis", "ACTIVITY"), ("Alex", "PERSON")])
 def test_ingest_and_retime_build_the_same_key(day_prop, doc_date, source, name, cls):
@@ -120,7 +172,9 @@ def test_every_key_parser_accepts_a_day_key():
     assert key_string(aggregate_key("ignored", "ACTIVITY", "pj", identity=_stored_identity(key))) == key
 
 
-def test_update_confirm_keys_an_occasion_on_its_facts_day(tmp_path, monkeypatch):
+@pytest.mark.parametrize("stated, token", [("2025-04-03", "2025-04-03"), ("April 2025", "2025-04"),
+                                           ("2025-Q2", "2025-Q2"), ("H1 2025", "2025-H1"), ("2025", "2025")])
+def test_update_confirm_keys_an_occasion_on_its_facts_day(tmp_path, monkeypatch, stated, token):
     import yaml
 
     import artmind.temporal as temporal
@@ -137,7 +191,7 @@ def test_update_confirm_keys_an_occasion_on_its_facts_day(tmp_path, monkeypatch)
     monkeypatch.setattr(upd, "DOMAIN_SCHEMAS_DIR", schemas)
     resolutions = [{"entity_temp_id": "e0", "action": "create", "node_id": None, "retracts": ["old-obs"]}]
     extracted = [{"temp_id": "e0", "name": "Hill walk", "entity_class": "OUTING",
-                  "properties": {"date_or_time": "2025-04-03"}}]
+                  "properties": {"date_or_time": stated}}]
     calls = []
 
     def run_side_effect(cypher, **kwargs):
@@ -159,9 +213,15 @@ def test_update_confirm_keys_an_occasion_on_its_facts_day(tmp_path, monkeypatch)
         upd.write_user_chat(session_id="s", raw_text="Hill walk on 3 April.", domain="testchat", user_id="u",
                             resolutions=resolutions, extracted_entities=extracted, extracted_relationships=[])
 
-    assert find.call_args.args[1:] == ("Hill walk", "OUTING", "testchat", "2025-04-03")
+    assert find.call_args.args[1:] == ("Hill walk", "OUTING", "testchat", token)
     written = [kw["props"] for c, kw in calls if "CREATE (n:Observation {id: $id})" in c and "props" in kw]
-    assert {p["key"] for p in written} == {"hill walk~2025-04-03|OUTING|testchat"}
+    assert {p["key"] for p in written} == {f"hill walk~{token}|OUTING|testchat"}
+    # As ingest keys the same fact.
+    entities = [{"id": "e1", "name": "Hill walk", "entity_class": "OUTING", "chunk_id": "c1", "_domain": "testchat"}]
+    built, _ = ing._build_observations(entities, [{"id": "e1", "properties": {"date_or_time": stated}}], {},
+                                       yaml.safe_load((schemas / "testchat_schema.yaml").read_text()),
+                                       {"id": "d1", "_valid_from": "2025-06-01", "_valid_time_source": "filename"})
+    assert built[0]["key"] == f"hill walk~{token}|OUTING|testchat"
     assert len(written) == 2  # the fact and its retraction, under one key
 
 
@@ -183,11 +243,14 @@ def test_entity_history_by_name_matches_day_keys(monkeypatch):
     graph_query.entity_history(["pj"], name="Tennis")
     cypher, params = calls[0]
     assert "split(o.key, '|')[0] =~ $nameKeyRe" in cypher and params["nameKey"] == "tennis"
-    assert params["nameKeyRe"] == r"tennis~\d{4}-\d{2}-\d{2}"
     graph_query.entity_history(["pj"], name="C++ (x)")
     import re
     assert re.fullmatch(calls[1][1]["nameKeyRe"], "c++ (x)~2024-03-30")
-    assert not re.fullmatch(calls[0][1]["nameKeyRe"], "tennis~2024-03-30x")
+    for token in ("2024-03-30", "2024-03", "2024-Q1", "2024-H2", "2024"):
+        assert re.fullmatch(params["nameKeyRe"], f"tennis~{token}"), token
+    for other in ("tennis~2024-03-30x", "tennis~2024-03x", "tennis~2024-Q5", "tennis~2024-3", "tennis",
+                  "tennis match~2024-03"):
+        assert not re.fullmatch(params["nameKeyRe"], other), other
 
 
 def test_empty_name_never_gets_a_day():

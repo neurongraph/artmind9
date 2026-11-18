@@ -147,10 +147,16 @@ def normalize_identity(value: str | None) -> str:
     return " ".join(text.split())
 
 
-#: Joins an occasion's name and day inside the key's name part: `tennis~2024-03-30`.
+#: Joins an occasion's name and date token inside the key's name part: `tennis~2024-03-30`.
 #: Never a fourth `|` part -- every key parser expects three (spec 2026-11-15 question 1).
 OCCASION_SEP = "~"
-_DAY_RE = re.compile(r"\d{4}-\d{2}-\d{2}")
+#: An occasion's date token, at the date's own precision (spec amendment Q3, decided
+#: 2026-11-18): day `2024-03-30`, month `2024-03`, quarter `2024-Q1`, half `2024-H1`, year
+#: `2024` -- the spellings `temporal.parse_valid` reads. Plain regex syntax, so the graph's
+#: `=~` (Java) reads it as Python does (`graph_query.entity_history --name`).
+OCCASION_TOKEN_PATTERN = r"\d{4}(?:-\d{2}(?:-\d{2})?|-Q[1-4]|-H[12])?"
+_OCCASION_TOKEN_RE = re.compile(OCCASION_TOKEN_PATTERN)
+_ISO_DAY_RE = re.compile(r"\d{4}-\d{2}-\d{2}")
 
 
 def aggregate_key(
@@ -167,38 +173,56 @@ def aggregate_key(
     `normalize_identity` rather than `normalize_name` -- for sources whose
     identity is declared (`ingest table2graph`) or already stored (an existing
     Entity's `key`), not inferred from free text. It is used as is: `occurs_on`
-    is ignored (a stored key already carries its day).
+    is ignored (a stored key already carries its date).
 
-    `occurs_on`, a `YYYY-MM-DD` day (`occasion_day`), is appended to the name part
-    for an `identity: occasion` class (spec 2026-11-15 §5.2): the same happening on
-    two days is two entities.
+    `occurs_on`, an occasion's date token (`occasion_token`: `2024-03-30`, `2024-03`,
+    `2024-Q1`, `2024-H1` or `2024`), is appended to the name part for an
+    `identity: occasion` class (spec 2026-11-15 §5.2): the same happening on two dates is
+    two entities, and "March 2024" is not 1 March.
     """
     if identity:
         return (normalize_identity(identity), entity_class or "", domain or "")
     name = normalize_name(canonical_name)
     if occurs_on and name:
-        name = f"{name}{OCCASION_SEP}{str(occurs_on)[:10]}"
+        name = f"{name}{OCCASION_SEP}{occurs_on}"
     return (name, entity_class or "", domain or "")
 
 
 def split_occasion(name_part: str | None) -> tuple[str, str | None]:
-    """`("tennis", "2024-03-30")` for `tennis~2024-03-30`; `(name_part, None)` otherwise.
+    """`("tennis", "2024-03-30")` for `tennis~2024-03-30`, `("tennis", "2024-Q1")` for
+    `tennis~2024-Q1` -- every `occasion_token` shape; `(name_part, None)` otherwise.
 
-    A name-identity name that itself ends in a literal `~YYYY-MM-DD` would be misread as
+    A name-identity name that itself ends in a literal `~` and token would be misread as
     an occasion; callers apply this only to occasion classes."""
-    head, sep, day = (name_part or "").rpartition(OCCASION_SEP)
-    if sep and _DAY_RE.fullmatch(day):
-        return head, day
+    head, sep, token = (name_part or "").rpartition(OCCASION_SEP)
+    if sep and _OCCASION_TOKEN_RE.fullmatch(token):
+        return head, token
     return name_part or "", None
 
 
-def occasion_day(valid_from: str | None, precision: str | None) -> str | None:
-    """The day an occasion keys on: the first day of its `_valid_from`, unless that is only
-    a default date (precision `none`, plan question 2) or not a dated day at all."""
+#: The token shape of each coarse precision; a day (or an unknown precision) keeps the whole day.
+_COARSE_TOKEN = {
+    "month": lambda y, m, d: f"{y}-{m:02d}",
+    "quarter": lambda y, m, d: f"{y}-Q{(m - 1) // 3 + 1}",
+    "half": lambda y, m, d: f"{y}-H{1 if m <= 6 else 2}",
+    "year": lambda y, m, d: y,
+}
+
+
+def occasion_token(valid_from: str | None, precision: str | None) -> str | None:
+    """The date an occasion keys on, at its own precision (spec amendment Q3, decided
+    2026-11-18): `2024-03-30` (day), `2024-03` (month), `2024-Q1` (quarter), `2024-H1`
+    (half), `2024` (year), read from the first day of `_valid_from`. None for only a
+    default date (precision `none`, plan question 2) or no dated day at all. A missing or
+    unknown precision is a day. Tokens begin with the year, so they sort by year as strings;
+    two tokens denote one occasion only when equal (a month is not a day in it)."""
     if not valid_from or precision == "none":
         return None
     day = str(valid_from)[:10]
-    return day if _DAY_RE.fullmatch(day) else None
+    if not _ISO_DAY_RE.fullmatch(day):
+        return None
+    shape = _COARSE_TOKEN.get(precision or "day")
+    return shape(day[:4], int(day[5:7]), day[8:10]) if shape else day
 
 
 # ── occasion names carry no date (spec 2026-11-15 §5.2, plan question 5) ─────
@@ -244,7 +268,7 @@ OCCASION_NAME_MAX = 200
 def strip_occasion_date(name: str | None) -> str:
     """An occasion's name without the date it happened on (spec 2026-11-15 §5.2). Pure.
 
-    The day is part of an occasion's key (`aggregate_key(occurs_on=)`), so a date, weekday,
+    The date is part of an occasion's key (`aggregate_key(occurs_on=)`), so a date, weekday,
     ordinal ("on the 30th") or "today" in its name only splits one happening into several
     names. Strips a trailing one -- after a dash, colon, comma, "on", in brackets, or, for a
     whole date or "today", after a bare space -- and a leading whole date. Numbers that are
@@ -290,8 +314,8 @@ def observation_id(
     Scoped to the chunk, so one document version asserting the same thing in
     three chunks yields three observations -- each testifying to its own
     passage -- while re-writing the same chunk cannot duplicate. `identity`
-    replaces the name part exactly as in `aggregate_key`; `occurs_on` joins it
-    as in `aggregate_key`, so one chunk's "Tennis" on two days is two
+    replaces the name part exactly as in `aggregate_key`; `occurs_on` (the date token) joins
+    it as in `aggregate_key`, so one chunk's "Tennis" on two dates is two
     observations, not one (spec 2026-11-15 §5.2).
     """
     if identity:
@@ -299,7 +323,7 @@ def observation_id(
     else:
         name_part = normalize_name(canonical_name)
         if occurs_on and name_part:
-            name_part = f"{name_part}{OCCASION_SEP}{str(occurs_on)[:10]}"
+            name_part = f"{name_part}{OCCASION_SEP}{occurs_on}"
     payload = "|".join([chunk_id or "", name_part, entity_class or "", domain or ""])
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
@@ -556,8 +580,8 @@ def build_observation(
     fact-level window (spec 2026-11-15 §2).
 
     `identity_kind` -- the class's `schema_validate.class_identity`. For `occasion`, the
-    key's name part carries the fact's day (`occasion_day` of the effective `_valid_from`
-    and precision; spec 2026-11-15 §5.2). Ignored when `identity` is given.
+    key's name part carries the fact's date token (`occasion_token` of the effective
+    `_valid_from` and precision; spec 2026-11-15 §5.2). Ignored when `identity` is given.
 
     `_kind` is likewise denormalized from the class's schema declaration at
     ingest time, for the same reason.
@@ -572,7 +596,7 @@ def build_observation(
     entity_class = entity.get("entity_class") or ""
     obs_domain = entity.get("_domain") or ""
     effective_from = valid_from or doc_valid_from
-    occurs_on = occasion_day(effective_from, valid_precision) if identity_kind == "occasion" else None
+    occurs_on = occasion_token(effective_from, valid_precision) if identity_kind == "occasion" else None
     key = aggregate_key(canonical_name, entity_class, obs_domain, identity=identity, occurs_on=occurs_on)
 
     props: dict = {

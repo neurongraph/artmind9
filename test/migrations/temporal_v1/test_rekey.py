@@ -431,11 +431,13 @@ def test_an_old_chat_occasion_without_a_day_gains_only_its_day(vault):
            "_domain": "pj", "canonical_name": "Padel night on Friday", "name": "padel", "_valid_from": "2024-05-03",
            "_valid_time_source": "user_chat", "_valid_precision": "day", "note": "kept"}
     undated = {**old, "id": "c4", "key": "chess|ACTIVITY|pj", "_valid_precision": "none"}
-    path = _chat_folder(vault, [old, undated])
+    month = {**old, "id": "c5", "key": "squash|ACTIVITY|pj", "_valid_from": "2024-05-01", "_valid_precision": "month"}
+    path = _chat_folder(vault, [old, undated, month])
     rekey.apply(_ctx(vault), False)
     written = json.loads(path.joinpath("observations.json").read_text())
     assert written[0] == {**old, "key": "padel night~2024-05-03|ACTIVITY|pj"}
     assert written[1] == undated
+    assert written[2] == {**month, "key": "squash~2024-05|ACTIVITY|pj"}  # its own precision, not 1 May
     assert vault.keys["chat1"]["c3"] == "padel night~2024-05-03|ACTIVITY|pj"
 
 

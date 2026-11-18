@@ -132,6 +132,7 @@ def key_moves(before: list[dict], after: list[dict]) -> dict[str, set[str]]:
 
 
 def _day(key: str) -> str:
+    """The key's occasion date token (any precision's shape), or `""`."""
     from artmind.observations import split_occasion
 
     return split_occasion(key.split("|")[0])[1] or ""
@@ -227,8 +228,8 @@ def chat_observation(obs: dict, schema: dict) -> dict:
     `update confirm` keys a link on the node the user picked (`identity=` its stored key),
     and dates the folder by the chat, so retime must never re-derive it. Only an old one
     of an occasion class whose key has no day gains the day: its stored name part plus
-    `occasion_day` of its own `_valid_from`; everything else stays as it is."""
-    from artmind.observations import OCCASION_SEP, key_string, occasion_day, split_occasion
+    `occasion_token` of its own `_valid_from` and precision; everything else stays as it is."""
+    from artmind.observations import OCCASION_SEP, key_string, occasion_token, split_occasion
     from artmind.schema_validate import class_identity
 
     key = obs.get("key") if isinstance(obs, dict) else None
@@ -236,7 +237,7 @@ def chat_observation(obs: dict, schema: dict) -> dict:
     if len(parts) != 3 or class_identity(schema, obs.get("entity_class") or parts[1]) != "occasion":
         return obs
     name, day = split_occasion(parts[0])
-    new_day = occasion_day(obs.get("_valid_from"), obs.get("_valid_precision"))
+    new_day = occasion_token(obs.get("_valid_from"), obs.get("_valid_precision"))
     if day or not new_day or not name:
         return obs
     return {**obs, "key": key_string((f"{name}{OCCASION_SEP}{new_day}", parts[1], parts[2]))}

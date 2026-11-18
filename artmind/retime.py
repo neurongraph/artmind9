@@ -82,7 +82,7 @@ def retime_observations(observations: list[dict], document: dict, schema: dict) 
     (spec 2026-11-15 §5.2). A table row keeps its mapping's declared key (plan question 21).
     Observation ids never change, so the rebuild moves a node's key in place."""
     from artmind.observations import (
-        aggregate_key, class_kind, declared_property_keys, filter_declared, key_string, occasion_day,
+        aggregate_key, class_kind, declared_property_keys, filter_declared, key_string, occasion_token,
         strip_occasion_date,
     )
     from artmind.schema_validate import class_identity
@@ -122,9 +122,9 @@ def retime_observations(observations: list[dict], document: dict, schema: dict) 
             new["_kind"] = class_kind(schema, cls)
             occurs_on = None
             if class_identity(schema, cls) == "occasion":
-                # As ingest names it: no date in the name, the day in the key; `name` stays verbatim.
+                # As ingest names it: no date in the name, the date token in the key; `name` stays verbatim.
                 name_part = new["canonical_name"] = strip_occasion_date(name_part)
-                occurs_on = occasion_day(new.get("_valid_from"), new.get("_valid_precision"))
+                occurs_on = occasion_token(new.get("_valid_from"), new.get("_valid_precision"))
             new["key"] = key_string(aggregate_key(name_part, cls, obs.get("_domain") or "", occurs_on=occurs_on))
         out.append(new)
     return out, dropped

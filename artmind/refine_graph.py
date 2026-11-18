@@ -202,10 +202,10 @@ def propose_merges(
 
         for canonical, aliases in by_canonical.items():
             canonical_keys = key_map.get(canonical, set())
-            day_groups = _occasion_day_groups(canonical_keys, [key_map.get(a, set()) for a in aliases])
+            day_groups = _occasion_date_groups(canonical_keys, [key_map.get(a, set()) for a in aliases])
             if day_groups is not None:
-                # An occasion's name has one key per day: one group per day that the canonical
-                # and at least one alias share (spec 2026-11-15 §5.3).
+                # An occasion's name has one key per date token: one group per token that the
+                # canonical and at least one alias share (spec 2026-11-15 §5.3).
                 grouped = {m for group in day_groups for m in group[1:]}
                 stats["skipped_identity"] += sum(
                     1 for a in aliases if not (key_map.get(a, set()) and
@@ -246,7 +246,7 @@ def propose_merges(
                 session, canonical_key, member_keys,
                 source="refine_graph", reason="name-similarity clustering", model=model,
             )
-            if pid is None:  # a category member, or occasions on different days (spec 2026-11-15 §5.3)
+            if pid is None:  # a category member, or occasions on different dates (spec 2026-11-15 §5.3)
                 stats["skipped_identity"] += len(member_keys) - 1
                 continue
             proposal_ids.append(pid)
@@ -254,13 +254,14 @@ def propose_merges(
     return {"stats": stats, "proposal_ids": proposal_ids}
 
 
-def _occasion_day_groups(
+def _occasion_date_groups(
     canonical_keys: set[str], alias_keys: list[set[str]]
 ) -> list[list[tuple[str, str, str]]] | None:
-    """Groups `[canonical day key, alias day key, ...]`, one per day on which the canonical name
-    and at least one alias both have an occasion key; None unless every canonical key is a
-    dated occasion key (then the plain one-key rule applies). An alias key that is not a dated
-    occasion key of the same class and domain joins no group."""
+    """Groups `[canonical key, alias key, ...]`, one per date token (`split_occasion`: a day,
+    month, quarter, half or year) on which the canonical name and at least one alias both have
+    an occasion key -- equal tokens only, so `~2024-03` never groups with `~2024-03-01`; None
+    unless every canonical key is a dated occasion key (then the plain one-key rule applies).
+    An alias key that is not a dated occasion key of the same class and domain joins no group."""
     from artmind.observations import split_occasion
     from artmind.schema_validate import class_identity
 

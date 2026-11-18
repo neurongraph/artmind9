@@ -78,7 +78,8 @@ def identity_refusal(
     """Why this group may not be a same-as group, or None (spec 2026-11-15 §5.3).
 
     A `category` member is a label many occasions share, never folded by review; `occasion`
-    members fold only within one day -- their keys' days (`split_occasion`) must agree.
+    members fold only on one date -- their keys' date tokens (`split_occasion`) must be
+    equal, so a month occasion (`~2024-03`) never folds with a day in that month.
     Identity is `schema_validate.class_identity` of the member's own domain schema
     (`schema_for`, default `_schema_for`, read once per domain here)."""
     from artmind.observations import split_occasion
@@ -86,7 +87,7 @@ def identity_refusal(
 
     load = schema_for or _schema_for
     schemas: dict[str, dict] = {}
-    days: set[str | None] = set()
+    tokens: set[str | None] = set()
     has_occasion = False
     for name, cls, domain in [canonical, *members]:
         if domain not in schemas:
@@ -96,9 +97,9 @@ def identity_refusal(
             return f"identity:category ({cls})"
         if ident == "occasion":
             has_occasion = True
-            days.add(split_occasion(name)[1])
-    if has_occasion and len(days) > 1:
-        return "identity:occasion (different days)"
+            tokens.add(split_occasion(name)[1])
+    if has_occasion and len(tokens) > 1:
+        return "identity:occasion (different dates)"
     return None
 
 
