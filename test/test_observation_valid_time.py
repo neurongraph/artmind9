@@ -57,3 +57,21 @@ def test_precision_and_time_of_day_are_system_keys_copied_from_the_winner():
     obs = _build({"date_or_time": "2026-01-07 (evening)"}, _schema())
     merged = merge_observations([obs])["props"]
     assert (merged["_valid_precision"], merged["_valid_time_of_day"]) == ("day", "evening")
+
+
+DOC_WITH_END = {"id": "d1", "_valid_from": "2023-09-01", "_valid_to": "2023-12-31", "_valid_time_source": "filename"}
+
+
+def test_a_fact_with_its_own_date_keeps_only_its_own_end():
+    obs = _build({"date_or_time": "2023-09-07"}, _schema(), DOC_WITH_END)
+    assert obs["_valid_from"] == "2023-09-07"
+    assert "_valid_to" not in obs   # a single-day fact is open-ended: the document's end is not borrowed
+    ranged = _build({"date_or_time": "2023-09-07 to 2023-09-08"}, _schema(), DOC_WITH_END)
+    assert ranged["_valid_to"] == "2023-09-09"
+
+
+def test_a_fact_dated_by_its_document_inherits_the_document_end():
+    obs = _build({}, _schema(), DOC_WITH_END)
+    assert (obs["_valid_from"], obs["_valid_to"]) == ("2023-09-01", "2023-12-31")
+    unreadable = _build({"date_or_time": "Ongoing"}, _schema(), DOC_WITH_END)
+    assert unreadable["_valid_to"] == "2023-12-31"

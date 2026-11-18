@@ -106,7 +106,8 @@ def retime_observations(observations: list[dict], document: dict, schema: dict) 
         new = {k: v for k, v in obs.items() if k not in _OBSERVATION_TIME_KEYS}
         times = {
             "_valid_from": fact.valid_from or doc_from,
-            "_valid_to": fact.valid_to or doc_to,
+            # a fact with its own date keeps only its own end; a document-dated one takes the document's
+            "_valid_to": fact.valid_to if fact.valid_from else doc_to,
             "_valid_time_source": "property" if fact.valid_from else document.get("_valid_time_source"),
             "_valid_precision": (
                 fact.precision if fact.valid_from else ingest._document_precision(document, schema)

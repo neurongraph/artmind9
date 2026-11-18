@@ -3802,7 +3802,9 @@ def _build_observations(
             kind=class_kind(schema, entity.get("entity_class") or ""),
             doc_valid_from=doc_valid_from,
             valid_from=fact.valid_from,
-            valid_to=fact.valid_to or doc_valid_to,
+            # A fact dated by its own property keeps only its own end (maybe none); one dated by
+            # its document inherits the document's stated end.
+            valid_to=fact.valid_to if fact.valid_from else doc_valid_to,
             valid_time_source=("property" if fact.valid_from else document.get("_valid_time_source")),
             valid_precision=fact.precision if fact.valid_from else _document_precision(document, schema),
             valid_time_of_day=fact.time_of_day,

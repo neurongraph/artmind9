@@ -48,3 +48,20 @@ def test_retime_leaves_table_observations_keys_alone():
     staged = [{"id": "o1", "key": "row 1|ACTIVITY|pj", "entity_class": "ACTIVITY", "_domain": "pj", "source_kind": "table"}]
     new = _obs(retime_observations(staged, {"_valid_from": "2024-03-30", "_valid_time_source": "filename"}, schema))
     assert new[0]["key"] == "row 1|ACTIVITY|pj"
+
+
+DOC_WITH_END = {"_valid_from": "2023-09-01", "_valid_to": "2023-12-31", "_valid_time_source": "filename"}
+
+
+def test_retime_gives_an_own_dated_fact_only_its_own_end():
+    staged = [{"id": "o1", "key": "k|EVENT|pj", "entity_class": "EVENT", "_domain": "pj",
+               "date_or_time": "2023-09-07", "_valid_to": "2023-12-31"}]
+    new = _obs(retime_observations(staged, DOC_WITH_END, SCHEMA))
+    assert new[0]["_valid_from"] == "2023-09-07"
+    assert "_valid_to" not in new[0]
+
+
+def test_retime_gives_a_document_dated_fact_the_document_end():
+    staged = [{"id": "o1", "key": "k|EVENT|pj", "entity_class": "EVENT", "_domain": "pj"}]
+    new = _obs(retime_observations(staged, DOC_WITH_END, SCHEMA))
+    assert (new[0]["_valid_from"], new[0]["_valid_to"]) == ("2023-09-01", "2023-12-31")
