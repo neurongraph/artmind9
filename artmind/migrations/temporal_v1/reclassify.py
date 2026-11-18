@@ -4,6 +4,12 @@ Before this model the journal schema had no occasion class for travel, so flight
 cab rides and trips were extracted as OBJECT. New extractions are kept right by
 OBJECT's new description; what is already staged is moved here, once, by a word
 list that lives only in the pack (no schema keyword). Pure: no I/O.
+
+A word matches whole, singular or plural ("Flights to Goa", "Rides"), any case. Known
+limit: a name that uses a travel word for something else moves too ("Cab Sauvignon",
+"toy train set"); the effect reports counts only (names are private corpus data), so
+review ACTIVITY names with `artmind query graph entity-listing --domain <d>` after the run
+if the domain may hold such names.
 """
 from __future__ import annotations
 
@@ -12,7 +18,7 @@ from collections import Counter
 
 TRAVEL_WORDS = ("flight", "train", "cab", "taxi", "ride", "trip", "journey", "booking")
 
-_WORDS = re.compile(r"\b(?:" + "|".join(TRAVEL_WORDS) + r")\b", re.IGNORECASE)
+_WORDS = re.compile(r"\b(?:" + "|".join(TRAVEL_WORDS) + r")s?\b", re.IGNORECASE)
 SOURCE, TARGET = "OBJECT", "ACTIVITY"
 
 

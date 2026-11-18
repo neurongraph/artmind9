@@ -33,3 +33,9 @@ def test_a_schema_without_activity_moves_nothing():
 def test_a_table_row_keeps_its_class():
     out, moved = reclassify([_obj("Cab fare", source_kind="table")], SCHEMA)
     assert out[0]["entity_class"] == "OBJECT" and not moved
+
+
+def test_plurals_move_too():
+    out, moved = reclassify([_obj("Flights to Goa"), _obj("Rides"), _obj("Trips abroad"), _obj("Cabinet")], SCHEMA)
+    assert [o["entity_class"] for o in out] == ["ACTIVITY", "ACTIVITY", "ACTIVITY", "OBJECT"]
+    assert moved == {"OBJECT->ACTIVITY": 3}

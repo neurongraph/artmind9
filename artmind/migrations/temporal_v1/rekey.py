@@ -22,7 +22,13 @@ re-keyed staging, still knows what each key was), else from staging. Pending:
   cross-day proposal);
 - `documents_to_commit`: staged keys that differ from this graph's (a killed run, or
   staging pulled from a machine that migrated first);
-- `records_to_apply`: record changes a killed run wrote but did not apply to this graph.
+- `records_to_apply`: record changes a killed run wrote but did not apply to this graph;
+- `rebuild_pending`: a run that committed documents but died before its rebuild.
+
+A run's manifest (`logs/migrate-temporal/<run_id>/<domain>/manifest.json`) holds its
+moves, record changes and stage (`files` -> `graph` -> `rebuild` -> `done`). Until it is
+done its moves join the plan, so a resume still knows the old keys of documents this
+graph never held (staging already rewritten, nothing to compare with).
 
 Apply, per domain: files first -- (1) staging, (2) `same_as.yaml`, (3) curation records
 -- with a byte copy of every file under `logs/migrate-temporal/<run_id>/<domain>/`
@@ -31,8 +37,15 @@ restores every file byte for byte and sends no graph write. Then the graph: open
 proposals closed, record changes applied (`syntheses` moved to their new entity id,
 `conflicts` dismissed; mart dimension records are files only), each document whose
 staged keys differ from the graph's committed with the rebuild deferred, and one
-`ingest.rebuild_projection(domain)`. A failure there leaves the files written; the
-next `migrate temporal` resumes from `documents_to_commit` / `records_to_apply`.
+`ingest.rebuild_projection(domain)`, the manifest at `rebuild` before the first commit
+and `done` only after the rebuild. A failure there leaves the files written; the next
+`migrate temporal` resumes from `documents_to_commit` / `records_to_apply` /
+`rebuild_pending`.
+
+A same-as group or an open proposal is in scope for a domain when any member is in
+it (its canonical may sit in another domain); only that domain's moving members are
+rewritten, and a rewritten group `sameas.identity_refusal` refuses is dropped.
+`same_as.yaml` is re-serialised when it changes: its comments are not kept.
 
 The files travel (commit them); the graph changes are this machine's. Another machine
 that pulls the re-keyed staging runs `migrate temporal` too: it commits and rebuilds,
@@ -43,6 +56,7 @@ from __future__ import annotations
 import json
 import os
 import shutil
+import stat
 from collections import Counter
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -134,18 +148,22 @@ def _dump(observations: list[dict]) -> bytes:
 class FolderPlan:
     folder: Path
     doc_id: str | None
-    staged: list[dict]
+    #: {observation id: key} as staged (the staged list itself is not kept).
+    staged_keys: dict
     planned: list[dict]
     dropped: dict
     moved: Counter
+    changed: bool
 
     @staticmethod
-    def _shape(observations: list[dict]) -> list:
-        return [(o.get("id"), o.get("key"), o.get("entity_class")) for o in observations if isinstance(o, dict)]
+    def build(folder: Path, doc_id, staged: list[dict], planned: list[dict], dropped: dict,
+              moved: Counter) -> "FolderPlan":
+        def shape(observations):
+            return [(o.get("id"), o.get("key"), o.get("entity_class")) for o in observations if isinstance(o, dict)]
 
-    @property
-    def changed(self) -> bool:
-        return bool(self.moved) or self._shape(self.staged) != self._shape(self.planned)
+        keys = {o.get("id"): o.get("key") for o in staged if isinstance(o, dict) and o.get("id")}
+        return FolderPlan(folder, doc_id, keys, planned, dropped, moved,
+                          bool(moved) or shape(staged) != shape(planned))
 
     @property
     def path(self) -> Path:
@@ -166,6 +184,8 @@ class DomainPlan:
     graph: dict[str, str] | None = None
     moves: dict[str, set[str]] = field(default_factory=dict)
     counts: Counter = field(default_factory=Counter)
+    #: `_file_writes` memoised against a stamp of same_as.yaml and the record folders.
+    _writes: tuple | None = None
 
     @property
     def changed(self) -> list[FolderPlan]:
@@ -270,23 +290,26 @@ def _plan_domain(domain: str, session=None) -> DomainPlan | None:
             continue  # a table folder keeps its mapping's keys (plan question 21)
         if document.get("source_kind") == ingest.USER_CHAT_SOURCE_KIND:
             planned = [chat_observation(o, schema) for o in staged]
-            folders.append(FolderPlan(folder, document.get("id"), staged, planned, {}, Counter()))
+            folders.append(FolderPlan.build(folder, document.get("id"), staged, planned, {}, Counter()))
             continue
         moved_in, moved = reclassify(staged, schema)
         planned, dropped = retime.retime_observations(moved_in, document, schema)
-        folders.append(FolderPlan(folder, document.get("id"), staged, planned, dropped, moved))
+        folders.append(FolderPlan.build(folder, document.get("id"), staged, planned, dropped, moved))
     plan = DomainPlan(domain, schema, folders)
     if session is not None:
         plan.graph = _graph_keys(session, sorted({f.doc_id for f in folders if f.doc_id}))
     graph = plan.graph or {}
     pairs = []
     for f in folders:
-        staged_key = {o.get("id"): o.get("key") for o in f.staged if isinstance(o, dict)}
         for o in f.planned:
             if isinstance(o, dict) and o.get("id"):
-                pairs.append((graph.get(o["id"]) or staged_key.get(o["id"]), o.get("key")))
+                pairs.append((graph.get(o["id"]) or f.staged_keys.get(o["id"]), o.get("key")))
                 plan.counts[o.get("key")] += 1
     plan.moves = _moves(pairs)
+    # An unfinished run's moves: the old keys of documents this graph never held.
+    for manifest in unfinished(domain):
+        for old, new in (manifest.get("moves") or {}).items():
+            plan.moves[old] = plan.moves.get(old, set()) | set(new)
     return plan
 
 
@@ -311,8 +334,11 @@ def _plan_same_as(text: str | None, moves: dict[str, set[str]], schema_for_, dom
 
     from artmind.schema_validate import class_identity
 
+    from artmind.sameas import identity_refusal
+
     report = {"groups_before": 0, "groups_after": 0, "rekeyed": 0, "split": 0, "emptied": 0,
-              "dropped_category": 0, "members_dropped": 0}
+              "dropped_category": 0, "members_dropped": 0, "refused": 0,
+              "canonical_not_member": 0, "key_in_two_groups": 0}
     try:
         raw = yaml.safe_load(text) if text else None
     except yaml.YAMLError:
@@ -322,11 +348,20 @@ def _plan_same_as(text: str | None, moves: dict[str, set[str]], schema_for_, dom
     groups = raw["groups"]
     report["groups_before"] = len(groups)
     out, changed = [], False
+    seen: set[str] = set()
     for entry in groups:
         members = [_key(m) for m in (entry or {}).get("members") or []] if isinstance(entry, dict) else []
         canonical = _key(entry.get("canonical")) if isinstance(entry, dict) else None
-        if not canonical or not members or None in members or not _in(canonical.split("|")[2], domain):
-            out.append(entry)  # malformed or another domain's: not this step's to judge
+        if canonical and members and canonical not in members:
+            report["canonical_not_member"] += 1
+            logger.warning("migrate rekey: a same_as.yaml group's canonical is not among its members; left as is")
+        if any(m in seen for m in members if m):
+            report["key_in_two_groups"] += 1
+            logger.warning("migrate rekey: a same_as.yaml key is in two groups (the loader keeps the first)")
+        seen |= {m for m in members if m}
+        if not canonical or not members or None in members or canonical not in members \
+                or not any(_in(m.split("|")[2], domain) for m in members):
+            out.append(entry)  # malformed, or no member in this domain: not this step's to judge
             continue
         if any(class_identity(schema_for_(m.split("|")[2]) or {}, m.split("|")[1]) == "category" for m in members):
             report["dropped_category"] += 1
@@ -348,7 +383,11 @@ def _plan_same_as(text: str | None, moves: dict[str, set[str]], schema_for_, dom
                 report["members_dropped"] += len(day_members)
                 continue
             canon = canon_new.get(day) if canon_new.get(day) in day_members else sorted(day_members)[0]
-            out.append({"canonical": canon, "members": [canon] + sorted(day_members - {canon})})
+            rest = sorted(day_members - {canon})
+            if identity_refusal(_tuple(canon), [_tuple(m) for m in rest], schema_for=schema_for_):
+                report["refused"] += 1
+                continue
+            out.append({"canonical": canon, "members": [canon] + rest})
             kept += 1
         report["split"] += 1 if kept > 1 else 0
         report["emptied"] += 1 if kept == 0 else 0
@@ -361,8 +400,9 @@ def migrate_same_as(path: Path, moves: dict[str, set[str]], schema_for_=None, *,
     """Rewrite `same_as.yaml`'s groups for re-keyed members (question 12): each occasion
     member expands into its new day keys; one group per day on which at least two members
     have observations, canonical = the old canonical's key for that day; a member with no
-    same-day partner is dropped; a group with a `category` member is dropped. Groups of
-    another domain (`domain`), and malformed ones, are left as they are. Returns (the
+    same-day partner is dropped; a group with a `category` member, or one
+    `identity_refusal` refuses, is dropped. A group is in scope when any member is in
+    `domain`; others, and malformed ones, are left as they are. Returns (the
     file's groups, report); writes atomically only with `write` and a change."""
     path = Path(path)
     text = path.read_text(encoding="utf-8") if path.is_file() else None
@@ -409,7 +449,7 @@ _CLOSE = ("UNWIND $rows AS row MATCH (p:SameAsProposal {id: row.id}) WHERE p.sta
 
 def refused_proposals(session, moves: dict[str, set[str]], schema_for_=None,
                       domain: str | None = None) -> list[dict]:
-    """[{id, reason}] for the open proposals of `domain` that `sameas.identity_refusal`
+    """[{id, reason}] for the open proposals with a member in `domain` that `sameas.identity_refusal`
     refuses once every member is mapped through `moves` (an old key with several days
     makes the proposal cross-day: `identity:occasion`)."""
     from artmind.sameas import identity_refusal
@@ -421,7 +461,7 @@ def refused_proposals(session, moves: dict[str, set[str]], schema_for_=None,
             continue
         canonical = _key(row.get("canonical"))
         members = [k for m in row.get("members") or [] if (k := _key(m))]
-        if not canonical or not _in(canonical.split("|")[2], domain):
+        if not canonical or not any(_in(k.split("|")[2], domain) for k in [canonical, *members]):
             continue
         mapped_canonical = sorted(moves.get(canonical, {canonical}))
         mapped = sorted({n for m in [canonical, *members] for n in moves.get(m, {m})})
@@ -536,33 +576,37 @@ def migrate_records(moves: dict[str, set[str]], counts: Counter, *, write: bool,
 # ── recovery copies ───────────────────────────────────────────────────────────
 
 class Stash:
-    """`logs/migrate-temporal/<run_id>/<domain>/`: a byte copy of every file the run
-    writes, taken before the first write, and the manifest a resumed run reads."""
+    """`logs/migrate-temporal/<run_id>/<domain>/`: a byte copy (and mode) of every file the
+    run writes, taken before the first write, and the manifest a resumed run reads."""
 
     def __init__(self, run_id: str, domain: str):
         from artmind import ingest
 
         self.root = Path(ingest.LOGS_DIR) / LOG_FOLDER / run_id / domain
-        self.manifest = {"run_id": run_id, "domain": domain, "stage": "files", "files": [], "records": []}
+        self.manifest = {"run_id": run_id, "domain": domain, "stage": "files", "files": [], "records": [],
+                         "moves": {}}
+        self.saved = False
 
     def _save(self) -> None:
         self.root.mkdir(parents=True, exist_ok=True)
         _write_bytes(self.root / "manifest.json",
                      json.dumps(self.manifest, indent=2, ensure_ascii=False, default=sorted).encode("utf-8"))
+        self.saved = True
 
     def keep(self, paths: list[Path]) -> None:
         copies = self.root / "files"
         copies.mkdir(parents=True, exist_ok=True)
         for i, path in enumerate(dict.fromkeys(Path(p) for p in paths)):
-            entry = {"path": str(path), "copy": None}
+            entry = {"path": str(path), "copy": None, "mode": None}
             if path.is_file():
                 entry["copy"] = f"{i:06d}"
+                entry["mode"] = stat.S_IMODE(path.stat().st_mode)
                 shutil.copyfile(path, copies / entry["copy"])
             self.manifest["files"].append(entry)
         self._save()
 
     def restore(self) -> None:
-        """Every kept file back byte for byte; a file the run created is removed."""
+        """Every kept file back byte for byte, with its mode; a file the run created is removed."""
         from artmind.atomic_dir import write_dir_atomic
 
         for entry in reversed(self.manifest["files"]):
@@ -575,6 +619,8 @@ class Stash:
                 write_dir_atomic(path.parent, {path.name: data})  # a staging folder swaps whole
             else:
                 _write_bytes(path, data)
+            if entry.get("mode") is not None:
+                os.chmod(path, entry["mode"])
         self.stage("restored")
 
     def stage(self, name: str) -> None:
@@ -582,15 +628,19 @@ class Stash:
         self._save()
 
 
+#: Stages of a run's manifest still to finish (`restored`, `restore_failed`, `done` are not).
+UNFINISHED = ("files", "graph", "rebuild")
+
+
 def unfinished(domain: str) -> list[dict]:
-    """Manifests of this domain's runs whose record changes are not yet on this graph."""
+    """Manifests of this domain's runs not yet done on this graph."""
     from artmind import ingest
 
     root = Path(ingest.LOGS_DIR) / LOG_FOLDER
     out = []
     for path in sorted(root.glob(f"*/{domain}/manifest.json")) if root.is_dir() else []:
         manifest = _load_json(path, {})
-        if isinstance(manifest, dict) and manifest.get("stage") in ("files", "graph") and manifest.get("records"):
+        if isinstance(manifest, dict) and manifest.get("stage") in UNFINISHED:
             out.append({**manifest, "_path": str(path)})
     return out
 
@@ -606,9 +656,29 @@ def _domains(ctx: MigrationContext) -> list[str]:
     return [n for n in names if any(n == d or n.startswith(d + ".") for d in ctx.domains)]
 
 
+def _files_stamp() -> tuple:
+    from artmind import curation_records
+
+    out = []
+    for path in [_same_as_path()] + [curation_records.curation_dir() / k for k in (SYNTHESES, CONFLICTS, MART_DIMENSION)]:
+        try:
+            st = path.stat()
+            out.append((str(path), st.st_mtime_ns, st.st_size))
+        except OSError:
+            out.append((str(path), None, None))
+    return tuple(out)
+
+
 def _file_writes(plan: DomainPlan) -> tuple[list[tuple[Path, bytes | None]], bytes | None, list[RecordChange], dict]:
     """(every (path, bytes) the domain's file stage writes, same_as bytes, record changes,
-    same-as report)."""
+    same-as report), memoised on the plan until same_as.yaml or a record folder changes."""
+    stamp = _files_stamp()
+    if plan._writes is None or plan._writes[0] != stamp:
+        plan._writes = (stamp, _compute_file_writes(plan))
+    return plan._writes[1]
+
+
+def _compute_file_writes(plan: DomainPlan):
     path = _same_as_path()
     text = path.read_text(encoding="utf-8") if path.is_file() else None
     payload, report = _plan_same_as(text, plan.moves, _schema_for, plan.domain)
@@ -631,18 +701,25 @@ def _display(path: Path) -> str:
         return str(path)
 
 
+def _same_as_count(report: dict) -> int:
+    """Groups a run rewrites or drops (the same number in pending and apply)."""
+    return report["rekeyed"] + report["dropped_category"]
+
+
 def _domain_counts(plan: DomainPlan, session) -> tuple[dict, list[str]]:
     writes, same_as_data, changes, report = _file_writes(plan)
     changed = {f.folder for f in plan.changed}
     counts = {
         "objects_reclassified": sum(sum(f.moved.values()) for f in plan.changed),
         "entity_rekey": len(plan.moves),
-        "same_as_groups": (report["rekeyed"] + report["dropped_category"]) if same_as_data is not None else 0,
+        "same_as_groups": _same_as_count(report) if same_as_data is not None else 0,
         "sameas_proposals_closed": len(refused_proposals(session, plan.moves, None, plan.domain)),
         "curation_records": len(changes),
         "documents_to_commit": len([f for f in plan.to_commit() if f.folder not in changed]),
-        "records_to_apply": sum(len(m["records"]) for m in unfinished(plan.domain))
+        "records_to_apply": sum(len(m.get("records") or []) for m in unfinished(plan.domain)
+                                if m.get("stage") in ("files", "graph"))
         + len(pulled_conflicts(session, plan)),
+        "rebuild_pending": sum(1 for m in unfinished(plan.domain) if m.get("stage") == "rebuild"),
     }
     files = [_display(p) for p, _ in writes if p.name != "observations.json"]
     if changed:
@@ -651,7 +728,7 @@ def _domain_counts(plan: DomainPlan, session) -> tuple[dict, list[str]]:
 
 
 COUNT_KEYS = ("objects_reclassified", "entity_rekey", "same_as_groups", "sameas_proposals_closed",
-              "curation_records", "documents_to_commit", "records_to_apply")
+              "curation_records", "documents_to_commit", "records_to_apply", "rebuild_pending")
 
 
 def pending(ctx: MigrationContext) -> dict:
@@ -708,10 +785,12 @@ def effect(pending_counts: dict) -> dict:
     return {
         "changes": changes,
         "records": list(pending_counts.get("files") or []),
-        "undo": ("rekey: git restore the listed files (and delete the record files the run created; copies "
-                 "of every file it wrote are under logs/migrate-temporal/<run_id>/), then `artmind ingest "
-                 "retime --domain d` and `artmind projection rebuild --domain d` to bring this graph back "
-                 "to the files; closed same-as proposals stay closed (the graph is not reversible by git)"),
+        "undo": ("rekey: git restore the listed files and delete the record files the run created (byte copies "
+                 "of every file it wrote are under logs/migrate-temporal/<run_id>/), then commit the restored "
+                 "staging as it is with `artmind ingest write-to-graph --folder .artmind/data/kg/<domain>` "
+                 "(not `ingest retime`, which re-keys again). These stay changed on this graph: closed same-as "
+                 "proposals, dismissed conflicts and synthesis nodes moved to their new entity ids. "
+                 "same_as.yaml is re-serialised by the run: its comments are not kept"),
     }
 
 
@@ -768,23 +847,34 @@ def pulled_conflicts(session, plan: DomainPlan) -> list[dict]:
                 curation_records.record_path(CONFLICTS, r["id"]).read_bytes())]
 
 
-def _graph_stage(ctx: MigrationContext, plan: DomainPlan) -> dict:
-    """Proposals closed, unfinished record changes applied, documents committed, one rebuild."""
+def _graph_stage(ctx: MigrationContext, plan: DomainPlan, stash: Stash) -> dict:
+    """Proposals closed, unfinished record changes applied, documents committed, one
+    rebuild. Every unfinished manifest of the domain (this run's `stash` too) is at
+    `rebuild` before the first commit and `done` only after the rebuild, so a kill in
+    between leaves `rebuild_pending`."""
     from artmind import ingest
 
     out: Counter = Counter()
+    earlier = [m for m in unfinished(plan.domain) if m.get("run_id") != stash.manifest["run_id"]]
+    runs = [(Path(m["_path"]), m) for m in earlier]
     with ctx.session_factory() as session:
         out["sameas_proposals_closed"] = close_proposals(session, plan.moves, None, dry_run=False,
                                                          domain=plan.domain)
-        for manifest in unfinished(plan.domain):
-            out["records_applied"] += _apply_records_to_graph(session, plan.domain, manifest["records"])
-            _mark(Path(manifest["_path"]), manifest, "done")
+        for manifest in [*earlier, *([stash.manifest] if stash.saved else [])]:
+            if manifest.get("stage") in ("files", "graph"):
+                out["records_applied"] += _apply_records_to_graph(session, plan.domain, manifest.get("records") or [])
         pulled = pulled_conflicts(session, plan)
         out["records_applied"] += _apply_records_to_graph(
             session, plan.domain, [{"kind": CONFLICTS, "new_ids": [r["id"]]} for r in pulled])
+    to_commit = plan.to_commit()
+    rebuild = bool(to_commit or out["records_applied"] or any(m.get("stage") == "rebuild" for m in earlier))
+    if rebuild:
+        for path, manifest in runs:
+            _mark(path, manifest, "rebuild")
+        stash.stage("rebuild")
     failed, committed = [], 0
     try:
-        for f in plan.to_commit():
+        for f in to_commit:
             try:
                 ok = ingest.commit_to_graph(f.folder, plan.domain, defer_rebuild=True)
             except Exception as exc:  # noqa: BLE001 - every folder is tried; the run reports them
@@ -795,10 +885,15 @@ def _graph_stage(ctx: MigrationContext, plan: DomainPlan) -> dict:
             else:
                 failed.append(f.folder.name)
     finally:
-        # A resumed run may only have moved a synthesis: its entity is rebuilt too.
-        if committed or out["records_applied"]:
+        if rebuild:
             ingest.rebuild_projection(plan.domain)
+    # Reached only when the rebuild (if any) returned.
+    for path, manifest in runs:
+        _mark(path, manifest, "done")
+    if stash.saved:
+        stash.stage("done")
     out["documents_committed"] = committed
+    out["rebuilt"] = 1 if rebuild else 0
     if failed:
         raise RuntimeError(f"rekey: {len(failed)} document(s) of {plan.domain} were not committed; "
                            f"the staging is written: run `artmind migrate temporal` again to resume")
@@ -810,18 +905,18 @@ def _mark(path: Path, manifest: dict, stage: str) -> None:
     _write_bytes(path, json.dumps({**body, "stage": stage}, indent=2, ensure_ascii=False).encode("utf-8"))
 
 
-def _file_stage(plan: DomainPlan, run_id: str) -> Counter:
+def _file_stage(plan: DomainPlan, stash: Stash) -> Counter:
     """Staging, `same_as.yaml`, curation records; every file restored on any failure."""
     from artmind import ingest, retime
 
-    writes_, same_as_data, changes, _ = _file_writes(plan)
+    writes_, same_as_data, changes, report = _file_writes(plan)
     if not writes_:
         return Counter()
-    stash = Stash(run_id, plan.domain)
-    # The record changes are in the manifest before the first write: a killed run's are
-    # applied to the graph by the run that resumes it.
+    # Moves and record changes are in the manifest before the first write: the run that
+    # resumes a killed one still knows the old keys and applies its records.
     stash.manifest["records"] = [{"kind": c.kind, "old": c.old, "new_ids": [r["id"] for r in c.new]}
                                  for c in changes]
+    stash.manifest["moves"] = {k: sorted(v) for k, v in plan.moves.items()}
     stash.keep([p for p, _ in writes_])
     try:
         for f in plan.changed:
@@ -832,14 +927,22 @@ def _file_stage(plan: DomainPlan, run_id: str) -> Counter:
             _write_bytes(_same_as_path(), same_as_data)
         write_records(changes)
     except BaseException:
-        stash.restore()
+        try:
+            stash.restore()
+        except BaseException as restore_error:  # noqa: BLE001 - the original error is the one raised
+            logger.error("migrate rekey: restoring {} failed ({}); copies are under {}",
+                         plan.domain, restore_error, stash.root)
+            try:
+                stash.stage("restore_failed")
+            except BaseException:  # noqa: BLE001
+                pass
         raise
-    stash.stage("graph" if changes else "done")
+    stash.stage("graph")
     return Counter({
         "objects_reclassified": sum(sum(f.moved.values()) for f in plan.changed),
         "documents_written": len(plan.changed),
         "entity_rekey": len(plan.moves),
-        "same_as_groups": 1 if same_as_data is not None else 0,
+        "same_as_groups": _same_as_count(report) if same_as_data is not None else 0,
         "curation_records": len(changes),
     })
 
@@ -857,8 +960,10 @@ def apply(ctx: MigrationContext, dry_run: bool = False) -> dict:
                 plan = plan_domain(domain, session)
             if plan is None:
                 continue
-            totals.update(_file_stage(plan, run_id))
-            totals.update(_graph_stage(ctx, plan))
+            stash = Stash(run_id, domain)
+            totals.update(_file_stage(plan, stash))
+            totals.update(_graph_stage(ctx, plan, stash))
+            clear_plans()  # this domain's files changed: the next domain plans afresh
     finally:
         clear_plans()  # the graph and staging changed: the re-check plans afresh
     return {k: v for k, v in totals.items() if v}

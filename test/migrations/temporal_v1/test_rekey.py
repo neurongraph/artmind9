@@ -55,7 +55,8 @@ def test_same_as_groups_split_per_shared_day(tmp_path):
         {"canonical": T30, "members": [T30, TM30]},
         {"canonical": "alex|PERSON|pj", "members": ["alex|PERSON|pj", "alexander|PERSON|pj"]}]
     assert report == {"groups_before": 3, "groups_after": 2, "rekeyed": 1, "split": 0, "emptied": 0,
-                      "dropped_category": 1, "members_dropped": 1}
+                      "dropped_category": 1, "members_dropped": 1, "refused": 0, "canonical_not_member": 0,
+                      "key_in_two_groups": 0}
     assert same_as.load_groups(path)[0] == [tuple(T30.split("|")), tuple(TM30.split("|"))]
 
 
@@ -195,10 +196,18 @@ class Graph:
 
 @pytest.fixture
 def vault(tmp_path, monkeypatch, curation):
+    return _build(tmp_path, monkeypatch)
+
+
+def _build(tmp_path, monkeypatch):
+    """A synthetic vault under `tmp_path`, every path repointed to it."""
     import paths
 
+    monkeypatch.setattr(paths, "CURATION_DIR", tmp_path / "curation")
+    rekey.clear_plans()
+
     schemas = tmp_path / "schemas"
-    schemas.mkdir()
+    schemas.mkdir(parents=True)
     (schemas / "pj_schema.yaml").write_text(SCHEMA_YAML)
     monkeypatch.setattr(ingest, "DOMAIN_SCHEMAS_DIR", schemas)
     monkeypatch.setattr(ingest, "KG_DIR", tmp_path / "kg")
@@ -387,7 +396,9 @@ def test_effect_names_the_kinds_classes_and_files(vault):
                           "curation_records"}
     assert kinds["entity_rekey"].sample == ["ACTIVITY", "OBJECT"]
     assert any(r.startswith("curation/syntheses/") for r in part["records"])
-    assert "git restore" in part["undo"] and "projection rebuild" in part["undo"]
+    assert "git restore" in part["undo"] and "ingest write-to-graph --folder" in part["undo"]
+    assert "not `ingest retime`" in part["undo"] and "comments are not kept" in part["undo"]
+    assert part["changes"][0].sample == []  # objects_reclassified: counts only, never names
 
 
 # ── update-session folders, resumed record moves, pulled conflicts, memo ──────
@@ -430,7 +441,7 @@ def test_an_old_chat_occasion_without_a_day_gains_only_its_day(vault):
 
 def test_a_resumed_run_that_only_moves_a_synthesis_rebuilds(vault, monkeypatch):
     with pytest.MonkeyPatch.context() as m:
-        m.setattr(rekey, "_graph_stage", lambda ctx, plan: (_ for _ in ()).throw(KeyboardInterrupt()))
+        m.setattr(rekey, "_graph_stage", lambda *a: (_ for _ in ()).throw(KeyboardInterrupt()))
         with pytest.raises(KeyboardInterrupt):
             rekey.apply(_ctx(vault), False)
     # another process committed the staging meanwhile; the record move is still unapplied here
@@ -466,3 +477,120 @@ def test_plans_are_memoised_until_apply(vault, monkeypatch):
     rekey.apply(_ctx(vault), False)
     rekey.pending(_ctx(vault))
     assert calls.count("pj") == 2
+
+
+# ── review probes: rebuild, persisted moves, cross-domain scope, modes, byte identity ──
+
+class Killed(BaseException):
+    pass
+
+
+def _kill(*a, **k):
+    raise Killed()
+
+
+def _nolog(root):
+    return {k: v for k, v in _files(root).items() if not str(k).startswith("logs")}
+
+
+def test_a_kill_inside_the_rebuild_is_rebuilt_by_the_rerun(vault):
+    with pytest.MonkeyPatch.context() as m:
+        m.setattr(ingest, "rebuild_projection", _kill)
+        with pytest.raises(Killed):
+            rekey.apply(_ctx(vault), False)
+    assert vault.commits and vault.rebuilds == []
+    left = rekey.pending(_ctx(vault))
+    assert left["rebuild_pending"] == 1 and "documents_to_commit" not in left
+    rekey.apply(_ctx(vault), False)
+    assert vault.rebuilds == ["pj"]
+    assert rekey.pending(_ctx(vault)) == {}
+
+
+def test_moves_survive_a_kill_when_the_graph_never_held_the_documents(vault):
+    vault.keys.clear()  # nothing committed here: staging is the only record of the old keys
+    real = rekey._write_bytes
+    with pytest.MonkeyPatch.context() as m:
+        m.setattr(rekey.Stash, "restore", lambda self: None)  # killed: nothing restores
+        m.setattr(rekey, "_write_bytes", lambda path, data: _kill() if path.name == "same_as.yaml"
+                  else real(path, data))
+        with pytest.raises(Killed):
+            rekey.apply(_ctx(vault), False)
+    staged = json.loads((vault.root / "kg/pj/d2/observations.json").read_text())
+    assert staged[0]["key"] == T02  # the staging was rewritten before the kill
+    left = rekey.pending(_ctx(vault))
+    assert left["same_as_groups"] == 1 and left["curation_records"] == 1
+    rekey.apply(_ctx(vault), False)
+    assert yaml.safe_load((vault.root / "same_as.yaml").read_text())["groups"] == [
+        {"canonical": T30, "members": [T30, TM30]}]
+    assert not curation_records.record_path("syntheses", entity_id(("tennis", "ACTIVITY", "pj"))).exists()
+    assert rekey.pending(_ctx(vault)) == {}
+
+
+def test_a_group_whose_canonical_is_in_another_domain_is_rewritten(vault):
+    other = "tennis~2024-03-30|ACTIVITY|general"
+    _groups(vault.root / "same_as.yaml", [{"canonical": other, "members": [other, "tennis|ACTIVITY|pj"]}])
+    rekey.apply(_ctx(vault), False)
+    assert yaml.safe_load((vault.root / "same_as.yaml").read_text())["groups"] == [
+        {"canonical": other, "members": [other, T30]}]  # only pj's moving member changed
+    assert rekey.pending(_ctx(vault)) == {}
+
+
+def test_a_proposal_whose_canonical_is_in_another_domain_is_closed(vault):
+    vault.proposals = [{"id": "p7", "status": "open", "canonical": "tennis|ACTIVITY|general",
+                        "members": ["tennis|ACTIVITY|general", "tennis|ACTIVITY|pj"]}]
+    assert rekey.pending(_ctx(vault))["sameas_proposals_closed"] == 1
+    rekey.apply(_ctx(vault), False)
+    assert vault.proposals[0]["status"] == "rejected"
+
+
+def test_a_restored_record_keeps_its_mode(vault):
+    import os
+    import stat as st
+
+    path = curation_records.record_path("syntheses", entity_id(("tennis", "ACTIVITY", "pj")))
+    os.chmod(path, 0o600)
+    real = rekey.write_records
+
+    def late(changes):
+        real(changes)  # the old record is deleted, then the run fails
+        raise OSError("late failure")
+
+    with pytest.MonkeyPatch.context() as m:
+        m.setattr(rekey, "write_records", late)
+        with pytest.raises(OSError, match="late failure"):
+            rekey.apply(_ctx(vault), False)
+    assert path.is_file() and st.S_IMODE(path.stat().st_mode) == 0o600
+
+
+def test_a_failed_restore_is_recorded_and_the_original_error_raised(vault):
+    with pytest.MonkeyPatch.context() as m:
+        m.setattr(rekey, "write_records", lambda c: (_ for _ in ()).throw(OSError("original")))
+        m.setattr(rekey.Stash, "restore", lambda self: (_ for _ in ()).throw(OSError("restore broke")))
+        with pytest.raises(OSError, match="original"):
+            rekey.apply(_ctx(vault), False)
+    manifest, = (vault.root / "logs/migrate-temporal").glob("*/pj/manifest.json")
+    assert json.loads(manifest.read_text())["stage"] == "restore_failed"
+    assert rekey.unfinished("pj") == []
+
+
+def test_same_as_count_means_the_same_in_pending_and_apply(vault):
+    assert rekey.pending(_ctx(vault))["same_as_groups"] == rekey.apply(_ctx(vault), False)["same_as_groups"] == 1
+
+
+@pytest.mark.parametrize("kill", ["delete_record", "rebuild"])
+def test_a_killed_and_resumed_run_matches_an_uninterrupted_one(tmp_path, monkeypatch, kill):
+    ref = _build(tmp_path / "a", monkeypatch)
+    rekey.apply(_ctx(ref), False)
+    expected = _nolog(ref.root)
+    got_vault = _build(tmp_path / "b", monkeypatch)
+    with pytest.MonkeyPatch.context() as m:
+        m.setattr(rekey.Stash, "restore", lambda self: None)
+        if kill == "delete_record":
+            m.setattr(curation_records, "delete_record", _kill)
+        else:
+            m.setattr(ingest, "rebuild_projection", _kill)
+        with pytest.raises(Killed):
+            rekey.apply(_ctx(got_vault), False)
+    rekey.apply(_ctx(got_vault), False)
+    assert _nolog(got_vault.root) == expected
+    assert got_vault.keys == ref.keys and got_vault.rebuilds == ["pj"]
