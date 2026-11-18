@@ -23,7 +23,7 @@ def _docs(n, date="2024-06-01"):
 
 
 def _patch(monkeypatch, rows=ROWS, coverage=2, docs=None, record=None):
-    monkeypatch.setattr("artmind.temporal.load_schema", lambda d: SCHEMA)
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda d, **kw: SCHEMA)
     dated = [r["date"] for r in rows if r.get("date")]
     base = {"scanned": len(rows), "rows_total": len(rows), "undated": len(rows) - len(dated),
             "period_keys": [d[:4] for d in dated],
@@ -151,7 +151,7 @@ def test_coverage_counts_only_documents_in_the_window(monkeypatch):
 
 def test_no_occasion_class_warns_and_runs_nothing(monkeypatch):
     rec = _patch(monkeypatch)
-    monkeypatch.setattr("artmind.temporal.load_schema", lambda d: {"entity_types": {"PERSON": {"kind": "recurrent"}}})
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda d, **kw: {"entity_types": {"PERSON": {"kind": "recurrent"}}})
     out = gq.happenings(["pj"], "tennis")
     assert out["rows"] == [] and out["warnings"] and not rec.queries_containing("entity_name_ft")
 
@@ -204,3 +204,20 @@ def test_lucene_operators_become_plain_terms():
     assert gq.sanitize_lucene_query("Andover Nottingham") == "Andover Nottingham"
     assert gq.sanitize_lucene_query("the lake and trip", drop_stopwords=True, all_terms=True) == "+lake +trip"
     assert gq.sanitize_lucene_query("lake trip") == "lake trip"   # default still ORs
+
+
+def test_family_root_takes_its_children_occasion_classes(monkeypatch, tmp_path):
+    import paths
+
+    (tmp_path / "fam_schema.yaml").write_text("name: fam\n")
+    (tmp_path / "fam.kid_schema.yaml").write_text("name: fam.kid\n")
+    monkeypatch.setattr(paths, "DOMAIN_SCHEMAS_DIR", tmp_path)
+    schemas = {"fam": {"entity_types": {"EVENT": {"kind": "occurrent"}}},
+               "fam.kid": {"entity_types": {"TRIP": {"kind": "occurrent", "identity": "occasion"}}}}
+    rec = _patch(monkeypatch)
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda d, **kw: schemas.get(d, {}))
+    gq.happenings(["fam"], "lake")
+    (cypher, params), = rec.queries_containing("entity_name_ft")
+    assert params["classes"] == ["EVENT", "TRIP"] and params["domains"] == ["fam"]
+    # the scope is a root-or-descendant predicate, so the child's rows are in range
+    assert "STARTS WITH (dom + '.')" in cypher

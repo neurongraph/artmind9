@@ -363,7 +363,7 @@ def _connection_settings() -> dict[str, str]:
 
 
 @contextmanager
-def neo4j_session(access_mode: str | None = None, *, timeout: float | None = None):
+def neo4j_session(access_mode: str | None = None, *, timeout: float | None = None, quiet: bool = False):
     """A session on this vault's graph. `timeout` (seconds), when given, caps
     how long connecting may take -- for advisory reads (the `vault sync`
     staleness check) that must never hold up the command they ride along
@@ -379,7 +379,7 @@ def neo4j_session(access_mode: str | None = None, *, timeout: float | None = Non
         session_kwargs: dict = {"database": settings["database"]}
         if access_mode is not None:
             session_kwargs["default_access_mode"] = access_mode
-        if access_mode == READ_ACCESS:
+        if access_mode == READ_ACCESS or quiet:
             # Query-layer reads project properties a domain may never have
             # written (superseded_by, ...): the server's "property key does not
             # exist" warnings are expected there, and they land on stderr --
@@ -2533,8 +2533,7 @@ def happenings(
     `rows_total_capped` says the match may be incomplete.
     """
     from artmind import hints
-    from artmind.schema_validate import classes_with_identity
-    from artmind.temporal import load_schema
+    from artmind.schema_validate import classes_with_identity, family_schema
     from artmind.topics.grid import count_subject
     from artmind.vector_query import _expand
 
@@ -2546,7 +2545,7 @@ def happenings(
     occasion: set[str] = set()
     declared: set[str] = set()
     for domain in domains:
-        schema = load_schema(domain)
+        schema = family_schema(domain)  # a family root carries its children's classes
         declared.update((schema.get("entity_types") or {}) if isinstance(schema, dict) else {})
         for cls in classes_with_identity(schema, "occasion"):
             try:
