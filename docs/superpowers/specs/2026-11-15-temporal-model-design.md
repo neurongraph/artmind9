@@ -771,3 +771,52 @@ real run, then `insights refresh` and `mart build`.
   date property, backfill it with the schema-bound spec's `backfill-properties`.
 - **F3.** A `--knownAsOf` on `vector-text`/`survey`, which needs record time on
   passages through their history labels.
+
+---
+
+## Amendment (implementation, 2026-11-18)
+
+Notes recorded while implementing; the sections above are left as written.
+
+- **§5.1 last bullet vs §7.2.** "Supersession and retirement update these fields"
+  is narrowed to supersession, as §7.2 says (retiring closes nothing).
+  `_doc_valid_to` is the document's *stated* end, copied at commit and not
+  touched by supersession. A supersession end lives in `_valid_to`, marked
+  `_valid_to_by` (`supersede:<id>`), set only where `_valid_to` was empty and
+  reopened only where that marker names the record. On the Document, a stated end
+  is kept and restored by `unsupersede`. Consequence: a chunk of a document whose
+  stated end is earlier than E gets `_valid_to = E` (it has none of its own).
+  Open question: whether chunks should take the document's stated end instead.
+  A newer document's commit restates the validity of every document it
+  supersedes, so the `_valid_from` fallback for E is the same on every machine.
+- **§8.1 gate has two markers.** `<run folder>/data_model.yaml` (committed; staging,
+  `same_as.yaml`, curation) and a `(:DataModel {id:'artmind', version})` node in
+  each machine's Neo4j (each graph is migrated separately). A write needs both
+  current; reads check the file only and warn. "Fresh" means no model file, no
+  registry DB, no staged folders, no `same_as.yaml`, no curation records; a graph
+  with no Document or Entity nodes is fresh. The pack's last step stamps both.
+  Reason: a vault cloned to a second machine would otherwise be stamped current
+  over old graph data, and a migrated file pulled by git would pass the gate over
+  an unmigrated local graph.
+- **Record time.** `_retired_by` has two values beyond §6.1's list: `removed` (a
+  note vanished from the vault, `retract_document`) and `resplit` (a chunk
+  dropped by a re-chunking). A re-commit keeps a chunk's first `_recorded_at` but
+  takes the new text, and a retire-then-revive window is invisible to
+  `--knownAsOf` (a revive clears `_retired_at`). `document-history --knownAsOf`
+  does not filter Document nodes.
+- **Dates.** A document stores `_valid_precision` (`none` for the ingestion
+  default); a default-dated document counts as undated in filters and in the
+  projection's temporal grouping. A document's ranged `_valid_from` sets its
+  `_valid_to` when none is explicit. A fact with no end of its own inherits its
+  document's `_valid_to` at build time (pre-existing; `date-audit` counts only a
+  fact's own ranges). `parse_valid` never raises; an end at or after 9999-12-31 is
+  open. `ingest table2graph --asOf` still refuses a year or month.
+- **Identity.** Occasion observation ids include the day (a chunk may hold two
+  days of one stripped name). `retime` keeps existing ids, so a re-extract after
+  a retime replaces occasion observations instead of moving them. Twins skip only
+  classes declared `occasion` or `category`. Banking IMPACT_ASSESSMENT,
+  RETENTION_DECISION and REGULATORY_UPDATE are `occasion`, not `name`. A coarse
+  date keys on its start day (`tennis~2024-03-01`), as §5.2 says; precision `none`
+  is excluded.
+- **Known limits.** `graph timeline` keeps undated rows under `--from/--to` (survey
+  and happenings drop them) and has no cap.

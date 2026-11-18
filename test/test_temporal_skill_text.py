@@ -10,6 +10,8 @@ def test_temporal_reference_does_not_call_entity_history_a_point_in_time_filter(
     assert "genuine point-in-time" not in text
     assert "entity-history --asOf" in text and "point in valid time" in text
     assert "--knownAsOf" in text and "_record_time_approx" in text
+    assert "`--asOf` is a point in valid time" in text
+    assert "happenings" in text and "_retired_by" in text
 
 
 def test_entity_history_help_says_point():

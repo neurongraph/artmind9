@@ -18,7 +18,7 @@ before it changed", "what happened in order" — or when an entity carries
   `entity-context`, or `graph metadata` accept it — don't pass it.
 - **`--asOf` is a point in valid time** on the graph commands that keep it:
   `vector-text`, `chunks`, `docs list`, `entity-history` (on the structured-store
-  commands `db timeline` and `db sql` it is still a floor; see their help). A row is kept when
+  commands `db timeline` and `text2sql` it is a floor; `db sql` takes no `--asOf`; see their help). A row is kept when
   its own date window contains the date (`_valid_from <= asOf < _valid_to`; a year or
   month means its last day); undated rows are always shown. Where no `_valid_to` is set
   yet (most chunks), a still-open row satisfies any `--asOf` at or after its
@@ -31,6 +31,18 @@ before it changed", "what happened in order" — or when an entity carries
   say in January", "history of…", "previous version", "what changed"); omit it
   otherwise. (`--asOf` still works on `pattern10` as an alias, but it is a switch, not a
   date filter.)
+- **Two time axes, one set of fields.** Valid time (when a thing was true):
+  `_valid_from`, `_valid_to`, `_valid_precision` (`day|month|quarter|year`, or `none` =
+  undated: the ingestion default, shown by every date filter and never grouped as an
+  instant), `_valid_time_of_day`, `_valid_to_by` (what set an end: a stated end carries
+  none, a supersession `supersede:<id>`), `_due`, `_review`, `_revised_at` (a document's
+  "last updated", not its effective date); chunks, passages and summaries also carry
+  `_doc_valid_from` / `_doc_valid_to` (their document's own stated dates). Record time
+  (when artmind learned it, UTC): `_recorded_at`, `_retired_at`, `_retired_by`
+  (`version:<n>` = an edited note re-ingested, `retire`, `supersede:<id>`, `removed` = the note left the vault, `resplit` = a
+  chunk dropped by re-chunking), `_revived_at`, `_record_time_approx` (backfilled).
+  Superseding a document ends its facts' validity at the effective date (`_valid_to`);
+  retiring one closes nothing; `docs unsupersede` reopens what the supersession closed.
 - **`--knownAsOf T` reads what the graph held at T** (record time, not valid time) on
   `entity-history`, `document-history` and `graph pattern10`: only content recorded by
   T and not yet retired then, from both current and history nodes, with each row's
@@ -41,6 +53,17 @@ before it changed", "what happened in order" — or when an entity carries
   carry approximate record time (`_record_time_approx`, and a warning says how many
   rows): a History node backfilled with the epoch counts as known since before the
   backfill, so an earlier `--knownAsOf` may still show it.
+  Limits: a re-committed chunk keeps its first `_recorded_at` but holds the new text
+  (`pattern10 --knownAsOf` shows current text); a retire-then-revive window is invisible
+  (a revive clears `_retired_at`); `document-history --knownAsOf` does not filter Document
+  nodes (a document first ingested after T appears with `observations: []`).
+- **`happenings`** lists dated occasions of an `identity: occasion` class. Example:
+  `artmind query happenings --domain personal_journal --match "tennis" --by year --with <person id> --shape brief`
+  gives one row per day (`type`, participants, places, `chunk_ids`) and per-year counts;
+  `coverage` larger than the rows means `survey` for the rest. Undated rows sort last and
+  never fall in a `--from/--to` window; `graph timeline` instead keeps undated rows in
+  windows and has no row cap. An occasion's key is `name~YYYY-MM-DD`: "tennis" on two
+  days is two entities, and a month-only mention keys on the 1st.
 
 ## Edited documents: what a re-ingest keeps
 
