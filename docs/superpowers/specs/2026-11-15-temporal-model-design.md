@@ -822,11 +822,10 @@ Notes recorded while implementing; the sections above are left as written.
 - **Identity.** Occasion observation ids include the day (a chunk may hold two
   days of one stripped name). `retime` keeps existing ids, so a re-extract after
   a retime replaces occasion observations instead of moving them. Twins skip only
-  classes declared `occasion` or `category`. Banking IMPACT_ASSESSMENT,
-  RETENTION_DECISION and REGULATORY_UPDATE are `occasion`, not `name` (they are
-  occurrent with a valid_from property, so `name` trips the Q20 warning).
-  **Q2 — decided 2026-11-18:** REGULATORY_UPDATE is `kind: recurrent`, `identity: name`;
-  the other two stay `occasion`. **Q3 — decided 2026-11-18: precision-shaped
+  classes declared `occasion` or `category`. Banking IMPACT_ASSESSMENT and
+  RETENTION_DECISION are `occasion`, not `name` (they are occurrent with a
+  valid_from property, so `name` trips the Q20 warning). **Q2 — decided 2026-11-18:**
+  REGULATORY_UPDATE is `kind: recurrent`, `identity: name`. **Q3 — decided 2026-11-18: precision-shaped
   tokens.** An occasion keys on its date at the date's own precision, not on the
   period's first day (which merged a month mention with a real mention on the 1st
   and claimed a day the text never gave): day `tennis~2024-03-30`, month
@@ -846,3 +845,8 @@ Notes recorded while implementing; the sections above are left as written.
   notes (measure in Task 30 alongside Q11).
 - **Known limits.** `graph timeline` keeps undated rows under `--from/--to` (survey
   and happenings drop them) and has no cap.
+- **Migration pack: chunk ends.** A `chunk_ends` step (after `record_effective`, before
+  `supersession_records` and `supersession_ends`) gives an old chunk, passage or summary
+  (and their History rows) with no end its document's stated end, so core's rule (a
+  stated end is the node's own) holds for migrated data before supersession ends are
+  restated. Core has no old-data handling.

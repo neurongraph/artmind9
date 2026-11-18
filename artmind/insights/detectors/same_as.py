@@ -159,7 +159,7 @@ def _plan(ctx: RunContext):
     return classes or Skip("no name or occasion class with two dated entities")
 
 
-def _same_day_pairs(rows, aliases, max_dist, kinship_ok) -> list[tuple[str, str, str, float]]:
+def _same_date_pairs(rows, aliases, max_dist, kinship_ok) -> list[tuple[str, str, str, float]]:
     """`candidate_pairs` within each occasion date token (`split_occasion` of the key: a day,
     month, quarter, half or year): occasions are keyed by it, and `sameas.identity_refusal`
     refuses unequal tokens, so only variants on one date may be one happening (spec
@@ -182,7 +182,7 @@ def _run(ctx: RunContext, cls: str) -> list[Finding]:
     props = [p for p in sorted(ctx.profile.classes[cls].properties) if p.startswith("relationship_to")]
     kinship_ok = cls == "PERSON" or bool(props)
     occasion = ctx.identity(cls) == "occasion"
-    pairs = (_same_day_pairs if occasion else candidate_pairs)(rows, load_alias_groups(ctx.config), max_dist, kinship_ok)
+    pairs = (_same_date_pairs if occasion else candidate_pairs)(rows, load_alias_groups(ctx.config), max_dist, kinship_ok)
     if not pairs:
         return []
     try:
