@@ -2406,13 +2406,12 @@ def timeline(
     uses (domain-scoped, no `--asOf` — the same reasoning applies: the
     projection is current by construction).
     """
-    from artmind.schema_validate import classes_with_identity
-    from artmind.temporal import load_schema
+    from artmind.schema_validate import classes_with_identity, family_schema
 
     domains = normalize_domains(domains)
     occurrent_labels: set[str] = set()
     for domain in domains:
-        schema = load_schema(domain)
+        schema = family_schema(domain)  # a family root carries its children's classes
         for cls in classes_with_identity(schema, "occasion"):
             try:
                 occurrent_labels.add(normalize_entity_class(cls))

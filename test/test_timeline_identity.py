@@ -13,7 +13,7 @@ SCHEMA = {"entity_types": {
 
 def _run(monkeypatch, **kw):
     rec = Recorder()
-    monkeypatch.setattr("artmind.temporal.load_schema", lambda d: SCHEMA)
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda d, **kw: SCHEMA)
     monkeypatch.setattr(gq, "read_session", lambda: rec)
     gq.timeline(["pj"], **kw)
     return rec
@@ -45,7 +45,24 @@ def test_undated_rows_are_not_dropped_by_a_window(monkeypatch):
 def test_no_occasion_class_means_no_rows_and_no_query(monkeypatch):
     rec = Recorder()
     monkeypatch.setattr("artmind.temporal.load_schema",
-                        lambda d: {"entity_types": {"EMOTION": {"kind": "recurrent"}, "PERSON": {"kind": "recurrent"}}})
+                        lambda d, **kw: {"entity_types": {"EMOTION": {"kind": "recurrent"}, "PERSON": {"kind": "recurrent"}}})
     monkeypatch.setattr(gq, "read_session", lambda: rec)
     assert gq.timeline(["pj"])["rows"] == []
     assert rec.calls == []
+
+
+def test_family_root_takes_its_children_occasion_classes(monkeypatch, tmp_path):
+    import paths
+
+    (tmp_path / "fam_schema.yaml").write_text("name: fam\n")
+    (tmp_path / "fam.kid_schema.yaml").write_text("name: fam.kid\n")
+    monkeypatch.setattr(paths, "DOMAIN_SCHEMAS_DIR", tmp_path)
+    schemas = {"fam": {"entity_types": {"EVENT": {"kind": "occurrent"}}},
+               "fam.kid": {"entity_types": {"TRIP": {"kind": "occurrent", "identity": "occasion"}}}}
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda d, **kw: schemas.get(d, {}))
+    rec = Recorder()
+    monkeypatch.setattr(gq, "read_session", lambda: rec)
+    gq.timeline(["fam"])
+    cypher, params = rec.calls[0]
+    assert params["labels"] == ["EVENT", "TRIP"] and params["domains"] == ["fam"]
+    assert "STARTS WITH (dom + '.')" in cypher

@@ -32,7 +32,7 @@ def test_chunks_query_document_projection():
 
 def test_timeline_window_reads_underscore_date(monkeypatch):
     seen = {}
-    monkeypatch.setattr("artmind.temporal.load_schema", lambda d: {"entity_types": {"EVENT": {"kind": "occurrent", "identity": "occasion"}}})
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda d, **kw: {"entity_types": {"EVENT": {"kind": "occurrent", "identity": "occasion"}}})
     monkeypatch.setattr(graph_query, "_run_read_query", lambda c, p: seen.setdefault("c", c) and [])
     graph_query.timeline(["d"], from_="2020-01-01", to="2021-01-01")
     cypher = seen["c"]
