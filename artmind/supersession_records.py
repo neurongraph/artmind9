@@ -94,7 +94,6 @@ WITH older, newer, s
 ORDER BY coalesce(s.effective, '') DESC, newer.id DESC
 WITH older, collect(CASE WHEN s IS NULL THEN null ELSE {newer: newer.id, effective: s.effective} END) AS edges
 SET older.superseded_by = CASE WHEN size(edges) = 0 THEN null ELSE edges[0].newer END
-REMOVE older.valid_to
 """
 
 # The nodes a supersession closes, one index-backed statement per (label, key):

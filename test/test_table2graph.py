@@ -166,7 +166,8 @@ def test_parse_mapping_rejects_malformed_documents(patch, message):
 
 def test_validate_mapping_accepts_the_reference_mapping():
     errors, warnings = t2g.validate_mapping(_mapping(), SCHEMA, COLUMNS)
-    assert errors == [] and warnings == []
+    assert errors == []
+    assert [w for w in warnings if "occasion class" not in w] == []   # the one occasion warning is expected
 
 
 def test_validate_mapping_reports_errors_and_schema_drift():
@@ -888,3 +889,13 @@ def test_a_date_column_takes_only_a_whole_day():
     assert t2g._to_date("15/03/2026") == "2026-03-15"
     assert t2g._to_date("2026") is None
     assert t2g._to_date("2026-Q1") is None
+
+
+def test_validate_mapping_warns_on_an_occasion_class_target():
+    schema = {"entity_types": {"VISIT": {"kind": "occurrent", "properties": {}},
+                               "SITE": {"kind": "recurrent", "identity": "name"}}}
+    mapping = t2g.parse_mapping({"table": "t", "entities": {
+        "visit": {"class": "VISIT", "name": "{x}"}, "site": {"class": "SITE", "name": "{x}"}}})
+    _errors, warnings = t2g.validate_mapping(mapping, schema, ["x"])
+    hits = [w for w in warnings if "occasion class" in w]
+    assert len(hits) == 1 and hits[0].startswith("entities.visit") and "unless the identity template includes the date" in hits[0]

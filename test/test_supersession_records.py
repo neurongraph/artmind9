@@ -93,7 +93,7 @@ def test_apply_merges_the_edge_then_derives_superseded_by_and_validity_from_ever
     }
     assert "ORDER BY coalesce(s.effective, '') DESC, newer.id DESC" in recompute
     assert "older._valid_to" not in recompute, "the end is closed like the facts', only where none is stated"
-    assert "REMOVE older.valid_to" in recompute, "one name (spec 2026-11-15 §7.1)"
+    assert "valid_to" not in recompute, "core never cleans up the old key; the migration pack does"
     assert "SET older.valid_to" not in recompute and "older.valid_to =" not in recompute
     assert "older.superseded_by = CASE WHEN size(edges) = 0 THEN null" in recompute
     assert recompute_params == {"older": "old-doc"}

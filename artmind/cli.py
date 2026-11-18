@@ -7588,6 +7588,6 @@ from artmind.migrations.temporal_v1.cli import migrate_group; cli.add_command(mi
 # Data-model gate (spec 2026-11-15 §8.1): every WRITE_COMMANDS entry refuses an
 # unmigrated vault; every other command warns once. Must stay last, after every
 # command is registered.
-from artmind.cli_conventions import WRITE_COMMANDS  # noqa: E402
+from artmind.cli_conventions import GATED_EXTRA, WRITE_COMMANDS  # noqa: E402
 
-_data_model.gate_commands(cli, WRITE_COMMANDS)
+_data_model.gate_commands(cli, set(WRITE_COMMANDS) | GATED_EXTRA)

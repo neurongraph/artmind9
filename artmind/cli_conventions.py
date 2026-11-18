@@ -60,6 +60,16 @@ INTERACTIVE_COMMANDS = frozenset({"db connect"})
 #: Command path (space-separated) -> tier. Tier 1 has a real `--dryRun` with an
 #: `effect` block (this spec); tier 2 is listed so a later spec builds it, and
 #: its `--dryRun` refuses to run (`unbuilt_dry_run_option`) until then.
+#: Commands that write the graph or staging but are not in WRITE_COMMANDS (no tier-1 dry run
+#: built or planned). The data-model gate refuses these on a vault behind, like a write command.
+#: Membership rule: a command whose real run writes graph nodes/edges or staging/curation files
+#: belongs in WRITE_COMMANDS (tier semantics: it has or owes a `--dryRun`) or here; a pure reader
+#: belongs in neither. Gate = WRITE_COMMANDS | GATED_EXTRA.
+GATED_EXTRA: frozenset[str] = frozenset({
+    "ingest detect-supersession", "ingest refine-graph", "ingest detect-conflicts",
+    "ingest extract-kg", "sameas propose",
+})
+
 WRITE_COMMANDS: dict[str, int] = {
     **{p: 1 for p in (
         "sameas approve", "sameas reject",

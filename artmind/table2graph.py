@@ -646,6 +646,7 @@ def validate_mapping(mapping: TableMapping, schema: dict, columns: list[str]) ->
     """
     from artmind.ingest import RESERVED_REL_TYPES
     from artmind.observations import RESERVED_PREFIX, _STRUCTURAL_KEYS
+    from artmind.schema_validate import class_identity
 
     errors: list[str] = []
     warnings: list[str] = []
@@ -677,6 +678,11 @@ def validate_mapping(mapping: TableMapping, schema: dict, columns: list[str]) ->
             errors.append(f"{where}: class {spec.entity_class!r} is not declared in the schema")
             declared = {}
         declared_props = set((declared.get("properties") or {}).keys())
+        if declared and class_identity(schema, spec.entity_class) == "occasion":
+            warnings.append(
+                f"{where}: {spec.entity_class} is an occasion class; rows of an occasion class keep the "
+                "mapping's identity; different days merge into one entity unless the identity template "
+                "includes the date")
         _check_conditions(spec.when, f"{where}.when")
 
         available = set()   # own properties computed so far

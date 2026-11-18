@@ -426,6 +426,7 @@ def lookup_name_candidates(
         logger.info("Name lookup: {} names, looking up the first {}", len(wanted), max_names)
         wanted = wanted[:max_names]
 
+    # No `occurs_on` in these keys: `named_classes` excludes occasion classes, so none is looked up.
     own_keys = [key_string(aggregate_key(n, cls, domain)) for cls, n in wanted]
     found: dict[int, list[tuple[float, int, str, str]]] = {}
 
