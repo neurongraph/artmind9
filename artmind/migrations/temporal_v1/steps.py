@@ -100,7 +100,9 @@ def stamp_if_done(ctx: MigrationContext) -> dict:
     """Stamp both markers current once no step is pending; else say what is.
 
     Always called with an unscoped context (every domain): a run limited to one domain
-    must not bless the others. Returns `{"version": N}` when stamped, else
+    must not bless the others. Contract: the file is stamped first, then the graph; if the
+    graph stamp raises, the file stays stamped and the caller reports it (a re-run finds the
+    file current and stamps the graph). Returns `{"version": N}` when stamped, else
     `{"pending": [{"step": name, "domains": [...]?}, ...]}` and stamps nothing. The file
     stamp travels by git, the graph's does not, so a second machine that pulled a stamped
     `data_model.yaml` still has its own graph steps pending here and gets its graph stamped

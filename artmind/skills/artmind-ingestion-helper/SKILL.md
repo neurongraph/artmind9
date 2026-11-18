@@ -35,10 +35,11 @@ artmind migrate status                  # file version, graph version, per-step 
 artmind migrate temporal --dryRun       # the plan; nothing is written
 artmind migrate temporal                # the real run
 artmind insights refresh --domain DOMAIN   # then rebuild what derives from the graph
-artmind mart build --domain DOMAIN
+artmind mart build --domain DOMAIN      # only if the domain has a mart declaration
 ```
 
 - The vault must be git-clean for the files the run writes (commit or restore them first), the ingest worker stopped and Neo4j reachable; the dry run lists any of these under `blocked`.
+- After a successful run, commit `.artmind/data_model.yaml` with the other files the run wrote (Obsidian Git or `git commit`) so other machines see the stamp.
 - A run is resumable and a second run is a no-op. It stamps `<vault>/.artmind/data_model.yaml` and this graph's marker only once every step is done; a run with `--domain` stamps only when it was the last pending work.
 - The file stamp travels by git, the graph stamp does not. On **every other machine** of the vault: pull, then run `artmind migrate temporal` for that machine's own graph (it re-commits the re-keyed staging there). `migrate status` says so when the files are current but the graph is not.
 - Graph changes are not reversible by git: take a Neo4j backup before the real run.

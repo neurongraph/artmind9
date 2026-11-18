@@ -282,3 +282,55 @@ def test_status_explains_a_pulled_stamp_over_an_unmigrated_graph(env, monkeypatc
     monkeypatch.setattr(data_model, "recorded", lambda: data_model.CURRENT)
     out = json.loads(_run("migrate", "status").stdout)
     assert out["current"] is False and any("this machine's graph" in w for w in out["warnings"])
+
+
+def _stamping(env, monkeypatch, tmp_path, graph_error):
+    monkeypatch.setattr(steps_mod, "STEPS", [Fake("one", 1).step([])])
+    monkeypatch.setattr(data_model, "MODEL_FILE", tmp_path / "data_model.yaml")
+    calls = []
+
+    def stamp_graph(session, version):
+        calls.append(version)
+        if graph_error:
+            raise graph_error
+    monkeypatch.setattr(data_model, "stamp_graph", stamp_graph)
+    return calls
+
+
+def test_a_failed_graph_stamp_reports_after_the_file_stamp_and_exits_3(env, monkeypatch, tmp_path):
+    from neo4j.exceptions import ServiceUnavailable
+
+    _stamping(env, monkeypatch, tmp_path, ServiceUnavailable("down"))
+    result = _run("migrate", "temporal", ok=False)
+    out = json.loads(result.stdout)
+    assert result.exit_code == 3 and out["stamped"] is False
+    assert any("graph marker not written" in w and "re-run artmind migrate temporal" in w for w in out["warnings"])
+    assert "version: 1" in data_model.MODEL_FILE.read_text()
+
+
+def test_a_failed_graph_stamp_that_is_not_a_store_failure_exits_1(env, monkeypatch, tmp_path):
+    _stamping(env, monkeypatch, tmp_path, RuntimeError("bug"))
+    result = _run("migrate", "temporal", ok=False)
+    assert result.exit_code == 1 and json.loads(result.stdout)["stamped"] is False
+
+
+def test_the_rerun_is_not_blocked_by_its_own_stamped_file_and_stamps_the_graph(env, monkeypatch, tmp_path):
+    calls = _stamping(env, monkeypatch, tmp_path, None)
+    data_model.stamp(1)  # left by the failed run, uncommitted
+
+    def git(root, args):
+        if args[0] == "rev-parse":
+            return _Out(0)
+        return _Out(0, " M data_model.yaml" if any("data_model.yaml" in a for a in args) else "")
+    monkeypatch.setattr(pack_cli, "_git", git)
+    monkeypatch.setattr(steps_mod, "STEPS", [Fake("one", 0).step([])])
+    out = json.loads(_run("migrate", "temporal").stdout)
+    assert out["stamped"] is True and calls == [1] and "data_model.yaml" in out["next"]
+
+
+def test_not_stamped_reports_what_is_pending(env, monkeypatch, tmp_path):
+    steps = [Fake("one", 1).step([])]
+    monkeypatch.setattr(steps_mod, "STEPS", steps)
+    monkeypatch.setattr(steps_mod, "stamp_if_done", lambda ctx: {"pending": [{"step": "one"}]})
+    out = json.loads(_run("migrate", "temporal").stdout)
+    assert out["stamped"] is False and out["stamp_pending"] == [{"step": "one"}]

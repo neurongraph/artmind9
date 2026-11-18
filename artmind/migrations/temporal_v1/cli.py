@@ -100,6 +100,9 @@ def _blocked(ctx: MigrationContext) -> list[str]:
         for step in steps_mod.STEPS:
             paths.extend(step.writes(ctx))
             own |= {Path(p).resolve() for p in step.own_work(ctx)}
+        # A run whose graph stamp failed leaves its own stamped, uncommitted data_model.yaml.
+        if data_model._file_state() == ("ok", data_model.CURRENT):
+            own.add(Path(data_model.MODEL_FILE).resolve())
         # Exactly the paths the run declares, never their parents: an unrelated dirty
         # file beside them must not block the migration.
         declared = sorted({str(p) for p in paths})
@@ -171,8 +174,8 @@ def migrate_status(domain: tuple, compact: bool) -> None:
     if graph_version is None:
         warnings.append("the graph is unreachable: its model version is unknown")
     elif version == data_model.CURRENT and graph_version < data_model.CURRENT:
-        warnings.append("the committed files are already at the current model (pulled from another machine) "
-                        "but this machine's graph is not: run `artmind migrate temporal` to migrate it")
+        warnings.append("the committed files are at the current model but this machine's graph is not; "
+                        "run artmind migrate temporal")
     _echo_json({
         "version": version,
         "graph_version": graph_version,
@@ -235,13 +238,27 @@ def migrate_temporal(domain: tuple, dry_run: bool, compact: bool) -> None:
     for row, (_, left) in zip(results, after):
         row["remaining"], row["done"] = left, steps_mod.is_done(left)
     done = failure is None and all(r["done"] for r in results)
-    stamped = False
+    stamped, stamp_pending, stamp_failure = False, None, None
     if failure is None:
         # The stamp judges every domain: a run scoped to one must not bless the others.
         everything = MigrationContext(domains=None, session_factory=ctx.session_factory, dry_run=False)
-        stamped = "version" in (steps_mod.stamp_if_done(everything) or {})
-    _echo_json(with_effect({"steps": results, "done": done, "stamped": stamped, "blocked": [],
-                            "warnings": warnings + after_warnings}, effect), compact)
+        try:
+            res = steps_mod.stamp_if_done(everything) or {}
+            stamped, stamp_pending = "version" in res, res.get("pending")
+        except Exception as exc:  # noqa: BLE001 - the file may be stamped already: report, resume on re-run
+            stamp_failure = exc
+            warnings.append(f"graph marker not written: {_err(exc)}; re-run artmind migrate temporal")
+    payload = {"steps": results, "done": done, "stamped": stamped, "blocked": [],
+               "warnings": warnings + after_warnings}
+    if stamp_pending:
+        payload["stamp_pending"] = stamp_pending
+    out = with_effect(payload, effect)
+    if stamped:
+        out["next"] = ("commit .artmind/data_model.yaml with the other files this run wrote "
+                       "(then: artmind insights refresh, artmind mart build)")
+    _echo_json(out, compact)
+    if stamp_failure is not None:
+        raise SystemExit(3 if store_failure(stamp_failure) is not None else 1)
     if failure is not None and store_failure(failure) is not None:
         raise SystemExit(3)
     if not done:
