@@ -44,6 +44,11 @@ travel (each machine migrates its own graph).
   git-clean), then the edge is tied to it (`record_id`, `record_fingerprint`). A file
   a killed run wrote before tying its edge holds the same bytes this step would write
   (`own_work`), so it does not block the run that finishes the job.
+- `chunk_ends`: a chunk, passage or summary (and their History rows) with no `_valid_to`
+  and no `_valid_to_by` takes its document's STATED end (`_valid_to` with no
+  `_valid_to_by`; a supersession end is never copied), as core now commits them. Runs
+  before `supersession_ends`, so a supersession's close (which fills only a missing
+  `_valid_to`) cannot push them past the document's own end.
 - `supersession_ends`: `supersession_records.restate_validity` for every document
   with an incoming document-scope `SUPERSEDES` edge that yields an end and has a
   node (document, observations, chunks, passages, summaries) still open: they are
@@ -535,6 +540,59 @@ def supersession_records_apply(ctx: MigrationContext, dry_run: bool = False) -> 
                 effective=r.get("effective"), detected_by=r.get("detected_by")).consume())
             written += 1
     return {"records": written} if written else {}
+
+
+# ── chunk_ends ────────────────────────────────────────────────────────────────
+
+#: Rows core now commits with their document's stated end in `_valid_to`.
+CHUNK_FAMILY = ("DocChunk", "DocPassage", "DocSummary", "DocChunkHistory", "DocPassageHistory",
+                "DocSummaryHistory")
+
+
+def _chunk_end_match(label: str, domains: list[str] | None) -> str:
+    """Rows of `label` with no end whose document (live or retired) has a STATED end:
+    `_valid_to` with no `_valid_to_by` marker (a supersession end is never copied)."""
+    return (
+        f"MATCH (x:{label}) WHERE x._valid_to IS NULL AND x._valid_to_by IS NULL{_scope('x', domains)} "
+        "OPTIONAL MATCH (d1:Document {id: x.doc_id}) OPTIONAL MATCH (d2:DocumentHistory {id: x.doc_id}) "
+        "WITH x, coalesce(d1, d2) AS d "
+        "WHERE d._valid_to IS NOT NULL AND d._valid_to_by IS NULL "
+    )
+
+
+def chunk_ends_pending(ctx: MigrationContext) -> dict:
+    out: dict = {}
+    with ctx.session_factory() as session:
+        for label in CHUNK_FAMILY:
+            n = _count(session, _chunk_end_match(label, ctx.domains) + "RETURN count(x) AS n",
+                       domains=ctx.domains)
+            if n:
+                out[label] = n
+    return out
+
+
+def chunk_ends_apply(ctx: MigrationContext, dry_run: bool = False) -> dict:
+    if dry_run:
+        return {}
+    applied: dict = {}
+    with ctx.session_factory() as session:
+        domains: set = set()
+        for label in CHUNK_FAMILY:
+            match = _chunk_end_match(label, ctx.domains)
+            n = _count(session, match + "RETURN count(x) AS n", domains=ctx.domains)
+            if not n:
+                continue
+            applied[label] = n
+            domains |= {r.get("domain") for r in session.run(
+                match + "RETURN DISTINCT x._domain AS domain", domains=ctx.domains).data()}
+        _bump(session, domains)
+        for label in applied:
+            session.run(
+                _chunk_end_match(label, ctx.domains)
+                + "CALL (x, d) { SET x._valid_to = d._valid_to } IN TRANSACTIONS OF %d ROWS" % BATCH_ROWS,
+                domains=ctx.domains,
+            ).consume()
+    return applied
 
 
 # ── supersession_ends ─────────────────────────────────────────────────────────

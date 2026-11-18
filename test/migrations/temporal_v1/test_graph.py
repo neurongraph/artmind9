@@ -38,8 +38,8 @@ def _writes(recorder):
 
 def test_the_steps_are_registered_dates_before_ends():
     names = [s.name for s in steps_mod._graph_steps()]
-    assert names == ["document_dates", "partial_dates", "record_effective", "supersession_records",
-                     "supersession_ends", "record_time", "old_indexes"]
+    assert names == ["document_dates", "partial_dates", "record_effective", "chunk_ends",
+                     "supersession_records", "supersession_ends", "record_time", "old_indexes"]
     # graph-only steps write no files and do not travel; the record steps declare their files
     assert all(s.writes(None) == [] for s in steps_mod._graph_steps()
                if s.name not in ("supersession_records", "record_effective"))
@@ -114,6 +114,61 @@ def test_dates_dry_run_apply_sends_nothing():
     rec = _rec(n=1)
     assert graph.document_dates_apply(_ctx(rec), True) == {}
     assert rec.calls == []
+
+
+# ── chunk_ends ────────────────────────────────────────────────────────────────
+
+def _chunk_label(cypher):
+    return re.search(r"MATCH \(x:(\w+)\)", cypher).group(1)
+
+
+def test_chunk_ends_pending_counts_each_label_of_the_family():
+    def respond(cypher, params):
+        return [{"n": 7 if _chunk_label(cypher) in ("DocChunk", "DocSummaryHistory") else 0}]
+    rec = WritableRecorder(respond)
+    assert graph.chunk_ends_pending(_ctx(rec)) == {"DocChunk": 7, "DocSummaryHistory": 7}
+    cypher, params = next((c, p) for c, p in rec.calls if "(x:DocPassage)" in c)
+    assert "x._valid_to IS NULL AND x._valid_to_by IS NULL" in cypher
+    assert "(d1:Document {id: x.doc_id})" in cypher and "(d2:DocumentHistory {id: x.doc_id})" in cypher
+    # a stated end only: never a supersession end (marked by `_valid_to_by`)
+    assert "d._valid_to IS NOT NULL AND d._valid_to_by IS NULL" in cypher
+    assert "domain" in cypher and params["domains"] == ["notes"]
+
+
+def test_chunk_ends_unscoped_has_no_domain_predicate():
+    rec = _rec(n=0)
+    graph.chunk_ends_pending(MigrationContext(
+        domains=None, session_factory=_ctx(rec).session_factory))
+    assert all("$domains" not in c for c, _ in rec.calls)
+
+
+def test_chunk_ends_apply_copies_the_documents_end_bumping_first():
+    def respond(cypher, params):
+        if "AS n" in cypher:
+            return [{"n": 3 if _chunk_label(cypher) in ("DocChunk", "DocPassageHistory") else 0}]
+        if "AS domain" in cypher:
+            return [{"domain": "notes"}]
+        return []
+    rec = WritableRecorder(respond)
+    assert graph.chunk_ends_apply(_ctx(rec)) == {"DocChunk": 3, "DocPassageHistory": 3}
+    writes = _writes(rec)
+    assert {_chunk_label(c) for c, _ in writes} == {"DocChunk", "DocPassageHistory"}
+    for cypher, params in writes:
+        assert "SET x._valid_to = d._valid_to" in cypher and "IN TRANSACTIONS OF 5000 ROWS" in cypher
+        assert "x._valid_to IS NULL AND x._valid_to_by IS NULL" in cypher.split("CALL")[0]
+        assert params["domains"] == ["notes"]
+    bump = next(i for i, (c, _) in enumerate(rec.calls) if "MERGE (s:DomainState" in c)
+    assert bump < rec.calls.index(writes[0])
+
+
+def test_chunk_ends_second_run_and_dry_run_send_no_writes():
+    rec = _rec(n=0)
+    assert graph.chunk_ends_pending(_ctx(rec)) == {}
+    assert graph.chunk_ends_apply(_ctx(rec)) == {}
+    assert_no_write_cypher(rec)
+    rec = _rec(n=4)
+    assert graph.chunk_ends_apply(_ctx(rec), True) == {}
+    assert_no_write_cypher(rec)
 
 
 # ── supersession_ends ─────────────────────────────────────────────────────────
@@ -364,7 +419,8 @@ class Graph:
     """A tiny stateful graph: each step's pending count, and a write that converts
     `per_call` rows per statement (raising once mid-way when `fail_once`)."""
 
-    STEPS = ("document_dates", "partial_dates", "record_effective", "supersession_records", "supersession_ends",
+    STEPS = ("document_dates", "partial_dates", "record_effective", "chunk_ends", "supersession_records",
+             "supersession_ends",
              "record_time", "old_indexes")
 
     def __init__(self, left, fail_once=False):
@@ -375,6 +431,8 @@ class Graph:
     def _kind(self, cypher):
         if cypher.startswith("SHOW INDEXES"):
             return "old_indexes"
+        if "d._valid_to IS NOT NULL AND d._valid_to_by IS NULL" in cypher:
+            return "chunk_ends"
         if "s.record_id IS NULL" in cypher:
             return "supersession_records"
         if "SUPERSEDES {scope: 'document'}]->(older)" in cypher:
@@ -465,8 +523,8 @@ def test_dry_run_over_the_real_steps_sends_only_reads(runner):
     assert result.exit_code == 0, result.output
     out = json.loads(result.stdout)
     assert [s["name"] for s in out["steps"] if s["pending"]] == [
-        "document_dates", "partial_dates", "supersession_records", "supersession_ends", "record_time",
-        "old_indexes"]  # record_effective: no record files here
+        "document_dates", "partial_dates", "chunk_ends", "supersession_records", "supersession_ends",
+        "record_time", "old_indexes"]  # record_effective: no record files here
     ends = next(s for s in out["steps"] if s["name"] == "supersession_ends")
     assert ends["pending"] == {"documents": 3}  # the estimate equals the count here
     effect = out["effect"]

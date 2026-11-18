@@ -65,6 +65,9 @@ def _graph_steps() -> list[Step]:
         # Record files keep the edge's end: a legacy partial `effective` becomes its start.
         Step("record_effective", graph.record_effective_pending, graph.record_effective_apply,
              graph.record_effective_writes, travels=True),
+        # Old chunks/passages/summaries take their document's stated end before a supersession
+        # close (which fills only a missing `_valid_to`) can pass it.
+        Step("chunk_ends", graph.chunk_ends_pending, graph.chunk_ends_apply),
         # Legacy edges get records before ends are restated: `restate_validity` skips an
         # edge with no `record_id`.
         # Its record files are committed with the vault; its edge ties are this graph's.
