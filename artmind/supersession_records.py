@@ -33,7 +33,8 @@ end comes back untouched.
 
 `restate_validity` is the one writer: it reopens every node a supersession
 closed (`_valid_to_by` set) and closes again from the `SUPERSEDES` edges that
-remain, earliest `effective` first (an undated edge last), so a document superseded
+remain, earliest resolved end first (the edge's `effective`, else the newer document's
+stated `_valid_from`; an edge with no end last), so a document superseded
 twice ends at its first replacement -- the same result on every machine whatever
 order records are applied in. A document commit runs it too
 (`ingest._commit_document_tx`): the commit rewrites nodes from staging, which
@@ -107,9 +108,10 @@ VALIDITY_TARGETS = (
     ("DocSummary", "doc_id"), ("DocSummaryHistory", "doc_id"),
 )
 
-# The document-scope edges into the older document, in the order they close
-# (earliest effective first, ties by newer id, an undated edge last: the end is the first
-# replacement's); `e` is the end each one writes.
+# The document-scope edges into the older document, in the order they close: by the end
+# each one writes (`e`: its effective, else the newer document's stated `_valid_from`),
+# earliest first, ties by newer id, an edge with no end last -- the end is the first
+# replacement's, whether its date came from the edge or from the newer document.
 _DOCUMENT_EDGES = """
 OPTIONAL MATCH (o1:Document {id: $older}) OPTIONAL MATCH (o2:DocumentHistory {id: $older})
 WITH coalesce(o1, o2) AS older
@@ -117,7 +119,7 @@ WHERE older IS NOT NULL
 MATCH (newer)-[s:SUPERSEDES {scope: 'document'}]->(older)
 RETURN s.record_id AS record_id, newer.id AS newer,
        coalesce(s.effective, CASE WHEN newer._valid_precision = 'none' THEN null ELSE newer._valid_from END) AS e
-ORDER BY s.effective IS NULL, s.effective ASC, newer.id ASC
+ORDER BY e IS NULL, e ASC, newer.id ASC
 """
 
 # The documents `$newer` supersedes through an undated edge (document scope): only their

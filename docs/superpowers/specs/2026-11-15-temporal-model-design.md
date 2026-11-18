@@ -791,7 +791,8 @@ Notes recorded while implementing; the sections above are left as written.
   at D; a document without a stated end takes E. A re-commit leaves the stated end;
   `restate_validity` closes open nodes only. **Q5 — decided 2026-11-18:** a document
   superseded twice ends at its *first* replacement: `restate_validity` closes from the
-  edges earliest `effective` first (an undated edge last).
+  edges by the end each one writes, earliest first: the edge's `effective`, else the
+  newer document's stated `_valid_from` (an edge with no end last; ties by newer id).
   A newer document's commit restates the validity of every document it
   supersedes, so the `_valid_from` fallback for E is the same on every machine.
 - **§8.1 gate has two markers (beyond §8.1 — needs the user's confirmation).** `<run folder>/data_model.yaml` (committed; staging,

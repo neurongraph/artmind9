@@ -130,7 +130,7 @@ class _Graph:
     in-memory nodes; every other statement is recorded and ignored. The edge read
     computes each end date and the close order itself, as `_DOCUMENT_EDGES` does:
     `coalesce(effective, newer's _valid_from unless its precision is none)`,
-    ordered earliest effective first (an undated edge last), then newer id."""
+    ordered by that end, earliest first (an edge with no end last), then newer id."""
 
     def __init__(self, nodes, edges, newer_docs=None):
         self.nodes = nodes        # [{"label": ..., "id"/"doc_id": ..., props}]
@@ -145,15 +145,16 @@ class _Graph:
                 continue
             doc = self.newer_docs.get(edge["newer"], {})
             fallback = None if doc.get("_valid_precision") == "none" else doc.get("_valid_from")
-            rows.append({"record_id": edge["record_id"], "newer": edge["newer"],
-                         "e": edge.get("effective") or fallback, "_sort": (edge.get("effective") is None, edge.get("effective") or "", edge["newer"])})
+            end = edge.get("effective") or fallback
+            rows.append({"record_id": edge["record_id"], "newer": edge["newer"], "e": end,
+                         "_sort": (end is None, end or "", edge["newer"])})
         rows.sort(key=lambda r: r.pop("_sort"))
         return rows
 
     def run(self, cypher, **params):
         self.calls.append((cypher, params))
         if "RETURN s.record_id AS record_id" in cypher:
-            assert "ORDER BY s.effective IS NULL, s.effective ASC, newer.id ASC" in cypher
+            assert "ORDER BY e IS NULL, e ASC, newer.id ASC" in cypher
             return FakeResult(self._edge_rows(params["older"]))
         if "RETURN DISTINCT older.id AS older" in cypher:
             assert "WHERE s.effective IS NULL" in cypher
@@ -530,11 +531,14 @@ def test_a_recommit_leaves_a_chunks_stated_end_and_restate_closes_only_open_ones
     assert closes and all("WHERE x._valid_to IS NULL" in c for c, _ in closes)
 
 
-def test_a_dated_edge_closes_before_an_undated_one_even_when_the_undated_is_earlier():
+def test_the_earliest_resolved_end_wins_whether_dated_by_the_edge_or_the_newer_document():
     graph = _Graph([{"label": "DocChunkHistory", "doc_id": "A", "id": "c1"}],
                    [{"record_id": "r9", "newer": "Z", "effective": None},
                     {"record_id": "r2", "newer": "C", "effective": "2026-05-01"},
                     {"record_id": RID, "newer": "B", "effective": "2026-02-01"}],
                    newer_docs={"Z": {"_valid_from": "2025-01-01", "_valid_precision": "day"}})
+    sr.restate_validity(graph, "A")
+    assert _by_id(graph) == {"c1": ("2025-01-01", "r9")}, "the undated edge's end (Z's date) is the earliest"
+    graph.newer_docs["Z"]["_valid_from"] = "2026-03-01"
     sr.restate_validity(graph, "A")
     assert _by_id(graph) == {"c1": ("2026-02-01", RID)}
