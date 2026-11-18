@@ -36,13 +36,16 @@ before it changed", "what happened in order" — or when an entity carries
   undated: the ingestion default, shown by every date filter and never grouped as an
   instant), `_valid_time_of_day`, `_valid_to_by` (what set an end: a stated end carries
   none, a supersession `supersede:<id>`), `_due`, `_review`, `_revised_at` (a document's
-  "last updated", not its effective date); chunks, passages and summaries also carry
-  `_doc_valid_from` / `_doc_valid_to` (their document's own stated dates). Record time
+  "last updated", not its effective date); documents, chunks, passages and summaries also
+  carry `_doc_valid_to` (the document's own stated end; chunks, passages and summaries
+  `_doc_valid_from` too). Record time
   (when artmind learned it, UTC): `_recorded_at`, `_retired_at`, `_retired_by`
   (`version:<n>` = an edited note re-ingested, `retire`, `supersede:<id>`, `removed` = the note left the vault, `retract:<observation id>` = a fact the projection retracted, `resplit` = a
   chunk dropped by re-chunking), `_revived_at`, `_record_time_approx` (backfilled).
-  Superseding a document ends its facts' validity at the effective date (`_valid_to`);
-  retiring one closes nothing; `ingest unsupersede` reopens what the supersession closed.
+  Superseding a document ends its facts' validity at the effective date (`_valid_to`;
+  a document, chunk, passage or summary keeps the earlier of that and its stated end, a
+  fact keeps its own end); retiring one closes nothing; `ingest unsupersede` reopens what
+  the supersession closed (a stated end comes back).
 - **`--knownAsOf T` reads what the graph held at T** (record time, not valid time) on
   `entity-history`, `document-history` and `graph pattern10`: only content recorded by
   T and not yet retired then, from both current and history nodes, with each row's

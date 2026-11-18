@@ -1,5 +1,6 @@
 """`ingest supersede --dryRun`: resolves both documents and plans the retirement from reads alone."""
 import json
+import re
 from unittest.mock import patch
 
 import pytest
@@ -77,8 +78,14 @@ def test_dry_run_sends_no_write_cypher_and_writes_no_record(world):
     # ends of validity (spec 2026-11-15 §7.2): 10 labels x 3 open nodes, valid to the newer document's date
     assert effect["changes"][3]["count"] == 30
     assert effect["changes"][3]["sample"] == [{"doc_id": "old-1", "valid_to": "2026-02-01"}]
-    counts = [p for c, p in recorder.calls if "x._valid_to IS NULL OR x._valid_to_by IS NOT NULL" in c]
-    assert len(counts) == 10 and all(p == {"older": "old-1"} for p in counts)
+    counts = [(c, p) for c, p in recorder.calls if "x._valid_to IS NULL OR x._valid_to_by IS NOT NULL" in c]
+    assert len(counts) == 10
+    # a document-level node with a later stated end is closed too (the earlier end wins)
+    later = [p for c, p in counts if "x._valid_to > $effective" in c]
+    assert len(later) == 8 and all(p == {"older": "old-1", "effective": "2026-02-01"} for p in later)
+    facts = [(c, p) for c, p in counts if "x._valid_to > $effective" not in c]
+    assert {re.search(r"MATCH \(x:(\w+)", c).group(1) for c, _ in facts} == {"Observation", "ObservationHistory"}
+    assert all(p == {"older": "old-1"} for _, p in facts)
     assert effect["stale"]["topics"] == ["acme"]
     assert len(effect["records"]) == 2 and effect["travels"] is True
     # the retirement plan read the older document, not the newer one

@@ -21,15 +21,21 @@ spec 2026-11-15 §6.1, §7.2).
 removal it is the newer document of the `SUPERSEDES` edge with the latest
 `effective` (ties by id), null when no edge remains.
 
-**Superseding ends validity where none was stated** (spec 2026-11-15 §7.2).
-For `scope: document`, the older document and its facts -- observations,
-chunks, passages and summaries, under either label, every version -- gain
-`_valid_to = E` where they have none, and `_valid_to_by = <record id>`
-names the record that closed them. `E` is the edge's `effective`, else the
-newer document's own `_valid_from` when it states one (precision other than
-`none`); with neither, nothing is closed. A stated end is never overwritten,
-and un-asserting reopens only what a record closed, so the document's own
-end comes back untouched.
+**Superseding ends validity** (spec 2026-11-15 §7.2; amendment, decided
+2026-11-18). For `scope: document`, the older document and its facts --
+observations, chunks, passages and summaries, under either label, every version
+-- are closed at `E`, and `_valid_to_by = <record id>` names the record that
+closed them. `E` is the edge's `effective`, else the newer document's own
+`_valid_from` when it states one (precision other than `none`); with neither,
+nothing is closed. Two rules, by what the end means:
+
+- the document-level nodes (Document, DocChunk, DocPassage, DocSummary) carry the
+  document's end, and the EARLIER end wins: `_valid_to = E` where it is empty or
+  later than `E` (ISO strings compared as strings). Each keeps the document's
+  stated end as `_doc_valid_to` (written at commit), and un-asserting restores it:
+  `_valid_to = _doc_valid_to` (none when the document states no end);
+- an observation's `_valid_to` is its fact's own end, never overwritten: the close
+  fills only a missing one, and un-asserting removes only an end a record wrote.
 
 `restate_validity` is the one writer: it reopens every node a supersession
 closed (`_valid_to_by` set) and closes again from the `SUPERSEDES` edges that
@@ -133,17 +139,43 @@ WHERE s.effective IS NULL
 RETURN DISTINCT older.id AS older
 """
 
-_REOPEN = """
+# The labels whose `_valid_to` is the document's end (min of stated and supersession end,
+# restored from `_doc_valid_to`); the rest (observations) carry their fact's own end.
+DOCUMENT_LEVEL = frozenset({"Document", "DocumentHistory", "DocChunk", "DocChunkHistory", "DocPassage",
+                            "DocPassageHistory", "DocSummary", "DocSummaryHistory"})
+
+_REOPEN_DOCUMENT_LEVEL = """
+MATCH (x:{label} {{{key}: $older}}) WHERE x._valid_to_by IS NOT NULL
+SET x._valid_to = x._doc_valid_to, x._valid_to_by = null
+RETURN count(x) AS n
+"""
+
+_REOPEN_FACT = """
 MATCH (x:{label} {{{key}: $older}}) WHERE x._valid_to_by IS NOT NULL
 REMOVE x._valid_to, x._valid_to_by
 RETURN count(x) AS n
 """
 
-_CLOSE = """
+_CLOSE_DOCUMENT_LEVEL = """
+MATCH (x:{label} {{{key}: $older}}) WHERE x._valid_to IS NULL OR x._valid_to > $effective
+SET x._valid_to = $effective, x._valid_to_by = $record_id
+RETURN count(x) AS n
+"""
+
+_CLOSE_FACT = """
 MATCH (x:{label} {{{key}: $older}}) WHERE x._valid_to IS NULL
 SET x._valid_to = $effective, x._valid_to_by = $record_id
 RETURN count(x) AS n
 """
+
+
+def _reopen_cypher(label: str, key: str) -> str:
+    return (_REOPEN_DOCUMENT_LEVEL if label in DOCUMENT_LEVEL else _REOPEN_FACT).format(label=label, key=key)
+
+
+def _close_cypher(label: str, key: str) -> str:
+    return (_CLOSE_DOCUMENT_LEVEL if label in DOCUMENT_LEVEL else _CLOSE_FACT).format(label=label, key=key)
+
 
 _NEWER_VALID_FROM = """
 MATCH (d) WHERE (d:Document OR d:DocumentHistory) AND d.id = $id
@@ -212,16 +244,16 @@ def _run_count(tx, cypher: str, **params) -> int:
 
 
 def reopen_validity(tx, older: str) -> int:
-    """Remove `_valid_to` from every node of the older document a supersession
-    closed. A stated end carries no `_valid_to_by` and is never touched."""
-    return sum(_run_count(tx, _REOPEN.format(label=label, key=key), older=older)
-               for label, key in VALIDITY_TARGETS)
+    """Undo every supersession end on the older document's nodes (`_valid_to_by` set): a
+    document-level node gets its document's stated end back (`_doc_valid_to`, none when it
+    states none), an observation loses the end. A node with no marker is never touched."""
+    return sum(_run_count(tx, _reopen_cypher(label, key), older=older) for label, key in VALIDITY_TARGETS)
 
 
 def close_validity(tx, older: str, effective: str, record_id: str) -> int:
-    """`_valid_to = effective` on the older document's nodes that have no end,
-    marked `_valid_to_by = record_id`."""
-    return sum(_run_count(tx, _CLOSE.format(label=label, key=key), older=older, effective=effective,
+    """`_valid_to = effective`, marked `_valid_to_by = record_id`: on the older document's
+    document-level nodes with no end or a later one, on its observations with no end."""
+    return sum(_run_count(tx, _close_cypher(label, key), older=older, effective=effective,
                           record_id=record_id)
                for label, key in VALIDITY_TARGETS)
 
@@ -229,7 +261,9 @@ def close_validity(tx, older: str, effective: str, record_id: str) -> int:
 def restate_validity(tx, older: str) -> int:
     """Derive the older document's supersession ends from its document-scope
     `SUPERSEDES` edges: reopen what any supersession closed, then close from
-    each edge with an end date, earliest first (a node keeps the first replacement's end). Returns how many nodes are closed."""
+    each edge with an end date, earliest first (a node keeps the first replacement's end;
+    a document-level node the earlier of that and its stated end). Returns how many nodes
+    are closed."""
     edges = [row for row in tx.run(_DOCUMENT_EDGES, older=older).data()
              if isinstance(row, dict) and row.get("record_id")]
     reopen_validity(tx, older)
@@ -240,16 +274,24 @@ def restate_validity(tx, older: str) -> int:
     return closed
 
 
-def count_validity(session, older: str, *, closed_by: str | None = None) -> int:
+def count_validity(session, older: str, *, closed_by: str | None = None, effective: str | None = None) -> int:
     """Read-only, for the `effect` blocks: the older document's nodes a
     supersession would end (no end yet, or one a supersession wrote, which
-    `restate_validity` writes again) -- or, with `closed_by`, the nodes that
-    record closed."""
-    where = "x._valid_to_by = $record_id" if closed_by else "(x._valid_to IS NULL OR x._valid_to_by IS NOT NULL)"
-    extra = {"record_id": closed_by} if closed_by else {}
-    return sum(_run_count(session, f"MATCH (x:{label} {{{key}: $older}}) WHERE {where} RETURN count(x) AS n",
-                          older=older, **extra)
-               for label, key in VALIDITY_TARGETS)
+    `restate_validity` writes again; with `effective`, also a document-level node whose
+    end is later) -- or, with `closed_by`, the nodes that record closed."""
+    total = 0
+    for label, key in VALIDITY_TARGETS:
+        params: dict = {"older": older}
+        if closed_by:
+            where, params["record_id"] = "x._valid_to_by = $record_id", closed_by
+        elif effective and label in DOCUMENT_LEVEL:
+            where = "(x._valid_to IS NULL OR x._valid_to_by IS NOT NULL OR x._valid_to > $effective)"
+            params["effective"] = effective
+        else:
+            where = "(x._valid_to IS NULL OR x._valid_to_by IS NOT NULL)"
+        total += _run_count(session, f"MATCH (x:{label} {{{key}: $older}}) WHERE {where} RETURN count(x) AS n",
+                            **params)
+    return total
 
 
 def restate_superseded(tx, newer: str) -> list[str]:

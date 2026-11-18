@@ -43,6 +43,9 @@ def test_apply_closes_the_older_documents_open_nodes_with_the_effective_date():
     assert all(p == {"older": "A", "effective": "2026-02-01", "record_id": RID} for _, p in closes)
     assert all("WHERE x._valid_to IS NULL" in c and "x._valid_to_by = $record_id" in c for c, _ in closes)
     labels = {re.search(r"MATCH \(x:(\w+)", c).group(1) for c, _ in closes}
+    later = {re.search(r"MATCH \(x:(\w+)", c).group(1) for c, _ in closes if "OR x._valid_to > $effective" in c}
+    assert later == labels - {"Observation", "ObservationHistory"}, \
+        "the earlier end wins on document-level nodes; a fact's own end is never overwritten"
     assert labels == {"Document", "DocumentHistory", "Observation", "ObservationHistory", "DocChunk",
                       "DocChunkHistory", "DocPassage", "DocPassageHistory", "DocSummary", "DocSummaryHistory"}
     assert all("{doc_id: $older}" in c or "{id: $older}" in c for c, _ in closes), "index-backed, per label"
@@ -60,7 +63,7 @@ def test_the_end_date_falls_back_to_the_newer_documents_stated_date_only():
 def test_no_effective_date_closes_nothing():
     rec = _edges({"record_id": RID, "newer": "B", "e": None})
     sr.apply(rec, _record(None), "fp")
-    assert not rec.queries_containing("SET x._valid_to")
+    assert not rec.queries_containing("SET x._valid_to = $effective")
 
 
 def test_the_document_end_is_no_longer_overwritten_by_the_recompute():
@@ -81,9 +84,13 @@ def test_remove_reopens_what_supersession_closed_then_closes_from_the_remaining_
 
     keys = sr.remove(rec, _record())
 
-    reopens = rec.queries_containing("REMOVE x._valid_to, x._valid_to_by")
-    assert len(reopens) == len(sr.VALIDITY_TARGETS)
-    assert all("WHERE x._valid_to_by IS NOT NULL" in c for c, _ in reopens), "a stated end is never reopened"
+    reopens = rec.queries_containing("WHERE x._valid_to_by IS NOT NULL")
+    assert len(reopens) == len(sr.VALIDITY_TARGETS), "a node with no marker is never reopened"
+    restores = {re.search(r"MATCH \(x:(\w+)", c).group(1) for c, _ in reopens
+                if "SET x._valid_to = x._doc_valid_to, x._valid_to_by = null" in c}
+    removes = {re.search(r"MATCH \(x:(\w+)", c).group(1) for c, _ in reopens
+               if "REMOVE x._valid_to, x._valid_to_by" in c}
+    assert removes == {"Observation", "ObservationHistory"} and restores == set(sr.DOCUMENT_LEVEL)
     closes = rec.queries_containing("SET x._valid_to = $effective")
     assert {(p["record_id"], p["effective"]) for _, p in closes} == {("r2", "2026-05-01")}
     first_close = rec.calls.index(closes[0])
@@ -96,7 +103,7 @@ def test_remove_of_a_stub_record_restates_each_older_document():
         return [{"oid": "A"}] if "RETURN oid" in cypher else []
     rec = Recorder(respond)
     sr.remove(rec, {"id": RID})
-    assert {p["older"] for _, p in rec.queries_containing("REMOVE x._valid_to")} == {"A"}
+    assert {p["older"] for _, p in rec.queries_containing("WHERE x._valid_to_by IS NOT NULL")} == {"A"}
 
 
 def test_retire_leaves_valid_to_alone():
@@ -166,13 +173,22 @@ class _Graph:
             return FakeResult([{"oid": "A"}] if "RETURN oid" in cypher else [])
         label, key = m.groups()
         hit = [n for n in self.nodes if n["label"] == label and n.get(key) == params["older"]]
-        if "REMOVE x._valid_to, x._valid_to_by" in cypher:
+        if "WHERE x._valid_to_by IS NOT NULL" in cypher:
             hit = [n for n in hit if n.get("_valid_to_by") is not None]
             for n in hit:
-                n.pop("_valid_to", None)
                 n.pop("_valid_to_by", None)
+                if "SET x._valid_to = x._doc_valid_to, x._valid_to_by = null" in cypher:
+                    n["_valid_to"] = n.get("_doc_valid_to")
+                    if n["_valid_to"] is None:
+                        n.pop("_valid_to")
+                else:
+                    assert "REMOVE x._valid_to, x._valid_to_by" in cypher
+                    n.pop("_valid_to", None)
         elif "SET x._valid_to = $effective" in cypher:
-            hit = [n for n in hit if n.get("_valid_to") is None]
+            later = "WHERE x._valid_to IS NULL OR x._valid_to > $effective" in cypher
+            assert later or "WHERE x._valid_to IS NULL\n" in cypher
+            hit = [n for n in hit if n.get("_valid_to") is None
+                   or (later and n["_valid_to"] > params["effective"])]
             for n in hit:
                 n["_valid_to"], n["_valid_to_by"] = params["effective"], params["record_id"]
         return FakeResult([{"n": len(hit)}])
@@ -180,9 +196,10 @@ class _Graph:
 
 def _nodes():
     return [
-        {"label": "DocumentHistory", "id": "A", "_valid_to": "2026-06-30"},       # a stated end
+        {"label": "DocumentHistory", "id": "A", "_valid_to": "2026-06-30", "_doc_valid_to": "2026-06-30"},  # stated
         {"label": "ObservationHistory", "doc_id": "A", "id": "o1"},
         {"label": "ObservationHistory", "doc_id": "A", "id": "o2", "_valid_to": "2026-01-15"},  # stated
+        {"label": "ObservationHistory", "doc_id": "A", "id": "o3", "_valid_to": "2026-09-01"},  # its own, later
         {"label": "ObservationHistory", "doc_id": "A", "id": "o0", "_retired_by": "version:1"},  # earlier version
         {"label": "DocChunkHistory", "doc_id": "A", "id": "c1"},
         {"label": "DocPassageHistory", "doc_id": "A", "id": "p1"},
@@ -199,15 +216,16 @@ def test_supersede_then_unsupersede_restores_every_stated_end():
     graph = _Graph(_nodes(), [{"record_id": RID, "newer": "B", "effective": "2026-02-01"}])
     sr.apply(graph, _record(), "fp")
     assert _by_id(graph) == {
-        "A": ("2026-06-30", None), "o1": ("2026-02-01", RID), "o2": ("2026-01-15", None),
-        "o0": ("2026-02-01", RID), "c1": ("2026-02-01", RID), "p1": ("2026-02-01", RID),
+        "A": ("2026-02-01", RID), "o1": ("2026-02-01", RID), "o2": ("2026-01-15", None),
+        "o3": ("2026-09-01", None), "o0": ("2026-02-01", RID), "c1": ("2026-02-01", RID), "p1": ("2026-02-01", RID),
         "s1": ("2026-02-01", RID), "z1": (None, None),
     }
 
     graph.edges = []
     sr.remove(graph, _record())
     assert _by_id(graph) == {
-        "A": ("2026-06-30", None), "o1": (None, None), "o2": ("2026-01-15", None), "o0": (None, None),
+        "A": ("2026-06-30", None), "o1": (None, None), "o2": ("2026-01-15", None),
+        "o3": ("2026-09-01", None), "o0": (None, None),
         "c1": (None, None), "p1": (None, None), "s1": (None, None), "z1": (None, None),
     }
     assert next(n for n in graph.nodes if n["id"] == "o0")["_retired_by"] == "version:1"
@@ -238,7 +256,7 @@ def test_supersede_with_no_end_date_leaves_everything_open():
     graph = _Graph(_nodes(), [{"record_id": RID, "newer": "B", "effective": None}])
     sr.apply(graph, _record(None), "fp")
     assert {i: v for i, v in _by_id(graph).items() if v != (None, None)} == {
-        "A": ("2026-06-30", None), "o2": ("2026-01-15", None)}
+        "A": ("2026-06-30", None), "o2": ("2026-01-15", None), "o3": ("2026-09-01", None)}
 
 
 # ── a re-commit of the older document keeps the supersession's end ─────────
@@ -512,7 +530,7 @@ def test_a_document_without_a_stated_end_takes_the_supersession_end_on_chunk_pas
     assert set(_by_id(graph).values()) == {("2026-02-01", RID)}
 
 
-def test_a_recommit_leaves_a_chunks_stated_end_and_restate_closes_only_open_ones(tmp_path):
+def test_a_recommit_writes_a_chunks_stated_end_and_restate_closes_at_the_earlier_end(tmp_path):
     folder = tmp_path / "doc"
     folder.mkdir()
     (folder / "document.json").write_text(json.dumps(
@@ -527,8 +545,10 @@ def test_a_recommit_leaves_a_chunks_stated_end_and_restate_closes_only_open_ones
     ingest._commit_document_tx(tx, ingest._load_staged(folder, "pj"), True)
     (_, chunk_params), = [(c, p) for c, p in tx.calls if "CREATE (n:DocChunk " in c]
     assert chunk_params["props"]["_valid_to"] == "2026-01-20" and chunk_params["props"]["_valid_to_by"] is None
+    assert chunk_params["props"]["_doc_valid_to"] == "2026-01-20"
     closes = tx.queries_containing("SET x._valid_to = $effective")
-    assert closes and all("WHERE x._valid_to IS NULL" in c for c, _ in closes)
+    chunk_closes = [c for c, _ in closes if "MATCH (x:DocChunk {" in c]
+    assert chunk_closes and all("WHERE x._valid_to IS NULL OR x._valid_to > $effective" in c for c in chunk_closes)
 
 
 def test_the_earliest_resolved_end_wins_whether_dated_by_the_edge_or_the_newer_document():
@@ -542,3 +562,67 @@ def test_the_earliest_resolved_end_wins_whether_dated_by_the_edge_or_the_newer_d
     graph.newer_docs["Z"]["_valid_from"] = "2026-03-01"
     sr.restate_validity(graph, "A")
     assert _by_id(graph) == {"c1": ("2026-02-01", RID)}
+
+
+# ── the earlier end wins on document-level nodes (decided 2026-11-18) ───────
+
+
+def _stated(label, ident, end, key="doc_id"):
+    return {"label": label, key: "A", "id": ident, "_valid_to": end, "_doc_valid_to": end}
+
+
+def test_a_stated_end_later_than_the_supersession_closes_at_the_supersession_and_unsupersede_restores_it():
+    stated, other = "2026-06-30", "2026-02-01"
+    nodes = [_stated("Document", "A", stated, key="id"), _stated("DocChunk", "c1", stated),
+             _stated("DocPassage", "p1", stated), _stated("DocSummary", "s1", stated),
+             {"label": "Observation", "doc_id": "A", "id": "o1", "_valid_to": stated}]   # a fact's own end
+    graph = _Graph(nodes, [{"record_id": RID, "newer": "B", "effective": other}])
+    sr.apply(graph, _record(other), "fp")
+    assert _by_id(graph) == {"A": (other, RID), "c1": (other, RID), "p1": (other, RID), "s1": (other, RID),
+                             "o1": (stated, None)}
+    graph.edges = []
+    sr.remove(graph, _record(other))
+    assert _by_id(graph) == {i: (stated, None) for i in ("A", "c1", "p1", "s1", "o1")}
+
+
+def test_an_end_equal_to_the_supersession_is_kept_unmarked():
+    graph = _Graph([_stated("DocChunk", "c1", "2026-02-01")],
+                   [{"record_id": RID, "newer": "B", "effective": "2026-02-01"}])
+    sr.restate_validity(graph, "A")
+    assert _by_id(graph) == {"c1": ("2026-02-01", None)}
+
+
+def test_two_supersessions_after_a_later_stated_end_close_at_the_first_and_hand_over():
+    graph = _Graph([_stated("DocumentHistory", "A", "2026-12-31", key="id")],
+                   [{"record_id": "r2", "newer": "C", "effective": "2026-05-01"},
+                    {"record_id": RID, "newer": "B", "effective": "2026-02-01"}])
+    sr.restate_validity(graph, "A")
+    assert _by_id(graph) == {"A": ("2026-02-01", RID)}
+    graph.edges = graph.edges[:1]
+    sr.restate_validity(graph, "A")
+    assert _by_id(graph) == {"A": ("2026-05-01", "r2")}
+    graph.edges = []
+    sr.restate_validity(graph, "A")
+    assert _by_id(graph) == {"A": ("2026-12-31", None)}
+
+
+def test_a_commit_writes_the_stated_end_as_the_documents_own_copy(tmp_path):
+    tx = _commit(tmp_path, stated_end="2026-06-30")
+    (_, doc_params), = [(c, p) for c, p in tx.calls if "CREATE (n:Document " in c]
+    assert doc_params["props"]["_doc_valid_to"] == "2026-06-30"
+    (tmp_path / "again").mkdir()
+    tx = _commit(tmp_path / "again")
+    (_, doc_params), = [(c, p) for c, p in tx.calls if "CREATE (n:Document " in c]
+    assert doc_params["props"]["_doc_valid_to"] is None, "a removed stated end is cleared"
+
+
+def test_a_recommit_converges_on_the_earlier_end():
+    """The commit rewrites the stated end, unmarked; the restate closes it at the supersession again."""
+    graph = _Graph([_stated("Document", "A", "2026-06-30", key="id"), _stated("DocChunk", "c1", "2026-06-30")],
+                   [{"record_id": RID, "newer": "B", "effective": "2026-02-01"}])
+    sr.restate_validity(graph, "A")
+    first = _by_id(graph)
+    for n in graph.nodes:                     # what the commit's rewrite leaves
+        n["_valid_to"], n["_valid_to_by"] = n["_doc_valid_to"], None
+    sr.restate_validity(graph, "A")
+    assert _by_id(graph) == first == {"A": ("2026-02-01", RID), "c1": ("2026-02-01", RID)}

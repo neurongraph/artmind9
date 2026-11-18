@@ -3688,8 +3688,8 @@ def _document_precision(document: dict, schema: dict) -> str | None:
 
 
 # The date fields a staged chunk carries (`_chunk_valid_time`). A chunk's `_valid_to` is its
-# document's stated end (also kept as `_doc_valid_to`), so a later supersession, which fills only
-# a missing end, cannot push the chunk's end past the document's own.
+# document's stated end (also kept as `_doc_valid_to`): a later supersession ends it at the
+# earlier of that and its own date, and un-asserting restores `_doc_valid_to`.
 CHUNK_DATE_KEYS = ("_valid_from", "_valid_to", "_valid_precision", "_doc_valid_from", "_doc_valid_to")
 
 
@@ -5023,8 +5023,10 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     document_props = _flatten_props(document)
     if source_label == "Document":
         # The merge is additive, so the document's end is set from staging every time: a stated
-        # end, else none. A supersession's end is not staged; step 5c derives it again.
+        # end, else none, kept also as `_doc_valid_to` (what `unsupersede` restores). A
+        # supersession's end is not staged; step 5c derives it again (the earlier of the two).
         document_props.setdefault("_valid_to", None)
+        document_props["_doc_valid_to"] = document_props["_valid_to"]
         document_props["_valid_to_by"] = None
     _merge_relabeled(tx, source_label, f"{source_label}History", doc_id, document_props, replace=False,
                      recorded_at=recorded_at, keep_retired=keep_retired)
@@ -5144,7 +5146,8 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
 
     # 5c. Ends of validity (spec 2026-11-15 §7.2): the rewrites above cleared any supersession
     #     end on this document's nodes (staging never carries one), so they are derived again
-    #     from the SUPERSEDES edges into it, in this transaction, before the rebuild reads them.
+    #     from the SUPERSEDES edges into it, in this transaction, before the rebuild reads them
+    #     (a stated end later than the supersession's is closed again at the supersession's).
     #     The documents this one supersedes are restated too: their ends fall back to this
     #     document's `_valid_from`, which this commit may have changed. Their keys join the
     #     rebuild, and their domains are bumped.

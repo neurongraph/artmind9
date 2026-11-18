@@ -57,8 +57,8 @@ def summary_rows(data: dict | None, document: dict, chunks: list[dict] | None = 
                      ("_valid_from", "_doc_valid_from"), ("_valid_to", "_doc_valid_to")):
         if document.get(src) is not None:
             common[dst] = document[src]
-    # The document's stated end is every summary's `_valid_to`, so a supersession (which fills only
-    # a missing end) cannot push it past that.
+    # The document's stated end is every summary's `_valid_to` (and `_doc_valid_to`): a
+    # supersession ends it at the earlier of the two, and un-asserting restores it.
     doc_end = {"_valid_to": document["_valid_to"]} if document.get("_valid_to") is not None else {}
     chunk_dates = {
         c["id"]: {k: c[k] for k in ("_valid_from", "_valid_to", "_valid_precision") if c.get(k) is not None}

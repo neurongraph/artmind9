@@ -770,7 +770,7 @@ def supersession_effect(newer_doc_id: str, older_doc_id: str, scope: str = "docu
             effective = supersession_records.record_for(
                 session, newer_doc_id, older_doc_id, scope, None, "manual")["effective"]
         # Ends of validity (spec 2026-11-15 §7.2): with no effective date nothing is closed.
-        closing = (supersession_records.count_validity(session, older_doc_id)
+        closing = (supersession_records.count_validity(session, older_doc_id, effective=effective)
                    if scope == "document" and effective else 0)
     already = bool(existing and existing.get("n"))
     changes = [Change("document_supersede", 0 if already else 1, [{
@@ -838,8 +838,9 @@ def apply_supersession(
     graph is written from that record -- the same path `vault sync` applies
     on every other machine (`artmind.supersession_records`). The older
     document's `superseded_by` is recomputed from all of its `SUPERSEDES`
-    edges, and (`scope: document`) it and its facts gain `_valid_to = effective`
-    where they have none (spec 2026-11-15 §7.2); the returned `effective` is
+    edges, and (`scope: document`) it and its facts are closed at `effective`
+    (spec 2026-11-15 §7.2; `supersession_records`: the document-level nodes where
+    they have no end or a later one, observations where they have none); the returned `effective` is
     the record's, the date that close used.
 
     Idempotent.

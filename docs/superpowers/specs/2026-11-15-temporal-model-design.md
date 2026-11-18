@@ -780,16 +780,23 @@ Notes recorded while implementing; the sections above are left as written.
 
 - **§5.1 last bullet vs §7.2.** "Supersession and retirement update these fields"
   is narrowed to supersession, as §7.2 says (retiring closes nothing).
-  `_doc_valid_to` is the document's *stated* end, copied at commit and not
-  touched by supersession; a chunk, its passages and its summaries also carry it as `_valid_to`. A supersession end lives in `_valid_to`, marked
-  `_valid_to_by` (`supersede:<id>`), set only where `_valid_to` was empty and
-  reopened only where that marker names the record. On the Document, a stated end
-  is kept and restored by `unsupersede`. **Chunk-end question — decided 2026-11-18:**
-  chunks, passages and summaries take the document's stated end as their own `_valid_to`
-  at stage/commit time, so a supersession (which fills only a missing end) cannot push
-  theirs past the document's: a chunk of a document with stated end D earlier than E ends
-  at D; a document without a stated end takes E. A re-commit leaves the stated end;
-  `restate_validity` closes open nodes only. **Q5 — decided 2026-11-18:** a document
+  `_doc_valid_to` is the document's *stated* end, copied at commit (onto the Document
+  too) and not touched by supersession; a chunk, its passages and its summaries also
+  carry it as `_valid_to`. A supersession end lives in `_valid_to`, marked
+  `_valid_to_by` (the record id), and is reopened only where that marker is set.
+  **Chunk-end question — decided 2026-11-18:** chunks, passages and summaries take the
+  document's stated end as their own `_valid_to` at stage/commit time.
+  **Stated end vs supersession — decided 2026-11-18:** on the document-level nodes
+  (Document, DocChunk, DocPassage, DocSummary, and their History labels) the *earlier*
+  end wins: a supersession at E sets `_valid_to = E` where it is empty or later than E
+  (ISO strings compared as strings), so a document stating D ends at min(D, E), and so
+  do its chunks, passages and summaries; a document without a stated end takes E.
+  `unsupersede` restores `_valid_to = _doc_valid_to` (none when no end is stated). An
+  observation's `_valid_to` is its fact's own end and is never overwritten: the close
+  fills only a missing one, and reopening removes only a marked end. A re-commit writes
+  the stated end unmarked and `restate_validity` closes it at min(D, E) again in the
+  same transaction.
+  **Q5 — decided 2026-11-18:** a document
   superseded twice ends at its *first* replacement: `restate_validity` closes from the
   edges by the end each one writes, earliest first: the edge's `effective`, else the
   newer document's stated `_valid_from` (an edge with no end last; ties by newer id).
