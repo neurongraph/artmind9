@@ -46,9 +46,14 @@ travel (each machine migrates its own graph).
   (`own_work`), so it does not block the run that finishes the job.
 - `chunk_ends`: a chunk, passage or summary (and their History rows) with no `_valid_to`
   and no `_valid_to_by` takes its document's STATED end (`_valid_to` with no
-  `_valid_to_by`; a supersession end is never copied), as core now commits them. Runs
-  before `supersession_ends`, so a supersession's close (which fills only a missing
-  `_valid_to`) cannot push them past the document's own end.
+  `_valid_to_by`; a supersession end is never copied) as `_valid_to` and, where it has
+  none, `_doc_valid_to`, as core now commits them; a document (either label) with a stated
+  end and no `_doc_valid_to` gets that copy too. Runs before `supersession_ends`: its close
+  ends a document-level node at the earlier of the stated and the supersession end, and
+  `ingest unsupersede` restores `_doc_valid_to`. A row already marked by a supersession is
+  skipped (only graphs migrated during development carry one); a History chunk takes its
+  CURRENT document's stated end (an approximation: the end its own version stated is not
+  kept).
 - `supersession_ends`: `supersession_records.restate_validity` for every document
   with an incoming document-scope `SUPERSEDES` edge that yields an end and has a
   node (document, observations, chunks, passages, summaries) still open: they are
@@ -560,11 +565,27 @@ def _chunk_end_match(label: str, domains: list[str] | None) -> str:
     )
 
 
+def _document_end_match(label: str, domains: list[str] | None) -> str:
+    """Documents of `label` with a STATED end (no marker) but no `_doc_valid_to` copy."""
+    return (f"MATCH (d:{label}) WHERE d._valid_to IS NOT NULL AND d._valid_to_by IS NULL "
+            f"AND d._doc_valid_to IS NULL{_scope('d', domains)} ")
+
+
+def _end_match(label: str, domains: list[str] | None) -> str:
+    """`label`'s pending rows, bound as `x` (and `d`, its document)."""
+    if label in DOCUMENT_LABELS:
+        return _document_end_match(label, domains) + "WITH d AS x, d "
+    return _chunk_end_match(label, domains)
+
+
+DOCUMENT_LABELS = ("Document", "DocumentHistory")
+
+
 def chunk_ends_pending(ctx: MigrationContext) -> dict:
     out: dict = {}
     with ctx.session_factory() as session:
-        for label in CHUNK_FAMILY:
-            n = _count(session, _chunk_end_match(label, ctx.domains) + "RETURN count(x) AS n",
+        for label in DOCUMENT_LABELS + CHUNK_FAMILY:
+            n = _count(session, _end_match(label, ctx.domains) + "RETURN count(x) AS n",
                        domains=ctx.domains)
             if n:
                 out[label] = n
@@ -577,8 +598,8 @@ def chunk_ends_apply(ctx: MigrationContext, dry_run: bool = False) -> dict:
     applied: dict = {}
     with ctx.session_factory() as session:
         domains: set = set()
-        for label in CHUNK_FAMILY:
-            match = _chunk_end_match(label, ctx.domains)
+        for label in DOCUMENT_LABELS + CHUNK_FAMILY:
+            match = _end_match(label, ctx.domains)
             n = _count(session, match + "RETURN count(x) AS n", domains=ctx.domains)
             if not n:
                 continue
@@ -587,24 +608,30 @@ def chunk_ends_apply(ctx: MigrationContext, dry_run: bool = False) -> dict:
                 match + "RETURN DISTINCT x._domain AS domain", domains=ctx.domains).data()}
         _bump(session, domains)
         for label in applied:
-            session.run(
-                _chunk_end_match(label, ctx.domains)
-                + "CALL (x, d) { SET x._valid_to = d._valid_to } IN TRANSACTIONS OF %d ROWS" % BATCH_ROWS,
-                domains=ctx.domains,
-            ).consume()
+            if label in DOCUMENT_LABELS:
+                write = "CALL (d) { SET d._doc_valid_to = d._valid_to } IN TRANSACTIONS OF %d ROWS"
+                match = _document_end_match(label, ctx.domains)
+            else:
+                write = ("CALL (x, d) { SET x._valid_to = d._valid_to, "
+                         "x._doc_valid_to = coalesce(x._doc_valid_to, d._valid_to) } IN TRANSACTIONS OF %d ROWS")
+                match = _chunk_end_match(label, ctx.domains)
+            session.run(match + write % BATCH_ROWS, domains=ctx.domains).consume()
     return applied
 
 
 # ── supersession_ends ─────────────────────────────────────────────────────────
 
 def _open_node() -> str:
-    """Any node of `older` (other than itself) still without an end."""
-    from artmind.supersession_records import VALIDITY_TARGETS
+    """Any node of `older` that edge end `e` would still close: one without an end, or a
+    document-level one (the document itself, its chunks, passages, summaries) whose end is
+    later than `e` (core's close keeps the earlier end there; observations keep their own)."""
+    from artmind.supersession_records import DOCUMENT_LEVEL, VALIDITY_TARGETS
 
-    parts = ["older._valid_to IS NULL"]
+    parts = ["older._valid_to IS NULL OR older._valid_to > e"]
     for label, key in VALIDITY_TARGETS:
         if key == "doc_id":
-            parts.append(f"EXISTS {{ MATCH (x:{label} {{doc_id: older.id}}) WHERE x._valid_to IS NULL }}")
+            later = " OR x._valid_to > e" if label in DOCUMENT_LEVEL else ""
+            parts.append(f"EXISTS {{ MATCH (x:{label} {{doc_id: older.id}}) WHERE x._valid_to IS NULL{later} }}")
     return "(" + " OR ".join(parts) + ")"
 
 
@@ -623,8 +650,8 @@ def _superseded_open(domains: list[str] | None) -> str:
         "AND s.record_id IS NOT NULL "
         "WITH older, coalesce(s.effective, CASE WHEN newer._valid_precision = 'none' THEN null "
         "ELSE newer._valid_from END) AS e "
-        f"WHERE {_STRING_END} "
-        f"WITH DISTINCT older WHERE {_open_node()} "
+        f"WHERE {_STRING_END} AND {_open_node()} "
+        "WITH DISTINCT older "
     )
 
 
@@ -642,8 +669,8 @@ def _superseded_estimate(domains: list[str] | None) -> str:
         "ELSE coalesce(newer._valid_from, newer.valid_from) END "
         "WHEN s.effective IS :: STRING THEN s.effective "
         f"WHEN toString(s.effective) =~ '{DATE_SHAPE}' THEN toString(s.effective) END AS e "
-        f"WHERE {_STRING_END} "
-        f"WITH DISTINCT older WHERE {_open_node()} "
+        f"WHERE {_STRING_END} AND {_open_node()} "
+        "WITH DISTINCT older "
     )
 
 
