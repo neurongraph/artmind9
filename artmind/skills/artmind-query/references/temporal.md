@@ -20,9 +20,9 @@ before it changed", "what happened in order" — or when an entity carries
   `vector-text`, `chunks`, `graph filing-listing`, `entity-history` (on the structured-store
   commands `db timeline` and `text2sql` it is a floor; `db sql` takes no `--asOf`; see their help). A row is kept when
   its own date window contains the date (`_valid_from <= asOf < _valid_to`; a year or
-  month means its last day); undated rows are always shown. Where no `_valid_to` is set
-  yet (most chunks), a still-open row satisfies any `--asOf` at or after its
-  `valid_from`, so there it acts as a floor. `entity-history --asOf D` returns the facts
+  month means its last day); undated rows are always shown. Chunks, passages and summaries
+  carry their document's stated end, or its supersession's end; a row with neither is open and
+  satisfies any `--asOf` at or after its `valid_from`. `entity-history --asOf D` returns the facts
   whose own window contains D: a fact closed before D is not shown. On `pattern10` use
   **`--includeHistory`** instead: it additionally matches
   `:DocumentHistory`/`:DocChunkHistory` for that document, surfacing retired chunks

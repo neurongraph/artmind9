@@ -781,12 +781,17 @@ Notes recorded while implementing; the sections above are left as written.
 - **§5.1 last bullet vs §7.2.** "Supersession and retirement update these fields"
   is narrowed to supersession, as §7.2 says (retiring closes nothing).
   `_doc_valid_to` is the document's *stated* end, copied at commit and not
-  touched by supersession. A supersession end lives in `_valid_to`, marked
+  touched by supersession; a chunk, its passages and its summaries also carry it as `_valid_to`. A supersession end lives in `_valid_to`, marked
   `_valid_to_by` (`supersede:<id>`), set only where `_valid_to` was empty and
   reopened only where that marker names the record. On the Document, a stated end
-  is kept and restored by `unsupersede`. Consequence: a chunk of a document whose
-  stated end is earlier than E gets `_valid_to = E` (it has none of its own).
-  Open question: whether chunks should take the document's stated end instead.
+  is kept and restored by `unsupersede`. **Chunk-end question — decided 2026-11-18:**
+  chunks, passages and summaries take the document's stated end as their own `_valid_to`
+  at stage/commit time, so a supersession (which fills only a missing end) cannot push
+  theirs past the document's: a chunk of a document with stated end D earlier than E ends
+  at D; a document without a stated end takes E. A re-commit leaves the stated end;
+  `restate_validity` closes open nodes only. **Q5 — decided 2026-11-18:** a document
+  superseded twice ends at its *first* replacement: `restate_validity` closes from the
+  edges earliest `effective` first (an undated edge last).
   A newer document's commit restates the validity of every document it
   supersedes, so the `_valid_from` fallback for E is the same on every machine.
 - **§8.1 gate has two markers (beyond §8.1 — needs the user's confirmation).** `<run folder>/data_model.yaml` (committed; staging,
@@ -807,11 +812,12 @@ Notes recorded while implementing; the sections above are left as written.
 - **Dates.** A document stores `_valid_precision` (`none` for the ingestion
   default); a default-dated document counts as undated in filters and in the
   projection's temporal grouping. A document's ranged `_valid_from` sets its
-  `_valid_to` when none is explicit. A fact with no end of its own inherits its
-  document's `_valid_to` at build time (pre-existing; `date-audit` counts only a
-  fact's own ranges). **Open question Q1 — needs the user's decision:** a single-day
-  fact in a document with an end therefore reads as a range; §7.2's inheritance
-  covers supersession only. `parse_valid` never raises; an end at or after 9999-12-31 is
+  `_valid_to` when none is explicit. **Q1 — decided 2026-11-18:** a fact dated
+  by its own property keeps only its own end (possibly none); a fact dated by its document
+  (no own date) inherits the document's `_valid_to` at build time and in `retime`.
+  A single-day fact in a document with an end is therefore open-ended, not a range;
+  `date-audit` counts only a fact's own ranges. table2graph's row end for the row's
+  own subject is a separate rule. `parse_valid` never raises; an end at or after 9999-12-31 is
   open. `ingest table2graph --asOf` still refuses a year or month.
 - **Identity.** Occasion observation ids include the day (a chunk may hold two
   days of one stripped name). `retime` keeps existing ids, so a re-extract after
