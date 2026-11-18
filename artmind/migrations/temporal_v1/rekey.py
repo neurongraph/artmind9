@@ -306,11 +306,41 @@ def _plan_domain(domain: str, session=None) -> DomainPlan | None:
                 pairs.append((graph.get(o["id"]) or f.staged_keys.get(o["id"]), o.get("key")))
                 plan.counts[o.get("key")] += 1
     plan.moves = _moves(pairs)
-    # An unfinished run's moves: the old keys of documents this graph never held.
+    # An unfinished run's moves: the old keys of documents this graph never held. Only
+    # where staging still agrees (the old key is no longer planned, the new one is): files
+    # restored by hand, or a schema changed since, make the manifest's moves stale.
+    planned = set(plan.counts)
     for manifest in unfinished(domain):
         for old, new in (manifest.get("moves") or {}).items():
-            plan.moves[old] = plan.moves.get(old, set()) | set(new)
+            keep = set(new) & planned
+            if old not in planned and keep:
+                plan.moves[old] = plan.moves.get(old, set()) | keep
     return plan
+
+
+def still_planned(change: dict, planned: set) -> bool:
+    """Whether a manifest's record change still matches staging: a synthesis moves only
+    from a key no longer planned to keys that are. Other kinds are applied from their
+    file as it stands, so they always are."""
+    if change.get("kind") != SYNTHESES:
+        return True
+    old = _key((change.get("old") or {}).get("key"))
+    new = change.get("new_keys") or []
+    return old not in planned and bool(new) and all(k in planned for k in new)
+
+
+def _manifest_records(manifests: list[dict], planned: set) -> list[dict]:
+    """The record changes of `manifests` still to apply, deduplicated by (kind, new ids)."""
+    seen, out = set(), []
+    for manifest in manifests:
+        if manifest.get("stage") not in ("files", "graph"):
+            continue
+        for change in manifest.get("records") or []:
+            ident = (change.get("kind"), tuple(change.get("new_ids") or []))
+            if ident not in seen and still_planned(change, planned):
+                seen.add(ident)
+                out.append(change)
+    return out
 
 
 # ── same_as.yaml ──────────────────────────────────────────────────────────────
@@ -716,8 +746,7 @@ def _domain_counts(plan: DomainPlan, session) -> tuple[dict, list[str]]:
         "sameas_proposals_closed": len(refused_proposals(session, plan.moves, None, plan.domain)),
         "curation_records": len(changes),
         "documents_to_commit": len([f for f in plan.to_commit() if f.folder not in changed]),
-        "records_to_apply": sum(len(m.get("records") or []) for m in unfinished(plan.domain)
-                                if m.get("stage") in ("files", "graph"))
+        "records_to_apply": len(_manifest_records(unfinished(plan.domain), set(plan.counts)))
         + len(pulled_conflicts(session, plan)),
         "rebuild_pending": sum(1 for m in unfinished(plan.domain) if m.get("stage") == "rebuild"),
     }
@@ -860,9 +889,8 @@ def _graph_stage(ctx: MigrationContext, plan: DomainPlan, stash: Stash) -> dict:
     with ctx.session_factory() as session:
         out["sameas_proposals_closed"] = close_proposals(session, plan.moves, None, dry_run=False,
                                                          domain=plan.domain)
-        for manifest in [*earlier, *([stash.manifest] if stash.saved else [])]:
-            if manifest.get("stage") in ("files", "graph"):
-                out["records_applied"] += _apply_records_to_graph(session, plan.domain, manifest.get("records") or [])
+        records = _manifest_records([*earlier, *([stash.manifest] if stash.saved else [])], set(plan.counts))
+        out["records_applied"] += _apply_records_to_graph(session, plan.domain, records)
         pulled = pulled_conflicts(session, plan)
         out["records_applied"] += _apply_records_to_graph(
             session, plan.domain, [{"kind": CONFLICTS, "new_ids": [r["id"]]} for r in pulled])
@@ -871,7 +899,8 @@ def _graph_stage(ctx: MigrationContext, plan: DomainPlan, stash: Stash) -> dict:
     if rebuild:
         for path, manifest in runs:
             _mark(path, manifest, "rebuild")
-        stash.stage("rebuild")
+        if stash.saved:
+            stash.stage("rebuild")
     failed, committed = [], 0
     try:
         for f in to_commit:
@@ -886,7 +915,7 @@ def _graph_stage(ctx: MigrationContext, plan: DomainPlan, stash: Stash) -> dict:
                 failed.append(f.folder.name)
     finally:
         if rebuild:
-            ingest.rebuild_projection(plan.domain)
+            _rebuild(plan.domain)
     # Reached only when the rebuild (if any) returned.
     for path, manifest in runs:
         _mark(path, manifest, "done")
@@ -898,6 +927,19 @@ def _graph_stage(ctx: MigrationContext, plan: DomainPlan, stash: Stash) -> dict:
         raise RuntimeError(f"rekey: {len(failed)} document(s) of {plan.domain} were not committed; "
                            f"the staging is written: run `artmind migrate temporal` again to resume")
     return {k: v for k, v in out.items() if v}
+
+
+def _rebuild(domain: str) -> None:
+    from artmind import ingest
+    from artmind.cli_conventions import store_failure
+
+    try:
+        ingest.rebuild_projection(domain)
+    except Exception as exc:
+        if store_failure(exc) is not None:
+            raise  # the runner reports a store failure (exit 3)
+        raise RuntimeError(f"rekey: rebuild of {domain} failed ({type(exc).__name__}: {exc}); rebuild_pending "
+                           f"stays; run `artmind migrate temporal` again") from exc
 
 
 def _mark(path: Path, manifest: dict, stage: str) -> None:
@@ -914,7 +956,8 @@ def _file_stage(plan: DomainPlan, stash: Stash) -> Counter:
         return Counter()
     # Moves and record changes are in the manifest before the first write: the run that
     # resumes a killed one still knows the old keys and applies its records.
-    stash.manifest["records"] = [{"kind": c.kind, "old": c.old, "new_ids": [r["id"] for r in c.new]}
+    stash.manifest["records"] = [{"kind": c.kind, "old": c.old, "new_ids": [r["id"] for r in c.new],
+                                  "new_keys": [r["key"] for r in c.new if c.kind == SYNTHESES]}
                                  for c in changes]
     stash.manifest["moves"] = {k: sorted(v) for k, v in plan.moves.items()}
     stash.keep([p for p, _ in writes_])

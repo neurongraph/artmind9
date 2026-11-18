@@ -594,3 +594,50 @@ def test_a_killed_and_resumed_run_matches_an_uninterrupted_one(tmp_path, monkeyp
     rekey.apply(_ctx(got_vault), False)
     assert _nolog(got_vault.root) == expected
     assert got_vault.keys == ref.keys and got_vault.rebuilds == ["pj"]
+
+
+def test_a_hand_restore_and_schema_change_make_a_manifest_stale(vault, monkeypatch):
+    """Killed at the graph stage; the user git-restores the files and makes ACTIVITY
+    `identity: name`: the manifest's moves and record change no longer apply."""
+    before = _nolog(vault.root)
+    with pytest.MonkeyPatch.context() as m:
+        m.setattr(rekey, "_graph_stage", _kill)
+        with pytest.raises(Killed):
+            rekey.apply(_ctx(vault), False)
+    for rel, data in before.items():
+        (vault.root / rel).write_bytes(data)
+    for rel in set(_nolog(vault.root)) - set(before):
+        (vault.root / rel).unlink()
+    schema_file = vault.root / "schemas" / "pj_schema.yaml"
+    schema_file.write_text(schema_file.read_text().replace("identity: occasion", "identity: name"))
+    monkeypatch.setattr(rekey, "schema_for", lambda d: yaml.safe_load(schema_file.read_text()))
+    rekey.clear_plans()
+    left = rekey.pending(_ctx(vault))
+    assert "same_as_groups" not in left and "curation_records" not in left and "records_to_apply" not in left
+    rekey.apply(_ctx(vault), False)
+    assert (vault.root / "same_as.yaml").read_bytes() == before[__import__("pathlib").Path("same_as.yaml")]
+    assert curation_records.record_path("syntheses", entity_id(("tennis", "ACTIVITY", "pj"))).is_file()
+    assert not vault.recorder.queries_containing("DETACH DELETE s")
+    assert vault.proposals[0]["status"] == "open"
+
+
+def test_a_rebuild_failure_names_the_resume(vault):
+    with pytest.MonkeyPatch.context() as m:
+        m.setattr(ingest, "rebuild_projection", lambda d: (_ for _ in ()).throw(ValueError("bad batch")))
+        with pytest.raises(RuntimeError, match="rebuild of pj failed .*rebuild_pending stays"):
+            rekey.apply(_ctx(vault), False)
+    assert rekey.pending(_ctx(vault))["rebuild_pending"] == 1
+
+
+def test_record_changes_are_applied_once_across_manifests(vault):
+    with pytest.MonkeyPatch.context() as m:
+        m.setattr(rekey, "_graph_stage", _kill)
+        with pytest.raises(Killed):
+            rekey.apply(_ctx(vault), False)
+    # a second killed run left a manifest naming the same change
+    manifest, = (vault.root / "logs/migrate-temporal").glob("*/pj/manifest.json")
+    twin = manifest.parent.parent.parent / "20000101T000000000000Z" / "pj" / "manifest.json"
+    twin.parent.mkdir(parents=True)
+    twin.write_text(manifest.read_text().replace(json.loads(manifest.read_text())["run_id"], "20000101T000000000000Z"))
+    assert rekey.pending(_ctx(vault))["records_to_apply"] == 1
+    assert rekey.apply(_ctx(vault), False)["records_applied"] == 1
