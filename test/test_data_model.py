@@ -154,6 +154,7 @@ class _FakeSession:
 
 
 _REAL_READ = dm.read_graph_version  # captured before any fixture stubs it
+_REAL_OPEN = dm._open_session
 
 
 def _use_graph(monkeypatch, session):
@@ -381,3 +382,30 @@ def test_a_group_callback_does_not_warn_when_a_subcommand_runs(model, capsys):
     _db(model)
     CliRunner().invoke(cli, ["db", "mappings", "some_table", "clear", "--column", "c", "--dryRun"])
     assert capsys.readouterr().err.count("artmind migrate status") <= 1
+
+
+def test_graph_probe_session_has_notifications_off(monkeypatch):
+    from neo4j import NotificationMinimumSeverity
+    from artmind import graph_query as gq
+
+    seen = {}
+
+    class _Drv:
+        def session(self, **kw):
+            seen.update(kw)
+            import contextlib
+            return contextlib.nullcontext(object())
+
+        def close(self):
+            pass
+
+    monkeypatch.setattr(gq, "_connection_settings",
+                        lambda: {"uri": "bolt://x", "user": "u", "password": "p", "database": "d"})
+    monkeypatch.setattr(gq.GraphDatabase, "driver", lambda *a, **k: _Drv())
+    with _REAL_OPEN():
+        pass
+    assert seen["notifications_min_severity"] == NotificationMinimumSeverity.OFF
+    seen.clear()
+    with gq.neo4j_session():
+        pass
+    assert "notifications_min_severity" not in seen

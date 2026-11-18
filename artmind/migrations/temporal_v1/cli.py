@@ -33,14 +33,14 @@ def _vault_root() -> Path | None:
 def _open_graph():
     from artmind.graph_query import neo4j_session
 
-    return neo4j_session()
+    return neo4j_session(quiet=True)
 
 
 def _probe_graph():
     """A session for the reachability probe only: a down Neo4j fails in seconds."""
     from artmind.graph_query import neo4j_session
 
-    return neo4j_session(timeout=PROBE_TIMEOUT_S)
+    return neo4j_session(timeout=PROBE_TIMEOUT_S, quiet=True)
 
 
 def _context(domain: tuple, dry_run: bool) -> MigrationContext:

@@ -126,7 +126,7 @@ def stamp_graph(session, version: int) -> None:
 def _open_session():
     from artmind.graph_query import neo4j_session
 
-    return neo4j_session(timeout=GRAPH_TIMEOUT_S)
+    return neo4j_session(timeout=GRAPH_TIMEOUT_S, quiet=True)
 
 
 def read_graph_version(stamp_fresh: bool = False) -> int | None:
