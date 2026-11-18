@@ -3807,6 +3807,8 @@ def _build_observations(
             # A fact dated by its own property keeps only its own end (maybe none); one dated by
             # its document inherits the document's stated end.
             valid_to=fact.valid_to if fact.valid_from else doc_valid_to,
+            # ... and keeps a copy of it, so a supersession ends it with its document.
+            doc_valid_to=None if fact.valid_from else doc_valid_to,
             valid_time_source=("property" if fact.valid_from else document.get("_valid_time_source")),
             valid_precision=fact.precision if fact.valid_from else _document_precision(document, schema),
             valid_time_of_day=fact.time_of_day,

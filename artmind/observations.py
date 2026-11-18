@@ -552,6 +552,7 @@ def build_observation(
     valid_precision: str | None = None,
     valid_time_of_day: str | None = None,
     identity_kind: str | None = None,
+    doc_valid_to: str | None = None,
 ) -> dict:
     """Build one Observation's property map. Pure -- no session, no I/O.
 
@@ -644,6 +645,10 @@ def build_observation(
         props["_valid_time_of_day"] = valid_time_of_day
     if doc_valid_from:
         props["_doc_valid_from"] = doc_valid_from
+    if doc_valid_to:
+        # Only on a fact dated by its document (the caller passes it then): the document's
+        # stated end, which a supersession cuts to the earlier end and `unsupersede` restores.
+        props["_doc_valid_to"] = doc_valid_to
     if retracts:
         props["_retracts"] = retracts
 

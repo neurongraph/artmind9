@@ -44,8 +44,11 @@ def test_apply_closes_the_older_documents_open_nodes_with_the_effective_date():
     assert all("WHERE x._valid_to IS NULL" in c and "x._valid_to_by = $record_id" in c for c, _ in closes)
     labels = {re.search(r"MATCH \(x:(\w+)", c).group(1) for c, _ in closes}
     later = {re.search(r"MATCH \(x:(\w+)", c).group(1) for c, _ in closes if "OR x._valid_to > $effective" in c}
-    assert later == labels - {"Observation", "ObservationHistory"}, \
-        "the earlier end wins on document-level nodes; a fact's own end is never overwritten"
+    assert later == labels - {"Observation", "ObservationHistory"}, "the earlier end wins on document-level nodes"
+    facts = {re.search(r"MATCH \(x:(\w+)", c).group(1) for c, _ in closes
+             if "OR (x._doc_valid_to IS NOT NULL AND x._valid_to > $effective)" in c}
+    assert facts == {"Observation", "ObservationHistory"}, \
+        "an observation dated by its document (it carries the copy) too; one with its own date only fills"
     assert labels == {"Document", "DocumentHistory", "Observation", "ObservationHistory", "DocChunk",
                       "DocChunkHistory", "DocPassage", "DocPassageHistory", "DocSummary", "DocSummaryHistory"}
     assert all("{doc_id: $older}" in c or "{id: $older}" in c for c, _ in closes), "index-backed, per label"
@@ -86,11 +89,8 @@ def test_remove_reopens_what_supersession_closed_then_closes_from_the_remaining_
 
     reopens = rec.queries_containing("WHERE x._valid_to_by IS NOT NULL")
     assert len(reopens) == len(sr.VALIDITY_TARGETS), "a node with no marker is never reopened"
-    restores = {re.search(r"MATCH \(x:(\w+)", c).group(1) for c, _ in reopens
-                if "SET x._valid_to = x._doc_valid_to, x._valid_to_by = null" in c}
-    removes = {re.search(r"MATCH \(x:(\w+)", c).group(1) for c, _ in reopens
-               if "REMOVE x._valid_to, x._valid_to_by" in c}
-    assert removes == {"Observation", "ObservationHistory"} and restores == set(sr.DOCUMENT_LEVEL)
+    # back to the stated end copy; a node with none (an observation dated by its own property) loses the end
+    assert all("SET x._valid_to = x._doc_valid_to, x._valid_to_by = null" in c for c, _ in reopens)
     closes = rec.queries_containing("SET x._valid_to = $effective")
     assert {(p["record_id"], p["effective"]) for _, p in closes} == {("r2", "2026-05-01")}
     first_close = rec.calls.index(closes[0])
@@ -175,20 +175,18 @@ class _Graph:
         hit = [n for n in self.nodes if n["label"] == label and n.get(key) == params["older"]]
         if "WHERE x._valid_to_by IS NOT NULL" in cypher:
             hit = [n for n in hit if n.get("_valid_to_by") is not None]
+            assert "SET x._valid_to = x._doc_valid_to, x._valid_to_by = null" in cypher
             for n in hit:
                 n.pop("_valid_to_by", None)
-                if "SET x._valid_to = x._doc_valid_to, x._valid_to_by = null" in cypher:
-                    n["_valid_to"] = n.get("_doc_valid_to")
-                    if n["_valid_to"] is None:
-                        n.pop("_valid_to")
-                else:
-                    assert "REMOVE x._valid_to, x._valid_to_by" in cypher
-                    n.pop("_valid_to", None)
+                n["_valid_to"] = n.get("_doc_valid_to")
+                if n["_valid_to"] is None:
+                    n.pop("_valid_to")
         elif "SET x._valid_to = $effective" in cypher:
             later = "WHERE x._valid_to IS NULL OR x._valid_to > $effective" in cypher
-            assert later or "WHERE x._valid_to IS NULL\n" in cypher
+            copy = "WHERE x._valid_to IS NULL OR (x._doc_valid_to IS NOT NULL AND x._valid_to > $effective)" in cypher
+            assert later or copy
             hit = [n for n in hit if n.get("_valid_to") is None
-                   or (later and n["_valid_to"] > params["effective"])]
+                   or ((later or n.get("_doc_valid_to") is not None) and n["_valid_to"] > params["effective"])]
             for n in hit:
                 n["_valid_to"], n["_valid_to_by"] = params["effective"], params["record_id"]
         return FakeResult([{"n": len(hit)}])
@@ -298,7 +296,7 @@ def test_a_commit_clears_the_staged_nodes_supersession_marker_then_derives_the_e
     (chunk_merge, chunk_params), = [(c, p) for c, p in tx.calls if "CREATE (n:DocChunk " in c]
     assert chunk_params["props"]["_valid_to"] is None and chunk_params["props"]["_valid_to_by"] is None
 
-    reopens = tx.queries_containing("REMOVE x._valid_to, x._valid_to_by")
+    reopens = tx.queries_containing("SET x._valid_to = x._doc_valid_to, x._valid_to_by = null")
     closes = tx.queries_containing("SET x._valid_to = $effective")
     assert reopens and {(p["older"], p["effective"], p["record_id"]) for _, p in closes} == {("A", "2026-02-01", RID)}
     # after every write of this document's nodes, including the re-retirement
@@ -497,7 +495,7 @@ def test_unsupersede_of_a_restored_document_rebuilds_the_reopened_keys(world, mo
     assert out["removed"] is True and out["restored"] is False and calls["restore"] == []
     assert session.writes == 1
     assert calls["rebuild"] == [{("a", "C", "d")}]
-    assert session.queries_containing("REMOVE x._valid_to, x._valid_to_by")
+    assert session.queries_containing("SET x._valid_to = x._doc_valid_to, x._valid_to_by = null")
 
 
 # ── a document's stated end is every derived node's own (Q4, decided 2026-11-18) ──
@@ -626,3 +624,38 @@ def test_a_recommit_converges_on_the_earlier_end():
         n["_valid_to"], n["_valid_to_by"] = n["_doc_valid_to"], None
     sr.restate_validity(graph, "A")
     assert _by_id(graph) == first == {"A": ("2026-02-01", RID), "c1": ("2026-02-01", RID)}
+
+
+# ── a fact dated by its document ends with its document ─────────────────────
+
+
+def test_a_document_dated_observation_closes_at_the_earlier_end_and_unsupersede_restores_it():
+    stated, other = "2026-06-30", "2026-02-01"
+    nodes = [_stated("ObservationHistory", "od", stated),                                       # dated by its document
+             {"label": "ObservationHistory", "doc_id": "A", "id": "op", "_valid_to": stated,
+              "_valid_time_source": "property"},                                               # its own end
+             {"label": "Observation", "doc_id": "A", "id": "oq", "_valid_time_source": "property"},  # own date, no end
+             _stated("Observation", "oe", "2026-01-10")]                                       # stated end earlier
+    graph = _Graph(nodes, [{"record_id": RID, "newer": "B", "effective": other}])
+    sr.apply(graph, _record(other), "fp")
+    assert _by_id(graph) == {"od": (other, RID), "op": (stated, None), "oq": (other, RID),
+                             "oe": ("2026-01-10", None)}
+    graph.edges = []
+    sr.remove(graph, _record(other))
+    assert _by_id(graph) == {"od": (stated, None), "op": (stated, None), "oq": (None, None),
+                             "oe": ("2026-01-10", None)}
+
+
+def test_build_observations_stages_the_document_end_only_on_document_dated_facts():
+    from artmind import observations
+
+    doc = observations.build_observation(
+        {"name": "Alpha", "entity_class": "C", "_domain": "pj"}, canonical_name="Alpha", domain_props={},
+        doc_id="A", doc_version=1, chunk_id="A_000", kind="recurrent", doc_valid_from="2026-01-01",
+        valid_to="2026-06-30", doc_valid_to="2026-06-30")
+    own = observations.build_observation(
+        {"name": "Alpha", "entity_class": "C", "_domain": "pj"}, canonical_name="Alpha", domain_props={},
+        doc_id="A", doc_version=1, chunk_id="A_000", kind="recurrent", doc_valid_from="2026-01-01",
+        valid_from="2026-03-01", valid_time_source="property")
+    assert doc["_doc_valid_to"] == "2026-06-30" and "_doc_valid_to" not in own
+    assert "_doc_valid_to" in projection._OBSERVATION_SYSTEM_KEYS

@@ -43,8 +43,8 @@ before it changed", "what happened in order" — or when an entity carries
   (`version:<n>` = an edited note re-ingested, `retire`, `supersede:<id>`, `removed` = the note left the vault, `retract:<observation id>` = a fact the projection retracted, `resplit` = a
   chunk dropped by re-chunking), `_revived_at`, `_record_time_approx` (backfilled).
   Superseding a document ends its facts' validity at the effective date (`_valid_to`;
-  a document, chunk, passage or summary keeps the earlier of that and its stated end, a
-  fact keeps its own end); retiring one closes nothing; `ingest unsupersede` reopens what
+  a document, chunk, passage, summary or document-dated fact keeps the earlier of that and
+  its stated end, a fact with its own date keeps its own end); retiring one closes nothing; `ingest unsupersede` reopens what
   the supersession closed (a stated end comes back).
 - **`--knownAsOf T` reads what the graph held at T** (record time, not valid time) on
   `entity-history`, `document-history` and `graph pattern10`: only content recorded by

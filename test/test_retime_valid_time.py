@@ -65,3 +65,15 @@ def test_retime_gives_a_document_dated_fact_the_document_end():
     staged = [{"id": "o1", "key": "k|EVENT|pj", "entity_class": "EVENT", "_domain": "pj"}]
     new = _obs(retime_observations(staged, DOC_WITH_END, SCHEMA))
     assert (new[0]["_valid_from"], new[0]["_valid_to"]) == ("2023-09-01", "2023-12-31")
+
+
+def test_retime_keeps_the_document_end_copy_only_on_a_document_dated_fact():
+    staged = [{"id": "o1", "key": "k|EVENT|pj", "entity_class": "EVENT", "_domain": "pj",
+               "_doc_valid_to": "2023-12-31"},
+              {"id": "o2", "key": "k2|EVENT|pj", "entity_class": "EVENT", "_domain": "pj",
+               "date_or_time": "2023-09-07", "_doc_valid_to": "2023-12-31"}]   # a stale copy
+    new = _obs(retime_observations(staged, DOC_WITH_END, SCHEMA))
+    assert new[0]["_doc_valid_to"] == "2023-12-31" and "_doc_valid_to" not in new[1]
+    moved = _obs(retime_observations(staged[:1], {**DOC_WITH_END, "_valid_to": "2024-01-31"}, SCHEMA))
+    assert moved[0]["_doc_valid_to"] == "2024-01-31"
+    assert "_doc_valid_to" not in _obs(retime_observations(staged[:1], {"_valid_from": "2023-09-01"}, SCHEMA))[0]

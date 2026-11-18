@@ -48,7 +48,9 @@ travel (each machine migrates its own graph).
   and no `_valid_to_by` takes its document's STATED end (`_valid_to` with no
   `_valid_to_by`; a supersession end is never copied) as `_valid_to` and, where it has
   none, `_doc_valid_to`, as core now commits them; a document (either label) with a stated
-  end and no `_doc_valid_to` gets that copy too. Runs before `supersession_ends`: its close
+  end and no `_doc_valid_to` gets that copy too, and so does an observation dated by its
+  document (`_valid_time_source` not `property` nor a table's, no table `source_kind`, its
+  `_valid_to` empty or already the document's), which also takes the end as `_valid_to`. Runs before `supersession_ends`: its close
   ends a document-level node at the earlier of the stated and the supersession end, and
   `ingest unsupersede` restores `_doc_valid_to`. A row already marked by a supersession is
   skipped (only graphs migrated during development carry one); a History chunk takes its
@@ -571,20 +573,38 @@ def _document_end_match(label: str, domains: list[str] | None) -> str:
             f"AND d._doc_valid_to IS NULL{_scope('d', domains)} ")
 
 
+def _fact_end_match(label: str, domains: list[str] | None) -> str:
+    """Observations of `label` dated by their document (not by their own property, not a
+    table row) with no `_doc_valid_to` copy and no supersession marker, whose document has a
+    STATED end, and whose own `_valid_to` is empty or already that end (core's Q1 rule)."""
+    return (
+        f"MATCH (x:{label}) WHERE x._doc_valid_to IS NULL AND x._valid_to_by IS NULL "
+        "AND NOT coalesce(x._valid_time_source, '') IN ['property', 'table', 'table_rows'] "
+        f"AND coalesce(x.source_kind, '') <> 'table'{_scope('x', domains)} "
+        "OPTIONAL MATCH (d1:Document {id: x.doc_id}) OPTIONAL MATCH (d2:DocumentHistory {id: x.doc_id}) "
+        "WITH x, coalesce(d1, d2) AS d "
+        "WHERE d._valid_to IS NOT NULL AND d._valid_to_by IS NULL "
+        "AND (x._valid_to IS NULL OR x._valid_to = d._valid_to) "
+    )
+
+
 def _end_match(label: str, domains: list[str] | None) -> str:
     """`label`'s pending rows, bound as `x` (and `d`, its document)."""
     if label in DOCUMENT_LABELS:
         return _document_end_match(label, domains) + "WITH d AS x, d "
+    if label in OBSERVATION_LABELS:
+        return _fact_end_match(label, domains)
     return _chunk_end_match(label, domains)
 
 
 DOCUMENT_LABELS = ("Document", "DocumentHistory")
+OBSERVATION_LABELS = ("Observation", "ObservationHistory")
 
 
 def chunk_ends_pending(ctx: MigrationContext) -> dict:
     out: dict = {}
     with ctx.session_factory() as session:
-        for label in DOCUMENT_LABELS + CHUNK_FAMILY:
+        for label in DOCUMENT_LABELS + OBSERVATION_LABELS + CHUNK_FAMILY:
             n = _count(session, _end_match(label, ctx.domains) + "RETURN count(x) AS n",
                        domains=ctx.domains)
             if n:
@@ -598,7 +618,7 @@ def chunk_ends_apply(ctx: MigrationContext, dry_run: bool = False) -> dict:
     applied: dict = {}
     with ctx.session_factory() as session:
         domains: set = set()
-        for label in DOCUMENT_LABELS + CHUNK_FAMILY:
+        for label in DOCUMENT_LABELS + OBSERVATION_LABELS + CHUNK_FAMILY:
             match = _end_match(label, ctx.domains)
             n = _count(session, match + "RETURN count(x) AS n", domains=ctx.domains)
             if not n:
@@ -611,6 +631,10 @@ def chunk_ends_apply(ctx: MigrationContext, dry_run: bool = False) -> dict:
             if label in DOCUMENT_LABELS:
                 write = "CALL (d) { SET d._doc_valid_to = d._valid_to } IN TRANSACTIONS OF %d ROWS"
                 match = _document_end_match(label, ctx.domains)
+            elif label in OBSERVATION_LABELS:
+                write = ("CALL (x, d) { SET x._valid_to = d._valid_to, x._doc_valid_to = d._valid_to } "
+                         "IN TRANSACTIONS OF %d ROWS")
+                match = _fact_end_match(label, ctx.domains)
             else:
                 write = ("CALL (x, d) { SET x._valid_to = d._valid_to, "
                          "x._doc_valid_to = coalesce(x._doc_valid_to, d._valid_to) } IN TRANSACTIONS OF %d ROWS")
@@ -623,14 +647,17 @@ def chunk_ends_apply(ctx: MigrationContext, dry_run: bool = False) -> dict:
 
 def _open_node() -> str:
     """Any node of `older` that edge end `e` would still close: one without an end, or a
-    document-level one (the document itself, its chunks, passages, summaries) whose end is
-    later than `e` (core's close keeps the earlier end there; observations keep their own)."""
+    document-level one (the document itself, its chunks, passages, summaries) or a
+    document-dated observation (it carries `_doc_valid_to`) whose end is later than `e`
+    (core's close keeps the earlier end there; an observation dated by its own property keeps
+    its own end)."""
     from artmind.supersession_records import DOCUMENT_LEVEL, VALIDITY_TARGETS
 
     parts = ["older._valid_to IS NULL OR older._valid_to > e"]
     for label, key in VALIDITY_TARGETS:
         if key == "doc_id":
-            later = " OR x._valid_to > e" if label in DOCUMENT_LEVEL else ""
+            later = (" OR x._valid_to > e" if label in DOCUMENT_LEVEL
+                     else " OR (x._doc_valid_to IS NOT NULL AND x._valid_to > e)")
             parts.append(f"EXISTS {{ MATCH (x:{label} {{doc_id: older.id}}) WHERE x._valid_to IS NULL{later} }}")
     return "(" + " OR ".join(parts) + ")"
 

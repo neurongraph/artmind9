@@ -34,8 +34,13 @@ nothing is closed. Two rules, by what the end means:
   later than `E` (ISO strings compared as strings). Each keeps the document's
   stated end as `_doc_valid_to` (written at commit), and un-asserting restores it:
   `_valid_to = _doc_valid_to` (none when the document states no end);
-- an observation's `_valid_to` is its fact's own end, never overwritten: the close
-  fills only a missing one, and un-asserting removes only an end a record wrote.
+- an observation dated by its document (no date of its own) is the document's fact: it
+  carries the document's stated end as `_valid_to` and `_doc_valid_to` (staged only on
+  such observations, `ingest._build_observations` / `retime`), so it is closed and
+  restored exactly like a document-level node;
+- an observation dated by its own property carries no `_doc_valid_to`: its `_valid_to`
+  is the fact's own end, never overwritten -- the close fills only a missing one, and
+  un-asserting removes only an end a record wrote.
 
 `restate_validity` is the one writer: it reopens every node a supersession
 closed (`_valid_to_by` set) and closes again from the `SUPERSEDES` edges that
@@ -140,19 +145,16 @@ RETURN DISTINCT older.id AS older
 """
 
 # The labels whose `_valid_to` is the document's end (min of stated and supersession end,
-# restored from `_doc_valid_to`); the rest (observations) carry their fact's own end.
+# restored from `_doc_valid_to`). An observation is the document's fact only when it carries
+# `_doc_valid_to` (dated by its document); otherwise its end is its own.
 DOCUMENT_LEVEL = frozenset({"Document", "DocumentHistory", "DocChunk", "DocChunkHistory", "DocPassage",
                             "DocPassageHistory", "DocSummary", "DocSummaryHistory"})
 
-_REOPEN_DOCUMENT_LEVEL = """
+# Every label: back to the document's stated end, which only a document-level node or a
+# document-dated observation carries (none: the end is removed).
+_REOPEN = """
 MATCH (x:{label} {{{key}: $older}}) WHERE x._valid_to_by IS NOT NULL
 SET x._valid_to = x._doc_valid_to, x._valid_to_by = null
-RETURN count(x) AS n
-"""
-
-_REOPEN_FACT = """
-MATCH (x:{label} {{{key}: $older}}) WHERE x._valid_to_by IS NOT NULL
-REMOVE x._valid_to, x._valid_to_by
 RETURN count(x) AS n
 """
 
@@ -163,14 +165,14 @@ RETURN count(x) AS n
 """
 
 _CLOSE_FACT = """
-MATCH (x:{label} {{{key}: $older}}) WHERE x._valid_to IS NULL
+MATCH (x:{label} {{{key}: $older}}) WHERE x._valid_to IS NULL OR (x._doc_valid_to IS NOT NULL AND x._valid_to > $effective)
 SET x._valid_to = $effective, x._valid_to_by = $record_id
 RETURN count(x) AS n
 """
 
 
 def _reopen_cypher(label: str, key: str) -> str:
-    return (_REOPEN_DOCUMENT_LEVEL if label in DOCUMENT_LEVEL else _REOPEN_FACT).format(label=label, key=key)
+    return _REOPEN.format(label=label, key=key)
 
 
 def _close_cypher(label: str, key: str) -> str:
@@ -244,15 +246,17 @@ def _run_count(tx, cypher: str, **params) -> int:
 
 
 def reopen_validity(tx, older: str) -> int:
-    """Undo every supersession end on the older document's nodes (`_valid_to_by` set): a
-    document-level node gets its document's stated end back (`_doc_valid_to`, none when it
-    states none), an observation loses the end. A node with no marker is never touched."""
+    """Undo every supersession end on the older document's nodes (`_valid_to_by` set): each
+    gets its document's stated end back (`_doc_valid_to`), none when it carries no copy (no
+    stated end, or an observation dated by its own property). A node with no marker is never
+    touched."""
     return sum(_run_count(tx, _reopen_cypher(label, key), older=older) for label, key in VALIDITY_TARGETS)
 
 
 def close_validity(tx, older: str, effective: str, record_id: str) -> int:
     """`_valid_to = effective`, marked `_valid_to_by = record_id`: on the older document's
-    document-level nodes with no end or a later one, on its observations with no end."""
+    document-level nodes and document-dated observations with no end or a later one, on
+    observations dated by their own property only with no end."""
     return sum(_run_count(tx, _close_cypher(label, key), older=older, effective=effective,
                           record_id=record_id)
                for label, key in VALIDITY_TARGETS)
@@ -262,8 +266,8 @@ def restate_validity(tx, older: str) -> int:
     """Derive the older document's supersession ends from its document-scope
     `SUPERSEDES` edges: reopen what any supersession closed, then close from
     each edge with an end date, earliest first (a node keeps the first replacement's end;
-    a document-level node the earlier of that and its stated end). Returns how many nodes
-    are closed."""
+    a document-level node or document-dated observation the earlier of that and its stated
+    end). Returns how many nodes are closed."""
     edges = [row for row in tx.run(_DOCUMENT_EDGES, older=older).data()
              if isinstance(row, dict) and row.get("record_id")]
     reopen_validity(tx, older)
@@ -277,15 +281,17 @@ def restate_validity(tx, older: str) -> int:
 def count_validity(session, older: str, *, closed_by: str | None = None, effective: str | None = None) -> int:
     """Read-only, for the `effect` blocks: the older document's nodes a
     supersession would end (no end yet, or one a supersession wrote, which
-    `restate_validity` writes again; with `effective`, also a document-level node whose
-    end is later) -- or, with `closed_by`, the nodes that record closed."""
+    `restate_validity` writes again; with `effective`, also a document-level node or a
+    document-dated observation whose end is later) -- or, with `closed_by`, the nodes that record closed."""
     total = 0
     for label, key in VALIDITY_TARGETS:
         params: dict = {"older": older}
         if closed_by:
             where, params["record_id"] = "x._valid_to_by = $record_id", closed_by
-        elif effective and label in DOCUMENT_LEVEL:
-            where = "(x._valid_to IS NULL OR x._valid_to_by IS NOT NULL OR x._valid_to > $effective)"
+        elif effective:
+            later = ("x._valid_to > $effective" if label in DOCUMENT_LEVEL
+                     else "(x._doc_valid_to IS NOT NULL AND x._valid_to > $effective)")
+            where = f"(x._valid_to IS NULL OR x._valid_to_by IS NOT NULL OR {later})"
             params["effective"] = effective
         else:
             where = "(x._valid_to IS NULL OR x._valid_to_by IS NOT NULL)"

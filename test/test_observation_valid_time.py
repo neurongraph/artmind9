@@ -75,3 +75,9 @@ def test_a_fact_dated_by_its_document_inherits_the_document_end():
     assert (obs["_valid_from"], obs["_valid_to"]) == ("2023-09-01", "2023-12-31")
     unreadable = _build({"date_or_time": "Ongoing"}, _schema(), DOC_WITH_END)
     assert unreadable["_valid_to"] == "2023-12-31"
+
+
+def test_only_a_fact_dated_by_its_document_keeps_a_copy_of_the_document_end():
+    assert _build({}, _schema(), DOC_WITH_END)["_doc_valid_to"] == "2023-12-31"
+    assert "_doc_valid_to" not in _build({"date_or_time": "2023-09-07"}, _schema(), DOC_WITH_END)
+    assert "_doc_valid_to" not in _build({}, _schema())   # the document states no end

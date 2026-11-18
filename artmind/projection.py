@@ -50,6 +50,7 @@ _OBSERVATION_SYSTEM_KEYS = frozenset(
         "_valid_to",
         "_valid_to_by",
         "_doc_valid_from",
+        "_doc_valid_to",
         "_valid_time_source",
         "_valid_precision",
         "_valid_time_of_day",

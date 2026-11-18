@@ -81,11 +81,12 @@ def test_dry_run_sends_no_write_cypher_and_writes_no_record(world):
     counts = [(c, p) for c, p in recorder.calls if "x._valid_to IS NULL OR x._valid_to_by IS NOT NULL" in c]
     assert len(counts) == 10
     # a document-level node with a later stated end is closed too (the earlier end wins)
-    later = [p for c, p in counts if "x._valid_to > $effective" in c]
-    assert len(later) == 8 and all(p == {"older": "old-1", "effective": "2026-02-01"} for p in later)
-    facts = [(c, p) for c, p in counts if "x._valid_to > $effective" not in c]
-    assert {re.search(r"MATCH \(x:(\w+)", c).group(1) for c, _ in facts} == {"Observation", "ObservationHistory"}
-    assert all(p == {"older": "old-1"} for _, p in facts)
+    assert all(p == {"older": "old-1", "effective": "2026-02-01"} for _, p in counts)
+    later = [c for c, _ in counts if "OR x._valid_to > $effective)" in c]
+    assert len(later) == 8
+    # an observation only when it is dated by its document (carries the document's end)
+    facts = [c for c, _ in counts if "(x._doc_valid_to IS NOT NULL AND x._valid_to > $effective)" in c]
+    assert {re.search(r"MATCH \(x:(\w+)", c).group(1) for c in facts} == {"Observation", "ObservationHistory"}
     assert effect["stale"]["topics"] == ["acme"]
     assert len(effect["records"]) == 2 and effect["travels"] is True
     # the retirement plan read the older document, not the newer one

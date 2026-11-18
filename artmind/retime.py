@@ -43,7 +43,7 @@ from artmind.observations import normalize_property_keys, property_key_rules
 _DOCUMENT_TIME_KEYS = ("_valid_from", "_valid_to", "_valid_time_source", "_valid_precision", "_revised_at")
 _OBSERVATION_TIME_KEYS = (
     "_valid_from", "_valid_to", "_valid_time_source", "_valid_precision", "_valid_time_of_day",
-    "_doc_valid_from", "_due", "_review",
+    "_doc_valid_from", "_doc_valid_to", "_due", "_review",
 )
 
 
@@ -71,7 +71,8 @@ def retime_observations(observations: list[dict], document: dict, schema: dict) 
     {dropped key: value}}): the decisions `ingest._build_observations` + `build_observation` make.
 
     A fact's own date (its class's `temporal:` property) wins, else the document's;
-    `_doc_valid_from` is always the document's. Property keys are normalized
+    `_doc_valid_from` is always the document's, and a document-dated fact also keeps the
+    document's stated end as `_doc_valid_to` (what `unsupersede` restores). Property keys are normalized
     (`observations.normalize_property_keys`) and a key the observation's class does not declare
     is dropped (spec 2026-11-15 §2.4). A table row's observation (`source_kind: table`) keeps its
     mapping's keys (table2graph is out of scope, spec 2026-11-15).
@@ -114,6 +115,8 @@ def retime_observations(observations: list[dict], document: dict, schema: dict) 
             ),
             "_valid_time_of_day": fact.time_of_day,
             "_doc_valid_from": doc_from,
+            # a document-dated fact keeps the document's stated end (what `unsupersede` restores)
+            "_doc_valid_to": None if fact.valid_from else doc_to,
             "_due": fact.due,
             "_review": fact.review,
         }

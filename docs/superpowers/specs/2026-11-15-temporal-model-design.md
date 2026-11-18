@@ -792,8 +792,12 @@ Notes recorded while implementing; the sections above are left as written.
   (ISO strings compared as strings), so a document stating D ends at min(D, E), and so
   do its chunks, passages and summaries; a document without a stated end takes E.
   `unsupersede` restores `_valid_to = _doc_valid_to` (none when no end is stated). An
-  observation's `_valid_to` is its fact's own end and is never overwritten: the close
-  fills only a missing one, and reopening removes only a marked end. A re-commit writes
+  observation dated by its document (no date of its own; it inherits the document's stated
+  end under Q1) is the document's fact: it is staged with `_doc_valid_to` too
+  (`_build_observations`, `retime`) and closed and restored the same way. An observation
+  dated by its own property carries no `_doc_valid_to`; its `_valid_to` is the fact's own
+  end and is never overwritten: the close fills only a missing one, and reopening removes
+  only a marked end. Table rows' observations carry no copy either. A re-commit writes
   the stated end unmarked and `restate_validity` closes it at min(D, E) again in the
   same transaction.
   **Q5 — decided 2026-11-18:** a document

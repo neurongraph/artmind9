@@ -127,7 +127,8 @@ def test_chunk_ends_pending_counts_each_label_of_the_family():
         return [{"n": 7 if _chunk_label(cypher) in ("DocChunk", "DocSummaryHistory") else 0}]
     rec = WritableRecorder(respond)
     assert graph.chunk_ends_pending(_ctx(rec)) == {"DocChunk": 7, "DocSummaryHistory": 7}
-    assert {_chunk_label(c) for c, _ in rec.calls} == {"Document", "DocumentHistory", *graph.CHUNK_FAMILY}
+    assert {_chunk_label(c) for c, _ in rec.calls} == {"Document", "DocumentHistory", "Observation",
+                                                       "ObservationHistory", *graph.CHUNK_FAMILY}
     cypher, params = next((c, p) for c, p in rec.calls if "(x:DocPassage)" in c)
     assert "x._valid_to IS NULL AND x._valid_to_by IS NULL" in cypher
     assert "(d1:Document {id: x.doc_id})" in cypher and "(d2:DocumentHistory {id: x.doc_id})" in cypher
@@ -179,6 +180,28 @@ def test_chunk_ends_gives_a_document_with_a_stated_end_its_own_copy():
     assert "SET d._doc_valid_to = d._valid_to" in cypher and params["domains"] == ["notes"]
 
 
+def test_chunk_ends_gives_a_document_dated_observation_the_documents_end_and_its_copy():
+    def respond(cypher, params):
+        if "AS n" in cypher:
+            return [{"n": 4 if _chunk_label(cypher) == "Observation" else 0}]
+        if "AS domain" in cypher:
+            return [{"domain": "notes"}]
+        return []
+    rec = WritableRecorder(respond)
+    assert graph.chunk_ends_apply(_ctx(rec)) == {"Observation": 4}
+    (cypher, params), = _writes(rec)
+    head = cypher.split("CALL")[0]
+    # pending only while the copy is missing: a second run finds nothing
+    assert "x._doc_valid_to IS NULL AND x._valid_to_by IS NULL" in head
+    # never a fact dated by its own property, never a table row
+    assert "NOT coalesce(x._valid_time_source, '') IN ['property', 'table', 'table_rows']" in head
+    assert "coalesce(x.source_kind, '') <> 'table'" in head
+    assert "d._valid_to IS NOT NULL AND d._valid_to_by IS NULL" in head
+    assert "(x._valid_to IS NULL OR x._valid_to = d._valid_to)" in head
+    assert "SET x._valid_to = d._valid_to, x._doc_valid_to = d._valid_to" in cypher
+    assert params["domains"] == ["notes"]
+
+
 def test_chunk_ends_second_run_and_dry_run_send_no_writes():
     rec = _rec(n=0)
     assert graph.chunk_ends_pending(_ctx(rec)) == {}
@@ -197,8 +220,9 @@ def test_ends_pending_counts_superseded_documents_with_an_open_node():
     cypher = rec.calls[0][0]
     assert "SUPERSEDES {scope: 'document'}" in cypher and "s.record_id IS NOT NULL" in cypher
     assert "older._valid_to IS NULL OR older._valid_to > e" in cypher and "older._domain IN $domains" in cypher
-    for label in ("Observation", "ObservationHistory"):
-        assert f"MATCH (x:{label} {{doc_id: older.id}}) WHERE x._valid_to IS NULL }}" in cypher
+    for label in ("Observation", "ObservationHistory"):   # only a document-dated one (it carries the copy)
+        assert (f"MATCH (x:{label} {{doc_id: older.id}}) WHERE x._valid_to IS NULL "
+                "OR (x._doc_valid_to IS NOT NULL AND x._valid_to > e) }") in cypher
     # a document-level node whose stated end is later than the supersession's is still to close
     for label in ("DocChunk", "DocChunkHistory", "DocPassage", "DocPassageHistory", "DocSummary",
                   "DocSummaryHistory"):
