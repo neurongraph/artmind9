@@ -400,8 +400,8 @@ entity_types:
         RIGHT:   { "name": "Capital Ratio", "target_threshold": ">15%", "actual_value": "18.2%" }
         WRONG:   { "name": "Capital Ratio -- Target >15%, Actual 18.2%" }
   REGULATORY_UPDATE:
-    kind: occurrent
-    identity: occasion
+    kind: recurrent
+    identity: name
     description: A new regulation, amended regulation, FCA/PRA circular, compliance bulletin, enforcement
       action, or regulatory deadline that requires the bank to take action. Each distinct regulatory change
       or circular is a separate entity.

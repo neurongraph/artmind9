@@ -825,10 +825,8 @@ Notes recorded while implementing; the sections above are left as written.
   classes declared `occasion` or `category`. Banking IMPACT_ASSESSMENT,
   RETENTION_DECISION and REGULATORY_UPDATE are `occasion`, not `name` (they are
   occurrent with a valid_from property, so `name` trips the Q20 warning).
-  **Open question Q2 — needs the user's decision:** one REGULATORY_UPDATE cited
-  undated across many documents keys on each document's date and splits;
-  the alternative is `kind: recurrent` + `identity: name`, which changes
-  conflict-vs-history semantics. **Q3 — decided 2026-11-18: precision-shaped
+  **Q2 — decided 2026-11-18:** REGULATORY_UPDATE is `kind: recurrent`, `identity: name`;
+  the other two stay `occasion`. **Q3 — decided 2026-11-18: precision-shaped
   tokens.** An occasion keys on its date at the date's own precision, not on the
   period's first day (which merged a month mention with a real mention on the 1st
   and claimed a day the text never gave): day `tennis~2024-03-30`, month

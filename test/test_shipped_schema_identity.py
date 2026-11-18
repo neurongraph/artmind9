@@ -14,7 +14,7 @@ JOURNAL = {"PERSON": "name", "LOCATION": "name", "ORGANIZATION": "name", "IDEA":
            "EVENT": "occasion", "ACTIVITY": "occasion", "STATE_CHANGE": "occasion", "PLAN": "occasion",
            "EMOTION": "category"}
 BANKING_OCCASIONS = {"TRANSACTION", "SAR", "INCIDENT_EVENT", "GOVERNANCE_DECISION", "AUDIT_FINDING",
-                     "IMPACT_ASSESSMENT", "RETENTION_DECISION", "REGULATORY_UPDATE"}
+                     "IMPACT_ASSESSMENT", "RETENTION_DECISION"}
 
 
 def _load(path):
