@@ -155,6 +155,8 @@ class _FakeSession:
 
 _REAL_READ = dm.read_graph_version  # captured before any fixture stubs it
 _REAL_OPEN = dm._open_session
+from artmind import graph_query as _gq0
+_REAL_NEO4J_SESSION = _gq0.neo4j_session
 
 
 def _use_graph(monkeypatch, session):
@@ -402,10 +404,11 @@ def test_graph_probe_session_has_notifications_off(monkeypatch):
     monkeypatch.setattr(gq, "_connection_settings",
                         lambda: {"uri": "bolt://x", "user": "u", "password": "p", "database": "d"})
     monkeypatch.setattr(gq.GraphDatabase, "driver", lambda *a, **k: _Drv())
+    monkeypatch.setattr(gq, "neo4j_session", _REAL_NEO4J_SESSION)
     with _REAL_OPEN():
         pass
     assert seen["notifications_min_severity"] == NotificationMinimumSeverity.OFF
     seen.clear()
-    with gq.neo4j_session():
+    with _REAL_NEO4J_SESSION():
         pass
     assert "notifications_min_severity" not in seen
