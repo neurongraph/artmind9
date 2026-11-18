@@ -76,10 +76,11 @@ def _pending(ctx: MigrationContext, errors: list | None = None) -> tuple[list[tu
     return out, warnings
 
 
-def _git(root: Path, *args: str):
+def _git(root: Path, argv: list[str]):
+    """Read-only git in the vault (callers pass a literal argv, so test_no_git_writes scans it)."""
     import subprocess
 
-    return subprocess.run(["git", *args], cwd=root, capture_output=True, text=True)
+    return subprocess.run(["git", *argv], cwd=root, capture_output=True, text=True)
 
 
 def _blocked(ctx: MigrationContext) -> list[str]:
@@ -90,7 +91,7 @@ def _blocked(ctx: MigrationContext) -> list[str]:
     root = _vault_root()
     if root is None:
         reasons.append("not inside a vault")
-    elif (top_out := _git(root, "rev-parse", "--show-toplevel")).returncode != 0:
+    elif (top_out := _git(root, ["rev-parse", "--show-toplevel"])).returncode != 0:
         reasons.append("the vault is not a git repository (its files must be committed before a migration)")
     else:
         # Porcelain paths are relative to the repository's top, which may sit above the vault.
@@ -104,7 +105,7 @@ def _blocked(ctx: MigrationContext) -> list[str]:
         declared = sorted({str(p) for p in paths})
         dirty: list[str] = []
         for i in range(0, len(declared), GIT_BATCH):
-            status = _git(root, "status", "--porcelain", "--untracked-files=all", "--", *declared[i:i + GIT_BATCH])
+            status = _git(root, ["status", "--porcelain", "--untracked-files=all", "--", *declared[i:i + GIT_BATCH]])
             if status.returncode != 0:
                 dirty.append("(git status failed)")
             # A dirty file that is a step's own half-done work (an interrupted run) does not block.

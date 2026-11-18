@@ -52,7 +52,7 @@ class _Out:
 
 
 def _git(repo=True, dirty=False, calls=None):
-    def run(root, *args):
+    def run(root, args):
         if calls is not None:
             calls.append(args)
         if args[0] == "rev-parse":

@@ -755,7 +755,7 @@ def test_a_record_written_before_a_failed_tie_does_not_block_the_resume(runner, 
         def __init__(self, out=""):
             self.returncode, self.stdout = 0, out
 
-    def git(root, *args):
+    def git(root, args):
         if args[0] != "status":
             return Out()
         # the record file is untracked once written

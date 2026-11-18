@@ -388,3 +388,81 @@ def test_effect_names_the_kinds_classes_and_files(vault):
     assert kinds["entity_rekey"].sample == ["ACTIVITY", "OBJECT"]
     assert any(r.startswith("curation/syntheses/") for r in part["records"])
     assert "git restore" in part["undo"] and "projection rebuild" in part["undo"]
+
+
+# ── update-session folders, resumed record moves, pulled conflicts, memo ──────
+
+def _chat_folder(vault, observations):
+    path = vault.root / "kg" / "pj" / "chat1"
+    path.mkdir(parents=True)
+    (path / "document.json").write_text(json.dumps({"id": "chat1", "name": "chat1", "source_kind": "user_chat",
+                                                    "_valid_from": "2024-05-01", "_valid_time_source": "user_chat"}))
+    (path / "observations.json").write_text(json.dumps(observations, indent=2))
+    vault.keys["chat1"] = {o["id"]: o["key"] for o in observations}
+    return path
+
+
+def test_a_chat_link_keeps_its_picked_key_and_dates(vault):
+    linked = {"id": "c1", "doc_id": "chat1", "key": "alexander the tester|PERSON|pj", "entity_class": "PERSON",
+              "_domain": "pj", "canonical_name": "Alex", "_valid_from": "2024-05-01",
+              "_valid_time_source": "user_chat", "_valid_precision": "day"}
+    dated = {"id": "c2", "doc_id": "chat1", "key": T30, "entity_class": "ACTIVITY", "_domain": "pj",
+             "canonical_name": "Tennis on 2024-03-30", "_valid_from": "2024-03-30", "_valid_precision": "day"}
+    path = _chat_folder(vault, [linked, dated])
+    before = path.joinpath("observations.json").read_bytes()
+    rekey.apply(_ctx(vault), False)
+    assert path.joinpath("observations.json").read_bytes() == before
+    assert "chat1" not in vault.commits
+
+
+def test_an_old_chat_occasion_without_a_day_gains_only_its_day(vault):
+    old = {"id": "c3", "doc_id": "chat1", "key": "padel night|ACTIVITY|pj", "entity_class": "ACTIVITY",
+           "_domain": "pj", "canonical_name": "Padel night on Friday", "name": "padel", "_valid_from": "2024-05-03",
+           "_valid_time_source": "user_chat", "_valid_precision": "day", "note": "kept"}
+    undated = {**old, "id": "c4", "key": "chess|ACTIVITY|pj", "_valid_precision": "none"}
+    path = _chat_folder(vault, [old, undated])
+    rekey.apply(_ctx(vault), False)
+    written = json.loads(path.joinpath("observations.json").read_text())
+    assert written[0] == {**old, "key": "padel night~2024-05-03|ACTIVITY|pj"}
+    assert written[1] == undated
+    assert vault.keys["chat1"]["c3"] == "padel night~2024-05-03|ACTIVITY|pj"
+
+
+def test_a_resumed_run_that_only_moves_a_synthesis_rebuilds(vault, monkeypatch):
+    with pytest.MonkeyPatch.context() as m:
+        m.setattr(rekey, "_graph_stage", lambda ctx, plan: (_ for _ in ()).throw(KeyboardInterrupt()))
+        with pytest.raises(KeyboardInterrupt):
+            rekey.apply(_ctx(vault), False)
+    # another process committed the staging meanwhile; the record move is still unapplied here
+    for doc, folder in (("doc1", "d1"), ("doc2", "d2")):
+        vault.keys[doc] = {o["id"]: o["key"] for o in
+                           json.loads((vault.root / "kg/pj" / folder / "observations.json").read_text())}
+    left = rekey.pending(_ctx(vault))
+    assert left.get("records_to_apply") == 1 and "documents_to_commit" not in left
+    rekey.apply(_ctx(vault), False)
+    assert vault.commits == [] and vault.rebuilds == ["pj"]
+    assert rekey.pending(_ctx(vault)) == {}
+
+
+def test_a_pulled_dismissed_conflict_is_applied_before_the_commits(vault):
+    record = {"id": "c9", "status": "dismissed", "resolution_reason": "identity:occasion", "domains": ["pj"],
+              "entities": [{"side": "a", "key": "tennis|ACTIVITY|pj", "id": "x"},
+                           {"side": "b", "key": "tennis match|ACTIVITY|pj", "id": "y"}]}
+    _record("conflicts", record)
+    assert rekey.pending(_ctx(vault))["records_to_apply"] == 1
+    rekey.apply(_ctx(vault), False)
+    applied = [p for c, p in vault.recorder.calls if "MERGE (co:Conflict" in c]
+    assert [p["id"] for p in applied] == ["c9"] and applied[0]["status"] == "dismissed"
+
+
+def test_plans_are_memoised_until_apply(vault, monkeypatch):
+    calls = []
+    real = rekey._plan_domain
+    monkeypatch.setattr(rekey, "_plan_domain", lambda d, s=None: calls.append(d) or real(d, s))
+    rekey.pending(_ctx(vault))
+    rekey.writes(_ctx(vault))
+    rekey.own_work(_ctx(vault))
+    assert calls.count("pj") == 1
+    rekey.apply(_ctx(vault), False)
+    rekey.pending(_ctx(vault))
+    assert calls.count("pj") == 2

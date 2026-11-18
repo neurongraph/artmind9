@@ -64,6 +64,8 @@ SPLAT_WRAPPERS: dict[str, int] = {
     "artmind/kg_pull.py": 1,
     "artmind/vault_new.py": 1,
     "artmind/reviews/leakcheck.py": 1,
+    # the migration pack's read-only `_git(root, [...])` (rev-parse, status); temporary
+    "artmind/migrations/temporal_v1/cli.py": 1,
 }
 _GIT_ARGV_OPEN = re.compile(r"""\[\s*["']git["']\s*,?""")
 

@@ -201,9 +201,60 @@ def _graph_keys(session, doc_ids: list[str]) -> dict[str, str]:
     return out
 
 
+def chat_observation(obs: dict, schema: dict) -> dict:
+    """An `artmind update` observation (`USER_CHAT_SOURCE_KIND`) as this model keys it.
+
+    `update confirm` keys a link on the node the user picked (`identity=` its stored key),
+    and dates the folder by the chat, so retime must never re-derive it. Only an old one
+    of an occasion class whose key has no day gains the day: its stored name part plus
+    `occasion_day` of its own `_valid_from`; everything else stays as it is."""
+    from artmind.observations import OCCASION_SEP, key_string, occasion_day, split_occasion
+    from artmind.schema_validate import class_identity
+
+    key = obs.get("key") if isinstance(obs, dict) else None
+    parts = str(key or "").split("|")
+    if len(parts) != 3 or class_identity(schema, obs.get("entity_class") or parts[1]) != "occasion":
+        return obs
+    name, day = split_occasion(parts[0])
+    new_day = occasion_day(obs.get("_valid_from"), obs.get("_valid_precision"))
+    if day or not new_day or not name:
+        return obs
+    return {**obs, "key": key_string((f"{name}{OCCASION_SEP}{new_day}", parts[1], parts[2]))}
+
+
+#: Plans memoised for one process (one `migrate` invocation): keyed by domain, whether
+#: the graph was read, and a stamp of the staging and schema files; `apply` clears it.
+_PLANS: dict[tuple, DomainPlan | None] = {}
+
+
+def _stamp(domain: str) -> tuple:
+    from artmind import ingest, retime
+
+    schema = Path(ingest.DOMAIN_SCHEMAS_DIR) / f"{domain}_schema.yaml"
+    out = [str(ingest.KG_DIR), str(schema), schema.stat().st_mtime_ns if schema.is_file() else None]
+    for folder in retime.staging_folders(domain):
+        try:
+            st = (folder / "observations.json").stat()
+            out.append((folder.name, st.st_mtime_ns, st.st_size))
+        except OSError:
+            out.append((folder.name, None, None))
+    return tuple(out)
+
+
+def clear_plans() -> None:
+    _PLANS.clear()
+
+
 def plan_domain(domain: str, session=None) -> DomainPlan | None:
     """The domain's plan, read from staging (and this graph's keys when `session` is
-    given); None when the domain has no schema file."""
+    given); None when the domain has no schema file. Memoised per process (`_PLANS`)."""
+    cache_key = (domain, session is not None, _stamp(domain))
+    if cache_key not in _PLANS:
+        _PLANS[cache_key] = _plan_domain(domain, session)
+    return _PLANS[cache_key]
+
+
+def _plan_domain(domain: str, session=None) -> DomainPlan | None:
     from artmind import ingest, retime
     from artmind.migrations.temporal_v1.reclassify import reclassify
     from artmind.temporal import load_schema
@@ -217,6 +268,10 @@ def plan_domain(domain: str, session=None) -> DomainPlan | None:
         staged = _load_json(folder / "observations.json", None)
         if not isinstance(document, dict) or not isinstance(staged, list) or document.get("source_kind") == "table":
             continue  # a table folder keeps its mapping's keys (plan question 21)
+        if document.get("source_kind") == ingest.USER_CHAT_SOURCE_KIND:
+            planned = [chat_observation(o, schema) for o in staged]
+            folders.append(FolderPlan(folder, document.get("id"), staged, planned, {}, Counter()))
+            continue
         moved_in, moved = reclassify(staged, schema)
         planned, dropped = retime.retime_observations(moved_in, document, schema)
         folders.append(FolderPlan(folder, document.get("id"), staged, planned, dropped, moved))
@@ -586,7 +641,8 @@ def _domain_counts(plan: DomainPlan, session) -> tuple[dict, list[str]]:
         "sameas_proposals_closed": len(refused_proposals(session, plan.moves, None, plan.domain)),
         "curation_records": len(changes),
         "documents_to_commit": len([f for f in plan.to_commit() if f.folder not in changed]),
-        "records_to_apply": sum(len(m["records"]) for m in unfinished(plan.domain)),
+        "records_to_apply": sum(len(m["records"]) for m in unfinished(plan.domain))
+        + len(pulled_conflicts(session, plan)),
     }
     files = [_display(p) for p, _ in writes if p.name != "observations.json"]
     if changed:
@@ -689,6 +745,29 @@ def _apply_records_to_graph(session, domain: str, records: list[dict]) -> int:
     return done
 
 
+def pulled_conflicts(session, plan: DomainPlan) -> list[dict]:
+    """Conflict records another machine's run dismissed (`identity:occasion`) that name a
+    key moving here and that this graph has not applied (its fingerprint differs): a
+    machine with no run manifest still closes them before its commits remove the entities."""
+    from artmind import conflict_records, curation_records
+
+    if not plan.moves:
+        return []
+    candidates = []
+    for record in _records(CONFLICTS):
+        keys = [_key(e.get("key")) for e in record.get("entities") or [] if isinstance(e, dict)]
+        if record.get("resolution_reason") == "identity:occasion" and any(k in plan.moves for k in keys) \
+                and any(k and k.split("|")[2] == plan.domain for k in keys):
+            candidates.append(record)
+    if not candidates:
+        return []
+    held = {r["id"]: r.get("fingerprint") for r in session.run(
+        conflict_records._READ_FINGERPRINTS, ids=sorted(r["id"] for r in candidates)).data() if isinstance(r, dict)}
+    return [r for r in candidates
+            if held.get(r["id"]) != curation_records.fingerprint(
+                curation_records.record_path(CONFLICTS, r["id"]).read_bytes())]
+
+
 def _graph_stage(ctx: MigrationContext, plan: DomainPlan) -> dict:
     """Proposals closed, unfinished record changes applied, documents committed, one rebuild."""
     from artmind import ingest
@@ -700,6 +779,9 @@ def _graph_stage(ctx: MigrationContext, plan: DomainPlan) -> dict:
         for manifest in unfinished(plan.domain):
             out["records_applied"] += _apply_records_to_graph(session, plan.domain, manifest["records"])
             _mark(Path(manifest["_path"]), manifest, "done")
+        pulled = pulled_conflicts(session, plan)
+        out["records_applied"] += _apply_records_to_graph(
+            session, plan.domain, [{"kind": CONFLICTS, "new_ids": [r["id"]]} for r in pulled])
     failed, committed = [], 0
     try:
         for f in plan.to_commit():
@@ -713,7 +795,8 @@ def _graph_stage(ctx: MigrationContext, plan: DomainPlan) -> dict:
             else:
                 failed.append(f.folder.name)
     finally:
-        if committed:
+        # A resumed run may only have moved a synthesis: its entity is rebuilt too.
+        if committed or out["records_applied"]:
             ingest.rebuild_projection(plan.domain)
     out["documents_committed"] = committed
     if failed:
@@ -768,11 +851,14 @@ def apply(ctx: MigrationContext, dry_run: bool = False) -> dict:
         return {}
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
     totals: Counter = Counter()
-    for domain in _domains(ctx):
-        with ctx.session_factory() as session:
-            plan = plan_domain(domain, session)
-        if plan is None:
-            continue
-        totals.update(_file_stage(plan, run_id))
-        totals.update(_graph_stage(ctx, plan))
+    try:
+        for domain in _domains(ctx):
+            with ctx.session_factory() as session:
+                plan = plan_domain(domain, session)
+            if plan is None:
+                continue
+            totals.update(_file_stage(plan, run_id))
+            totals.update(_graph_stage(ctx, plan))
+    finally:
+        clear_plans()  # the graph and staging changed: the re-check plans afresh
     return {k: v for k, v in totals.items() if v}
