@@ -17,7 +17,10 @@ Use this skill to answer user questions over an artmind domain through the deter
    query text. Never put two parts, or a guessed answer, into one `survey` or `vector-text` call.
    Once a brief `survey` has found the documents, look for each part inside them first:
    `artmind query find <handle> "<the part's terms>"` (the survey's `handle`; see "Find").
-4. **Answer part by part** — every part from its own evidence; say which part has none.
+4. **Answer part by part** — every part from its own evidence; say which part has none. A part
+   about a named person or thing starts in the graph (`entity-resolve`, then `entity-context`), not
+   in `survey`. Before answering, check what you read against what matched (rules 6–7 of "Read
+   every result before you answer").
 
 Asked to show, draw or graph the answer: after retrieval, load `artmind-present`.
 
@@ -77,6 +80,14 @@ Parts:
 - **Choose the command per part**, from orient rule 4 and the Query Protocol: a record part goes
   to the tables, a fact part to the graph or `vector-text`, a part spread over documents to
   `survey`. Parts of one question often need different commands.
+- **A part about a named person, thing or place goes to the graph first.** Resolve it
+  (`entity-resolve`), then `entity-context --shape brief --entityId <id> --includeChunks 8
+  --query "<the part>"`: one call per anchor ("my parents and my kids" is several anchors). For a
+  part that lists or traces what happened to it over time ("how has X progressed", "what has X
+  done", "X's Y over the years"), also run `graph pattern8 --shape brief --entityId <id>
+  --entityClass <an occurrent class from orient> --via mentions --all` for each such class, and
+  `happenings --with <id>` when the part names a kind of happening. Use `survey` and `find` only for
+  what those did not cover, and make the first command of such a part `entity-resolve`, not `survey`.
 - **Run each part as its own loop:** a search whose question holds only that part's terms (never
   two parts, never a guessed answer), then read every result, follow `next`, rephrase once in the
   corpus's terms if the result is thin, and stop when the part has evidence. A result that also
@@ -108,7 +119,18 @@ evidence, after every call:
    question; otherwise follow the Fallback Ladder.
 5. **`warnings`:** a part named there was not read. Never treat it as empty, and say so in
    the answer if it limits what you can claim.
-6. **Stop** when the result is whole for what the question needs, or `next` is null, or the
+6. **A predecessor is evidence too.** When a row carries `replaced` (survey, vector-text) or
+   `superseded_by`, or the question asks how something changed, what it was before, or what an
+   earlier version said, read the earlier version before answering:
+   `artmind query graph pattern10 --domain <d> --documentName "<the replaced name>" --includeHistory --compact`.
+   `document-history` on the newer document lists observation changes inside that one document's
+   own versions; it does not open a predecessor document. State each version's dates and what it said.
+7. **Check what you read against what matched.** For a part that spans documents, compare the
+   documents you opened with `coverage.matching_documents` and with the survey rows whose `gist`
+   speaks to the part; open the ones you skipped (`find`, or `chunks --idList`). For a part that
+   traces something over time, check that each period with evidence is represented. Say what
+   remains unread.
+8. **Stop** when the result is whole for what the question needs, or `next` is null, or the
    same `next` comes back twice. Then say what you could not cover, and why.
 
 `next` is a fact about this result, never a guess about your question: it is safe to follow
@@ -322,6 +344,12 @@ This combines Lucene full-text over entity names/descriptions with vector simila
 
 **No match, so you read the name another way.** Sometimes no row is the person or thing the question means, and you decide the name is a typo or a nickname ("grnadma" or "gran" for "grandma"). Then run `entity-resolve` again on your reading, and use that entity. Do not go to `pattern7` or `vector-text` with the name the user typed. In the answer, say which reading you used.
 
+**Same-name rows of an occasion class are separate happenings, not duplicates.** Orient's classes
+mark them `identity: occasion`: five "Photography" ACTIVITY rows are five days, and
+`entity-resolve` no longer groups them as `twins`. When the question is about the activity in
+general ("his photography over the years"), read them together: `pattern8` on the person
+(`--entityClass ACTIVITY --via mentions --all`) or `happenings --match "<name>"`, not one row.
+
 ### 3. Retrieve — run the right pattern
 
 Every command below is written in full. The `pattern*` commands, `text2cypher`,
@@ -399,7 +427,7 @@ Routing notes:
   `:DocChunkHistory` — or chains a second `MATCH` after a `count()` — returns nothing
   and reads as "no history" when there is plenty.
 
-**Superseded history.** Retired documents are not in search results. A result whose `doc.replaced` lists an older version, or a dated / 'what changed' question, goes to the graph: `document-history`, `pattern10 --includeHistory`, `entity-history`.
+**Superseded history.** Retired documents are not in search results. A result whose `doc.replaced` lists an older version, or a dated / 'what changed' question, goes to the graph: read the older document itself with `pattern10 --includeHistory`, and use `document-history` / `entity-history` for what changed inside one document's own versions. See "A predecessor is evidence too" under "Read every result before you answer".
 
 #### Hub entities
 
