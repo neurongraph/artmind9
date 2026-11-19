@@ -18,6 +18,10 @@ class PersonDim:
     seed_property: str | None = None
     words: str | None = None
     collectives: dict[str, list[str]] = field(default_factory=dict)  # "children" -> [person names]
+    #: Fact class -> properties whose values name members of this dimension (spec 2026-11-19 §3).
+    from_properties: dict[str, list[str]] = field(default_factory=dict)
+    #: Link members extracted from the fact's own chunks when edges and properties gave none.
+    same_chunk: bool = False
 
 
 @dataclass
@@ -25,6 +29,8 @@ class PlaceDim:
     entity_class: str = "LOCATION"
     seed_property: str | None = None
     seed_edges: list[str] = field(default_factory=list)
+    from_properties: dict[str, list[str]] = field(default_factory=dict)
+    same_chunk: bool = False
 
 
 @dataclass
@@ -84,6 +90,13 @@ def declaration_path(domain: str):
     return paths.DOMAIN_MART_DIR / f"{domain}.yaml"
 
 
+def _from_properties(dim: dict) -> dict[str, list[str]]:
+    raw = dim.get("from_properties") or {}
+    if not isinstance(raw, dict):
+        raise MartDeclarationError("from_properties must map a fact class to a list of property names")
+    return {str(c): [str(p) for p in (v if isinstance(v, list) else [v]) if p] for c, v in raw.items()}
+
+
 def load_declaration(domain: str) -> MartDeclaration | None:
     path = declaration_path(domain)
     if not path.is_file():
@@ -115,9 +128,11 @@ def load_declaration(domain: str) -> MartDeclaration | None:
         happening_classes=list(facts.get("happening") or []), mention_classes=list(facts.get("mention") or []),
         calendar=bool((dims.get("time") or {}).get("calendar")),
         person=PersonDim(person.get("class", "PERSON"), (person.get("seed") or {}).get("property"), person.get("words"),
-                         {str(k).lower(): list(v or []) for k, v in (person.get("collectives") or {}).items()}),
+                         {str(k).lower(): list(v or []) for k, v in (person.get("collectives") or {}).items()},
+                         _from_properties(person), bool(person.get("same_chunk"))),
         place=PlaceDim(place.get("class", "LOCATION"), (place.get("seed") or {}).get("property"),
-                       list((place.get("seed") or {}).get("edges") or [])),
+                       list((place.get("seed") or {}).get("edges") or []),
+                       _from_properties(place), bool(place.get("same_chunk"))),
         type=TypeDim(list(typ.get("classes") or []), typ.get("property", "type"),
                      {k: list(v or []) for k, v in (typ.get("families") or {}).items()},
                      {k: list(v or []) for k, v in (typ.get("families_by_name") or {}).items()}),
@@ -150,6 +165,19 @@ def validate_declaration(decl: MartDeclaration, schema: dict) -> tuple[list[str]
             errors.append(f"wholes.{kind}: `from` must be `happening`")
         if w.anchor not in (None, "person"):
             errors.append(f"wholes.{kind}: anchor must be `person`")
+    types = (schema or {}).get("entity_types") or {}
+    for label, dim in (("person", decl.person), ("place", decl.place)):
+        for cls, props in dim.from_properties.items():
+            if cls not in types:
+                errors.append(f"dimensions.{label}.from_properties: class {cls!r} is not in the domain schema")
+                continue
+            declared = set((types[cls] or {}).get("properties") or {})
+            for prop in props:
+                if prop not in declared:
+                    errors.append(f"dimensions.{label}.from_properties: {cls} declares no property {prop!r}")
+        if dim.same_chunk:
+            warnings.append(f"dimensions.{label}.same_chunk: a fact with no edge or property match is linked to every "
+                            f"{dim.entity_class} named in its chunks")
     if not decl.home_city:
         warnings.append("home.city is not set: every place counts as away")
     return errors, warnings

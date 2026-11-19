@@ -26,10 +26,17 @@ def _time_row(day: str, periods: list[dict]) -> dict:
             "year": str(d.year), "period": names[0] if names else None}
 
 
-def assemble(decl, happenings, mentions, bridges, recs, periods, *, members) -> dict[str, list[dict]]:
+def assemble(decl, happenings, mentions, bridges, recs, periods, *, members, same_chunk=None) -> dict[str, list[dict]]:
+    """`bridges`: edge rows (`graph.bridges`). With `from_properties` / `same_chunk` declared on a dimension, a fact's
+    members also come from its properties and its chunks (`links.link_all`, spec 2026-11-19); the fact's one
+    `place_key` is its first place by source order (edge, property, same chunk)."""
+    from artmind.mart import links
+
+    facts = [{"key": h["key"], "class": h.get("class"), "dim_props": h.get("dim_props") or {}} for h in happenings]
+    linked = links.link_all(facts, list(bridges), same_chunk or {}, decl.person, decl.place, members)
     place_of: dict[str, str] = {}
     bridge_person, bridge_place = [], []
-    for b in bridges:
+    for b in linked:
         role = str(b.get("role") or "").lower()
         if b["member_class"] == decl.person.entity_class:
             bridge_person.append({"entity_key": b["fact_key"], "person_key": b["member_key"], "role": role})

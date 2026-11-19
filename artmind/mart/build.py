@@ -17,11 +17,15 @@ def assemble_all(decl, domains) -> dict[str, list[dict]]:
     classes = sorted(set(decl.happening_classes))
     members = {decl.person.entity_class: mart_graph.members(domains, decl.person.entity_class),
                decl.place.entity_class: mart_graph.members(domains, decl.place.entity_class)}
-    happen = mart_graph.happenings(domains, classes)
+    dim_props = sorted({p for dim in (decl.person, decl.place) for props in dim.from_properties.values() for p in props})
+    happen = mart_graph.happenings(domains, classes, dim_props)
     mention = mart_graph.mentions(domains, decl.mention_classes)
     bridge = mart_graph.bridges(domains, classes, [decl.person.entity_class, decl.place.entity_class])
+    same = {dim.entity_class: mart_graph.same_chunk_members(domains, classes, dim.entity_class)
+            for dim in (decl.person, decl.place) if dim.same_chunk}
     recs = records.load_dimensions(decl.domain)
-    out = tables.assemble(decl, happen, mention, bridge, recs, records.load_periods(decl.domain), members=members)
+    out = tables.assemble(decl, happen, mention, bridge, recs, records.load_periods(decl.domain), members=members,
+                          same_chunk=same)
     if decl.wholes:
         from artmind.mart import wholes
 

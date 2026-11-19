@@ -153,6 +153,15 @@ def compute(decl, tables) -> dict[str, list[dict]]:
         selfish = {p["person_key"] for p in tables.get("dim_person") or [] if p.get("group") == "self"}
         place_name = {p["place_key"]: p.get("name") for p in tables.get("dim_place") or []}
         city_of = {p["place_key"]: p.get("city") for p in tables.get("dim_place") or []}
+        places_of: dict[str, list[str]] = {}  # every place a fact links, edge first (spec 2026-11-19), not only its first
+        for b in tables.get("bridge_place") or []:
+            places_of.setdefault(b["entity_key"], [])
+            if b["place_key"] not in places_of[b["entity_key"]]:
+                places_of[b["entity_key"]].append(b["place_key"])
+
+        def fact_places(f):
+            return list(dict.fromkeys([*([f["place_key"]] if f.get("place_key") else []),
+                                       *places_of.get(f["entity_key"], [])]))
         rows = []
         for anchor, g in groups:
             wid = _wid(kind, f"{anchor or ''}|{g[0]['entity_key']}")
@@ -160,13 +169,13 @@ def compute(decl, tables) -> dict[str, list[dict]]:
             rows.append({"whole_id": wid, "start": start, "end": end, "days": (_d(end) - _d(start)).days + 1,
                          "member_count": len(g), "anchor_key": anchor,
                          "participant_keys": sorted(set().union(*(people.get(f["entity_key"], set()) for f in g)) - selfish),
-                         "place_keys": sorted({f["place_key"] for f in g if f.get("place_key")}),
+                         "place_keys": sorted({pk for f in g for pk in fact_places(f)}),
                          "part_names": list(dict.fromkeys(f["name"] for f in g if f.get("name"))),
                          "families": sorted({f["type_family"] for f in g if f.get("type_family")}),
-                         "place_names": list(dict.fromkeys(place_name[f["place_key"]] for f in g
-                                                           if place_name.get(f.get("place_key")))),
-                         "cities": list(dict.fromkeys(city_of[f["place_key"]] for f in g
-                                                      if city_of.get(f.get("place_key"))))})
+                         "place_names": list(dict.fromkeys(place_name[pk] for f in g for pk in fact_places(f)
+                                                           if place_name.get(pk))),
+                         "cities": list(dict.fromkeys(city_of[pk] for f in g for pk in fact_places(f)
+                                                      if city_of.get(pk)))})
             last_health = max((f["date"] for f in g if f.get("type_family") == "health"), default=None)
             for i, f in enumerate(g):
                 if kind == "life_event" or w.anchor:

@@ -82,3 +82,52 @@ def test_families_by_name_and_away_place_types(tmp_path, monkeypatch):
     assert d.type.family_by_name("Father's Shraddha function") == "ritual" and d.away_place_types == ["resort"]
     errors, _ = dec.validate_declaration(d, SCHEMA)
     assert any("'nope'" in e for e in errors)
+
+
+# --- dimension links: from_properties and same_chunk (spec 2026-11-19) ---------------------------------------
+
+
+def _links_decl():
+    d = yaml.safe_load(yaml.safe_dump(GOOD))
+    d["dimensions"]["person"]["from_properties"] = {"EVENT": ["participants"], "ACTIVITY": ["who_involved"]}
+    d["dimensions"]["place"]["from_properties"] = {"EVENT": ["location"]}
+    d["dimensions"]["place"]["same_chunk"] = True
+    return d
+
+
+LINK_SCHEMA = {"entity_types": {
+    "EVENT": {"kind": "occurrent", "properties": {"type": {}, "participants": {}, "location": {}}},
+    "ACTIVITY": {"kind": "occurrent", "properties": {"type": {}, "who_involved": {}}},
+    "PERSON": {"kind": "recurrent", "properties": {"relationship_to_narrator": {}}},
+    "LOCATION": {"kind": "recurrent", "properties": {"location": {}}}}}
+
+
+def test_load_reads_dimension_link_sources(tmp_path, monkeypatch):
+    _write(tmp_path, monkeypatch, _links_decl())
+    d = dec.load_declaration("journal")
+    assert d.person.from_properties == {"EVENT": ["participants"], "ACTIVITY": ["who_involved"]}
+    assert d.place.from_properties == {"EVENT": ["location"]}
+    assert d.place.same_chunk is True and d.person.same_chunk is False
+
+
+def test_link_sources_default_to_none(tmp_path, monkeypatch):
+    _write(tmp_path, monkeypatch, GOOD)
+    d = dec.load_declaration("journal")
+    assert d.person.from_properties == {} and d.place.from_properties == {}
+    assert d.person.same_chunk is False and d.place.same_chunk is False
+
+
+def test_validate_checks_link_classes_and_properties(tmp_path, monkeypatch):
+    bad = _links_decl()
+    bad["dimensions"]["place"]["from_properties"] = {"EVENT": ["where_it_was"], "NOPE": ["location"]}
+    _write(tmp_path, monkeypatch, bad)
+    errors, _ = dec.validate_declaration(dec.load_declaration("journal"), LINK_SCHEMA)
+    assert any("where_it_was" in e and "EVENT" in e for e in errors)
+    assert any("NOPE" in e and "from_properties" in e for e in errors)
+
+
+def test_validate_accepts_declared_link_properties_and_warns_on_same_chunk(tmp_path, monkeypatch):
+    _write(tmp_path, monkeypatch, _links_decl())
+    errors, warnings = dec.validate_declaration(dec.load_declaration("journal"), LINK_SCHEMA)
+    assert errors == []
+    assert any("same_chunk" in w and "place" in w for w in warnings)

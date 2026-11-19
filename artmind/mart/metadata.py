@@ -25,7 +25,12 @@ _VALUE_COLUMNS = {"dim_place": ["country", "region", "city", "home_away"], "dim_
 _GRAIN = {"fact_happening": "one thing that happened (one graph entity)",
           "fact_mention": "one dated mention of a thing in one document",
           "fact_whole": "one part (a happening) of one whole",
-          "bridge_person": "one person linked to one happening", "bridge_place": "one place linked to one happening",
+          "bridge_person": "one person linked to one happening; role is the graph edge's relation, or "
+                           "property:<name> (named in that property of the happening), or same_chunk (named in the "
+                           "same note passage)",
+          "bridge_place": "one place linked to one happening; role is the graph edge's relation, or "
+                          "property:<name> (named in that property of the happening), or same_chunk (named in the "
+                          "same note passage)",
           "dim_person": "one person", "dim_place": "one place", "dim_type": "one happening type",
           "dim_time": "one day"}
 _WHOLE_DESCRIPTION = {

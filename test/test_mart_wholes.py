@@ -147,3 +147,17 @@ def test_trip_rows_carry_place_names_and_cities():
          "dim_place": [{"place_key": "pl-a", "name": "Fort", "city": "Jodhpur"}, {"place_key": "pl-b", "name": "Villa", "city": None}]}
     row = wholes.compute(decl(trip=TRIP), t)["whole_trip"][0]
     assert row["place_names"] == ["Fort", "Villa"] and row["cities"] == ["Jodhpur"]
+
+
+def test_a_trip_lists_every_place_its_facts_link_not_only_their_first():
+    t = {"fact_happening": [{**fact("a", "2025-01-01", "trip"), "place_key": "p1"},
+                            {**fact("b", "2025-01-02", "trip"), "place_key": "p2"}],
+         "bridge_person": [], "dim_person": [],
+         "bridge_place": [{"entity_key": "a", "place_key": "p1", "role": "occurs_at"},
+                          {"entity_key": "a", "place_key": "p3", "role": "property:location"},
+                          {"entity_key": "b", "place_key": "p2", "role": "property:location"}],
+         "dim_place": [{"place_key": "p1", "name": "Town A", "city": "A"}, {"place_key": "p2", "name": "Town B", "city": "B"},
+                       {"place_key": "p3", "name": "Fort C", "city": "C"}]}
+    trip = wholes.compute(decl(trip=TRIP), t)["whole_trip"][0]
+    assert trip["place_names"] == ["Town A", "Fort C", "Town B"]
+    assert trip["place_keys"] == ["p1", "p2", "p3"] and trip["cities"] == ["A", "C", "B"]
