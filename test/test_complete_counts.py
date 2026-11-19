@@ -350,3 +350,72 @@ def test_pattern8_mentions_brief_rows(monkeypatch):
     row = out["rows"][0]
     assert row["linked"] is False and row["shared_chunks"] == 3 and row["documents"] == ["n.md"]
     assert "rel_type" not in row
+
+
+# --- pattern8 --via mentions: ranked by the question, dated rows -----------------------
+
+
+def test_pattern8_mentions_without_question_keeps_the_old_order():
+    cypher, params = gq._pattern_query(
+        "pattern8", {"domains": ["d"], "entityClass": "EVENT", "entityId": "x1", "via": "mentions"})
+    assert "ORDER BY linked DESC, shared_chunks DESC, e.name, e._id" in cypher
+    assert "$queryVector" not in cypher and "queryVector" not in params
+
+
+def test_pattern8_mentions_with_question_ranks_by_similarity_first():
+    cypher, params = gq._pattern_query(
+        "pattern8", {"domains": ["d"], "entityClass": "EVENT", "entityId": "x1", "via": "mentions",
+                     "queryVector": [0.1, 0.2]})
+    order = "ORDER BY question_score DESC, linked DESC, shared_chunks DESC, e.name, e._id"
+    assert cypher.count(order) == 2  # the page cut and the final row order agree
+    assert "vector.similarity.cosine(e.embedding, $queryVector)" in cypher
+    assert "coalesce(" in cypher  # an un-embedded entity sorts after every scored one
+    assert params["queryVector"] == [0.1, 0.2]
+
+
+def test_pattern8_mentions_question_embedding_is_requested_only_for_mentions(monkeypatch):
+    seen = []
+    monkeypatch.setattr("artmind.vector_query.embed_question", lambda q: seen.append(q) or [0.5])
+    monkeypatch.setattr(gq, "_run_read_query", lambda c, p: [dict(_mention_row(0, 1, False))])
+    _run(["pattern8", "--entityClass", "EVENT", "--entityId", "x1", "--via", "mentions", "how has he progressed"])
+    assert seen == ["how has he progressed"]
+    seen.clear()
+    _run(["pattern8", "--entityClass", "EVENT", "--entityId", "x1", "--via", "links", "how has he progressed"])
+    _run(["pattern8", "--entityClass", "EVENT", "--entityId", "x1", "--via", "mentions"])
+    assert seen == []
+
+
+def test_pattern8_mentions_embedding_failure_falls_back_to_the_old_order(monkeypatch):
+    def boom(q):
+        raise RuntimeError("embedder down")
+
+    monkeypatch.setattr("artmind.vector_query.embed_question", boom)
+    captured = {}
+
+    def fake(c, p):
+        captured["cypher"], captured["params"] = c, p
+        return [dict(_mention_row(0, 1, False))]
+
+    monkeypatch.setattr(gq, "_run_read_query", fake)
+    out = _run(["pattern8", "--entityClass", "EVENT", "--entityId", "x1", "--via", "mentions", "a question"])
+    assert "queryVector" not in captured["params"]
+    assert any("could not be embedded, so the co-mentions are not ranked by it" in w for w in out["warnings"])
+
+
+def test_pattern8_mentions_brief_row_carries_the_entity_date(monkeypatch):
+    row = {**_mention_row(0, 1, False),
+           "entityData": {"_id": "m0", "name": "M0", "_valid_from": "2023-04-29", "_valid_precision": "day"}}
+    monkeypatch.setattr(gq, "_run_read_query", lambda c, p: [dict(row)])
+    out = _run(["pattern8", "--entityClass", "EVENT", "--entityId", "x1", "--via", "mentions", "--shape", "brief"])
+    assert out["rows"][0]["date"] == "2023-04-29"
+    row["entityData"] = {"_id": "m0", "name": "M0", "_valid_from": "2023-04-29", "_valid_precision": "none"}
+    out = _run(["pattern8", "--entityClass", "EVENT", "--entityId", "x1", "--via", "mentions", "--shape", "brief"])
+    assert out["rows"][0]["date"] is None
+
+
+def test_pattern8_mentions_does_not_echo_the_question_vector(monkeypatch):
+    monkeypatch.setattr("artmind.vector_query.embed_question", lambda q: [0.5] * 768)
+    monkeypatch.setattr(gq, "_run_read_query", lambda c, p: [dict(_mention_row(0, 1, False))])
+    out = _run(["pattern8", "--entityClass", "EVENT", "--entityId", "x1", "--via", "mentions", "a question"])
+    assert "queryVector" not in out["parameters"]
+    assert out["parameters"]["ranked_by_question"] is True

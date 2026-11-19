@@ -85,8 +85,11 @@ Parts:
   --query "<the part>"`: one call per anchor ("my parents and my kids" is several anchors). For a
   part that lists or traces what happened to it over time ("how has X progressed", "what has X
   done", "X's Y over the years"), also run `graph pattern8 --shape brief --entityId <id>
-  --entityClass <an occurrent class from orient> --via mentions --all` for each such class, and
-  `happenings --with <id>` when the part names a kind of happening. Use `survey` and `find` only for
+  --entityClass <an occurrent class from orient> --via mentions --all --compact "<the part>"` for each
+  such class (the part as the last argument ranks the rows that answer it first; each row carries its
+  `date`), and `happenings --with <id>` when the part names a kind of happening. A hub's list is cut
+  to what fits the budget: `rows_shown` below `rows_total` means page it (`query page <handle> --from N`)
+  until the dated rows stop matching the part, or the set ends. Use `survey` and `find` only for
   what those did not cover, and make the first command of such a part `entity-resolve`, not `survey`.
 - **Run each part as its own loop:** a search whose question holds only that part's terms (never
   two parts, never a guessed answer), then read every result, follow `next`, rephrase once in the
@@ -454,6 +457,14 @@ you never saw the part that answers), so `entity-context` returns a bounded one:
   there is the one to fetch whole.
 
 Pass the question to `entity-context`; on a hub its `cut` block says what is hidden.
+
+**A cut set is read to the end of what matters.** `pattern8 --via mentions --all` on a hub can return
+hundreds of rows, and the budget shows the first few (`rows_shown` of `rows_total`, `next` =
+`artmind query page <handle> --from N`). Pass the question as the last argument so the rows that answer it
+come first, read each page's `date` column, and run `query page` while the next page still holds rows
+that match the question. Stop when a page adds nothing for the part, and say how many of
+`rows_total` you read. An answer built from the first page alone, when `rows_total` is far larger, has
+not read the set.
 
 **A set question on a hub.** The question asks for every X linked to Y ("which suppliers did Acme use", "how many people did I meet there"), and `entity-context` on Y returns `hub: true` with `cut.connections`. Then the 25 connections you got are a sample, not the set. Next, run `artmind query graph pattern8 --shape brief --domain <d> --entityId <Y> --entityClass <X> --via mentions --all --compact`. It lists every X named in Y's notes, with `complete`. Build the answer from those rows. Do not use `survey` or `vector-text` to fill gaps that `pattern8` covers.
 

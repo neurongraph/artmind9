@@ -1171,6 +1171,21 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         cypher_params["limit"] = parameters.get("limit", PATTERN8_DEFAULT_LIMIT)
         cypher_params["offset"] = parameters.get("offset", 0)
         if parameters.get("via") == "mentions":
+            # With the user's question (its embedding), the rows that answer it come first:
+            # a hub anchor co-mentions hundreds of entities, and a page of an alphabetical
+            # cut shows none of the ones the question is about. Without it the order is as
+            # before (linked, shared chunks, name).
+            ranked = parameters.get("queryVector") is not None
+            if ranked:
+                cypher_params["queryVector"] = parameters["queryVector"]
+            score_with = (
+                ", coalesce(CASE WHEN e.embedding IS NULL THEN null "
+                "ELSE vector.similarity.cosine(e.embedding, $queryVector) END, -1.0) AS question_score"
+                if ranked else ""
+            )
+            order = ("ORDER BY question_score DESC, linked DESC, shared_chunks DESC, e.name, e._id" if ranked
+                     else "ORDER BY linked DESC, shared_chunks DESC, e.name, e._id")
+            score_carry = ", question_score" if ranked else ""
             # Co-mention: entities whose observations came from the same chunks as
             # any matched anchor's, whether or not a RELATES_TO edge joins them.
             return (
@@ -1198,8 +1213,8 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             UNWIND found AS f
             WITH anchors, chunkSet, chunksTotal, total, f.e AS e, f.shared AS shared_chunks
             WITH anchors, chunkSet, chunksTotal, total, e, shared_chunks,
-                 EXISTS {{ MATCH (e)-[:RELATES_TO]-(a) WHERE a IN anchors }} AS linked
-            ORDER BY linked DESC, shared_chunks DESC, e.name, e._id
+                 EXISTS {{ MATCH (e)-[:RELATES_TO]-(a) WHERE a IN anchors }} AS linked{score_with}
+            {order}
             SKIP $offset
             LIMIT $limit
             CALL (e, chunkSet) {{
@@ -1221,8 +1236,8 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             }}
             RETURN e {{.*, label: labels(e)}} AS entityData,
                    linked, shared_chunks, chunk_ids, documents, documents_total,
-                   size(anchors) AS _anchors, chunksTotal AS _chunksTotal, total AS _rowsTotal
-            ORDER BY linked DESC, shared_chunks DESC, e.name, e._id
+                   size(anchors) AS _anchors, chunksTotal AS _chunksTotal, total AS _rowsTotal{score_carry}
+            {order}
             """,
                 cypher_params,
             )
@@ -1363,6 +1378,21 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
 BRIEF_PATTERNS = frozenset({"pattern1", "pattern2", "pattern7", "pattern8"})
 
 
+def _question_vector_for_mentions(question: str | None, parameters: dict) -> None:
+    """For `pattern8 --via mentions` with a question, add its embedding as `queryVector` so
+    the co-mentioned rows are ranked by it. An embedder failure leaves the order as it was and
+    says so in the result's warnings (`parameters["_rank_warning"]`)."""
+    if not question or parameters.get("via") != "mentions":
+        return
+    try:
+        from artmind.vector_query import embed_question
+
+        parameters["queryVector"] = embed_question(question)
+    except Exception:  # noqa: BLE001 - ranking is a refinement; the rows still come
+        parameters["_rank_warning"] = (
+            "the question could not be embedded, so the co-mentions are not ranked by it")
+
+
 def execute_pattern(
     domains: "str | Sequence[str]",
     pattern: str,
@@ -1373,6 +1403,10 @@ def execute_pattern(
 ) -> dict:
     if shape not in ("brief", "full"):
         raise ValueError("--shape must be one of brief, full")
+    rank_warning = None
+    if pattern == "pattern8":
+        _question_vector_for_mentions(question, parameters)
+        rank_warning = parameters.pop("_rank_warning", None)
     if shape == "brief" and pattern not in BRIEF_PATTERNS:
         raise ValueError(f"--shape brief is not available for {pattern}")
     domains = normalize_domains(domains)
@@ -1387,8 +1421,10 @@ def execute_pattern(
     output_parameters = {
         key: value
         for key, value in params.items()
-        if key != "domains" and value is not None
+        if key not in ("domains", "queryVector") and value is not None
     }
+    if params.get("queryVector") is not None:
+        output_parameters["ranked_by_question"] = True
     try:
         raw_rows = _run_read_query(cypher, cypher_params)
     except TransientError as exc:
@@ -1487,6 +1523,8 @@ def execute_pattern(
             f"anchor appears in {chunks_total} chunks; listed co-mentions from the first "
             f"{PATTERN8_MENTIONS_CHUNK_CAP}",
         ]
+    if rank_warning:
+        result["warnings"] = [*(result.get("warnings") or []), rank_warning]
     if pattern == "pattern8" and anchors_matched and anchors_matched > 1 and not params.get("entityId"):
         result["warnings"] = [
             *(result.get("warnings") or []),

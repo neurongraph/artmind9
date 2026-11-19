@@ -441,6 +441,11 @@ def pattern_row(pattern: str, row: dict, declared: list[str] | None = None) -> d
     elif pattern == "pattern8":
         props = row.get("relProps") or {}
         if "linked" in row:  # --via mentions
+            # the entity's date, so a page reads as a timeline (`date` is null when undated)
+            ent = row.get("entityData") or {}
+            out["date"] = None if ent.get("_valid_precision") == "none" else ent.get("_valid_from")
+            if row.get("question_score") is not None and row.get("question_score") != -1.0:
+                out["question_score"] = round(row["question_score"], 4)
             out["linked"] = row.get("linked")
             out["shared_chunks"] = row.get("shared_chunks")
             out["documents"] = row.get("documents") or []
