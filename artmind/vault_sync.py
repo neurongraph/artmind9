@@ -1977,7 +1977,59 @@ def query_staleness_warning(vault_dir: Path | None) -> str | None:
     marks = read_bookmarks(vault_dir, vault_id=vault_id, timeout=ADVISORY_TIMEOUT)
     if all(marks.effective(store) == head for store in STORES):
         return None
-    return staleness_message(pending_work(vault_dir, head, marks))
+    key = _staleness_cache_key(vault_dir, head, marks)
+    cached = _staleness_cache_read(key)
+    if cached is not _MISS:
+        return cached
+    message = staleness_message(pending_work(vault_dir, head, marks))
+    _staleness_cache_write(key, message)
+    return message
+
+
+# The behind-case costs ~1.5 s of git subprocesses; benchmark agents run each
+# `artmind query` as its own process, so the computed line is cached for a
+# short while, keyed by everything it is derived from that the cheap checks
+# above already read. Only a successfully computed message is stored (an
+# error propagates, uncached), and any cache I/O failure means "compute".
+STALENESS_CACHE_TTL_S = 120.0
+_MISS = object()
+
+
+def _staleness_cache_path() -> Path:
+    import paths
+
+    return Path(paths.LOGS_DIR) / "staleness_cache.json"
+
+
+def _staleness_cache_key(vault_dir: Path, head: str, marks: Bookmarks) -> str:
+    return json.dumps([str(vault_dir), head, marks.graph, marks.structured, marks.legacy])
+
+
+def _staleness_cache_read(key: str):
+    import time
+
+    try:
+        entry = json.loads(_staleness_cache_path().read_text())
+        if entry["key"] == key and 0 <= time.time() - float(entry["at"]) < STALENESS_CACHE_TTL_S:
+            message = entry["message"]
+            return message if message is None or isinstance(message, str) else _MISS
+    except Exception:
+        pass
+    return _MISS
+
+
+def _staleness_cache_write(key: str, message: str | None) -> None:
+    import os
+    import time
+
+    try:
+        path = _staleness_cache_path()
+        path.parent.mkdir(parents=True, exist_ok=True)
+        tmp = path.with_name(f"{path.name}.{os.getpid()}.tmp")
+        tmp.write_text(json.dumps({"key": key, "at": time.time(), "message": message}))
+        os.replace(tmp, path)
+    except Exception:
+        pass
 
 
 def status_report(vault_dir: Path) -> dict:

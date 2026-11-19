@@ -310,6 +310,17 @@ def _no_live_structured_text_export(tmp_path, monkeypatch):
 
 
 @pytest.fixture(autouse=True)
+def _no_staleness_cache(monkeypatch):
+    """The query staleness line is cached for a short TTL; most tests change
+    the graph or git between calls, so off by default (`test_staleness_cache.py`
+    sets the TTL itself)."""
+    import artmind.vault_sync as vs
+
+    monkeypatch.setattr(vs, "STALENESS_CACHE_TTL_S", 0.0)
+    yield
+
+
+@pytest.fixture(autouse=True)
 def _no_live_neo4j(monkeypatch):
     import artmind.graph_query as graph_query
 
