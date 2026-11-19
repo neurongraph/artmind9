@@ -85,8 +85,9 @@ def text2sql_empty(payload: dict, domains, question) -> str | None:
 
 
 MART_LOWER_BOUND = (
-    "mart rows are built from the facts extraction found, so a count, a ranking or a list from them is a lower "
-    "bound and can miss or misplace what the notes say; check it against the notes (next) before answering")
+    "mart rows are built from the facts extraction found: each row is evidence, but a count, a ranking or a list "
+    "from them is a lower bound. Keep every row in the answer and add what the notes (next) show beyond them; drop a "
+    "row only when a note contradicts it, and say which")
 
 
 def reads_mart(sql) -> bool:

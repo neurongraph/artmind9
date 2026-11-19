@@ -161,3 +161,13 @@ def test_pattern6_fills_classes_from_alias_only_hits(runner):
         out = _json(runner.invoke(cli, ["query", "graph", "pattern6", "--domain", "bank",
                                         "--entityName1", "Ann", "--entityName2", "Bob", "--compact"]))
     assert "--entityClass1 PERSON --entityClass2 PERSON" in out["next"]
+
+
+def test_mart_warning_says_keep_every_row_and_drop_only_on_contradiction():
+    from artmind import hints
+
+    w = hints.MART_LOWER_BOUND
+    assert "lower bound" in w
+    assert "Keep every row" in w and "drop a row only when a note contradicts it" in w
+    # the old wording invited dropping rows the survey did not happen to confirm
+    assert "misplace" not in w and "check it against the notes" not in w
