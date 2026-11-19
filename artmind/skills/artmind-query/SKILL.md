@@ -77,9 +77,22 @@ Parts:
   `vocabulary` from the orient cards and peel 2. When the user's word is not the corpus's, use
   the corpus's ("online banking" → the platform or system the cards list; "kept informed" →
   notification, escalation, oversight). Keep names the user gave verbatim for `entity-resolve`.
+- **A scenario question has a part for each consequence, not only for what it names.** A
+  question that describes one event ("this broke", "that was skipped", "we want to do X while Y is
+  open") still asks what the event does to the people and money affected, what they are owed or
+  must be told, which rules or control bodies must hear of it, and what the rules say about
+  proceeding. Write each as its own part, in the corpus's words (the compensation rule, the
+  look-back or screening rule, the conditions to proceed), and run it as its own loop. A part
+  nobody wrote is a part nobody searched.
 - **Choose the command per part**, from orient rule 4 and the Query Protocol: a record part goes
   to the tables, a fact part to the graph or `vector-text`, a part spread over documents to
   `survey`. Parts of one question often need different commands.
+- **A part that asks whether something is allowed, or what must happen before it, goes to the
+  document that governs it.** Open that document whole (`graph pattern10 --documentName "<name>"`,
+  paging to the end) and read its checks and conditions. A `find` for the rule's wording returns
+  the passages that mention the topic, and the line that states the condition is often one bullet
+  inside a larger step that no phrase search ranks first. Do not conclude "the corpus has no rule"
+  from a search; conclude it only after reading the governing document.
 - **A part about a named person, thing or place goes to the graph first.** Resolve it
   (`entity-resolve`), then `entity-context --shape brief --entityId <id> --includeChunks 8
   --query "<the part>"`: one call per anchor ("my parents and my kids" is several anchors). For a
@@ -128,7 +141,12 @@ evidence, after every call:
    `artmind query graph pattern10 --domain <d> --documentName "<the replaced name>" --includeHistory --compact`.
    `document-history` on the newer document lists observation changes inside that one document's
    own versions; it does not open a predecessor document. State each version's dates and what it said.
-7. **Check what you read against what matched.** For a part that spans documents, compare the
+7. **A rule beats its example.** When a document gives both a rule (a threshold, a table, a band
+   by size, duration or amount) and an example of the same thing, answer from the rule and say
+   which band the scenario falls in. State the rule's tiers and thresholds as the document gives
+   them; an example shows one point of it. If the scenario does not say which band applies (it
+   gives no duration, amount or count), give each band.
+8. **Check what you read against what matched.** For a part that spans documents, compare the
    documents you opened with `coverage.matching_documents` and with the survey rows whose `gist`
    speaks to the part; open the ones you skipped (`find`, or `chunks --idList`). For a part that
    traces something over time, check that each period with evidence is represented. Say what
@@ -242,7 +260,7 @@ survey only when `find` warns that nothing contains the part's words. A `truncat
 | A fact (who, when, a figure, a quote) | the graph steps below, or `vector-text --topK 10` in a chunks-only domain |
 | One document ("summarise X", "what does X say about Y") | `query graph pattern10 --documentName X`: its `summaries` holds the stored summary; read chunks only for detail |
 | One entity broadly ("tell me about Acme") | `entity-context` (graph domains) |
-| Each time / every year / how many times / when did … happen | `artmind query happenings --domain d --match "<term>" [--by year] [--with <id>] --shape brief`; then `query chunks --shape brief --idList <chunk_ids>` for detail; `survey` only for what the happenings miss (`coverage` larger than the rows) |
+| Each time / every year / how many times / when did … happen | `artmind query happenings --domain d --match "<term>" [--by year] [--with <id>] --shape brief`; then `query chunks --shape brief --idList <chunk_ids>` for detail. `happenings` matches the words in an occasion's name, so a same-day entry named differently ("New Year Celebration" vs "Eve") is not in its rows: when `coverage.matching_documents` is larger than `documents_in_rows`, or the question asks for "every" or "each" occasion of a kind, also read the dated documents themselves (`survey --by year`, then `graph pattern10 --documentName "<date>"` for each date not in the rows) before answering. Never say a date was not checked |
 | A topic across documents | a fitting topic plan (`query topics run`), else `query survey`, then `query chunks --shape brief --idList <chunk_id>` for the passages you cite |
 | Patterns over time | insights |
 
@@ -370,7 +388,7 @@ covers is answered by `artmind query views run <name>` (see Views), not by a row
 | Any question matching a saved view's `summary`/`examples` | `artmind query views run <name> --param <p>=<value> --render markdown` — see Views |
 | "Tell me about X / X's role / why did X…" / any question anchored on one entity — facts + relationships + source text in ONE call | `artmind query entity-context --shape brief --entityId <id> --query "<the question>" [--includeChunks 5] [--relType <REL>]` |
 | Domain-wide history / sequence of events for a class of things, ordered by date | `artmind query graph timeline --domain <d> [--from <date>] [--to <date>]` — every entity of an `identity: occasion` class, ordered by `valid_from` (undated last). Domain-scoped, NOT entity-scoped — there is no `--entityId` |
-| "Each time / every year / how many times / when did X happen" — dated happenings of an `identity: occasion` class | `artmind query happenings --domain <d> --match "<term>" [--entityClass C] [--from <date>] [--to <date>] [--by year|month] [--with <id>] --shape brief` — one row per happening (date, class, `type`, participants, places, `chunk_ids`), matched on name or aliases holding every word of the term, or an equal `type`, plus its same-as group; undated rows sort last and never fall inside a window. Then `query chunks --shape brief --idList <chunk_ids>` for detail; `survey` only for what the happenings miss (`coverage.matching_documents` larger than `documents_in_rows`; `next` names it) |
+| "Each time / every year / how many times / when did X happen" — dated happenings of an `identity: occasion` class | `artmind query happenings --domain <d> --match "<term>" [--entityClass C] [--from <date>] [--to <date>] [--by year|month] [--with <id>] --shape brief` — one row per happening (date, class, `type`, participants, places, `chunk_ids`), matched on name or aliases holding every word of the term, or an equal `type`, plus its same-as group; undated rows sort last and never fall inside a window. Then `query chunks --shape brief --idList <chunk_ids>` for detail. `happenings` matches the words in an occasion's name, so a same-day entry named differently ("New Year Celebration" vs "Eve") is not in its rows: when `coverage.matching_documents` is larger than `documents_in_rows`, or the question asks for "every" or "each" occasion of a kind, also read the dated documents themselves (`survey --by year`, then `graph pattern10 --documentName "<date>"` for each date not in the rows) before answering. Never say a date was not checked (`next` names the survey) |
 | "What was property P of X before it changed" / X's value at a past date | `artmind query entity-history --entityId <id> [--property P] [--asOf <date>]` (a point in valid time: facts whose own window contains it; `--knownAsOf <date>` instead reads what the graph held then) — every observation behind X, ordered by fact-level valid time (`_valid_from`), spanning both current and history sources; each row's `status` is `current` or `history` |
 | An entity entity-resolve no longer finds (a misspelling a corrected note dropped, a retired document's entity) | `artmind query entity-history --name "<name>" [--entityClass <LABEL>]` or `--key "<name>\|<CLASS>\|<domain>"` — matches observations directly, so it works after the entity is gone; `keys` lists every key the name matched |
 | "What changed when document D was edited / re-ingested" / earlier version of a note | `artmind query document-history --documentName "<name or path>"` — current vs history observations with the `doc_version` that last asserted each; `dropped_keys` = entities an earlier version stated and the current one no longer does. A name missing its extension is matched when exactly one document fits (`matched_name` + a warning); a miss returns `closest` names and a `next` command. See `references/temporal.md` |
