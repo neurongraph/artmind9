@@ -97,23 +97,38 @@ schema" errors cannot be made. Inline messages come from the validate command. T
 `artmind mart status --domain D` (coverage of the saved declaration); the first version
 adds no build dry run, and a saved change takes effect on the next `mart build`.
 
-### Type families (from the Curate → Mart review)
+### Type families
 
-`dimensions.type.families` is a **closed vocabulary**: the review pane's dropdown, the LLM prompt and
-answer check, and `mart review accept` all offer only its keys, so a type no family fits gets the nearest
-one (analysis: `2026-11-20-mart-type-families-design.md`). Adding a family (say `education: [school]`) is
-therefore a declaration edit, and Studio is where it is made, not the review pane:
+Background (from the Curate → Mart review of brain01's type proposals):
 
-- The type section lists each family with its member values and `families_by_name` words, and shows the
-  `wholes.*.where.type_family` lists beside it, so it is visible whether a new family joins any whole.
-- The save preview's `effect` says what follows: `mart enrich` (rules place the listed values before the
-  LLM), `mart build`, and that types already accepted keep their old family because a user record beats a
-  rule. Validation warns on a family no whole lists, and errors on a `families_by_name` family that is not
-  declared (existing check).
-- The Curate → Mart type dropdown ends with "Add family…", a link to this section of the mart editor
-  (`?tab=studio&mart=<domain>&section=type`). The pane writes no YAML itself.
-- A real second level under family is a different change (new `LEVELS` entry, `dim_type` column,
-  metadata); Studio's form would follow the declaration if that is built.
+- **One level.** `LEVELS["type"] = ["family"]` (`artmind/mart/llm.py`). Place has five levels, person three.
+  `dim_type` is `(type, family)`, so `school → education` is a family *value*, not a second level.
+- **Closed vocabulary.** The offered values are the keys of `dimensions.type.families` in the domain's mart
+  YAML. Three places refuse anything else: the LLM prompt, the LLM answer check (`llm.parse`), and the review
+  batch check (`review.check_levels`). So a type no family fits gets the nearest one (a `care` event under
+  `health`, an `administrative` one under `work`).
+- **Wholes read it.** `wholes.*.where.type_family` decides what joins a trip or a life event, so a wrong family
+  moves facts.
+- **Decision order:** user record, then rules (`families` / `families_by_name`), then seeds, then the LLM. An
+  accepted type keeps its family until changed.
+
+The editor's type section lists each family with its member values and `families_by_name` words, and shows the
+`wholes.*.where.type_family` lists beside it, so it is visible whether a new family joins any whole.
+
+**Adding a family** (e.g. `education: [school]`) is a declaration edit, made here, not in the review pane. The
+save preview's `effect` says what follows: `mart enrich` (rules place the listed values before the LLM), then
+`mart build`, and that accepted types keep their old family. Validation warns on a family no whole lists, and
+errors on a `families_by_name` family that is not declared (existing check). Until this editor exists, the manual
+route is: add the family under `dimensions.type.families`, run `mart enrich`, run `mart build`, then re-review
+pending types.
+
+The Curate → Mart type dropdown ends with "Add family…", a link to this section (`?tab=studio&mart=<domain>&section=type`,
+a proposed URL). The pane writes no YAML itself.
+
+**Open decision:** is a new type family just another family (the case above), or does a real second level under
+family belong here? The second level would need a new `LEVELS` entry, a `dim_type` column, metadata for text2sql,
+and a tolerant read of one-level records. Build neither until decided; the editor's form would follow the
+declaration if the second level is built.
 
 ## 6. Uncommitted badge
 
@@ -158,4 +173,4 @@ skills (mention Studio as an alternative to hand editing), `justfile` has nothin
 ## 11. Not decided here
 
 Which later YAML type comes next; whether Studio replaces the read-only Views tab under
-Explore (kept for now). Both are separate decisions.
+Explore (kept for now); whether type families need a second level (§"Type families"). All separate decisions.
