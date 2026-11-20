@@ -37,12 +37,12 @@ Reviewing the type dimension in the Curate → Mart pane raised two things: a ty
 
 ## 4. Options
 
-**A. A new family is just another family (small).** Add an "Add family…" choice at the bottom of the type
-dropdown. It previews, then appends the family and its members to the mart YAML, and the batch check, rules and
-LLM prompt all pick it up because they read the declaration. The pane notes that wholes ignore the family unless
-listed. The YAML is a committed vault file, so this is a deliberate write with a preview (tier 1, `effect` block,
-`--dryRun`), never a side effect of Accept. Needs a CLI command first (e.g. `mart family add`), then the route and
-the pane, so the library owns the write as with every other write.
+**A. A new family is just another family (small).** The write is a declaration edit, so it belongs to
+Studio's mart editor (`2026-11-20-studio-design.md` §5, "Type families"), through `mart declaration save`
+with a preview. No separate `mart family add` command and no YAML writing in the review pane: the pane's
+type dropdown ends with "Add family…", a link to that editor section. The Studio spec carries the save
+`effect` (enrich, then build, accepted types keep their family) and the `wholes` visibility. Until Studio
+exists, §3 is the way.
 
 **B. A real second level under family (larger).** `LEVELS["type"]` gains a level; `dim_type` gains a column;
 `mart/metadata.py` and text2sql descriptions change; the declaration, `domains validate`, rules and the LLM prompt
@@ -52,5 +52,5 @@ questions group by the finer level and the coarse one together.
 ## 5. Open decision
 
 Is `education` just another family (A, recommended starting point), or a real hierarchy under family (B)? Build
-neither until decided. If A: the CLI command, then the route, then the pane option, each with a dry-run test
-asserting what would be written.
+neither until decided. If A: it rides on Studio's `mart declaration save` (`--dryRun` test asserting what would be written) plus the
+pane's "Add family…" link; nothing else to build.

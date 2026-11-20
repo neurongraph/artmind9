@@ -97,6 +97,24 @@ schema" errors cannot be made. Inline messages come from the validate command. T
 `artmind mart status --domain D` (coverage of the saved declaration); the first version
 adds no build dry run, and a saved change takes effect on the next `mart build`.
 
+### Type families (from the Curate → Mart review)
+
+`dimensions.type.families` is a **closed vocabulary**: the review pane's dropdown, the LLM prompt and
+answer check, and `mart review accept` all offer only its keys, so a type no family fits gets the nearest
+one (analysis: `2026-11-20-mart-type-families-design.md`). Adding a family (say `education: [school]`) is
+therefore a declaration edit, and Studio is where it is made, not the review pane:
+
+- The type section lists each family with its member values and `families_by_name` words, and shows the
+  `wholes.*.where.type_family` lists beside it, so it is visible whether a new family joins any whole.
+- The save preview's `effect` says what follows: `mart enrich` (rules place the listed values before the
+  LLM), `mart build`, and that types already accepted keep their old family because a user record beats a
+  rule. Validation warns on a family no whole lists, and errors on a `families_by_name` family that is not
+  declared (existing check).
+- The Curate → Mart type dropdown ends with "Add family…", a link to this section of the mart editor
+  (`?tab=studio&mart=<domain>&section=type`). The pane writes no YAML itself.
+- A real second level under family is a different change (new `LEVELS` entry, `dim_type` column,
+  metadata); Studio's form would follow the declaration if that is built.
+
 ## 6. Uncommitted badge
 
 `GET /api/studio/files` returns each file with `git_state`: `clean`, `modified`,
