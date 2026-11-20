@@ -494,7 +494,7 @@ function cpMartRender(holder, d) {
       if (m) m.textContent = `Failed: ${err.message}`;
     }
   };
-  const accept = cpBtn("Accept selected", () => batch([...picked].map((id) => opFor("accept", rowsById.get(id))), "Accepted"), false);
+  const accept = cpBtn("Accept selected", () => batch([...picked].map((id) => opFor("accept", rowsById.get(id))), "Accepted"));
   const reject = cpBtn("Reject selected", () => batch([...picked].map((id) => opFor("reject", rowsById.get(id))), "Rejected"));
   master.addEventListener("change", () => {
     for (const b of boxes) { if (master.checked) picked.add(b.id); else picked.delete(b.id); }
@@ -547,7 +547,7 @@ function cpMartRender(holder, d) {
     tr.appendChild(cpTd(levels));
     tr.appendChild(cpTd(Number(r.confidence || 0).toFixed(2), "curate-conf"));
     const one = el("div", "curate-bar");
-    one.append(cpBtn("Accept", () => batch([opFor("accept", r)], "Accepted"), false), cpBtn("Reject", () => batch([opFor("reject", r)], "Rejected")));
+    one.append(cpBtn("Accept", () => batch([opFor("accept", r)], "Accepted")), cpBtn("Reject", () => batch([opFor("reject", r)], "Rejected")));
     tr.appendChild(cpTd(one));
     tbody.appendChild(tr);
   }
