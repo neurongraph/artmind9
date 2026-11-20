@@ -192,10 +192,43 @@ def test_catalogue_runs_cli(client, monkeypatch):
 def test_mart_status_and_member_set(client, monkeypatch):
     seen = []
     monkeypatch.setattr(curate_routes, "_cli", lambda args: seen.append(args) or {"effect": {"summary": "e"}, "rows": []})
-    client.get("/api/curate/mart", params={"domain": "demo"})
+    monkeypatch.setattr(curate_routes, "_mart_vocabulary", lambda d: {"levels": {}, "values": {}})
+    client.get("/api/curate/mart", params={"domain": "demo", "dimension": "place", "match": " cafe ", "max_confidence": 0.7,
+                                           "limit": 25, "offset": 50})
     client.post("/api/curate/mart/member", json={"domain": "demo", "dimension": "place", "member": "Paris|PLACE|demo", "levels": {"country": "FR"}, "dry_run": True})
     client.post("/api/curate/mart/build", json={"domain": "demo", "dry_run": False})
-    assert seen[:2] == [["mart", "status", "--domain", "demo"], ["mart", "review", "list", "--domain", "demo"]]
+    assert seen[:2] == [["mart", "review", "list", "--domain", "demo", "--sort", "confidence", "--limit", "25",
+                         "--offset", "50", "--dimension", "place", "--match", "cafe", "--maxConfidence", "0.7"],
+                        ["mart", "status", "--domain", "demo"]]
     assert seen[2] == ["mart", "review", "set", "--domain", "demo", "--dimension", "place", "--member", "Paris|PLACE|demo",
                        "--level", "country=FR", "--dryRun"]
     assert seen[3] == ["mart", "build", "--domain", "demo"]
+
+
+def test_mart_page_without_status_skips_the_status_call(client, monkeypatch):
+    seen = []
+    monkeypatch.setattr(curate_routes, "_cli", lambda args: seen.append(args) or {"rows": [], "rows_total": 0})
+    client.get("/api/curate/mart", params={"domain": "demo", "status": "false"})
+    assert [a[:2] for a in seen] == [["mart", "review"]]
+
+
+def test_mart_batch_plans_then_applies(client, monkeypatch):
+    from artmind.mart import review
+
+    calls = []
+    monkeypatch.setattr(curate_routes, "_mart_declaration", lambda d: "decl")
+    monkeypatch.setattr(review, "plan", lambda decl, ops: calls.append(("plan", ops)) or [
+        {"action": "reject", "id": "a", "dimension": "place", "member_key": "x", "levels": None}])
+    monkeypatch.setattr(review, "apply", lambda decl, planned: calls.append(("apply", planned)) or planned)
+    body = {"domain": "demo", "ops": [{"action": "reject", "id": "a"}]}
+    dry = client.post("/api/curate/mart/batch", json=body).json()
+    assert dry["dry_run"] is True and [c[0] for c in calls] == ["plan"]
+    real = client.post("/api/curate/mart/batch", json={**body, "dry_run": False}).json()
+    assert real["dry_run"] is False and [c[0] for c in calls] == ["plan", "plan", "apply"]
+    assert calls[0][1] == [{"action": "reject", "id": "a", "levels": None}]
+
+
+def test_mart_batch_refuses_a_bad_op(client, monkeypatch):
+    monkeypatch.setattr(curate_routes, "_mart_declaration", lambda d: "decl")
+    r = client.post("/api/curate/mart/batch", json={"domain": "demo", "ops": [{"action": "nuke", "id": "a"}]})
+    assert r.status_code == 400

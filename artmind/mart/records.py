@@ -43,7 +43,7 @@ def load_dimensions(domain, *, canonical: dict | None = None, include_proposed: 
     canonical = canonical or {}
     best: dict = {}
     for r in _all(DIMENSION_KIND):
-        if r.get("domain") != domain or (r.get("status") == "proposed" and not include_proposed):
+        if r.get("domain") != domain or (r.get("status") in ("proposed", "rejected") and not include_proposed):
             continue
         key = (r["dimension"], canonical.get(r["member_key"], r["member_key"]))
         cur = best.get(key)
@@ -53,7 +53,51 @@ def load_dimensions(domain, *, canonical: dict | None = None, include_proposed: 
 
 
 def proposed(domain) -> list[dict]:
-    return [r for r in _all(DIMENSION_KIND) if r.get("domain") == domain and r.get("status") == "proposed"]
+    """Proposals still waiting: status `proposed` and no user record for the same member
+    (a user record always wins, so a proposal it answers is no longer a question)."""
+    mine = [r for r in _all(DIMENSION_KIND) if r.get("domain") == domain]
+    answered = {(r["dimension"], r["member_key"]) for r in mine if r.get("source") == "user"}
+    return [r for r in mine if r.get("status") == "proposed" and (r["dimension"], r["member_key"]) not in answered]
+
+
+def reject_proposal(record_id: str) -> dict:
+    """Mark an LLM proposal rejected: it leaves the review queue and the mart, and enrich does not
+    ask again (it still counts as decided). A later `review set` writes a user record instead."""
+    rec = curation_records.read_record(DIMENSION_KIND, record_id)
+    if rec is None or rec.get("status") != "proposed":
+        raise ValueError(f"no open proposal {record_id}")
+    curation_records.write_record(DIMENSION_KIND, {**rec, "status": "rejected", "decided_at": _now()})
+    return rec
+
+
+def proposal(record_id: str) -> dict:
+    rec = curation_records.read_record(DIMENSION_KIND, record_id)
+    if rec is None or rec.get("status") != "proposed":
+        raise ValueError(f"no open proposal {record_id}")
+    return rec
+
+
+def filter_proposals(rows: list[dict], *, dimension=None, match=None, max_confidence=None,
+                     sort: str = "confidence") -> list[dict]:
+    """The review queue narrowed and ordered for a long list: by dimension, a case-insensitive
+    substring of the member key or any level value, and a confidence ceiling."""
+    needle = (match or "").strip().lower()
+    out = []
+    for r in rows:
+        if dimension and r.get("dimension") != dimension:
+            continue
+        if max_confidence is not None and float(r.get("confidence") or 0) > max_confidence:
+            continue
+        if needle:
+            hay = " ".join([str(r.get("member_key") or ""), *map(str, (r.get("levels") or {}).values())]).lower()
+            if needle not in hay:
+                continue
+        out.append(r)
+    if sort == "name":
+        out.sort(key=lambda r: (str(r.get("member_key") or "").lower(), r.get("id") or ""))
+    else:
+        out.sort(key=lambda r: (float(r.get("confidence") or 0), str(r.get("member_key") or "").lower()))
+    return out
 
 
 def put_period(domain, name, start, end, *, source) -> str:

@@ -321,38 +321,242 @@ window.cpOpenHealth = function (domain) {
 };
 
 // ── mart ─────────────────────────────────────────────────────────────
+// The review queue can hold hundreds of proposals: the server filters, orders and pages it; the pane
+// keeps its filters and page across reloads, and works a page at a time (select, accept, reject).
+const cpMart = { dimension: "", match: "", maxConf: "", sort: "confidence", limit: 50, offset: 0, domain: "" };
+const CP_MART_LEVELS = {
+  place: ["venue", "locality", "city", "region", "country"],
+  person: ["group", "relation", "side"],
+  type: ["family"],
+};
+
+function cpMartQuery(withStatus) {
+  const q = new URLSearchParams({ domain: curDomainEl.value, sort: cpMart.sort, limit: cpMart.limit, offset: cpMart.offset });
+  if (cpMart.dimension) q.set("dimension", cpMart.dimension);
+  if (cpMart.match.trim()) q.set("match", cpMart.match.trim());
+  if (cpMart.maxConf !== "") q.set("max_confidence", cpMart.maxConf);
+  if (!withStatus) q.set("status", "false");
+  return q;
+}
+
+function cpMartName(key) {
+  if (key.startsWith("type:")) return { name: key.slice(5), cls: "type" };
+  const [name, cls] = key.split("|");
+  return { name, cls: (cls || "").toLowerCase() };
+}
+
+function cpMartSummary(status) {
+  const cov = (status && status.coverage) || {};
+  const strip = el("div", "curate-strip");
+  const count = (n, label) => { const c = el("div", "curate-count"); c.appendChild(el("b", null, String(n))); c.appendChild(document.createTextNode(label)); return c; };
+  strip.appendChild(count((status && status.proposed) ?? 0, "proposals waiting"));
+  for (const [dim, c] of Object.entries(cov)) {
+    const by = Object.entries(c.by_source || {}).map(([k, v]) => `${v} ${k}`).join(", ");
+    const lvl = Object.entries(c).filter(([k]) => k.startsWith("with_")).map(([k, v]) => `${v} ${k.slice(5)}`).join(", ");
+    strip.appendChild(count(c.members, ` ${dim}s${lvl ? ` · ${lvl}` : ""}${by ? ` · ${by}` : ""}`));
+  }
+  return strip;
+}
+
+function cpMartToolbar(d, reload) {
+  const bar = el("div", "curate-bar");
+  const field = (node, title) => { node.title = title; bar.appendChild(node); return node; };
+  const dim = el("select");
+  for (const [v, label] of [["", `All (${Object.values(d.by_dimension || {}).reduce((a, b) => a + b, 0)})`],
+                            ...["place", "person", "type"].map((x) => [x, `${x} (${(d.by_dimension || {})[x] || 0})`])]) {
+    const o = el("option", null, label); o.value = v; dim.appendChild(o);
+  }
+  dim.value = cpMart.dimension;
+  dim.addEventListener("change", () => { cpMart.dimension = dim.value; cpMart.offset = 0; reload(); });
+  field(dim, "dimension");
+  const find = el("input"); find.type = "search"; find.placeholder = "Search name or level…"; find.value = cpMart.match; find.size = 24;
+  let timer = null;
+  find.addEventListener("input", () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { cpMart.match = find.value; cpMart.offset = 0; reload(); }, 300);
+  });
+  field(find, "substring of the member or any level value");
+  const conf = el("select");
+  for (const [v, label] of [["", "Any confidence"], ["0.5", "≤ 0.5 (weakest)"], ["0.7", "≤ 0.7"], ["0.8", "≤ 0.8"]]) {
+    const o = el("option", null, label); o.value = v; conf.appendChild(o);
+  }
+  conf.value = cpMart.maxConf;
+  conf.addEventListener("change", () => { cpMart.maxConf = conf.value; cpMart.offset = 0; reload(); });
+  field(conf, "show proposals at or below this confidence");
+  const sort = el("select");
+  for (const [v, label] of [["confidence", "Weakest first"], ["name", "A–Z"]]) {
+    const o = el("option", null, label); o.value = v; sort.appendChild(o);
+  }
+  sort.value = cpMart.sort;
+  sort.addEventListener("change", () => { cpMart.sort = sort.value; cpMart.offset = 0; reload(); });
+  field(sort, "order");
+  const size = el("select");
+  for (const n of [25, 50, 100, 200]) { const o = el("option", null, `${n} / page`); o.value = n; size.appendChild(o); }
+  size.value = String(cpMart.limit);
+  size.addEventListener("change", () => { cpMart.limit = Number(size.value); cpMart.offset = 0; reload(); });
+  field(size, "rows per page");
+  return bar;
+}
+
+function cpMartPager(d, reload) {
+  const bar = el("div", "curate-bar");
+  const from = d.rows_total ? cpMart.offset + 1 : 0;
+  const to = cpMart.offset + d.rows.length;
+  const prev = cpBtn("‹ Prev", () => { cpMart.offset = Math.max(0, cpMart.offset - cpMart.limit); reload(); });
+  const next = cpBtn("Next ›", () => { cpMart.offset += cpMart.limit; reload(); });
+  prev.disabled = cpMart.offset <= 0;
+  next.disabled = to >= d.rows_total;
+  bar.append(prev, el("span", "dash-note", `${from}–${to} of ${d.rows_total}`), next);
+  return bar;
+}
+
+let cpMartVocab = {};
+
+// Whole pane: coverage strip (mart status, reads the graph), toolbar, list.
 async function cpLoadMart() {
   const body = document.getElementById("curate-mart-body");
   if (!curDomainEl.value) return cpNeedDomain(body, "the mart");
+  if (cpMart.domain !== curDomainEl.value) Object.assign(cpMart, { dimension: "", match: "", maxConf: "", offset: 0, domain: curDomainEl.value });
   body.replaceChildren(el("p", "dash-note", "Loading…"));
   try {
-    const d = await api(`/api/curate/mart?domain=${encodeURIComponent(curDomainEl.value)}`);
-    body.replaceChildren(el("pre", "curate-evidence", JSON.stringify(d.status, null, 1).slice(0, 1500)));
-    for (const r of d.rows) body.appendChild(cpMartRow(r));
-    if (!d.rows.length) body.appendChild(el("p", "dash-empty", "No unreviewed proposals."));
-    body.appendChild(cpBtn("Rebuild mart…", () => cpWrite("/api/curate/mart/build", { domain: curDomainEl.value }, "rebuild", cpLoadMart)));
+    const d = await api(`/api/curate/mart?${cpMartQuery(true)}`);
+    cpMartVocab = (d.vocabulary && d.vocabulary.values) || {};
+    const holder = el("div");
+    holder.id = "curate-mart-list";
+    const msg = el("p", "dash-note");
+    msg.id = "curate-mart-msg";
+    body.replaceChildren(cpMartSummary(d.status), cpMartToolbar(d, cpReloadMartList), msg, holder,
+      cpBtn("Rebuild mart…", () => cpWrite("/api/curate/mart/build", { domain: curDomainEl.value }, "rebuild", cpLoadMart)));
+    if (d.rows.length === 0 && cpMart.offset > 0) { cpMart.offset = 0; return cpReloadMartList(); }
+    cpMartRender(holder, d);
   } catch (err) { body.replaceChildren(el("p", "dash-note", `${err.message}`)); }
 }
 
-function cpMartRow(r) {
-  const row = el("div", "curate-row");
-  row.appendChild(el("span", "curate-badge", r.dimension || "member"));
-  const main = el("div");
-  const key = r.member_key || r.key || "";
-  main.appendChild(el("strong", null, key));
-  const levels = r.levels || {};
-  const inputs = Object.keys(levels).map((k) => {
-    const i = el("input"); i.type = "text"; i.value = levels[k] ?? ""; i.dataset.level = k; i.title = k;
-    return i;
+// Filters, paging and after a write: only the list (the toolbar keeps focus and typing).
+async function cpReloadMartList() {
+  const holder = document.getElementById("curate-mart-list");
+  if (!holder) return cpLoadMart();
+  holder.style.opacity = "0.5";
+  try {
+    const d = await api(`/api/curate/mart?${cpMartQuery(false)}`);
+    if (d.rows.length === 0 && cpMart.offset > 0) { cpMart.offset = Math.max(0, d.rows_total - cpMart.limit); return cpReloadMartList(); }
+    cpMartRender(holder, d);
+    const all = document.querySelector("#curate-mart-body select[title=dimension]");
+    if (all) {
+      const n = d.by_dimension || {};
+      all.options[0].textContent = `All (${Object.values(n).reduce((a, b) => a + b, 0)})`;
+      for (const o of [...all.options].slice(1)) o.textContent = `${o.value} (${n[o.value] || 0})`;
+    }
+  } catch (err) { holder.replaceChildren(el("p", "dash-note", `${err.message}`)); }
+  finally { holder.style.opacity = ""; }
+}
+
+function cpMartRender(holder, d) {
+  holder.replaceChildren();
+  d.vocabulary = { values: cpMartVocab };
+  if (!d.rows.length) {
+    const any = Object.values(d.by_dimension || {}).some((n) => n > 0);
+    holder.appendChild(el("p", "dash-empty", any ? "No proposals match these filters." : "No unreviewed proposals."));
+    return;
+  }
+  const vocab = (d.vocabulary && d.vocabulary.values) || {};
+  const picked = new Set();
+  const edits = new Map();           // proposal id -> {level: value} for rows the user changed
+  const rowsById = new Map(d.rows.map((r) => [r.id, r]));
+  const boxes = [];
+  const status = el("span", "dash-note");
+  const master = el("input"); master.type = "checkbox"; master.title = "select every row on this page";
+
+  const opFor = (action, r) => {
+    const op = { action, id: r.id };
+    if (action === "accept" && edits.has(r.id)) op.levels = { ...r.levels, ...edits.get(r.id) };
+    return op;
+  };
+  const refresh = () => {
+    status.textContent = `${picked.size} selected`;
+    for (const b of boxes) b.box.checked = picked.has(b.id);
+    master.checked = picked.size > 0 && picked.size === boxes.length;
+    accept.disabled = reject.disabled = picked.size === 0;
+  };
+  // One click applies (reject keeps its record, so it is undone by accepting); the result shows
+  // above the list, where the user is looking, not in the shared panel at the page bottom.
+  const batch = async (ops, verb) => {
+    const msg = document.getElementById("curate-mart-msg");
+    if (msg) msg.textContent = "Working…";
+    try {
+      const res = await curPost("/api/curate/mart/batch", { domain: curDomainEl.value, ops, dry_run: false });
+      const n = (res.done || []).length;
+      await cpReloadMartList();
+      const m = document.getElementById("curate-mart-msg");
+      if (m) m.textContent = `${verb} ${n}. Rebuild the mart to see it in the tables.`;
+    } catch (err) {
+      const m = document.getElementById("curate-mart-msg");
+      if (m) m.textContent = `Failed: ${err.message}`;
+    }
+  };
+  const accept = cpBtn("Accept selected", () => batch([...picked].map((id) => opFor("accept", rowsById.get(id))), "Accepted"));
+  const reject = cpBtn("Reject selected", () => batch([...picked].map((id) => opFor("reject", rowsById.get(id))), "Rejected"));
+  master.addEventListener("change", () => {
+    for (const b of boxes) { if (master.checked) picked.add(b.id); else picked.delete(b.id); }
+    refresh();
   });
-  inputs.forEach((i) => main.appendChild(i));
-  main.appendChild(cpBtn("Set levels…", () => {
-    const lv = {};
-    for (const i of inputs) lv[i.dataset.level] = i.value;
-    cpWrite("/api/curate/mart/member", { domain: curDomainEl.value, dimension: r.dimension, member: key, levels: lv }, "set levels", cpLoadMart);
-  }));
-  row.appendChild(main);
-  return row;
+
+  const actions = el("div", "curate-bar");
+  actions.append(accept, reject, status);
+  holder.appendChild(actions);
+
+  const table = el("table", "dash-table curate-table");
+  const head = el("thead"); const hr = el("tr");
+  hr.appendChild(cpTd(master));
+  for (const h of ["Member", "Kind", "Proposed levels (edit to correct)", "Conf.", ""]) hr.appendChild(el("th", null, h));
+  head.appendChild(hr);
+  table.appendChild(head);
+  const tbody = el("tbody");
+  for (const r of d.rows) {
+    const tr = el("tr");
+    const box = el("input"); box.type = "checkbox";
+    box.addEventListener("change", () => { if (box.checked) picked.add(r.id); else picked.delete(r.id); refresh(); });
+    boxes.push({ id: r.id, box });
+    const who = cpMartName(r.member_key || "");
+    const name = cpTd(el("span", null, who.name), "curate-col");
+    name.title = r.member_key;
+    tr.append(cpTd(box), name, cpTd(el("span", "curate-badge", r.dimension)));
+    const levels = el("div", "curate-levels");
+    for (const lv of CP_MART_LEVELS[r.dimension] || Object.keys(r.levels || {})) {
+      const closed = (vocab[r.dimension] || {})[lv];
+      let input;
+      if (closed && closed.length) {
+        input = el("select");
+        for (const v of ["", ...closed]) { const o = el("option", null, v || "—"); o.value = v; input.appendChild(o); }
+      } else { input = el("input"); input.type = "text"; input.placeholder = lv; }
+      input.value = (r.levels || {})[lv] ?? "";
+      input.title = lv;
+      input.setAttribute("aria-label", lv);
+      input.dataset.level = lv;
+      input.addEventListener("input", () => {
+        const e = edits.get(r.id) || {};
+        e[lv] = input.value;
+        edits.set(r.id, e);
+        tr.classList.add("curate-dirty");
+      });
+      const cell = el("label", "curate-level");
+      cell.appendChild(el("span", null, lv));
+      cell.appendChild(input);
+      levels.appendChild(cell);
+    }
+    tr.appendChild(cpTd(levels));
+    tr.appendChild(cpTd(Number(r.confidence || 0).toFixed(2), "curate-conf"));
+    const one = el("div", "curate-bar");
+    one.append(cpBtn("Accept", () => batch([opFor("accept", r)], "Accepted")), cpBtn("Reject", () => batch([opFor("reject", r)], "Rejected")));
+    tr.appendChild(cpTd(one));
+    tbody.appendChild(tr);
+  }
+  table.appendChild(tbody);
+  const scroll = el("div", "curate-scroll");
+  scroll.appendChild(table);
+  holder.appendChild(scroll);
+  holder.appendChild(cpMartPager(d, cpReloadMartList));
+  refresh();
 }
 
 // ── queue switching + deep link ──────────────────────────────────────

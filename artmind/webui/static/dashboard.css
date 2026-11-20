@@ -534,3 +534,16 @@
   border: 1px solid var(--border); border-radius: 6px; background: var(--bg-elev); color: var(--text);
 }
 .curate-table tr.curate-dirty { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+
+/* Curate → Mart: level editors in one row, a column per level. */
+.curate-levels { display: flex; flex-wrap: wrap; gap: 6px 10px; }
+.curate-level { display: flex; flex-direction: column; font-size: 11px; color: var(--text-muted); }
+.curate-level input, .curate-level select {
+  font: inherit; font-size: 13px; padding: 3px 6px; width: 15ch;
+  border: 1px solid var(--border); border-radius: 6px; background: var(--bg-elev); color: var(--text);
+}
+.curate-table td.curate-conf { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.curate-bar select, .curate-bar input[type="search"], .curate-level select, .curate-level input {
+  font: inherit; font-size: 13px; padding: 5px 8px; border: 1px solid var(--border);
+  border-radius: 6px; background: var(--bg-elev); color: var(--text); color-scheme: inherit;
+}

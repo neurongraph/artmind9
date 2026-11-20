@@ -81,7 +81,7 @@ WRITE_COMMANDS: dict[str, int] = {
         "views save", "views delete",
         "topic build", "topic refresh", "topic delete",
         "vault sync", "traces prune", "catalogue refresh", "db metadata init", "db metadata describe",
-        "mart enrich", "mart review set", "mart calendar set", "mart build",
+        "mart enrich", "mart review set", "mart review accept", "mart review reject", "mart calendar set", "mart build",
         "migrate temporal",
     )},
     **{p: 2 for p in (
