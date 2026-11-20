@@ -69,10 +69,61 @@ def mart_review() -> None:
 
 @mart_review.command("list")
 @click.option("--domain", "domain", required=True)
+@click.option("--dimension", type=click.Choice(["person", "place", "type"]), default=None, help="Only this dimension")
+@click.option("--match", default=None, help="Case-insensitive substring of the member key or a level value")
+@click.option("--maxConfidence", "max_confidence", type=float, default=None, help="Only proposals at or below this")
+@click.option("--sort", type=click.Choice(["confidence", "name"]), default="confidence", show_default=True)
+@click.option("--limit", type=int, default=None, help="At most N rows (default: all)")
+@click.option("--offset", type=int, default=0, show_default=True, help="Skip this many rows before --limit")
 @compact_option
-def mart_review_list(domain, compact):
-    rows = records.proposed(domain)
-    _echo({"domain": domain, "rows": rows, "rows_total": len(rows), "truncated": False}, compact)
+def mart_review_list(domain, dimension, match, max_confidence, sort, limit, offset, compact):
+    """Open proposals (LLM answers below the threshold no user record has answered)."""
+    queue = records.proposed(domain)
+    by_dimension: dict[str, int] = {}
+    for r in queue:
+        by_dimension[r["dimension"]] = by_dimension.get(r["dimension"], 0) + 1
+    rows = records.filter_proposals(queue, dimension=dimension, match=match, max_confidence=max_confidence, sort=sort)
+    total = len(rows)
+    page = rows[max(0, offset):] if limit is None else rows[max(0, offset):max(0, offset) + max(0, limit)]
+    _echo({"domain": domain, "rows": page, "rows_total": total, "truncated": max(0, offset) + len(page) < total,
+           "offset": max(0, offset), "by_dimension": by_dimension}, compact)
+
+
+def _review_ops(domain, ids, action, dry_run, compact):
+    from artmind.mart import review
+
+    decl = _declaration(domain)
+    try:
+        planned = review.plan(decl, [{"action": action, "id": i} for i in ids])
+    except ValueError as e:
+        raise click.ClickException(str(e)) from e
+    effect = Effect(summary=review.summary(planned).capitalize(),
+                    changes=[Change("mart_record", len(planned), [p["member_key"] for p in planned[:5]])],
+                    reversible=True, undo="write a user record with `mart review set`", travels=True, records=[])
+    result = {"domain": domain, "planned": planned}
+    if not dry_run:
+        result["done"] = review.apply(decl, planned)
+    _echo(with_effect(result, effect, dry_run=dry_run), compact)
+
+
+@mart_review.command("accept")
+@click.option("--domain", "domain", required=True)
+@click.option("--id", "ids", multiple=True, required=True, help="Proposal record id, repeatable")
+@dry_run_option("Show the user records that would be written; write nothing")
+@compact_option
+def mart_review_accept(domain, ids, dry_run, compact):
+    """Accept proposals as they stand: each becomes a user record."""
+    _review_ops(domain, ids, "accept", dry_run, compact)
+
+
+@mart_review.command("reject")
+@click.option("--domain", "domain", required=True)
+@click.option("--id", "ids", multiple=True, required=True, help="Proposal record id, repeatable")
+@dry_run_option("Show the proposals that would be rejected; write nothing")
+@compact_option
+def mart_review_reject(domain, ids, dry_run, compact):
+    """Reject proposals: they leave the queue and the mart, and enrich does not ask again."""
+    _review_ops(domain, ids, "reject", dry_run, compact)
 
 
 @mart_review.command("set")

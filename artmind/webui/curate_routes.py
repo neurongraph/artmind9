@@ -335,6 +335,33 @@ class MartBuildRequest(BaseModel):
     dry_run: bool = True
 
 
+class MartOp(BaseModel):
+    action: str                       # accept | reject
+    id: str
+    levels: dict[str, str] | None = None
+
+
+class MartBatchRequest(BaseModel):
+    domain: str
+    ops: list[MartOp]
+    dry_run: bool = True
+
+
+def _mart_declaration(domain: str):
+    from artmind.mart.declaration import load_declaration
+
+    decl = load_declaration(domain)
+    if decl is None:
+        raise ValueError(f"no mart declaration for {domain!r}")
+    return decl
+
+
+def _mart_vocabulary(domain: str) -> dict:
+    from artmind.mart import review
+
+    return review.vocabulary(_mart_declaration(domain))
+
+
 def _run_sweep_job() -> None:
     try:
         _sweep.update(state="done", result=_run_sweep())
@@ -531,13 +558,42 @@ def register_curate_routes(app: FastAPI) -> FastAPI:
 
     # ── mart ─────────────────────────────────────────────────────────
     @app.get("/api/curate/mart")
-    async def mart(domain: str):
+    async def mart(domain: str, dimension: str = "", match: str = "", max_confidence: float | None = None,
+                   sort: str = "confidence", limit: int = 50, offset: int = 0, status: bool = True):
+        args = ["mart", "review", "list", "--domain", domain, "--sort", sort,
+                "--limit", str(max(1, min(limit, 500))), "--offset", str(max(0, offset))]
+        if dimension:
+            args += ["--dimension", dimension]
+        if match.strip():
+            args += ["--match", match.strip()]
+        if max_confidence is not None:
+            args += ["--maxConfidence", str(max_confidence)]
         try:
-            status = await asyncio.to_thread(_cli, ["mart", "status", "--domain", domain])
-            review = await asyncio.to_thread(_cli, ["mart", "review", "list", "--domain", domain])
+            review = await asyncio.to_thread(_cli, args)
+            out = {"rows": review.get("rows", []), "rows_total": review.get("rows_total", 0),
+                   "offset": review.get("offset", 0), "by_dimension": review.get("by_dimension", {})}
+            if status:
+                out["status"] = await asyncio.to_thread(_cli, ["mart", "status", "--domain", domain])
+                out["vocabulary"] = await asyncio.to_thread(_mart_vocabulary, domain)
         except ValueError as exc:
             raise HTTPException(status_code=404, detail=str(exc)) from exc
-        return {"status": status, "rows": review.get("rows", [])}
+        return out
+
+    @app.post("/api/curate/mart/batch", dependencies=[Depends(data_model_gate)])
+    async def mart_batch(req: MartBatchRequest):
+        from artmind.mart import review
+
+        try:
+            decl = await asyncio.to_thread(_mart_declaration, req.domain)
+            planned = await asyncio.to_thread(review.plan, decl, [op.model_dump() for op in req.ops])
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        effect = _effect(review.summary(planned).capitalize(), reversible=True,
+                         undo="accept it with corrected levels (a user record)")
+        if req.dry_run:
+            return {"dry_run": True, "planned": planned, "effect": effect}
+        done = await asyncio.to_thread(review.apply, decl, planned)
+        return {"dry_run": False, "done": done, "effect": effect}
 
     @app.post("/api/curate/mart/member", dependencies=[Depends(data_model_gate)])
     async def mart_member(req: MartMemberRequest):

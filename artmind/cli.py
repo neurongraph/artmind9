@@ -415,7 +415,7 @@ click.rich_click.COMMAND_GROUPS = {
     ],
     "artmind migrate": [{"name": "Migrate", "commands": ["status", "temporal"]}],
     "artmind mart": [{"name": "Mart", "commands": ["build", "enrich", "status", "review", "calendar"]}],
-    "artmind mart review": [{"name": "Review", "commands": ["list", "set"]}],
+    "artmind mart review": [{"name": "Review", "commands": ["list", "accept", "reject", "set"]}],
     "artmind mart calendar": [{"name": "Calendar", "commands": ["set"]}],
     "artmind db metadata": [
         {"name": "text2sql metadata", "commands": ["init", "describe", "validate", "regenerate"]},

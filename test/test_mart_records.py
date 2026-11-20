@@ -41,3 +41,27 @@ def test_drop_seed_record(monkeypatch, tmp_path):
     records.put_dimension("journal", "place", "x|LOCATION|journal", {"city": "bogus"}, source="seed", confidence=1)
     records.drop_dimension("journal", "place", "x|LOCATION|journal", source="seed")
     assert records.load_dimensions("journal") == {}
+
+
+def test_user_record_answers_a_proposal(monkeypatch, tmp_path):
+    _iso(monkeypatch, tmp_path)
+    records.put_dimension("journal", "place", "x|LOCATION|journal", {"city": "B"}, source="llm", confidence=0.5,
+                          status="proposed")
+    records.put_dimension("journal", "place", "y|LOCATION|journal", {"city": "C"}, source="llm", confidence=0.4,
+                          status="proposed")
+    assert len(records.proposed("journal")) == 2
+    records.put_dimension("journal", "place", "x|LOCATION|journal", {"city": "A"}, source="user", confidence=1.0)
+    assert [r["member_key"] for r in records.proposed("journal")] == ["y|LOCATION|journal"]
+
+
+def test_filter_proposals():
+    rows = [{"id": "1", "dimension": "place", "member_key": "cafe peter|LOCATION|j", "levels": {"city": "Pune"},
+             "confidence": 0.8},
+            {"id": "2", "dimension": "person", "member_key": "ann|PERSON|j", "levels": {"group": "friend"},
+             "confidence": 0.3},
+            {"id": "3", "dimension": "place", "member_key": "barclays|LOCATION|j", "levels": {"venue": "Barclays"},
+             "confidence": 0.6}]
+    assert [r["id"] for r in records.filter_proposals(rows)] == ["2", "3", "1"]
+    assert [r["id"] for r in records.filter_proposals(rows, dimension="place", sort="name")] == ["3", "1"]
+    assert [r["id"] for r in records.filter_proposals(rows, match="PUNE")] == ["1"]
+    assert [r["id"] for r in records.filter_proposals(rows, max_confidence=0.6)] == ["2", "3"]

@@ -19,7 +19,8 @@ call.
 
 ```bash
 artmind mart status --domain <d> --compact        # coverage by dimension and source; unreviewed proposals
-artmind mart review list --domain <d> --compact   # proposals below threshold and members with no record
+artmind mart review list --domain <d> [--dimension place] [--match TEXT] [--maxConfidence 0.6] \
+  [--sort confidence|name] [--limit 50 --offset 0] --compact   # open proposals, weakest first; by_dimension counts
 ```
 
 ## Decide
@@ -31,6 +32,14 @@ artmind mart review set --domain <d> --dimension person|place|type \
   --member "<name|CLASS|domain or type:value>" --level <level>=<value> [--level ...] --dryRun --compact
 artmind mart calendar set --domain <d> --name "<period>" --from YYYY-MM-DD --to YYYY-MM-DD --dryRun --compact
 ```
+
+```bash
+artmind mart review accept --domain <d> --id <proposal id> [--id ...] --dryRun --compact   # as proposed → user records
+artmind mart review reject --domain <d> --id <proposal id> [--id ...] --dryRun --compact   # drop the guess; enrich won't ask again
+```
+
+A proposal leaves the queue once it is accepted, rejected, or answered by any user record for the
+same member. The admin console's Curate → Mart pane does the same a page at a time.
 
 A `review set` record always wins over rules, seeds and the LLM: use it to correct a wrong country or
 relationship. Level values must come from the declaration's vocabulary. A member merged by same-as
