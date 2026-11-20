@@ -151,7 +151,15 @@ evidence, after every call:
    speaks to the part; open the ones you skipped (`find`, or `chunks --idList`). For a part that
    traces something over time, check that each period with evidence is represented. Say what
    remains unread.
-8. **Stop** when the result is whole for what the question needs, or `next` is null, or the
+9. **A thing's history is more than its entity.** When the question asks what happened to something,
+   how it came to be, or everything about it (a vehicle, a house, a project), the entity's own
+   links hold only part of it: events such as a payment, a test or a comparison are often recorded
+   as their own entities with no edge to it. So: (a) `entity-resolve` the name and open every
+   same-class row it returns (variants of one thing), not only the first; (b) run a dated
+   `survey` (or `happenings`) on the thing's name for each part of the question, alongside
+   `entity-context`; (c) read the dated passages those return, and keep each date and amount
+   they give. Before answering, list the dates you have and look for gaps between them.
+10. **Stop** when the result is whole for what the question needs, or `next` is null, or the
    same `next` comes back twice. Then say what you could not cover, and why.
 
 `next` is a fact about this result, never a guess about your question: it is safe to follow
