@@ -129,6 +129,7 @@ machine-local state:
 | `.artmind/.claude-sdk-auth/` | the chat/admin UI agent's config dir: auth and full conversation transcripts. Private, and per machine |
 | `.DS_Store`, `Thumbs.db`, `.obsidian/workspace.json`, `.obsidian/workspace-mobile.json` | not artmind's, but a synced vault needs them out: OS litter, and Obsidian's per-device pane layout, which changes on every click and would conflict between machines. The rest of `.obsidian/` stays committed |
 | `.obsidian/plugins/termy/agent-context/` | the Termy plugin's live agent context (active file, open files, selection), rewritten on every editor interaction with this machine's paths; the rest of the plugin stays committed |
+| `.obsidian/plugins/termy/binaries/` | the Termy plugin's per-platform server executable and its version file, found or downloaded on each machine; `.gitignore` block **v7** (v6 vaults show `artmind block outdated` in `vault doctor`, and it prints the `git rm --cached` for a binary already committed) |
 
 The artmind sections of `.gitignore` and `.gitattributes` are versioned
 blocks. `artmind init` replaces an older block in place and never touches

@@ -788,14 +788,17 @@ def test_insights_files_are_committed_not_ignored(tmp_path):
         assert not _ignored(tmp_path, rel)
 
 
-def test_termy_agent_context_is_ignored_but_the_plugin_stays_committed(tmp_path):
+def test_termy_agent_context_and_binaries_are_ignored_but_the_plugin_stays_committed(tmp_path):
     """Termy rewrites agent-context/ on every editor interaction, with this
-    machine's paths in it: committed, it conflicts between machines. The rest of
-    the plugin (code, settings, its server binary) is what makes a second machine
-    work, so it stays committed like every other community plugin."""
+    machine's paths in it, and binaries/ holds a per-platform server executable
+    plus a version file rewritten on each start: both are per machine, so both
+    are ignored. The plugin's code and settings stay committed like every other
+    community plugin."""
     subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
     vault.write_gitignore(tmp_path)
     termy = ".obsidian/plugins/termy"
     assert _ignored(tmp_path, f"{termy}/agent-context/obsidian-context.json")
-    for kept in ("main.js", "manifest.json", "data.json", "styles.css", "binaries/termy-server-darwin-arm64"):
+    assert _ignored(tmp_path, f"{termy}/binaries/termy-server-darwin-arm64")
+    assert _ignored(tmp_path, f"{termy}/binaries/.termy-server.version.json")
+    for kept in ("main.js", "manifest.json", "data.json", "styles.css"):
         assert not _ignored(tmp_path, f"{termy}/{kept}"), kept
